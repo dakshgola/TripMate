@@ -2,7 +2,7 @@
  * DawarichClient — what it puts on the wire, and what it makes of what comes
  * back.
  *
- * The client is the only place TREK talks to a user's Dawarich instance, so
+ * The client is the only place Trip Mate talks to a user's Dawarich instance, so
  * both halves of that contract are pinned here: the URL and headers it builds
  * (a pasted `/api` must not become `/api/api/v1`, and the API key must never
  * reach a query string, where every proxy log between here and there would keep

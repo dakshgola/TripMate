@@ -263,7 +263,7 @@ describe('clampToolAnnotations', () => {
   });
 
   it('MCPSCHEMA-026: db:own alone does not make a tool non-read-only', () => {
-    // The plugin's private SQLite is invisible to TREK; counting it would kill
+    // The plugin's private SQLite is invisible to Trip Mate; counting it would kill
     // auto-approval for every legitimate read tool.
     expect(clampToolAnnotations({ readOnlyHint: true }, grants('db:own')).readOnlyHint).toBe(true);
   });

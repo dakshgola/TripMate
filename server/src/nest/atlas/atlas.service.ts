@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CONTINENT_MAP, strongerVisitStatus, todayUtc, tripVisitStatus, VisitStatus } from '@trek/shared';
-import type { AtlasLocateResponse } from '@trek/shared';
+import { CONTINENT_MAP, strongerVisitStatus, todayUtc, tripVisitStatus, VisitStatus } from '@tripmate/shared';
+import type { AtlasLocateResponse } from '@tripmate/shared';
 import { Trip, Place } from '../../types';
 import { DatabaseService } from '../database/database.service';
 import {
@@ -117,7 +117,7 @@ function markedSource(row: { source?: string | null } | undefined): string | nul
  * module so the multi-MB caches stay process-global across the container
  * instance and test helpers (#1576).
  * Returns native service shapes; the client-facing contracts live in
- * @trek/shared. No broadcasts: atlas rows are uid-scoped, not trip-scoped.
+ * @tripmate/shared. No broadcasts: atlas rows are uid-scoped, not trip-scoped.
  */
 @Injectable()
 export class AtlasService {

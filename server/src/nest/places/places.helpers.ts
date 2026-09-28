@@ -5,7 +5,7 @@ import {
   normalizePlaceName,
   placeMatchStrategies,
   type PlaceMatchCandidate,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import type { Place } from '../../types';
 import type { PlaceWithTags } from '../database/database.service';
 import type { KmlImportSummary } from './kml-import.helpers';
@@ -42,8 +42,8 @@ export { gpxParser, kmlParser };
 export const KMZ_DECOMPRESSED_SIZE_LIMIT = 50 * 1024 * 1024; // 50 MB
 
 // Re-exported so the importers that already read these from here keep working,
-// while the values themselves live in @trek/shared with the rule that uses them.
-export { COORD_DEDUP_TOLERANCE, externalIdsOf } from '@trek/shared';
+// while the values themselves live in @tripmate/shared with the rule that uses them.
+export { COORD_DEDUP_TOLERANCE, externalIdsOf } from '@tripmate/shared';
 
 /** Cap on a provider list-import response body — the payload is attacker-influenced via the list id. */
 export const MAX_LIST_RESPONSE_BYTES = 8 * 1024 * 1024; // 8 MB
@@ -134,7 +134,7 @@ export interface DedupSet {
  * Returns true if a candidate place is already represented in the dedup set.
  *
  * The in-memory half of the matching rule; `PlacesService.findMatchingPlaceId` is
- * the SQL half. Both walk the same strategy list from @trek/shared, so neither can
+ * the SQL half. Both walk the same strategy list from @tripmate/shared, so neither can
  * reach for a KIND of match the other would not — which is exactly what had
  * happened: the SQL copy fell back to coordinates on a named candidate, and this
  * one deliberately never does (see place-match.ts for why).

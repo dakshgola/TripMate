@@ -73,7 +73,7 @@ const ncConn: DocumentConnectionRef = {
   ownerId: 3,
   baseUrl: NC_ORIGIN,
   secrets: { app_password: 'app-pw' },
-  settings: { login_name: 'admin', base_path: '/TREK' },
+  settings: { login_name: 'admin', base_path: '/Trip Mate' },
   allowInsecureTls: false,
 };
 
@@ -92,7 +92,7 @@ const ncScope: DocumentScopeRef = {
   tripId: 42,
   scopeKey: 'fileid:60',
   remoteRootId: '60',
-  remoteRootPath: '/TREK/trip 42',
+  remoteRootPath: '/Trip Mate/trip 42',
   cursor: null,
 };
 
@@ -309,11 +309,11 @@ describe('probe', () => {
 describe('scopes', () => {
   it('offers the folders under the base path and keys them by oc:fileid', async () => {
     route(
-      `PROPFIND ${NC_ROOT}/TREK`,
+      `PROPFIND ${NC_ROOT}/Trip Mate`,
       multistatus([
-        { href: `${NC_ROOT}/TREK/`, collection: true, fileid: '59' },
-        { href: `${NC_ROOT}/TREK/trip%2042/`, collection: true, fileid: '60' },
-        { href: `${NC_ROOT}/TREK/notes.txt`, fileid: '61', size: 3, type: 'text/plain' },
+        { href: `${NC_ROOT}/Trip Mate/`, collection: true, fileid: '59' },
+        { href: `${NC_ROOT}/Trip Mate/trip%2042/`, collection: true, fileid: '60' },
+        { href: `${NC_ROOT}/Trip Mate/notes.txt`, fileid: '61', size: 3, type: 'text/plain' },
       ]),
     );
 
@@ -321,23 +321,23 @@ describe('scopes', () => {
 
     expect(result).toEqual({
       success: true,
-      data: [{ scopeKey: 'fileid:60', label: 'trip 42', remoteRootId: '60', remoteRootPath: '/TREK/trip 42' }],
+      data: [{ scopeKey: 'fileid:60', label: 'trip 42', remoteRootId: '60', remoteRootPath: '/Trip Mate/trip 42' }],
     });
   });
 
   it('answers an empty picker rather than an error when the base folder does not exist yet', async () => {
-    route(`PROPFIND ${NC_ROOT}/TREK`, reply('<d:error/>', { status: 404 }));
+    route(`PROPFIND ${NC_ROOT}/Trip Mate`, reply('<d:error/>', { status: 404 }));
 
     expect(await nextcloud.listScopes(ncConn)).toEqual({ success: true, data: [] });
   });
 
   it('filters the picker by the query', async () => {
     route(
-      `PROPFIND ${NC_ROOT}/TREK`,
+      `PROPFIND ${NC_ROOT}/Trip Mate`,
       multistatus([
-        { href: `${NC_ROOT}/TREK/`, collection: true, fileid: '59' },
-        { href: `${NC_ROOT}/TREK/Japan/`, collection: true, fileid: '60' },
-        { href: `${NC_ROOT}/TREK/Peru/`, collection: true, fileid: '61' },
+        { href: `${NC_ROOT}/Trip Mate/`, collection: true, fileid: '59' },
+        { href: `${NC_ROOT}/Trip Mate/Japan/`, collection: true, fileid: '60' },
+        { href: `${NC_ROOT}/Trip Mate/Peru/`, collection: true, fileid: '61' },
       ]),
     );
 
@@ -353,7 +353,7 @@ describe('scopes', () => {
         JSON.stringify({
           value: [
             drive('shares$1', 'Shares', 'virtual', 'https://internal.lan:9200/dav/spaces/shares$1'),
-            drive(OC_DRIVE, 'TREK Trip 42', 'project', `https://internal.lan:9200${OC_ROOT}`),
+            drive(OC_DRIVE, 'Trip Mate Trip 42', 'project', `https://internal.lan:9200${OC_ROOT}`),
           ],
         }),
       ),
@@ -366,7 +366,7 @@ describe('scopes', () => {
       data: [
         {
           scopeKey: `drive:${OC_DRIVE}`,
-          label: 'TREK Trip 42',
+          label: 'Trip Mate Trip 42',
           remoteRootId: OC_DRIVE,
           remoteRootPath: `${OC_ORIGIN}${OC_ROOT}`,
         },
@@ -376,28 +376,28 @@ describe('scopes', () => {
 
   it('creates the base folder when it is missing and reads the new id back', async () => {
     route(
-      `MKCOL ${NC_ROOT}/TREK/Japan%202026`,
+      `MKCOL ${NC_ROOT}/Trip Mate/Japan%202026`,
       reply(null, { status: 409 }),
       reply(null, { status: 201 }),
     );
-    route(`MKCOL ${NC_ROOT}/TREK`, reply(null, { status: 201 }));
+    route(`MKCOL ${NC_ROOT}/Trip Mate`, reply(null, { status: 201 }));
     route(
-      `PROPFIND ${NC_ROOT}/TREK/Japan%202026`,
-      multistatus([{ href: `${NC_ROOT}/TREK/Japan%202026/`, collection: true, fileid: '73' }]),
+      `PROPFIND ${NC_ROOT}/Trip Mate/Japan%202026`,
+      multistatus([{ href: `${NC_ROOT}/Trip Mate/Japan%202026/`, collection: true, fileid: '73' }]),
     );
 
     const result = await nextcloud.createScope(ncConn, 'Japan 2026');
 
-    expect(result).toMatchObject({ success: true, data: { scopeKey: 'fileid:73', remoteRootPath: '/TREK/Japan 2026' } });
+    expect(result).toMatchObject({ success: true, data: { scopeKey: 'fileid:73', remoteRootPath: '/Trip Mate/Japan 2026' } });
     expect(requests('MKCOL').map(pathOf)).toEqual([
-      `${NC_ROOT}/TREK/Japan%202026`,
-      `${NC_ROOT}/TREK`,
-      `${NC_ROOT}/TREK/Japan%202026`,
+      `${NC_ROOT}/Trip Mate/Japan%202026`,
+      `${NC_ROOT}/Trip Mate`,
+      `${NC_ROOT}/Trip Mate/Japan%202026`,
     ]);
   });
 
   it('refuses to hand back a folder somebody else already made', async () => {
-    route(`MKCOL ${NC_ROOT}/TREK/Japan`, reply(null, { status: 405 }));
+    route(`MKCOL ${NC_ROOT}/Trip Mate/Japan`, reply(null, { status: 405 }));
 
     expect(await nextcloud.createScope(ncConn, 'Japan')).toMatchObject({
       success: false,
@@ -406,10 +406,10 @@ describe('scopes', () => {
   });
 
   it('replaces the characters Nextcloud refuses instead of failing the whole folder', async () => {
-    route(`MKCOL ${NC_ROOT}/TREK/Japan-%202026`, reply(null, { status: 201 }));
+    route(`MKCOL ${NC_ROOT}/Trip Mate/Japan-%202026`, reply(null, { status: 201 }));
     route(
-      `PROPFIND ${NC_ROOT}/TREK/Japan-%202026`,
-      multistatus([{ href: `${NC_ROOT}/TREK/Japan-%202026/`, collection: true, fileid: '74' }]),
+      `PROPFIND ${NC_ROOT}/Trip Mate/Japan-%202026`,
+      multistatus([{ href: `${NC_ROOT}/Trip Mate/Japan-%202026/`, collection: true, fileid: '74' }]),
     );
 
     const result = await nextcloud.createScope(ncConn, 'Japan: 2026');
@@ -433,8 +433,8 @@ describe('scopes', () => {
 
   it('calls a folder with the same path but a different id scope_missing', async () => {
     route(
-      `PROPFIND ${NC_ROOT}/TREK/trip%2042`,
-      multistatus([{ href: `${NC_ROOT}/TREK/trip%2042/`, collection: true, fileid: '99' }]),
+      `PROPFIND ${NC_ROOT}/Trip Mate/trip%2042`,
+      multistatus([{ href: `${NC_ROOT}/Trip Mate/trip%2042/`, collection: true, fileid: '99' }]),
     );
 
     const result = await nextcloud.resolveScope(ncConn, ncScope);
@@ -463,15 +463,15 @@ describe('scopes', () => {
 describe('list', () => {
   const listing = () =>
     multistatus([
-      { href: `${NC_ROOT}/TREK/trip%2042/`, collection: true, fileid: '60', etag: '"root-1"' },
+      { href: `${NC_ROOT}/Trip Mate/trip%2042/`, collection: true, fileid: '60', etag: '"root-1"' },
       {
-        href: `${NC_ROOT}/TREK/trip%2042/sub/`,
+        href: `${NC_ROOT}/Trip Mate/trip%2042/sub/`,
         collection: true,
         fileid: '62',
         etag: '"sub-1"',
       },
       {
-        href: `${NC_ROOT}/TREK/trip%2042/pass.pdf`,
+        href: `${NC_ROOT}/Trip Mate/trip%2042/pass.pdf`,
         fileid: '61',
         etag: '"doc-1"',
         size: 1234,
@@ -482,7 +482,7 @@ describe('list', () => {
     ]);
 
   it('enumerates documents only, never the root and never a sub-folder', async () => {
-    route(`PROPFIND ${NC_ROOT}/TREK/trip%2042`, listing());
+    route(`PROPFIND ${NC_ROOT}/Trip Mate/trip%2042`, listing());
 
     const result = await nextcloud.list(ncConn, ncScope);
 
@@ -503,8 +503,8 @@ describe('list', () => {
   });
 
   it('skips the walk entirely when the root ETag has not moved', async () => {
-    route(`PROPFIND ${NC_ROOT}/TREK/trip%2042`, multistatus([
-      { href: `${NC_ROOT}/TREK/trip%2042/`, collection: true, fileid: '60', etag: '"root-1"' },
+    route(`PROPFIND ${NC_ROOT}/Trip Mate/trip%2042`, multistatus([
+      { href: `${NC_ROOT}/Trip Mate/trip%2042/`, collection: true, fileid: '60', etag: '"root-1"' },
     ]));
 
     const result = await nextcloud.list(ncConn, { ...ncScope, cursor: '"root-1"' });
@@ -519,8 +519,8 @@ describe('list', () => {
 
   it('walks after the cursor probe shows a different root ETag', async () => {
     route(
-      `PROPFIND ${NC_ROOT}/TREK/trip%2042`,
-      multistatus([{ href: `${NC_ROOT}/TREK/trip%2042/`, collection: true, fileid: '60', etag: '"root-2"' }]),
+      `PROPFIND ${NC_ROOT}/Trip Mate/trip%2042`,
+      multistatus([{ href: `${NC_ROOT}/Trip Mate/trip%2042/`, collection: true, fileid: '60', etag: '"root-2"' }]),
       listing(),
     );
 
@@ -556,7 +556,7 @@ describe('list', () => {
 
   it('reports a listing cut off at the size cap instead of failing the run', async () => {
     capBytes = 620;
-    route(`PROPFIND ${NC_ROOT}/TREK/trip%2042`, listing());
+    route(`PROPFIND ${NC_ROOT}/Trip Mate/trip%2042`, listing());
 
     const result = await nextcloud.list(ncConn, ncScope);
 
@@ -565,7 +565,7 @@ describe('list', () => {
   });
 
   it('turns a vanished folder into scope_missing rather than an empty trip', async () => {
-    route(`PROPFIND ${NC_ROOT}/TREK/trip%2042`, reply('<d:error/>', { status: 404 }));
+    route(`PROPFIND ${NC_ROOT}/Trip Mate/trip%2042`, reply('<d:error/>', { status: 404 }));
 
     expect(await nextcloud.list(ncConn, ncScope)).toMatchObject({
       success: false,
@@ -575,10 +575,10 @@ describe('list', () => {
 
   it('keeps a document without an oc:fileid addressable instead of dropping it', async () => {
     route(
-      `PROPFIND ${NC_ROOT}/TREK/trip%2042`,
+      `PROPFIND ${NC_ROOT}/Trip Mate/trip%2042`,
       multistatus([
-        { href: `${NC_ROOT}/TREK/trip%2042/`, collection: true, fileid: '60', etag: '"root"' },
-        { href: `${NC_ROOT}/TREK/trip%2042/pass.pdf`, etag: '"doc"', size: 1, type: 'application/pdf' },
+        { href: `${NC_ROOT}/Trip Mate/trip%2042/`, collection: true, fileid: '60', etag: '"root"' },
+        { href: `${NC_ROOT}/Trip Mate/trip%2042/pass.pdf`, etag: '"doc"', size: 1, type: 'application/pdf' },
       ]),
     );
 
@@ -596,9 +596,9 @@ describe('push', () => {
     });
 
   it('pins the modification time and the checksum, and normalises the id Nextcloud answers with', async () => {
-    route(`PUT ${NC_ROOT}/TREK/trip%2042/reiseplan.pdf`, uploaded);
-    route(`PROPPATCH ${NC_ROOT}/TREK/trip%2042/reiseplan.pdf`, multistatus([
-      { href: `${NC_ROOT}/TREK/trip%2042/reiseplan.pdf`, etag: '"x"' },
+    route(`PUT ${NC_ROOT}/Trip Mate/trip%2042/reiseplan.pdf`, uploaded);
+    route(`PROPPATCH ${NC_ROOT}/Trip Mate/trip%2042/reiseplan.pdf`, multistatus([
+      { href: `${NC_ROOT}/Trip Mate/trip%2042/reiseplan.pdf`, etag: '"x"' },
     ]));
 
     const result = await nextcloud.push(ncConn, ncScope, pushRequest());
@@ -625,9 +625,9 @@ describe('push', () => {
     expect(requests('PUT')[0].headers['x-oc-mtime']).toBe('1700000000');
   });
 
-  it('writes the TREK anchors as dead properties without letting a refusal undo the upload', async () => {
-    route(`PUT ${NC_ROOT}/TREK/trip%2042/reiseplan.pdf`, uploaded);
-    route(`PROPPATCH ${NC_ROOT}/TREK/trip%2042/reiseplan.pdf`, reply('<d:error/>', { status: 403 }));
+  it('writes the Trip Mate anchors as dead properties without letting a refusal undo the upload', async () => {
+    route(`PUT ${NC_ROOT}/Trip Mate/trip%2042/reiseplan.pdf`, uploaded);
+    route(`PROPPATCH ${NC_ROOT}/Trip Mate/trip%2042/reiseplan.pdf`, reply('<d:error/>', { status: 403 }));
 
     const result = await nextcloud.push(ncConn, ncScope, pushRequest());
 
@@ -637,13 +637,13 @@ describe('push', () => {
   });
 
   it('asks for the id and version a proxy stripped from the response', async () => {
-    route(`PUT ${NC_ROOT}/TREK/trip%2042/reiseplan.pdf`, reply(null, { status: 201 }));
-    route(`PROPPATCH ${NC_ROOT}/TREK/trip%2042/reiseplan.pdf`, multistatus([
-      { href: `${NC_ROOT}/TREK/trip%2042/reiseplan.pdf`, etag: '"x"' },
+    route(`PUT ${NC_ROOT}/Trip Mate/trip%2042/reiseplan.pdf`, reply(null, { status: 201 }));
+    route(`PROPPATCH ${NC_ROOT}/Trip Mate/trip%2042/reiseplan.pdf`, multistatus([
+      { href: `${NC_ROOT}/Trip Mate/trip%2042/reiseplan.pdf`, etag: '"x"' },
     ]));
     route(
-      `PROPFIND ${NC_ROOT}/TREK/trip%2042/reiseplan.pdf`,
-      multistatus([{ href: `${NC_ROOT}/TREK/trip%2042/reiseplan.pdf`, fileid: '62', etag: '"stored"', size: 5 }]),
+      `PROPFIND ${NC_ROOT}/Trip Mate/trip%2042/reiseplan.pdf`,
+      multistatus([{ href: `${NC_ROOT}/Trip Mate/trip%2042/reiseplan.pdf`, fileid: '62', etag: '"stored"', size: 5 }]),
     );
 
     const result = await nextcloud.push(ncConn, ncScope, pushRequest());
@@ -653,13 +653,13 @@ describe('push', () => {
 
   it('sends If-Match when the core knows which version it is replacing, and reports 412 as a conflict', async () => {
     route(
-      `PROPFIND ${NC_ROOT}/TREK/trip%2042`,
+      `PROPFIND ${NC_ROOT}/Trip Mate/trip%2042`,
       multistatus([
-        { href: `${NC_ROOT}/TREK/trip%2042/`, collection: true, fileid: '60', etag: '"root"' },
-        { href: `${NC_ROOT}/TREK/trip%2042/pass.pdf`, fileid: '61', etag: '"doc-1"', size: 1, type: 'application/pdf' },
+        { href: `${NC_ROOT}/Trip Mate/trip%2042/`, collection: true, fileid: '60', etag: '"root"' },
+        { href: `${NC_ROOT}/Trip Mate/trip%2042/pass.pdf`, fileid: '61', etag: '"doc-1"', size: 1, type: 'application/pdf' },
       ]),
     );
-    route(`PUT ${NC_ROOT}/TREK/trip%2042/pass.pdf`, reply('<d:error/>', { status: 412 }));
+    route(`PUT ${NC_ROOT}/Trip Mate/trip%2042/pass.pdf`, reply('<d:error/>', { status: 412 }));
 
     const result = await nextcloud.push(
       ncConn,
@@ -673,8 +673,8 @@ describe('push', () => {
 
   it('refuses to recreate a document that disappeared upstream', async () => {
     route(
-      `PROPFIND ${NC_ROOT}/TREK/trip%2042`,
-      multistatus([{ href: `${NC_ROOT}/TREK/trip%2042/`, collection: true, fileid: '60', etag: '"root"' }]),
+      `PROPFIND ${NC_ROOT}/Trip Mate/trip%2042`,
+      multistatus([{ href: `${NC_ROOT}/Trip Mate/trip%2042/`, collection: true, fileid: '60', etag: '"root"' }]),
     );
 
     const result = await nextcloud.push(ncConn, ncScope, pushRequest({ remoteId: '61' }));
@@ -684,7 +684,7 @@ describe('push', () => {
   });
 
   it('maps a full quota to quota_exceeded rather than a generic failure', async () => {
-    route(`PUT ${NC_ROOT}/TREK/trip%2042/reiseplan.pdf`, reply('<d:error/>', { status: 507 }));
+    route(`PUT ${NC_ROOT}/Trip Mate/trip%2042/reiseplan.pdf`, reply('<d:error/>', { status: 507 }));
 
     expect(await nextcloud.push(ncConn, ncScope, pushRequest())).toMatchObject({
       success: false,
@@ -696,9 +696,9 @@ describe('push', () => {
 describe('fetch, rename and trash', () => {
   const folder = () =>
     multistatus([
-      { href: `${NC_ROOT}/TREK/trip%2042/`, collection: true, fileid: '60', etag: '"root"' },
+      { href: `${NC_ROOT}/Trip Mate/trip%2042/`, collection: true, fileid: '60', etag: '"root"' },
       {
-        href: `${NC_ROOT}/TREK/trip%2042/pass%20scan.pdf`,
+        href: `${NC_ROOT}/Trip Mate/trip%2042/pass%20scan.pdf`,
         fileid: '61',
         etag: '"doc-1"',
         size: 5,
@@ -707,9 +707,9 @@ describe('fetch, rename and trash', () => {
     ]);
 
   it('streams a document back and reports the version it came with', async () => {
-    route(`PROPFIND ${NC_ROOT}/TREK/trip%2042`, folder());
+    route(`PROPFIND ${NC_ROOT}/Trip Mate/trip%2042`, folder());
     route(
-      `GET ${NC_ROOT}/TREK/trip%2042/pass%20scan.pdf`,
+      `GET ${NC_ROOT}/Trip Mate/trip%2042/pass%20scan.pdf`,
       reply('the bytes', { headers: { 'content-length': '9', 'content-type': 'application/pdf', etag: '"doc-1"' } }),
     );
 
@@ -724,8 +724,8 @@ describe('fetch, rename and trash', () => {
   });
 
   it('re-uses the listing it already walked instead of re-walking per document', async () => {
-    route(`PROPFIND ${NC_ROOT}/TREK/trip%2042`, folder());
-    route(`GET ${NC_ROOT}/TREK/trip%2042/pass%20scan.pdf`, reply('x', { headers: { etag: '"doc-1"' } }));
+    route(`PROPFIND ${NC_ROOT}/Trip Mate/trip%2042`, folder());
+    route(`GET ${NC_ROOT}/Trip Mate/trip%2042/pass%20scan.pdf`, reply('x', { headers: { etag: '"doc-1"' } }));
 
     await nextcloud.list(ncConn, ncScope);
     await nextcloud.fetch(ncConn, ncScope, '61');
@@ -733,10 +733,10 @@ describe('fetch, rename and trash', () => {
     expect(requests('PROPFIND')).toHaveLength(1);
   });
 
-  it('refuses a download announcing more than TREK transfers, and one that arrives without a body', async () => {
-    route(`PROPFIND ${NC_ROOT}/TREK/trip%2042`, folder());
+  it('refuses a download announcing more than Trip Mate transfers, and one that arrives without a body', async () => {
+    route(`PROPFIND ${NC_ROOT}/Trip Mate/trip%2042`, folder());
     route(
-      `GET ${NC_ROOT}/TREK/trip%2042/pass%20scan.pdf`,
+      `GET ${NC_ROOT}/Trip Mate/trip%2042/pass%20scan.pdf`,
       reply('x', { headers: { 'content-length': String(3 * 1024 ** 3) } }),
       reply(null, { status: 200 }),
     );
@@ -752,7 +752,7 @@ describe('fetch, rename and trash', () => {
   });
 
   it('says not_found for an id the folder no longer holds', async () => {
-    route(`PROPFIND ${NC_ROOT}/TREK/trip%2042`, folder());
+    route(`PROPFIND ${NC_ROOT}/Trip Mate/trip%2042`, folder());
 
     expect(await nextcloud.fetch(ncConn, ncScope, '999')).toMatchObject({
       success: false,
@@ -761,20 +761,20 @@ describe('fetch, rename and trash', () => {
   });
 
   it('renames inside the same folder and refuses to overwrite a namesake', async () => {
-    route(`PROPFIND ${NC_ROOT}/TREK/trip%2042`, folder());
-    route(`MOVE ${NC_ROOT}/TREK/trip%2042/pass%20scan.pdf`, reply(null, { status: 201, headers: { 'oc-etag': '"doc-2"' } }));
+    route(`PROPFIND ${NC_ROOT}/Trip Mate/trip%2042`, folder());
+    route(`MOVE ${NC_ROOT}/Trip Mate/trip%2042/pass%20scan.pdf`, reply(null, { status: 201, headers: { 'oc-etag': '"doc-2"' } }));
 
     const result = await nextcloud.rename(ncConn, ncScope, '61', 'Reisepass 2026.pdf');
 
     const move = requests('MOVE')[0];
-    expect(move.headers.destination).toBe(`${NC_ORIGIN}${NC_ROOT}/TREK/trip%2042/Reisepass%202026.pdf`);
+    expect(move.headers.destination).toBe(`${NC_ORIGIN}${NC_ROOT}/Trip Mate/trip%2042/Reisepass%202026.pdf`);
     expect(move.headers.overwrite).toBe('F');
     expect(result).toEqual({ success: true, data: { remoteVersion: '"doc-2"' } });
   });
 
   it('reports a rename onto an existing name as a conflict', async () => {
-    route(`PROPFIND ${NC_ROOT}/TREK/trip%2042`, folder());
-    route(`MOVE ${NC_ROOT}/TREK/trip%2042/pass%20scan.pdf`, reply('<d:error/>', { status: 412 }));
+    route(`PROPFIND ${NC_ROOT}/Trip Mate/trip%2042`, folder());
+    route(`MOVE ${NC_ROOT}/Trip Mate/trip%2042/pass%20scan.pdf`, reply('<d:error/>', { status: 412 }));
 
     expect(await nextcloud.rename(ncConn, ncScope, '61', 'anders.pdf')).toMatchObject({
       success: false,
@@ -783,8 +783,8 @@ describe('fetch, rename and trash', () => {
   });
 
   it('deletes into the recycle bin and treats an already-deleted document as done', async () => {
-    route(`PROPFIND ${NC_ROOT}/TREK/trip%2042`, folder());
-    route(`DELETE ${NC_ROOT}/TREK/trip%2042/pass%20scan.pdf`, reply(null, { status: 204 }), reply('<d:error/>', { status: 404 }));
+    route(`PROPFIND ${NC_ROOT}/Trip Mate/trip%2042`, folder());
+    route(`DELETE ${NC_ROOT}/Trip Mate/trip%2042/pass%20scan.pdf`, reply(null, { status: 204 }), reply('<d:error/>', { status: 404 }));
 
     expect(await nextcloud.trash(ncConn, ncScope, '61')).toEqual({ success: true, data: undefined });
     expect(await nextcloud.trash(ncConn, ncScope, '61')).toEqual({ success: true, data: undefined });
@@ -799,19 +799,19 @@ describe('webhooks', () => {
     let next = 10;
     route(`POST ${OCS}`, () => reply(JSON.stringify({ ocs: { data: { id: next++ } } })));
 
-    const result = await nextcloud.registerWebhook(ncConn, ncScope, 'https://trek.example/hook', 's3cret');
+    const result = await nextcloud.registerWebhook(ncConn, ncScope, 'https://tripmate.example/hook', 's3cret');
 
     expect(result).toEqual({ success: true, data: { subscriptionId: '10,11,12,13' } });
     const bodies = requests('POST').map((call) => new URLSearchParams(call.body ?? ''));
     expect(requests('POST')[0].headers['content-type']).toBe('application/x-www-form-urlencoded');
     expect(bodies[0].get('httpMethod')).toBe('POST');
-    expect(bodies[0].get('uri')).toBe('https://trek.example/hook');
+    expect(bodies[0].get('uri')).toBe('https://tripmate.example/hook');
     expect(bodies[0].get('authMethod')).toBe('header');
     // The header the endpoint actually reads. It used to be registered as
-    // `X-TREK-Docsync-Signature` while doc-sync-webhook.controller looks for
-    // `x-trek-docsync-secret`, so every webhook Nextcloud sent was dropped
+    // `X-Trip Mate-Docsync-Signature` while doc-sync-webhook.controller looks for
+    // `x-tripmate-docsync-secret`, so every webhook Nextcloud sent was dropped
     // without a trace: the subscription existed and the calls arrived.
-    expect(bodies[0].get('authData[x-trek-docsync-secret]')).toBe('s3cret');
+    expect(bodies[0].get('authData[x-tripmate-docsync-secret]')).toBe('s3cret');
     // A $regex filter is not merely ignored upstream: it throws inside the
     // listener and stops delivery for every other webhook on that event.
     expect(bodies.every((body) => [...body.keys()].every((key) => !key.startsWith('eventFilter')))).toBe(true);
@@ -826,7 +826,7 @@ describe('webhooks', () => {
   it('answers a non-admin account with forbidden and leaves the link polling', async () => {
     route(`GET ${OCS}`, reply('{}', { status: 403 }));
 
-    const result = await nextcloud.registerWebhook(ncConn, ncScope, 'https://trek.example/hook', 's');
+    const result = await nextcloud.registerWebhook(ncConn, ncScope, 'https://tripmate.example/hook', 's');
 
     expect(result).toMatchObject({ success: false, error: { code: 'forbidden' } });
     expect(requests('POST')).toHaveLength(0);
@@ -843,14 +843,14 @@ describe('webhooks', () => {
     route(`DELETE ${OCS}/10`, reply(null, { status: 200 }));
     route(`DELETE ${OCS}/11`, reply(null, { status: 200 }));
 
-    const result = await nextcloud.registerWebhook(ncConn, ncScope, 'https://trek.example/hook', 's');
+    const result = await nextcloud.registerWebhook(ncConn, ncScope, 'https://tripmate.example/hook', 's');
 
     expect(result).toMatchObject({ success: false, error: { code: 'provider_error' } });
     expect(requests('DELETE').map(pathOf)).toEqual([`${OCS}/10`, `${OCS}/11`]);
   });
 
   it('tells an OpenCloud admin there is nothing to subscribe to instead of failing the connection', async () => {
-    const result = await opencloud.registerWebhook(ocConn, ocScope, 'https://trek.example/hook', 's');
+    const result = await opencloud.registerWebhook(ocConn, ocScope, 'https://tripmate.example/hook', 's');
 
     expect(result).toMatchObject({ success: false, error: { code: 'forbidden' } });
     expect(calls).toHaveLength(0);
@@ -891,7 +891,7 @@ describe('an install below a path', () => {
     );
     route('GET /nextcloud/ocs/v2.php/apps/webhook_listeners/api/v1/webhooks', reply('{}', { status: 403 }));
 
-    const result = await nextcloud.probe({ ...ncConn, baseUrl: `${NC_PREFIXED}/apps/files/files/123?dir=/TREK` });
+    const result = await nextcloud.probe({ ...ncConn, baseUrl: `${NC_PREFIXED}/apps/files/files/123?dir=/Trip Mate` });
 
     expect(result).toMatchObject({ success: true });
     expect(calls[0].url).toBe(`${NC_PREFIXED}${NC_ROOT}`);
@@ -915,13 +915,13 @@ describe('an install below a path', () => {
 
   it('takes the prefix off the hrefs it is answered, so a download is not addressed twice over', async () => {
     route(
-      `PROPFIND /nextcloud${NC_ROOT}/TREK/trip%2042`,
+      `PROPFIND /nextcloud${NC_ROOT}/Trip Mate/trip%2042`,
       multistatus([
-        { href: `/nextcloud${NC_ROOT}/TREK/trip%2042/`, collection: true, fileid: '60', etag: '"root-1"' },
-        { href: `/nextcloud${NC_ROOT}/TREK/trip%2042/pass.pdf`, fileid: '61', etag: '"doc-1"', size: 4, type: 'application/pdf' },
+        { href: `/nextcloud${NC_ROOT}/Trip Mate/trip%2042/`, collection: true, fileid: '60', etag: '"root-1"' },
+        { href: `/nextcloud${NC_ROOT}/Trip Mate/trip%2042/pass.pdf`, fileid: '61', etag: '"doc-1"', size: 4, type: 'application/pdf' },
       ]),
     );
-    route(`GET /nextcloud${NC_ROOT}/TREK/trip%2042/pass.pdf`, reply('pdf!', { headers: { etag: '"doc-1"' } }));
+    route(`GET /nextcloud${NC_ROOT}/Trip Mate/trip%2042/pass.pdf`, reply('pdf!', { headers: { etag: '"doc-1"' } }));
 
     const listed = await nextcloud.list(prefixedNc, ncScope);
     expect(listed.success && listed.data.documents.map((doc) => doc.name)).toEqual(['pass.pdf']);
@@ -929,29 +929,29 @@ describe('an install below a path', () => {
 
     const fetched = await nextcloud.fetch(prefixedNc, ncScope, '61');
     expect(fetched).toMatchObject({ success: true, data: { remoteVersion: '"doc-1"' } });
-    expect(requests('GET').map((call) => call.url)).toEqual([`${NC_PREFIXED}${NC_ROOT}/TREK/trip%2042/pass.pdf`]);
+    expect(requests('GET').map((call) => call.url)).toEqual([`${NC_PREFIXED}${NC_ROOT}/Trip Mate/trip%2042/pass.pdf`]);
   });
 
   it('renames within the prefixed folder and points the Destination at the full base', async () => {
     route(
-      `PROPFIND /nextcloud${NC_ROOT}/TREK/trip%2042`,
+      `PROPFIND /nextcloud${NC_ROOT}/Trip Mate/trip%2042`,
       multistatus([
-        { href: `/nextcloud${NC_ROOT}/TREK/trip%2042/`, collection: true, fileid: '60' },
-        { href: `/nextcloud${NC_ROOT}/TREK/trip%2042/pass.pdf`, fileid: '61', size: 4, type: 'application/pdf' },
+        { href: `/nextcloud${NC_ROOT}/Trip Mate/trip%2042/`, collection: true, fileid: '60' },
+        { href: `/nextcloud${NC_ROOT}/Trip Mate/trip%2042/pass.pdf`, fileid: '61', size: 4, type: 'application/pdf' },
       ]),
     );
-    route(`MOVE /nextcloud${NC_ROOT}/TREK/trip%2042/pass.pdf`, reply(null, { status: 201, headers: { 'oc-etag': '"moved"' } }));
+    route(`MOVE /nextcloud${NC_ROOT}/Trip Mate/trip%2042/pass.pdf`, reply(null, { status: 201, headers: { 'oc-etag': '"moved"' } }));
 
     const result = await nextcloud.rename(prefixedNc, ncScope, '61', 'passport.pdf');
 
     expect(result).toEqual({ success: true, data: { remoteVersion: '"moved"' } });
-    expect(requests('MOVE')[0].headers.destination).toBe(`${NC_PREFIXED}${NC_ROOT}/TREK/trip%2042/passport.pdf`);
+    expect(requests('MOVE')[0].headers.destination).toBe(`${NC_PREFIXED}${NC_ROOT}/Trip Mate/trip%2042/passport.pdf`);
   });
 
   it('re-bases an OpenCloud space below a path without spelling the path twice', async () => {
     route(
       'GET /oc/graph/v1.0/me/drives',
-      reply(JSON.stringify({ value: [drive(OC_DRIVE, 'TREK Trip 42', 'project', `https://internal.lan:9200/oc${OC_ROOT}`)] })),
+      reply(JSON.stringify({ value: [drive(OC_DRIVE, 'Trip Mate Trip 42', 'project', `https://internal.lan:9200/oc${OC_ROOT}`)] })),
     );
     route(
       `PROPFIND /oc${OC_ROOT}`,
@@ -1009,7 +1009,7 @@ describe('failure classification', () => {
   });
 
   it('refuses a body that is not a multistatus instead of reading it as an empty folder', async () => {
-    route(`PROPFIND ${NC_ROOT}/TREK/trip%2042`, reply('<html><body>Please log in</body></html>', { status: 207 }));
+    route(`PROPFIND ${NC_ROOT}/Trip Mate/trip%2042`, reply('<html><body>Please log in</body></html>', { status: 207 }));
 
     expect(await nextcloud.list(ncConn, ncScope)).toMatchObject({
       success: false,

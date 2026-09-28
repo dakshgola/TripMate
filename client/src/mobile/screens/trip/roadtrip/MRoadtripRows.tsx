@@ -12,7 +12,7 @@ import { formatClockTime } from '../../../../utils/formatters'
 import type { BookendReading, RoadtripRow, StopRow } from '../../../../components/Roadtrip/roadtripRowModel'
 import type { RefuelSearch } from '../../../../components/Roadtrip/useRefuelSearch'
 import { REFUEL_EMPTY_KEY, REFUEL_WORDS, refuelBandState, type RefuelCandidate } from '../../../../components/Roadtrip/refuelSuggestion'
-import type { DistanceUnit, RouteSegment, ScheduleWarning } from '@trek/shared/roadtrip'
+import type { DistanceUnit, RouteSegment, ScheduleWarning } from '@tripmate/shared/roadtrip'
 import type { Reservation, TranslationFn } from '../../../../types'
 
 /**
@@ -660,11 +660,11 @@ export function RtDryRow({ intoLegKm, chrome, electric, onSearch, offline, refue
           >
             {band.control === 'again'
               ? <RotateCcw size={17} strokeWidth={2.2} aria-hidden="true" />
-              : <Lamp size={18} strokeWidth={2} className={offline ? undefined : 'trek-lowfuel'} aria-hidden="true" />}
+              : <Lamp size={18} strokeWidth={2} className={offline ? undefined : 'tripmate-lowfuel'} aria-hidden="true" />}
           </button>
         ) : (
           <span className="grid h-11 w-11 flex-none place-items-center text-[color:var(--m-st-danger)]" aria-hidden="true">
-            <Lamp size={18} strokeWidth={2} className="trek-lowfuel" />
+            <Lamp size={18} strokeWidth={2} className="tripmate-lowfuel" />
           </span>
         )}
       </div>

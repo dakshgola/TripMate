@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import type { BookPageSetup } from '@trek/shared'
+import type { BookPageSetup } from '@tripmate/shared'
 import { GRIDS, defaultGridBox, gridElements } from '../../../src/components/Studio/grids'
-import { bookPageSetupSchema } from '@trek/shared'
+import { bookPageSetupSchema } from '@tripmate/shared'
 
 /**
  * Photo grids (#1973).

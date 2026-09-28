@@ -18,7 +18,7 @@ import type { User } from '../../types';
  */
 export function extractToken(req: Request): string | null {
   // Prefer httpOnly cookie; fall back to Authorization: Bearer (MCP, API clients)
-  const cookieToken = (req as any).cookies?.trek_session;
+  const cookieToken = (req as any).cookies?.tripmate_session;
   if (cookieToken) return cookieToken;
   const authHeader = req.headers['authorization'];
   return (authHeader && authHeader.split(' ')[1]) || null;

@@ -27,7 +27,7 @@ import { createTables } from '../../../src/db/schema';
 import { runMigrations } from '../../../src/db/migrations';
 import { resetTestDb } from '../../helpers/test-db';
 import { DatabaseService } from '../../../src/nest/database/database.service';
-import { TrekPhotosRepository } from '../../../src/nest/photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../../../src/nest/photos/tripmate-photos.repository';
 
 let repo: TrekPhotosRepository;
 

@@ -8,7 +8,7 @@ import { devLinkEnabled } from '../dev-link';
 
 /**
  * Discover plugins placed on the /plugins volume (#plugins, M4, "install from
- * disk"). Reads each subdir's trek-plugin.json and upserts a registry row as
+ * disk"). Reads each subdir's tripmate-plugin.json and upserts a registry row as
  * INACTIVE — an existing plugin keeps its status / granted permissions / config,
  * so re-discovery never silently re-activates or wipes settings. A plugin whose
  * manifest is invalid or that ships native binaries is skipped (recorded to its
@@ -43,7 +43,7 @@ export function discoverPlugins(db: BetterSqlite3.Database): { discovered: strin
     }
     if (!isDir) continue;
     const dir = pluginCodeDir(entry.name);
-    const manifestPath = path.join(dir, 'trek-plugin.json');
+    const manifestPath = path.join(dir, 'tripmate-plugin.json');
     if (!fs.existsSync(manifestPath)) continue;
 
     try {

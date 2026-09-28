@@ -22,7 +22,7 @@ const { testDb, dbMock, immichState } = vi.hoisted(() => {
 
   // Mutable fixture driving the fake Immich responses. Tests may override
   // `albumAssetPages` to exercise pagination, and read `searchCalls` to assert
-  // on the request bodies TREK sends to POST /api/search/metadata.
+  // on the request bodies Trip Mate sends to POST /api/search/metadata.
   const state: {
     albumAssets: any[];
     albumAssetPages: any[][] | null;
@@ -64,7 +64,7 @@ const DEFAULT_ALBUM_ASSETS = [
 
 vi.mock('../../src/db/database', () => dbMock);
 vi.mock('../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
   SESSION_DURATION: '24h',

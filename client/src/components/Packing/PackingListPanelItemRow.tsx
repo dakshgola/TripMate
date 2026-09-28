@@ -366,7 +366,7 @@ export function ArtikelZeile({ item, tripId, categories, onCategoryChange: _onCa
             return (
               <>
                 <div role="presentation" style={{ position: 'fixed', inset: 0, zIndex: 1098 }} onClick={() => { setShowItemMenu(false); setShowMenuCategories(false) }} />
-                <div className="trek-menu-enter" style={{
+                <div className="tripmate-menu-enter" style={{
                   position: 'fixed',
                   right: rect ? Math.max(8, window.innerWidth - rect.right) : 8,
                   top: rect ? rect.bottom + 4 : 0,

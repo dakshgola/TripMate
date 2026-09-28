@@ -221,7 +221,7 @@ const journey: TranslationStrings = {
   'journey.public.sharedVia': 'Geteilt über',
   'journey.public.madeWith': 'Erstellt mit',
   'journey.pdf.journeyBook': 'Reisebuch',
-  'journey.pdf.madeWith': 'Erstellt mit TREK',
+  'journey.pdf.madeWith': 'Erstellt mit Trip Mate',
   'journey.pdf.day': 'Tag',
   'journey.pdf.theEnd': 'Ende',
   'journey.pdf.saveAsPdf': 'Als PDF speichern',
@@ -247,7 +247,7 @@ const journey: TranslationStrings = {
   'journey.editor.externalPhotosUnavailable': 'No connected photo providers are available.', // en-fallback
   'journey.editor.externalPhotosPartialFailed': '{failed} photo groups failed — save again to retry', // en-fallback
   'journey.picker.day': 'This day', // en-fallback
-  'journey.studio.title': 'TREK Studio',
+  'journey.studio.title': 'Trip Mate Studio',
   'journey.studio.open': 'Studio',
   'journey.studio.openAria': 'Fotobuch-Studio öffnen',
   'journey.studio.backToJourney': 'Zurück zur Journey',
@@ -275,7 +275,8 @@ const journey: TranslationStrings = {
   'journey.studio.exportFinishing': 'Verarbeitung',
   'journey.studio.exportMarks': 'Beschnittmarken',
   'journey.studio.exportMarksHint': 'Legt {bleed} mm Anschnitt an jede Kante und markiert, wo geschnitten wird',
-  'journey.studio.exportNote': '{sheets} Blätter mit {width} × {height} mm. Der Browser macht aus der Druckansicht ein PDF.',
+  'journey.studio.exportNote':
+    '{sheets} Blätter mit {width} × {height} mm. Der Browser macht aus der Druckansicht ein PDF.',
   'journey.studio.exportOpen': 'Druckansicht',
   'journey.studio.exportSave': 'Als PDF sichern',
   'journey.studio.exportPreparing': 'Wird vorbereitet',
@@ -286,12 +287,14 @@ const journey: TranslationStrings = {
   'journey.studio.zoomOut': 'Verkleinern',
   'journey.studio.zoomFit': 'Einpassen',
   'journey.studio.downloadSpread': 'Diese Doppelseite herunterladen',
-  'journey.studio.downloadSpreadHint': 'Speichert das Design dieser Doppelseite als Datei, ohne die Fotos, zum Teilen oder Wiederverwenden',
+  'journey.studio.downloadSpreadHint':
+    'Speichert das Design dieser Doppelseite als Datei, ohne die Fotos, zum Teilen oder Wiederverwenden',
   'journey.studio.importSpread': 'Importieren',
   'journey.studio.importSpreadHint': 'Eine Doppelseite aus einer heruntergeladenen Design-Datei einfügen',
-  'journey.studio.importSpreadFailed': 'Diese Datei ist keine TREK-Studio-Doppelseite',
+  'journey.studio.importSpreadFailed': 'Diese Datei ist keine Trip Mate-Studio-Doppelseite',
   'journey.studio.desktopOnly': 'Studio braucht mehr Platz',
-  'journey.studio.desktopOnlyHint': 'Ein Buch zu gestalten braucht Fläche, deshalb gibt es Studio nur am Desktop, und das PDF ebenso. Alles andere an deiner Journey funktioniert hier wie gewohnt.',
+  'journey.studio.desktopOnlyHint':
+    'Ein Buch zu gestalten braucht Fläche, deshalb gibt es Studio nur am Desktop, und das PDF ebenso. Alles andere an deiner Journey funktioniert hier wie gewohnt.',
   'journey.studio.formatA5Landscape': 'A5 quer',
   'journey.studio.bookView': 'Buchansicht',
   'journey.studio.multiple': 'Mehrere',
@@ -355,7 +358,8 @@ const journey: TranslationStrings = {
   'journey.studio.sampleSubheading': 'Eine Zwischenüberschrift',
   'journey.studio.sampleBody': 'Schreib etwas über diesen Tag.',
   'journey.studio.sampleCaption': 'Bildunterschrift',
-  'journey.studio.templatesCoverHint': 'Layouts gelten für die Innenseiten. Cover und Rückseite werden einzeln gestaltet.',
+  'journey.studio.templatesCoverHint':
+    'Layouts gelten für die Innenseiten. Cover und Rückseite werden einzeln gestaltet.',
   'journey.studio.tpl.heroStory': 'Großes Bild mit Text',
   'journey.studio.tpl.fullBleed': 'Ein Bild über beide Seiten',
   'journey.studio.tpl.twoUp': 'Zwei volle Seiten',
@@ -537,7 +541,8 @@ const journey: TranslationStrings = {
   'journey.studio.mapSourceVector': 'Umrisse',
   'journey.studio.mapSourceRelief': 'Relief',
   'journey.studio.mapSourceSatellite': 'Satellit',
-  'journey.studio.mapSourceSatelliteHint': 'Wolkenfreies Sentinel-2, mit Quellenangabe frei druckbar. Scharf bis auf die einzelne Straße in der Stadt.',
+  'journey.studio.mapSourceSatelliteHint':
+    'Wolkenfreies Sentinel-2, mit Quellenangabe frei druckbar. Scharf bis auf die einzelne Straße in der Stadt.',
   'journey.studio.routeLook': 'Die Linie',
   'journey.studio.routeStyle': 'Linienstil',
   'journey.studio.routePlain': 'Einfach',
@@ -560,14 +565,17 @@ const journey: TranslationStrings = {
   'journey.studio.roadsAgain': 'Neu abrufen',
   'journey.studio.roadsClear': 'Verwerfen',
   'journey.studio.roadsBusy': 'Abfrage',
-  'journey.studio.roadsHint': 'Fragt einen Routendienst nach der gefahrenen Strecke jeder Etappe. Lange Etappen bleiben, wie sie sind.',
+  'journey.studio.roadsHint':
+    'Fragt einen Routendienst nach der gefahrenen Strecke jeder Etappe. Lange Etappen bleiben, wie sie sind.',
   'journey.studio.roadsHave': 'Die Straßen sind in diesem Buch gespeichert, es druckt offline dieselbe Linie.',
   'journey.studio.mapPerTrip': 'Ein Trip pro Karte',
   'journey.studio.mapWholeJourney': 'Ganze Journey',
   'journey.studio.mapScope': 'Anzeige',
   'journey.studio.mapPrintDpi': 'Druckauflösung etwa',
-  'journey.studio.mapPrintDpiLow': 'bei dieser Größe unscharf, probier einen größeren Ausschnitt oder eine andere Quelle',
-  'journey.studio.mapSourceReliefHint': 'NASA-Reliefschattierung, frei druckbar. Gut für ein Land oder einen Kontinent, zu grob für eine Stadt.',
+  'journey.studio.mapPrintDpiLow':
+    'bei dieser Größe unscharf, probier einen größeren Ausschnitt oder eine andere Quelle',
+  'journey.studio.mapSourceReliefHint':
+    'NASA-Reliefschattierung, frei druckbar. Gut für ein Land oder einen Kontinent, zu grob für eine Stadt.',
   'journey.studio.mapSourceTiles': 'Kartenkacheln',
   'journey.studio.mapSourceStatic': 'Mapbox',
   'journey.studio.mapSourceHint': 'Wird beim Rendern geladen und mit Quellenangabe gedruckt',
@@ -636,7 +644,8 @@ const journey: TranslationStrings = {
   'journey.detail.searchPlaceholder': 'In dieser Reise suchen',
   'journey.detail.searchEmpty': 'Kein Eintrag passt zu „{query}“',
   'journey.settings.entryFields': 'Felder im Eintrag',
-  'journey.settings.entryFieldsHint': 'Schalte ab, was diese Reise nicht braucht. Bereits Geschriebenes bleibt erhalten.',
+  'journey.settings.entryFieldsHint':
+    'Schalte ab, was diese Reise nicht braucht. Bereits Geschriebenes bleibt erhalten.',
   'journey.settings.showVerdict': 'Pro & Contra',
   'journey.settings.showMood': 'Stimmung',
   'journey.settings.showWeather': 'Wetter',

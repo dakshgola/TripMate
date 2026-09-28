@@ -23,7 +23,7 @@ function warnings(...list: Warning[]) {
 /** The navbar slot the chip variant portals into; absent unless a test adds it. */
 function mountNavSlot(): HTMLElement {
   const slot = document.createElement('div');
-  slot.id = 'trek-nav-center-slot';
+  slot.id = 'tripmate-nav-center-slot';
   document.body.appendChild(slot);
   return slot;
 }
@@ -50,7 +50,7 @@ const originalMatchMedia = window.matchMedia;
 beforeEach(() => {
   resetAllStores();
   window.matchMedia = originalMatchMedia;
-  document.getElementById('trek-nav-center-slot')?.remove();
+  document.getElementById('tripmate-nav-center-slot')?.remove();
 });
 
 describe('TripWarningsBanner', () => {

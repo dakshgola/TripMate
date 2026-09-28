@@ -21,7 +21,7 @@ export const CACHE_TTL = 60 * 60 * 1000; // 1 hour
  */
 const inFlight = new Map<string, Promise<Buffer | null>>();
 
-/** Storage name (category 'photos-trek') for a cache key. */
+/** Storage name (category 'photos-tripmate') for a cache key. */
 function objectName(key: string): string {
   return `${key}.bin`;
 }
@@ -50,7 +50,7 @@ export class TrekPhotoCacheService {
       return null;
     }
 
-    if (!(await this.storage.exists('photos-trek', objectName(key)))) {
+    if (!(await this.storage.exists('photos-tripmate', objectName(key)))) {
       this.db.run('DELETE FROM trek_photo_cache_meta WHERE cache_key = ?', key);
       return null;
     }
@@ -59,7 +59,7 @@ export class TrekPhotoCacheService {
   }
 
   async put(key: string, bytes: Buffer, contentType: string): Promise<void> {
-    await this.storage.put('photos-trek', objectName(key), Readable.from(bytes));
+    await this.storage.put('photos-tripmate', objectName(key), Readable.from(bytes));
 
     this.db.run(
       'INSERT OR REPLACE INTO trek_photo_cache_meta (cache_key, content_type, fetched_at) VALUES (?, ?, ?)',
@@ -76,7 +76,7 @@ export class TrekPhotoCacheService {
     try {
       // send() keeps a pre-set Content-Type, so entry.contentType survives the
       // .bin extension.
-      await this.storage.sendToResponse('photos-trek', objectName(key), res);
+      await this.storage.sendToResponse('photos-tripmate', objectName(key), res);
     } catch (err) {
       // getFresh→send delete race: fall back like a cache miss.
       if (err instanceof StorageNotFoundError && !res.headersSent) return false;
@@ -102,7 +102,7 @@ export class TrekPhotoCacheService {
 
     for (const row of stale) {
       this.db.run('DELETE FROM trek_photo_cache_meta WHERE cache_key = ?', row.cache_key);
-      await this.storage.delete('photos-trek', objectName(row.cache_key));
+      await this.storage.delete('photos-tripmate', objectName(row.cache_key));
     }
 
     // Pass 2 (fix #4, spec rev 3.2): getFresh's expiry path deletes the meta
@@ -110,12 +110,12 @@ export class TrekPhotoCacheService {
     // cutoff. The mtime guard spares an in-flight put (object lands before its
     // row); nested keys are skipped because the old readdir-free sweep could
     // never touch them either.
-    for await (const stat of this.storage.list('photos-trek')) {
+    for await (const stat of this.storage.list('photos-tripmate')) {
       if (stat.key.includes('/') || !stat.key.endsWith('.bin') || stat.mtimeMs >= cutoff) continue;
       const key = stat.key.slice(0, -'.bin'.length);
       const row = this.db.get('SELECT 1 FROM trek_photo_cache_meta WHERE cache_key = ?', key);
       if (!row) {
-        await this.storage.delete('photos-trek', stat.key).catch(() => { /* race */ });
+        await this.storage.delete('photos-tripmate', stat.key).catch(() => { /* race */ });
       }
     }
   }

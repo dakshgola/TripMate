@@ -9,7 +9,7 @@ import { useTranslation } from '../../i18n'
 import { formatDate } from '../../utils/formatters'
 import { getApiErrorMessage } from '../../types'
 import type { Category, TranslationFn } from '../../types'
-import type { CollectionImportablePlace, Trip } from '@trek/shared'
+import type { CollectionImportablePlace, Trip } from '@tripmate/shared'
 
 interface ImportFromTripModalProps {
   isOpen: boolean
@@ -189,7 +189,7 @@ export default function ImportFromTripModal({ isOpen, collectionId, collectionNa
             <p className="col-imp-lead">{t('collections.importPickTripHint', { name: collectionName })}</p>
             {tripsLoading ? (
               <div className="col-imp-grid">
-                {[0, 1, 2, 3].map(i => <div key={i} className="col-imp-trip trek-skeleton" style={{ height: 68 }} />)}
+                {[0, 1, 2, 3].map(i => <div key={i} className="col-imp-trip tripmate-skeleton" style={{ height: 68 }} />)}
               </div>
             ) : trips.length === 0 ? (
               <div className="col-imp-empty">
@@ -197,7 +197,7 @@ export default function ImportFromTripModal({ isOpen, collectionId, collectionNa
                 <span>{t('collections.importNoTrips')}</span>
               </div>
             ) : (
-              <div className="col-imp-grid trek-stagger">
+              <div className="col-imp-grid tripmate-stagger">
                 {trips.map(tr => {
                   const range = tripRange(tr, language)
                   const places = tr.place_count ?? 0
@@ -271,7 +271,7 @@ export default function ImportFromTripModal({ isOpen, collectionId, collectionNa
 
             {itemsLoading ? (
               <div className="col-imp-list">
-                {[0, 1, 2, 3, 4].map(i => <div key={i} className="col-imp-row trek-skeleton" style={{ height: 56 }} />)}
+                {[0, 1, 2, 3, 4].map(i => <div key={i} className="col-imp-row tripmate-skeleton" style={{ height: 56 }} />)}
               </div>
             ) : items.length === 0 ? (
               <div className="col-imp-empty">
@@ -284,7 +284,7 @@ export default function ImportFromTripModal({ isOpen, collectionId, collectionNa
                 <span>{t('collections.importNothingNew')}</span>
               </div>
             ) : (
-              <div className="col-imp-list trek-stagger">
+              <div className="col-imp-list tripmate-stagger">
                 {visible.map(p => {
                   const dup = p.already_in_list
                   const on = selected.has(p.place_id)

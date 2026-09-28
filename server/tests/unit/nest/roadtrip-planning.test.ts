@@ -7,7 +7,7 @@ import { RoadtripPlanningMcp } from '../../../src/nest/roadtrip/roadtrip-plannin
 import { RoadtripPreferencesMcp } from '../../../src/nest/roadtrip/roadtrip-preferences.mcp';
 import { RoadtripPreferencesService } from '../../../src/nest/roadtrip/roadtrip-preferences.service';
 import { RoadtripMcp } from '../../../src/nest/roadtrip/roadtrip.mcp';
-import { roadtripPreferencesUpdateSchema } from '@trek/shared';
+import { roadtripPreferencesUpdateSchema } from '@tripmate/shared';
 
 import { describe, it, expect, vi } from 'vitest';
 
@@ -424,7 +424,7 @@ describe('Roadtrip MCP registration and search', () => {
     const maps = {
       search: vi.fn(async () => ({
         pois: [{ osm_id: 'n1', name: 'Fuel', brand: 'Example', lat: 48, lng: 10.05, category: 'fuel' }],
-        sources: ['trek-places'], failedSources: [],
+        sources: ['tripmate-places'], failedSources: [],
         truncated: true,
         clamped: false,
       })),
@@ -436,7 +436,7 @@ describe('Roadtrip MCP registration and search', () => {
     );
     const body = JSON.parse(answer.content[0].text as string);
     expect(body.hits).toHaveLength(1);
-    expect(body.sources).toEqual(['trek-places']);
+    expect(body.sources).toEqual(['tripmate-places']);
     expect(body.truncatedAreas).toBeGreaterThan(0);
     expect(body.complete).toBe(false);
     maps.search.mockRejectedValue(new Error('private endpoint'));

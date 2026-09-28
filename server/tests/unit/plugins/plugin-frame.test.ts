@@ -23,7 +23,7 @@ let symlinksAvailable = true;
 beforeAll(() => {
   codeRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'trekplug-frame-'));
   outsideRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'trekplug-outside-'));
-  process.env.TREK_PLUGINS_DIR = codeRoot;
+  process.env.TRIPMATE_PLUGINS_DIR = codeRoot;
   const dir = path.join(codeRoot, 'widget', 'client');
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'index.html'), '<!doctype html><body>hi</body>');
@@ -42,7 +42,7 @@ beforeAll(() => {
   }
 });
 afterAll(() => {
-  delete process.env.TREK_PLUGINS_DIR;
+  delete process.env.TRIPMATE_PLUGINS_DIR;
   fs.rmSync(codeRoot, { recursive: true, force: true });
   fs.rmSync(outsideRoot, { recursive: true, force: true });
 });
@@ -137,12 +137,12 @@ describe('PluginFrameController', () => {
 
   it('allows the plugin its own static assets when the Host header is clean', () => {
     const res = fakeRes();
-    new PluginFrameController(runtime(true)).serve('widget', req('', 'trek.example.com:8443'), res as never);
+    new PluginFrameController(runtime(true)).serve('widget', req('', 'tripmate.example.com:8443'), res as never);
     const csp = res.headers['Content-Security-Policy'];
     // Scheme-less on purpose: matches the frame's own http AND https documents.
-    expect(csp).toContain("script-src 'self' 'unsafe-inline' trek.example.com:8443/plugin-frame/widget/");
-    expect(csp).toContain("style-src 'self' 'unsafe-inline' trek.example.com:8443/plugin-frame/widget/");
-    expect(csp).toContain("connect-src 'self' trek.example.com:8443/plugin-frame/widget/");
+    expect(csp).toContain("script-src 'self' 'unsafe-inline' tripmate.example.com:8443/plugin-frame/widget/");
+    expect(csp).toContain("style-src 'self' 'unsafe-inline' tripmate.example.com:8443/plugin-frame/widget/");
+    expect(csp).toContain("connect-src 'self' tripmate.example.com:8443/plugin-frame/widget/");
   });
 
   it('drops the own-assets source on a malformed Host header instead of widening the policy', () => {

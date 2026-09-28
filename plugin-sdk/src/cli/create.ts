@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * create-trek-plugin <name> [--type integration|page|widget|trip-page] (#plugins, M6).
+ * create-tripmate-plugin <name> [--type integration|page|widget|trip-page] (#plugins, M6).
  * Scaffolds a working plugin: manifest, an isolated server entry using
  * definePlugin, a README you must fill in, and (page/widget) a starter iframe.
  */
@@ -136,15 +136,15 @@ export function scaffold(name: string, type: string, targetDir: string, opts: Sc
     version: '1.0.0',
     apiVersion: 1,
     author: opts.author || 'Your Name',
-    description: opts.description || (isChannel ? `Deliver TREK notifications over ${displayName}.` : 'Describe what your plugin does.'),
+    description: opts.description || (isChannel ? `Deliver Trip Mate notifications over ${displayName}.` : 'Describe what your plugin does.'),
     type,
     // Floor 4.0.0: the host surface this scaffold is written against — the enforced
     // apiVersion gate, the generated core-event catalog (EVENT_FAMILIES /
-    // EVENT_SNAPSHOT_GRANT), the OAuth-broker settings contract — is the TREK 4 surface.
+    // EVENT_SNAPSHOT_GRANT), the OAuth-broker settings contract — is the Trip Mate 4 surface.
     // Claiming an older floor lets the plugin install on a host where parts of it are
     // missing, which fails at the first call instead of a clear "incompatible" at install.
-    // Ceiling 5.0.0: bounded, per the trek-range rule; widen only against a tested host.
-    trek: '>=4.0.0 <5.0.0',
+    // Ceiling 5.0.0: bounded, per the tripmate-range rule; widen only against a tested host.
+    tripmate: '>=4.0.0 <5.0.0',
     nativeModules: false,
     permissions: perms,
     // Dependency declarations (empty by default). `requiredAddons` lists addon ids
@@ -154,7 +154,7 @@ export function scaffold(name: string, type: string, targetDir: string, opts: Sc
     pluginDependencies: opts.pluginDependencies ?? [],
   };
   // The store tile, the nav entry, the widget header and the admin row all render this. Omitting
-  // it is legal — TREK falls back to `Blocks` — but then every plugin that skipped it is the same
+  // it is legal — Trip Mate falls back to `Blocks` — but then every plugin that skipped it is the same
   // grey square in the store, so the scaffold picks a real one rather than leaving it out.
   manifest.icon = opts.icon && LUCIDE_ICON_NAMES.has(opts.icon) ? opts.icon : defaultIconFor(type, isChannel);
   if (egress.length) manifest.egress = egress;
@@ -213,12 +213,12 @@ export function scaffold(name: string, type: string, targetDir: string, opts: Sc
     manifest.settings = [...existing, ...OAUTH_SETTINGS.filter((s) => !seen.has(s.key))];
   }
 
-  fs.writeFileSync(path.join(root, 'trek-plugin.json'), JSON.stringify(manifest, null, 2) + '\n');
+  fs.writeFileSync(path.join(root, 'tripmate-plugin.json'), JSON.stringify(manifest, null, 2) + '\n');
   fs.writeFileSync(path.join(root, 'server', 'index.js'), isChannel ? CHANNEL_JS : SERVER_JS(perms.includes('db:own')));
-  fs.writeFileSync(path.join(root, 'README.md'), readme(name, opts.description ?? (isChannel ? `> Deliver your TREK notifications to ${displayName}.` : '> One sentence: what this plugin does.'), perms));
-  // `type: commonjs` pins how the entry is parsed everywhere (dev, tests, TREK);
+  fs.writeFileSync(path.join(root, 'README.md'), readme(name, opts.description ?? (isChannel ? `> Deliver your Trip Mate notifications to ${displayName}.` : '> One sentence: what this plugin does.'), perms));
+  // `type: commonjs` pins how the entry is parsed everywhere (dev, tests, Trip Mate);
   // the SDK is a devDependency ONLY (types + mock host) — at runtime both the
-  // dev server and TREK inject it, so it is never vendored into the artifact.
+  // dev server and Trip Mate inject it, so it is never vendored into the artifact.
   fs.writeFileSync(path.join(root, 'package.json'), JSON.stringify({
     name,
     version: '1.0.0',
@@ -251,10 +251,10 @@ It is what the plugin's store card shows, and the registry REJECTS a plugin whos
 screenshot that resolves to a real image — so this is not optional.
 
   - 16:9, 1600×900 is ideal. The card crops the edges, so leave some margin.
-  - Show the plugin doing its job, in context, inside TREK.
+  - Show the plugin doing its job, in context, inside Trip Mate.
 
-The quickest way: run \`trek-plugin dev\`, then \`trek-plugin shot\` in another terminal — it
-renders your plugin in a themed TREK frame and writes docs/screenshot.png for you.
+The quickest way: run \`tripmate-plugin dev\`, then \`tripmate-plugin shot\` in another terminal — it
+renders your plugin in a themed Trip Mate frame and writes docs/screenshot.png for you.
 
 This directory is NOT shipped in plugin.zip; it lives in your repo, and the README links it at the
 commit the registry pins.
@@ -269,9 +269,9 @@ const GITATTRIBUTES = `# The registry pins the sha256 of your packed artifact. A
 *.zip binary
 `;
 
-const CHANNEL_JS = `// A TREK notification channel — runs in an isolated child process.
+const CHANNEL_JS = `// A Trip Mate notification channel — runs in an isolated child process.
 //
-// TREK renders every notification into the recipient's language and hands it to you
+// Trip Mate renders every notification into the recipient's language and hands it to you
 // ready to send. You never touch i18n, and you never pick a recipient: the host does
 // that, then calls you once per recipient who has this channel switched on.
 //
@@ -279,7 +279,7 @@ const CHANNEL_JS = `// A TREK notification channel — runs in an isolated child
 //   - ctx.settings.get() returns undefined here (it resolves against the acting user)
 //   - trip reads are refused
 // The recipient's own settings — the fields you declared with scope: 'user' in
-// trek-plugin.json — arrive DECRYPTED as the \`config\` argument. That is the only way
+// tripmate-plugin.json — arrive DECRYPTED as the \`config\` argument. That is the only way
 // to reach them, and it is why a channel plugin cannot enumerate anyone's trips.
 const { definePlugin } = require('trek-plugin-sdk');
 
@@ -309,7 +309,7 @@ module.exports = definePlugin({
         serverUrl: await ctx.settings.get('serverUrl'),
         appToken: await ctx.settings.get('appToken'),
       };
-      await push(config, 'TREK', 'Test notification. If you can read this, your channel works.');
+      await push(config, 'Trip Mate', 'Test notification. If you can read this, your channel works.');
       return { ok: true, message: 'Connected.' };
     },
   },
@@ -325,7 +325,7 @@ module.exports = definePlugin({
 
       // Optional — backs the "Send test" button in the user's notification settings.
       async test(config) {
-        await push(config, 'TREK', 'Test notification. If you can read this, your channel works.');
+        await push(config, 'Trip Mate', 'Test notification. If you can read this, your channel works.');
       },
     },
   },
@@ -352,8 +352,8 @@ module.exports = definePlugin({
 });
 `;
 
-// The `<!-- trek:ui -->` marker is expanded by `dev` and `pack` into the inlined
-// design kit (native styles + a `window.trek` bridge). The source stays this one
+// The `<!-- tripmate:ui -->` marker is expanded by `dev` and `pack` into the inlined
+// design kit (native styles + a `window.tripmate` bridge). The source stays this one
 // line, so the starter is already themed, glassy and wired on first run.
 const CLIENT_HTML = `<!doctype html>
 <html lang="en">
@@ -361,29 +361,29 @@ const CLIENT_HTML = `<!doctype html>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Plugin</title>
-  <!-- trek:ui -->
+  <!-- tripmate:ui -->
 </head>
 <body>
-  <div class="trek-glass trek-stack" style="margin: 16px">
-    <div class="trek-title">Your plugin</div>
-    <p class="trek-muted" id="hello">Click below to call your /hello route.</p>
-    <div class="trek-cluster">
-      <button class="trek-btn trek-btn--primary" id="ping">Say hello</button>
-      <span class="trek-chip trek-chip--accent" id="who">not connected</span>
+  <div class="tripmate-glass tripmate-stack" style="margin: 16px">
+    <div class="tripmate-title">Your plugin</div>
+    <p class="tripmate-muted" id="hello">Click below to call your /hello route.</p>
+    <div class="tripmate-cluster">
+      <button class="tripmate-btn tripmate-btn--primary" id="ping">Say hello</button>
+      <span class="tripmate-chip tripmate-chip--accent" id="who">not connected</span>
     </div>
   </div>
   <script>
-    // The design kit is inlined above (window.trek + native styles). The frame is
-    // sandboxed at an opaque origin — reach TREK only through window.trek.
-    trek.onContext(function (ctx) {
+    // The design kit is inlined above (window.tripmate + native styles). The frame is
+    // sandboxed at an opaque origin — reach Trip Mate only through window.tripmate.
+    tripmate.onContext(function (ctx) {
       document.getElementById('who').textContent = (ctx.user ? ctx.user.name + ' \\u00b7 ' : '') + ctx.theme;
     });
     document.getElementById('ping').addEventListener('click', async function () {
       try {
-        var data = await trek.invoke('/hello');
+        var data = await tripmate.invoke('/hello');
         document.getElementById('hello').textContent = 'Hello, ' + ((data && data.hello) || 'traveller') + '!';
       } catch (e) {
-        trek.notify('error', e.message);
+        tripmate.notify('error', e.message);
       }
     });
   </script>
@@ -408,7 +408,7 @@ ${description}
 
 ## What it does
 
-Describe the feature this plugin adds to TREK.
+Describe the feature this plugin adds to Trip Mate.
 
 ## Screenshots
 
@@ -428,7 +428,7 @@ How to configure it.
 
 ## License
 
-Your plugin is your own code — license it however you like; TREK does not impose
+Your plugin is your own code — license it however you like; Trip Mate does not impose
 one. Replace this line with your license (for example, MIT).
 `;
 }
@@ -458,7 +458,7 @@ function insideGitRepo(dir: string): boolean {
  * Only ever called when stdout is a TTY (the dispatcher guards this).
  */
 export async function interactiveScaffold(defaultDir: string, presetName?: string): Promise<string> {
-  intro('create-trek-plugin');
+  intro('create-tripmate-plugin');
 
   const id = presetName && SLUG.test(presetName)
     ? presetName
@@ -500,7 +500,7 @@ export async function interactiveScaffold(defaultDir: string, presetName?: strin
       initialValue: 'blank',
       options: [
         { value: 'blank', label: 'blank', hint: 'an empty plugin with one example route' },
-        { value: 'notification-channel', label: 'notification channel', hint: 'deliver TREK notifications to Gotify/Pushover/…' },
+        { value: 'notification-channel', label: 'notification channel', hint: 'deliver Trip Mate notifications to Gotify/Pushover/…' },
       ],
     });
   }
@@ -542,12 +542,12 @@ export async function interactiveScaffold(defaultDir: string, presetName?: strin
     });
     egress = raw.split(',').map((s) => s.trim()).filter(Boolean);
     if (!egress.length) {
-      logInfo('No hosts named — the plugin will declare operatorEgress, and the TREK admin adds the real hosts after installing it.');
+      logInfo('No hosts named — the plugin will declare operatorEgress, and the Trip Mate admin adds the real hosts after installing it.');
     }
   }
 
   const requiredAddons = await promptMultiselect<string>({
-    message: 'Requires any TREK addons enabled? (optional — the plugin can only activate when these are on)',
+    message: 'Requires any Trip Mate addons enabled? (optional — the plugin can only activate when these are on)',
     options: KNOWN_ADDONS.map((a) => ({ value: a, label: a })),
     initialValues: [],
     required: false,
@@ -574,7 +574,7 @@ export async function interactiveScaffold(defaultDir: string, presetName?: strin
     validate: (v) => {
       const name = (v ?? '').trim();
       if (!name) return undefined; // the default is used
-      return LUCIDE_ICON_NAMES.has(name) ? undefined : `lucide has no icon called "${name}" — TREK would fall back to Blocks`;
+      return LUCIDE_ICON_NAMES.has(name) ? undefined : `lucide has no icon called "${name}" — Trip Mate would fall back to Blocks`;
     },
   }).then((v) => v.trim() || fallbackIcon);
 
@@ -637,7 +637,7 @@ export async function interactiveScaffold(defaultDir: string, presetName?: strin
  * What to do next, said ONCE.
  *
  * There used to be three of these — the wizard's outro, the `create` dispatch branch and the
- * standalone `create-trek-plugin` bin — and they named three different next commands (`dev`,
+ * standalone `create-tripmate-plugin` bin — and they named three different next commands (`dev`,
  * `dev`, `validate`). Whichever an author hit was a coin toss, and none of them mentioned that
  * the plugin they had just been handed could not be published as-is.
  *
@@ -650,8 +650,8 @@ export function nextStepsAfterCreate(dest: string): string {
   return [
     'Next steps:',
     `  cd ${cd}`,
-    '  trek-plugin dev        run it locally, hot-reloaded',
-    '  trek-plugin status     what is left before you can publish',
+    '  tripmate-plugin dev        run it locally, hot-reloaded',
+    '  tripmate-plugin status     what is left before you can publish',
     '',
     'The scaffold is not publishable yet — it needs a written README and a screenshot.',
     '`status` lists exactly what, whenever you ask it.',
@@ -668,12 +668,12 @@ if (process.argv[1] && process.argv[1].endsWith('create.js')) {
   const tplIdx = args.indexOf('--template');
   const template = (tplIdx >= 0 ? args[tplIdx + 1] : 'blank') as ScaffoldOptions['template'];
   if (!name) {
-    console.error('usage: create-trek-plugin <name> [--type integration|page|widget|trip-page] [--template blank|notification-channel]');
+    console.error('usage: create-tripmate-plugin <name> [--type integration|page|widget|trip-page] [--template blank|notification-channel]');
     process.exit(2);
   }
   try {
     scaffold(name, type, process.cwd(), { template });
-    // The SAME message the wizard and `trek-plugin create` print. These three used to disagree.
+    // The SAME message the wizard and `tripmate-plugin create` print. These three used to disagree.
     console.log(nextStepsAfterCreate(path.join(process.cwd(), name)));
   } catch (e) {
     console.error(e instanceof Error ? e.message : e);

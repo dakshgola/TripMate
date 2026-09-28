@@ -52,7 +52,7 @@ function ok<T>(result: T): Exclude<T, { error: string }> {
  * session invalidation on addon/collab changes, create-201 vs the rest 200, and
  * the dev-only test-notification endpoint (404 outside development).
  *
- * Bodies validate via admin.dto.ts (@trek/shared schemas through the global
+ * Bodies validate via admin.dto.ts (@tripmate/shared schemas through the global
  * ZodValidationPipe) — malformed bodies now get the pipe's standard
  * { error: 'field: message; …' } envelope instead of the old inline typeof
  * checks (the sanctioned ratchet behavior); valid bodies behave identically,

@@ -23,7 +23,7 @@ if (!row) throw new Error(`no book on journey ${JOURNEY}`)
  * Without it a template written today is missing tomorrow's defaults and does
  * not typecheck as a BookElement.
  */
-const { normalizeBookDocument } = require('@trek/shared')
+const { normalizeBookDocument } = require('@tripmate/shared')
 const doc = normalizeBookDocument(JSON.parse(row.document))
 const PW = doc.page.pageWidth
 const PH = doc.page.pageHeight
@@ -58,7 +58,7 @@ const body = spreads.map((s, i) => `  {
     elements: ${JSON.stringify(s.elements, null, 6).replace(/\n/g, '\n    ')},
   },`).join('\n')
 
-const file = `import type { BookElement } from '@trek/shared'
+const file = `import type { BookElement } from '@tripmate/shared'
 
 /**
  * The spread templates, as data.

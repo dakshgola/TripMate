@@ -1,6 +1,6 @@
 import { HttpException } from '@nestjs/common';
 import { z } from 'zod';
-import { idSchema, schoolHolidayCountryRequestSchema, schoolHolidayRegionRequestSchema, type SchoolHolidayCountryRequest, type SchoolHolidayRegionRequest } from '@trek/shared';
+import { idSchema, schoolHolidayCountryRequestSchema, schoolHolidayRegionRequestSchema, type SchoolHolidayCountryRequest, type SchoolHolidayRegionRequest } from '@tripmate/shared';
 import { McpController, Tool, type McpContext, TOOL_ANNOTATIONS_READONLY, TOOL_ANNOTATIONS_NON_IDEMPOTENT, TOOL_ANNOTATIONS_WRITE, TOOL_ANNOTATIONS_DELETE, errorResult, ok } from '../../nest-mcp';
 import { adminRequired } from '../../mcp/tools/_shared';
 import { McpToolGuardsService } from '../mcp-shared/mcp-tool-guards.service';

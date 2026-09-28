@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { SchoolHolidayCatalog, SchoolHolidayCountryRequest, SchoolHolidayRegionDetail, SchoolHolidayRegionRequest } from '@trek/shared'
+import type { SchoolHolidayCatalog, SchoolHolidayCountryRequest, SchoolHolidayRegionDetail, SchoolHolidayRegionRequest } from '@tripmate/shared'
 import { schoolHolidayCatalogRepo as catalogRepo } from '../../repo/schoolHolidayCatalogRepo'
 import { useTranslation } from '../../i18n'
 import { useNetworkMode } from '../../hooks/useNetworkMode'

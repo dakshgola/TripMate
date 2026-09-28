@@ -10,7 +10,7 @@ the mechanical work — you rarely hand-type a hash, size, commit, or JSON field
 
 ## The short version — one command
 
-Get the plugin green locally (`trek-plugin status` will tell you what is left), commit
+Get the plugin green locally (`tripmate-plugin status` will tell you what is left), commit
 and push it to its public GitHub repo, then:
 
 ```bash
@@ -39,7 +39,7 @@ have fixed the problem. Anything that existed before the run is never touched, a
 leftover tag from an earlier failed run — one with no release that no longer points
 at `HEAD` — is recognised as debris and **moved to your current commit** rather than
 silently releasing the stale one. And for a stranded state you already have,
-`trek-plugin unrelease <vX.Y.Z> --repo you/repo` deletes the release, the remote
+`tripmate-plugin unrelease <vX.Y.Z> --repo you/repo` deletes the release, the remote
 tag, and the local tag in one go — after checking the published registry index and
 **refusing, with no override, to touch a version that is actually published** (its
 artifact is immutable; ship a new version instead).
@@ -57,8 +57,8 @@ yourself.
 
 ## 1. Host and build your plugin
 
-Put your plugin in a **public GitHub repo** (convention: `trek-plugin-<id>`).
-`create-trek-plugin` scaffolds the layout:
+Put your plugin in a **public GitHub repo** (convention: `tripmate-plugin-<id>`).
+`create-tripmate-plugin` scaffolds the layout:
 
 ```bash
 npx trek-plugin-sdk create flight-tracker --type widget   # integration | page | widget | trip-page
@@ -66,7 +66,7 @@ npx trek-plugin-sdk create flight-tracker --type widget   # integration | page |
 
 A publishable plugin has, at the repo root:
 
-- `trek-plugin.json` — the manifest (see [[Plugin Development|Plugin-Development]])
+- `tripmate-plugin.json` — the manifest (see [[Plugin Development|Plugin-Development]])
 - `package.json` — the CommonJS marker (`"type": "commonjs"`), with the SDK as a devDependency at most
 - `server/index.js` — the built server entry (required)
 - `client/` — the built frontend (only for `page`/`widget`/`trip-page` plugins)
@@ -90,7 +90,7 @@ Repo) and names the one command to run next; it is for orientation, so it never 
 
 Between them they now catch, **offline**, nearly everything the registry rejects for:
 
-- an `icon` that isn't a real lucide name (TREK falls back to `Blocks` silently, so a
+- an `icon` that isn't a real lucide name (Trip Mate falls back to `Blocks` silently, so a
   typo is invisible locally — but CI rejects it)
 - a README missing any of the four required sections, still carrying scaffold
   placeholders, or under **400 characters** of real prose
@@ -100,13 +100,13 @@ Between them they now catch, **offline**, nearly everything the registry rejects
 - a permission your manifest declares but the README never explains
 - a `name`, `description` or `author` outside the registry's length limits, or a name
   that mixes Latin with Cyrillic/Greek look-alikes (a homoglyph spoof)
-- an `egress[]` host with no matching `http:outbound:<host>` permission — TREK builds
+- an `egress[]` host with no matching `http:outbound:<host>` permission — Trip Mate builds
   the network allow-list and the iframe CSP from those permissions only and never reads
   `egress[]`, so such a host is silently unreachable at runtime
-- a permission TREK doesn't know — the SDK and registry CI check against the same
+- a permission Trip Mate doesn't know — the SDK and registry CI check against the same
   65-entry list the host enforces, so a typo'd permission fails here instead of at
   install on every instance (the registry's copy is a manually regenerated snapshot,
-  so a brand-new TREK permission can briefly fail registry CI even though `validate`
+  so a brand-new Trip Mate permission can briefly fail registry CI even though `validate`
   accepts it — that's the snapshot lagging, not a typo)
 
 Only **six** gates genuinely need the network, because none of them can be answered from
@@ -124,9 +124,9 @@ npm i -D playwright && npx playwright install chromium   # once — not an SDK d
 npx trek-plugin-sdk shot                                 # --dark for the dark theme
 ```
 
-`shot` boots the dev server, renders your plugin in the same themed frame TREK uses,
+`shot` boots the dev server, renders your plugin in the same themed frame Trip Mate uses,
 and writes a 1600×900 `docs/screenshot.png`. An `integration` plugin has no UI to
-render, so `shot` can't help — screenshot the TREK surface your plugin changes instead.
+render, so `shot` can't help — screenshot the Trip Mate surface your plugin changes instead.
 
 Commit the screenshot. The registry resolves it **at the pinned commit**, so an image
 that exists only in your working tree fails CI even though `status` was green.
@@ -143,10 +143,10 @@ npx trek-plugin-sdk pack . --json          # machine-readable result
 and **size** you'd otherwise compute by hand. It refuses to pack a plugin that could
 not *load* — a broken manifest, a missing `server/index.js`, a native binary — but it
 deliberately does **not** enforce the publish gates (an unwritten README, a missing
-screenshot), because packing is also how you sideload a plugin into a local TREK to try
+screenshot), because packing is also how you sideload a plugin into a local Trip Mate to try
 it, and the docs only have to be there when you ship. `validate` is what gates those.
 It ships
-only what the runtime needs — `trek-plugin.json`, `README.md`, `LICENSE`,
+only what the runtime needs — `tripmate-plugin.json`, `README.md`, `LICENSE`,
 `package.json`, and the `server/` and `client/` trees — and drops `node_modules`,
 `.git`, source maps and `.ts` sources. It **refuses native binaries**
 (`.node`, `binding.gyp`, `prebuilds/`) and enforces the same size limits as the
@@ -168,7 +168,7 @@ Tag `vX.Y.Z` where `X.Y.Z` **equals** `version` in your manifest, and attach the
 packed `plugin.zip` as a release asset:
 
 ```bash
-gh release create v1.0.0 plugin.zip --repo you/trek-plugin-flight-tracker
+gh release create v1.0.0 plugin.zip --repo you/tripmate-plugin-flight-tracker
 ```
 
 Prefer the uploaded `plugin.zip` asset — it's the exact bytes you packed and the
@@ -179,20 +179,20 @@ they aren't the installer layout and their bytes aren't stable.
 
 ```bash
 npx trek-plugin-sdk entry \
-  --repo you/trek-plugin-flight-tracker \
+  --repo you/tripmate-plugin-flight-tracker \
   --tag v1.0.0 \
   --out registry/plugins/flight-tracker.json
 ```
 
 `entry` reads your manifest and `plugin.zip` and emits the complete entry —
 deriving `commitSha` (from `git rev-parse <tag>^{commit}`), `downloadUrl`,
-`sha256`, `size`, `apiVersion`, and **`trek`** — your manifest's range, verbatim.
-That range is the entry's only compatibility field: it is what TREK gates installs
+`sha256`, `size`, `apiVersion`, and **`tripmate`** — your manifest's range, verbatim.
+That range is the entry's only compatibility field: it is what Trip Mate gates installs
 and activation on. (The older `minTrekVersion`/`maxTrekVersion` are **deprecated**
 and no longer emitted — the first merely restated the range's lower bound, and the
 second is *inclusive*, so it cannot express `<4.0.0` at all. Entries published
-before `trek` existed may still carry them.) `entry` refuses to build an entry for a
-manifest with no usable `trek` range, because TREK would refuse to install it. Flags: `--zip`
+before `tripmate` existed may still carry them.) `entry` refuses to build an entry for a
+manifest with no usable `tripmate` range, because Trip Mate would refuse to install it. Flags: `--zip`
 (default `plugin.zip`), `--commit <sha>` to override commit resolution, `--asset`
 to name a differently-named release asset, `--merge` for updates (below), and
 `--out` to write a file.
@@ -253,9 +253,9 @@ file — `dist/` is generated on merge, and CI rejects manual edits to it.
 The entry follows [`schema/plugin-entry.schema.json`](https://github.com/liketrek/TREK-Plugins/blob/main/schema/plugin-entry.schema.json);
 [`schema/example-entry.json`](https://github.com/liketrek/TREK-Plugins/blob/main/schema/example-entry.json)
 is the canonical shape. `size` is **required** (a common omission), as are
-`commitSha`, `downloadUrl`, `sha256`, `trek`, `apiVersion`, and
-`nativeModules: false` on every version — all of which `trek-plugin entry` fills
-in for you. CI rejects an entry whose `trek` disagrees with the manifest at
+`commitSha`, `downloadUrl`, `sha256`, `tripmate`, `apiVersion`, and
+`nativeModules: false` on every version — all of which `tripmate-plugin entry` fills
+in for you. CI rejects an entry whose `tripmate` disagrees with the manifest at
 `commitSha` (and, on a legacy entry that still carries a `minTrekVersion`, one
 whose floor disagrees with that range).
 
@@ -263,7 +263,7 @@ whose floor disagrees with that range).
 
 CI runs `scripts/validate-entry.mjs` and `scripts/check-readme.mjs` on every
 changed `registry/plugins/*.json`. Nearly every rule below is a pure function of your
-`trek-plugin.json` and `README.md`, so `trek-plugin validate` checks it offline before
+`tripmate-plugin.json` and `README.md`, so `tripmate-plugin validate` checks it offline before
 you have tagged anything — you should never learn any of this from CI.
 
 **Entry** (`validate-entry.mjs`): valid schema · `id` matches the filename and
@@ -275,7 +275,7 @@ maintainer override) · homoglyph/mixed-script name check · `versions[]` sorted
 newest-first · the release tag exists
 and resolves to `commitSha` · manifest parity at that commit (`id`, `version`,
 `type`, `apiVersion`, and `nativeModules` must not be `true`) · every declared
-permission is on TREK's known-permission list (or a valid `http:outbound:<host>`) ·
+permission is on Trip Mate's known-permission list (or a valid `http:outbound:<host>`) ·
 **the downloaded
 artifact's SHA-256 matches the pin** and its size is within bounds · **no native
 binaries** in the archive · `egress[]` present (and no bare `*`) when
@@ -293,9 +293,9 @@ manifest declares (each permission string must appear in the README).
 ## Provenance & integrity
 
 - `commitSha` pins the exact source the maintainer reviewed (git tags are movable).
-- `sha256` pins the exact artifact bytes TREK will run (release assets are mutable).
+- `sha256` pins the exact artifact bytes Trip Mate will run (release assets are mutable).
 
-TREK verifies the downloaded bytes against `sha256` and refuses to install on a
+Trip Mate verifies the downloaded bytes against `sha256` and refuses to install on a
 mismatch. A `reviewedAt` date on your entry means a maintainer looked at that
 exact commit — it is **not** an ongoing guarantee. `reviewedAt` and `boundOwner`
 are maintained by CI on merge; don't set them yourself.
@@ -306,7 +306,7 @@ are maintained by CI on merge; don't set them yourself.
 signature additionally proves the bytes were signed by **you**, so a compromised
 registry can't ship attacker code under your name. The entry schema allows two
 optional fields — `authorPublicKey` on the entry and `signature` on each version.
-TREK verifies the signature offline (minisign / Ed25519, no external service) and
+Trip Mate verifies the signature offline (minisign / Ed25519, no external service) and
 pins your key on first install (trust-on-first-use): a later release signed with a
 different key is refused until an admin re-trusts it.
 
@@ -325,7 +325,7 @@ and `signature` (version) for you. If the plugin was already published signed,
 whose signing key's *identity* differs from the published `authorPublicKey` —
 before anything is packed, tagged or released, because a GitHub release is
 immutable and learning this at step 4 would have burned the tag. **Back up
-`~/.trek-plugin/signing.key`** — losing it means a full key rotation (see below),
+`~/.tripmate-plugin/signing.key`** — losing it means a full key rotation (see below),
 which strands every install until its admin re-trusts you.
 
 **By hand with minisign**, if you prefer:
@@ -376,14 +376,14 @@ back the key up.
 A rotation — lost key, compromised machine, planned hygiene — is the one signing
 change with a sanctioned path, and since SDK 1.7.0 the SDK drives its whole
 artifact half. Two flows, one rule: a rotated entry must have **every** version
-re-signed with the new key, because TREK verifies whichever version it installs
+re-signed with the new key, because Trip Mate verifies whichever version it installs
 against the entry's single `authorPublicKey`.
 
 **Without shipping a version:**
 
 ```bash
 npx trek-plugin-sdk rotate-key            # from the plugin dir; --id <plugin-id> from elsewhere
-# --key <file> for a key not at ~/.trek-plugin/signing.key
+# --key <file> for a key not at ~/.tripmate-plugin/signing.key
 # --out entry.json writes the rotated entry for a hand-made PR instead of opening one
 ```
 

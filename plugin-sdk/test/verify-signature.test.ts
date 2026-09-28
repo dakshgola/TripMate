@@ -3,8 +3,8 @@
  *
  * It exists so `preflight` can answer the question the REGISTRY's CI will ask, before the
  * author opens the PR. That makes agreement with the other two implementations the entire
- * point: TREK's host verifier (server/src/nest/plugins/install/verify-signature.ts) and the
- * registry's port of it (TREK-Plugins scripts/lib/verify-signature.mjs). A gate that is
+ * point: Trip Mate's host verifier (server/src/nest/plugins/install/verify-signature.ts) and the
+ * registry's port of it (Trip Mate-Plugins scripts/lib/verify-signature.mjs). A gate that is
  * merely *similar* is worse than none — a green preflight is trusted, and an entry the
  * registry rejects is one nobody can install.
  */
@@ -18,7 +18,7 @@ import path from 'node:path';
 
 /** A throwaway Ed25519 keypair, via the SDK's own keygen (not a hand-rolled one). */
 function keypair(): { key: crypto.KeyObject; pub: string } {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-sig-'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-sig-'));
   const keyPath = path.join(dir, 'signing.key');
   generateKeypair(keyPath);
   const key = loadPrivateKey(keyPath);
@@ -76,7 +76,7 @@ describe('checkSignatureShape', () => {
     expect(checkSignatureShape({ authorPublicKey: pub, versions: [{ version: '1.0.0', signature: sig }] })).toEqual([]);
   });
 
-  // Both halves of a half-signed entry. TREK refuses to install either ("incomplete
+  // Both halves of a half-signed entry. Trip Mate refuses to install either ("incomplete
   // signature: an author key and a version signature must both be present"), so merging one
   // ships an entry nobody can use — the point is to catch it before the PR, not at review.
   it('refuses a signature with no key', () => {

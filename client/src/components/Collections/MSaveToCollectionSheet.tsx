@@ -9,7 +9,7 @@ import { collectionsApi } from '../../api/collections'
 import { useSaveToCollectionStore } from '../../store/saveToCollectionStore'
 import { getApiErrorMessage } from '../../utils/apiError'
 import { STATUS_META, nextStatus } from '../../pages/collections/collectionsModel'
-import type { Collection, CollectionMembership, CollectionStatus } from '@trek/shared'
+import type { Collection, CollectionMembership, CollectionStatus } from '@tripmate/shared'
 
 /**
  * Mobile counterpart of SaveToCollectionModal — the same store-driven list

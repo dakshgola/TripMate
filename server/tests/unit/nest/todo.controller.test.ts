@@ -41,7 +41,7 @@ describe('TodoController (parity with the legacy /api/trips/:tripId/todo route)'
     // The missing-name 400 moved from a bespoke controller check into the
     // ZodValidationPipe (todoCreateItemRequestSchema) — direct method calls
     // bypass parameter pipes, so that path is covered by the e2e suite and
-    // the schema spec in @trek/shared.
+    // the schema spec in @tripmate/shared.
 
     it('creates and broadcasts', () => {
       const createItem = vi.fn().mockReturnValue({ id: 9, name: 'Pack' });

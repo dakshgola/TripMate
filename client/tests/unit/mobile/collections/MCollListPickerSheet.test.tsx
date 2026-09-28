@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react'
 import { describe, expect, it, vi } from 'vitest'
-import type { Collection } from '@trek/shared'
+import type { Collection } from '@tripmate/shared'
 import { fireEvent, render, screen, waitFor } from '../../../helpers/render'
 import MCollListPickerSheet, {
   type MCollListPickerMode,

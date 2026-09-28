@@ -1,5 +1,5 @@
 /**
- * Server-side createZodDto wrappers over the @trek/shared vacay contracts, so
+ * Server-side createZodDto wrappers over the @tripmate/shared vacay contracts, so
  * the global ZodValidationPipe (APP_PIPE) validates bodies by metatype — the
  * shared Zod schemas stay the single source of truth.
  */
@@ -18,7 +18,7 @@ import {
   vacayUpdatePlanRequestSchema,
   vacayUpdateStatsRequestSchema,
   vacayYearSettingsRequestSchema,
-} from '@trek/shared';
+} from '@tripmate/shared';
 
 export class VacayUpdatePlanDto extends createZodDto(vacayUpdatePlanRequestSchema) {}
 export class VacayAddHolidayCalendarDto extends createZodDto(vacayAddHolidayCalendarRequestSchema) {}

@@ -4,7 +4,7 @@ import type { Mock } from 'vitest'
 import { http, HttpResponse } from 'msw'
 import { render, screen, fireEvent, waitFor } from '../../../tests/helpers/render'
 import { server } from '../../../tests/helpers/msw/server'
-import type { Category } from '@trek/shared'
+import type { Category } from '@tripmate/shared'
 import { useTranslation } from '../../i18n/TranslationContext'
 import AddPlaceToCollectionModal from './AddPlaceToCollectionModal'
 

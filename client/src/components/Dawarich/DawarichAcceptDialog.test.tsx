@@ -32,7 +32,7 @@
 import React from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { fireEvent } from '@testing-library/react'
-import type { DawarichSuggestion } from '@trek/shared'
+import type { DawarichSuggestion } from '@tripmate/shared'
 import { render, screen } from '../../../tests/helpers/render'
 import DawarichAcceptDialog, { type AcceptTargetOption } from './DawarichAcceptDialog'
 

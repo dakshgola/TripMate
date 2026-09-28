@@ -119,7 +119,7 @@ describe('settings keys cannot resolve off the prototype chain', () => {
 describe('a plugin channel label is bounded by the host', () => {
   it('PSET-007 — an oversized, emoji-laden capabilities.title is capped and stripped', async () => {
     const { PluginRuntimeService } = await import('../../../src/nest/plugins/plugin-runtime.service');
-    process.env.TREK_PLUGINS_ENABLED = 'true';
+    process.env.TRIPMATE_PLUGINS_ENABLED = 'true';
 
     testDb.prepare(
       `INSERT OR REPLACE INTO plugins (id, name, status, enabled, version, permissions, granted_permissions, capabilities, config)
@@ -136,6 +136,6 @@ describe('a plugin channel label is bounded by the host', () => {
     expect(channel.id).toBe('plugin:loud');
     expect(channel.label!.length).toBeLessThanOrEqual(40);
     expect(channel.label).not.toMatch(/\p{Extended_Pictographic}/u);
-    delete process.env.TREK_PLUGINS_ENABLED;
+    delete process.env.TRIPMATE_PLUGINS_ENABLED;
   });
 });

@@ -12,7 +12,7 @@ import { DatabaseModule } from '../../src/nest/database/database.module';
 import { RealtimeModule } from '../../src/nest/realtime/realtime.module';
 import { Test } from '@nestjs/testing';
 import { seedUser, sessionCookie } from './harness';
-import { MAX_TRIP_DAYS } from '@trek/shared';
+import { MAX_TRIP_DAYS } from '@tripmate/shared';
 
 const { db } = vi.hoisted(() => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -134,7 +134,7 @@ let checkPermission: MockInstance;
 
 import { BudgetService } from '../../src/nest/budget/budget.service';
 import { TripsModule } from '../../src/nest/trips/trips.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 
 describe('Trips e2e (real auth guard + temp SQLite)', () => {
   let server: Server;

@@ -1,4 +1,4 @@
-import { escapeHtml } from '@trek/shared'
+import { escapeHtml } from '@tripmate/shared'
 
 const PHOTO_PROXY_PREFIX = '/api/maps/place-photo/'
 

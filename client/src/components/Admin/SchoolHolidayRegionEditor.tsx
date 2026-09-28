@@ -1,6 +1,6 @@
 import { useId, useState } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
-import { schoolHolidayRegionRequestSchema, type SchoolHolidayRegionDetail, type SchoolHolidayRegionRequest } from '@trek/shared'
+import { schoolHolidayRegionRequestSchema, type SchoolHolidayRegionDetail, type SchoolHolidayRegionRequest } from '@tripmate/shared'
 import { useTranslation } from '../../i18n'
 import Modal from '../shared/Modal'
 import ConfirmDialog from '../shared/ConfirmDialog'

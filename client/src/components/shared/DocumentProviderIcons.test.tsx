@@ -1,7 +1,7 @@
 // FE-DOCSYNC-ICONS-001 to FE-DOCSYNC-ICONS-014
 
 /**
- * The document providers' marks, and TREK's own.
+ * The document providers' marks, and Trip Mate's own.
  *
  * These are static files, so the only things worth holding still are the ones a
  * person would notice if they slipped: a provider the server seeds but the
@@ -11,7 +11,7 @@
  * everywhere the surrounding Tailwind box decides how big the glyph is.
  */
 import { describe, it, expect } from 'vitest'
-import { DOCUMENT_PROVIDER_IDS } from '@trek/shared'
+import { DOCUMENT_PROVIDER_IDS } from '@tripmate/shared'
 import { render } from '../../../tests/helpers/render'
 import { DOCUMENT_PROVIDER_ICONS } from './DocumentProviderIcons'
 import TrekIcon from './TrekIcon'
@@ -118,7 +118,7 @@ describe('DOCUMENT_PROVIDER_ICONS', () => {
 })
 
 describe('TrekIcon', () => {
-  it('FE-DOCSYNC-ICONS-011: renders TREK\u2019s app icon in currentColor', () => {
+  it('FE-DOCSYNC-ICONS-011: renders Trip Mate\u2019s app icon in currentColor', () => {
     const { container } = render(<TrekIcon />)
     const svg = container.querySelector('svg')
 
@@ -137,10 +137,10 @@ describe('TrekIcon', () => {
   })
 
   it('FE-DOCSYNC-ICONS-013: forwards the rest of its svg props', () => {
-    const { container } = render(<TrekIcon data-testid="trek-icon" role="img" />)
+    const { container } = render(<TrekIcon data-testid="tripmate-icon" role="img" />)
     const svg = container.querySelector('svg')!
 
-    expect(svg.getAttribute('data-testid')).toBe('trek-icon')
+    expect(svg.getAttribute('data-testid')).toBe('tripmate-icon')
     expect(svg.getAttribute('role')).toBe('img')
   })
 
@@ -148,9 +148,9 @@ describe('TrekIcon', () => {
     const { container } = render(<TrekIcon />)
     expect(container.querySelector('svg')!.getAttribute('aria-hidden')).toBe('true')
 
-    const labelled = render(<TrekIcon aria-hidden={false} aria-label="TREK" />)
+    const labelled = render(<TrekIcon aria-hidden={false} aria-label="Trip Mate" />)
     const svg = labelled.container.querySelector('svg')!
     expect(svg.getAttribute('aria-hidden')).toBe('false')
-    expect(svg.getAttribute('aria-label')).toBe('TREK')
+    expect(svg.getAttribute('aria-label')).toBe('Trip Mate')
   })
 })

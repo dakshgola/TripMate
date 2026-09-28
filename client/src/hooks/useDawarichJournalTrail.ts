@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { JourneyTrack } from '@trek/shared'
+import type { JourneyTrack } from '@tripmate/shared'
 import { dawarichRepo } from '../repo/dawarichRepo'
 import { useAddonStore } from '../store/addonStore'
 import { trailSegments } from '../components/Map/dawarichTrail'

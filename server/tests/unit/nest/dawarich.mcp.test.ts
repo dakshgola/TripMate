@@ -37,7 +37,7 @@
  */
 import { describe, it, expect, vi } from 'vitest';
 import { z, type ZodRawShape } from 'zod';
-import type { DawarichSuggestionList, DawarichTrack } from '@trek/shared';
+import type { DawarichSuggestionList, DawarichTrack } from '@tripmate/shared';
 
 import { DawarichMcp } from '../../../src/nest/integrations/dawarich.mcp';
 import { AcceptError } from '../../../src/nest/integrations/dawarich-suggestions.service';
@@ -204,7 +204,7 @@ describe('DawarichMcp surface', () => {
   ])(
     'DAWARICH-MCP-005: %s advertises readOnly=%s idempotent=%s openWorld=%s',
     (method, readOnly, idempotent, openWorld) => {
-      // openWorldHint is the one a host acts on: the list tool reads TREK's own
+      // openWorldHint is the one a host acts on: the list tool reads Trip Mate's own
       // table (the fetch from the remote instance happens on a cron), while the
       // track tool reaches the caller's Dawarich instance on every call.
       expect(toolOptions(method).annotations).toMatchObject({

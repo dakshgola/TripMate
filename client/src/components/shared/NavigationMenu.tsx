@@ -93,7 +93,7 @@ export function NavigationMenu({ targets, anchor, onClose, title }: NavigationMe
         border: '1px solid var(--border-primary)',
         borderRadius: 12,
         boxShadow: '0 10px 34px rgba(0,0,0,0.16)',
-        animation: 'trek-menu-enter 180ms cubic-bezier(0.23, 1, 0.32, 1)',
+        animation: 'tripmate-menu-enter 180ms cubic-bezier(0.23, 1, 0.32, 1)',
         willChange: 'transform, opacity',
       }}
     >

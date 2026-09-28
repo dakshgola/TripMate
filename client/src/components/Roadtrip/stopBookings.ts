@@ -1,10 +1,10 @@
 import { Ticket, type LucideIcon } from 'lucide-react'
-import { isCarrierType, isRentalType, isStoredStop } from '@trek/shared/roadtrip'
+import { isCarrierType, isRentalType, isStoredStop } from '@tripmate/shared/roadtrip'
 import { RES_ICONS } from '../Planner/DayPlanSidebar.constants'
 import { hidesOnMiddleDay } from '../../utils/dayMerge'
 import { splitReservationDateTime } from '../../utils/formatters'
 import type { Reservation } from '../../types'
-import type { RoadtripStop } from '@trek/shared/roadtrip'
+import type { RoadtripStop } from '@tripmate/shared/roadtrip'
 
 /**
  * The bookings a day carries besides its nights, its rides and its hire car: the table,

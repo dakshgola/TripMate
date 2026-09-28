@@ -183,7 +183,7 @@ describe('MAdminNotificationsSection', () => {
     );
 
     // smtp_user and smtp_from share a placeholder — the first one is the user field
-    await user.type(screen.getAllByPlaceholderText('trek@example.com')[0], 'bot');
+    await user.type(screen.getAllByPlaceholderText('tripmate@example.com')[0], 'bot');
     await user.click(screen.getAllByRole('button', { name: 'Save' })[0]);
 
     await waitFor(() => expect(bodies).toHaveLength(1));
@@ -237,12 +237,12 @@ describe('MAdminNotificationsSection', () => {
     const toast = buildToast();
     const user = userEvent.setup();
     server.use(http.post('/api/notifications/test-smtp', () => HttpResponse.json({ success: true })));
-    render(<Harness initial={{ smtp_host: 'mail.test', smtp_from: 'trek@test' }} toast={toast} />);
+    render(<Harness initial={{ smtp_host: 'mail.test', smtp_from: 'tripmate@test' }} toast={toast} />);
 
     await user.click(screen.getByRole('button', { name: 'Send test email' }));
 
     await waitFor(() => expect(toast.success).toHaveBeenCalledWith('Test email sent successfully'));
-    expect(bodies[0]).toEqual({ smtp_host: 'mail.test', smtp_from: 'trek@test' });
+    expect(bodies[0]).toEqual({ smtp_host: 'mail.test', smtp_from: 'tripmate@test' });
   });
 
   it('FE-MOB-ANOTIF-014: an unsuccessful SMTP test surfaces the server error text', async () => {
@@ -405,7 +405,7 @@ describe('MAdminNotificationsSection', () => {
     render(<Harness toast={toast} />);
 
     await user.type(screen.getByPlaceholderText('https://ntfy.sh'), 'https://ntfy.test');
-    await user.type(screen.getByPlaceholderText('trek-admin-alerts'), 'ops');
+    await user.type(screen.getByPlaceholderText('tripmate-admin-alerts'), 'ops');
     await user.type(ntfyTokenInput(), 'tk_1');
     await user.click(screen.getAllByRole('button', { name: 'Save' })[2]);
 

@@ -27,7 +27,7 @@ describe('Navbar', () => {
     expect(document.body).toBeInTheDocument();
   });
 
-  it('FE-COMP-NAVBAR-002: shows TREK logo/brand', () => {
+  it('FE-COMP-NAVBAR-002: shows Trip Mate logo/brand', () => {
     render(<Navbar />);
     // The Navbar shows the app icon — check for presence of the nav element
     expect(document.querySelector('nav') || document.body).toBeTruthy();
@@ -331,7 +331,7 @@ describe('Navbar styling and menu details', () => {
   const nav = () => document.querySelector('nav') as HTMLElement;
 
   beforeEach(() => {
-    document.documentElement.classList.remove('trek-theme-transitioning');
+    document.documentElement.classList.remove('tripmate-theme-transitioning');
     Object.defineProperty(window, 'scrollY', { value: 0, configurable: true });
   });
 
@@ -421,8 +421,8 @@ describe('Navbar styling and menu details', () => {
     });
     render(<Navbar tripTitle="Japan 2027" />);
 
-    expect(document.getElementById('trek-nav-center-slot')).not.toBeNull();
-    expect(document.querySelector('.trek-nav-pill')).toBeNull();
+    expect(document.getElementById('tripmate-nav-center-slot')).not.toBeNull();
+    expect(document.querySelector('.tripmate-nav-pill')).toBeNull();
   });
 
   it('FE-W5NAV-008: the prerelease badge only shows with a version and the flag set', () => {
@@ -472,15 +472,15 @@ describe('Navbar styling and menu details', () => {
     vi.useFakeTimers();
     try {
       fireEvent.click(theme);
-      expect(document.documentElement.classList.contains('trek-theme-transitioning')).toBe(true);
+      expect(document.documentElement.classList.contains('tripmate-theme-transitioning')).toBe(true);
 
       act(() => { vi.advanceTimersByTime(200); });
       fireEvent.click(theme); // restarts the pending timer
       act(() => { vi.advanceTimersByTime(200); });
-      expect(document.documentElement.classList.contains('trek-theme-transitioning')).toBe(true);
+      expect(document.documentElement.classList.contains('tripmate-theme-transitioning')).toBe(true);
 
       act(() => { vi.advanceTimersByTime(200); });
-      expect(document.documentElement.classList.contains('trek-theme-transitioning')).toBe(false);
+      expect(document.documentElement.classList.contains('tripmate-theme-transitioning')).toBe(false);
     } finally {
       vi.useRealTimers();
     }
@@ -501,7 +501,7 @@ describe('Navbar styling and menu details', () => {
       clear.mockRestore();
     } finally {
       vi.useRealTimers();
-      document.documentElement.classList.remove('trek-theme-transitioning');
+      document.documentElement.classList.remove('tripmate-theme-transitioning');
     }
   });
 
@@ -556,7 +556,7 @@ describe('Navbar styling and menu details', () => {
     fireEvent.click(document.querySelector('button[title]') as HTMLElement);
 
     await waitFor(() => expect(updateSetting).toHaveBeenCalledWith('dark_mode', 'dark'));
-    document.documentElement.classList.remove('trek-theme-transitioning');
+    document.documentElement.classList.remove('tripmate-theme-transitioning');
   });
 });
 
@@ -587,7 +587,7 @@ describe('Navbar layout (#1983)', () => {
   it('keeps the tab pill in the flow rather than floating over its neighbours', () => {
     withAddons(4);
     const { container } = render(<Navbar />);
-    const pill = container.querySelector('.trek-nav-pill') as HTMLElement;
+    const pill = container.querySelector('.tripmate-nav-pill') as HTMLElement;
     expect(pill).toBeTruthy();
     // The assertion that would have caught the overlap.
     expect(pill.style.position).not.toBe('absolute');
@@ -606,7 +606,7 @@ describe('Navbar layout (#1983)', () => {
   it('lets the pill shrink instead of pushing the actions off the bar', () => {
     withAddons(8);
     const { container } = render(<Navbar />);
-    const pill = container.querySelector('.trek-nav-pill') as HTMLElement;
+    const pill = container.querySelector('.tripmate-nav-pill') as HTMLElement;
     expect(pill.classList.contains('min-w-0')).toBe(true);
     expect(pill.style.overflowX).toBe('auto');
   });

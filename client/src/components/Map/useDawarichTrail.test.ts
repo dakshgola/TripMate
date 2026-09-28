@@ -34,7 +34,7 @@
  */
 import { act, renderHook, waitFor } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import type { DawarichTrack } from '@trek/shared'
+import type { DawarichTrack } from '@tripmate/shared'
 
 const { tripTrack } = vi.hoisted(() => ({ tripTrack: vi.fn() }))
 vi.mock('../../repo/dawarichRepo', () => ({ dawarichRepo: { tripTrack } }))

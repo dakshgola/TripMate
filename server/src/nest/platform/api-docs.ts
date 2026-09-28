@@ -5,7 +5,7 @@ import { readEnv } from '../../app-config';
 
 /**
  * Swagger UI + OpenAPI spec for the REST API (#1412), gated behind
- * TREK_API_DOCS_ENABLED. Must run BEFORE app.init() — SwaggerModule.setup
+ * TRIPMATE_API_DOCS_ENABLED. Must run BEFORE app.init() — SwaggerModule.setup
  * registers Express-level routes, and a post-init Express route is
  * unreachable behind the Nest router (see bootstrap.ts).
  *
@@ -13,24 +13,24 @@ import { readEnv } from '../../app-config';
  *   /api/docs-json   raw OpenAPI 3 document (generated clients, Postman)
  *   /api/docs-yaml   same, as YAML
  *
- * The bearer button works with a plain TREK session JWT: extractToken
+ * The bearer button works with a plain Trip Mate session JWT: extractToken
  * accepts `Authorization: Bearer` everywhere as the cookie fallback.
  */
 export function setupApiDocs(app: INestApplication): void {
   const version: string = readEnv().app.appVersion || (require('../../../package.json') as { version: string }).version;
   const config = new DocumentBuilder()
-    .setTitle('TREK API')
+    .setTitle('Trip Mate API')
     .setDescription(
-      'The REST API the TREK web app itself runs on. Authenticate with a session JWT — '
-      + 'either the `trek_session` cookie (same browser) or an `Authorization: Bearer <jwt>` header.',
+      'The REST API the Trip Mate web app itself runs on. Authenticate with a session JWT — '
+      + 'either the `tripmate_session` cookie (same browser) or an `Authorization: Bearer <jwt>` header.',
     )
     .setVersion(version)
     .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 'session')
-    .addCookieAuth('trek_session')
+    .addCookieAuth('tripmate_session')
     .addSecurityRequirements('session')
     .build();
   const rawDocument = SwaggerModule.createDocument(app, config);
-  // The createZodDto classes on @Body() params carry their @trek/shared Zod
+  // The createZodDto classes on @Body() params carry their @tripmate/shared Zod
   // schemas into the document; cleanupOpenApiDoc (nestjs-zod) normalizes the
   // zod-generated JSON Schema output — no double annotation, every validated
   // body is documented.

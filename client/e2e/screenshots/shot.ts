@@ -82,7 +82,7 @@ export class Shot {
    * assets ended up inconsistent.
    */
   private async settle(): Promise<void> {
-    // Bounded: TREK holds a WebSocket open at /ws, so the network never goes
+    // Bounded: Trip Mate holds a WebSocket open at /ws, so the network never goes
     // fully idle and an unbounded wait would burn the whole test timeout.
     await this.page.waitForLoadState('networkidle', { timeout: 5_000 }).catch(() => {})
     // Await, but return nothing — the resolved FontFaceSet is not serialisable.

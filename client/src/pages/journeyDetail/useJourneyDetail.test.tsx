@@ -7,7 +7,7 @@ import { render, screen, fireEvent, waitFor } from '../../../tests/helpers/rende
 import { addListener, removeListener } from '../../api/websocket';
 import { useJourneyStore } from '../../store/journeyStore';
 import type { JourneyDetail, JourneyEntry } from '../../store/journeyStore';
-import type { JourneyTrack } from '@trek/shared';
+import type { JourneyTrack } from '@tripmate/shared';
 import { useJourneyDetail } from './useJourneyDetail';
 
 let routeParams: { id?: string } = { id: '7' };

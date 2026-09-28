@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import type { BudgetFallbackFx, BudgetUnconverted } from '@trek/shared'
+import type { BudgetFallbackFx, BudgetUnconverted } from '@tripmate/shared'
 import { fetchFreshRates, isSendableRate } from '../../hooks/useExchangeRates'
 import { useTripStore } from '../../store/tripStore'
 import { isEffectivelyOffline } from '../../sync/networkMode'

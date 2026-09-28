@@ -1,5 +1,5 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import type { GoogleRouteImport, GoogleRoutePreview } from '@trek/shared';
+import type { GoogleRouteImport, GoogleRoutePreview } from '@tripmate/shared';
 import { MapsService, GOOGLE_SHORT_HOSTS, isGoogleMapsHost } from '../maps/maps.service';
 import { isDirectionsUrl, parseDirectionsUrl, MAX_DIR_WAYPOINTS } from '../places/maps-dir.helpers';
 import { safeFetchFollow } from '../../utils/ssrfGuard';

@@ -194,7 +194,7 @@ describe('useAdmin', () => {
         HttpResponse.json({ chat: false, notes: true, polls: false, whatsnext: true })
       ),
       http.get('/api/auth/app-settings', () =>
-        HttpResponse.json({ smtp_host: 'mail.test', webauthn_rp_id: 'trek.test', webauthn_origins: 'https://trek.test' })
+        HttpResponse.json({ smtp_host: 'mail.test', webauthn_rp_id: 'tripmate.test', webauthn_origins: 'https://tripmate.test' })
       )
     );
 
@@ -206,8 +206,8 @@ describe('useAdmin', () => {
     expect(result.current.placesDetailsEnabled).toBe(false);
     expect(result.current.collabFeatures).toEqual({ chat: false, notes: true, polls: false, whatsnext: true });
     expect(result.current.smtpValues.smtp_host).toBe('mail.test');
-    expect(result.current.webauthnRpId).toBe('trek.test');
-    expect(result.current.webauthnOrigins).toBe('https://trek.test');
+    expect(result.current.webauthnRpId).toBe('tripmate.test');
+    expect(result.current.webauthnOrigins).toBe('https://tripmate.test');
     expect(result.current.smtpLoaded).toBe(true);
   });
 
@@ -320,14 +320,14 @@ describe('useAdmin', () => {
     const { result } = await mountAdmin();
 
     act(() => {
-      result.current.setWebauthnRpId('  trek.test  ');
-      result.current.setWebauthnOrigins('  https://trek.test  ');
+      result.current.setWebauthnRpId('  tripmate.test  ');
+      result.current.setWebauthnOrigins('  https://tripmate.test  ');
     });
     await act(async () => {
       await result.current.handleSaveWebauthn();
     });
 
-    expect(body).toEqual({ webauthn_rp_id: 'trek.test', webauthn_origins: 'https://trek.test' });
+    expect(body).toEqual({ webauthn_rp_id: 'tripmate.test', webauthn_origins: 'https://tripmate.test' });
     expect(result.current.passkeyConfigured).toBe(true);
     expect(result.current.savingWebauthn).toBe(false);
   });

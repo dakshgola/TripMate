@@ -56,7 +56,7 @@ function formatCents(cents: number): string {
 
 /**
  * Budget MCP surface — ported from the legacy registrars: the eleven tools
- * from src/mcp/tools/budget.ts and the trek://trips/{tripId}/budget,
+ * from src/mcp/tools/budget.ts and the tripmate://trips/{tripId}/budget,
  * …/budget/per-person and …/budget/settlement resources from
  * src/mcp/resources.ts (identical names, descriptions, schemas, annotations
  * and error shapes). The registration-time gates map to `when` (the
@@ -535,7 +535,7 @@ export class BudgetMcp {
 
   @ResourceTemplate({
     name: 'trip-budget',
-    uriTemplate: 'trek://trips/{tripId}/budget',
+    uriTemplate: 'tripmate://trips/{tripId}/budget',
     description: 'Budget and expense items for a trip',
     mimeType: 'application/json',
     when: budgetAddonOn,
@@ -564,7 +564,7 @@ export class BudgetMcp {
 
   @ResourceTemplate({
     name: 'trip-budget-per-person',
-    uriTemplate: 'trek://trips/{tripId}/budget/per-person',
+    uriTemplate: 'tripmate://trips/{tripId}/budget/per-person',
     description: 'Per-person budget summary for a trip (total spent per member, split breakdown)',
     mimeType: 'application/json',
     when: budgetAddonOn,
@@ -594,7 +594,7 @@ export class BudgetMcp {
 
   @ResourceTemplate({
     name: 'trip-budget-settlement',
-    uriTemplate: 'trek://trips/{tripId}/budget/settlement',
+    uriTemplate: 'tripmate://trips/{tripId}/budget/settlement',
     description: 'Suggested settlement transactions to balance who owes whom',
     mimeType: 'application/json',
     when: budgetAddonOn,

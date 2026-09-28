@@ -10,7 +10,7 @@ import { Module } from '@nestjs/common';
  *
  * app.module.ts imports it unconditionally, which is the point. A conditional
  * import would make the module graph depend on an environment variable, and the
- * graph is built once per app while TREK_MANAGED is read live — the two do not
+ * graph is built once per app while TRIPMATE_MANAGED is read live — the two do not
  * belong in the same expression (see app-config/README.md on the boot-stable vs
  * runtime-toggled split). An empty module costs nothing to import, so the flag
  * never has to reach this far.

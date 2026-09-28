@@ -4,14 +4,14 @@ import { CHANNEL_EVENTS } from './manifest.js';
 import { PermissionDenied, HOOK_PERMISSION, USER_DATA_PERMISSION, EVENTS_PERMISSION, JOBS_PERMISSION } from './permissions.js';
 
 /**
- * A mock PluginContext for unit-testing a plugin without a running TREK
+ * A mock PluginContext for unit-testing a plugin without a running Trip Mate
  * (#plugins, M6). It enforces the SAME permission model: calling a capability
  * your plugin wasn't granted throws PERMISSION_DENIED — so a test can prove your
  * plugin degrades gracefully. Data access returns configured fixtures; the db is
  * a lightweight recorder (configure results, or use an integration test for real
  * SQL).
  *
- * That applies to the DRIVER too (`run(def)`), not just ctx: TREK gates hooks, event
+ * That applies to the DRIVER too (`run(def)`), not just ctx: Trip Mate gates hooks, event
  * subscriptions, jobs and the GDPR handlers on a permission before the plugin is ever
  * reached, and skips an ungranted plugin SILENTLY. So `run(def).hook('warningProvider')`
  * without `hook:trip-warning-provider` throws here — otherwise a green unit test would
@@ -79,7 +79,7 @@ export interface MockHostOptions {
    * Unset = any key the plugin implements can be driven. */
   declaredActions?: Array<string | { key: string; scope?: 'user' | 'instance' }>;
   /** Hosts an ADMIN supplies at runtime to an `operatorEgress: true` plugin, which by
-   * definition cannot name them in its manifest. Only `trek-plugin dev` reads this (to
+   * definition cannot name them in its manifest. Only `tripmate-plugin dev` reads this (to
    * widen its egress guard); the mock ctx makes no network calls of its own. It lives
    * here because dev-fixtures.json IS a MockHostOptions and dev spreads it in whole. */
   operatorEgressHosts?: string[];
@@ -174,7 +174,7 @@ export interface MockHost {
    * read or write refuses with RESOURCE_FORBIDDEN). Shares this host's fixtures,
    * grants and recorders. */
   userlessCtx: PluginContext;
-  /** In-memory equivalent of `window.trek.session`, with production quota enforcement. */
+  /** In-memory equivalent of `window.tripmate.session`, with production quota enforcement. */
   session: PluginSessionStorage;
   /** Everything the plugin did, for assertions. */
   calls: { method: string; args: unknown[] }[];
@@ -348,7 +348,7 @@ export function createMockHost(opts: MockHostOptions = {}): MockHost {
   const assertRight = (t: { can?: Record<string, boolean> }, right: string, tripId: number) => {
     if (t.can?.[right] === false) throw new Error(`RESOURCE_FORBIDDEN: no permission to edit trip ${tripId}`);
   };
-  // Same field caps the host applies over the open @trek/shared write schemas.
+  // Same field caps the host applies over the open @tripmate/shared write schemas.
   const capStrings = (input: Record<string, unknown>, limits: Record<string, number>) => {
     for (const [field, max] of Object.entries(limits)) {
       const v = input[field];
@@ -1509,14 +1509,14 @@ export function createMockHost(opts: MockHostOptions = {}): MockHost {
   // ctx shares every fixture and recorder but binds nobody.
   const userlessCtx = buildCtx(undefined);
 
-  // TREK gates these entry points BEFORE the plugin is reached: an ungranted hook is
+  // Trip Mate gates these entry points BEFORE the plugin is reached: an ungranted hook is
   // never offered to consumers, an ungranted subscriber is never delivered an event, and
   // an ungranted plugin's jobs are never scheduled. It does all of that silently. Refuse
   // them here so a unit test can't pass on a plugin production would never call.
   const needEntry = (perm: string, what: string) => {
     if (!grants.has(perm)) {
       throw new PermissionDenied(
-        `PERMISSION_DENIED: ${what} requires ${perm} — TREK never fires an entry point the manifest did not grant`,
+        `PERMISSION_DENIED: ${what} requires ${perm} — Trip Mate never fires an entry point the manifest did not grant`,
       );
     }
   };

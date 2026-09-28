@@ -88,47 +88,35 @@ const admin: TranslationStrings = {
   'admin.requireMfaHint':
     'Пользователи без 2FA должны завершить настройку в разделе «Настройки» перед использованием приложения.',
   'admin.apiKeys': 'API-ключи',
-  'admin.apiKeysHint': 'Откуда берутся данные о местах. Указателю TREK ключ не нужен; два поставщика ниже необязательны.',
+  'admin.apiKeysHint':
+    'Откуда берутся данные о местах. Указателю Trip Mate ключ не нужен; два поставщика ниже необязательны.',
   'admin.trekApi.badgeDefault': 'Рекомендуемый источник',
   'admin.googleCaveat.badge': 'Не рекомендуется',
   'admin.googleCaveat.body':
-    'TREK с открытым исходным кодом, и мы здесь не нейтральны. В таком масштабе отзывы и фотографии обычных заведений есть только у Google, и это и есть монополия. Поле здесь из-за отсутствия альтернативы, а не потому, что мы его советуем. Тогда каждый запрос уходит в Google.',
+    'Trip Mate с открытым исходным кодом, и мы здесь не нейтральны. В таком масштабе отзывы и фотографии обычных заведений есть только у Google, и это и есть монополия. Поле здесь из-за отсутствия альтернативы, а не потому, что мы его советуем. Тогда каждый запрос уходит в Google.',
   'admin.trekApi.tagline':
-    'Собственный указатель мест TREK. Поиск без ключа Google, без квоты и без того, чтобы кто-то считал ваши запросы.',
-  'admin.trekApi.factPlaces':
-    '73,6 миллиона мест по всему миру',
-  'admin.trekApi.factNoKey':
-    'Без ключа, без квоты',
-  'admin.trekApi.factOffline':
-    'Страновые пакеты работают офлайн',
-  'admin.trekApi.factPrivacy':
-    'Запросы никогда не записываются',
-  'admin.trekApi.more':
-    'Что внутри',
-  'admin.trekApi.fieldPhone':
-    'Телефон',
-  'admin.trekApi.fieldStableId':
-    'Постоянный идентификатор',
+    'Собственный указатель мест Trip Mate. Поиск без ключа Google, без квоты и без того, чтобы кто-то считал ваши запросы.',
+  'admin.trekApi.factPlaces': '73,6 миллиона мест по всему миру',
+  'admin.trekApi.factNoKey': 'Без ключа, без квоты',
+  'admin.trekApi.factOffline': 'Страновые пакеты работают офлайн',
+  'admin.trekApi.factPrivacy': 'Запросы никогда не записываются',
+  'admin.trekApi.more': 'Что внутри',
+  'admin.trekApi.fieldPhone': 'Телефон',
+  'admin.trekApi.fieldStableId': 'Постоянный идентификатор',
   'admin.trekApi.includedNote':
     'Описания берутся с сайта самого места, часы работы — из OpenStreetMap там, где они указаны.',
-  'admin.trekApi.notRatings':
-    'Отзывы',
-  'admin.trekApi.notPhotos':
-    'Фотографии обычных заведений',
+  'admin.trekApi.notRatings': 'Отзывы',
+  'admin.trekApi.notPhotos': 'Фотографии обычных заведений',
   'admin.trekApi.notIncludedNote':
     'Ни того, ни другого нет ни в одном открытом источнике ни за какие деньги. К этим двум ключ Google остаётся единственной дорогой.',
-  'admin.trekApi.sourcesLabel':
-    'Источники',
-  'admin.trekApi.sourcesNote':
-    'Каждое поле в ответе указывает, из какого из них оно пришло.',
-  'admin.trekApi.included':
-    'Входит',
-  'admin.trekApi.notIncluded':
-    'Не входит',
+  'admin.trekApi.sourcesLabel': 'Источники',
+  'admin.trekApi.sourcesNote': 'Каждое поле в ответе указывает, из какого из них оно пришло.',
+  'admin.trekApi.included': 'Входит',
+  'admin.trekApi.notIncluded': 'Не входит',
   'admin.mapsKey': 'API-ключ Google Maps',
   'admin.mapsKeyHint': 'Необходим для поиска мест. Получите на console.cloud.google.com',
   'admin.mapsKeyHintLong':
-    'Без ключа Google API используется рекомендуемый TREK API. С ключом дополнительно загружаются фотографии, оценки и часы работы. Создать ключ можно на console.cloud.google.com.',
+    'Без ключа Google API используется рекомендуемый Trip Mate API. С ключом дополнительно загружаются фотографии, оценки и часы работы. Создать ключ можно на console.cloud.google.com.',
   'admin.recommended': 'Рекомендуется',
   'admin.weatherKey': 'API-ключ OpenWeatherMap',
   'admin.weatherKeyHint': 'Для данных о погоде. Бесплатно на openweathermap.org',
@@ -139,12 +127,13 @@ const admin: TranslationStrings = {
     'Для поиска мест в континентальном Китае, где Google недоступен, а данных OpenStreetMap мало. Нужен ключ типа «Web 服务» (веб-сервис), а не ключ JS API. Получить можно на console.amap.com.',
   'admin.placesProvider.title': 'Провайдер поиска мест',
   'admin.placesProvider.subtitle':
-    'Собственный индекс TREK и OpenStreetMap отвечают на каждый поиск. Здесь выбирается, кого спросить дополнительно, если они ничего не нашли: «Автоматически» предпочитает Google при наличии ключа, затем Amap.',
+    'Собственный индекс Trip Mate и OpenStreetMap отвечают на каждый поиск. Здесь выбирается, кого спросить дополнительно, если они ничего не нашли: «Автоматически» предпочитает Google при наличии ключа, затем Amap.',
   'admin.placesProvider.auto': 'Автоматически',
   'admin.placesProvider.google': 'Google Places',
   'admin.placesProvider.amap': 'Amap (高德地图)',
   'admin.placesProvider.openstreetmap': 'OpenStreetMap',
-  'admin.placesProvider.missingKey': 'Для выбранного поставщика не задан ключ API, поэтому на поиск мест отвечают только индекс TREK и OpenStreetMap.',
+  'admin.placesProvider.missingKey':
+    'Для выбранного поставщика не задан ключ API, поэтому на поиск мест отвечают только индекс Trip Mate и OpenStreetMap.',
   'admin.placesProvider.saved': 'Провайдер поиска мест сохранён',
   'admin.validateKey': 'Проверить',
   'admin.keyValid': 'Подключено',
@@ -178,17 +167,23 @@ const admin: TranslationStrings = {
   'admin.placesEnrich.subtitle':
     'Показывает изображения и описание при добавлении места. Wikipedia и OpenStreetMap используются всегда; Google добавляется, если включены «Фото мест» или «Детали мест».',
   'admin.placesGoogleOnly.title': 'Искать только через Google',
-  'admin.placesGoogleOnly.subtitle': 'Каждый поиск и каждая подсказка идут в Google Places. Выключено: сначала отвечают индекс TREK и OpenStreetMap, Google спрашивается, только если они ничего не нашли.',
-  'admin.placesGoogleOnly.missingKey': 'Нужен ключ Google Maps API. Без него поиск идёт через индекс TREK и OpenStreetMap независимо от этого переключателя.',
-  'admin.placesGoogleOnly.otherProvider': 'Требуется Google как провайдер мест. Если выбран Amap или OpenStreetMap, ни один поиск не уходит в Google, как бы ни стоял этот переключатель.',
+  'admin.placesGoogleOnly.subtitle':
+    'Каждый поиск и каждая подсказка идут в Google Places. Выключено: сначала отвечают индекс Trip Mate и OpenStreetMap, Google спрашивается, только если они ничего не нашли.',
+  'admin.placesGoogleOnly.missingKey':
+    'Нужен ключ Google Maps API. Без него поиск идёт через индекс Trip Mate и OpenStreetMap независимо от этого переключателя.',
+  'admin.placesGoogleOnly.otherProvider':
+    'Требуется Google как провайдер мест. Если выбран Amap или OpenStreetMap, ни один поиск не уходит в Google, как бы ни стоял этот переключатель.',
   'admin.transitProvider.title': 'Поставщик общественного транспорта',
   'admin.transitProvider.subtitle': 'Какая служба отвечает на поиск общественного транспорта.',
   'admin.transitProvider.transitous': 'Transitous (бесплатно)',
   'admin.transitProvider.google': 'Google',
   'admin.transitProvider.transitousHint': 'GTFS-фиды сообщества. Бесплатно и без ключа, с лучшим покрытием в Европе.',
-  'admin.transitProvider.googleHint': 'Использует указанный выше ключ Google для регионов, по которым у Transitous нет данных. Оплачивается за каждый поиск — пока ключ не задан, используется Transitous.',
-  'admin.transitProvider.noKeyWarning': 'Выбран Google, но ключ Google не настроен — поиск транспорта по-прежнему использует Transitous. Добавьте ключ в разделе «Ключи API» выше.',
-  'admin.transitProvider.personalKeyWarning': 'Задан только ваш собственный ключ Google, поэтому поиск других участников по-прежнему возвращается к Transitous. Сохраните ключ выше от имени администратора, чтобы он действовал для всей установки.',
+  'admin.transitProvider.googleHint':
+    'Использует указанный выше ключ Google для регионов, по которым у Transitous нет данных. Оплачивается за каждый поиск — пока ключ не задан, используется Transitous.',
+  'admin.transitProvider.noKeyWarning':
+    'Выбран Google, но ключ Google не настроен — поиск транспорта по-прежнему использует Transitous. Добавьте ключ в разделе «Ключи API» выше.',
+  'admin.transitProvider.personalKeyWarning':
+    'Задан только ваш собственный ключ Google, поэтому поиск других участников по-прежнему возвращается к Transitous. Сохраните ключ выше от имени администратора, чтобы он действовал для всей установки.',
   'admin.placeShadow.title': 'Журнал поиска мест',
   'admin.placeShadow.subtitle':
     'Записывать, какой результат поиска был выбран, чтобы позже оценить другой индекс мест на реальных запросах. Ничего не покидает этот сервер, и администратор может в любой момент выгрузить или удалить журнал.',
@@ -291,7 +286,7 @@ const admin: TranslationStrings = {
   'admin.plugins.subtitle': 'Устанавливайте сторонние плагины и управляйте ими на вашем экземпляре.',
   'admin.plugins.disabledTitle': 'Плагины отключены',
   'admin.plugins.disabledBody':
-    'Среда выполнения плагинов выключена (TREK_PLUGINS_ENABLED). Плагины не смогут работать, пока администратор не включит её в конфигурации сервера.',
+    'Среда выполнения плагинов выключена (TRIPMATE_PLUGINS_ENABLED). Плагины не смогут работать, пока администратор не включит её в конфигурации сервера.',
   'admin.plugins.empty': 'Плагины пока не установлены.',
   'admin.plugins.loadError': 'Не удалось загрузить плагины.',
   'admin.plugins.scaffoldNote':
@@ -314,7 +309,7 @@ const admin: TranslationStrings = {
   'admin.plugins.sourceRepo': 'Репозиторий с исходным кодом',
   'admin.plugins.reportIssue': 'Сообщить о проблеме',
   'admin.plugins.homepage': 'Домашняя страница',
-  'admin.plugins.requiresTrek': 'Требуется TREK {version}+',
+  'admin.plugins.requiresTrek': 'Требуется Trip Mate {version}+',
   'admin.plugins.reviewedOn': 'Проверен {date}',
   'admin.plugins.perm.db:own': 'Хранить собственные данные в изолированной базе данных',
   'admin.plugins.perm.db:read:trips': 'Читать поездки, доступные текущему пользователю',
@@ -385,7 +380,7 @@ const admin: TranslationStrings = {
   'admin.plugins.perm.hook:calendar-source': 'Предоставлять события для календаря',
   'admin.plugins.perm.hook:place-detail-provider': 'Добавлять дополнительные сведения (отзывы, оценки, ссылки) к месту',
   'admin.plugins.perm.hook:search-provider':
-    'Отвечать на поиск мест из собственного индекса, рядом с результатами TREK',
+    'Отвечать на поиск мест из собственного индекса, рядом с результатами Trip Mate',
   'admin.plugins.perm.hook:trip-warning-provider':
     'Выдавать предупреждения проверки для поездки (отображаются в планировщике)',
   'admin.plugins.perm.hook:table-contributor':
@@ -401,11 +396,12 @@ const admin: TranslationStrings = {
     'Отмечать дни в плане цветом (например, к какому этапу поездки относится день)',
   'admin.plugins.cap.mcpTools': 'Публикует ИИ-инструменты',
   'admin.plugins.mcpToolsTitle': 'Публикуемые ИИ-инструменты',
-  'admin.plugins.mcpToolsHint': 'Ассистент может запускать их от имени пользователя. Каждый действует с правами, выданными выше.',
+  'admin.plugins.mcpToolsHint':
+    'Ассистент может запускать их от имени пользователя. Каждый действует с правами, выданными выше.',
   'admin.plugins.perm.mcp:tools':
     'Публиковать инструменты, которые ИИ-ассистент может запускать от вашего имени (он действует с правами, выданными плагину здесь, а не со своими)',
   'admin.plugins.perm.geolocation:read':
-    'Запрашивать ваше местоположение в реальном времени, пока открыто одно из его представлений (TREK читает его с разрешением на геолокацию для этого сайта, а не с отдельным разрешением плагина)',
+    'Запрашивать ваше местоположение в реальном времени, пока открыто одно из его представлений (Trip Mate читает его с разрешением на геолокацию для этого сайта, а не с отдельным разрешением плагина)',
   'admin.plugins.perm.hook:pdf-section-provider': 'Добавлять текстовые разделы в PDF-экспорт поездки',
   'admin.plugins.perm.hook:atlas-layer-provider':
     'Выделять страны на карте мира в Атласе (например, списки желаний или предупреждения для путешественников)',
@@ -434,26 +430,26 @@ const admin: TranslationStrings = {
   'admin.plugins.updateLater': 'Пока оставить выключенным',
   'admin.plugins.updateKeptOff': 'Обновление установлено — оставлено выключенным, пока вы не одобрите новые разрешения',
   'admin.plugins.reviewedMeaning':
-    '«Проверен» означает, что сопровождающий TREK проверял этот плагин на вредоносный код в каждой версии — но не его качество или работоспособность. Это не гарантия того, что плагин безвреден.',
+    '«Проверен» означает, что сопровождающий Trip Mate проверял этот плагин на вредоносный код в каждой версии — но не его качество или работоспособность. Это не гарантия того, что плагин безвреден.',
   'admin.plugins.security.title': 'Как изолируются плагины — и в чём пределы',
   'admin.plugins.security.isolationTitle': 'Каждый плагин работает в изоляции',
   'admin.plugins.security.isolationBody':
-    'Плагин работает как отдельный ограниченный процесс, который может читать только собственные файлы. Он не может читать вашу базу данных, ваш секрет для входа или ключ шифрования, не может запускать другие программы и не может записывать файлы куда-либо. Его интерфейс работает в изолированном фрейме браузера, который не может прочитать вашу сессионную cookie или взаимодействовать с окружающей страницей TREK.',
+    'Плагин работает как отдельный ограниченный процесс, который может читать только собственные файлы. Он не может читать вашу базу данных, ваш секрет для входа или ключ шифрования, не может запускать другие программы и не может записывать файлы куда-либо. Его интерфейс работает в изолированном фрейме браузера, который не может прочитать вашу сессионную cookie или взаимодействовать с окружающей страницей Trip Mate.',
   'admin.plugins.security.permsTitle': 'Что означают разрешения',
   'admin.plugins.security.permsBody':
-    'Разрешения, показанные перед установкой, — это жёсткий предел, который TREK соблюдает во время работы плагина: он буквально не может сделать ничего, чего нет в списке. Но они говорят вам, что плагин может делать, а не что он делает на самом деле. Плагин, которому разрешено читать ваши поездки и обращаться к серверу, может отправить ваши поездки на этот сервер, поэтому читайте разрешения и исходящие хосты, а не только описание.',
+    'Разрешения, показанные перед установкой, — это жёсткий предел, который Trip Mate соблюдает во время работы плагина: он буквально не может сделать ничего, чего нет в списке. Но они говорят вам, что плагин может делать, а не что он делает на самом деле. Плагин, которому разрешено читать ваши поездки и обращаться к серверу, может отправить ваши поездки на этот сервер, поэтому читайте разрешения и исходящие хосты, а не только описание.',
   'admin.plugins.security.limitsTitle': 'Что мы не можем гарантировать',
   'admin.plugins.security.limitsBody':
-    'Изоляция — это надёжная программная граница, но не абсолютная. Плагин действует ровно с теми правами, которые вы одобрили, поэтому в рамках этих прав он может вести себя иначе, чем описано, и может отправлять данные, которыми законно располагает, на заявленные им хосты. TREK не читает и не оценивает, что на самом деле делает код плагина.',
+    'Изоляция — это надёжная программная граница, но не абсолютная. Плагин действует ровно с теми правами, которые вы одобрили, поэтому в рамках этих прав он может вести себя иначе, чем описано, и может отправлять данные, которыми законно располагает, на заявленные им хосты. Trip Mate не читает и не оценивает, что на самом деле делает код плагина.',
   'admin.plugins.security.worstTitle': 'Худший случай',
   'admin.plugins.security.worstBody':
     'Вредоносный плагин, который вы включили, может злоупотребить данными и подключениями, которые вы ему предоставили, — например, слить поездки, которые ему разрешено читать. Он не может украсть пароли, подделать вход администратора, выполнять команды на вашем сервере или получить доступ к данным, которые вы не предоставили. Ущерб остаётся в пределах того, что вы одобрили, и выключение плагина его останавливает.',
   'admin.plugins.security.reviewedTitle': 'Что означает «Проверен»',
   'admin.plugins.security.reviewedBody':
-    'Проверенный плагин был вручную просканирован на вредоносный код сопровождающим TREK в каждой версии — проверен на вредоносный код, а не на то, насколько хорошо он работает. Это не обещание того, что плагин безвреден.',
+    'Проверенный плагин был вручную просканирован на вредоносный код сопровождающим Trip Mate в каждой версии — проверен на вредоносный код, а не на то, насколько хорошо он работает. Это не обещание того, что плагин безвреден.',
   'admin.plugins.security.signedTitle': 'Что означает «Подписан»',
   'admin.plugins.security.signedBody':
-    'Контрольная сумма, которую TREK проверяет при каждой установке, доказывает, что файлы — ровно те, за которые ручается реестр. Подпись доказывает другое: что они пришли от автора и подписаны ключом, который есть только у него. У подписанного плагина есть и то, и другое. Неподписанный плагин не является небезопасным — просто у него одной гарантией меньше, и большинство плагинов в реестре сегодня не подписаны.',
+    'Контрольная сумма, которую Trip Mate проверяет при каждой установке, доказывает, что файлы — ровно те, за которые ручается реестр. Подпись доказывает другое: что они пришли от автора и подписаны ключом, который есть только у него. У подписанного плагина есть и то, и другое. Неподписанный плагин не является небезопасным — просто у него одной гарантией меньше, и большинство плагинов в реестре сегодня не подписаны.',
   'admin.plugins.signed': 'Подписан',
   'admin.plugins.signedHint': 'При установке проверен по ключу подписи автора',
   'admin.plugins.unsigned': 'Без подписи',
@@ -468,20 +464,20 @@ const admin: TranslationStrings = {
   'admin.plugins.sig.invalidBody':
     'Файлы не соответствуют подписи автора. Это не то, что автор подписал: они либо повреждены, либо изменены. Это нельзя обойти.',
   'admin.plugins.sig.missingBody':
-    'Этот плагин был подписан, когда вы его устанавливали, но новая версия поставляется без подписи. TREK не примет такой откат молча. Это нельзя обойти.',
+    'Этот плагин был подписан, когда вы его устанавливали, но новая версия поставляется без подписи. Trip Mate не примет такой откат молча. Это нельзя обойти.',
   'admin.plugins.sig.incompleteBody':
     'Запись в реестре подписана наполовину: в ней объявлен ключ автора, но у версии нет подписи (или наоборот). Это ошибка на стороне плагина. Это нельзя обойти.',
   'admin.plugins.sig.pinnedKey': 'Ключ, с которым он был установлен',
   'admin.plugins.sig.newKey': 'Ключ, который он предлагает сейчас',
   'admin.plugins.sig.confirmOutOfBand':
-    'TREK не может отличить законную смену ключа от захвата — отсюда они выглядят одинаково. Прежде чем принять новый ключ, подтвердите его у автора по каналу, которому вы уже доверяете. После этого плагин будет обновлён, а новый ключ — запомнен.',
+    'Trip Mate не может отличить законную смену ключа от захвата — отсюда они выглядят одинаково. Прежде чем принять новый ключ, подтвердите его у автора по каналу, которому вы уже доверяете. После этого плагин будет обновлён, а новый ключ — запомнен.',
   'admin.plugins.sig.retrustConfirm': 'Доверять новому ключу и обновить',
   'admin.plugins.sig.cancel': 'Не доверять',
   'admin.plugins.sig.consentUnsigned':
     'Ничто не связывает эту версию с её автором — файлы совпадают с реестром, но не несут подписи автора.',
   'admin.plugins.security.trustTitle': 'Итог',
   'admin.plugins.security.trustBody':
-    'Установка плагина похожа на установку любого стороннего приложения: добавляйте только код от авторов, которым доверяете, а при сомнениях сначала проверьте его самостоятельно. TREK не несёт ответственности за сторонние плагины.',
+    'Установка плагина похожа на установку любого стороннего приложения: добавляйте только код от авторов, которым доверяете, а при сомнениях сначала проверьте его самостоятельно. Trip Mate не несёт ответственности за сторонние плагины.',
   'admin.plugins.runtimeOn': 'Среда выполнения включена',
   'admin.plugins.tabDiscover': 'Каталог',
   'admin.plugins.searchPlaceholder': 'Поиск плагинов…',
@@ -497,15 +493,16 @@ const admin: TranslationStrings = {
   'admin.plugins.sortUpdates': 'Сначала с обновлениями',
   'admin.plugins.sortDownloads': 'По загрузкам',
   'admin.plugins.updatesAvailable': 'Доступно обновлений для ваших плагинов: {count}.',
-  'admin.plugins.newerNeedsTrek': 'Доступна v{version} — требуется TREK {range}',
+  'admin.plugins.newerNeedsTrek': 'Доступна v{version} — требуется Trip Mate {range}',
   'admin.plugins.versionsTitle': 'Версии',
   'admin.plugins.versionPickerTitle': 'Сменить версию — {name}',
   'admin.plugins.versionSwitch': 'Перейти на {version}',
-  'admin.plugins.versionNeedsTrek': 'требуется TREK {range}',
+  'admin.plugins.versionNeedsTrek': 'требуется Trip Mate {range}',
   'admin.plugins.changeVersion': 'Сменить версию…',
   'admin.plugins.noVersions': 'В реестре не найдено опубликованных версий.',
   'admin.plugins.downgradeTitle': 'Откатить этот плагин?',
-  'admin.plugins.downgradeBody': 'Переход с v{from} на v{to}: данные, записанные более новой версией, остаются на месте, и старая версия может их не понять.',
+  'admin.plugins.downgradeBody':
+    'Переход с v{from} на v{to}: данные, записанные более новой версией, остаются на месте, и старая версия может их не понять.',
   'admin.plugins.downgradeConfirm': 'Откатить',
   'admin.plugins.updatesHeld': 'Обновления приостановлены на v{version}',
   'admin.plugins.resumeUpdates': 'Возобновить обновления',
@@ -564,22 +561,21 @@ const admin: TranslationStrings = {
   'admin.plugins.dep.download': 'Загрузить',
   'admin.plugins.dep.update': 'Обновить',
   'admin.plugins.dep.resolveHint': 'Загружает последнюю совместимую версию вместе с её зависимостями.',
-  'admin.plugins.dep.trekIncompatible': 'Требуется TREK {range} — на этом сервере {host}',
-  'admin.plugins.dep.trekUnknown': 'Не указано, какие версии TREK поддерживаются',
+  'admin.plugins.dep.trekIncompatible': 'Требуется Trip Mate {range} — на этом сервере {host}',
+  'admin.plugins.dep.trekUnknown': 'Не указано, какие версии Trip Mate поддерживаются',
   'admin.plugins.installCompatible': 'Установить {version}',
   'admin.plugins.installAnyway': 'Всё равно установить',
   'admin.plugins.rangeBypass.pill': 'Проверки версии отключены',
   'admin.plugins.rangeBypass.pillHint':
-    'Задано TREK_PLUGINS_IGNORE_TREK_RANGE — плагины можно устанавливать и запускать вне версий TREK, указанных их авторами',
-  'admin.plugins.rangeBypass.title': 'Вне поддерживаемых версий TREK',
-  'admin.plugins.rangeBypass.noticeTitle': 'Установлен вне поддерживаемых версий TREK',
+    'Задано TRIPMATE_PLUGINS_IGNORE_TREK_RANGE — плагины можно устанавливать и запускать вне версий Trip Mate, указанных их авторами',
+  'admin.plugins.rangeBypass.title': 'Вне поддерживаемых версий Trip Mate',
+  'admin.plugins.rangeBypass.noticeTitle': 'Установлен вне поддерживаемых версий Trip Mate',
   'admin.plugins.rangeBypass.body':
-    '«{name}» заявляет поддержку TREK {range}, а этот сервер работает на {host}. TREK пропускает его только потому, что задано TREK_PLUGINS_IGNORE_TREK_RANGE. Автор не обновил диапазон версий плагина для этого TREK, так что работоспособность не гарантируется — а в редких случаях несовместимый плагин может повредить данные TREK. Продолжайте, только если принимаете этот риск.',
+    '«{name}» заявляет поддержку Trip Mate {range}, а этот сервер работает на {host}. Trip Mate пропускает его только потому, что задано TRIPMATE_PLUGINS_IGNORE_TREK_RANGE. Автор не обновил диапазон версий плагина для этого Trip Mate, так что работоспособность не гарантируется — а в редких случаях несовместимый плагин может повредить данные Trip Mate. Продолжайте, только если принимаете этот риск.',
   'admin.plugins.rangeBypass.bodyUnknown':
-    '«{name}» не указывает, какие версии TREK он поддерживает; этот сервер работает на {host}. TREK пропускает его только потому, что задано TREK_PLUGINS_IGNORE_TREK_RANGE. Ничто не говорит о том, что автор тестировал его на этом TREK, так что работоспособность не гарантируется — а в редких случаях несовместимый плагин может повредить данные TREK. Продолжайте, только если принимаете этот риск.',
-  'admin.plugins.dep.trekBypassed':
-    'Вне своего диапазона TREK ({range}) — проверки версии отключены',
-  'admin.plugins.dep.trekBypassedUnknown': 'Диапазон TREK не указан — проверки версии отключены',
+    '«{name}» не указывает, какие версии Trip Mate он поддерживает; этот сервер работает на {host}. Trip Mate пропускает его только потому, что задано TRIPMATE_PLUGINS_IGNORE_TREK_RANGE. Ничто не говорит о том, что автор тестировал его на этом Trip Mate, так что работоспособность не гарантируется — а в редких случаях несовместимый плагин может повредить данные Trip Mate. Продолжайте, только если принимаете этот риск.',
+  'admin.plugins.dep.trekBypassed': 'Вне своего диапазона Trip Mate ({range}) — проверки версии отключены',
+  'admin.plugins.dep.trekBypassedUnknown': 'Диапазон Trip Mate не указан — проверки версии отключены',
   'admin.plugins.incompatible': 'Несовместимо',
   'admin.plugins.accessTitle': 'К чему есть доступ',
   'admin.plugins.connectsTitle': 'Подключается к',
@@ -591,7 +587,7 @@ const admin: TranslationStrings = {
   'admin.plugins.metaReviewed': 'Проверен',
   'admin.plugins.downloads': 'Загрузки',
   'admin.addons.title': 'Дополнения',
-  'admin.addons.subtitle': 'Включайте или отключайте функции для настройки TREK под себя.',
+  'admin.addons.subtitle': 'Включайте или отключайте функции для настройки Trip Mate под себя.',
   'admin.addons.catalog.memories.name': 'Фото (Immich)',
   'admin.addons.catalog.memories.description': 'Делитесь фотографиями из поездок через Immich',
   'admin.addons.catalog.mcp.name': 'MCP',
@@ -609,7 +605,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.collab.name': 'Collab',
   'admin.addons.catalog.collab.description': 'Заметки, опросы, чат и подсказки для совместного планирования',
   'admin.addons.catalog.roadtrip.name': 'Автопутешествие',
-  'admin.addons.catalog.roadtrip.description': 'Планируйте поездки с остановками: время в пути и прибытия пересчитывается автоматически',
+  'admin.addons.catalog.roadtrip.description':
+    'Планируйте поездки с остановками: время в пути и прибытия пересчитывается автоматически',
   'admin.addons.subtitleBefore': 'Включайте или отключайте функции для настройки ',
   'admin.addons.subtitleAfter': ' под себя.',
   'admin.addons.catalog.naver_list_import.name': 'Naver List Import',
@@ -620,7 +617,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.dawarich.description':
     'Чтение посещений и записанных маршрутов из экземпляра Dawarich, который каждый пользователь подключает сам',
   'admin.addons.catalog.llm_parsing.name': 'Разбор с помощью ИИ',
-  'admin.addons.catalog.llm_parsing.description': 'Читает брони, которые не понимает встроенный анализатор, с помощью выбранной вами модели ИИ',
+  'admin.addons.catalog.llm_parsing.description':
+    'Читает брони, которые не понимает встроенный анализатор, с помощью выбранной вами модели ИИ',
   'admin.addons.enabled': 'Включено',
   'admin.addons.disabled': 'Отключено',
   'admin.addons.type.trip': 'Поездка',
@@ -636,7 +634,7 @@ const admin: TranslationStrings = {
   'admin.weather.title': 'Данные о погоде',
   'admin.weather.badge': 'С 24 марта 2026',
   'admin.weather.description':
-    'TREK использует Open-Meteo как источник данных о погоде. Open-Meteo — бесплатный сервис с открытым кодом, API-ключ не требуется.',
+    'Trip Mate использует Open-Meteo как источник данных о погоде. Open-Meteo — бесплатный сервис с открытым кодом, API-ключ не требуется.',
   'admin.weather.forecast': 'Прогноз на 16 дней',
   'admin.weather.forecastDesc': 'Ранее 5 дней (OpenWeatherMap)',
   'admin.weather.climate': 'Исторические климатические данные',
@@ -693,15 +691,15 @@ const admin: TranslationStrings = {
   'admin.github.hideDetails': 'Скрыть подробности',
   'admin.github.loadMore': 'Загрузить ещё',
   'admin.github.loading': 'Загрузка...',
-  'admin.github.support': 'Помогает продолжать разработку TREK',
+  'admin.github.support': 'Помогает продолжать разработку Trip Mate',
   'admin.github.error': 'Не удалось загрузить релизы',
   'admin.github.by': 'от',
   'admin.update.available': 'Доступно обновление',
-  'admin.update.text': 'Доступна версия TREK {version}. У вас установлена {current}.',
+  'admin.update.text': 'Доступна версия Trip Mate {version}. У вас установлена {current}.',
   'admin.update.button': 'Посмотреть на GitHub',
   'admin.update.install': 'Установить обновление',
   'admin.update.confirmTitle': 'Установить обновление?',
-  'admin.update.confirmText': 'TREK будет обновлён с {current} до {version}. Сервер перезапустится автоматически.',
+  'admin.update.confirmText': 'Trip Mate будет обновлён с {current} до {version}. Сервер перезапустится автоматически.',
   'admin.update.dataInfo':
     'Все ваши данные (поездки, пользователи, API-ключи, загрузки, Vacay, Atlas, бюджеты) будут сохранены.',
   'admin.update.warning': 'Приложение будет кратковременно недоступно во время перезапуска.',
@@ -713,9 +711,9 @@ const admin: TranslationStrings = {
   'admin.update.backupLink': 'Перейти к резервным копиям',
   'admin.update.howTo': 'Как обновить',
   'admin.update.dockerText':
-    'Ваш экземпляр TREK работает в Docker. Для обновления до {version} выполните следующие команды на сервере:',
+    'Ваш экземпляр Trip Mate работает в Docker. Для обновления до {version} выполните следующие команды на сервере:',
   'admin.update.nonDockerText':
-    'Этот экземпляр TREK работает не в Docker. Чтобы обновиться до {version}, повторно запустите способ установки или обновления, который вы использовали, — например, в Proxmox Community Scripts выполните обновление из консоли LXC:',
+    'Этот экземпляр Trip Mate работает не в Docker. Чтобы обновиться до {version}, повторно запустите способ установки или обновления, который вы использовали, — например, в Proxmox Community Scripts выполните обновление из консоли LXC:',
   'admin.update.wikiLink': 'Открыть руководство по обновлению',
   'admin.update.reloadHint': 'Перезагрузите страницу через несколько секунд.',
   'admin.tabs.permissions': 'Разрешения',
@@ -745,7 +743,7 @@ const admin: TranslationStrings = {
     'Также используется как сервер по умолчанию для ntfy-уведомлений пользователей. Оставьте пустым, чтобы использовать ntfy.sh. Пользователи могут изменить это в своих настройках.',
   'admin.notifications.adminNtfyPanel.serverPlaceholder': 'https://ntfy.sh',
   'admin.notifications.adminNtfyPanel.topicLabel': 'Тема администратора',
-  'admin.notifications.adminNtfyPanel.topicPlaceholder': 'trek-admin-alerts',
+  'admin.notifications.adminNtfyPanel.topicPlaceholder': 'tripmate-admin-alerts',
   'admin.notifications.adminNtfyPanel.tokenLabel': 'Токен доступа (необязательно)',
   'admin.notifications.adminNtfyPanel.tokenCleared': 'Токен доступа администратора очищен',
   'admin.notifications.adminNtfyPanel.saved': 'Настройки Ntfy администратора сохранены',
@@ -766,7 +764,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.journey.description':
     'Отслеживание поездок и дневник путешествий с отметками, фото и ежедневными историями',
   'admin.addons.catalog.collections.name': 'Коллекции',
-  'admin.addons.catalog.collections.description': 'Собирайте места из любых поездок в именованные списки и используйте их снова',
+  'admin.addons.catalog.collections.description':
+    'Собирайте места из любых поездок в именованные списки и используйте их снова',
   'admin.passkey.title': 'Вход по passkey',
   'admin.passkey.cardHint': 'Разрешите пользователям входить с помощью passkeys (WebAuthn). По умолчанию выключено.',
   'admin.passkey.login': 'Включить вход по passkey',
@@ -776,10 +775,10 @@ const admin: TranslationStrings = {
     'Для этого развёртывания пока не определён домен WebAuthn. Задайте APP_URL или Relying Party ID ниже — до этого passkeys остаются скрытыми.',
   'admin.passkey.rpId': 'Relying Party ID (домен)',
   'admin.passkey.rpIdHint':
-    'Голый домен, к которому привязаны passkeys, напр. trek.example.org. Оставьте пустым, чтобы определить его из APP_URL. Последующее изменение делает существующие passkeys недействительными.',
+    'Голый домен, к которому привязаны passkeys, напр. tripmate.example.org. Оставьте пустым, чтобы определить его из APP_URL. Последующее изменение делает существующие passkeys недействительными.',
   'admin.passkey.origins': 'Разрешённые источники',
   'admin.passkey.originsHint':
-    'Полные источники через запятую, напр. https://trek.example.org. Оставьте пустым, чтобы использовать APP_URL.',
+    'Полные источники через запятую, напр. https://tripmate.example.org. Оставьте пустым, чтобы использовать APP_URL.',
   'admin.passkey.reset': 'Сбросить passkeys',
   'admin.passkey.resetHint':
     'Удалить все passkeys этого пользователя (напр. при потере устройства). Он по-прежнему сможет войти по паролю.',

@@ -1,11 +1,11 @@
 import type {
   BookDocument, BookElement, BookMetric, BookPageSetup, BookSpread, JourneyStats,
-} from '@trek/shared'
+} from '@tripmate/shared'
 import {
   MAX_BOOK_COUNTRIES, MAX_BOOK_TITLE, MAX_COUNTRY_NAME, MAX_MAP_POINTS,
   MAX_MAP_POINT_LABEL, MAX_PATH_POINTS, MAX_PATH_SEGMENTS, MAX_SPREADS,
   MAX_SPREAD_ELEMENTS, MAX_TEXT_LENGTH,
-} from '@trek/shared'
+} from '@tripmate/shared'
 import { SPREAD_TEMPLATES } from './bookTemplates.data'
 import { applyTemplate, templateFit } from './applyTemplate'
 import { formatBookCoords, formatBookDate } from './entryText'
@@ -93,7 +93,7 @@ export interface AutoInput {
   /**
    * The real geometry of the route, when the journey has any.
    *
-   * GPX and KML imports are the only thing in TREK that stores an actual path
+   * GPX and KML imports are the only thing in Trip Mate that stores an actual path
    * — every other route is a straight line between stops. The editor already
    * fetches it for the Travel panel; an auto-laid-out book used to hard-code an
    * empty array here and throw it away, which is why the one journey with a

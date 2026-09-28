@@ -13,7 +13,7 @@ import { getOfflinePrefs } from './offlinePrefs'
 import { randomId } from '../utils/randomId'
 import type { QueuedMutation } from '../db/offlineDb'
 import type { Table } from 'dexie'
-import { roadtripPreferencesResponseSchema, assignmentSchema } from '@trek/shared'
+import { roadtripPreferencesResponseSchema, assignmentSchema } from '@tripmate/shared'
 import { cacheAssignment } from '../db/cacheAssignment'
 
 // Map Dexie table names used in `resource` field → actual Dexie tables.

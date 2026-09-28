@@ -13,12 +13,12 @@ import { addListener, removeListener } from '../../api/websocket'
 import { useIsPhone } from '../../mobile/useIsPhone'
 
 // The design-token contract handed to plugins (#4 richer context): non-secret CSS
-// values, resolved for the CURRENT theme, so a plugin can match TREK exactly (and
+// values, resolved for the CURRENT theme, so a plugin can match Trip Mate exactly (and
 // re-match on a theme toggle / accent change) instead of hard-coding a mirror of
 // the palette that drifts. Names mirror index.css so a plugin can apply them
 // verbatim as CSS variables. This is the whole GLOBAL (:root/.dark) palette — the
 // part that a user can recolour via appearance settings (accent scheme, custom
-// accent, high-contrast) flows through here live. The glassy `.trek-dash` layer
+// accent, high-contrast) flows through here live. The glassy `.tripmate-dash` layer
 // (--glass-*/--r-*/--sh-*) is intentionally NOT read here: it is scoped to the
 // dashboard subtree, so it resolves EMPTY at documentElement — the SDK design kit
 // bakes those values instead (they don't vary with the accent, only light/dark).
@@ -147,7 +147,7 @@ function readAppearance() {
  * (#plugins, M3).
  *
  * The frame is served same-origin from /plugin-frame/:id but sandboxed WITHOUT
- * allow-same-origin, so it runs at an OPAQUE origin: no access to the trek_session
+ * allow-same-origin, so it runs at an OPAQUE origin: no access to the tripmate_session
  * cookie, no parent DOM, no credentialed fetch. Its only channel is postMessage,
  * and we authenticate every inbound message by the SENDER WINDOW IDENTITY
  * (event.source === our iframe), never by a claimed id or by origin (which is
@@ -167,7 +167,7 @@ interface PluginFrameProps {
   /**
    * Full-page hosts (trip tab, /plugins/:id) set this so the frame always fills
    * its container. Without it a kit-based plugin auto-reports its content height
-   * (trek:resize) and the page collapses to a floating island with dead space
+   * (tripmate:resize) and the page collapses to a floating island with dead space
    * below — right for dashboard widgets, wrong for a page.
    */
   fill?: boolean
@@ -191,19 +191,19 @@ interface PluginFrameProps {
 type PluginSessionStorageScope = 'plugin' | 'trip'
 
 type Inbound =
-  | { type: 'trek:ready' }
-  | { type: 'trek:context:request' }
-  | { type: 'trek:navigate'; to: string }
-  | { type: 'trek:notify'; level?: 'info' | 'success' | 'warning' | 'error'; message?: string; duration?: number }
-  | { type: 'trek:resize'; height?: number }
-  | { type: 'trek:invoke'; requestId: string; sub: string; method?: string; body?: unknown }
-  | { type: 'trek:session:get'; requestId: string; key: string; scope?: PluginSessionStorageScope }
-  | { type: 'trek:session:set'; requestId: string; key: string; value: unknown; scope?: PluginSessionStorageScope }
-  | { type: 'trek:session:remove'; requestId: string; key: string; scope?: PluginSessionStorageScope }
-  | { type: 'trek:session:clear'; requestId: string; scope?: PluginSessionStorageScope }
-  | { type: 'trek:confirm'; requestId: string; title?: string; message?: string; confirmLabel?: string; cancelLabel?: string; danger?: boolean }
-  | { type: 'trek:openExternal'; url?: string }
-  | { type: 'trek:geolocation'; requestId: string; action?: 'get' | 'watch' | 'clear' }
+  | { type: 'tripmate:ready' }
+  | { type: 'tripmate:context:request' }
+  | { type: 'tripmate:navigate'; to: string }
+  | { type: 'tripmate:notify'; level?: 'info' | 'success' | 'warning' | 'error'; message?: string; duration?: number }
+  | { type: 'tripmate:resize'; height?: number }
+  | { type: 'tripmate:invoke'; requestId: string; sub: string; method?: string; body?: unknown }
+  | { type: 'tripmate:session:get'; requestId: string; key: string; scope?: PluginSessionStorageScope }
+  | { type: 'tripmate:session:set'; requestId: string; key: string; value: unknown; scope?: PluginSessionStorageScope }
+  | { type: 'tripmate:session:remove'; requestId: string; key: string; scope?: PluginSessionStorageScope }
+  | { type: 'tripmate:session:clear'; requestId: string; scope?: PluginSessionStorageScope }
+  | { type: 'tripmate:confirm'; requestId: string; title?: string; message?: string; confirmLabel?: string; cancelLabel?: string; danger?: boolean }
+  | { type: 'tripmate:openExternal'; url?: string }
+  | { type: 'tripmate:geolocation'; requestId: string; action?: 'get' | 'watch' | 'clear' }
 
 /** The wire shape of a position sent to the frame — plain data, no prototype. */
 function geoPosition(p: GeolocationPosition) {
@@ -230,14 +230,14 @@ interface ConfirmRequest {
   danger: boolean
 }
 
-const PLUGIN_SESSION_NAMESPACE = 'trek:plugin-session:'
+const PLUGIN_SESSION_NAMESPACE = 'tripmate:plugin-session:'
 const PLUGIN_SESSION_MAX_KEY_LENGTH = 64
 const PLUGIN_SESSION_MAX_KEYS = 32
 const PLUGIN_SESSION_MAX_VALUE_BYTES = 1024
 
 /**
  * Returns all host-owned storage keys in one plugin scope (plugin-wide or a
- * specific trip), excluding TREK state and every other plugin/scope.
+ * specific trip), excluding Trip Mate state and every other plugin/scope.
  */
 function getScopedSessionKeys(scopeKeyPrefix: string) {
   const keys: string[] = []
@@ -252,15 +252,15 @@ function getScopedSessionKeys(scopeKeyPrefix: string) {
  * Creates the prefix and full key for host-owned plugin session storage.
  *
  *   Storage Keys:
- *   trek:plugin-session:{userId}:{pluginId}:plugin:{key}
- *   trek:plugin-session:{userId}:{pluginId}:trip:{tripId}:{key}
+ *   tripmate:plugin-session:{userId}:{pluginId}:plugin:{key}
+ *   tripmate:plugin-session:{userId}:{pluginId}:trip:{tripId}:{key}
  *
  *   Scope Prefix:
- *   trek:plugin-session:{userId}:{pluginId}:plugin
- *   trek:plugin-session:{userId}:{pluginId}:trip:{tripId}
+ *   tripmate:plugin-session:{userId}:{pluginId}:plugin
+ *   tripmate:plugin-session:{userId}:{pluginId}:trip:{tripId}
  *
  *   Plugin Prefix:
- *   trek:plugin-session:{userId}:{pluginId}
+ *   tripmate:plugin-session:{userId}:{pluginId}
  *
  *
  * Each dynamic segment is URI-encoded, so plugin-controlled values cannot alter
@@ -297,7 +297,7 @@ export default function PluginFrame({ pluginId, tripId = null, placeId = null, d
   // the bridge once a second document loads. NOTE: this is best-effort — the load
   // event fires at end-of-document, so a navigated attacker doc that posts during
   // its own load (or holds it open) can still reach the bridge for one exchange.
-  // The exposure is bounded (only this plugin's own routes + the trek:context
+  // The exposure is bounded (only this plugin's own routes + the tripmate:context
   // ids the plugin already had; never the httpOnly cookie); fully closing it
   // would require not running plugin client JS at all.
   const loadsRef = useRef(0)
@@ -321,7 +321,7 @@ export default function PluginFrame({ pluginId, tripId = null, placeId = null, d
   const [height, setHeight] = useState<number | null>(null)
   // A host-rendered ConfirmDialog on the plugin's behalf: sandboxed frames have no
   // allow-modals and can't overlay the host, so destructive plugin actions get the
-  // same native confirm every TREK feature uses. One at a time; extras are refused.
+  // same native confirm every Trip Mate feature uses. One at a time; extras are refused.
   // The ref mirrors the state so the message handler can gate + answer without
   // side effects inside a setState updater (StrictMode runs updaters twice).
   const [confirmReq, setConfirmReq] = useState<ConfirmRequest | null>(null)
@@ -340,12 +340,12 @@ export default function PluginFrame({ pluginId, tripId = null, placeId = null, d
   const geoWatchRef = useRef<number | null>(null)
 
   // opaque frame -> targetOrigin must be '*'. Hoisted so the iframe's onLoad can
-  // deliver the context too: the trek:ready handshake alone is racy — if the frame
+  // deliver the context too: the tripmate:ready handshake alone is racy — if the frame
   // boots before the effect's listener attaches, the plugin never learns the theme
   // and falls back to the OS scheme (dark mode looking "off" until a toggle).
   const postFrame = useCallback((msg: unknown) => frameRef.current?.contentWindow?.postMessage(msg, '*'), [])
   const buildContext = useCallback(() => ({
-    type: 'trek:context',
+    type: 'tripmate:context',
     tripId,
     placeId,
     dayId,
@@ -359,7 +359,7 @@ export default function PluginFrame({ pluginId, tripId = null, placeId = null, d
     hostOrigin: window.location.origin,
     // #4 richer context — non-secret display data so plugins render natively:
     // who the user is (name/avatar/isAdmin — never email/role beyond a boolean),
-    // how TREK formats things, the resolved theme tokens, and the appearance state
+    // how Trip Mate formats things, the resolved theme tokens, and the appearance state
     // (accent scheme, density, reduced-motion / no-transparency) so a plugin can
     // mirror the same look and accessibility choices as the host.
     user: userName != null ? { name: userName, avatar: userAvatar, isAdmin } : null,
@@ -402,17 +402,17 @@ export default function PluginFrame({ pluginId, tripId = null, placeId = null, d
       if (!msg || typeof msg !== 'object') return
 
       switch (msg.type) {
-        case 'trek:ready':
-        case 'trek:context:request':
+        case 'tripmate:ready':
+        case 'tripmate:context:request':
           post(context())
           break
-        case 'trek:navigate': {
+        case 'tripmate:navigate': {
           const to = typeof msg.to === 'string' ? msg.to : ''
           // In-app paths only; block protocol-relative and admin unless allowed by the app itself.
           if (/^\/[a-zA-Z0-9/_?=&%.-]*$/.test(to) && !to.startsWith('//')) navigate(to)
           break
         }
-        case 'trek:notify': {
+        case 'tripmate:notify': {
           const text = String(msg.message ?? '').slice(0, 200)
           const level = msg.level ?? 'info'
           if (!text) break
@@ -424,11 +424,11 @@ export default function PluginFrame({ pluginId, tripId = null, placeId = null, d
           else show(text)
           break
         }
-        case 'trek:confirm': {
+        case 'tripmate:confirm': {
           if (typeof msg.requestId !== 'string' || !msg.requestId) break
           if (confirmReqRef.current) {
             // One dialog at a time — answer the newcomer 'not confirmed' right away.
-            post({ type: 'trek:confirm:result', requestId: msg.requestId, confirmed: false })
+            post({ type: 'tripmate:confirm:result', requestId: msg.requestId, confirmed: false })
             break
           }
           const req: ConfirmRequest = {
@@ -443,7 +443,7 @@ export default function PluginFrame({ pluginId, tripId = null, placeId = null, d
           setConfirmReq(req)
           break
         }
-        case 'trek:openExternal': {
+        case 'tripmate:openExternal': {
           // The sandbox has no allow-popups, so the HOST opens the link — but only
           // real web URLs, never javascript:/data:/file: or anything else.
           try {
@@ -454,21 +454,21 @@ export default function PluginFrame({ pluginId, tripId = null, placeId = null, d
           } catch { /* not a URL — ignore */ }
           break
         }
-        case 'trek:resize':
+        case 'tripmate:resize':
           if (!fill && typeof msg.height === 'number' && msg.height > 0) setHeight(Math.min(msg.height, 2000))
           break
-        case 'trek:invoke': {
+        case 'tripmate:invoke': {
           // The plugin's own route, called host-side with the user's session.
           try {
             const data = await pluginsApi.invoke(pluginId, msg.sub, { method: msg.method, body: msg.body })
-            post({ type: 'trek:response', requestId: msg.requestId, data })
+            post({ type: 'tripmate:response', requestId: msg.requestId, data })
           } catch (e) {
             const err = e as { response?: { status?: number }; message?: string }
-            post({ type: 'trek:error', requestId: msg.requestId, code: err.response?.status ?? 'error', message: err.message ?? 'invoke failed' })
+            post({ type: 'tripmate:error', requestId: msg.requestId, code: err.response?.status ?? 'error', message: err.message ?? 'invoke failed' })
           }
           break
         }
-        case 'trek:geolocation': {
+        case 'tripmate:geolocation': {
           // The sandbox blocks navigator.geolocation inside the frame (deliberately —
           // no blanket permissions-policy delegation). The HOST reads the position and
           // posts plain data, gated on the plugin's geolocation:read grant, and the
@@ -476,21 +476,21 @@ export default function PluginFrame({ pluginId, tripId = null, placeId = null, d
           // reaches the server — the position only travels parent → this frame.
           if (typeof msg.requestId !== 'string' || !msg.requestId) break
           const requestId = msg.requestId
-          const fail = (error: string) => post({ type: 'trek:geolocation:result', requestId, error })
+          const fail = (error: string) => post({ type: 'tripmate:geolocation:result', requestId, error })
           if (!geoAllowedRef.current) { fail('forbidden'); break }
           if (!('geolocation' in navigator)) { fail('unsupported'); break }
           const action = msg.action ?? 'get'
           if (action === 'clear') {
             if (geoWatchRef.current != null) { navigator.geolocation.clearWatch(geoWatchRef.current); geoWatchRef.current = null }
-            post({ type: 'trek:geolocation:result', requestId, cleared: true })
+            post({ type: 'tripmate:geolocation:result', requestId, cleared: true })
             break
           }
           const geoOpts = { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 }
           if (action === 'watch') {
             // One watch per frame — a new request replaces the old one. Confirmed
-            // immediately; positions stream as trek:geolocation:update messages.
+            // immediately; positions stream as tripmate:geolocation:update messages.
             if (geoWatchRef.current != null) navigator.geolocation.clearWatch(geoWatchRef.current)
-            post({ type: 'trek:geolocation:result', requestId, watching: true })
+            post({ type: 'tripmate:geolocation:result', requestId, watching: true })
             // Re-check the grant on every fix, not just at start: if an admin revokes
             // geolocation:read while the frame stays open, the stream stops at once.
             const stillAllowed = () => {
@@ -499,20 +499,20 @@ export default function PluginFrame({ pluginId, tripId = null, placeId = null, d
               return false
             }
             geoWatchRef.current = navigator.geolocation.watchPosition(
-              (p) => { if (loadsRef.current <= 1 && stillAllowed()) post({ type: 'trek:geolocation:update', position: geoPosition(p) }) },
-              (e) => { if (loadsRef.current <= 1 && stillAllowed()) post({ type: 'trek:geolocation:update', error: geoErrorCode(e) }) },
+              (p) => { if (loadsRef.current <= 1 && stillAllowed()) post({ type: 'tripmate:geolocation:update', position: geoPosition(p) }) },
+              (e) => { if (loadsRef.current <= 1 && stillAllowed()) post({ type: 'tripmate:geolocation:update', error: geoErrorCode(e) }) },
               geoOpts,
             )
             break
           }
           navigator.geolocation.getCurrentPosition(
-            (p) => { if (loadsRef.current <= 1) post({ type: 'trek:geolocation:result', requestId, position: geoPosition(p) }) },
+            (p) => { if (loadsRef.current <= 1) post({ type: 'tripmate:geolocation:result', requestId, position: geoPosition(p) }) },
             (e) => { if (loadsRef.current <= 1) fail(geoErrorCode(e)) },
             geoOpts,
           )
           break
         }
-        case 'trek:session:clear': {
+        case 'tripmate:session:clear': {
           // Same guard the other request/response handlers apply: without an id
           // the frame could never match our answer to its call.
           if (typeof msg.requestId !== 'string' || !msg.requestId) break
@@ -520,69 +520,69 @@ export default function PluginFrame({ pluginId, tripId = null, placeId = null, d
 
           // tripId required if we are on a trip-scoped key.
           if (scope === 'trip' && tripId == null) {
-            post({ type: 'trek:error', requestId: msg.requestId, code: 'NO_TRIP_CONTEXT', message: 'trip session storage requires a trip context' })
+            post({ type: 'tripmate:error', requestId: msg.requestId, code: 'NO_TRIP_CONTEXT', message: 'trip session storage requires a trip context' })
             break
           }
 
           const { scopeKeyPrefix } = createPluginSessionStorageKeys(userId, pluginId, scope, tripId)
           try {
             getScopedSessionKeys(scopeKeyPrefix).forEach((storageKey) => sessionStorage.removeItem(storageKey))
-            post({ type: 'trek:response', requestId: msg.requestId, data: undefined })
+            post({ type: 'tripmate:response', requestId: msg.requestId, data: undefined })
           } catch (error) {
             const message = error instanceof Error ? error.message : 'session storage failed'
-            post({ type: 'trek:error', requestId: msg.requestId, code: 'SESSION_STORAGE_ERROR', message })
+            post({ type: 'tripmate:error', requestId: msg.requestId, code: 'SESSION_STORAGE_ERROR', message })
           }
           break
         }
-        case 'trek:session:get':
-        case 'trek:session:set':
-        case 'trek:session:remove': {
+        case 'tripmate:session:get':
+        case 'tripmate:session:set':
+        case 'tripmate:session:remove': {
           if (typeof msg.requestId !== 'string' || !msg.requestId) break
           const scope = msg.scope === 'trip' ? 'trip' : 'plugin'
           if (scope === 'trip' && tripId == null) {
-            post({ type: 'trek:error', requestId: msg.requestId, code: 'NO_TRIP_CONTEXT', message: 'trip session storage requires a trip context' })
+            post({ type: 'tripmate:error', requestId: msg.requestId, code: 'NO_TRIP_CONTEXT', message: 'trip session storage requires a trip context' })
             break
           }
           if (typeof msg.key !== 'string' || msg.key.length === 0 || msg.key.length > PLUGIN_SESSION_MAX_KEY_LENGTH) {
-            post({ type: 'trek:error', requestId: msg.requestId, code: 'SESSION_INVALID_KEY', message: `session key must be 1-${PLUGIN_SESSION_MAX_KEY_LENGTH} characters` })
+            post({ type: 'tripmate:error', requestId: msg.requestId, code: 'SESSION_INVALID_KEY', message: `session key must be 1-${PLUGIN_SESSION_MAX_KEY_LENGTH} characters` })
             break
           }
           const { scopeKeyPrefix, storageKey } = createPluginSessionStorageKeys(userId, pluginId, scope, tripId, msg.key)
           try {
-            if (msg.type === 'trek:session:get') {
+            if (msg.type === 'tripmate:session:get') {
               const storedValue = sessionStorage.getItem(storageKey)
-              post({ type: 'trek:response', requestId: msg.requestId, data: storedValue === null ? undefined : JSON.parse(storedValue) })
+              post({ type: 'tripmate:response', requestId: msg.requestId, data: storedValue === null ? undefined : JSON.parse(storedValue) })
               break
             }
 
-            if (msg.type === 'trek:session:set') {
+            if (msg.type === 'tripmate:session:set') {
               const serializedValue = JSON.stringify(msg.value)
               if (serializedValue === undefined) {
-                post({ type: 'trek:error', requestId: msg.requestId, code: 'SESSION_INVALID_VALUE', message: 'session value must be JSON-serialisable' })
+                post({ type: 'tripmate:error', requestId: msg.requestId, code: 'SESSION_INVALID_VALUE', message: 'session value must be JSON-serialisable' })
                 break
               }
 
               // Validate length based on unicode byte sizes
               const valueBytes = new TextEncoder().encode(serializedValue).byteLength
               if (valueBytes > PLUGIN_SESSION_MAX_VALUE_BYTES) {
-                post({ type: 'trek:error', requestId: msg.requestId, code: 'SESSION_VALUE_TOO_LARGE', message: `session value exceeds ${PLUGIN_SESSION_MAX_VALUE_BYTES} bytes` })
+                post({ type: 'tripmate:error', requestId: msg.requestId, code: 'SESSION_VALUE_TOO_LARGE', message: `session value exceeds ${PLUGIN_SESSION_MAX_VALUE_BYTES} bytes` })
                 break
               }
               const keys = getScopedSessionKeys(scopeKeyPrefix)
               if (!keys.includes(storageKey) && keys.length >= PLUGIN_SESSION_MAX_KEYS) {
-                post({ type: 'trek:error', requestId: msg.requestId, code: 'SESSION_KEY_LIMIT', message: `plugin session storage allows at most ${PLUGIN_SESSION_MAX_KEYS} keys` })
+                post({ type: 'tripmate:error', requestId: msg.requestId, code: 'SESSION_KEY_LIMIT', message: `plugin session storage allows at most ${PLUGIN_SESSION_MAX_KEYS} keys` })
                 break
               }
               sessionStorage.setItem(storageKey, serializedValue)
-              post({ type: 'trek:response', requestId: msg.requestId, data: undefined })
+              post({ type: 'tripmate:response', requestId: msg.requestId, data: undefined })
               break
             }
 
             sessionStorage.removeItem(storageKey)
-            post({ type: 'trek:response', requestId: msg.requestId, data: undefined })
+            post({ type: 'tripmate:response', requestId: msg.requestId, data: undefined })
           } catch (error) {
             const message = error instanceof Error ? error.message : 'session storage failed'
-            post({ type: 'trek:error', requestId: msg.requestId, code: 'SESSION_STORAGE_ERROR', message })
+            post({ type: 'tripmate:error', requestId: msg.requestId, code: 'SESSION_STORAGE_ERROR', message })
           }
           break
         }
@@ -609,19 +609,19 @@ export default function PluginFrame({ pluginId, tripId = null, placeId = null, d
         if (loadsRef.current !== 1) return
         if (!ev || typeof ev.type !== 'string' || ev.tripId == null || String(ev.tripId) !== tripId) return
         if (ev.type.startsWith('plugin:') && !ev.type.startsWith(`plugin:${pluginId}:`)) return
-        post({ type: 'trek:event', event: ev.type, tripId })
+        post({ type: 'tripmate:event', event: ev.type, tripId })
       }
       addListener(wsForward)
     }
 
     // The frame is opaque-origin and can't read our DOM, and we otherwise send the
-    // context (incl. theme + tokens) only once on trek:ready — so a plugin can't
+    // context (incl. theme + tokens) only once on tripmate:ready — so a plugin can't
     // follow an in-app appearance change. Watch the <html> element for anything
     // applyAppearance touches (the `dark` class, the data-* appearance attributes,
     // and inline style for the custom-accent vars) and re-post the context when the
     // resulting look actually changes, so plugins restyle live. A compact signature
     // dedupes: unrelated mutations don't trigger a repost. (Plugins re-apply on
-    // trek:context.)
+    // tripmate:context.)
     const htmlEl = document.documentElement
     const appearanceSig = () => {
       const cs = getComputedStyle(htmlEl)
@@ -671,13 +671,13 @@ export default function PluginFrame({ pluginId, tripId = null, placeId = null, d
 
   const answerConfirm = (confirmed: boolean) => {
     const req = confirmReqRef.current
-    if (req) postFrame({ type: 'trek:confirm:result', requestId: req.requestId, confirmed })
+    if (req) postFrame({ type: 'tripmate:confirm:result', requestId: req.requestId, confirmed })
     confirmReqRef.current = null
     setConfirmReq(null)
   }
 
   // The dialog title always leads with the host-controlled plugin name, so a
-  // plugin cannot dress its confirm up as a TREK system dialog.
+  // plugin cannot dress its confirm up as a Trip Mate system dialog.
   const pluginLabel = title || pluginId
   const confirmTitle = confirmReq?.title ? `${pluginLabel} — ${confirmReq.title}` : pluginLabel
 
@@ -690,7 +690,7 @@ export default function PluginFrame({ pluginId, tripId = null, placeId = null, d
           ref={frameRef}
           src={`/plugin-frame/${pluginId}/${path}`}
           // Deliver the context as soon as the document is parsed (the plugin sets up its
-          // message listener during parse), closing the trek:ready race so the theme is
+          // message listener during parse), closing the tripmate:ready race so the theme is
           // right on first paint. A 2nd load is a self-navigation — don't bridge to it.
           onLoad={() => {
             setLoadFailed(false)

@@ -6,7 +6,7 @@ import { isGcj02Basemap, isVectorStyle, resolveTileUrl } from '../../utils/tileU
 import { OFM_DARK, OFM_POSITRON, attributionForTile } from '../../constants/mapDefaults'
 import { attachVectorBasemap, detachBasemapLayer, restyleBasemap, type BasemapLayer } from '../Map/VectorBasemap'
 import { crsForBasemap } from '../Map/gcj02Crs'
-import { escapeHtml, type JourneyTrack } from '@trek/shared'
+import { escapeHtml, type JourneyTrack } from '@tripmate/shared'
 import { ensureJourneyPopupStyle, formatMarkerDate, journeyPopupHtml } from './journeyMapPopup'
 
 export interface MapMarkerItem {
@@ -415,7 +415,7 @@ function JourneyMap(
           {
             direction: 'top',
             offset: [0, -MARKER_H],
-            className: 'map-tooltip trek-journey-tooltip',
+            className: 'map-tooltip tripmate-journey-tooltip',
           },
         )
       }

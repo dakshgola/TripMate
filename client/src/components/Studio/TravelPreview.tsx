@@ -1,4 +1,4 @@
-import type { BookElement } from '@trek/shared'
+import type { BookElement } from '@tripmate/shared'
 import { useElementSize } from '../../hooks/useElementSize'
 import { ElementView } from './SpreadView'
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { missedRide, rideDuration, rideReading, terminalReading } from './carrierRide'
-import type { CarrierTerminal, RoadtripStop, RouteSegment, ScheduleWarning } from '@trek/shared/roadtrip'
+import type { CarrierTerminal, RoadtripStop, RouteSegment, ScheduleWarning } from '@tripmate/shared/roadtrip'
 
 // FE-CARRIER-RIDE-001 to FE-CARRIER-RIDE-009
 

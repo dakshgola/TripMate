@@ -4,7 +4,7 @@ import { broadcast } from '../../websocket';
 import { encrypt_api_key } from '../common/crypto/apiKeyCrypto';
 import { AddonsService } from '../addons/addons.service';
 import { DatabaseService } from '../database/database.service';
-import { TrekPhotosRepository } from '../photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../photos/tripmate-photos.repository';
 import { ImmichService } from './immich.service';
 import { SynologyService } from './synology.service';
 import { MemoriesAccessService } from './memories-access.service';

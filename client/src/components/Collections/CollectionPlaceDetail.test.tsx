@@ -7,7 +7,7 @@ import { server } from '../../../tests/helpers/msw/server';
 import { useAuthStore } from '../../store/authStore';
 import { resetAllStores, seedStore } from '../../../tests/helpers/store';
 import { buildUser } from '../../../tests/helpers/factories';
-import type { CollectionLabel, CollectionPlace } from '@trek/shared';
+import type { CollectionLabel, CollectionPlace } from '@tripmate/shared';
 import type { Category } from '../../types';
 import { useTranslation } from '../../i18n/TranslationContext';
 import CollectionPlaceDetail from './CollectionPlaceDetail';

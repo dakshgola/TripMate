@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
-import type { StorageAdminState } from '@trek/shared';
+import type { StorageAdminState } from '@tripmate/shared';
 import { server } from '../../../../tests/helpers/msw/server';
 import { render, screen, waitFor } from '../../../../tests/helpers/render';
 import { useStorageAdmin, type StorageAdmin } from './useStorageAdmin';

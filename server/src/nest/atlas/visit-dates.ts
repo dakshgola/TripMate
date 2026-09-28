@@ -14,7 +14,7 @@
  * Dates stay 'YYYY-MM-DD' strings and are compared as such, like tripVisitStatus
  * does, so no timezone can shift them on the way.
  */
-import { tripVisitStatus, type VisitStatus } from '@trek/shared';
+import { tripVisitStatus, type VisitStatus } from '@tripmate/shared';
 
 export interface DatedTrip {
   start_date?: string | null;

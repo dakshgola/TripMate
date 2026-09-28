@@ -2,13 +2,13 @@
 
 Guidance for Claude Code in this repository. This file holds the commands, the invariants, the gates and the philosophy. Inventories (file lists, counts, history) deliberately live in the code and its READMEs, not here — when this file disagrees with the code, the code wins; fix the doc.
 
-## What TREK is
+## What Trip Mate is
 
 A self-hosted, real-time collaborative travel planner. npm-workspaces monorepo:
 
-- **`shared/`** (`@trek/shared`) — Zod schemas, the **single source of truth** for API contracts, plus all i18n locales. Must be built before server/client typecheck or run.
-- **`server/`** (`@trek/server`) — NestJS API (Express adapter), SQLite via `better-sqlite3`, WebSocket sync, built-in MCP server, sandboxed plugin runtime.
-- **`client/`** (`@trek/client`) — React 19 + Vite + Zustand + Tailwind PWA, offline-first via Dexie/IndexedDB.
+- **`shared/`** (`@tripmate/shared`) — Zod schemas, the **single source of truth** for API contracts, plus all i18n locales. Must be built before server/client typecheck or run.
+- **`server/`** (`@tripmate/server`) — NestJS API (Express adapter), SQLite via `better-sqlite3`, WebSocket sync, built-in MCP server, sandboxed plugin runtime.
+- **`client/`** (`@tripmate/client`) — React 19 + Vite + Zustand + Tailwind PWA, offline-first via Dexie/IndexedDB.
 - **`plugin-sdk/`** (`trek-plugin-sdk`) — **not a root workspace**: own lockfile, published to npm independently, must ship standalone. Run its commands from `plugin-sdk/`.
 
 Each package has its own `CLAUDE.md`; this file covers the monorepo picture.
@@ -66,7 +66,7 @@ Nest owns everything: every domain is a DI module under `server/src/nest/<domain
 - **Realtime**: `/ws` is a Nest gateway in `server/src/nest/realtime/` — inject `RealtimeService`; `server/src/websocket.ts` is a legacy re-export stub.
 - **MCP**: tools are declared in `<domain>.mcp.ts` files beside each module, on the `server/src/nest-mcp/` decorator layer. A validation or permission change on a REST route must land in the parallel MCP tool in the same change. See `MCP.md`.
 - **Addons** are admin-toggleable feature modules keyed by `ADDON_IDS` in `server/src/addons.ts`.
-- **Plugins** (`server/src/nest/plugins/`): one forked child process per plugin, permission-gated RPC (a handler is registered only if the plugin holds the unlocking permission), install-time manifest/signature/egress/version-range gates. The protocol tables are **generated** into `plugin-sdk/` and `shared/` by `gen:plugin-facts`; `check:plugin-facts` is the CI gate. Author tooling is `plugin-sdk/`; the `trek-plugin-dev` skill covers authoring.
+- **Plugins** (`server/src/nest/plugins/`): one forked child process per plugin, permission-gated RPC (a handler is registered only if the plugin holds the unlocking permission), install-time manifest/signature/egress/version-range gates. The protocol tables are **generated** into `plugin-sdk/` and `shared/` by `gen:plugin-facts`; `check:plugin-facts` is the CI gate. Author tooling is `plugin-sdk/`; the `tripmate-plugin-dev` skill covers authoring.
 - **Storage**: uploads go through the driver abstraction in `server/src/nest/storage/` (local / S3 / mirror). Never touch the filesystem or the S3 SDK from a domain service.
 - **Crons** go through `server/src/nest/scheduling/` only — never a `@Cron` decorator (it bypasses the test-time gate).
 

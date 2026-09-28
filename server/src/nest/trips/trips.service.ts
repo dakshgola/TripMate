@@ -11,7 +11,7 @@ import {
   type DayGridRemoval,
   type TrekWsPayload,
   type TrekWsTripEventName,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import { RealtimeService } from '../realtime/realtime.service';
 import { PermissionsService } from '../permissions/permissions.service';
 import type { Trip, User } from '../../types';

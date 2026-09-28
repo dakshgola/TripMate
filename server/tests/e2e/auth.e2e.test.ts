@@ -5,7 +5,7 @@
  * Audit/Permissions/AtlasModule) against a temp SQLite db (full schema).
  * No service mock (the legacy path-mock died with the auth fold): login runs
  * real bcrypt against a factory-seeded hash, audit rows land in audit_log for
- * real, and the httpOnly trek_session cookie set/clear is asserted end to end.
+ * real, and the httpOnly tripmate_session cookie set/clear is asserted end to end.
  */
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import request from 'supertest';
@@ -54,7 +54,7 @@ import { AuthModule } from '../../src/nest/auth/auth.module';
 import { AuthService } from '../../src/nest/auth/auth.service';
 import { SessionRenewalInterceptor } from '../../src/nest/auth/session-renewal.interceptor';
 import { DatabaseModule } from '../../src/nest/database/database.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 describe('Auth e2e (real auth guard + real service + real cookie service + temp SQLite)', () => {
@@ -125,14 +125,14 @@ describe('Auth e2e (real auth guard + real service + real cookie service + temp 
     expect(res.body.user).not.toHaveProperty('password_hash');
   });
 
-  it('POST /login sets the httpOnly trek_session cookie and audits user.login', async () => {
+  it('POST /login sets the httpOnly tripmate_session cookie and audits user.login', async () => {
     const before = auditRows('user.login');
     const res = await request(server).post('/api/auth/login').send({ email: userEmail, password: userPassword });
     expect(res.status).toBe(200);
     expect(typeof res.body.token).toBe('string');
     expect(res.body.user.id).toBe(userId);
     const setCookie = res.headers['set-cookie'] as unknown as string[];
-    expect(setCookie.some((c) => c.startsWith('trek_session=') && /HttpOnly/i.test(c))).toBe(true);
+    expect(setCookie.some((c) => c.startsWith('tripmate_session=') && /HttpOnly/i.test(c))).toBe(true);
     expect(auditRows('user.login')).toBe(before + 1);
   }, 10000);
 
@@ -148,7 +148,7 @@ describe('Auth e2e (real auth guard + real service + real cookie service + temp 
     const res = await request(server).post('/api/auth/login').send({ email: userEmail, password: userPassword, remember_me: true });
     expect(res.status).toBe(200);
     const setCookie = res.headers['set-cookie'] as unknown as string[];
-    const cookie = setCookie.find((c) => c.startsWith('trek_session='))!;
+    const cookie = setCookie.find((c) => c.startsWith('tripmate_session='))!;
     expect(cookie).toMatch(/Max-Age=\d+/i);
     // 30d default — well above the 24h (86400s) non-remember window.
     const maxAge = Number(/Max-Age=(\d+)/i.exec(cookie)?.[1]);
@@ -159,7 +159,7 @@ describe('Auth e2e (real auth guard + real service + real cookie service + temp 
     const res = await request(server).post('/api/auth/login').send({ email: userEmail, password: userPassword });
     expect(res.status).toBe(200);
     const setCookie = res.headers['set-cookie'] as unknown as string[];
-    const cookie = setCookie.find((c) => c.startsWith('trek_session='))!;
+    const cookie = setCookie.find((c) => c.startsWith('tripmate_session='))!;
     expect(cookie).not.toMatch(/Max-Age/i);
     expect(cookie).not.toMatch(/Expires/i);
   }, 10000);
@@ -171,12 +171,12 @@ describe('Auth e2e (real auth guard + real service + real cookie service + temp 
       .set('Cookie', sessionCookie(userId, 0, { lifetime: 86400, consumed: 60000 }));
     expect(res.status).toBe(200);
     const setCookie = (res.headers['set-cookie'] ?? []) as unknown as string[];
-    const renewed = setCookie.find((c) => c.startsWith('trek_session='))!;
+    const renewed = setCookie.find((c) => c.startsWith('tripmate_session='))!;
     expect(renewed).toBeTruthy();
     expect(renewed).toMatch(/Max-Age=86400/i);
     // The renewed token is a fresh full-lifetime session for the same user.
     const jwt = require('jsonwebtoken');
-    const decoded = jwt.decode(/trek_session=([^;]+)/.exec(renewed)![1]) as { id: number; exp: number; iat: number };
+    const decoded = jwt.decode(/tripmate_session=([^;]+)/.exec(renewed)![1]) as { id: number; exp: number; iat: number };
     expect(decoded.id).toBe(userId);
     expect(decoded.exp - decoded.iat).toBe(86400);
   }, 10000);
@@ -186,14 +186,14 @@ describe('Auth e2e (real auth guard + real service + real cookie service + temp 
       .get('/api/auth/me')
       .set('Cookie', sessionCookie(userId, 0, { lifetime: 2592000, consumed: 1600000, remember: true }));
     expect(long.status).toBe(200);
-    const longCookie = ((long.headers['set-cookie'] ?? []) as unknown as string[]).find((c) => c.startsWith('trek_session='))!;
+    const longCookie = ((long.headers['set-cookie'] ?? []) as unknown as string[]).find((c) => c.startsWith('tripmate_session='))!;
     expect(longCookie).toMatch(/Max-Age=2592000/i);
 
     const sess = await request(server)
       .get('/api/auth/me')
       .set('Cookie', sessionCookie(userId, 0, { lifetime: 86400, consumed: 60000, remember: false }));
     expect(sess.status).toBe(200);
-    const sessCookie = ((sess.headers['set-cookie'] ?? []) as unknown as string[]).find((c) => c.startsWith('trek_session='))!;
+    const sessCookie = ((sess.headers['set-cookie'] ?? []) as unknown as string[]).find((c) => c.startsWith('tripmate_session='))!;
     expect(sessCookie).not.toMatch(/Max-Age/i);
     expect(sessCookie).not.toMatch(/Expires/i);
   }, 10000);
@@ -204,7 +204,7 @@ describe('Auth e2e (real auth guard + real service + real cookie service + temp 
       .set('Cookie', sessionCookie(userId, 0, { lifetime: 86400, consumed: 1000 }));
     expect(res.status).toBe(200);
     const setCookie = (res.headers['set-cookie'] ?? []) as unknown as string[];
-    expect(setCookie.some((c) => c.startsWith('trek_session='))).toBe(false);
+    expect(setCookie.some((c) => c.startsWith('tripmate_session='))).toBe(false);
   }, 10000);
 
   it('PUT /me/password preserves the remember choice on the re-issued cookie (#1927)', async () => {
@@ -214,21 +214,21 @@ describe('Auth e2e (real auth guard + real service + real cookie service + temp 
       .post('/api/auth/login')
       .send({ email: seeded.user.email, password: seeded.password, remember_me: true });
     expect(login.status).toBe(200);
-    const loginCookie = ((login.headers['set-cookie'] as unknown as string[]).find((c) => c.startsWith('trek_session=')))!;
-    const sessionValue = /trek_session=([^;]+)/.exec(loginCookie)![1];
+    const loginCookie = ((login.headers['set-cookie'] as unknown as string[]).find((c) => c.startsWith('tripmate_session=')))!;
+    const sessionValue = /tripmate_session=([^;]+)/.exec(loginCookie)![1];
 
     const change = await request(server)
       .put('/api/auth/me/password')
-      .set('Cookie', `trek_session=${sessionValue}`)
+      .set('Cookie', `tripmate_session=${sessionValue}`)
       .send({ current_password: seeded.password, new_password: 'New1234!x' });
     expect(change.status).toBe(200);
     // The handler's re-issue is appended after any interceptor renewal — the
-    // browser keeps the last trek_session cookie, so assert on that one.
+    // browser keeps the last tripmate_session cookie, so assert on that one.
     const setCookie = (change.headers['set-cookie'] ?? []) as unknown as string[];
-    const finalCookie = setCookie.filter((c) => c.startsWith('trek_session=')).pop()!;
+    const finalCookie = setCookie.filter((c) => c.startsWith('tripmate_session=')).pop()!;
     expect(finalCookie).toMatch(/Max-Age=2592000/i);
     const jwt = require('jsonwebtoken');
-    const decoded = jwt.decode(/trek_session=([^;]+)/.exec(finalCookie)![1]) as { remember?: boolean; exp: number; iat: number };
+    const decoded = jwt.decode(/tripmate_session=([^;]+)/.exec(finalCookie)![1]) as { remember?: boolean; exp: number; iat: number };
     expect(decoded.remember).toBe(true);
     expect(decoded.exp - decoded.iat).toBe(2592000);
   }, 10000);
@@ -242,7 +242,7 @@ describe('Auth e2e (real auth guard + real service + real cookie service + temp 
     expect(typeof res.body.token).toBe('string');
     expect(res.body.user.username).toBe('fresh-e2e');
     const setCookie = res.headers['set-cookie'] as unknown as string[];
-    expect(setCookie.some((c) => c.startsWith('trek_session=') && /HttpOnly/i.test(c))).toBe(true);
+    expect(setCookie.some((c) => c.startsWith('tripmate_session=') && /HttpOnly/i.test(c))).toBe(true);
     expect(auditRows('user.register')).toBe(before + 1);
     const row = db.prepare('SELECT id FROM users WHERE email = ?').get('fresh-e2e@example.test');
     expect(row).toBeDefined();
@@ -357,7 +357,7 @@ describe('Auth e2e (real auth guard + real service + real cookie service + temp 
         .set('Cookie', sessionCookie(userId))
         .send({ password: userPassword });
       expect(bare.status).toBe(200);
-      expect(bare.body.rp).toEqual({ name: 'TREK', id: 'localhost' });
+      expect(bare.body.rp).toEqual({ name: 'Trip Mate', id: 'localhost' });
 
       const local = await request(server)
         .post('/api/auth/passkey/register/options')
@@ -384,6 +384,6 @@ describe('Auth e2e (real auth guard + real service + real cookie service + temp 
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ success: true });
     const setCookie = res.headers['set-cookie'] as unknown as string[];
-    expect(setCookie.some((c) => c.startsWith('trek_session='))).toBe(true);
+    expect(setCookie.some((c) => c.startsWith('tripmate_session='))).toBe(true);
   });
 });

@@ -5,7 +5,7 @@ import { SynologyService } from './synology.service';
 import { UnifiedMemoriesService } from './unified-memories.service';
 import { MemoriesAccessService } from './memories-access.service';
 import type { Selection } from './memories.helpers';
-import type { TrekWsPayload, TrekWsTripEventName } from '@trek/shared';
+import type { TrekWsPayload, TrekWsTripEventName } from '@tripmate/shared';
 import { RealtimeService } from '../realtime/realtime.service';
 
 /**

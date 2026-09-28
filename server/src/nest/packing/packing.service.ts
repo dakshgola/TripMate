@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { TrekWsPayload, TrekWsTripEventName } from '@trek/shared';
+import type { TrekWsPayload, TrekWsTripEventName } from '@tripmate/shared';
 import { RealtimeService } from '../realtime/realtime.service';
 import { PermissionsService } from '../permissions/permissions.service';
 import { avatarUrl } from '../common/avatarUrl';
@@ -509,7 +509,7 @@ export class PackingService {
   /**
    * What each bag actually weighs (#2191).
    *
-   * Every weight TREK showed used to be a client-side sum over `listItems`,
+   * Every weight Trip Mate showed used to be a client-side sum over `listItems`,
    * which is privacy-filtered — so a bag's "total" silently omitted the private
    * items of every other member, and no one but their owner could ever see the
    * real figure. That number is then measured against `weight_limit_grams`, an

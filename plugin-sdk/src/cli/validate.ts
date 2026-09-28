@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * trek-plugin validate [dir] — the gate.
+ * tripmate-plugin validate [dir] — the gate.
  *
  * Runs every check the registry enforces that can be answered from the working tree, and exits
  * non-zero if any of them would reject the plugin. That is a much stronger claim than it used to

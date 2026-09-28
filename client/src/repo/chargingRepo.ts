@@ -1,4 +1,4 @@
-import { chargingInfoSchema, type ChargingInfo } from '@trek/shared'
+import { chargingInfoSchema, type ChargingInfo } from '@tripmate/shared'
 import { apiClient } from '../api/client'
 import { isEffectivelyOffline } from '../sync/networkMode'
 

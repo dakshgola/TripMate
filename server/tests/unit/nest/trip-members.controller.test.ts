@@ -11,7 +11,7 @@ import type { TripMembersService } from '../../../src/nest/trip-members/trip-mem
 import type { AuditService } from '../../../src/nest/audit/audit.service';
 import { NotFoundError, ValidationError } from '../../../src/nest/common/domain-errors';
 import type { User } from '../../../src/types';
-import { tripTransferOwnershipRequestSchema } from '@trek/shared';
+import { tripTransferOwnershipRequestSchema } from '@tripmate/shared';
 import { expectRegisteredController } from '../../helpers/module-providers';
 
 /**

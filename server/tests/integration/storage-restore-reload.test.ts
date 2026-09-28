@@ -48,7 +48,7 @@ beforeAll(() => {
 
 const tmpDirs: string[] = [];
 function makeTmpDir(): string {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-restore-reload-'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-restore-reload-'));
   tmpDirs.push(dir);
   return dir;
 }

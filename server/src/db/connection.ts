@@ -14,10 +14,10 @@ import Database from 'better-sqlite3';
  * Deleting a trip is where that showed: the cascade keeps a statement journal
  * larger than the 64 KiB SQLite holds before it spills to disk (#2518).
  *
- * The data directory is the only place TREK can count on being able to write,
+ * The data directory is the only place Trip Mate can count on being able to write,
  * and SQLite has no supported per-connection way to put temp files there, so
  * they stay in RAM. The shipped compose file already had them there, its /tmp
- * being a tmpfs. VACUUM INTO, the only VACUUM TREK runs, writes straight into
+ * being a tmpfs. VACUUM INTO, the only VACUUM Trip Mate runs, writes straight into
  * its target file and builds no temporary database.
  */
 export function openDatabase(filename: string, options?: Database.Options): Database.Database {

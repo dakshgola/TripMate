@@ -50,7 +50,7 @@ describe('DailyBudget', () => {
   });
 
   it('envCap honours a literal 0 and only falls back on absent/malformed values', () => {
-    const KEY = 'TREK_TEST_CAP_XYZ';
+    const KEY = 'TRIPMATE_TEST_CAP_XYZ';
     delete process.env[KEY];
     expect(envCap(KEY, 200)).toBe(200);      // absent -> default
     process.env[KEY] = '0';

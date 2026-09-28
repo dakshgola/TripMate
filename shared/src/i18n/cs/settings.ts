@@ -25,10 +25,11 @@ const settings: TranslationStrings = {
   'settings.mapTemplatePlaceholder.select': 'Vyberte šablonu...',
   'settings.mapDefaultHint': 'Ponechte prázdné pro OpenStreetMap (výchozí)',
   'settings.routingBase': 'Vlastní směrovací server',
-  'settings.routingBaseHint': 'Vlastní instance OSRM. Prázdné použije veřejné servery s limitem asi jednoho požadavku za sekundu — na den to stačí, na road trip je to málo. Projeví se po restartu serveru.',
+  'settings.routingBaseHint':
+    'Vlastní instance OSRM. Prázdné použije veřejné servery s limitem asi jednoho požadavku za sekundu — na den to stačí, na road trip je to málo. Projeví se po restartu serveru.',
   'settings.valhallaBase': 'Vlastní instance Valhalla',
   'settings.valhallaBaseHint':
-    'TREK ve výchozím nastavení používá veřejnou Valhallu FOSSGIS k vyhýbání se mýtnému, dálnicím a trajektům. Zde můžete zadat URL vlastní Valhally a používat ji místo veřejné. Pokud je nastavena pouze vlastní směrovací instance, veřejná Valhalla se nepoužije. Po zadání vlastní URL restartujte server a znovu načtěte stránku.',
+    'Trip Mate ve výchozím nastavení používá veřejnou Valhallu FOSSGIS k vyhýbání se mýtnému, dálnicím a trajektům. Zde můžete zadat URL vlastní Valhally a používat ji místo veřejné. Pokud je nastavena pouze vlastní směrovací instance, veřejná Valhalla se nepoužije. Po zadání vlastní URL restartujte server a znovu načtěte stránku.',
   'settings.mapHint': 'URL šablony pro mapové dlaždice',
   'settings.mapProvider': 'Poskytovatel mapy',
   'settings.mapProviderHint': 'Ovlivňuje mapy v Trip Planneru a Journey. Atlas vždy používá Leaflet.',
@@ -43,7 +44,7 @@ const settings: TranslationStrings = {
   'settings.mapCartoKeyHint': 'Podkladové mapy CARTO se bez klíče zobrazují s vodoznakem. Zdarma a bez účtu, na',
   'settings.mapCartoKeyLink': 'carto.com API klíč pro podkladové mapy',
   'settings.mapCartoKeyMissing':
-    'Tato šablona je podkladová mapa CARTO. Bez klíče CARTO vypálí do každé dlaždice nápis "API KEY REQUIRED". Dokud klíč nezadáte, TREK zobrazuje výchozí podkladovou mapu.',
+    'Tato šablona je podkladová mapa CARTO. Bez klíče CARTO vypálí do každé dlaždice nápis "API KEY REQUIRED". Dokud klíč nezadáte, Trip Mate zobrazuje výchozí podkladovou mapu.',
   'settings.mapStyle': 'Styl mapy',
   'settings.mapStylePlaceholder': 'Vyberte styl Mapbox',
   'settings.mapStyleHint': 'Preset nebo vaše vlastní URL mapbox://styles/USER/ID',
@@ -195,13 +196,13 @@ const settings: TranslationStrings = {
   'settings.about.featureRequestHint': 'Navrhněte novou funkci',
   'settings.about.wikiHint': 'Dokumentace a návody',
   'settings.about.descriptionManaged':
-    'TREK helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
+    'Trip Mate helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
   'settings.about.sourceTitle': 'Source code',
-  'settings.about.sourceHint': 'TREK is open source, licensed AGPL-3.0',
+  'settings.about.sourceHint': 'Trip Mate is open source, licensed AGPL-3.0',
   'settings.about.supporters.badge': 'Měsíční podporovatelé',
-  'settings.about.supporters.title': 'Společníci na cestě s TREK',
+  'settings.about.supporters.title': 'Společníci na cestě s Trip Mate',
   'settings.about.supporters.subtitle':
-    'Zatímco plánuješ další trasu, tihle lidé plánují společně se mnou budoucnost TREK. Jejich měsíční příspěvek jde přímo na vývoj a reálně strávené hodiny — aby TREK zůstal Open Source.',
+    'Zatímco plánuješ další trasu, tihle lidé plánují společně se mnou budoucnost Trip Mate. Jejich měsíční příspěvek jde přímo na vývoj a reálně strávené hodiny — aby Trip Mate zůstal Open Source.',
   'settings.about.supporters.since': 'podporovatel od {date}',
   'settings.about.supporters.tierEmpty': 'Buď první',
   'settings.about.supporter.tier.noReturnTicket': 'No Return Ticket',
@@ -210,7 +211,7 @@ const settings: TranslationStrings = {
   'settings.about.supporter.tier.budgetTraveller': 'Budget Traveller',
   'settings.about.supporter.tier.hostelBunkmate': 'Hostel Bunkmate',
   'settings.about.description':
-    'TREK je samohostovaný plánovač cest, který vám pomůže organizovat výlety od prvního nápadu po poslední vzpomínku. Denní plánování, rozpočet, balicí seznamy, fotky a mnoho dalšího — vše na jednom místě, na vašem vlastním serveru.',
+    'Trip Mate je samohostovaný plánovač cest, který vám pomůže organizovat výlety od prvního nápadu po poslední vzpomínku. Denní plánování, rozpočet, balicí seznamy, fotky a mnoho dalšího — vše na jednom místě, na vašem vlastním serveru.',
   'settings.about.madeWith': 'Vytvořeno s',
   'settings.about.madeBy': 'Mauricem a rostoucí open-source komunitou.',
   'settings.username': 'Uživatelské jméno',
@@ -289,7 +290,7 @@ const settings: TranslationStrings = {
   'settings.webhookUrl.testSuccess': 'Testovací webhook byl úspěšně odeslán',
   'settings.webhookUrl.testFailed': 'Testovací webhook selhal',
   'settings.ntfyUrl.topicLabel': 'Téma Ntfy',
-  'settings.ntfyUrl.topicPlaceholder': 'my-trek-alerts',
+  'settings.ntfyUrl.topicPlaceholder': 'my-tripmate-alerts',
   'settings.ntfyUrl.serverLabel': 'URL serveru Ntfy (volitelné)',
   'settings.ntfyUrl.serverPlaceholder': 'https://ntfy.sh',
   'settings.ntfyUrl.hint':
@@ -353,7 +354,7 @@ const settings: TranslationStrings = {
   'settings.airtrail.allowInsecureTlsHint': 'Povolte pouze pro důvěryhodnou instanci ve vlastní síti.',
   'settings.airtrail.writeBack': 'Zapisovat změny zpět do AirTrail',
   'settings.airtrail.writeBackHint':
-    'Ve výchozím stavu vypnuto: AirTrail je zdrojem pravdy a TREK z něj pouze čte. Zapněte, chcete-li odesílat úpravy provedené v TREK zpět do AirTrail.',
+    'Ve výchozím stavu vypnuto: AirTrail je zdrojem pravdy a Trip Mate z něj pouze čte. Zapněte, chcete-li odesílat úpravy provedené v Trip Mate zpět do AirTrail.',
   'settings.airtrail.connected': 'Připojeno',
   'settings.airtrail.notConnected': 'Nepřipojeno',
   'settings.airtrail.toast.saved': 'Připojení k AirTrail uloženo',
@@ -465,7 +466,7 @@ const settings: TranslationStrings = {
   'settings.startPageDashboard': 'Přehled',
   'settings.startPageActiveTrip': 'Aktivní cesta',
   'settings.startPageHint':
-    'TREK se otevře rovnou na cestě, která právě probíhá, jinak na nejbližší nadcházející. Je to táž cesta, kterou zvýrazňuje přehled.',
+    'Trip Mate se otevře rovnou na cestě, která právě probíhá, jinak na nejbližší nadcházející. Je to táž cesta, kterou zvýrazňuje přehled.',
   'settings.startTripTab': 'Úvodní karta',
   'settings.startTripTabHint':
     'Karta, kterou se cesta otevře. Pokud patří k vypnutému doplňku, otevře se místo ní plán.',
@@ -503,7 +504,8 @@ const settings: TranslationStrings = {
   'settings.offline.notice.offline': 'Bez připojení. Připojte se, abyste mohli ukládat cesty offline.',
   'settings.offline.notice.signedOut': 'Vaše relace vypršela. Pro synchronizaci se znovu přihlaste.',
   'settings.offline.notice.failed': 'Stahování se nepodařilo dokončit. Zkontrolujte připojení a zkuste to znovu.',
-  'settings.offline.notice.loadFailed': 'Offline úložiště tohoto zařízení se nepodařilo načíst. Obvykle pomůže vymazání mezipaměti.',
+  'settings.offline.notice.loadFailed':
+    'Offline úložiště tohoto zařízení se nepodařilo načíst. Obvykle pomůže vymazání mezipaměti.',
   'settings.offline.clear': 'Vymazat mezipaměť',
   'settings.offline.clearConfirm': 'Vymazat všechna offline data cest? Kdykoli online je můžete znovu synchronizovat.',
   'settings.offline.stats.trips': 'Cesty v mezipaměti',
@@ -561,7 +563,8 @@ const settings: TranslationStrings = {
   'settings.apiScopes.bucket-list': 'Seznam přání',
   'settings.apiScopes.stats': 'Souhrny',
   'settings.apiKeys.title': 'Klíče API',
-  'settings.apiKeys.description': 'Klíče pro veřejné API, aby jiný software mohl číst tvoje cesty. Jen pro čtení: klíč nemůže nic měnit ani mazat.',
+  'settings.apiKeys.description':
+    'Klíče pro veřejné API, aby jiný software mohl číst tvoje cesty. Jen pro čtení: klíč nemůže nic měnit ani mazat.',
   'settings.apiKeys.create': 'Vytvořit klíč',
   'settings.apiKeys.empty': 'Zatím žádné klíče. Vytvoř jeden a připoj další software.',
   'settings.apiKeys.createdAt': 'vytvořen',
@@ -576,7 +579,8 @@ const settings: TranslationStrings = {
   'settings.apiKeys.endpoint': 'Endpoint',
   'settings.apiKeys.neverUsed': 'nikdy nepoužit',
   'settings.apiKeys.loadFailed': 'Klíče se nepodařilo načíst. Obnov stránku a zkus to znovu.',
-  'settings.apiKeys.limitReached': 'Máš {max} klíčů, víc jeden účet mít nemůže. Smaž klíč, který už nepotřebuješ, a vytvoř nový.',
+  'settings.apiKeys.limitReached':
+    'Máš {max} klíčů, víc jeden účet mít nemůže. Smaž klíč, který už nepotřebuješ, a vytvoř nový.',
   'settings.apiKeys.copyFailed': 'Kopírování se nepodařilo. Označ text a zkopíruj ho ručně.',
   'settings.apiKeys.modal.createTitle': 'Vytvořit klíč API',
   'settings.apiKeys.modal.name': 'Název',
@@ -585,7 +589,8 @@ const settings: TranslationStrings = {
   'settings.apiKeys.modal.creating': 'Vytváří se...',
   'settings.apiKeys.modal.create': 'Vytvořit',
   'settings.apiKeys.modal.createdTitle': 'Klíč API vytvořen',
-  'settings.apiKeys.modal.createdWarning': 'Zkopíruj klíč hned teď. Zobrazí se jen jednou a později ho už nelze získat.',
+  'settings.apiKeys.modal.createdWarning':
+    'Zkopíruj klíč hned teď. Zobrazí se jen jednou a později ho už nelze získat.',
   'settings.apiKeys.modal.done': 'Hotovo',
 };
 

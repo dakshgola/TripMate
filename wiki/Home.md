@@ -1,6 +1,6 @@
-# TREK Wiki
+# Trip Mate Wiki
 
-TREK is a self-hosted, real-time collaborative travel planner licensed under AGPL-3.0.
+Trip Mate is a self-hosted, real-time collaborative travel planner licensed under AGPL-3.0.
 
 ![Dashboard](assets/DashboardWidgets.png)
 
@@ -9,7 +9,7 @@ TREK is a self-hosted, real-time collaborative travel planner licensed under AGP
 ### Planning
 - **Drag & Drop Planner**: organize places into day plans with reordering and cross-day moves
 - **Interactive Map**: Leaflet map with photo markers, clustering, route visualization, and customizable tile sources
-- **Place Search**: TREK's own place index and OpenStreetMap, asked together, with no API key and no quota; Google or Amap answer only where both come up empty (see [TREK Places API](TREK-Places-API))
+- **Place Search**: Trip Mate's own place index and OpenStreetMap, asked together, with no API key and no quota; Google or Amap answer only where both come up empty (see [Trip Mate Places API](Trip Mate-Places-API))
 - **Day Notes**: timestamped, icon-tagged notes per day
 - **Route Optimization**: auto-optimize place order and export to Google Maps
 - **Weather Forecasts**: 16-day forecasts via Open-Meteo (no API key required), historical climate averages as fallback
@@ -42,7 +42,7 @@ TREK is a self-hosted, real-time collaborative travel planner licensed under AGP
 - **Collections**: a personal place library that saves places across trips into named lists, copies them into any trip, and shares them with per-member roles (see [Collections](Collections))
 - **Journey**: magazine-style travel journal with entries, photos (via Immich/Synology Photos), maps, and moods
 - **Naver List Import**: import places from shared Naver Maps lists
-- **MCP**: expose TREK to AI assistants via the Model Context Protocol (OAuth 2.1)
+- **MCP**: expose Trip Mate to AI assistants via the Model Context Protocol (OAuth 2.1)
 - **AirTrail**: sync flights from your self-hosted AirTrail instance into trips
 - **Dawarich**: read the stays and routes your self-hosted Dawarich instance recorded, offered as suggestions you confirm; nothing is written back (see [Dawarich](Dawarich))
 - **AI Parsing**: LLM fallback that extracts bookings from confirmation files KDE Itinerary cannot read (see [AI-Booking-Import](AI-Booking-Import))
@@ -58,7 +58,7 @@ TREK is a self-hosted, real-time collaborative travel planner licensed under AGP
 ### AI / MCP Integration
 - **MCP Server**: built-in Model Context Protocol server with OAuth 2.1 authentication
 - **150+ Tools**: create trips, plan itineraries, manage budgets, send messages, and more
-- **30 Resources**: read-only `trek://` URIs for trips, days, places, budget, packing, journeys, and more
+- **30 Resources**: read-only `tripmate://` URIs for trips, days, places, budget, packing, journeys, and more
 - **35 OAuth Scopes**: granular permissions across 17 permission groups
 - **Pre-built Prompts**: `trip-summary`, `packing-list`, and `budget-overview` context loaders
 
@@ -67,7 +67,7 @@ TREK is a self-hosted, real-time collaborative travel planner licensed under AGP
 - Addon management, API key storage, scheduled auto-backups
 - System notices for onboarding and announcements, including a release notes notice every user sees once after each update (see [Admin-GitHub-Releases](Admin-GitHub-Releases#release-notes-notice))
 
-> **Admin:** Most configuration lives in the Admin Panel. On first boot TREK seeds an admin account automatically: credentials come from `ADMIN_EMAIL` / `ADMIN_PASSWORD` if set, otherwise a random password is printed to the container log.
+> **Admin:** Most configuration lives in the Admin Panel. On first boot Trip Mate seeds an admin account automatically: credentials come from `ADMIN_EMAIL` / `ADMIN_PASSWORD` if set, otherwise a random password is printed to the container log.
 
 ## Get Started
 

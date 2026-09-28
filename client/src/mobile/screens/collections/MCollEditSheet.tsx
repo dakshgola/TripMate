@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Image, Loader2, Search, Trash2 } from 'lucide-react'
-import type { Collection, CollectionLink } from '@trek/shared'
+import type { Collection, CollectionLink } from '@tripmate/shared'
 import type { TranslationFn } from '../../../types'
 import { tripsApi } from '../../../api/client'
 import { useCollectionStore } from '../../../store/collectionStore'

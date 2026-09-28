@@ -84,7 +84,7 @@ describe('MDashboard', () => {
     usePluginStore.setState({ plugins: [], loaded: true });
     useAuthStore.setState({
       isAuthenticated: true,
-      user: { id: 1, username: 'Maurice', email: 'maurice@trek.app', role: 'user', avatar_url: '' } as never,
+      user: { id: 1, username: 'Maurice', email: 'maurice@tripmate.app', role: 'user', avatar_url: '' } as never,
     });
     useInAppNotificationStore.setState({ unreadCount: 0, fetchUnreadCount: async () => {} });
   });
@@ -203,7 +203,7 @@ describe('MDashboard', () => {
   it('FE-MOB-DASH-011: a stored avatar replaces the initial', () => {
     useAuthStore.setState({
       isAuthenticated: true,
-      user: { id: 1, username: 'Maurice', email: 'm@trek.app', role: 'user', avatar_url: '/uploads/avatars/m.jpg' } as never,
+      user: { id: 1, username: 'Maurice', email: 'm@tripmate.app', role: 'user', avatar_url: '/uploads/avatars/m.jpg' } as never,
     });
     render(<MDashboard />);
 
@@ -454,7 +454,7 @@ describe('MDashboard', () => {
     window.scrollTo = scrollTo as unknown as typeof window.scrollTo;
     render(<MDashboard />);
 
-    fireEvent.click(screen.getByRole('button', { name: 'TREK' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Trip Mate' }));
 
     expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' });
     window.scrollTo = original;

@@ -3,7 +3,7 @@
  * create_packing_item, update_packing_item, toggle_packing_item,
  * delete_packing_item, set_packing_item_sharing, plus the two bag fields that
  * drive the fill bar, the registration-time scope/addon gating and the
- * trek://trips/{tripId}/packing + .../packing/bags resources (moved from the
+ * tripmate://trips/{tripId}/packing + .../packing/bags resources (moved from the
  * legacy registerResources — see resources.test.ts). The advanced tools live
  * in tools-packing-advanced.test.ts.
  *
@@ -34,7 +34,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -897,8 +897,8 @@ describe('Packing tools — packing addon gating', () => {
         const names = (await h.client.listTools()).tools.map((t) => t.name);
         expect(names).not.toContain('create_packing_item');
         expect(names).not.toContain('list_packing_bags');
-        await expect(h.client.readResource({ uri: `trek://trips/${trip.id}/packing` })).rejects.toThrow();
-        await expect(h.client.readResource({ uri: `trek://trips/${trip.id}/packing/bags` })).rejects.toThrow();
+        await expect(h.client.readResource({ uri: `tripmate://trips/${trip.id}/packing` })).rejects.toThrow();
+        await expect(h.client.readResource({ uri: `tripmate://trips/${trip.id}/packing/bags` })).rejects.toThrow();
       });
     } finally {
       testDb.prepare('UPDATE addons SET enabled = 1 WHERE id = ?').run(ADDON_IDS.PACKING);
@@ -907,16 +907,16 @@ describe('Packing tools — packing addon gating', () => {
 });
 
 // ---------------------------------------------------------------------------
-// trek://trips/{tripId}/packing resource (moved from the legacy registerResources)
+// tripmate://trips/{tripId}/packing resource (moved from the legacy registerResources)
 // ---------------------------------------------------------------------------
 
-describe('Resource: trek://trips/{tripId}/packing', () => {
+describe('Resource: tripmate://trips/{tripId}/packing', () => {
   it('returns packing items for a trip', async () => {
     const { user } = createUser(testDb);
     const trip = createTrip(testDb, user.id);
     createPackingItem(testDb, trip.id, { name: 'Passport' });
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/packing` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/packing` });
       const items = parseResourceResult(result) as { name: string }[];
       expect(items).toHaveLength(1);
       expect(items[0].name).toBe('Passport');
@@ -930,7 +930,7 @@ describe('Resource: trek://trips/{tripId}/packing', () => {
     testDb.prepare('INSERT INTO packing_items (trip_id, name, checked, sort_order, is_private, owner_id) VALUES (?, ?, 0, 0, 1, ?)')
       .run(trip.id, 'Secret gift', owner.id);
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/packing` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/packing` });
       expect(parseResourceResult(result)).toEqual([]);
     });
   });
@@ -940,7 +940,7 @@ describe('Resource: trek://trips/{tripId}/packing', () => {
     const { user: other } = createUser(testDb);
     const trip = createTrip(testDb, other.id);
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/packing` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/packing` });
       expect(parseResourceResult(result)).toEqual({ error: 'Trip not found or access denied' });
     });
   });
@@ -948,24 +948,24 @@ describe('Resource: trek://trips/{tripId}/packing', () => {
   it('returns the access-denied payload for a malformed trip id', async () => {
     const { user } = createUser(testDb);
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: 'trek://trips/not-a-number/packing' });
+      const result = await h.client.readResource({ uri: 'tripmate://trips/not-a-number/packing' });
       expect(parseResourceResult(result)).toEqual({ error: 'Trip not found or access denied' });
     });
   });
 });
 
 // ---------------------------------------------------------------------------
-// trek://trips/{tripId}/packing/bags resource (moved from the legacy registerResources)
+// tripmate://trips/{tripId}/packing/bags resource (moved from the legacy registerResources)
 // ---------------------------------------------------------------------------
 
-describe('Resource: trek://trips/{tripId}/packing/bags', () => {
+describe('Resource: tripmate://trips/{tripId}/packing/bags', () => {
   it('returns the bags with their members', async () => {
     const { user } = createUser(testDb);
     const trip = createTrip(testDb, user.id);
     const bagId = Number(testDb.prepare('INSERT INTO packing_bags (trip_id, name) VALUES (?, ?)').run(trip.id, 'Carry-On').lastInsertRowid);
     testDb.prepare('INSERT INTO packing_bag_members (bag_id, user_id) VALUES (?, ?)').run(bagId, user.id);
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/packing/bags` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/packing/bags` });
       const bags = parseResourceResult(result) as { name: string; members: { user_id: number }[] }[];
       expect(bags).toHaveLength(1);
       expect(bags[0].name).toBe('Carry-On');
@@ -978,7 +978,7 @@ describe('Resource: trek://trips/{tripId}/packing/bags', () => {
     const { user: other } = createUser(testDb);
     const trip = createTrip(testDb, other.id);
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/packing/bags` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/packing/bags` });
       expect(parseResourceResult(result)).toEqual({ error: 'Trip not found or access denied' });
     });
   });

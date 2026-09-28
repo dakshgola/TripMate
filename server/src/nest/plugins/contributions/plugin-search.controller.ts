@@ -15,7 +15,7 @@ import {
 /**
  * GET /api/plugin-search — places found by plugins implementing `searchProvider` (#2221).
  *
- * A search index TREK does not ship. The core search asks the TREK index and
+ * A search index Trip Mate does not ship. The core search asks the Trip Mate index and
  * OpenStreetMap; this asks whatever else the operator installed, and the client draws
  * one list out of both. Additive and fail-safe like the other provider-hook
  * controllers: a provider that errors or times out contributes nothing and the search

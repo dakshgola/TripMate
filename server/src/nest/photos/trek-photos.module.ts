@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { TrekPhotosRepository } from './trek-photos.repository';
+import { TrekPhotosRepository } from './tripmate-photos.repository';
 
 /**
  * The trek_photos store on its own, so both halves can have it without

@@ -1,9 +1,9 @@
-// Augments Express's `Request` with the fields TREK middleware + Nest guards
+// Augments Express's `Request` with the fields Trip Mate middleware + Nest guards
 // attach after authentication. Replaces the per-site casts
 // (`(req as AuthRequest).user`, `getRequest<Request & { user?: User }>()`) with
 // a single source of truth so downstream code can read `req.user` directly.
 
-import type { PublicApiGrant } from '@trek/shared';
+import type { PublicApiGrant } from '@tripmate/shared';
 import type { User } from '../types';
 
 declare module 'express-serve-static-core' {

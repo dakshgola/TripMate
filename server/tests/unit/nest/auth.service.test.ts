@@ -196,7 +196,7 @@ describe('isOidcOnlyMode', () => {
   it('AUTH-DB-021: returns true when OIDC_ONLY=true AND OIDC_ISSUER AND OIDC_CLIENT_ID are set', () => {
     vi.stubEnv('OIDC_ONLY', 'true');
     vi.stubEnv('OIDC_ISSUER', 'https://sso.example.com');
-    vi.stubEnv('OIDC_CLIENT_ID', 'trek-client');
+    vi.stubEnv('OIDC_CLIENT_ID', 'tripmate-client');
     expect(svc.isOidcOnlyMode()).toBe(true);
     vi.unstubAllEnvs();
   });
@@ -224,7 +224,7 @@ describe('resolveAuthToggles', () => {
   it('AUTH-DB-022b: legacy — OIDC_ONLY=true with OIDC configured disables password_login and password_registration', () => {
     vi.stubEnv('OIDC_ONLY', 'true');
     vi.stubEnv('OIDC_ISSUER', 'https://sso.example.com');
-    vi.stubEnv('OIDC_CLIENT_ID', 'trek-client');
+    vi.stubEnv('OIDC_CLIENT_ID', 'tripmate-client');
     const t = svc.resolveAuthToggles();
     expect(t.password_login).toBe(false);
     expect(t.password_registration).toBe(false);
@@ -604,7 +604,7 @@ describe('getAppConfig', () => {
   });
 
   it('AUTH-DB-052c: managed reaches the client, so the UI can stop offering what the server refuses', () => {
-    vi.stubEnv('TREK_MANAGED', 'true');
+    vi.stubEnv('TRIPMATE_MANAGED', 'true');
     createUser(testDb);
     const cfg = svc.getAppConfig(null);
     expect(cfg.managed).toBe(true);
@@ -640,7 +640,7 @@ describe('getAppConfig', () => {
 
   it('AUTH-DB-052f: a real domain is configured, a bare IP host is not', () => {
     createUser(testDb);
-    vi.stubEnv('APP_URL', 'https://trek.example.org');
+    vi.stubEnv('APP_URL', 'https://tripmate.example.org');
     expect(svc.getAppConfig(null).passkey_configured).toBe(true);
     vi.stubEnv('APP_URL', 'http://192.168.1.50:3001');
     expect(svc.getAppConfig(null).passkey_configured).toBe(false);
@@ -675,7 +675,7 @@ describe('demoLogin', () => {
     vi.stubEnv('DEMO_MODE', 'true');
     expect(svc.demoLogin()).toEqual({ error: 'Demo user not found', status: 500 });
     // demoLogin looks up DEMO_EMAIL_PRIMARY specifically (not any demo alias).
-    createUser(testDb, { email: 'demo@trek.app' });
+    createUser(testDb, { email: 'demo@tripmate.app' });
     const result = svc.demoLogin();
     expect(typeof result.token).toBe('string');
     expect(result.user).not.toHaveProperty('password_hash');
@@ -953,7 +953,7 @@ describe('resetPassword', () => {
   it('AUTH-DB-085: password-login-disabled and per-email throttle short-circuit the request', () => {
     vi.stubEnv('OIDC_ONLY', 'true');
     vi.stubEnv('OIDC_ISSUER', 'https://sso.example.com');
-    vi.stubEnv('OIDC_CLIENT_ID', 'trek-client');
+    vi.stubEnv('OIDC_CLIENT_ID', 'tripmate-client');
     expect(svc.requestPasswordReset('whoever@x.com', null).reason).toBe('password_login_disabled');
     vi.unstubAllEnvs();
 

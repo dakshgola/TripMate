@@ -112,5 +112,5 @@ describe('StopFillPicker', () => {
 })
 
 vi.mock('../../hooks/useRoadtripSettings', () => ({
-  useRoadtripSettings: (select: (preferences: import('@trek/shared').RoadtripPreferences) => unknown) => useSettingsStore(state => select(state.settings as import('@trek/shared').RoadtripPreferences)),
+  useRoadtripSettings: (select: (preferences: import('@tripmate/shared').RoadtripPreferences) => unknown) => useSettingsStore(state => select(state.settings as import('@tripmate/shared').RoadtripPreferences)),
 }))

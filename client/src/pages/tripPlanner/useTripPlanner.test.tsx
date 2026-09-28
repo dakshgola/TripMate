@@ -829,13 +829,13 @@ describe('useTripPlanner — connection visibility', () => {
 
     expect(result.current.visibleConnections).toEqual([2])
     await waitFor(() => {
-      expect(JSON.parse(localStorage.getItem('trek:visible-connections:42') || 'null'))
+      expect(JSON.parse(localStorage.getItem('tripmate:visible-connections:42') || 'null'))
         .toEqual({ mode: 'only', ids: [2] })
     })
   })
 
   it('FE-TP-HOOK-036: the bulk toggle flips the whole trip and drops per-leg overrides', async () => {
-    localStorage.setItem('trek:visible-connections:42', JSON.stringify({ mode: 'only', ids: [1] }))
+    localStorage.setItem('tripmate:visible-connections:42', JSON.stringify({ mode: 'only', ids: [1] }))
     seedTrip({ reservations: [routable(1), routable(2)] })
 
     const { result } = await renderPlanner()
@@ -857,7 +857,7 @@ describe('useTripPlanner — connection visibility', () => {
   })
 
   it('FE-TP-HOOK-115: a persisted route toggle keeps transit routes off the map until a day is selected (#2019)', async () => {
-    localStorage.setItem('trek:day-route:42', 'true')
+    localStorage.setItem('tripmate:day-route:42', 'true')
     // The fixture action is a no-op; the derivation reads the store, so this
     // one has to write the selection like the real slice does.
     actions.setSelectedDay.mockImplementation(dayId => {
@@ -879,7 +879,7 @@ describe('useTripPlanner — connection visibility', () => {
     act(() => { result.current.handleSelectDay(null) })
     expect(result.current.transitRoutesShown).toBe(false)
 
-    localStorage.removeItem('trek:day-route:42')
+    localStorage.removeItem('tripmate:day-route:42')
   })
 })
 

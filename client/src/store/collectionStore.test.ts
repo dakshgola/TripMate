@@ -9,7 +9,7 @@ import type {
   CollectionDetailResponse,
   CollectionListResponse,
   CollectionPlace,
-} from '@trek/shared'
+} from '@tripmate/shared'
 
 vi.mock('../api/collections', () => ({
   collectionsApi: {

@@ -8,7 +8,7 @@ import { ephemeralDriverFor, probeDriver } from '../../../../src/nest/storage/st
 import { StorageBackendError, type StorageDriver } from '../../../../src/nest/storage/storage.types';
 
 function makeTmpDir(): string {
-  return fs.mkdtempSync(path.join(os.tmpdir(), 'trek-probe-'));
+  return fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-probe-'));
 }
 
 describe('probeDriver', () => {
@@ -18,7 +18,7 @@ describe('probeDriver', () => {
     driver.init({ ensurePrefixes: [], cleanSpool: false });
     const result = await probeDriver('t', driver);
     expect(result).toEqual({ name: 't', ok: true });
-    // The probe object itself is gone (an empty trek-probe/ dir may remain — inert).
+    // The probe object itself is gone (an empty tripmate-probe/ dir may remain — inert).
     const leftovers: string[] = [];
     for await (const obj of driver.list('')) leftovers.push(obj.key);
     expect(leftovers).toEqual([]);
@@ -80,7 +80,7 @@ describe('ephemeralDriverFor', () => {
       type: 's3',
       options: {
         endpoint: 'http://127.0.0.1:1',
-        bucket: 'trek',
+        bucket: 'tripmate',
         accessKeyId: 'ak',
         secretAccessKey: 'sk',
         region: 'us-east-1',

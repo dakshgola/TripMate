@@ -48,7 +48,7 @@ describe('CollabLinks', () => {
     render(<CollabLinks tripId={1} />);
     expect(await screen.findByText(/no shared links yet|collab\.links\.empty/i)).toBeInTheDocument();
     // The mascot carries the scene class; it is what makes this panel match its siblings.
-    await waitFor(() => expect(document.querySelector('.trek--links')).toBeInTheDocument());
+    await waitFor(() => expect(document.querySelector('.tripmate--links')).toBeInTheDocument());
   });
 
   it('FE-COMP-LINKS-002: the header names the panel and carries the add button', async () => {
@@ -178,7 +178,7 @@ describe('CollabLinks', () => {
     expect(screen.getByText('Ferry timetable')).toBeInTheDocument();
 
     // The confirm button of the question itself, found by its role rather than a colour class.
-    const question = screen.getByText(/delete link\?|collab\.links\.confirmDeleteTitle/i).closest('.trek-modal-enter') as HTMLElement;
+    const question = screen.getByText(/delete link\?|collab\.links\.confirmDeleteTitle/i).closest('.tripmate-modal-enter') as HTMLElement;
     await user.click(within(question).getByRole('button', { name: /^(delete|common\.delete)$/i }));
     await waitFor(() => expect(deleted).toBe(true));
     await waitFor(() => expect(screen.queryByText('Ferry timetable')).not.toBeInTheDocument());

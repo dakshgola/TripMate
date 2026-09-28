@@ -10,7 +10,7 @@ import { buildAssignment, buildDay, buildPlace, buildUser } from '../../../helpe
 import { http, HttpResponse } from 'msw';
 import { server } from '../../../helpers/msw/server';
 import type { DashboardTrip } from '../../../../src/pages/dashboard/dashboardModel';
-import { MAX_TRIP_DAYS, type Trip, type TripCreateRequest } from '@trek/shared';
+import { MAX_TRIP_DAYS, type Trip, type TripCreateRequest } from '@tripmate/shared';
 
 interface CoverSearchPhoto {
   id: string

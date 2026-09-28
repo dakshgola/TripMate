@@ -156,7 +156,8 @@ const collection: TranslationStrings = {
   'collections.file.targetExisting': 'Aan een lijst toevoegen',
   'collections.file.targetExistingHint': 'Aan een lijst die je al hebt',
   'collections.file.searchLists': 'Lijsten zoeken',
-  'collections.file.intoHint': 'Plekken die de lijst al heeft blijven zoals ze zijn, net als de naam en de kleur. Labels uit het bestand komen erbij.',
+  'collections.file.intoHint':
+    'Plekken die de lijst al heeft blijven zoals ze zijn, net als de naam en de kleur. Labels uit het bestand komen erbij.',
   'collections.file.confirmInto': 'Aan lijst toevoegen',
   'collections.file.doneInto': '{count} plekken toegevoegd aan {name}',
   'collections.file.doneIntoDuplicates': '{count} toegevoegd aan {name}, {duplicates} stonden er al in',
@@ -169,9 +170,9 @@ const collection: TranslationStrings = {
   'collections.file.doneSkipped': '{count} plekken geïmporteerd, {skipped} overgeslagen',
   'collections.file.errorTooLarge': 'Dit bestand is te groot om een lijst te zijn.',
   'collections.file.errorUnreadable': 'Dit bestand kon niet worden gelezen.',
-  'collections.file.errorNotACollection': 'Dit is geen TREK-lijstbestand.',
-  'collections.file.formatTrek': 'TREK-lijst',
-  'collections.file.formatTrekHint': 'Voor een andere TREK, met labels en status',
+  'collections.file.errorNotACollection': 'Dit is geen Trip Mate-lijstbestand.',
+  'collections.file.formatTrek': 'Trip Mate-lijst',
+  'collections.file.formatTrekHint': 'Voor een andere Trip Mate, met labels en status',
   'collections.file.formatGpxHint': 'Waypoints voor OsmAnd, Organic Maps, Garmin en andere kaart-apps',
   'collections.file.gpxOmitted': '{count} plekken zonder coördinaten zijn niet in het GPX-bestand opgenomen',
   'collections.file.gpxNothing':

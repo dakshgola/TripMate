@@ -12,14 +12,14 @@ const storage: TranslationStrings = {
   'storage.field.region': 'Region',
   'storage.help.region': 'Belasse die Standardeinstellung, sofern dein Anbieter keine bestimmte Region verlangt.',
   'storage.field.keyPrefix': 'Schlüsselpräfix',
-  'storage.help.keyPrefix': 'Optionales Präfix, das jedem Objektschlüssel vorangestellt wird, z. B. trek/prod.',
+  'storage.help.keyPrefix': 'Optionales Präfix, das jedem Objektschlüssel vorangestellt wird, z. B. tripmate/prod.',
   'storage.field.retries': 'Wiederholungsversuche',
   'storage.field.timeoutMs': 'Zeitlimit (ms)',
   'storage.field.primary': 'Primäres Backend',
   'storage.field.replicas': 'Repliken',
   'storage.title': 'Speicher',
   'storage.description':
-    'Wo TREK hochgeladene Dateien, Fotos und Backups aufbewahrt. Es ändert sich nichts, bis du speicherst.',
+    'Wo Trip Mate hochgeladene Dateien, Fotos und Backups aufbewahrt. Es ändert sich nichts, bis du speicherst.',
   'storage.loading': 'Wird geladen…',
   'storage.saved': 'Speicherkonfiguration gespeichert',
   'storage.save': 'Änderungen speichern',
@@ -67,7 +67,7 @@ const storage: TranslationStrings = {
   'storage.category.avatars': 'Profilbilder',
   'storage.category.places': 'Ortsbilder',
   'storage.category.photos-google': 'Google-Fotocache',
-  'storage.category.photos-trek': 'TREK-Fotocache',
+  'storage.category.photos-tripmate': 'Trip Mate-Fotocache',
   'storage.category.backups': 'Backups',
 
   // What each category stores — rendered under the label in the category map.
@@ -79,8 +79,8 @@ const storage: TranslationStrings = {
   'storage.categoryDesc.places': 'Bilder, die an Orte und Sammlungsorte angehängt sind — hochgeladen oder importiert.',
   'storage.categoryDesc.photos-google':
     'Zwischengespeicherte Kopien von Google-Places-Fotos — können erneut abgerufen werden, ein Verlust ist unbedenklich.',
-  'storage.categoryDesc.photos-trek':
-    'Zwischengespeicherte Fotos vom TREK-Fotodienst, der von Fotos (Memories) verwendet wird — können erneut abgerufen werden, ein Verlust ist unbedenklich.',
+  'storage.categoryDesc.photos-tripmate':
+    'Zwischengespeicherte Fotos vom Trip Mate-Fotodienst, der von Fotos (Memories) verwendet wird — können erneut abgerufen werden, ein Verlust ist unbedenklich.',
   'storage.categoryDesc.backups': 'Server-Backup-Archive, erstellt vom Backup-Panel oder nach Zeitplan.',
   'storage.health.title': 'Zustand',
   'storage.health.allClear': 'Keine Replikatfehler aufgezeichnet.',
@@ -137,6 +137,7 @@ const storage: TranslationStrings = {
   'storage.migrate.cancel': 'Verschieben abbrechen',
   'storage.migrate.promptCancel': 'Abbrechen',
   'storage.migrate.queued': 'In Warteschlange: {categories}',
-  'storage.migrate.queueDropped': 'Die nächste Verschiebung konnte nicht gestartet werden — die verbleibende Warteschlange wurde geleert: {categories}',
+  'storage.migrate.queueDropped':
+    'Die nächste Verschiebung konnte nicht gestartet werden — die verbleibende Warteschlange wurde geleert: {categories}',
 };
 export default storage;

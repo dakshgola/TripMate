@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import type { BookElement, BookPageSetup, BookSpread } from '@trek/shared'
-import { bookPageSetupSchema } from '@trek/shared'
+import type { BookElement, BookPageSetup, BookSpread } from '@tripmate/shared'
+import { bookPageSetupSchema } from '@tripmate/shared'
 import { render } from '../../helpers/render'
 import { SpreadView } from '../../../src/components/Studio/SpreadView'
 

@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Headers, HttpCode, HttpException, Param, Post, Put, UseGuards } from '@nestjs/common';
-import type { RoadtripDayTrack, RoadtripVia } from '@trek/shared';
+import type { RoadtripDayTrack, RoadtripVia } from '@tripmate/shared';
 import { RoadtripService } from './roadtrip.service';
 import { RoadtripViaBatchDto, RoadtripViaCreateDto, RoadtripViaReanchorDto, RoadtripViaUpdateDto } from './roadtrip.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';

@@ -83,7 +83,7 @@ let checkPermission: MockInstance;
 
 import { PlacesModule } from '../../src/nest/places/places.module';
 import { PlacesService } from '../../src/nest/places/places.service';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 describe('Places e2e (real auth guard + temp SQLite)', () => {
@@ -235,7 +235,7 @@ describe('Places e2e (real auth guard + temp SQLite)', () => {
     expect(bad.body).toEqual({ error: 'route_color must be a hex colour like #4f46e5' });
   });
 
-  // #2483: a place from the TREK index can carry its website without a scheme.
+  // #2483: a place from the Trip Mate index can carry its website without a scheme.
   it('PLACES-E2E-2483-01: create and update take a website without a scheme and store it as https', async () => {
     const created = await request(server).post('/api/trips/5/places').set('Cookie', sessionCookie(1))
       .send({ name: 'Chapelle Sainte-Barbe', website: 'fr.wikipedia.org/wiki/Chapelle_Sainte-Barbe_du_Faouët' });

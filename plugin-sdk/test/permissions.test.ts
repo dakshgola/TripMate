@@ -5,7 +5,7 @@ import {
 
 const noop = () => {};
 
-describe('grantGaps — entry points TREK would never run', () => {
+describe('grantGaps — entry points Trip Mate would never run', () => {
   it('reports nothing for an empty plugin', () => {
     expect(grantGaps({}, new Set())).toEqual([]);
   });

@@ -90,7 +90,7 @@ import { AdminModule } from '../../src/nest/admin/admin.module';
 import { OidcModule } from '../../src/nest/oidc/oidc.module';
 import { SettingsModule } from '../../src/nest/settings/settings.module';
 import { NotificationsModule } from '../../src/nest/notifications/notifications.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 describe('Admin e2e (real auth + admin guard + temp SQLite)', () => {
@@ -102,7 +102,7 @@ describe('Admin e2e (real auth + admin guard + temp SQLite)', () => {
     const nest = moduleRef.createNestApplication();
     nest.use(cookieParser());
     // Mirror the production APP_PIPE (app.module.ts): DTO-typed bodies validate
-    // against their @trek/shared schemas.
+    // against their @tripmate/shared schemas.
     nest.useGlobalPipes(new ZodValidationPipe());
     nest.useGlobalFilters(new TrekExceptionFilter());
     await nest.init();

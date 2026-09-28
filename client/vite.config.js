@@ -16,8 +16,8 @@ const UI_VERSION = JSON.parse(readFileSync(new URL('./package.json', import.meta
 // is too big but not which dependency made it so.
 // Mehrere Worktrees laufen hier parallel. Ohne diese beiden Variablen streiten
 // sie sich um 5173 und 3001; mit ihnen bekommt jeder seinen eigenen Satz.
-const DEV_PORT = Number(process.env.TREK_DEV_PORT) || 5173;
-const API_TARGET = process.env.TREK_DEV_API || 'http://localhost:3001';
+const DEV_PORT = Number(process.env.TRIPMATE_DEV_PORT) || 5173;
+const API_TARGET = process.env.TRIPMATE_DEV_API || 'http://localhost:3001';
 
 export default defineConfig(({ mode }) => ({
   define: { __TREK_UI_VERSION__: JSON.stringify(UI_VERSION) },
@@ -237,8 +237,8 @@ export default defineConfig(({ mode }) => ({
         ],
       },
       manifest: {
-        name: 'TREK \u2014 Travel Planner',
-        short_name: 'TREK',
+        name: 'Trip Mate \u2014 Travel Planner',
+        short_name: 'Trip Mate',
         description: 'Travel Resource & Exploration Kit',
         theme_color: '#111827',
         background_color: '#0f172a',
@@ -297,8 +297,8 @@ export default defineConfig(({ mode }) => ({
             {
               name: 'vendor-core',
               priority: 30,
-              // zod and dompurify arrive through @trek/shared but live in
-              // node_modules themselves, so they are caught here. @trek/shared is
+              // zod and dompurify arrive through @tripmate/shared but live in
+              // node_modules themselves, so they are caught here. @tripmate/shared is
               // not: it resolves to shared/dist without a node_modules segment,
               // and its contract code changes with every release anyway.
               tags: ['$initial'],
@@ -312,7 +312,7 @@ export default defineConfig(({ mode }) => ({
   /*
    * Never pre-bundle the workspace's own contracts.
    *
-   * `@trek/shared` resolves to shared/dist, which is a build output that changes
+   * `@tripmate/shared` resolves to shared/dist, which is a build output that changes
    * whenever a Zod schema does. Pre-bundled, the dev server keeps serving the
    * copy it optimised at startup: a field added to the document contract is
    * missing in the browser, `normalizeBookDocument` strips it on load, and the
@@ -320,7 +320,7 @@ export default defineConfig(({ mode }) => ({
    * cost an afternoon twice before anyone worked out it was not the code.
    */
   optimizeDeps: {
-    exclude: ['@trek/shared'],
+    exclude: ['@tripmate/shared'],
   },
   server: {
     port: DEV_PORT,

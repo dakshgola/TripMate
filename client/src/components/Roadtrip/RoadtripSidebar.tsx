@@ -24,8 +24,8 @@ import { spurWorthLabelling } from './accessSpur'
 import StopKindPicker from './StopKindPicker'
 import StopFillPicker from './StopFillPicker'
 import { useVehicleRange } from './useVehicleRange'
-import { MAX_TRIP_DAYS, type RoadtripStopType } from '@trek/shared'
-import { isCarrierMode, isStoredStop, undatedRides, type CarrierTerminal } from '@trek/shared/roadtrip'
+import { MAX_TRIP_DAYS, type RoadtripStopType } from '@tripmate/shared'
+import { isCarrierMode, isStoredStop, undatedRides, type CarrierTerminal } from '@tripmate/shared/roadtrip'
 import type { QuietDay, RoadtripDay, RoadtripRoutes, RoadtripStop } from './useRoadtripRoutes'
 import type { SpillMark } from './nightSpill'
 import { ARRIVING_DRIVE, openOn, type LegAlternatives, type RailDrive } from './useRouteAlternatives'
@@ -193,7 +193,7 @@ const DAY_BADGE = 'inline-flex h-[20px] items-center rounded-lg px-2 font-geist 
  * How long the traveller stays here, and the way to change it.
  *
  * On every stop, not only the ones that already carry a time: the value has never been
- * editable anywhere in TREK, so a stop that has none needs somewhere to say so before it
+ * editable anywhere in Trip Mate, so a stop that has none needs somewhere to say so before it
  * can get one. Unset it reads as a plus in the slot the number will occupy, which keeps
  * the two states the same shape and the same width — a row does not jump when a stay is
  * added to it.
@@ -523,7 +523,7 @@ function RefuelBand({ dry, refuel, dayId, onAsk, onAccept }: {
                       <DryIcon
                         size={14}
                         strokeWidth={2}
-                        className="trek-lowfuel group-hover/fuel:[animation-play-state:paused]"
+                        className="tripmate-lowfuel group-hover/fuel:[animation-play-state:paused]"
                         aria-hidden
                       />
                     )}
@@ -1465,7 +1465,7 @@ function SpillBlock({ spill, children }: {
       // them by its own padding and their numbers and dashed line stand a few pixels
       // right of every other number and line in the card — which reads as two lists
       // rather than as one chain with a night in it.
-      className="trek-spill-in -mx-2 mb-1.5 mt-0.5 overflow-hidden rounded-xl border"
+      className="tripmate-spill-in -mx-2 mb-1.5 mt-0.5 overflow-hidden rounded-xl border"
       style={{
         borderColor: edge,
         backgroundImage: `linear-gradient(180deg, ${night} 0%, ${dawn} 58%, var(--bg-card) 100%)`,
@@ -1487,7 +1487,7 @@ function SpillBlock({ spill, children }: {
           {/* Three z's on one baseline, each starting a third of the loop after the last,
               so one is always on its way up. Decorative: the line beside it already says
               what the block is. */}
-          <span className="trek-doze flex items-end gap-[3px] self-start" aria-hidden>
+          <span className="tripmate-doze flex items-end gap-[3px] self-start" aria-hidden>
             <span style={{ fontSize: FS.micro }}>z</span>
             <span style={{ fontSize: FS.label }}>z</span>
             <span style={{ fontSize: FS.meta }}>z</span>
@@ -2220,7 +2220,7 @@ export default function RoadtripSidebar({
       <div className="flex min-h-0 flex-1 items-center justify-center overflow-y-auto">
         {/* The mascot rather than a pin and two lines of instructions. The rail
             is empty because the trip has no days with places yet, which is a
-            state, not a task list: the same look every other empty state in TREK
+            state, not a task list: the same look every other empty state in Trip Mate
             has. */}
         <EmptyState
           scene="transport"

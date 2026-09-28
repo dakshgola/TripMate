@@ -48,16 +48,16 @@ const ENTRY: RegistryEntry = {
   name: 'Flight Tracker',
   author: 'You',
   description: 'Live flight status on the dashboard.',
-  repo: 'you/trek-plugin-flight-tracker',
+  repo: 'you/tripmate-plugin-flight-tracker',
   type: 'widget',
   versions: [
     {
       version: '1.0.0',
       gitTag: 'v1.0.0',
       commitSha: SHA,
-      downloadUrl: 'https://github.com/you/trek-plugin-flight-tracker/releases/download/v1.0.0/plugin.zip',
+      downloadUrl: 'https://github.com/you/tripmate-plugin-flight-tracker/releases/download/v1.0.0/plugin.zip',
       sha256: '0'.repeat(64),
-      trek: '>=4.0.0 <5.0.0',
+      tripmate: '>=4.0.0 <5.0.0',
       size: 1234,
       apiVersion: 1,
       nativeModules: false,
@@ -100,7 +100,7 @@ describe('network.readme-at-commit — the README graded at the pinned commit', 
     const fetchFn = stubFetch({
       '/README.md': { ok: true, status: 200, body: GOOD_README },
       '/docs/screenshot.png': { ok: true, status: 200, contentType: 'image/png' },
-      '/trek-plugin.json': { ok: true, status: 200, body: MANIFEST_AT_COMMIT },
+      '/tripmate-plugin.json': { ok: true, status: 200, body: MANIFEST_AT_COMMIT },
     });
 
     const r = await readmeAtCommit.run(ctx());
@@ -117,21 +117,21 @@ describe('network.readme-at-commit — the README graded at the pinned commit', 
     stubFetch({
       '/README.md': { ok: true, status: 200, body: GOOD_README },
       '/docs/screenshot.png': { ok: false, status: 404, contentType: 'text/plain' },
-      '/trek-plugin.json': { ok: true, status: 200, body: MANIFEST_AT_COMMIT },
+      '/tripmate-plugin.json': { ok: true, status: 200, body: MANIFEST_AT_COMMIT },
     });
 
     const r = await readmeAtCommit.run(ctx());
     expect(r.status).toBe('fail');
     expect(r.fix).toMatch(/docs\/screenshot\.png does not resolve to an image/);
     expect(r.fix).toMatch(/404/);
-    expect(r.fix).toMatch(/trek-plugin shot/);
+    expect(r.fix).toMatch(/tripmate-plugin shot/);
   });
 
   it('fails when the file resolves but is not an image (200 with no content-type)', async () => {
     stubFetch({
       '/README.md': { ok: true, status: 200, body: GOOD_README },
       '/docs/screenshot.png': { ok: true, status: 200 },
-      '/trek-plugin.json': { ok: true, status: 200, body: MANIFEST_AT_COMMIT },
+      '/tripmate-plugin.json': { ok: true, status: 200, body: MANIFEST_AT_COMMIT },
     });
 
     const r = await readmeAtCommit.run(ctx());
@@ -143,7 +143,7 @@ describe('network.readme-at-commit — the README graded at the pinned commit', 
     stubFetch({
       '/README.md': { ok: true, status: 200, body: GOOD_README },
       '/docs/screenshot.png': 'throw',
-      '/trek-plugin.json': { ok: true, status: 200, body: MANIFEST_AT_COMMIT },
+      '/tripmate-plugin.json': { ok: true, status: 200, body: MANIFEST_AT_COMMIT },
     });
 
     const r = await readmeAtCommit.run(ctx());
@@ -165,7 +165,7 @@ describe('network.readme-at-commit — the README graded at the pinned commit', 
     stubFetch({
       '/README.md': { ok: true, status: 200, body: '# Stub\n\nDescribe what it does. {{TAGLINE}}\n' },
       '/docs/screenshot.png': { ok: true, status: 200, contentType: 'image/png' },
-      '/trek-plugin.json': { ok: true, status: 200, body: MANIFEST_AT_COMMIT },
+      '/tripmate-plugin.json': { ok: true, status: 200, body: MANIFEST_AT_COMMIT },
     });
 
     const r = await readmeAtCommit.run(ctx());

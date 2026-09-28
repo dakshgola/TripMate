@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react'
 import type {
   BookElement, BookIconElement, BookPageSetup, BookPhotoElement, BookShapeElement, BookSpread,
-} from '@trek/shared'
+} from '@tripmate/shared'
 import { photoSrc } from './bookRender'
 import { fontStack } from './bookFonts'
 import { iconComponent } from './iconLibrary'

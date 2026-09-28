@@ -102,7 +102,7 @@ describe('OpenAiCompatibleClient', () => {
 
     // The response is the booking, and on a managed install the operator's log
     // is not the place for it — same split as the extracted text.
-    vi.stubEnv('TREK_MANAGED', 'true');
+    vi.stubEnv('TRIPMATE_MANAGED', 'true');
     try {
       await expect(new OpenAiCompatibleClient().extract(baseInput)).rejects.toThrow(/did not answer with JSON$/);
     } finally {

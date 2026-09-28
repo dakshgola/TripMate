@@ -1,6 +1,6 @@
 # MCP Addon Tools and Resources
 
-This page covers MCP tools and resources that require specific addons to be enabled on your TREK instance. For the rest of the surface (trips, places, day planning, accommodations, transport, reservations, tags, maps, and notifications — plus the Budget tools, which need the Budget addon, listed as **Costs** under **Admin → Addons**, but are documented there) see [MCP-Tools-and-Resources](MCP-Tools-and-Resources).
+This page covers MCP tools and resources that require specific addons to be enabled on your Trip Mate instance. For the rest of the surface (trips, places, day planning, accommodations, transport, reservations, tags, maps, and notifications — plus the Budget tools, which need the Budget addon, listed as **Costs** under **Admin → Addons**, but are documented there) see [MCP-Tools-and-Resources](MCP-Tools-and-Resources).
 
 ---
 
@@ -72,9 +72,9 @@ The addon alone is not enough. Collab has five sub-features an admin switches on
 
 | Sub-feature | Tools it gates | Resource it gates |
 |---|---|---|
-| Notes | `create_collab_note`, `update_collab_note`, `delete_collab_note` | `trek://trips/{tripId}/collab-notes` |
-| Polls | `list_collab_polls`, `create_collab_poll`, `vote_collab_poll`, `close_collab_poll`, `delete_collab_poll` | `trek://trips/{tripId}/collab/polls` |
-| Chat | `list_collab_messages`, `send_collab_message`, `delete_collab_message`, `react_collab_message` | `trek://trips/{tripId}/collab/messages` |
+| Notes | `create_collab_note`, `update_collab_note`, `delete_collab_note` | `tripmate://trips/{tripId}/collab-notes` |
+| Polls | `list_collab_polls`, `create_collab_poll`, `vote_collab_poll`, `close_collab_poll`, `delete_collab_poll` | `tripmate://trips/{tripId}/collab/polls` |
+| Chat | `list_collab_messages`, `send_collab_message`, `delete_collab_message`, `react_collab_message` | `tripmate://trips/{tripId}/collab/messages` |
 
 | Tool | Description |
 |---|---|
@@ -213,7 +213,7 @@ Each tool asks for the scope of what it writes, so the scopes differ per tool. T
 
 | Tool | Purpose | Scope |
 |---|---|---|
-| `list_dawarich_suggestions` | List the stays TREK pulled from the caller's Dawarich for review, optionally for one trip or one state (`new`, `accepted`, `dismissed`); 50 by default, up to 200 | `journey:read` |
+| `list_dawarich_suggestions` | List the stays Trip Mate pulled from the caller's Dawarich for review, optionally for one trip or one state (`new`, `accepted`, `dismissed`); 50 by default, up to 200 | `journey:read` |
 | `accept_dawarich_suggestion_as_place` | Turn a stay into a place on a trip, optionally on one of its days, with a corrected name, notes or coordinates | `places:write` |
 | `accept_dawarich_suggestion_as_journal_entry` | Turn a stay into a dated journal entry with a title, story, date and time | `journey:write` |
 | `mark_bucket_list_item_visited_from_dawarich` | Tick off the bucket list wish a stay was matched to, or another wish of the caller's | `atlas:write` |
@@ -222,7 +222,7 @@ Each tool asks for the scope of what it writes, so the scopes differ per tool. T
 
 ### Document sync _(Documents addon required)_
 
-`get_trip_document_sync` and `list_trip_document_sync_issues` require `files:read`; `sync_trip_documents` requires `files:write`. Any member of the trip may call them. No tool connects a store or changes a binding: that hands TREK a credential to someone's document archive, and it stays with the trip owner in the file manager. See [Document-Sync](Document-Sync).
+`get_trip_document_sync` and `list_trip_document_sync_issues` require `files:read`; `sync_trip_documents` requires `files:write`. Any member of the trip may call them. No tool connects a store or changes a binding: that hands Trip Mate a credential to someone's document archive, and it stays with the trip owner in the file manager. See [Document-Sync](Document-Sync).
 
 | Tool | Description |
 |---|---|
@@ -274,30 +274,30 @@ Google Maps directions links can be reviewed with `preview_google_maps_route` an
 
 ## Addon-gated resources
 
-Resources provide read-only access via `trek://` URIs. The following resources require their addon to be enabled.
+Resources provide read-only access via `tripmate://` URIs. The following resources require their addon to be enabled.
 
 | URI | Addon | Scope required | Description |
 |---|---|---|---|
-| `trek://trips/{tripId}/budget` | Budget | `budget:read` | Budget and expense items |
-| `trek://trips/{tripId}/budget/per-person` | Budget | `budget:read` | Per-person totals and split breakdown |
-| `trek://trips/{tripId}/budget/settlement` | Budget | `budget:read` | Suggested transactions to settle who owes whom |
-| `trek://trips/{tripId}/packing` | Packing | `packing:read` | Packing checklist |
-| `trek://trips/{tripId}/packing/bags` | Packing | `packing:read` | Packing bags with their assigned members |
-| `trek://trips/{tripId}/todos` | Packing | `todos:read` | To-do items ordered by position |
-| `trek://trips/{tripId}/collab-notes` | Collab | `collab:read` | Shared collaborative notes |
-| `trek://bucket-list` | Atlas | `atlas:read` | Your personal travel bucket list |
-| `trek://visited-countries` | Atlas | `atlas:read` | Countries marked as visited in Atlas |
-| `trek://atlas/stats` | Atlas | `atlas:read` | Visited country counts and continent breakdown |
-| `trek://atlas/regions` | Atlas | `atlas:read` | Manually visited sub-country regions |
-| `trek://trips/{tripId}/collab/polls` | Collab | `collab:read` | All polls for a trip with vote counts per option |
-| `trek://trips/{tripId}/collab/messages` | Collab | `collab:read` | Most recent 100 chat messages for a trip |
-| `trek://vacay/plan` | Vacay | `vacay:read` | Full snapshot of your active vacation plan (members, years, config) |
-| `trek://vacay/entries/{year}` | Vacay | `vacay:read` | All vacation day entries for the active plan and a specific year |
-| `trek://vacay/holidays/{year}` | Vacay | `vacay:read` | Public holidays for the plan's configured region and year |
-| `trek://journeys` | Journey | `journey:read` | All journeys owned or contributed to by the current user |
-| `trek://journeys/{journeyId}` | Journey | `journey:read` | Single journey with entries, contributors, and linked trips |
-| `trek://journeys/{journeyId}/entries` | Journey | `journey:read` | All entries in a journey (date, text, mood, linked trip) |
-| `trek://journeys/{journeyId}/contributors` | Journey | `journey:read` | Contributors (owner and collaborators) of a journey |
+| `tripmate://trips/{tripId}/budget` | Budget | `budget:read` | Budget and expense items |
+| `tripmate://trips/{tripId}/budget/per-person` | Budget | `budget:read` | Per-person totals and split breakdown |
+| `tripmate://trips/{tripId}/budget/settlement` | Budget | `budget:read` | Suggested transactions to settle who owes whom |
+| `tripmate://trips/{tripId}/packing` | Packing | `packing:read` | Packing checklist |
+| `tripmate://trips/{tripId}/packing/bags` | Packing | `packing:read` | Packing bags with their assigned members |
+| `tripmate://trips/{tripId}/todos` | Packing | `todos:read` | To-do items ordered by position |
+| `tripmate://trips/{tripId}/collab-notes` | Collab | `collab:read` | Shared collaborative notes |
+| `tripmate://bucket-list` | Atlas | `atlas:read` | Your personal travel bucket list |
+| `tripmate://visited-countries` | Atlas | `atlas:read` | Countries marked as visited in Atlas |
+| `tripmate://atlas/stats` | Atlas | `atlas:read` | Visited country counts and continent breakdown |
+| `tripmate://atlas/regions` | Atlas | `atlas:read` | Manually visited sub-country regions |
+| `tripmate://trips/{tripId}/collab/polls` | Collab | `collab:read` | All polls for a trip with vote counts per option |
+| `tripmate://trips/{tripId}/collab/messages` | Collab | `collab:read` | Most recent 100 chat messages for a trip |
+| `tripmate://vacay/plan` | Vacay | `vacay:read` | Full snapshot of your active vacation plan (members, years, config) |
+| `tripmate://vacay/entries/{year}` | Vacay | `vacay:read` | All vacation day entries for the active plan and a specific year |
+| `tripmate://vacay/holidays/{year}` | Vacay | `vacay:read` | Public holidays for the plan's configured region and year |
+| `tripmate://journeys` | Journey | `journey:read` | All journeys owned or contributed to by the current user |
+| `tripmate://journeys/{journeyId}` | Journey | `journey:read` | Single journey with entries, contributors, and linked trips |
+| `tripmate://journeys/{journeyId}/entries` | Journey | `journey:read` | All entries in a journey (date, text, mood, linked trip) |
+| `tripmate://journeys/{journeyId}/contributors` | Journey | `journey:read` | Contributors (owner and collaborators) of a journey |
 
 ---
 

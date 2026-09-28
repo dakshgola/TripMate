@@ -3,7 +3,7 @@ import { http, HttpResponse } from 'msw'
 import { server } from '../../tests/helpers/msw/server'
 import { useAuthStore } from '../store/authStore'
 import { recordPlacePick } from './placeShadow'
-import type { PlaceShadowPickRequest } from '@trek/shared'
+import type { PlaceShadowPickRequest } from '@tripmate/shared'
 
 /**
  * The point of this module is that it never gets in the way: it must not fire

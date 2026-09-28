@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import type { Map, Popup, MapMouseEvent } from 'mapbox-gl'
-import type { RoadtripHazard } from '@trek/shared'
+import type { RoadtripHazard } from '@tripmate/shared'
 import { hazardPopup, hazardFeature } from './hazardPopup'
 import { useTranslation } from '../../i18n/TranslationContext'
 

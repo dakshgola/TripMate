@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Headers, Param, ParseIntPipe, Put, UseGuards } from '@nestjs/common';
 import { createZodDto } from 'nestjs-zod';
-import { roadtripDayBoundarySchema } from '@trek/shared';
+import { roadtripDayBoundarySchema } from '@tripmate/shared';
 import { ADDON_IDS } from '../../addons';
 import { RequireAddon } from '../addons/require-addon.decorator';
 import { AddonGuard } from '../addons/addon.guard';

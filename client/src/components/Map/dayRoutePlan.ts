@@ -1,7 +1,7 @@
 import { withHotelBookends } from './RouteCalculator'
 import { getTransportRouteEndpoints, getTransportForDay, getMergedItems, isCarrierTransport, hasCarrierEndpointOnDay } from '../../utils/dayMerge'
 import { getDayBookendHotels, shouldDrawMorningLeg, shouldDrawEveningLeg, type CarrierEdge } from '../../utils/dayOrder'
-import { withinDriveRange } from '@trek/shared/roadtrip'
+import { withinDriveRange } from '@tripmate/shared/roadtrip'
 import type { Accommodation, AssignmentsMap, Day, Reservation } from '../../types'
 
 export const TRANSPORT_TYPES = ['flight', 'train', 'bus', 'car', 'taxi', 'bicycle', 'cruise', 'ferry', 'transit', 'transport_other']

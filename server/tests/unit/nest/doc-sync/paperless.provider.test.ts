@@ -461,7 +461,7 @@ describe('PaperlessProvider: scopes are tags', () => {
   });
 
   it('PAPERLESS-025: another provider’s scope key is refused before any request', async () => {
-    for (const scopeKey of ['path:/trek', 'tag:', 'tag:abc', 'tag:-1', 'fileid:437']) {
+    for (const scopeKey of ['path:/tripmate', 'tag:', 'tag:abc', 'tag:-1', 'fileid:437']) {
       const error = expectFail(await provider.resolveScope(CONN, { ...SCOPE, scopeKey }));
       expect(error.code).toBe('scope_missing');
     }
@@ -626,7 +626,7 @@ describe('PaperlessProvider: fetching bytes', () => {
     });
   });
 
-  it('PAPERLESS-044: a download announcing more than TREK transfers is refused before it is read', async () => {
+  it('PAPERLESS-044: a download announcing more than Trip Mate transfers is refused before it is read', async () => {
     on('GET /api/documents/11/', reply(docRow()));
     on('GET /api/documents/11/download/', streamReply('%PDF', { 'content-length': String(3 * 1024 ** 3) }));
     expect(expectFail(await provider.fetch(CONN, SCOPE, '11'))).toMatchObject({
@@ -703,7 +703,7 @@ describe('PaperlessProvider: pushing bytes', () => {
   it('PAPERLESS-053: a custom field list from a build that ignores the filter is not trusted', async () => {
     on('GET /api/custom_fields/', reply(page([
       { id: 8, name: 'rechnungsnummer', data_type: 'string' },
-      { id: 9, name: 'TREK_TRIP_ID', data_type: 'string' },
+      { id: 9, name: 'TRIPMATE_TRIP_ID', data_type: 'string' },
     ])));
     on('POST /api/documents/post_document/', reply('"task-uuid-1"'));
     on('GET /api/tasks/', reply(page([taskRow()])));
@@ -895,7 +895,7 @@ describe('PaperlessProvider: the self-registered webhook', () => {
   it('PAPERLESS-090: subscribes both triggers, filtered on the tag, with the secret in a header', async () => {
     on('POST /api/workflows/', reply({ id: 6 }, 201));
     const registered = expectOk(
-      await provider.registerWebhook(CONN, SCOPE, 'https://trek.example.org/api/docsync/hook/7', 'sh4red'),
+      await provider.registerWebhook(CONN, SCOPE, 'https://tripmate.example.org/api/docsync/hook/7', 'sh4red'),
     );
     expect(registered.subscriptionId).toBe('6');
 
@@ -911,7 +911,7 @@ describe('PaperlessProvider: the self-registered webhook', () => {
     }
     expect(sent.actions[0]?.type).toBe(4);
     expect(sent.actions[0]?.webhook).toMatchObject({
-      url: 'https://trek.example.org/api/docsync/hook/7',
+      url: 'https://tripmate.example.org/api/docsync/hook/7',
       use_params: true,
       as_json: true,
       include_document: false,
@@ -924,7 +924,7 @@ describe('PaperlessProvider: the self-registered webhook', () => {
   });
 
   it('PAPERLESS-091: a callback URL Paperless cannot store is refused here, not upstream', async () => {
-    const long = `https://trek.example.org/api/docsync/hook/${'x'.repeat(240)}`;
+    const long = `https://tripmate.example.org/api/docsync/hook/${'x'.repeat(240)}`;
     const error = expectFail(await provider.registerWebhook(CONN, SCOPE, long, 's'));
     expect(error.code).toBe('provider_error');
     expect(error.detail).toContain('limit 256');

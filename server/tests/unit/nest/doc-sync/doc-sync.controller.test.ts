@@ -152,7 +152,7 @@ function linkBody(connectionId: number, over: Partial<DocsyncLinkDto> = {}): Doc
     connectionId,
     scopeKey: 'tag:1',
     remoteRootId: '1',
-    remoteRootPath: '/TREK/japan',
+    remoteRootPath: '/Trip Mate/japan',
     remoteLabel: 'Japan 2026',
     direction: 'both',
     deletePolicy: 'unlink',
@@ -212,21 +212,21 @@ async function storedPaperless(credentials: Record<string, string> = { api_token
 
 describe('who may change a trip binding', () => {
   it('lets the trip owner through', async () => {
-    await expect(controller.resolve(String(tripId), '1', owner, { keep: 'trek' })).resolves.toEqual({ success: true });
+    await expect(controller.resolve(String(tripId), '1', owner, { keep: 'tripmate' })).resolves.toEqual({ success: true });
   });
 
   it('lets an instance admin through on a trip they neither own nor joined', async () => {
-    await expect(controller.resolve(String(otherTripId), '1', admin, { keep: 'trek' })).resolves.toEqual({ success: true });
+    await expect(controller.resolve(String(otherTripId), '1', admin, { keep: 'tripmate' })).resolves.toEqual({ success: true });
   });
 
   it('refuses a plain member with the message the client renders', async () => {
-    const err = await thrown(() => controller.resolve(String(tripId), '1', member, { keep: 'trek' }));
+    const err = await thrown(() => controller.resolve(String(tripId), '1', member, { keep: 'tripmate' }));
     expect(err.getStatus()).toBe(403);
     expect(err.message).toBe('Only the trip owner can change document sync');
   });
 
   it('answers 404 for a trip that does not exist, rather than the 403 that would confirm it', async () => {
-    const err = await thrown(() => controller.resolve('999999', '1', member, { keep: 'trek' }));
+    const err = await thrown(() => controller.resolve('999999', '1', member, { keep: 'tripmate' }));
     expect(err.getStatus()).toBe(404);
     expect(err.message).toBe('Trip not found');
   });
@@ -316,7 +316,7 @@ describe('probing form values', () => {
     const res = await config.upsertConnection(tripId, Number(owner.id), connBody({
       providerId: 'nextcloud',
       baseUrl: 'https://cloud.example.com',
-      credentials: { login_name: 'alice', app_password: 'app-pw', base_path: '/TREK' },
+      credentials: { login_name: 'alice', app_password: 'app-pw', base_path: '/Trip Mate' },
     }));
     expect('error' in res).toBe(false);
 
@@ -327,7 +327,7 @@ describe('probing form values', () => {
     }) as DocsyncConnectionTestDto);
 
     expect(nextcloud.probe.mock.calls[0][0]).toMatchObject({
-      settings: { login_name: 'alice', base_path: '/TREK' },
+      settings: { login_name: 'alice', base_path: '/Trip Mate' },
       secrets: { app_password: 'app-pw' },
     });
   });
@@ -450,17 +450,17 @@ describe('removing a connection', () => {
     expect(testDb.prepare('SELECT id FROM trip_files WHERE id = ?').get(fileId)).toBeTruthy();
   });
 
-  it('takes down every subscription TREK registered for its bindings, before the credential goes', async () => {
+  it('takes down every subscription Trip Mate registered for its bindings, before the credential goes', async () => {
     // The bindings cascade away with the connection, and the rows were the
-    // only record of the Paperless workflows and Nextcloud listeners TREK had
+    // only record of the Paperless workflows and Nextcloud listeners Trip Mate had
     // set up: left standing, they keep posting to a token that answers
     // nothing, for good. Unbinding one binding already did this.
     const conn = await storedPaperless();
     const first = (await controller.createLink(
-      String(tripId), owner, linkBody(conn.id, { scopeKey: 'tag:1' }), makeReq({ host: 'trek.example' }),
+      String(tripId), owner, linkBody(conn.id, { scopeKey: 'tag:1' }), makeReq({ host: 'tripmate.example' }),
     )) as { id: number };
     paperless.registerWebhook.mockResolvedValueOnce({ success: true, data: { subscriptionId: 'sub-8' } } as never);
-    await controller.createLink(String(tripId), owner, linkBody(conn.id, { scopeKey: 'tag:2' }), makeReq({ host: 'trek.example' }));
+    await controller.createLink(String(tripId), owner, linkBody(conn.id, { scopeKey: 'tag:2' }), makeReq({ host: 'tripmate.example' }));
     // One that never got a subscription, which must not be unregistered as ''.
     await controller.createLink(String(tripId), owner, linkBody(conn.id, { scopeKey: 'tag:3' }), makeReq());
     paperless.unregisterWebhook.mockClear();
@@ -475,7 +475,7 @@ describe('removing a connection', () => {
 
   it('still unbinds when the provider refuses to take a subscription down', async () => {
     const conn = await storedPaperless();
-    await controller.createLink(String(tripId), owner, linkBody(conn.id), makeReq({ host: 'trek.example' }));
+    await controller.createLink(String(tripId), owner, linkBody(conn.id), makeReq({ host: 'tripmate.example' }));
     paperless.unregisterWebhook.mockResolvedValueOnce({ success: false, error: { code: 'unreachable' } } as never);
 
     await expect(controller.deleteConnection(String(tripId), String(conn.id), owner)).resolves.toEqual({ success: true });
@@ -495,7 +495,7 @@ describe('removing a connection', () => {
     const cloud = await config.upsertConnection(tripId, Number(owner.id), connBody({
       providerId: 'nextcloud',
       baseUrl: 'https://cloud.example.com',
-      credentials: { login_name: 'alice', app_password: 'app-pw', base_path: '/TREK' },
+      credentials: { login_name: 'alice', app_password: 'app-pw', base_path: '/Trip Mate' },
     }));
     if ('error' in cloud) throw new Error(`fixture failed: ${cloud.error.code}`);
     const bind = (connectionId: number, scopeKey: string) => {
@@ -521,7 +521,7 @@ describe('the scope picker', () => {
     const conn = await storedPaperless();
     paperless.listScopes.mockResolvedValueOnce({
       success: true,
-      data: [{ scopeKey: 'tag:1', label: 'Japan 2026', remoteRootId: '1', remoteRootPath: '/TREK/japan' }],
+      data: [{ scopeKey: 'tag:1', label: 'Japan 2026', remoteRootId: '1', remoteRootPath: '/Trip Mate/japan' }],
     } as never);
 
     const res = await controller.listScopes(String(tripId), String(conn.id), owner, 'japan');
@@ -557,7 +557,7 @@ describe('the scope picker', () => {
     const conn = await storedPaperless();
     paperless.createScope.mockResolvedValueOnce({
       success: true,
-      data: { scopeKey: 'tag:9', label: 'Norway', remoteRootId: '9', remoteRootPath: '/TREK/norway' },
+      data: { scopeKey: 'tag:9', label: 'Norway', remoteRootId: '9', remoteRootPath: '/Trip Mate/norway' },
     } as never);
 
     await expect(controller.createScope(String(tripId), String(conn.id), owner, { name: 'Norway' }))
@@ -590,12 +590,12 @@ describe('creating a binding', () => {
       String(tripId),
       owner,
       linkBody(conn.id),
-      makeReq({ 'x-forwarded-proto': 'https', 'x-forwarded-host': 'trek.example' }),
+      makeReq({ 'x-forwarded-proto': 'https', 'x-forwarded-host': 'tripmate.example' }),
     )) as { id: number };
 
     const row = config.getLink(link.id)!;
     expect(row.webhook_subscription_id).toBe('sub-7');
-    expect(paperless.registerWebhook.mock.calls[0][2]).toBe(`https://trek.example/api/docsync/webhook/${row.webhook_token}`);
+    expect(paperless.registerWebhook.mock.calls[0][2]).toBe(`https://tripmate.example/api/docsync/webhook/${row.webhook_token}`);
     // The secret handed to the provider is the plaintext one, not the stored blob.
     expect(paperless.registerWebhook.mock.calls[0][3]).toBe(config.webhookSecret(row));
   });
@@ -608,7 +608,7 @@ describe('creating a binding', () => {
       String(tripId),
       owner,
       linkBody(conn.id),
-      makeReq({ 'x-forwarded-host': 'trek.example' }),
+      makeReq({ 'x-forwarded-host': 'tripmate.example' }),
     )) as { id: number; syncEnabled: boolean };
 
     const row = config.getLink(link.id)!;
@@ -626,7 +626,7 @@ describe('creating a binding', () => {
       const conn = await storedPaperless();
       paperless.registerWebhook.mockResolvedValueOnce({ success: false, error: { code: 'forbidden', detail: 'API key may not manage workflows' } } as never);
 
-      const link = (await controller.createLink(String(tripId), owner, linkBody(conn.id), makeReq({ host: 'trek.example' }))) as { id: number };
+      const link = (await controller.createLink(String(tripId), owner, linkBody(conn.id), makeReq({ host: 'tripmate.example' }))) as { id: number };
 
       const lines = warn.mock.calls.map((c) => String(c[0])).filter((m) => m.includes(`link ${link.id}`));
       expect(lines).toHaveLength(1);
@@ -637,7 +637,7 @@ describe('creating a binding', () => {
     }
   });
 
-  it('does not offer a webhook when no host reaches TREK', async () => {
+  it('does not offer a webhook when no host reaches Trip Mate', async () => {
     const conn = await storedPaperless();
     const link = (await controller.createLink(String(tripId), owner, linkBody(conn.id), makeReq())) as { webhookUrl: string | null };
     expect(paperless.registerWebhook).not.toHaveBeenCalled();
@@ -646,7 +646,7 @@ describe('creating a binding', () => {
 
   it('starts a first run at once instead of letting the user wait out a poll interval', async () => {
     const conn = await storedPaperless();
-    await controller.createLink(String(tripId), owner, linkBody(conn.id), makeReq({ host: 'trek.example' }));
+    await controller.createLink(String(tripId), owner, linkBody(conn.id), makeReq({ host: 'tripmate.example' }));
     expect(sync.syncLink).toHaveBeenCalledTimes(1);
     expect(sync.syncLink.mock.calls[0][1]).toEqual({ full: true });
   });
@@ -662,7 +662,7 @@ describe('creating a binding', () => {
   it('refuses a binding for a connection that belongs to a different trip', async () => {
     const conn = await storedPaperless();
     const err = await thrown(() =>
-      controller.createLink(String(otherTripId), admin, linkBody(conn.id), makeReq({ host: 'trek.example' })),
+      controller.createLink(String(otherTripId), admin, linkBody(conn.id), makeReq({ host: 'tripmate.example' })),
     );
     expect(err.getStatus()).toBe(400);
     expect(sync.syncLink).not.toHaveBeenCalled();
@@ -803,7 +803,7 @@ describe('removing a binding', () => {
       String(tripId),
       owner,
       linkBody(conn.id),
-      makeReq({ host: 'trek.example' }),
+      makeReq({ host: 'tripmate.example' }),
     )) as { id: number };
     const fileId = Number(
       testDb.prepare('INSERT INTO trip_files (trip_id, filename, original_name) VALUES (?, ?, ?)')
@@ -865,8 +865,8 @@ describe('the callback origin a provider is given', () => {
 
   it('falls back to the Host header and the connection scheme when nothing is forwarded', async () => {
     await linkedTrip();
-    const [link] = controller.listLinks(String(tripId), makeReq({ host: 'trek.lan:3001' }, 'http')) as Array<{ webhookUrl: string }>;
-    expect(link.webhookUrl).toMatch(/^http:\/\/trek\.lan:3001\//);
+    const [link] = controller.listLinks(String(tripId), makeReq({ host: 'tripmate.lan:3001' }, 'http')) as Array<{ webhookUrl: string }>;
+    expect(link.webhookUrl).toMatch(/^http:\/\/tripmate\.lan:3001\//);
   });
 
   it('offers no callback URL when a proxy strips the host', async () => {
@@ -880,15 +880,15 @@ describe('the callback origin a provider is given', () => {
     // your provider" next to it promised something there was nowhere to do.
     const row = await linkedTrip();
     config.recordProbe(row.connection_id, 'ok', null, { ...CAPS, push: 'none' });
-    const [link] = controller.listLinks(String(tripId), makeReq({ host: 'trek.example' })) as Array<{ webhookUrl: string | null }>;
+    const [link] = controller.listLinks(String(tripId), makeReq({ host: 'tripmate.example' })) as Array<{ webhookUrl: string | null }>;
     expect(link.webhookUrl).toBeNull();
   });
 
   it('keeps offering it for a store the probe found able to take one', async () => {
     const row = await linkedTrip();
     config.recordProbe(row.connection_id, 'ok', null, { ...CAPS, push: 'webhook-manual' });
-    const [link] = controller.listLinks(String(tripId), makeReq({ host: 'trek.example' })) as Array<{ webhookUrl: string | null }>;
-    expect(link.webhookUrl).toBe(`http://trek.example/api/docsync/webhook/${row.webhook_token}`);
+    const [link] = controller.listLinks(String(tripId), makeReq({ host: 'tripmate.example' })) as Array<{ webhookUrl: string | null }>;
+    expect(link.webhookUrl).toBe(`http://tripmate.example/api/docsync/webhook/${row.webhook_token}`);
   });
 });
 
@@ -929,7 +929,7 @@ describe('a manual run and the shelved rows', () => {
 describe('resolving a conflict carries its trip', () => {
   it('passes the trip from the URL to the service', async () => {
     sync.resolveConflict.mockClear();
-    await controller.resolve(String(tripId), '42', owner, { keep: 'trek' } as never);
-    expect(sync.resolveConflict).toHaveBeenCalledWith(42, 'trek', tripId);
+    await controller.resolve(String(tripId), '42', owner, { keep: 'tripmate' } as never);
+    expect(sync.resolveConflict).toHaveBeenCalledWith(42, 'tripmate', tripId);
   });
 });

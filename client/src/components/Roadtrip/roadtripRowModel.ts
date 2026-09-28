@@ -1,5 +1,5 @@
 import { isServiceStopType, type ScheduleEntry, type ScheduleWarning } from './roadtripModel'
-import { isCarrierMode, isStoredStop, type BookendPhase, type CarrierTerminal, type RoadtripDay, type RoadtripStop, type RouteSegment } from '@trek/shared/roadtrip'
+import { isCarrierMode, isStoredStop, type BookendPhase, type CarrierTerminal, type RoadtripDay, type RoadtripStop, type RouteSegment } from '@tripmate/shared/roadtrip'
 import { readStay } from './stayReading'
 
 /**

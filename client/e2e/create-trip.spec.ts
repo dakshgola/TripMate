@@ -14,11 +14,11 @@ test('create a trip and see it on the dashboard', async ({ page }) => {
   // The "+ New Trip" card is always rendered in the default (planned) filter.
   await page.locator('.add-trip-card').click()
 
-  // Scope to the shared Modal (.trek-modal-backdrop — namespaced so content blockers
+  // Scope to the shared Modal (.tripmate-modal-backdrop — namespaced so content blockers
   // don't hide a generic .modal-backdrop). Its form has no in-form submit button (the
   // primary action lives in the footer), so click it explicitly rather than pressing
   // Enter. The Create button is the slate primary button; Cancel is the bordered one.
-  const modal = page.locator('.trek-modal-backdrop')
+  const modal = page.locator('.tripmate-modal-backdrop')
   await expect(modal).toBeVisible()
 
   // Target Title by placeholder: the cover-image search inputs sit above it, so

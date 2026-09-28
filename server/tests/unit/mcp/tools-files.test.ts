@@ -33,7 +33,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -486,7 +486,7 @@ describe('Tool: update_trip_file', () => {
 
   it('blocks a demo user before it looks at the trip', async () => {
     process.env.DEMO_MODE = 'true';
-    const { user } = createUser(testDb, { email: 'demo@trek.app' });
+    const { user } = createUser(testDb, { email: 'demo@tripmate.app' });
     const trip = createTrip(testDb, user.id);
     const file = insertFile(trip.id);
 
@@ -640,7 +640,7 @@ describe('Tool: link_trip_file', () => {
 
   it('blocks a demo user', async () => {
     process.env.DEMO_MODE = 'true';
-    const { user } = createUser(testDb, { email: 'demo@trek.app' });
+    const { user } = createUser(testDb, { email: 'demo@tripmate.app' });
     const trip = createTrip(testDb, user.id);
     const reservation = createReservation(testDb, trip.id);
     const file = insertFile(trip.id);

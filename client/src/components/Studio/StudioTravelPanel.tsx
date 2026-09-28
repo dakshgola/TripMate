@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Check, RouteOff } from 'lucide-react'
-import type { BookElement, BookMetric, BookPageSetup, JourneyStats } from '@trek/shared'
-import { BOOK_METRICS } from '@trek/shared'
+import type { BookElement, BookMetric, BookPageSetup, JourneyStats } from '@tripmate/shared'
+import { BOOK_METRICS } from '@tripmate/shared'
 import { useStudioStore } from '../../store/studioStore'
 import { PanelHead } from './StudioPanelHead'
 import { Section } from './StudioControls'
@@ -17,7 +17,7 @@ import { fetchRoads } from './roadRoute'
  *
  * This is the panel that makes Studio a *travel* book designer rather than a
  * layout tool that happens to be full of holiday photographs. The route, the
- * distance, the countries and the dates are already in TREK; the work is
+ * distance, the countries and the dates are already in Trip Mate; the work is
  * offering them as objects rather than as numbers someone has to retype.
  *
  * ── Why every tile is a real preview ──────────────────────────────────────

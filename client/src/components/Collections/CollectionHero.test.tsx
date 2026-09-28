@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, screen, within } from '../../../tests/helpers/render';
 import userEvent from '@testing-library/user-event';
-import type { CollectionMember } from '@trek/shared';
+import type { CollectionMember } from '@tripmate/shared';
 import { useTranslation } from '../../i18n/TranslationContext';
 import CollectionHero from './CollectionHero';
 
@@ -174,8 +174,8 @@ describe('CollectionHero', () => {
 
     // Export asks which format first (#2301).
     await userEvent.click(actions[1]);
-    await userEvent.click(screen.getByRole('menuitem', { name: /TREK list/ }));
-    expect(onExport).toHaveBeenCalledWith('trek');
+    await userEvent.click(screen.getByRole('menuitem', { name: /Trip Mate list/ }));
+    expect(onExport).toHaveBeenCalledWith('tripmate');
   });
 
   it('FE-COMP-COLHERO-013: has no Export button where there is no list to export', () => {

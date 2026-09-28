@@ -1,4 +1,4 @@
-import type { RoadtripDayBoundary } from '@trek/shared'
+import type { RoadtripDayBoundary } from '@tripmate/shared'
 import type { RouteVia } from '../../types'
 import { nearestDayBoundary, type DayBoundaryLeg, type DayBoundaryTarget, type ProjectPoint } from '../Roadtrip/dayBoundaryPath'
 

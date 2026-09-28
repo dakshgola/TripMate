@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Readable } from 'node:stream';
 import { XMLParser } from 'fast-xml-parser';
-import type { DocsyncErrorCode } from '@trek/shared';
+import type { DocsyncErrorCode } from '@tripmate/shared';
 import { readCappedJson, readCappedText } from '../../../utils/cappedFetch';
 import {
   PROVIDER_JSON_MAX_BYTES,
@@ -19,7 +19,7 @@ import { DOWNLOAD_MAX_BYTES, guardDownload, providerFetch, statusErrorCode } fro
  *
  *  - **`OC-Checksum` is a Nextcloud-only header here.** OpenCloud answers HTTP
  *    400 to `SHA256:<hex>`: it knows SHA1, MD5 and ADLER32, and treats an
- *    unknown algorithm exactly like a mismatch, so sending the sha256 TREK
+ *    unknown algorithm exactly like a mismatch, so sending the sha256 Trip Mate
  *    already has would fail every upload into a space. Nextcloud accepts SHA256
  *    but does NOT verify it: `SHA256:0000` is stored verbatim and served back
  *    through `oc:checksums`. A checksum from a listing is therefore a claim,
@@ -28,12 +28,12 @@ import { DOWNLOAD_MAX_BYTES, guardDownload, providerFetch, statusErrorCode } fro
  *    not one was sent, and never SHA256. That is why `contentHashInListing` is
  *    false for both products rather than true for one.
  *  - **`X-OC-MTime` is honoured by both**, answered with `X-OC-MTime: accepted`.
- *    Without it every file TREK uploads comes back on the next run looking
+ *    Without it every file Trip Mate uploads comes back on the next run looking
  *    freshly changed upstream, which is the classic sync loop.
  *  - **Nextcloud's `OC-FileId` response header is not its `oc:fileid`**: the PUT
  *    that creates `oc:fileid` 62 answers `OC-FileId: 00000062oc9fy1g5e2cj`
  *    (zero-padded id plus instance id). Storing the header form would make every
- *    file TREK uploaded look like a stranger on the next listing, so it is
+ *    file Trip Mate uploaded look like a stranger on the next listing, so it is
  *    normalised back to the numeric id. OpenCloud's two spellings agree.
  *  - **PROPFIND has no pagination.** `Paginate: true` plus `Nc-Paginate-*` is
  *    advertised in the `DAV:` header (`nc-paginate`) and ignored on PROPFIND, so
@@ -164,15 +164,15 @@ const PROPFIND_BODY =
   '</d:prop></d:propfind>';
 
 /**
- * Namespace for the dead properties TREK writes. A URI, not an address: it is
+ * Namespace for the dead properties Trip Mate writes. A URI, not an address: it is
  * never fetched, it only has to be unmistakably ours so a second tool writing
  * `doc-uid` on the same file cannot collide with it.
  */
 export const TREK_PROP_NS = 'https://github.com/liketrek/TREK/ns/docsync';
 
 /** Property names under that namespace, matching the anchors in `PushRequest`. */
-export const TREK_PROP_DOC_UID = 'doc-uid';
-export const TREK_PROP_TRIP_UID = 'trip-uid';
+export const TRIPMATE_PROP_DOC_UID = 'doc-uid';
+export const TRIPMATE_PROP_TRIP_UID = 'trip-uid';
 
 const OCS_WEBHOOKS = '/ocs/v2.php/apps/webhook_listeners/api/v1/webhooks';
 
@@ -539,7 +539,7 @@ export class WebdavClient {
   /**
    * Write dead properties, which both products persist (Nextcloud in
    * `oc_properties`, OpenCloud in the space's metadata) and hand back through a
-   * PROPFIND that asks for them. That is where the TREK anchors go: they are the
+   * PROPFIND that asks for them. That is where the Trip Mate anchors go: they are the
    * only thing that still identifies a document after a human has renamed it and
    * moved it somewhere else in the folder.
    *
@@ -549,9 +549,9 @@ export class WebdavClient {
   async proppatch(creds: WebdavCreds, path: string, props: Record<string, string>): Promise<boolean> {
     const body =
       '<?xml version="1.0" encoding="UTF-8"?>' +
-      `<d:propertyupdate xmlns:d="DAV:" xmlns:trek="${TREK_PROP_NS}"><d:set><d:prop>` +
+      `<d:propertyupdate xmlns:d="DAV:" xmlns:tripmate="${TRIPMATE_PROP_NS}"><d:set><d:prop>` +
       Object.entries(props)
-        .map(([name, value]) => `<trek:${name}>${escapeXmlText(value)}</trek:${name}>`)
+        .map(([name, value]) => `<tripmate:${name}>${escapeXmlText(value)}</tripmate:${name}>`)
         .join('') +
       '</d:prop></d:set></d:propertyupdate>';
 
@@ -641,7 +641,7 @@ export class WebdavClient {
       tooLarge: (declared) =>
         new WebdavError(
           'too_large',
-          'The document is larger than TREK will transfer',
+          'The document is larger than Trip Mate will transfer',
           response.status,
           `content_length=${declared}`,
         ),

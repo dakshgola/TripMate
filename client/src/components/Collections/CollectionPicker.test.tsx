@@ -1,7 +1,7 @@
 // FE-COMP-COLPICKER-001 to FE-COMP-COLPICKER-016
 import React from 'react'
 import { render, screen, fireEvent, waitFor, within } from '../../../tests/helpers/render'
-import type { Collection, CollectionDetailResponse, CollectionPlace } from '@trek/shared'
+import type { Collection, CollectionDetailResponse, CollectionPlace } from '@tripmate/shared'
 import { collectionsApi } from '../../api/collections'
 import { useAuthStore } from '../../store/authStore'
 import { resetAllStores, seedStore } from '../../../tests/helpers/store'

@@ -14,7 +14,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import type { Response } from 'express';
-import type { AtlasLocateResponse, RegionGeo } from '@trek/shared';
+import type { AtlasLocateResponse, RegionGeo } from '@tripmate/shared';
 import type { User } from '../../types';
 import { AtlasService, BucketItemExistsError } from './atlas.service';
 import { AtlasMarkRegionDto, AtlasCreateBucketItemDto, AtlasUpdateBucketItemDto } from './atlas.dto';
@@ -28,7 +28,7 @@ import { CurrentUser } from '../auth/current-user.decorator';
  * endpoints require auth; country/region codes are upper-cased; /regions is
  * always no-store while /regions/geo is cached for a day only on a non-empty
  * result; the mark POSTs answer 200 (not Nest's default 201); the bespoke 404
- * bodies are reproduced exactly. Bodies validate via @trek/shared DTOs, so a
+ * bodies are reproduced exactly. Bodies validate via @tripmate/shared DTOs, so a
  * missing/invalid field 400s in the ZodValidationPipe envelope (the former
  * hand-rolled 'name and country_code are required' — the todo/places trade);
  * the whitespace-only bucket name keeps its legacy 'Name is required' 400.

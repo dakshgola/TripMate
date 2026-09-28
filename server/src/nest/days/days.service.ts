@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { addIsoDays, MAX_TRIP_DAYS, planDatedAppend } from '@trek/shared';
-import type { RoadtripDayBoundary, TrekWsPayload, TrekWsTripEventName } from '@trek/shared';
+import { addIsoDays, MAX_TRIP_DAYS, planDatedAppend } from '@tripmate/shared';
+import type { RoadtripDayBoundary, TrekWsPayload, TrekWsTripEventName } from '@tripmate/shared';
 import { RealtimeService } from '../realtime/realtime.service';
 import { DatabaseService, type TripAccess } from '../database/database.service';
 import { PermissionsService } from '../permissions/permissions.service';

@@ -1,8 +1,8 @@
 import { createZodDto } from 'nestjs-zod';
-import { createCategoryRequestSchema, updateCategoryRequestSchema } from '@trek/shared';
+import { createCategoryRequestSchema, updateCategoryRequestSchema } from '@tripmate/shared';
 
 /**
- * createZodDto wrappers over the @trek/shared category contracts.
+ * createZodDto wrappers over the @tripmate/shared category contracts.
  *
  * Typing a controller parameter with one of these is what lets the global
  * ZodValidationPipe validate it by metatype — `@Body('color')` reads a property

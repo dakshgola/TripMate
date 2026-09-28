@@ -179,7 +179,7 @@ beforeEach(() => {
   vi.mocked(isStandardFamily).mockReturnValue(false)
   vi.mocked(supportsCustom3d).mockReturnValue(false)
   vi.mocked(wantsTerrain).mockReturnValue(false)
-  document.getElementById('trek-journey-popup-style')?.remove()
+  document.getElementById('tripmate-journey-popup-style')?.remove()
 })
 
 describe('JourneyMapGL', () => {
@@ -322,7 +322,7 @@ describe('JourneyMapGL', () => {
 
     act(() => { ref.current!.highlightMarker('e1') })
 
-    const inner = gl.markers[0].element.querySelector('.trek-journey-marker-inner') as HTMLElement
+    const inner = gl.markers[0].element.querySelector('.tripmate-journey-marker-inner') as HTMLElement
     expect(inner.style.transform).toBe('scale(1.2)')
     expect(gl.markers[0].element.style.zIndex).toBe('1000')
 
@@ -331,8 +331,8 @@ describe('JourneyMapGL', () => {
     expect(gl.popups[0].addTo).toHaveBeenCalledWith(gl.map)
     const html = popupHtml()
     expect(html).toContain('>Louvre<')
-    expect(html).toContain('trek-journey-popup-place')
-    expect(html).toContain('trek-journey-popup-chip')
+    expect(html).toContain('tripmate-journey-popup-place')
+    expect(html).toContain('tripmate-journey-popup-chip')
   })
 
   it('FE-COMP-JMAPGL-014: the popup falls back to the location name when the entry has no title', () => {
@@ -352,7 +352,7 @@ describe('JourneyMapGL', () => {
     expect(html).toContain('>Reykjavík<')
     // the location moved to the title line, so there is no place chip left below.
     // The date keeps its own chip, which is why only the place one is checked.
-    expect(html).not.toContain('trek-journey-popup-place')
+    expect(html).not.toContain('tripmate-journey-popup-place')
   })
 
   it('FE-COMP-JMAPGL-015: an entry with neither title nor place still gets a heading', () => {
@@ -371,7 +371,7 @@ describe('JourneyMapGL', () => {
     const html = popupHtml()
     expect(html).toContain('>Entry<')
     // empty entry_date yields no subline at all
-    expect(html).not.toContain('trek-journey-popup-sub')
+    expect(html).not.toContain('tripmate-journey-popup-sub')
   })
 
   it('FE-COMP-JMAPGL-016: an unparseable entry date is passed through verbatim', () => {
@@ -420,9 +420,9 @@ describe('JourneyMapGL', () => {
     expect(gl.popups).toHaveLength(1)
     expect(gl.popups[0].setLngLat).toHaveBeenCalledWith([13.405, 52.52])
     expect(gl.popups[0].setOffset).toHaveBeenCalledWith([0, -46])
-    expect(gl.popups[0].element.classList.contains('trek-dark')).toBe(true)
+    expect(gl.popups[0].element.classList.contains('tripmate-dark')).toBe(true)
 
-    const firstInner = gl.markers[0].element.querySelector('.trek-journey-marker-inner') as HTMLElement
+    const firstInner = gl.markers[0].element.querySelector('.tripmate-journey-marker-inner') as HTMLElement
     expect(firstInner.style.transform).toBe('scale(1)')
     expect(gl.markers[0].element.style.zIndex).toBe('0')
   })
@@ -432,7 +432,7 @@ describe('JourneyMapGL', () => {
     const ref = React.createRef<JourneyMapGLHandle>()
     render(<JourneyMapGL ref={ref} checkins={[]} entries={entries} dark />)
     act(() => { ref.current!.highlightMarker('e1') })
-    expect(gl.popups[0].options.className).toBe('trek-journey-popup trek-dark')
+    expect(gl.popups[0].options.className).toBe('tripmate-journey-popup tripmate-dark')
   })
 
   it('FE-COMP-JMAPGL-020: highlightMarker(null) closes the popup', () => {
@@ -459,7 +459,7 @@ describe('JourneyMapGL', () => {
     render(<JourneyMapGL ref={ref} checkins={[]} entries={entries} />)
     act(() => { ref.current!.highlightMarker('e1') })
     act(() => { ref.current!.highlightMarker('e2') })
-    expect(document.querySelectorAll('#trek-journey-popup-style')).toHaveLength(1)
+    expect(document.querySelectorAll('#tripmate-journey-popup-style')).toHaveLength(1)
   })
 
   it('FE-COMP-JMAPGL-023: focusMarker eases over with the 3D pitch and no zoom of its own', () => {

@@ -36,7 +36,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../src/db/database', () => dbMock);
 vi.mock('../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
   SESSION_DURATION: '24h',
@@ -1189,7 +1189,7 @@ describe('Synology SSRF blocked error handling', () => {
 
 // ── Passphrase persistence fixes ─────────────────────────────────────────────
 
-import { TrekPhotosRepository } from '../../src/nest/photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../../src/nest/photos/tripmate-photos.repository';
 import { DatabaseService } from '../../src/nest/database/database.service';
 import { db as trekDb } from '../../src/db/database';
 

@@ -22,7 +22,7 @@ export { BadParams, ForbiddenResource };
  * Built from the plugin's GRANTED permission set. Only the methods a permission
  * unlocks are registered; an ungranted method is simply never in the map, so the
  * plugin cannot "call it anyway" — there is no shared object, only messages, and
- * the host is the sole holder of the trek.db handle and the broadcast fns.
+ * the host is the sole holder of the tripmate.db handle and the broadcast fns.
  *
  * The handlers themselves no longer live here. Every one of the 113 wire methods is
  * a `@PluginMethod` / `@PluginOpenMethod` on a `@PluginController()` provider in its

@@ -18,7 +18,7 @@
  * existing `nuExtractToKiReservations` mapper, so nothing downstream changes.
  */
 
-import { normalizeLocalDateTime, parseMeridiemClock } from '@trek/shared';
+import { normalizeLocalDateTime, parseMeridiemClock } from '@tripmate/shared';
 import type { KiReservation } from '../../booking-import/kitinerary.types';
 import { nuExtractToKiReservations } from '../clients/nuextract';
 import { FLAT_SCHEMA_BY_TYPE, FLAT_TYPES, FLIGHTS_ARRAY_SCHEMA, UNION_SINGLE_SCHEMA, type FlatType, type FlatLike } from './flat-schemas';
@@ -175,7 +175,7 @@ const DATE_FIELDS = ['departure_time', 'arrival_time', 'checkin_time', 'checkout
  * slices into garbage ("Aug 23 202"). Keep already-ISO values untouched; otherwise parse and
  * reformat.
  *
- * These fields are naive local wall-clock strings everywhere else in TREK, so the components
+ * These fields are naive local wall-clock strings everywhere else in Trip Mate, so the components
  * are read back locally. Reading with Date.parse and printing with getUTC* used to shift every
  * such value by the container's UTC offset, which docker-compose sets from TZ and documents
  * with Europe/Berlin. That is why a rental car came back off by the offset rather than by

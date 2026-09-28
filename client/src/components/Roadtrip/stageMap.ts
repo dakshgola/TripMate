@@ -1,5 +1,5 @@
 import { dayColor } from './dayColors'
-import type { AccessSpur, RoadtripDay, RoadtripRoutes } from '@trek/shared/roadtrip'
+import type { AccessSpur, RoadtripDay, RoadtripRoutes } from '@tripmate/shared/roadtrip'
 
 /**
  * What the map draws for ONE stage of a drive.

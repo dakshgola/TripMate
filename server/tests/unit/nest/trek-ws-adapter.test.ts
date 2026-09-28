@@ -31,7 +31,7 @@ vi.mock('../../../src/app-config', async (importOriginal) => {
   };
 });
 
-import { TrekWsAdapter } from '../../../src/nest/realtime/trek-ws.adapter';
+import { TrekWsAdapter } from '../../../src/nest/realtime/tripmate-ws.adapter';
 import { getServer } from '../../../src/nest/realtime/ws-state';
 import type { Server as HttpServer } from 'node:http';
 
@@ -74,7 +74,7 @@ beforeEach(() => {
 
 describe('TrekWsAdapter wire protocol', () => {
   it('WSAD-001: dispatches on `type`, and hands the WHOLE frame to the handler', () => {
-    // TREK's frames are flat: tripId sits beside type, not under a `data` key.
+    // Trip Mate's frames are flat: tripId sits beside type, not under a `data` key.
     // The stock adapter reads `message.event` and passes `message.data`, which
     // would leave join unhandled and the payload undefined.
     const socket = fakeSocket();

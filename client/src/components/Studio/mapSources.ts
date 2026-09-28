@@ -1,10 +1,10 @@
-import type { BookFrame } from '@trek/shared'
+import type { BookFrame } from '@tripmate/shared'
 import { attributionFor } from './mapTiles'
 
 /**
  * Which map sources this instance can actually offer.
  *
- * TREK already knows: an admin has configured a tile template, and possibly a
+ * Trip Mate already knows: an admin has configured a tile template, and possibly a
  * Mapbox token and style, for the planner and Atlas. Studio reads the same
  * settings rather than asking again — a second place to paste a token is a
  * second place for it to be wrong.

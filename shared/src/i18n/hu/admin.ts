@@ -87,47 +87,35 @@ const admin: TranslationStrings = {
   'admin.requireMfaHint':
     'A 2FA nélküli felhasználóknak a Beállításokban kell befejezniük a beállítást az alkalmazás használata előtt.',
   'admin.apiKeys': 'API kulcsok',
-  'admin.apiKeysHint': 'Honnan jönnek a helyadatok. A TREK-indexhez nem kell kulcs; az alábbi két szolgáltató nem kötelező.',
+  'admin.apiKeysHint':
+    'Honnan jönnek a helyadatok. A Trip Mate-indexhez nem kell kulcs; az alábbi két szolgáltató nem kötelező.',
   'admin.trekApi.badgeDefault': 'Ajánlott alapértelmezés',
   'admin.googleCaveat.badge': 'Nem ajánlott',
   'admin.googleCaveat.body':
-    'A TREK nyílt forráskódú, és ebben nem vagyunk semlegesek. Ebben a méretben az értékelések és a hétköznapi üzletek fotói csak a Google-nél léteznek, és ez a monopólium. A mező alternatíva híján van itt, nem mert ajánljuk. Minden lekérdezés ilyenkor a Google-höz megy.',
+    'A Trip Mate nyílt forráskódú, és ebben nem vagyunk semlegesek. Ebben a méretben az értékelések és a hétköznapi üzletek fotói csak a Google-nél léteznek, és ez a monopólium. A mező alternatíva híján van itt, nem mert ajánljuk. Minden lekérdezés ilyenkor a Google-höz megy.',
   'admin.trekApi.tagline':
-    'A TREK saját helyindexe. Keresés Google-kulcs nélkül, kvóta nélkül, és anélkül, hogy bárki számolná a lekérdezéseidet.',
-  'admin.trekApi.factPlaces':
-    '73,6 millió hely világszerte',
-  'admin.trekApi.factNoKey':
-    'Nincs kulcs, nincs kvóta',
-  'admin.trekApi.factOffline':
-    'Az országcsomagok offline is működnek',
-  'admin.trekApi.factPrivacy':
-    'A kereséseket soha nem naplózzuk',
-  'admin.trekApi.more':
-    'Mi van benne',
-  'admin.trekApi.fieldPhone':
-    'Telefon',
-  'admin.trekApi.fieldStableId':
-    'Állandó azonosító',
+    'A Trip Mate saját helyindexe. Keresés Google-kulcs nélkül, kvóta nélkül, és anélkül, hogy bárki számolná a lekérdezéseidet.',
+  'admin.trekApi.factPlaces': '73,6 millió hely világszerte',
+  'admin.trekApi.factNoKey': 'Nincs kulcs, nincs kvóta',
+  'admin.trekApi.factOffline': 'Az országcsomagok offline is működnek',
+  'admin.trekApi.factPrivacy': 'A kereséseket soha nem naplózzuk',
+  'admin.trekApi.more': 'Mi van benne',
+  'admin.trekApi.fieldPhone': 'Telefon',
+  'admin.trekApi.fieldStableId': 'Állandó azonosító',
   'admin.trekApi.includedNote':
     'A leírások a hely saját webhelyéről jönnek, a nyitvatartás az OpenStreetMapből, ahol be van írva.',
-  'admin.trekApi.notRatings':
-    'Értékelések',
-  'admin.trekApi.notPhotos':
-    'Hétköznapi üzletek fotói',
+  'admin.trekApi.notRatings': 'Értékelések',
+  'admin.trekApi.notPhotos': 'Hétköznapi üzletek fotói',
   'admin.trekApi.notIncludedNote':
     'Egyiket sem kínálja nyílt forrás, semmilyen áron. Ehhez a kettőhöz a Google-kulcs marad az egyetlen út.',
-  'admin.trekApi.sourcesLabel':
-    'Források',
-  'admin.trekApi.sourcesNote':
-    'A válasz minden mezője megmondja, melyikükből származik.',
-  'admin.trekApi.included':
-    'Tartalmazza',
-  'admin.trekApi.notIncluded':
-    'Nem tartalmazza',
+  'admin.trekApi.sourcesLabel': 'Források',
+  'admin.trekApi.sourcesNote': 'A válasz minden mezője megmondja, melyikükből származik.',
+  'admin.trekApi.included': 'Tartalmazza',
+  'admin.trekApi.notIncluded': 'Nem tartalmazza',
   'admin.mapsKey': 'Google Maps API kulcs',
   'admin.mapsKeyHint': 'Helykereséshez szükséges. Létrehozás: console.cloud.google.com',
   'admin.mapsKeyHintLong':
-    'Google API-kulcs nélkül az ajánlott TREK API-t használjuk. Kulccsal ezen felül fotók, értékelések és nyitvatartás is betölthető. Kulcsot a console.cloud.google.com oldalon hozhatsz létre.',
+    'Google API-kulcs nélkül az ajánlott Trip Mate API-t használjuk. Kulccsal ezen felül fotók, értékelések és nyitvatartás is betölthető. Kulcsot a console.cloud.google.com oldalon hozhatsz létre.',
   'admin.recommended': 'Ajánlott',
   'admin.weatherKey': 'OpenWeatherMap API kulcs',
   'admin.weatherKeyHint': 'Időjárás adatokhoz. Ingyenes: openweathermap.org',
@@ -138,12 +126,13 @@ const admin: TranslationStrings = {
     'Helykereséshez Kína szárazföldi részén, ahol a Google nem érhető el, az OpenStreetMap adatai pedig hiányosak. „Web 服务" (webszolgáltatás) típusú kulcs kell hozzá, nem JS API-kulcs. A console.amap.com oldalon kérhető.',
   'admin.placesProvider.title': 'Helykeresési szolgáltató',
   'admin.placesProvider.subtitle':
-    'A TREK saját indexe és az OpenStreetMap minden keresésre válaszol. Itt választod ki, kit kérdezünk még, ha ők nem találnak semmit: az Automatikus a Google-t részesíti előnyben, ha van kulcs, utána az Amapot.',
+    'A Trip Mate saját indexe és az OpenStreetMap minden keresésre válaszol. Itt választod ki, kit kérdezünk még, ha ők nem találnak semmit: az Automatikus a Google-t részesíti előnyben, ha van kulcs, utána az Amapot.',
   'admin.placesProvider.auto': 'Automatikus',
   'admin.placesProvider.google': 'Google Places',
   'admin.placesProvider.amap': 'Amap (高德地图)',
   'admin.placesProvider.openstreetmap': 'OpenStreetMap',
-  'admin.placesProvider.missingKey': 'A kiválasztott szolgáltatóhoz nincs API-kulcs beállítva, ezért a helykeresésre csak a TREK indexe és az OpenStreetMap válaszol.',
+  'admin.placesProvider.missingKey':
+    'A kiválasztott szolgáltatóhoz nincs API-kulcs beállítva, ezért a helykeresésre csak a Trip Mate indexe és az OpenStreetMap válaszol.',
   'admin.placesProvider.saved': 'Helykeresési szolgáltató elmentve',
   'admin.validateKey': 'Teszt',
   'admin.keyValid': 'Csatlakozva',
@@ -178,17 +167,24 @@ const admin: TranslationStrings = {
   'admin.placesEnrich.subtitle':
     'Képeket és leírást mutat hely hozzáadásakor. A Wikipédia és az OpenStreetMap mindig használatban van; a Google akkor jön hozzá, ha a Helyfotók vagy a Helyadatok be vannak kapcsolva.',
   'admin.placesGoogleOnly.title': 'Keresés csak a Google-lel',
-  'admin.placesGoogleOnly.subtitle': 'Minden keresés és minden javaslat a Google Places-hez megy. Kikapcsolva előbb a TREK saját indexe és az OpenStreetMap válaszol, a Google-t csak akkor kérdezzük, ha ők nem találnak semmit.',
-  'admin.placesGoogleOnly.missingKey': 'Google Maps API-kulcs kell hozzá. Nélküle a keresés a TREK indexén és az OpenStreetMapen fut, bárhogy áll is ez a kapcsoló.',
-  'admin.placesGoogleOnly.otherProvider': 'A Google-t igényli helyszolgáltatóként. Amap vagy OpenStreetMap kiválasztásával egyetlen keresés sem megy a Google-höz, bárhogy áll is ez a kapcsoló.',
+  'admin.placesGoogleOnly.subtitle':
+    'Minden keresés és minden javaslat a Google Places-hez megy. Kikapcsolva előbb a Trip Mate saját indexe és az OpenStreetMap válaszol, a Google-t csak akkor kérdezzük, ha ők nem találnak semmit.',
+  'admin.placesGoogleOnly.missingKey':
+    'Google Maps API-kulcs kell hozzá. Nélküle a keresés a Trip Mate indexén és az OpenStreetMapen fut, bárhogy áll is ez a kapcsoló.',
+  'admin.placesGoogleOnly.otherProvider':
+    'A Google-t igényli helyszolgáltatóként. Amap vagy OpenStreetMap kiválasztásával egyetlen keresés sem megy a Google-höz, bárhogy áll is ez a kapcsoló.',
   'admin.transitProvider.title': 'Tömegközlekedési szolgáltató',
   'admin.transitProvider.subtitle': 'Melyik szolgáltatás válaszol a tömegközlekedési keresésre.',
   'admin.transitProvider.transitous': 'Transitous (ingyenes)',
   'admin.transitProvider.google': 'Google',
-  'admin.transitProvider.transitousHint': 'Közösségi GTFS adatforrások. Ingyenes és kulcs nélküli, Európában a legjobb lefedettséggel.',
-  'admin.transitProvider.googleHint': 'A fenti Google-kulcsot használja azokhoz a régiókhoz, amelyekhez a Transitousnak nincs adata. Keresésenként számlázódik – amíg nincs kulcs, a Transitous fut.',
-  'admin.transitProvider.noKeyWarning': 'A Google van kiválasztva, de nincs beállítva Google-kulcs – a közlekedési keresés továbbra is a Transitous-t használja. Adj hozzá kulcsot a fenti API-kulcsoknál.',
-  'admin.transitProvider.personalKeyWarning': 'Csak a saját Google-kulcsod van beállítva, így a többi tag keresése továbbra is a Transitous-ra esik vissza. Mentsd a kulcsot fent adminként, hogy az egész példányra érvényes legyen.',
+  'admin.transitProvider.transitousHint':
+    'Közösségi GTFS adatforrások. Ingyenes és kulcs nélküli, Európában a legjobb lefedettséggel.',
+  'admin.transitProvider.googleHint':
+    'A fenti Google-kulcsot használja azokhoz a régiókhoz, amelyekhez a Transitousnak nincs adata. Keresésenként számlázódik – amíg nincs kulcs, a Transitous fut.',
+  'admin.transitProvider.noKeyWarning':
+    'A Google van kiválasztva, de nincs beállítva Google-kulcs – a közlekedési keresés továbbra is a Transitous-t használja. Adj hozzá kulcsot a fenti API-kulcsoknál.',
+  'admin.transitProvider.personalKeyWarning':
+    'Csak a saját Google-kulcsod van beállítva, így a többi tag keresése továbbra is a Transitous-ra esik vissza. Mentsd a kulcsot fent adminként, hogy az egész példányra érvényes legyen.',
   'admin.placeShadow.title': 'Helykeresési napló',
   'admin.placeShadow.subtitle':
     'Rögzíti, melyik találatot választották ki, hogy egy másik helyindexet később valódi kereséseken lehessen mérni. Semmi nem hagyja el ezt a példányt, és egy rendszergazda bármikor exportálhatja vagy törölheti a naplót.',
@@ -291,7 +287,7 @@ const admin: TranslationStrings = {
   'admin.plugins.subtitle': 'Harmadik féltől származó pluginok telepítése és kezelése a példányodon.',
   'admin.plugins.disabledTitle': 'A pluginok le vannak tiltva',
   'admin.plugins.disabledBody':
-    'A plugin futtatókörnyezet ki van kapcsolva (TREK_PLUGINS_ENABLED). Egyetlen plugin sem futhat, amíg egy admin nem engedélyezi a szerverkonfigurációban.',
+    'A plugin futtatókörnyezet ki van kapcsolva (TRIPMATE_PLUGINS_ENABLED). Egyetlen plugin sem futhat, amíg egy admin nem engedélyezi a szerverkonfigurációban.',
   'admin.plugins.empty': 'Még nincsenek telepített pluginok.',
   'admin.plugins.loadError': 'Nem sikerült betölteni a pluginokat.',
   'admin.plugins.scaffoldNote':
@@ -314,7 +310,7 @@ const admin: TranslationStrings = {
   'admin.plugins.sourceRepo': 'Forráskód-tároló',
   'admin.plugins.reportIssue': 'Probléma jelentése',
   'admin.plugins.homepage': 'Honlap',
-  'admin.plugins.requiresTrek': 'TREK {version}+ szükséges',
+  'admin.plugins.requiresTrek': 'Trip Mate {version}+ szükséges',
   'admin.plugins.reviewedOn': 'Ellenőrizve: {date}',
   'admin.plugins.perm.db:own': 'Saját adatok tárolása elkülönített adatbázisban',
   'admin.plugins.perm.db:read:trips': 'Az aktuális felhasználó számára elérhető utazások olvasása',
@@ -389,7 +385,7 @@ const admin: TranslationStrings = {
   'admin.plugins.perm.hook:place-detail-provider':
     'További részletek (értékelések, minősítések, hivatkozások) hozzáadása egy helyhez',
   'admin.plugins.perm.hook:search-provider':
-    'Helykeresések megválaszolása saját indexből, a TREK saját találatai mellett',
+    'Helykeresések megválaszolása saját indexből, a Trip Mate saját találatai mellett',
   'admin.plugins.perm.hook:trip-warning-provider':
     'Ellenőrzési figyelmeztetések megjelenítése egy utazáson (a tervezőben látható)',
   'admin.plugins.perm.hook:table-contributor':
@@ -405,11 +401,12 @@ const admin: TranslationStrings = {
     'A napok színezése a napi tervben (például hogy az út melyik szakaszához tartozik egy nap)',
   'admin.plugins.cap.mcpTools': 'MI-eszközöket tesz közzé',
   'admin.plugins.mcpToolsTitle': 'Közzétett MI-eszközök',
-  'admin.plugins.mcpToolsHint': 'Egy asszisztens futtathatja őket a felhasználó nevében. Mindegyik a fent megadott jogosultságokkal működik.',
+  'admin.plugins.mcpToolsHint':
+    'Egy asszisztens futtathatja őket a felhasználó nevében. Mindegyik a fent megadott jogosultságokkal működik.',
   'admin.plugins.perm.mcp:tools':
     'Olyan eszközök közzététele, amelyeket egy MI-asszisztens futtathat a nevedben (a bővítménynek itt adott jogosultságokkal működik, nem a sajátjával)',
   'admin.plugins.perm.geolocation:read':
-    'Az élő tartózkodási helyed lekérdezése, amíg valamelyik nézete nyitva van (a TREK az oldal helymeghatározási engedélyével olvassa ki, nem a bővítmény saját engedélyével)',
+    'Az élő tartózkodási helyed lekérdezése, amíg valamelyik nézete nyitva van (a Trip Mate az oldal helymeghatározási engedélyével olvassa ki, nem a bővítmény saját engedélyével)',
   'admin.plugins.perm.hook:pdf-section-provider': 'Szöveges szakaszok hozzáfűzése az utazás PDF-exportjához',
   'admin.plugins.perm.hook:atlas-layer-provider':
     'Országok kiemelése az Atlas világtérképén (pl. kívánságlisták vagy utazási figyelmeztetések)',
@@ -438,26 +435,26 @@ const admin: TranslationStrings = {
   'admin.plugins.updateLater': 'Egyelőre kikapcsolva marad',
   'admin.plugins.updateKeptOff': 'Frissítés telepítve — kikapcsolva marad, amíg jóvá nem hagyod az új engedélyeket',
   'admin.plugins.reviewedMeaning':
-    'Az „Ellenőrizve" azt jelenti, hogy egy TREK karbantartó minden verziónál átvizsgálta ezt a plugint kártevők után — nem a minőségét vagy azt, hogy működik-e. Ez nem garancia arra, hogy a plugin ártalmatlan.',
+    'Az „Ellenőrizve" azt jelenti, hogy egy Trip Mate karbantartó minden verziónál átvizsgálta ezt a plugint kártevők után — nem a minőségét vagy azt, hogy működik-e. Ez nem garancia arra, hogy a plugin ártalmatlan.',
   'admin.plugins.security.title': 'Hogyan vannak a pluginok elszigetelve — és mik a korlátok',
   'admin.plugins.security.isolationTitle': 'Minden plugin elszigetelten fut',
   'admin.plugins.security.isolationBody':
-    'A plugin saját, lezárt folyamatként fut, amely csak a saját fájljait olvashatja. Nem fér hozzá az adatbázisodhoz, a bejelentkezési titkodhoz vagy a titkosítási kulcsodhoz, nem indíthat más programokat, és sehová nem írhat fájlokat. A felülete egy lezárt böngészőkeretben fut, amely nem olvashatja a munkamenet-sütidet, és nem nyúlhat a körülötte lévő TREK oldalhoz.',
+    'A plugin saját, lezárt folyamatként fut, amely csak a saját fájljait olvashatja. Nem fér hozzá az adatbázisodhoz, a bejelentkezési titkodhoz vagy a titkosítási kulcsodhoz, nem indíthat más programokat, és sehová nem írhat fájlokat. A felülete egy lezárt böngészőkeretben fut, amely nem olvashatja a munkamenet-sütidet, és nem nyúlhat a körülötte lévő Trip Mate oldalhoz.',
   'admin.plugins.security.permsTitle': 'Mit jelentenek az engedélyek',
   'admin.plugins.security.permsBody':
-    'A telepítés előtt megjelenített engedélyek szigorú korlátot jelentenek, amelyet a TREK a plugin futása közben kényszerít ki — szó szerint semmit sem tehet, ami nem szerepel a listán. De azt mutatják meg, mit tehet egy plugin, nem azt, hogy valójában mit tesz. Egy olyan plugin, amely olvashatja az utazásaidat és elérhet egy szervert, el is küldheti az utazásaidat arra a szerverre, ezért ne csak a leírást, hanem az engedélyeket és a kimenő kiszolgálókat is olvasd el.',
+    'A telepítés előtt megjelenített engedélyek szigorú korlátot jelentenek, amelyet a Trip Mate a plugin futása közben kényszerít ki — szó szerint semmit sem tehet, ami nem szerepel a listán. De azt mutatják meg, mit tehet egy plugin, nem azt, hogy valójában mit tesz. Egy olyan plugin, amely olvashatja az utazásaidat és elérhet egy szervert, el is küldheti az utazásaidat arra a szerverre, ezért ne csak a leírást, hanem az engedélyeket és a kimenő kiszolgálókat is olvasd el.',
   'admin.plugins.security.limitsTitle': 'Mit nem ígérhetünk',
   'admin.plugins.security.limitsBody':
-    'Az elszigetelés erős szoftveres határ, de nem abszolút. A plugin pontosan azokkal a jogokkal működik, amelyeket jóváhagysz, így ezeken a jogokon belül a leírásától eltérően is viselkedhet, és a jogszerűen birtokolt adatokat elküldheti az általa bejelentett kiszolgálóknak. A TREK nem olvassa és nem ítéli meg, hogy egy plugin kódja valójában mit csinál.',
+    'Az elszigetelés erős szoftveres határ, de nem abszolút. A plugin pontosan azokkal a jogokkal működik, amelyeket jóváhagysz, így ezeken a jogokon belül a leírásától eltérően is viselkedhet, és a jogszerűen birtokolt adatokat elküldheti az általa bejelentett kiszolgálóknak. A Trip Mate nem olvassa és nem ítéli meg, hogy egy plugin kódja valójában mit csinál.',
   'admin.plugins.security.worstTitle': 'A legrosszabb eset',
   'admin.plugins.security.worstBody':
     'Egy ellenséges plugin, amelyet bekapcsolsz, visszaélhet a neki megadott adatokkal és kapcsolatokkal — például kiszivárogtathatja azokat az utazásokat, amelyeket olvashat. Nem tud jelszavakat ellopni, admin bejelentkezést hamisítani, parancsokat futtatni a szervereden, vagy olyan adatokhoz hozzáférni, amelyeket nem engedélyeztél. A kár azon belül marad, amit jóváhagytál, és a plugin kikapcsolása leállítja.',
   'admin.plugins.security.reviewedTitle': 'Mit jelent az „Ellenőrizve"',
   'admin.plugins.security.reviewedBody':
-    'Egy ellenőrzött plugint egy TREK karbantartó minden verziónál kézzel átvizsgált kártevők után — ellenséges kód szempontjából ellenőrizte, nem pedig azt, hogy jól működik-e. Ez nem ígéret arra, hogy a plugin ártalmatlan.',
+    'Egy ellenőrzött plugint egy Trip Mate karbantartó minden verziónál kézzel átvizsgált kártevők után — ellenséges kód szempontjából ellenőrizte, nem pedig azt, hogy jól működik-e. Ez nem ígéret arra, hogy a plugin ártalmatlan.',
   'admin.plugins.security.signedTitle': 'Mit jelent az „Aláírva"',
   'admin.plugins.security.signedBody':
-    'Az ellenőrzőösszeg, amelyet a TREK minden telepítéskor ellenőriz, azt bizonyítja, hogy a fájlok pontosan azok, amelyekért a jegyzék jótáll. Az aláírás mást bizonyít: azt, hogy a szerzőtől származnak, olyan kulccsal aláírva, amelyet csak ő birtokol. Egy aláírt plugin mindkettővel rendelkezik. Az aláírás nélküli nem veszélyes — egyszerűen eggyel kevesebb garanciát hordoz, és a jegyzékben ma a legtöbb plugin aláírás nélküli.',
+    'Az ellenőrzőösszeg, amelyet a Trip Mate minden telepítéskor ellenőriz, azt bizonyítja, hogy a fájlok pontosan azok, amelyekért a jegyzék jótáll. Az aláírás mást bizonyít: azt, hogy a szerzőtől származnak, olyan kulccsal aláírva, amelyet csak ő birtokol. Egy aláírt plugin mindkettővel rendelkezik. Az aláírás nélküli nem veszélyes — egyszerűen eggyel kevesebb garanciát hordoz, és a jegyzékben ma a legtöbb plugin aláírás nélküli.',
   'admin.plugins.signed': 'Aláírva',
   'admin.plugins.signedHint': 'Telepítéskor ellenőrizve a szerző aláírókulcsával',
   'admin.plugins.unsigned': 'Aláírás nélkül',
@@ -472,20 +469,20 @@ const admin: TranslationStrings = {
   'admin.plugins.sig.invalidBody':
     'A fájlok nem egyeznek a szerző aláírásával. Nem azok, amiket a szerző aláírt — vagy megsérültek, vagy módosították őket. Ez nem hagyható figyelmen kívül.',
   'admin.plugins.sig.missingBody':
-    'Ez a plugin alá volt írva, amikor telepítetted, de az új verzió nem tartalmaz aláírást. A TREK nem fogadja el csendben ezt a visszalépést. Ez nem hagyható figyelmen kívül.',
+    'Ez a plugin alá volt írva, amikor telepítetted, de az új verzió nem tartalmaz aláírást. A Trip Mate nem fogadja el csendben ezt a visszalépést. Ez nem hagyható figyelmen kívül.',
   'admin.plugins.sig.incompleteBody':
     'A jegyzékbeli bejegyzés félig aláírt: szerzői kulcsot deklarál, de a verzió nem hordoz aláírást (vagy fordítva). Ez a plugin oldalán elkövetett hiba. Ez nem hagyható figyelmen kívül.',
   'admin.plugins.sig.pinnedKey': 'A telepítéskor használt kulcs',
   'admin.plugins.sig.newKey': 'A most kínált kulcs',
   'admin.plugins.sig.confirmOutOfBand':
-    'A TREK nem tudja megkülönböztetni a jogos kulcscserét az átvételtől — innen nézve a kettő azonos. Erősítsd meg az új kulcsot a szerzőnél egy olyan csatornán, amelyben már megbízol, mielőtt elfogadod. Amint ezt megteszed, a plugin frissül, és a TREK megjegyzi az új kulcsot.',
+    'A Trip Mate nem tudja megkülönböztetni a jogos kulcscserét az átvételtől — innen nézve a kettő azonos. Erősítsd meg az új kulcsot a szerzőnél egy olyan csatornán, amelyben már megbízol, mielőtt elfogadod. Amint ezt megteszed, a plugin frissül, és a Trip Mate megjegyzi az új kulcsot.',
   'admin.plugins.sig.retrustConfirm': 'Új kulcs megbízhatónak jelölése és frissítés',
   'admin.plugins.sig.cancel': 'Ne bízz meg benne',
   'admin.plugins.sig.consentUnsigned':
     'Semmi sem köti ezt a verziót a szerzőjéhez — a fájlok megegyeznek a jegyzékkel, de nem hordoznak szerzői aláírást.',
   'admin.plugins.security.trustTitle': 'A lényeg',
   'admin.plugins.security.trustBody':
-    'Egy plugin telepítése olyan, mint bármely harmadik féltől származó alkalmazás telepítése: csak megbízható szerzőktől adj hozzá kódot, és kétség esetén előbb magad vizsgáld meg. A TREK semmilyen felelősséget nem vállal a harmadik féltől származó pluginokért.',
+    'Egy plugin telepítése olyan, mint bármely harmadik féltől származó alkalmazás telepítése: csak megbízható szerzőktől adj hozzá kódot, és kétség esetén előbb magad vizsgáld meg. A Trip Mate semmilyen felelősséget nem vállal a harmadik féltől származó pluginokért.',
   'admin.plugins.runtimeOn': 'Futtatókörnyezet bekapcsolva',
   'admin.plugins.tabDiscover': 'Felfedezés',
   'admin.plugins.searchPlaceholder': 'Pluginok keresése…',
@@ -501,15 +498,16 @@ const admin: TranslationStrings = {
   'admin.plugins.sortUpdates': 'Frissítések elöl',
   'admin.plugins.sortDownloads': 'Legtöbb letöltés',
   'admin.plugins.updatesAvailable': '{count} frissítés érhető el a pluginjaidhoz.',
-  'admin.plugins.newerNeedsTrek': 'v{version} elérhető — TREK {range} szükséges',
+  'admin.plugins.newerNeedsTrek': 'v{version} elérhető — Trip Mate {range} szükséges',
   'admin.plugins.versionsTitle': 'Verziók',
   'admin.plugins.versionPickerTitle': 'Verzióváltás — {name}',
   'admin.plugins.versionSwitch': 'Váltás erre: {version}',
-  'admin.plugins.versionNeedsTrek': 'TREK {range} szükséges',
+  'admin.plugins.versionNeedsTrek': 'Trip Mate {range} szükséges',
   'admin.plugins.changeVersion': 'Verzióváltás…',
   'admin.plugins.noVersions': 'Nem található publikált verzió a jegyzékben.',
   'admin.plugins.downgradeTitle': 'Visszaállítod ezt a bővítményt?',
-  'admin.plugins.downgradeBody': 'Váltás v{from} verzióról v{to} verzióra: az újabb verzió által írt adatok megmaradnak, és a régebbi verzió lehet, hogy nem érti őket.',
+  'admin.plugins.downgradeBody':
+    'Váltás v{from} verzióról v{to} verzióra: az újabb verzió által írt adatok megmaradnak, és a régebbi verzió lehet, hogy nem érti őket.',
   'admin.plugins.downgradeConfirm': 'Visszaállítás',
   'admin.plugins.updatesHeld': 'Frissítések szüneteltetve a v{version} verzión',
   'admin.plugins.resumeUpdates': 'Frissítések folytatása',
@@ -568,22 +566,21 @@ const admin: TranslationStrings = {
   'admin.plugins.dep.download': 'Letöltés',
   'admin.plugins.dep.update': 'Frissítés',
   'admin.plugins.dep.resolveHint': 'Letölti a legújabb kompatibilis verziót a saját függőségeivel együtt.',
-  'admin.plugins.dep.trekIncompatible': 'TREK {range} szükséges — ez a kiszolgáló {host} verziót futtat',
-  'admin.plugins.dep.trekUnknown': 'Nem adja meg, mely TREK-verziókat támogatja',
+  'admin.plugins.dep.trekIncompatible': 'Trip Mate {range} szükséges — ez a kiszolgáló {host} verziót futtat',
+  'admin.plugins.dep.trekUnknown': 'Nem adja meg, mely Trip Mate-verziókat támogatja',
   'admin.plugins.installCompatible': '{version} telepítése',
   'admin.plugins.installAnyway': 'Telepítés mindenképp',
   'admin.plugins.rangeBypass.pill': 'Verzióellenőrzés kikapcsolva',
   'admin.plugins.rangeBypass.pillHint':
-    'A TREK_PLUGINS_IGNORE_TREK_RANGE be van állítva — a bővítmények a szerzőik által megadott TREK-verziókon kívül is telepíthetők és futtathatók',
-  'admin.plugins.rangeBypass.title': 'A támogatott TREK-verziókon kívül',
-  'admin.plugins.rangeBypass.noticeTitle': 'A támogatott TREK-verziókon kívül telepítve',
+    'A TRIPMATE_PLUGINS_IGNORE_TREK_RANGE be van állítva — a bővítmények a szerzőik által megadott Trip Mate-verziókon kívül is telepíthetők és futtathatók',
+  'admin.plugins.rangeBypass.title': 'A támogatott Trip Mate-verziókon kívül',
+  'admin.plugins.rangeBypass.noticeTitle': 'A támogatott Trip Mate-verziókon kívül telepítve',
   'admin.plugins.rangeBypass.body':
-    'A(z) „{name}” a TREK {range} verzióihoz készült, ez a szerver pedig {host}-t futtat. A TREK csak azért engedi át, mert a TREK_PLUGINS_IGNORE_TREK_RANGE be van állítva. A szerző nem frissítette a bővítmény verziótartományát ehhez a TREK-hez, így nincs garancia, hogy működik — és ritka esetben egy nem illeszkedő bővítmény megsértheti a TREK adatait. Csak akkor folytasd, ha vállalod ezt a kockázatot.',
+    'A(z) „{name}” a Trip Mate {range} verzióihoz készült, ez a szerver pedig {host}-t futtat. A Trip Mate csak azért engedi át, mert a TRIPMATE_PLUGINS_IGNORE_TREK_RANGE be van állítva. A szerző nem frissítette a bővítmény verziótartományát ehhez a Trip Mate-hez, így nincs garancia, hogy működik — és ritka esetben egy nem illeszkedő bővítmény megsértheti a Trip Mate adatait. Csak akkor folytasd, ha vállalod ezt a kockázatot.',
   'admin.plugins.rangeBypass.bodyUnknown':
-    'A(z) „{name}” nem adja meg, mely TREK-verziókat támogatja; ez a szerver {host}-t futtat. A TREK csak azért engedi át, mert a TREK_PLUGINS_IGNORE_TREK_RANGE be van állítva. Semmi sem jelzi, hogy a szerző ezen a TREK-en tesztelte volna, így nincs garancia, hogy működik — és ritka esetben egy nem illeszkedő bővítmény megsértheti a TREK adatait. Csak akkor folytasd, ha vállalod ezt a kockázatot.',
-  'admin.plugins.dep.trekBypassed':
-    'A TREK-tartományán kívül ({range}) — verzióellenőrzés kikapcsolva',
-  'admin.plugins.dep.trekBypassedUnknown': 'Nem ad meg TREK-tartományt — verzióellenőrzés kikapcsolva',
+    'A(z) „{name}” nem adja meg, mely Trip Mate-verziókat támogatja; ez a szerver {host}-t futtat. A Trip Mate csak azért engedi át, mert a TRIPMATE_PLUGINS_IGNORE_TREK_RANGE be van állítva. Semmi sem jelzi, hogy a szerző ezen a Trip Mate-en tesztelte volna, így nincs garancia, hogy működik — és ritka esetben egy nem illeszkedő bővítmény megsértheti a Trip Mate adatait. Csak akkor folytasd, ha vállalod ezt a kockázatot.',
+  'admin.plugins.dep.trekBypassed': 'A Trip Mate-tartományán kívül ({range}) — verzióellenőrzés kikapcsolva',
+  'admin.plugins.dep.trekBypassedUnknown': 'Nem ad meg Trip Mate-tartományt — verzióellenőrzés kikapcsolva',
   'admin.plugins.incompatible': 'Nem kompatibilis',
   'admin.plugins.accessTitle': 'Mihez fér hozzá',
   'admin.plugins.connectsTitle': 'Kapcsolódik ehhez',
@@ -595,7 +592,7 @@ const admin: TranslationStrings = {
   'admin.plugins.metaReviewed': 'Ellenőrizve',
   'admin.plugins.downloads': 'Letöltések',
   'admin.addons.title': 'Bővítmények',
-  'admin.addons.subtitle': 'Funkciók engedélyezése vagy letiltása a TREK testreszabásához.',
+  'admin.addons.subtitle': 'Funkciók engedélyezése vagy letiltása a Trip Mate testreszabásához.',
   'admin.addons.catalog.packing.name': 'Listák',
   'admin.addons.catalog.packing.description': 'Csomagolási listák és teendők az utazásaidhoz',
   'admin.addons.catalog.budget.name': 'Költségek',
@@ -609,7 +606,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.collab.name': 'Együttműködés',
   'admin.addons.catalog.collab.description': 'Jegyzetek, szavazások, csevegés és javaslatok a közös tervezéshez',
   'admin.addons.catalog.roadtrip.name': 'Autós út',
-  'admin.addons.catalog.roadtrip.description': 'Tervezz megállókkal tarkított utakat – a vezetési és érkezési idők maguktól újraszámolódnak',
+  'admin.addons.catalog.roadtrip.description':
+    'Tervezz megállókkal tarkított utakat – a vezetési és érkezési idők maguktól újraszámolódnak',
   'admin.addons.catalog.memories.name': 'Fotók (Immich)',
   'admin.addons.catalog.memories.description': 'Utazási fotók megosztása az Immich példányon keresztül',
   'admin.addons.catalog.mcp.name': 'MCP',
@@ -624,7 +622,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.dawarich.description':
     'Tartózkodások és rögzített útvonalak olvasása egy Dawarich-példányból, amelyet minden olvasó maga köt be',
   'admin.addons.catalog.llm_parsing.name': 'MI-elemzés',
-  'admin.addons.catalog.llm_parsing.description': 'Beolvassa azokat a foglalásokat, amelyeket a beépített értelmező nem tud, az általad választott MI-modellel',
+  'admin.addons.catalog.llm_parsing.description':
+    'Beolvassa azokat a foglalásokat, amelyeket a beépített értelmező nem tud, az általad választott MI-modellel',
   'admin.addons.enabled': 'Engedélyezve',
   'admin.addons.disabled': 'Letiltva',
   'admin.addons.type.trip': 'Utazás',
@@ -640,7 +639,7 @@ const admin: TranslationStrings = {
   'admin.weather.title': 'Időjárás adatok',
   'admin.weather.badge': '2026. március 24. óta',
   'admin.weather.description':
-    'A TREK az Open-Meteo-t használja időjárás-adatforrásként. Az Open-Meteo egy ingyenes, nyílt forráskódú időjárás-szolgáltatás — nincs szükség API kulcsra.',
+    'A Trip Mate az Open-Meteo-t használja időjárás-adatforrásként. Az Open-Meteo egy ingyenes, nyílt forráskódú időjárás-szolgáltatás — nincs szükség API kulcsra.',
   'admin.weather.forecast': '16 napos előrejelzés',
   'admin.weather.forecastDesc': 'Korábban 5 nap volt (OpenWeatherMap)',
   'admin.weather.climate': 'Történelmi klímaadatok',
@@ -700,14 +699,14 @@ const admin: TranslationStrings = {
   'admin.github.loading': 'Betöltés...',
   'admin.github.error': 'Nem sikerült betölteni a kiadásokat',
   'admin.github.by': 'készítette',
-  'admin.github.support': 'Segít fenntartani a TREK fejlesztését',
+  'admin.github.support': 'Segít fenntartani a Trip Mate fejlesztését',
   'admin.update.available': 'Frissítés elérhető',
-  'admin.update.text': 'A TREK {version} elérhető. Jelenleg a {current} verziót használod.',
+  'admin.update.text': 'A Trip Mate {version} elérhető. Jelenleg a {current} verziót használod.',
   'admin.update.button': 'Megtekintés a GitHubon',
   'admin.update.install': 'Frissítés telepítése',
   'admin.update.confirmTitle': 'Frissítés telepítése?',
   'admin.update.confirmText':
-    'A TREK frissítésre kerül {current} verzióról {version} verzióra. A szerver ezután automatikusan újraindul.',
+    'A Trip Mate frissítésre kerül {current} verzióról {version} verzióra. A szerver ezután automatikusan újraindul.',
   'admin.update.dataInfo':
     'Minden adat (utazások, felhasználók, API kulcsok, feltöltések, Vacay, Atlas, költségvetések) megmarad.',
   'admin.update.warning': 'Az alkalmazás az újraindítás alatt rövid ideig nem lesz elérhető.',
@@ -719,9 +718,9 @@ const admin: TranslationStrings = {
   'admin.update.backupLink': 'Biztonsági mentéshez',
   'admin.update.howTo': 'Frissítési útmutató',
   'admin.update.dockerText':
-    'A TREK példányod Dockerben fut. A {version} verzióra frissítéshez futtasd a következő parancsokat a szervereden:',
+    'A Trip Mate példányod Dockerben fut. A {version} verzióra frissítéshez futtasd a következő parancsokat a szervereden:',
   'admin.update.nonDockerText':
-    'Ez a TREK példány nem Dockerben fut. A {version} verzióra frissítéshez futtasd újra a telepítési vagy frissítési módszert, amelyet használtál — például Proxmox Community Scripts esetén futtasd a frissítést az LXC konzolból:',
+    'Ez a Trip Mate példány nem Dockerben fut. A {version} verzióra frissítéshez futtasd újra a telepítési vagy frissítési módszert, amelyet használtál — például Proxmox Community Scripts esetén futtasd a frissítést az LXC konzolból:',
   'admin.update.wikiLink': 'Frissítési útmutató megnyitása',
   'admin.update.reloadHint': 'Kérjük, töltsd újra az oldalt néhány másodperc múlva.',
   'admin.tabs.permissions': 'Jogosultságok',
@@ -751,7 +750,7 @@ const admin: TranslationStrings = {
     'Alapértelmezett szerverként is szolgál a felhasználói ntfy értesítésekhez. Üresen hagyva ntfy.sh-t használ. A felhasználók felülírhatják saját beállításaikban.',
   'admin.notifications.adminNtfyPanel.serverPlaceholder': 'https://ntfy.sh',
   'admin.notifications.adminNtfyPanel.topicLabel': 'Admin téma',
-  'admin.notifications.adminNtfyPanel.topicPlaceholder': 'trek-admin-alerts',
+  'admin.notifications.adminNtfyPanel.topicPlaceholder': 'tripmate-admin-alerts',
   'admin.notifications.adminNtfyPanel.tokenLabel': 'Hozzáférési token (opcionális)',
   'admin.notifications.adminNtfyPanel.tokenCleared': 'Admin hozzáférési token törölve',
   'admin.notifications.adminNtfyPanel.saved': 'Admin Ntfy beállítások mentve',
@@ -771,7 +770,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.journey.description':
     'Utazáskövetés és útinapló bejelentkezésekkel, fotókkal és napi történetekkel',
   'admin.addons.catalog.collections.name': 'Gyűjtemények',
-  'admin.addons.catalog.collections.description': 'Gyűjtsd össze bármely utazás helyeit elnevezett listákba, és használd fel őket újra',
+  'admin.addons.catalog.collections.description':
+    'Gyűjtsd össze bármely utazás helyeit elnevezett listákba, és használd fel őket újra',
   'admin.passkey.title': 'Passkey-bejelentkezés',
   'admin.passkey.cardHint':
     'Engedélyezd a felhasználóknak a bejelentkezést passkey-vel (WebAuthn). Alapból kikapcsolva.',
@@ -782,10 +782,10 @@ const admin: TranslationStrings = {
     'Ehhez a telepítéshez még nem oldódik fel WebAuthn-domain. Állítsd be az APP_URL-t vagy a lenti Relying Party ID-t — addig a passkey-k rejtve maradnak.',
   'admin.passkey.rpId': 'Relying Party ID (domain)',
   'admin.passkey.rpIdHint':
-    'A csupasz domain, amelyhez a passkey-k kötődnek, pl. trek.example.org. Hagyd üresen, hogy az APP_URL-ből legyen levezetve. Későbbi módosítása érvényteleníti a meglévő passkey-ket.',
+    'A csupasz domain, amelyhez a passkey-k kötődnek, pl. tripmate.example.org. Hagyd üresen, hogy az APP_URL-ből legyen levezetve. Későbbi módosítása érvényteleníti a meglévő passkey-ket.',
   'admin.passkey.origins': 'Engedélyezett origók',
   'admin.passkey.originsHint':
-    'Vesszővel elválasztott teljes origók, pl. https://trek.example.org. Hagyd üresen az APP_URL használatához.',
+    'Vesszővel elválasztott teljes origók, pl. https://tripmate.example.org. Hagyd üresen az APP_URL használatához.',
   'admin.passkey.reset': 'Passkey-k visszaállítása',
   'admin.passkey.resetHint':
     'Eltávolítja a felhasználó összes passkey-jét (pl. elveszett eszköz esetén). A jelszavukkal továbbra is be tudnak jelentkezni.',
@@ -817,7 +817,8 @@ const admin: TranslationStrings = {
     'Az új felhasználó automatikusan hozzáadódik ehhez az utazáshoz, amikor a linken keresztül regisztrál.',
   'admin.invite.boundTo': 'hozzáadja a következőhöz: {trip}',
   'admin.placesUsageTitle': 'Mire használjuk a kulcsot',
-  'admin.mapsKeyHintShort': 'Fényképeket, értékeléseket és nyitvatartást ad hozzá. Minden lekérdezés a Google-höz megy.',
+  'admin.mapsKeyHintShort':
+    'Fényképeket, értékeléseket és nyitvatartást ad hozzá. Minden lekérdezés a Google-höz megy.',
   'admin.amapKeyHintShort': 'Helykereséshez a szárazföldi Kínában. Webszolgáltatás-kulcs kell, nem JS API-kulcs.',
   'admin.collab.links.subtitle': 'Megosztott linkek és könyvjelzők',
 };

@@ -32,7 +32,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -45,7 +45,7 @@ import { resetTestDb } from '../../helpers/test-db';
 import { createUser } from '../../helpers/factories';
 import { createMcpHarness, parseToolResult, type McpHarness } from '../../helpers/mcp-harness';
 import { encrypt_api_key } from '../../../src/nest/common/crypto/apiKeyCrypto';
-import { MASKED_SETTING_VALUE } from '@trek/shared';
+import { MASKED_SETTING_VALUE } from '@tripmate/shared';
 import { DISPLAY_PREFERENCE_KEYS } from '../../../src/nest/settings/settings.mcp';
 import { MANAGED_LOCKED_SETTING_KEYS } from '../../../src/nest/common/managed';
 import { isAdminOnlyEndpointSetting, ENCRYPTED_SETTING_KEYS, MASKED_SETTING_KEYS } from '../../../src/nest/settings/settings.service';
@@ -459,7 +459,7 @@ describe('Tool: update_display_settings, refusals', () => {
 
   it('blocks the demo user', async () => {
     process.env.DEMO_MODE = 'true';
-    const { user } = createUser(testDb, { email: 'demo@trek.app' });
+    const { user } = createUser(testDb, { email: 'demo@tripmate.app' });
     await withHarness(user.id, async (h) => {
       const result = await update(h, { temperature_unit: 'fahrenheit' });
       expect(result.isError).toBe(true);
@@ -469,7 +469,7 @@ describe('Tool: update_display_settings, refusals', () => {
 
   it('lets the demo user read', async () => {
     process.env.DEMO_MODE = 'true';
-    const { user } = createUser(testDb, { email: 'demo@trek.app' });
+    const { user } = createUser(testDb, { email: 'demo@tripmate.app' });
     setSetting(user.id, 'temperature_unit', '"celsius"');
     await withHarness(user.id, async (h) => {
       const result = await h.client.callTool({ name: 'get_display_settings', arguments: {} });

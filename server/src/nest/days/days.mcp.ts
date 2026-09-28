@@ -9,8 +9,8 @@ import { AuthService } from '../auth/auth.service';
 import { noAccess, permissionDenied } from '../../mcp/tools/_shared';
 import {
   DAY_CREATE_DATED_CONFLICT, dayCreateRequestSchema, dayReorderRequestSchema, dayUpdateRequestSchema,
-} from '@trek/shared';
-import type { DayCreateRequest, DayReorderRequest, DayUpdateRequest } from '@trek/shared';
+} from '@tripmate/shared';
+import type { DayCreateRequest, DayReorderRequest, DayUpdateRequest } from '@tripmate/shared';
 import { DaysService, DayReorderError, DayAppendError, type DatedDayAppend, type DaySender } from './days.service';
 import { DayRemovalService, DayDeleteError, type DayRemoval } from './day-removal.service';
 import type { MirrorSender } from '../accommodations/accommodations.service';
@@ -22,7 +22,7 @@ function parseId(value: string | string[]): number | null {
 
 /**
  * Day MCP surface — ported 1:1 from the legacy registrars: the seven tools of
- * src/mcp/tools/days.ts and the trek://trips/{tripId}/days resource from src/mcp/resources.ts
+ * src/mcp/tools/days.ts and the tripmate://trips/{tripId}/days resource from src/mcp/resources.ts
  * (identical names, descriptions, schemas, annotations, error/payload shapes
  * and broadcasts). The legacy registration-time gates map to the declarative
  * trips write/read access markers (registerDayTools' whole-registrar
@@ -228,7 +228,7 @@ export class DaysMcp {
 
   @ResourceTemplate({
     name: 'trip-days',
-    uriTemplate: 'trek://trips/{tripId}/days',
+    uriTemplate: 'tripmate://trips/{tripId}/days',
     description: 'Days of a trip with their assigned places',
     mimeType: 'application/json',
     access: { group: 'trips', mode: 'read' },

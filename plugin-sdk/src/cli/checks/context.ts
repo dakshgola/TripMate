@@ -23,9 +23,9 @@ export function loadContext(
 
   let manifest: Record<string, unknown> | undefined;
   let manifestError: string | undefined;
-  const manifestRaw = readIfPresent(path.join(root, 'trek-plugin.json'));
+  const manifestRaw = readIfPresent(path.join(root, 'tripmate-plugin.json'));
   if (manifestRaw === undefined) {
-    manifestError = `no trek-plugin.json in ${dir}`;
+    manifestError = `no tripmate-plugin.json in ${dir}`;
   } else {
     try {
       // Tolerate a UTF-8 BOM. Windows editors add one, and a bare JSON.parse then fails with a
@@ -33,12 +33,12 @@ export function loadContext(
       const text = manifestRaw.codePointAt(0) === 0xfeff ? manifestRaw.slice(1) : manifestRaw;
       const parsed: unknown = JSON.parse(text);
       if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
-        manifestError = 'trek-plugin.json is not a JSON object';
+        manifestError = 'tripmate-plugin.json is not a JSON object';
       } else {
         manifest = parsed as Record<string, unknown>;
       }
     } catch (e) {
-      manifestError = 'trek-plugin.json is not valid JSON: ' + (e instanceof Error ? e.message : String(e));
+      manifestError = 'tripmate-plugin.json is not valid JSON: ' + (e instanceof Error ? e.message : String(e));
     }
   }
 

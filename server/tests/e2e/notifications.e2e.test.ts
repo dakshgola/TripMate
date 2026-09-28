@@ -69,7 +69,7 @@ import { MailerService } from '../../src/nest/notifications/mailer/mailer.servic
 import { NotificationPreferencesService } from '../../src/nest/notifications/notification-preferences.service';
 import { NtfyService } from '../../src/nest/notifications/transports/ntfy.service';
 import { WebhookService } from '../../src/nest/notifications/transports/webhook.service';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 
 function seedNotification(recipientId: number, overrides: { is_read?: number } = {}): number {
   const r = db.prepare(

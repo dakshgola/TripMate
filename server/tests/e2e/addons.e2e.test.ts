@@ -39,7 +39,7 @@ const { getPhotoProviderConfig } = vi.hoisted(() => ({
 vi.mock('../../src/nest/memories/memories.helpers', () => ({ getPhotoProviderConfig }));
 
 import { AddonsModule } from '../../src/nest/addons/addons.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 
 describe('GET /api/addons e2e (real auth guard + temp SQLite)', () => {
   let server: Server;

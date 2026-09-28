@@ -1,4 +1,4 @@
-import { TRANSIT_PROVIDERS, type TransitProvider } from '@trek/shared';
+import { TRANSIT_PROVIDERS, type TransitProvider } from '@tripmate/shared';
 import type { DatabaseService } from '../database/database.service';
 
 /**

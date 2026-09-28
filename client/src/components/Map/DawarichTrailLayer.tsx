@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Polyline } from 'react-leaflet'
-import type { DawarichTrack } from '@trek/shared'
+import type { DawarichTrack } from '@tripmate/shared'
 import {
   DAWARICH_TRAIL_CASING,
   trailSegments,
@@ -34,7 +34,7 @@ export default function DawarichTrailLayer({
   selectedDate?: string | null
   /** Local dates whose day is folded away in the day plan. */
   hiddenDates?: ReadonlySet<string> | null
-  /** The `trek-track-casing` pane, when the renderer supports panes. */
+  /** The `tripmate-track-casing` pane, when the renderer supports panes. */
   casingPane?: string
 }) {
   const segments = useMemo(() => trailSegments(track, selectedDate, hiddenDates), [track, selectedDate, hiddenDates])

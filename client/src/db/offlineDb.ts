@@ -1,4 +1,4 @@
-import type { RoadtripPreferences } from '@trek/shared';
+import type { RoadtripPreferences } from '@tripmate/shared';
 import Dexie, { type Table } from 'dexie';
 import type { Trip, Day, Place, PackingItem, TodoItem, BudgetItem, Reservation, TripFile, Accommodation, TripMember, Tag, Category } from '../types';
 
@@ -96,7 +96,7 @@ export interface BlobCacheEntry {
 }
 
 /**
- * A place from the TREK Places index, cached for the area of one trip.
+ * A place from the Trip Mate Places index, cached for the area of one trip.
  *
  * NOT a trip place — those are in `places` and belong to the user. These are
  * candidates: the shops, restaurants and stations that happen to be near where
@@ -136,12 +136,12 @@ export interface ImportSourceFile {
 /**
  * The offline DB is scoped per user so that one account can never read another
  * account's cached data on a shared device. Anonymous (logged-out) state uses
- * the base name; a logged-in user uses `trek-offline-u<userId>`.
+ * the base name; a logged-in user uses `tripmate-offline-u<userId>`.
  */
-const ANON_DB_NAME = 'trek-offline';
+const ANON_DB_NAME = 'tripmate-offline';
 
 function userDbName(userId: number | string): string {
-  return `trek-offline-u${userId}`;
+  return `tripmate-offline-u${userId}`;
 }
 
 /**
@@ -220,7 +220,7 @@ class TrekOfflineDb extends Dexie {
       importFiles: '[jobId+fileName], jobId, createdAt',
     });
 
-    // v5: places from the TREK Places index for the trip's area, so search
+    // v5: places from the Trip Mate Places index for the trip's area, so search
     // answers offline. `searchName` is indexed because that is what an offline
     // query filters on; `tripId` so the set drops with its trip.
     this.version(6).stores({ roadtripPreferences: 'tripId' });

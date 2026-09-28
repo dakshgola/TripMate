@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { PlugZap, Coins, ChevronDown } from 'lucide-react'
-import type { ChargingInfo as Info } from '@trek/shared'
+import type { ChargingInfo as Info } from '@tripmate/shared'
 import { useTranslation } from '../../i18n/TranslationContext'
 import { useTripStore } from '../../store/tripStore'
 import { chargingRepo } from '../../repo/chargingRepo'

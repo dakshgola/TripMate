@@ -7,7 +7,7 @@ import { describe, it, expect, vi } from 'vitest'
  * in Studio — so the set is empty here on purpose.
  */
 vi.mock('../../../src/components/Studio/bookTemplates.data', () => ({ SPREAD_TEMPLATES: [] }))
-import { bookDocumentSchema, bookPageSetupSchema, type BookSpread } from '@trek/shared'
+import { bookDocumentSchema, bookPageSetupSchema, type BookSpread } from '@tripmate/shared'
 import { buildBook, type AutoEntry, type AutoInput } from '../../../src/components/Studio/autoLayout'
 
 /**

@@ -2,7 +2,7 @@
  * Unit tests for MCP atlas expanded tools (atlas addon-gated):
  * get_atlas_stats, list_visited_regions, locate_atlas_region, mark_region_visited,
  * unmark_region_visited, get_country_atlas_places, update_bucket_list_item.
- * Also covers resources trek://atlas/stats and trek://atlas/regions.
+ * Also covers resources tripmate://atlas/stats and tripmate://atlas/regions.
  */
 import { describe, it, expect, vi, beforeAll, beforeEach, afterAll } from 'vitest';
 
@@ -27,7 +27,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -520,14 +520,14 @@ describe('Tool: update_bucket_list_item', () => {
 });
 
 // ---------------------------------------------------------------------------
-// Resource: trek://atlas/stats
+// Resource: tripmate://atlas/stats
 // ---------------------------------------------------------------------------
 
-describe('Resource: trek://atlas/stats', () => {
+describe('Resource: tripmate://atlas/stats', () => {
   it('returns stats object', async () => {
     const { user } = createUser(testDb);
     await withResourceHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: 'trek://atlas/stats' });
+      const result = await h.client.readResource({ uri: 'tripmate://atlas/stats' });
       const data = parseResourceResult(result) as any;
       expect(data).toBeDefined();
     });
@@ -535,14 +535,14 @@ describe('Resource: trek://atlas/stats', () => {
 });
 
 // ---------------------------------------------------------------------------
-// Resource: trek://atlas/regions
+// Resource: tripmate://atlas/regions
 // ---------------------------------------------------------------------------
 
-describe('Resource: trek://atlas/regions', () => {
+describe('Resource: tripmate://atlas/regions', () => {
   it('returns the country grouping', async () => {
     const { user } = createUser(testDb);
     await withResourceHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: 'trek://atlas/regions' });
+      const result = await h.client.readResource({ uri: 'tripmate://atlas/regions' });
       const data = parseResourceResult(result) as any;
       expect(data).toEqual({});
     });
@@ -557,7 +557,7 @@ describe('Resource: trek://atlas/regions', () => {
     cacheRegion(insertPlace(trip.id, 'Colosseum', null, 41.8902, 12.4922), 'IT', 'IT-62', 'Lazio');
 
     await withResourceHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: 'trek://atlas/regions' });
+      const result = await h.client.readResource({ uri: 'tripmate://atlas/regions' });
       const data = parseResourceResult(result) as any;
       expect(data.ES).toEqual([
         { code: 'ES-CT', name: 'Catalonia', placeCount: 0, status: 'visited', manuallyMarked: true },
@@ -568,11 +568,11 @@ describe('Resource: trek://atlas/regions', () => {
 });
 
 // ---------------------------------------------------------------------------
-// Resource: trek://bucket-list (moved from resources.test.ts with the fold —
+// Resource: tripmate://bucket-list (moved from resources.test.ts with the fold —
 // that suite's withTools:false harness never attaches registry resources)
 // ---------------------------------------------------------------------------
 
-describe('Resource: trek://bucket-list', () => {
+describe('Resource: tripmate://bucket-list', () => {
   it('returns only the current user\'s bucket list items', async () => {
     const { user } = createUser(testDb);
     const { user: other } = createUser(testDb);
@@ -580,7 +580,7 @@ describe('Resource: trek://bucket-list', () => {
     createBucketListItem(testDb, other.id, { name: 'Rome' });
 
     await withResourceHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: 'trek://bucket-list' });
+      const result = await h.client.readResource({ uri: 'tripmate://bucket-list' });
       const items = parseResourceResult(result) as any[];
       expect(items).toHaveLength(1);
       expect(items[0].name).toBe('Tokyo');
@@ -591,7 +591,7 @@ describe('Resource: trek://bucket-list', () => {
     const { user } = createUser(testDb);
 
     await withResourceHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: 'trek://bucket-list' });
+      const result = await h.client.readResource({ uri: 'tripmate://bucket-list' });
       const items = parseResourceResult(result) as any[];
       expect(items).toEqual([]);
     });
@@ -599,10 +599,10 @@ describe('Resource: trek://bucket-list', () => {
 });
 
 // ---------------------------------------------------------------------------
-// Resource: trek://visited-countries (moved from resources.test.ts, same reason)
+// Resource: tripmate://visited-countries (moved from resources.test.ts, same reason)
 // ---------------------------------------------------------------------------
 
-describe('Resource: trek://visited-countries', () => {
+describe('Resource: tripmate://visited-countries', () => {
   it('returns only the current user\'s visited countries', async () => {
     const { user } = createUser(testDb);
     const { user: other } = createUser(testDb);
@@ -611,7 +611,7 @@ describe('Resource: trek://visited-countries', () => {
     createVisitedCountry(testDb, other.id, 'DE');
 
     await withResourceHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: 'trek://visited-countries' });
+      const result = await h.client.readResource({ uri: 'tripmate://visited-countries' });
       const countries = parseResourceResult(result) as any[];
       expect(countries).toHaveLength(2);
       const codes = countries.map((c) => c.country_code);
@@ -625,7 +625,7 @@ describe('Resource: trek://visited-countries', () => {
     const { user } = createUser(testDb);
 
     await withResourceHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: 'trek://visited-countries' });
+      const result = await h.client.readResource({ uri: 'tripmate://visited-countries' });
       const countries = parseResourceResult(result) as any[];
       expect(countries).toEqual([]);
     });

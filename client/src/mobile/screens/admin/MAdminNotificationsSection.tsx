@@ -13,9 +13,9 @@ interface MAdminNotificationsSectionProps {
 const SMTP_FIELDS = [
   { key: 'smtp_host', label: 'SMTP Host', placeholder: 'mail.example.com' },
   { key: 'smtp_port', label: 'SMTP Port', placeholder: '587' },
-  { key: 'smtp_user', label: 'SMTP User', placeholder: 'trek@example.com' },
+  { key: 'smtp_user', label: 'SMTP User', placeholder: 'tripmate@example.com' },
   { key: 'smtp_pass', label: 'SMTP Password', placeholder: '••••••••', type: 'password' },
-  { key: 'smtp_from', label: 'From Address', placeholder: 'trek@example.com' },
+  { key: 'smtp_from', label: 'From Address', placeholder: 'tripmate@example.com' },
 ]
 
 // Notifications section: channel toggles (email/webhook/ntfy/in-app), SMTP

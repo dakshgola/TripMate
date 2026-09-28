@@ -1,6 +1,6 @@
 # Admin: Storage
 
-The **Storage** tab (Admin Panel → Storage) controls where TREK stores each
+The **Storage** tab (Admin Panel → Storage) controls where Trip Mate stores each
 kind of content: which storage backends exist, which content category writes
 to which backend, and whether writes are replicated to additional backends.
 
@@ -23,7 +23,7 @@ backends of type:
   IP address or `localhost` in the URL unless your server is configured for
   virtual-hosted bucket addressing.
 
-If `TREK_PLACE_PHOTO_DIR` is set, a read-only `place-photos-local` backend
+If `TRIPMATE_PLACE_PHOTO_DIR` is set, a read-only `place-photos-local` backend
 appears too — it is defined by that environment variable, not by this panel.
 
 ### Replication (Mirror targets)
@@ -61,7 +61,7 @@ turns replication off again.
 ### Test
 
 Every backend row has a **Test** button: the server writes, checks, and
-deletes a small probe object (`trek-probe/…`) on the backend — for a
+deletes a small probe object (`tripmate-probe/…`) on the backend — for a
 replicated backend, on the backend itself and each target individually — and
 reports per-target results. "Connection OK" means credentials, bucket, and
 reachability all check out. Targets must be **saved** before Test can probe
@@ -70,7 +70,7 @@ you save.
 
 ## Categories
 
-Every kind of content TREK stores belongs to one of eight categories, each
+Every kind of content Trip Mate stores belongs to one of eight categories, each
 assigned to exactly one backend:
 
 | Category | Id | What it stores |
@@ -81,7 +81,7 @@ assigned to exactly one backend:
 | Profile pictures | `avatars` | User account profile pictures |
 | Place images | `places` | Images attached to places and collection places — uploaded or imported |
 | Google photo cache | `photos-google` | Cached copies of Google Places photos — re-fetchable, safe to lose |
-| TREK photo cache | `photos-trek` | Cached photos from the TREK photo service used by Memories — re-fetchable, safe to lose |
+| Trip Mate photo cache | `photos-tripmate` | Cached photos from the Trip Mate photo service used by Memories — re-fetchable, safe to lose |
 | Backups | `backups` | Server backup archives created by the Backup panel or schedule |
 
 Reassigning a category changes where **new** objects go. If the category
@@ -93,7 +93,7 @@ served from wherever they already are. Replicating the Google photo cache or
 Place images is flagged as not recommended — both hold content that is
 re-fetchable or provider-derived.
 
-The legacy `/uploads/photos` directory written by older TREK versions is not
+The legacy `/uploads/photos` directory written by older Trip Mate versions is not
 a category: its files are still served and included in backups, but nothing
 writes there anymore and it cannot be reassigned.
 
@@ -149,7 +149,7 @@ validation error.
 {
   "backends": [
     { "name": "off-site", "type": "s3", "options": {
-      "endpoint": "https://s3.example.com", "bucket": "trek",
+      "endpoint": "https://s3.example.com", "bucket": "tripmate",
       "accessKeyId": "...", "secretAccessKey": "..." } },
     { "name": "backups-mirror", "type": "mirror", "options": {
       "primary": "backups-local", "replicas": ["off-site"] } }
@@ -161,7 +161,7 @@ validation error.
 The panel presents this exact setup as **Mirror targets** on `backups-local`.
 
 ```yaml
-# docker-compose: add under the trek service's volumes
+# docker-compose: add under the tripmate service's volumes
       - ./storage-config.json:/app/data/storage-config.json:ro
 ```
 

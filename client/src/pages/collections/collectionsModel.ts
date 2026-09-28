@@ -1,7 +1,7 @@
 import { Circle, Bookmark, CheckCircle2 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import type { CollectionPlace, CollectionStatus, CollectionLabel } from '@trek/shared'
-import { COLLECTION_STATUSES } from '@trek/shared'
+import type { CollectionPlace, CollectionStatus, CollectionLabel } from '@tripmate/shared'
+import { COLLECTION_STATUSES } from '@tripmate/shared'
 import type { StatusFilter, CollectionSortMode } from '../../store/collectionStore'
 
 /**

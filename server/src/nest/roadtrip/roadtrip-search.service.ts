@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { RoadtripSearchArea, RoadtripSearchAreaResponse } from '@trek/shared';
+import type { RoadtripSearchArea, RoadtripSearchAreaResponse } from '@tripmate/shared';
 import { MapsService } from '../maps/maps.service';
 import { PluginHooks } from '../plugins/plugin-hooks.service';
 import { pluginsEnabled } from '../plugins/kill-switch';
@@ -39,7 +39,7 @@ export class RoadtripSearchService {
     let clamped = false;
     settled.forEach((entry, index) => {
       if (entry.status === 'rejected') {
-        failedSources.add(index === 0 ? 'TREK' : `plugin:${providers[Math.floor((index - 1) / categories.length)]}`);
+        failedSources.add(index === 0 ? 'Trip Mate' : `plugin:${providers[Math.floor((index - 1) / categories.length)]}`);
         return;
       }
       sources.add(entry.value.source);

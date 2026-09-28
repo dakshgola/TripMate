@@ -21,7 +21,7 @@ import { isDemoWriteBlocked, DEMO_WRITE_ERROR } from '../common/demo-write';
 import { contentDisposition } from '../common/content-disposition';
 import { RuntimeEnvService } from '../app-config/runtime-env.service';
 import { memoryStorage } from 'multer';
-import { hexColorSchema, placeImageUrlSchema, placeWebsiteSchema } from '@trek/shared';
+import { hexColorSchema, placeImageUrlSchema, placeWebsiteSchema } from '@tripmate/shared';
 import type { User } from '../../types';
 import { PlacesService } from './places.service';
 import { isDirectionsUrl } from './maps-dir.helpers';
@@ -103,7 +103,7 @@ function parseBool(v: unknown, defaultVal: boolean): boolean {
  * the forwarded X-Socket-Id. The /import/* and /bulk-delete routes are declared
  * before /:id so the static segments win over the param.
  *
- * Bodies validate against the @trek/shared place schemas via the DTO classes in
+ * Bodies validate against the @tripmate/shared place schemas via the DTO classes in
  * places.dto.ts + the global ZodValidationPipe (400 with the standard
  * `{ error }` envelope on mismatch). That replaced three bespoke checks —
  * 'Place name is required', 'ids must be an array of numbers' and

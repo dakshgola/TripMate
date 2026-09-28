@@ -1,5 +1,5 @@
 /**
- * trek-plugin preflight — run the registry's CI checks locally, BEFORE you open a PR.
+ * tripmate-plugin preflight — run the registry's CI checks locally, BEFORE you open a PR.
  *
  * This used to be the ONLY place the registry's real rules were applied, which made it the place
  * authors discovered their README was unwritten — over the network, against a pushed tag, after

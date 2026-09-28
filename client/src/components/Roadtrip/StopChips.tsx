@@ -3,7 +3,7 @@ import { Hourglass } from 'lucide-react'
 import { useTranslation } from '../../i18n/TranslationContext'
 import { formatDurationShort } from './roadtripModel'
 import { STOP_KINDS } from './stopKinds'
-import type { RoadtripStopType } from '@trek/shared'
+import type { RoadtripStopType } from '@tripmate/shared'
 
 /**
  * The two questions every stop on a drive answers: what kind it is, and how long it

@@ -50,7 +50,7 @@ import { DawarichSyncService } from '../../../src/nest/integrations/dawarich-syn
 import { DawarichError } from '../../../src/nest/integrations/dawarich.client';
 import type { DawarichClient, DawarichCreds, DawarichVisitRaw } from '../../../src/nest/integrations/dawarich.client';
 import type { DawarichService } from '../../../src/nest/integrations/dawarich.service';
-import type { DawarichCapabilities, DawarichSyncState } from '@trek/shared';
+import type { DawarichCapabilities, DawarichSyncState } from '@tripmate/shared';
 
 // ── Fakes ────────────────────────────────────────────────────────────────────
 

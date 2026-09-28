@@ -12,7 +12,7 @@ import {
 import type { NotifEventType } from '../../notifications/notification-events';
 
 /**
- * Parse + validate a plugin's trek-plugin.json (#plugins, M4). Kept deliberately
+ * Parse + validate a plugin's tripmate-plugin.json (#plugins, M4). Kept deliberately
  * strict: unknown permissions, missing required fields, or a declared native
  * module all fail here, before a plugin is ever registered. (The published SDK's
  * shared Zod schema will supersede this in M6; the checks stay identical.)
@@ -84,7 +84,7 @@ export interface RouteProfileCapability {
   icon?: string;
 }
 
-/** One MCP tool the plugin advertises on TREK's MCP server. Requires `mcp:tools`.
+/** One MCP tool the plugin advertises on Trip Mate's MCP server. Requires `mcp:tools`.
  *  Declared here, in the signed manifest, and not only reported at load: the child
  *  composes its `loaded` payload AFTER onLoad runs, so a signed, sha256-pinned
  *  artifact could otherwise emit different tool text on every restart with no
@@ -131,11 +131,11 @@ export interface PluginManifest {
   homepage?: string;
   icon?: string;
   type: 'integration' | 'page' | 'widget' | 'trip-page';
-  /** The raw semver RANGE of TREK versions this plugin supports (">=3.2.0 <4.0.0"). */
-  trek?: string;
+  /** The raw semver RANGE of Trip Mate versions this plugin supports (">=3.2.0 <4.0.0"). */
+  tripmate?: string;
   /** Same range, normalized: a valid+satisfiable one, or null. What the host gates on. */
   trekRange: string | null;
-  /** The range's lower bound, for display ("Requires TREK 3.2.0+"). Derived, never authored. */
+  /** The range's lower bound, for display ("Requires Trip Mate 3.2.0+"). Derived, never authored. */
   minTrekVersion?: string;
   nativeModules: boolean;
   permissions: string[];
@@ -186,7 +186,7 @@ export function parseJsonText(text: string): unknown {
  * Validate a manifest.
  *
  * `requireTrek` is the INSTALL front doors (registry, sideload, dev-link): a plugin
- * that doesn't say which TREK versions it supports may not be installed at all.
+ * that doesn't say which Trip Mate versions it supports may not be installed at all.
  *
  * It is deliberately OFF for discovery, which is a reconciler, not a gate. Discovery's
  * failure path only logs and skips — it never touches the plugins row — so a plugin it
@@ -250,15 +250,15 @@ export function parseManifest(raw: unknown, opts?: { requireTrek?: boolean }): P
   const badEgress = egress.find((h) => !HOST_RE.test(h));
   if (badEgress !== undefined) throw new ManifestError(`invalid egress host "${badEgress}"`);
 
-  const trek = optStr(m.trek);
-  const trekRange = isValidTrekRange(trek) ? trek : null;
-  // Under TREK_PLUGINS_IGNORE_TREK_RANGE a missing range is the same author oversight as a
+  const tripmate = optStr(m.tripmate);
+  const trekRange = isValidTrekRange(tripmate) ? tripmate : null;
+  // Under TRIPMATE_PLUGINS_IGNORE_TREK_RANGE a missing range is the same author oversight as a
   // stale one, so it is reported by the gate (as a null range) instead of refused here.
   if (opts?.requireTrek && !trekRange && !trekRangeBypassed()) {
     throw new ManifestError(
-      trek
-        ? `invalid "trek" version range "${trek}" (expected a satisfiable semver range, e.g. ">=3.2.0 <4.0.0")`
-        : 'missing "trek" version range — declare the TREK versions this plugin supports, e.g. ">=3.2.0 <4.0.0"',
+      tripmate
+        ? `invalid "tripmate" version range "${tripmate}" (expected a satisfiable semver range, e.g. ">=3.2.0 <4.0.0")`
+        : 'missing "tripmate" version range — declare the Trip Mate versions this plugin supports, e.g. ">=3.2.0 <4.0.0"',
     );
   }
 
@@ -268,7 +268,7 @@ export function parseManifest(raw: unknown, opts?: { requireTrek?: boolean }): P
   }
   const apiVersion = (rawApi as number | undefined) ?? 1;
   if (opts?.requireTrek && apiVersion > PLUGIN_API_VERSION) {
-    throw new ManifestError(`plugin requires plugin-API v${apiVersion}; this TREK supports v${PLUGIN_API_VERSION}`);
+    throw new ManifestError(`plugin requires plugin-API v${apiVersion}; this Trip Mate supports v${PLUGIN_API_VERSION}`);
   }
 
   return {
@@ -281,7 +281,7 @@ export function parseManifest(raw: unknown, opts?: { requireTrek?: boolean }): P
     homepage: optStr(m.homepage),
     icon: optStr(m.icon) ?? 'Blocks',
     type: type as PluginManifest['type'],
-    trek,
+    tripmate,
     trekRange,
     // Derived from the range itself, never from the first number that looks like a
     // version in it: a range of "<4.0.0" has a *first* semver of 4.0.0 but a lower
@@ -535,7 +535,7 @@ const RESERVED_SETTING_KEYS = new Set(['constructor', 'prototype', '__proto__'])
 /**
  * Every attribute a settings-field object may carry — parseSettings reads exactly these and
  * silently drops anything else. The SDK mirrors this list (`SETTING_FIELD_KEYS` in
- * plugin-sdk/src/manifest.ts, parity-tested against this file) so `trek-plugin validate`
+ * plugin-sdk/src/manifest.ts, parity-tested against this file) so `tripmate-plugin validate`
  * can warn on a typo'd or unsupported attribute instead of letting it vanish at install.
  */
 export const SETTING_FIELD_KEYS = [

@@ -12,13 +12,13 @@ import { stageExtractedPluginTrees, applyStagedPluginTrees, setStagedRestoreAppl
 
 let root: string;
 beforeEach(() => {
-  root = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-pbackup-'));
-  process.env.TREK_PLUGINS_DIR = path.join(root, 'plugins');
-  process.env.TREK_PLUGINS_DATA_DIR = path.join(root, 'plugins-data');
+  root = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-pbackup-'));
+  process.env.TRIPMATE_PLUGINS_DIR = path.join(root, 'plugins');
+  process.env.TRIPMATE_PLUGINS_DATA_DIR = path.join(root, 'plugins-data');
 });
 afterEach(() => {
-  delete process.env.TREK_PLUGINS_DIR;
-  delete process.env.TREK_PLUGINS_DATA_DIR;
+  delete process.env.TRIPMATE_PLUGINS_DIR;
+  delete process.env.TRIPMATE_PLUGINS_DATA_DIR;
   fs.rmSync(root, { recursive: true, force: true });
 });
 

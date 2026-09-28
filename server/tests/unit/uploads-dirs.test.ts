@@ -23,7 +23,7 @@ describe('uploads subdirectory parity', () => {
   const fromDockerfile = readDockerfileSubdirs();
   // The registry's real values: every non-empty category prefix lives under
   // uploads/ (backups' empty prefix is rooted in data/, not uploads/), and the
-  // nested cache prefixes (photos/google, photos/trek) collapse into their
+  // nested cache prefixes (photos/google, photos/tripmate) collapse into their
   // top-level dir.
   const fromRegistry = new Set(
     Object.values(CATEGORY_PREFIXES)

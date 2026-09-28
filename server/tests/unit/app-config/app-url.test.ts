@@ -28,8 +28,8 @@ afterEach(() => {
 
 describe('getAppUrl', () => {
   it('returns APP_URL with ALL trailing slashes stripped', () => {
-    process.env.APP_URL = 'https://trek.example.com///';
-    expect(getAppUrl()).toBe('https://trek.example.com');
+    process.env.APP_URL = 'https://tripmate.example.com///';
+    expect(getAppUrl()).toBe('https://tripmate.example.com');
   });
 
   it('falls through an invalid APP_URL to the first ALLOWED_ORIGINS entry', () => {
@@ -63,8 +63,8 @@ describe('getAppUrl', () => {
 
 describe('getMcpSafeUrl', () => {
   it('passes through HTTPS URLs', () => {
-    process.env.APP_URL = 'https://trek.example.com';
-    expect(getMcpSafeUrl()).toBe('https://trek.example.com');
+    process.env.APP_URL = 'https://tripmate.example.com';
+    expect(getMcpSafeUrl()).toBe('https://tripmate.example.com');
   });
 
   it('passes through http://localhost and http://127.0.0.1', () => {
@@ -75,7 +75,7 @@ describe('getMcpSafeUrl', () => {
   });
 
   it('sanitizes non-HTTPS, non-localhost URLs to http://localhost:{PORT}', () => {
-    process.env.APP_URL = 'http://trek.internal.lan';
+    process.env.APP_URL = 'http://tripmate.internal.lan';
     process.env.PORT = '3005';
     expect(getMcpSafeUrl()).toBe('http://localhost:3005');
   });

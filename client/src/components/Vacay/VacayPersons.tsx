@@ -136,10 +136,10 @@ export default function VacayPersons() {
 
       {/* Invite Modal — Portal to body to avoid z-index issues */}
       {showInvite && createPortal(
-        <div className="fixed inset-0 flex items-center justify-center px-4 trek-backdrop-enter bg-[rgba(15,23,42,0.5)]" style={{ zIndex: 99990, paddingTop: 70 }}
+        <div className="fixed inset-0 flex items-center justify-center px-4 tripmate-backdrop-enter bg-[rgba(15,23,42,0.5)]" style={{ zIndex: 99990, paddingTop: 70 }}
           role="presentation"
           onClick={e => { if (e.target === e.currentTarget) setShowInvite(false) }}>
-          <div className="trek-modal-enter rounded-2xl shadow-2xl w-full max-w-sm bg-surface-card">
+          <div className="tripmate-modal-enter rounded-2xl shadow-2xl w-full max-w-sm bg-surface-card">
             <div className="flex items-center justify-between p-5 border-b border-edge-secondary">
               <h2 className="text-base font-semibold text-content">{t('vacay.inviteUser')}</h2>
               <button type="button" onClick={() => setShowInvite(false)} className="p-1.5 rounded-lg transition-colors text-content-faint">
@@ -177,10 +177,10 @@ export default function VacayPersons() {
 
       {/* Color Picker Modal — Portal to body */}
       {showColorPicker && createPortal(
-        <div className="fixed inset-0 flex items-center justify-center px-4 trek-backdrop-enter bg-[rgba(15,23,42,0.5)]" style={{ zIndex: 99990, paddingTop: 70 }}
+        <div className="fixed inset-0 flex items-center justify-center px-4 tripmate-backdrop-enter bg-[rgba(15,23,42,0.5)]" style={{ zIndex: 99990, paddingTop: 70 }}
           role="presentation"
           onClick={e => { if (e.target !== e.currentTarget) return; setShowColorPicker(false); setColorEditUserId(null) }}>
-          <div className="trek-modal-enter rounded-2xl shadow-2xl w-full max-w-xs bg-surface-card">
+          <div className="tripmate-modal-enter rounded-2xl shadow-2xl w-full max-w-xs bg-surface-card">
             <div className="flex items-center justify-between p-5 border-b border-edge-secondary">
               <h2 className="text-base font-semibold text-content">{t('vacay.changeColor')}</h2>
               <button type="button" onClick={() => { setShowColorPicker(false); setColorEditUserId(null) }} className="p-1.5 rounded-lg transition-colors text-content-faint">

@@ -1,7 +1,7 @@
 /**
  * Unit tests for DawarichSuggestionsService: DAWARICH-SUG-001..064.
  *
- * This is the only service in the Dawarich domain that writes into TREK proper,
+ * This is the only service in the Dawarich domain that writes into Trip Mate proper,
  * and every write it makes crosses an ownership line: a suggestion belongs to
  * one user, the trip it lands on belongs to a roster, the wish it ticks belongs
  * to the caller alone. So the DB is real in-memory SQLite — the scoping lives in
@@ -49,8 +49,8 @@ vi.mock('../../../src/config', () => ({
 }));
 vi.mock('../../../src/websocket', () => ({ broadcast: vi.fn() }));
 
-import { DAWARICH_BUCKET_SCAN_LIMIT } from '@trek/shared';
-import type { DawarichConnection } from '@trek/shared';
+import { DAWARICH_BUCKET_SCAN_LIMIT } from '@tripmate/shared';
+import type { DawarichConnection } from '@tripmate/shared';
 import { createTables } from '../../../src/db/schema';
 import { runMigrations } from '../../../src/db/migrations';
 import { resetTestDb } from '../../helpers/test-db';
@@ -1140,7 +1140,7 @@ describe('DawarichSuggestionsService — the Atlas hand-off', () => {
     expect(atlasStub.markCountry).toHaveBeenCalledWith(user.id, 'AT', 'dawarich');
   });
 
-  it('DAWARICH-SUG-030: atlasSuggestions codes what it can, lists what it cannot, and flags what TREK already has', async () => {
+  it('DAWARICH-SUG-030: atlasSuggestions codes what it can, lists what it cannot, and flags what Trip Mate already has', async () => {
     const { user } = createUser(testDb);
     // A hand mark, as the Atlas reports it back: the map merges visited_countries
     // into its own list, so it is the map that is asked, not the table.
@@ -1157,7 +1157,7 @@ describe('DawarichSuggestionsService — the Atlas hand-off', () => {
     expect(suggestions.countries[0]).toMatchObject({ sourceName: 'Germany', alreadyVisited: true });
     expect(suggestions.countries[0].cities[0]).toMatchObject({ name: 'Berlin', minutes: 120 });
     expect(suggestions.countries[1].alreadyVisited).toBe(false);
-    // A country TREK cannot code is still a country the user went to.
+    // A country Trip Mate cannot code is still a country the user went to.
     expect(suggestions.unresolved).toEqual(['Absurdistan']);
     expect(atlasStub.stats).toHaveBeenCalledWith(user.id);
   });
@@ -1241,7 +1241,7 @@ describe('DawarichSuggestionsService — the Atlas hand-off', () => {
   });
 
   it('DAWARICH-SUG-062: a hole in the cities array, and a city object without the field, are both dropped', async () => {
-    // `/countries/visited_cities` is upstream JSON that TREK does not validate,
+    // `/countries/visited_cities` is upstream JSON that Trip Mate does not validate,
     // so the array can hold a null where a city object should be, or an object
     // that simply never got the field. Both have to fall through to the empty
     // name the filter removes: reading `.city` off a null would take the whole

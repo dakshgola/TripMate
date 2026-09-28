@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 const h = vi.hoisted(() => ({
-  getMcpSafeUrl: vi.fn(() => 'https://trek.example.test'),
+  getMcpSafeUrl: vi.fn(() => 'https://tripmate.example.test'),
 }));
 
 vi.mock('../../../src/app-config', async (importOriginal) => {
@@ -76,7 +76,7 @@ function pending(over: Partial<Record<string, unknown>> = {}) {
     userId: 7,
     redirectUri: 'https://client.example.com/cb',
     scopes: ['trips:read'],
-    resource: 'https://trek.example.test/mcp',
+    resource: 'https://tripmate.example.test/mcp',
     codeChallenge: 'chal',
     codeChallengeMethod: 'S256' as const,
     expiresAt: Date.now() + 60_000,
@@ -86,7 +86,7 @@ function pending(over: Partial<Record<string, unknown>> = {}) {
 
 beforeEach(() => {
   vi.clearAllMocks();
-  h.getMcpSafeUrl.mockReturnValue('https://trek.example.test');
+  h.getMcpSafeUrl.mockReturnValue('https://tripmate.example.test');
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -299,7 +299,7 @@ describe('TrekOAuthProvider.authorize', () => {
       scopes: ['trips:read', 'trips:write'],
       codeChallenge: 'chal',
       state: 'st',
-      resource: new URL('https://trek.example.test/mcp'),
+      resource: new URL('https://tripmate.example.test/mcp'),
     } as never, res as never);
     const qs = new URLSearchParams({
       client_id: 'cid-1',
@@ -308,9 +308,9 @@ describe('TrekOAuthProvider.authorize', () => {
       code_challenge: 'chal',
       code_challenge_method: 'S256',
       state: 'st',
-      resource: 'https://trek.example.test/mcp',
+      resource: 'https://tripmate.example.test/mcp',
     });
-    expect(res.redirect).toHaveBeenCalledWith(302, `https://trek.example.test/oauth/consent?${qs.toString()}`);
+    expect(res.redirect).toHaveBeenCalledWith(302, `https://tripmate.example.test/oauth/consent?${qs.toString()}`);
   });
 
   it('SDKP-031: omits state/resource params when the request carried none', async () => {
@@ -340,7 +340,7 @@ describe('TrekOAuthProvider.authorize', () => {
     const target = new URL(vi.mocked(res.redirect).mock.calls[0][1] as string);
     expect(`${target.origin}${target.pathname}`).toBe('https://client.example.com/cb');
     expect(target.searchParams.get('error')).toBe('invalid_target');
-    expect(target.searchParams.get('error_description')).toBe('Requested resource must be the TREK MCP endpoint');
+    expect(target.searchParams.get('error_description')).toBe('Requested resource must be the Trip Mate MCP endpoint');
     expect(target.searchParams.get('state')).toBe('keep-me');
   });
 
@@ -397,14 +397,14 @@ describe('TrekOAuthProvider.exchangeAuthorizationCode', () => {
     const audit = makeAudit();
     const { provider } = makeProvider(oauth, audit);
     const result = await provider.exchangeAuthorizationCode(
-      clientInfo(), 'code', 'verifier', 'https://client.example.com/cb', new URL('https://trek.example.test/mcp'),
+      clientInfo(), 'code', 'verifier', 'https://client.example.com/cb', new URL('https://tripmate.example.test/mcp'),
     );
     expect(result).toEqual(tokens());
-    expect(oauth.issueTokens).toHaveBeenCalledWith('cid-1', 7, ['trips:read'], null, 'https://trek.example.test/mcp');
+    expect(oauth.issueTokens).toHaveBeenCalledWith('cid-1', 7, ['trips:read'], null, 'https://tripmate.example.test/mcp');
     expect(audit.writeAudit).toHaveBeenCalledWith({
       userId: 7,
       action: 'oauth.token.issue',
-      details: { client_id: 'cid-1', scopes: ['trips:read'], audience: 'https://trek.example.test/mcp' },
+      details: { client_id: 'cid-1', scopes: ['trips:read'], audience: 'https://tripmate.example.test/mcp' },
       ip: null,
     });
   });

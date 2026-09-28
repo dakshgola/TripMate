@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { STORAGE_CATEGORIES, storageUsageSchema, type StorageUsage } from '@trek/shared';
+import { STORAGE_CATEGORIES, storageUsageSchema, type StorageUsage } from '@tripmate/shared';
 import { DatabaseService } from '../database/database.service';
 import { StorageService } from './storage.service';
 
@@ -12,9 +12,9 @@ export const USAGE_KEY = 'storage.usage';
  * facade — a mirrored category therefore lists its PRIMARY, the source of
  * truth — and persists one JSON row with computedAt. Local backends pay one
  * stat per file; s3 sizes ride the paginated listing. photos-google /
- * photos-trek nest under the legacy photos/ prefix in mode A, so the legacy
+ * photos-tripmate nest under the legacy photos/ prefix in mode A, so the legacy
  * walk must exclude their subtrees to avoid double counting — the same
- * google/ trek/ skip the backup walk uses.
+ * google/ tripmate/ skip the backup walk uses.
  */
 @Injectable()
 export class StorageStatsService {
@@ -42,7 +42,7 @@ export class StorageStatsService {
       }
       const legacyPhotos = { objects: 0, bytes: 0 };
       for await (const stat of this.storage.list('photos')) {
-        if (stat.key.startsWith('google/') || stat.key.startsWith('trek/')) continue;
+        if (stat.key.startsWith('google/') || stat.key.startsWith('tripmate/')) continue;
         legacyPhotos.objects += 1;
         legacyPhotos.bytes += stat.size;
       }

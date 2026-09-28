@@ -3,7 +3,7 @@ import {
   Landmark, MapPin, ShoppingBag, TrainFront, Trees, Umbrella, Utensils,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import type { CollectionStatus } from '@trek/shared'
+import type { CollectionStatus } from '@tripmate/shared'
 import { getCategoryIcon } from '../../../components/shared/categoryIcons'
 
 /**

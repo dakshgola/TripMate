@@ -2,12 +2,12 @@ import type { CSSProperties, ReactNode } from 'react'
 import MDancingTrek, { type TrekScene, type TrekMood } from '../../mobile/components/MDancingTrek'
 
 /**
- * The one desktop empty state: the TREK mascot acting out the page's scene with
+ * The one desktop empty state: the Trip Mate mascot acting out the page's scene with
  * a single title beneath it — no subtitle, one uniform look everywhere.
  *
  * The mascot is monochrome and drives its colours off two mobile tokens
  * (`--m-ink` body / `--m-bg` cutouts) that only exist inside the mobile shell,
- * so we map them onto the desktop palette here. Its `.trek-*` choreography is
+ * so we map them onto the desktop palette here. Its `.tripmate-*` choreography is
  * global CSS, so it animates outside the shell as-is. `surface` should match the
  * background the state sits on so the cut-out eyes read as holes (default: card).
  *

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpException, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import type { Request } from 'express';
-import type { StorageUsage } from '@trek/shared';
+import type { StorageUsage } from '@tripmate/shared';
 import { redactStorageSecrets } from './storage-secrets';
 import type { User } from '../../types';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';

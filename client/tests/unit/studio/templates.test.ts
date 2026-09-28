@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import type { BookPageSetup } from '@trek/shared'
-import { bookPageSetupSchema } from '@trek/shared'
+import type { BookPageSetup } from '@tripmate/shared'
+import { bookPageSetupSchema } from '@tripmate/shared'
 import { COVER_TEMPLATES, TEMPLATES, applyTemplate } from '../../../src/components/Studio/templates'
 
 /**

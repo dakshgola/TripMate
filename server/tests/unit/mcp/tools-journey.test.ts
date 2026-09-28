@@ -26,7 +26,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -885,24 +885,24 @@ async function createJourney(h: McpHarness, title = 'Eurotrip'): Promise<any> {
   })) as any).journey;
 }
 
-describe('Resource: trek://journeys', () => {
+describe('Resource: tripmate://journeys', () => {
   it('returns the journeys of the current user', async () => {
     const { user } = createUser(testDb);
     await withHarness(user.id, async (h) => {
       const journey = await createJourney(h);
-      const data = parseResourceResult(await h.client.readResource({ uri: 'trek://journeys' })) as any[];
+      const data = parseResourceResult(await h.client.readResource({ uri: 'tripmate://journeys' })) as any[];
       expect(Array.isArray(data)).toBe(true);
       expect(data.map((j) => j.id)).toContain(journey.id);
     });
   });
 });
 
-describe('Resource: trek://journeys/{journeyId}', () => {
+describe('Resource: tripmate://journeys/{journeyId}', () => {
   it('returns the hydrated journey', async () => {
     const { user } = createUser(testDb);
     await withHarness(user.id, async (h) => {
       const journey = await createJourney(h);
-      const data = parseResourceResult(await h.client.readResource({ uri: `trek://journeys/${journey.id}` })) as any;
+      const data = parseResourceResult(await h.client.readResource({ uri: `tripmate://journeys/${journey.id}` })) as any;
       expect(data.title).toBe('Eurotrip');
       expect(Array.isArray(data.entries)).toBe(true);
       expect(Array.isArray(data.contributors)).toBe(true);
@@ -915,7 +915,7 @@ describe('Resource: trek://journeys/{journeyId}', () => {
     await withHarness(other.id, async (hOther) => {
       const foreign = await createJourney(hOther, 'Private');
       await withHarness(user.id, async (h) => {
-        for (const uri of ['trek://journeys/abc', `trek://journeys/${foreign.id}`]) {
+        for (const uri of ['tripmate://journeys/abc', `tripmate://journeys/${foreign.id}`]) {
           const data = parseResourceResult(await h.client.readResource({ uri })) as any;
           expect(data).toEqual({ error: 'Trip not found or access denied' });
         }
@@ -924,7 +924,7 @@ describe('Resource: trek://journeys/{journeyId}', () => {
   });
 });
 
-describe('Resource: trek://journeys/{journeyId}/entries', () => {
+describe('Resource: tripmate://journeys/{journeyId}/entries', () => {
   it('returns the enriched entries', async () => {
     const { user } = createUser(testDb);
     await withHarness(user.id, async (h) => {
@@ -933,7 +933,7 @@ describe('Resource: trek://journeys/{journeyId}/entries', () => {
         name: 'create_journey_entry',
         arguments: { journeyId: journey.id, entry_date: '2026-07-01', title: 'Day 1', story: 'Arrived' },
       });
-      const data = parseResourceResult(await h.client.readResource({ uri: `trek://journeys/${journey.id}/entries` })) as any[];
+      const data = parseResourceResult(await h.client.readResource({ uri: `tripmate://journeys/${journey.id}/entries` })) as any[];
       expect(data).toHaveLength(1);
       expect(data[0].title).toBe('Day 1');
       expect(Array.isArray(data[0].tags)).toBe(true);
@@ -941,12 +941,12 @@ describe('Resource: trek://journeys/{journeyId}/entries', () => {
   });
 });
 
-describe('Resource: trek://journeys/{journeyId}/contributors', () => {
+describe('Resource: tripmate://journeys/{journeyId}/contributors', () => {
   it('returns the contributors, with the legacy [] fallback shape', async () => {
     const { user } = createUser(testDb);
     await withHarness(user.id, async (h) => {
       const journey = await createJourney(h);
-      const data = parseResourceResult(await h.client.readResource({ uri: `trek://journeys/${journey.id}/contributors` })) as any[];
+      const data = parseResourceResult(await h.client.readResource({ uri: `tripmate://journeys/${journey.id}/contributors` })) as any[];
       expect(Array.isArray(data)).toBe(true);
       expect(data.map((c) => c.user_id ?? c.id)).toContain(user.id);
     });
@@ -958,7 +958,7 @@ describe('Journey resource gating', () => {
     const { user } = createUser(testDb);
     setAddonEnabled(testDb, ADDON_IDS.JOURNEY, false);
     await withHarness(user.id, async (h) => {
-      await expect(h.client.readResource({ uri: 'trek://journeys' })).rejects.toThrow();
+      await expect(h.client.readResource({ uri: 'tripmate://journeys' })).rejects.toThrow();
     });
   });
 
@@ -966,7 +966,7 @@ describe('Journey resource gating', () => {
     const { user } = createUser(testDb);
     const h = await createMcpHarness({ userId: user.id, scopes: ['trips:read'] });
     try {
-      await expect(h.client.readResource({ uri: 'trek://journeys' })).rejects.toThrow();
+      await expect(h.client.readResource({ uri: 'tripmate://journeys' })).rejects.toThrow();
     } finally {
       await h.cleanup();
     }

@@ -16,7 +16,7 @@ describe('scaffold egress (http:outbound)', () => {
 
   it('writes egress so an http:outbound plugin validates', () => {
     scaffold('net-plug', 'integration', tmp, { permissions: ['http:outbound'], egress: ['api.example.com'] });
-    const m = JSON.parse(fs.readFileSync(path.join(tmp, 'net-plug', 'trek-plugin.json'), 'utf8'));
+    const m = JSON.parse(fs.readFileSync(path.join(tmp, 'net-plug', 'tripmate-plugin.json'), 'utf8'));
     expect(m.egress).toEqual(['api.example.com']);
     expect(validateManifest(m).ok).toBe(true);
   });
@@ -26,7 +26,7 @@ describe('scaffold egress (http:outbound)', () => {
     // The scaffold must NOT invent a placeholder — it declares operatorEgress instead, which
     // is the one way an empty egress[] is a valid manifest.
     scaffold('net-plug', 'integration', tmp, { permissions: ['http:outbound'] });
-    const m = JSON.parse(fs.readFileSync(path.join(tmp, 'net-plug', 'trek-plugin.json'), 'utf8'));
+    const m = JSON.parse(fs.readFileSync(path.join(tmp, 'net-plug', 'tripmate-plugin.json'), 'utf8'));
     expect(m.egress).toBeUndefined();
     expect(m.operatorEgress).toBe(true);
     expect(validateManifest(m).ok).toBe(true);
@@ -34,7 +34,7 @@ describe('scaffold egress (http:outbound)', () => {
 
   it('omits egress entirely when none is given (no empty array noise)', () => {
     scaffold('plain-plug', 'integration', tmp, { permissions: ['db:own'] });
-    const m = JSON.parse(fs.readFileSync(path.join(tmp, 'plain-plug', 'trek-plugin.json'), 'utf8'));
+    const m = JSON.parse(fs.readFileSync(path.join(tmp, 'plain-plug', 'tripmate-plugin.json'), 'utf8'));
     expect('egress' in m).toBe(false);
   });
 });
@@ -44,7 +44,7 @@ describe('permission catalog', () => {
   // It was wrong: the real set is ~58, so `create` could not offer jobs:run,
   // events:subscribe or 7 of the 12 hooks, and the assertion guaranteed nobody noticed.
   // It now asserts COVERAGE against the manifest validator's list, which is the only
-  // list the host actually honours — so a new TREK permission fails here until `create`
+  // list the host actually honours — so a new Trip Mate permission fails here until `create`
   // can offer it.
   it('offers every permission the host accepts — no more, no less', () => {
     expect([...PICKER_PERMISSIONS].sort()).toEqual([...MANIFEST_PERMISSIONS].sort());
@@ -114,7 +114,7 @@ describe('scaffold + validate dependencies', () => {
 
   it('scaffolds empty dependency arrays that validate', () => {
     scaffold('dep-plug', 'integration', tmp, { permissions: ['db:own'] });
-    const m = JSON.parse(fs.readFileSync(path.join(tmp, 'dep-plug', 'trek-plugin.json'), 'utf8'));
+    const m = JSON.parse(fs.readFileSync(path.join(tmp, 'dep-plug', 'tripmate-plugin.json'), 'utf8'));
     expect(m.requiredAddons).toEqual([]);
     expect(m.pluginDependencies).toEqual([]);
     expect(validateManifest(m).ok).toBe(true);
@@ -122,14 +122,14 @@ describe('scaffold + validate dependencies', () => {
 
   it('scaffolds requiredAddons passed as an option', () => {
     scaffold('addon-plug', 'integration', tmp, { permissions: ['db:own'], requiredAddons: ['budget'] });
-    const m = JSON.parse(fs.readFileSync(path.join(tmp, 'addon-plug', 'trek-plugin.json'), 'utf8'));
+    const m = JSON.parse(fs.readFileSync(path.join(tmp, 'addon-plug', 'tripmate-plugin.json'), 'utf8'));
     expect(m.requiredAddons).toEqual(['budget']);
     expect(validateManifest(m).ok).toBe(true);
   });
 });
 
 describe('validateManifest dependency rules', () => {
-  const base = { id: 'my-plug', name: 'My Plug', version: '1.0.0', type: 'integration', permissions: ['db:own'], trek: '>=3.2.0 <4.0.0' };
+  const base = { id: 'my-plug', name: 'My Plug', version: '1.0.0', type: 'integration', permissions: ['db:own'], tripmate: '>=3.2.0 <4.0.0' };
   it('accepts valid requiredAddons + pluginDependencies', () => {
     const r = validateManifest({ ...base, requiredAddons: ['budget', 'journey'], pluginDependencies: [{ id: 'koffi', version: '>=1.0.0 <2.0.0' }] });
     expect(r.ok).toBe(true);
@@ -151,7 +151,7 @@ describe('notification-channel template', () => {
 
   function make(over: Parameters<typeof scaffold>[3] = {}) {
     scaffold('my-gotify', 'integration', tmp, { template: 'notification-channel', ...over });
-    return JSON.parse(fs.readFileSync(path.join(tmp, 'my-gotify', 'trek-plugin.json'), 'utf8'));
+    return JSON.parse(fs.readFileSync(path.join(tmp, 'my-gotify', 'tripmate-plugin.json'), 'utf8'));
   }
 
   it('scaffolds a valid manifest with the hook grant, matching egress, and the capability', () => {
@@ -224,7 +224,7 @@ describe('notification-channel template', () => {
 describe('capabilities.notificationChannel validation', () => {
   const base = {
     id: 'chan', name: 'Chan', version: '1.0.0', apiVersion: 1, type: 'integration',
-    nativeModules: false, permissions: ['hook:notification-channel'], trek: '>=3.2.0 <4.0.0',
+    nativeModules: false, permissions: ['hook:notification-channel'], tripmate: '>=3.2.0 <4.0.0',
   };
 
   it('accepts a narrowed event list', () => {
@@ -255,7 +255,7 @@ describe('scaffold oauth:client settings', () => {
 
   it('scaffolds the five instance-scoped broker settings when oauth:client is granted', () => {
     scaffold('oauth-plug', 'integration', tmp, { permissions: ['db:own', 'oauth:client'] });
-    const m = JSON.parse(fs.readFileSync(path.join(tmp, 'oauth-plug', 'trek-plugin.json'), 'utf8'));
+    const m = JSON.parse(fs.readFileSync(path.join(tmp, 'oauth-plug', 'tripmate-plugin.json'), 'utf8'));
     const settings = m.settings as Array<{ key: string; secret?: boolean; scope?: string }>;
     for (const key of OAUTH_KEYS) {
       expect(settings.some((s) => s.key === key), `missing setting "${key}"`).toBe(true);
@@ -271,7 +271,7 @@ describe('scaffold oauth:client settings', () => {
 
   it('scaffolds none of the broker settings without oauth:client', () => {
     scaffold('plain-oauth-plug', 'integration', tmp, { permissions: ['db:own'] });
-    const m = JSON.parse(fs.readFileSync(path.join(tmp, 'plain-oauth-plug', 'trek-plugin.json'), 'utf8'));
+    const m = JSON.parse(fs.readFileSync(path.join(tmp, 'plain-oauth-plug', 'tripmate-plugin.json'), 'utf8'));
     const settings = (m.settings ?? []) as Array<{ key: string }>;
     for (const key of OAUTH_KEYS) {
       expect(settings.some((s) => s.key === key), `unexpected setting "${key}"`).toBe(false);

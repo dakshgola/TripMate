@@ -51,7 +51,7 @@ describe('CopyTripDialog', () => {
 
   it('FE-W4CTD-005: clicking the backdrop closes the dialog', () => {
     const { onClose, baseElement } = setup()
-    const backdrop = baseElement.querySelector('.trek-backdrop-enter')!
+    const backdrop = baseElement.querySelector('.tripmate-backdrop-enter')!
 
     fireEvent.click(backdrop)
 
@@ -61,7 +61,7 @@ describe('CopyTripDialog', () => {
   it('FE-W4CTD-006: clicking inside the card does not close it', () => {
     const { onClose, baseElement } = setup()
 
-    fireEvent.click(baseElement.querySelector('.trek-modal-enter')!)
+    fireEvent.click(baseElement.querySelector('.tripmate-modal-enter')!)
 
     expect(onClose).not.toHaveBeenCalled()
   })
@@ -92,6 +92,6 @@ describe('CopyTripDialog', () => {
     const { container, baseElement } = setup()
 
     expect(container).toBeEmptyDOMElement()
-    expect(baseElement.querySelector('.trek-backdrop-enter')).not.toBeNull()
+    expect(baseElement.querySelector('.tripmate-backdrop-enter')).not.toBeNull()
   })
 })

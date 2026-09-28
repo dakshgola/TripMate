@@ -12,7 +12,7 @@
  * answers rather than to a prop.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import en from '@trek/shared/i18n/en'
+import en from '@tripmate/shared/i18n/en'
 import { act, render, screen, within, fireEvent, waitFor } from '../../../../tests/helpers/render'
 
 /** What the dialog actually renders for a key, via the same fallback chain `t()` uses. */
@@ -88,7 +88,7 @@ const link = (id: number, providerId: string, overrides: Partial<DocSyncLink> = 
   providerId,
   scopeKey: `scope-${id}`,
   remoteLabel: `Folder ${id}`,
-  remoteRootPath: `/TREK/folder-${id}`,
+  remoteRootPath: `/Trip Mate/folder-${id}`,
   direction: 'both',
   deletePolicy: 'unlink',
   conflictPolicy: 'manual',
@@ -157,7 +157,7 @@ const issues = () =>
 
 /** Disconnect asks first; this answers yes. The question renders in a portal. */
 const confirmUnlink = () => {
-  const dialog = screen.getByText(t('docsync.confirmUnlink')).closest('.trek-modal-enter') as HTMLElement
+  const dialog = screen.getByText(t('docsync.confirmUnlink')).closest('.tripmate-modal-enter') as HTMLElement
   fireEvent.click(within(dialog).getByRole('button', { name: t('docsync.unlink') }))
 }
 
@@ -514,7 +514,7 @@ describe('DocSyncPanel: what needs a look', () => {
     fireEvent.click(issues().getByRole('button', { name: /Resolve/ }))
     fireEvent.click(await issues().findByRole('button', { name: t('docsync.conflict.keepTrek') }))
 
-    await waitFor(() => expect(resolve).toHaveBeenCalledWith(7, 40, 'trek'))
+    await waitFor(() => expect(resolve).toHaveBeenCalledWith(7, 40, 'tripmate'))
     expect(await screen.findByRole('alert')).toHaveTextContent(t('docsync.error.conflict'))
     // The list is read back rather than trimmed by hand, so the row is still
     // there, ready for another try.

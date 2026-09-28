@@ -60,7 +60,7 @@ let deleteJourney: Mock<(id: number) => Promise<void>>;
 /** The sheet and the confirm dialog both portal into body — scope by dialog title. */
 async function confirmButton(dialogTitle: string, label: string): Promise<HTMLElement> {
   const heading = await screen.findByRole('heading', { name: dialogTitle });
-  const modal = heading.closest('.trek-modal-enter') as HTMLElement;
+  const modal = heading.closest('.tripmate-modal-enter') as HTMLElement;
   return within(modal).getByRole('button', { name: label });
 }
 

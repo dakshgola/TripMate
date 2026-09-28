@@ -1,6 +1,6 @@
 // FE-UTIL-RANGEDEL-001 to FE-UTIL-RANGEDEL-008
 import { describe, it, expect } from 'vitest'
-import { planDayGrid } from '@trek/shared'
+import { planDayGrid } from '@tripmate/shared'
 import { buildAssignment, buildDay, buildPlace, buildReservation } from '../../tests/helpers/factories'
 import { hasVisibleContent, tripRangeImpact } from './tripRangeImpact'
 import type { DayContentData } from './dayDeleteImpact'

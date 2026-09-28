@@ -28,7 +28,7 @@ vi.mock('../../src/db/database', () => ({ db, closeDb: () => {}, reinitialize: (
 import { MapsModule } from '../../src/nest/maps/maps.module';
 import { MapsService } from '../../src/nest/maps/maps.service';
 import { DatabaseModule } from '../../src/nest/database/database.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 describe('Maps e2e (real auth guard + temp SQLite)', () => {
@@ -99,7 +99,7 @@ describe('Maps e2e (real auth guard + temp SQLite)', () => {
   it('200 with no place for an OSM id that carries more than a number, and nothing goes out', async () => {
     // The path segment reaches the service as it is, and the id used to be
     // written into an Overpass query as it was: this one would have run a
-    // global scan on the mirror under TREK's shared user agent.
+    // global scan on the mirror under Trip Mate's shared user agent.
     const fetchMock = vi.fn(async () => { throw new Error('nothing may leave for this id'); });
     vi.stubGlobal('fetch', fetchMock);
     try {

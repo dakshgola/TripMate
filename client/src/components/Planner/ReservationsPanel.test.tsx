@@ -60,8 +60,8 @@ describe('ReservationsPanel', () => {
   it('FE-COMP-RES-004: shows empty-state mascot illustration', () => {
     render(<ReservationsPanel {...defaultProps} reservations={[]} />);
     // The mobile rewrite dropped the hint subtitle in favour of the shared
-    // EmptyState mascot; the bookings scene renders the TREK mark svg.
-    expect(document.querySelector('.trek--bookings')).toBeInTheDocument();
+    // EmptyState mascot; the bookings scene renders the Trip Mate mark svg.
+    expect(document.querySelector('.tripmate--bookings')).toBeInTheDocument();
   });
 
   it('FE-COMP-RES-005: shows Manual Booking add button', () => {
@@ -560,11 +560,11 @@ describe('ReservationsPanel', () => {
     expect(screen.getByText('Flight out')).toBeInTheDocument();
     expect(screen.queryByText('Hotel stay')).not.toBeInTheDocument();
     // The choice is remembered for this trip.
-    expect(JSON.parse(sessionStorage.getItem('trek-reservation-filters-1') || '[]')).toEqual(['flight']);
+    expect(JSON.parse(sessionStorage.getItem('tripmate-reservation-filters-1') || '[]')).toEqual(['flight']);
 
     await user.click(screen.getByRole('button', { name: /^All\s*2$/ }));
     expect(screen.getByText('Hotel stay')).toBeInTheDocument();
-    expect(sessionStorage.getItem('trek-reservation-filters-1')).toBeNull();
+    expect(sessionStorage.getItem('tripmate-reservation-filters-1')).toBeNull();
   });
 
   it('FE-PLANNER-RESP-051: clicking an active type chip clears it again', async () => {
@@ -581,24 +581,24 @@ describe('ReservationsPanel', () => {
 
   it('FE-PLANNER-RESP-052: a filter that matches nothing shows the "none found" hint, not the empty state', () => {
     // A stored filter for a type this trip no longer has.
-    sessionStorage.setItem('trek-reservation-filters-1', JSON.stringify(['bus']));
+    sessionStorage.setItem('tripmate-reservation-filters-1', JSON.stringify(['bus']));
     const flight = buildReservation({ id: 1, title: 'Flight out', type: 'flight', status: 'confirmed' });
     render(<ReservationsPanel {...defaultProps} reservations={[flight]} />);
     expect(screen.getByText('No places found')).toBeInTheDocument();
     expect(screen.queryByText('Flight out')).not.toBeInTheDocument();
-    expect(document.querySelector('.trek--bookings')).toBeNull();
+    expect(document.querySelector('.tripmate--bookings')).toBeNull();
   });
 
   it('FE-PLANNER-RESP-053: corrupt stored filters are ignored instead of crashing the panel', () => {
-    sessionStorage.setItem('trek-reservation-filters-1', '{not json');
-    sessionStorage.setItem('trek-reservation-filters-1-travelers', '{not json');
+    sessionStorage.setItem('tripmate-reservation-filters-1', '{not json');
+    sessionStorage.setItem('tripmate-reservation-filters-1-travelers', '{not json');
     const res = buildReservation({ id: 1, title: 'Still here', type: 'flight', status: 'confirmed' });
     render(<ReservationsPanel {...defaultProps} reservations={[res]} />);
     expect(screen.getByText('Still here')).toBeInTheDocument();
   });
 
   it('FE-PLANNER-RESP-054: a persisted type filter is restored on mount', () => {
-    sessionStorage.setItem('trek-reservation-filters-1', JSON.stringify(['hotel']));
+    sessionStorage.setItem('tripmate-reservation-filters-1', JSON.stringify(['hotel']));
     const flight = buildReservation({ id: 1, title: 'Flight out', type: 'flight', status: 'confirmed' });
     const hotel = buildReservation({ id: 2, title: 'Hotel stay', type: 'hotel', status: 'confirmed' });
     render(<ReservationsPanel {...defaultProps} reservations={[flight, hotel]} />);
@@ -615,7 +615,7 @@ describe('ReservationsPanel', () => {
     await user.click(screen.getByTitle('ada'));
     expect(screen.getByText('Ada flight')).toBeInTheDocument();
     expect(screen.queryByText('Bob hotel')).not.toBeInTheDocument();
-    expect(JSON.parse(sessionStorage.getItem('trek-reservation-filters-1-travelers') || '[]')).toEqual([1]);
+    expect(JSON.parse(sessionStorage.getItem('tripmate-reservation-filters-1-travelers') || '[]')).toEqual([1]);
 
     await user.click(screen.getByTitle('ada'));
     expect(screen.getByText('Bob hotel')).toBeInTheDocument();
@@ -761,7 +761,7 @@ describe('ReservationsPanel', () => {
   // ── Section state ───────────────────────────────────────────────────────────
 
   it('FE-PLANNER-RESP-066: a section collapsed in a previous session stays collapsed', () => {
-    localStorage.setItem('trek:bookings-confirmed-open:1', '0');
+    localStorage.setItem('tripmate:bookings-confirmed-open:1', '0');
     const res = buildReservation({ id: 1, title: 'Hidden card', status: 'confirmed' });
     render(<ReservationsPanel {...defaultProps} reservations={[res]} />);
     expect(screen.queryByText('Hidden card')).not.toBeInTheDocument();

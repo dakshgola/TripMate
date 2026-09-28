@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { HttpException } from '@nestjs/common';
 import type { Request } from 'express';
-import type { StorageUsage } from '@trek/shared';
+import type { StorageUsage } from '@tripmate/shared';
 import type { User } from '../../../../src/types';
 import { StorageAdminController } from '../../../../src/nest/storage/storage-admin.controller';
 import type { StorageAdminService } from '../../../../src/nest/storage/storage-admin.service';
@@ -46,7 +46,7 @@ const CONFIG = {
       type: 's3' as const,
       options: {
         endpoint: 'http://127.0.0.1:9000',
-        bucket: 'trek',
+        bucket: 'tripmate',
         accessKeyId: 'ak',
         secretAccessKey: 'sk-plain',
         region: 'us-east-1',

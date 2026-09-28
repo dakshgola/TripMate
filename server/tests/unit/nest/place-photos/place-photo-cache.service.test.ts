@@ -5,7 +5,7 @@
  *
  * Slice 4: the cache is fully async and addresses storage as
  * ('photos-google', '<sha1>.jpg'). The whole suite runs in BOTH registry
- * modes — mode A (TREK_PLACE_PHOTO_DIR unset: uploads-local backend,
+ * modes — mode A (TRIPMATE_PLACE_PHOTO_DIR unset: uploads-local backend,
  * 'photos/google/' prefix) and mode B (dir set: place-photos-local backend,
  * bare keys) — via the shared stub-registry fixture. The real mode flip is
  * pinned by the storage-registry tests; here the two prefixes prove the cache

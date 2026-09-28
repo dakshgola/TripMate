@@ -1,4 +1,4 @@
-import type { BookDocument, BookSpread } from '@trek/shared'
+import type { BookDocument, BookSpread } from '@tripmate/shared'
 
 /**
  * Cutting a book into printable sheets.

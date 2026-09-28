@@ -1,4 +1,4 @@
-import type { RouteUsageEntry, RouteUsageProfile, RouteUsageSurface } from '@trek/shared'
+import type { RouteUsageEntry, RouteUsageProfile, RouteUsageSurface } from '@tripmate/shared'
 import { routeUsageApi } from '../../api/routeUsage'
 
 /**

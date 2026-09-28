@@ -47,7 +47,7 @@ describe('MExportSheet', () => {
     seedStore(useTripStore, { dayNotes: NOTES })
     vi.mocked(downloadTripPDF).mockReset().mockResolvedValue(undefined)
     clickSpy = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {})
-    vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:trek/ics')
+    vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:tripmate/ics')
     vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {})
   })
 
@@ -153,11 +153,11 @@ describe('MExportSheet', () => {
     fireEvent.click(screen.getByText('Download .ics'))
 
     await waitFor(() => expect(clickSpy).toHaveBeenCalledTimes(1))
-    expect(clickedAnchor().getAttribute('href')).toBe('blob:trek/ics')
+    expect(clickedAnchor().getAttribute('href')).toBe('blob:tripmate/ics')
     expect(clickedAnchor().download).toBe('Japan 2026.ics')
     // The object URL outlives the click so slower browsers can still read it.
     expect(URL.revokeObjectURL).not.toHaveBeenCalled()
-    await waitFor(() => expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:trek/ics'))
+    await waitFor(() => expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:tripmate/ics'))
     await waitFor(() => expect(shell.closeSheet).toHaveBeenCalledTimes(1))
   })
 

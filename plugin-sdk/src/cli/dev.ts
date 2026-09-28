@@ -1,13 +1,13 @@
 /**
- * trek-plugin dev — run your plugin locally with a real request loop and hot
- * reload, without a full TREK. It loads server/index.js through the same
+ * tripmate-plugin dev — run your plugin locally with a real request loop and hot
+ * reload, without a full Trip Mate. It loads server/index.js through the same
  * definePlugin contract, injects a ctx that enforces your manifest's granted
  * permissions (an ungranted call still throws PERMISSION_DENIED, so you catch
  * missing grants), backs db:own with a real SQLite file when the runtime has
  * node:sqlite, serves your routes over HTTP and your page/widget UI, and reloads
  * on every save.
  *
- * Enforcement is NOT limited to ctx. TREK gates hooks, event subscriptions, jobs
+ * Enforcement is NOT limited to ctx. Trip Mate gates hooks, event subscriptions, jobs
  * and outbound network BEFORE a plugin's ctx is ever reached, and it does so
  * SILENTLY — an ungranted hook is simply never called, with no error and no log, so
  * "my plugin does nothing" is all the author ever sees. Dev therefore refuses the
@@ -50,7 +50,7 @@ interface PluginLike {
   hooks?: Record<string, Record<string, Handler>>;
 }
 
-// /__dev/fire/<kind> → the permission TREK requires before it would ever fire that
+// /__dev/fire/<kind> → the permission Trip Mate requires before it would ever fire that
 // entry point. `hook` is resolved per hook name via HOOK_PERMISSION instead.
 const FIRE_PERMISSION: Readonly<Record<string, string | undefined>> = {
   job: JOBS_PERMISSION,
@@ -65,8 +65,8 @@ const FIRE_PERMISSION: Readonly<Record<string, string | undefined>> = {
 function needGrant(grants: ReadonlySet<string>, perm: string | undefined, what: string): void {
   if (perm && !grants.has(perm)) {
     throw new PermissionDenied(
-      `PERMISSION_DENIED: ${what} requires "${perm}" — add it to permissions in trek-plugin.json. ` +
-        `TREK would never fire this entry point (it skips ungranted plugins silently).`,
+      `PERMISSION_DENIED: ${what} requires "${perm}" — add it to permissions in tripmate-plugin.json. ` +
+        `Trip Mate would never fire this entry point (it skips ungranted plugins silently).`,
     );
   }
 }
@@ -101,7 +101,7 @@ function stripLeadingComments(sql: string): string {
   return String(sql ?? '').replace(/^(?:\s|--[^\n]*\n?|\/\*[\s\S]*?\*\/)*/, '');
 }
 
-// The credential-free inbound-header allowlist TREK's proxy forwards to auth:false
+// The credential-free inbound-header allowlist Trip Mate's proxy forwards to auth:false
 // routes (webhooks) — never Cookie/Authorization/session. Kept in lockstep with
 // SAFE_INBOUND_HEADERS in plugins-proxy.controller.ts.
 const SAFE_INBOUND_HEADERS = new Set([
@@ -251,7 +251,7 @@ function createDevContext(id: string, grants: Set<string>, fx: Fixtures, db: Plu
   });
   // Routes (and hooks) run user-bound; jobs, scheduled tasks, event deliveries and the
   // GDPR handlers run with NO acting user — exactly the split production makes, so a
-  // membership read from a job fails here the same way it would in TREK.
+  // membership read from a job fails here the same way it would in Trip Mate.
   return {
     ctx: wrap(mock.ctx, fx.actingUserId ?? 1),
     userlessCtx: wrap(mock.userlessCtx, undefined),
@@ -302,7 +302,7 @@ function withManifestDefaults(fx: Fixtures, manifest: unknown): Fixtures {
 }
 
 function watchTree(root: string, onChange: () => void): void {
-  const skip = new Set(['node_modules', '.git', '.trek-dev']);
+  const skip = new Set(['node_modules', '.git', '.tripmate-dev']);
   const watch = (d: string) => {
     try {
       fs.watch(d, (_e, f) => { if (!f || !skip.has(f)) onChange(); });
@@ -314,8 +314,8 @@ function watchTree(root: string, onChange: () => void): void {
 
 export async function runDev(dir: string, opts: { port?: number } = {}): Promise<void> {
   const abs = path.resolve(dir);
-  const manifestPath = path.join(abs, 'trek-plugin.json');
-  if (!fs.existsSync(manifestPath)) throw new Error(`no trek-plugin.json in ${abs}`);
+  const manifestPath = path.join(abs, 'tripmate-plugin.json');
+  if (!fs.existsSync(manifestPath)) throw new Error(`no tripmate-plugin.json in ${abs}`);
   const manifest = readJsonFile<Record<string, unknown>>(manifestPath);
   const id = String(manifest.id);
   const grants = new Set(Array.isArray(manifest.permissions) ? (manifest.permissions as string[]) : []);
@@ -323,7 +323,7 @@ export async function runDev(dir: string, opts: { port?: number } = {}): Promise
   // fixtures with them (a fixture value still wins) — otherwise a plugin relying on its
   // defaults would read undefined here and only here.
   const fx = withManifestDefaults(loadFixtures(abs), manifest);
-  const { db, note: dbNote, close: closeDb } = createDevDb(path.join(abs, '.trek-dev', 'db.sqlite'));
+  const { db, note: dbNote, close: closeDb } = createDevDb(path.join(abs, '.tripmate-dev', 'db.sqlite'));
   const broadcasts: unknown[] = [];
   installSdkInjection();
   const req = createRequire(path.join(abs, 'server', 'index.js'));
@@ -335,7 +335,7 @@ export async function runDev(dir: string, opts: { port?: number } = {}): Promise
   const port = opts.port ?? 4317;
 
   // The plugin's outbound network, restricted to the hosts it was granted — with none,
-  // everything is blocked, exactly as in TREK. `operatorEgressHosts` in dev-fixtures.json
+  // everything is blocked, exactly as in Trip Mate. `operatorEgressHosts` in dev-fixtures.json
   // stands in for the hosts an admin supplies at runtime to an `operatorEgress` plugin,
   // which by definition cannot name them in its manifest.
   const egressHosts = [...grantedHosts(grants), ...(fx.operatorEgressHosts ?? [])];
@@ -369,7 +369,7 @@ export async function runDev(dir: string, opts: { port?: number } = {}): Promise
       // are printed by the startup banner; a reload prints its own (see reload()).
       gaps = grantGaps(plugin, grants);
     } catch (e) {
-      // A plugin whose load/onLoad throws would fail activation in TREK — don't
+      // A plugin whose load/onLoad throws would fail activation in Trip Mate — don't
       // keep serving its routes here, or dev would hide exactly that failure.
       plugin = {};
       gaps = [];
@@ -412,13 +412,13 @@ export async function runDev(dir: string, opts: { port?: number } = {}): Promise
       if (typeof bodyRaw === 'string') { try { payload = JSON.parse(bodyRaw); } catch { payload = bodyRaw; } }
       if (payload === undefined) { const q: Record<string, string> = {}; url.searchParams.forEach((v, k) => { q[k] = v; }); if (Object.keys(q).length) payload = q; }
       try {
-        // TREK gates these entry points on a permission BEFORE the plugin is reached, and
+        // Trip Mate gates these entry points on a permission BEFORE the plugin is reached, and
         // an ungranted one is never invoked — silently. Refuse it here, loudly, or dev
         // would keep green-lighting a plugin that does nothing at all once installed.
         needGrant(grants, kind === 'hook' ? HOOK_PERMISSION[name] : FIRE_PERMISSION[kind], `${kind}${name ? `/${name}` : ''}`);
         // Jobs, scheduled tasks, events and the GDPR handlers run with NO acting user in
         // production — fire them against the userless ctx so a membership read fails here
-        // exactly like it would in TREK. Hooks stay user-bound.
+        // exactly like it would in Trip Mate. Hooks stay user-bound.
         let out: unknown;
         if (kind === 'job') { const j = plugin.jobs?.find((x) => x.id === name); if (!j) return send(404, `no job "${name}"`); out = await j.handler(userlessCtx); }
         else if (kind === 'scheduled') { if (!plugin.scheduled) return send(404, 'plugin has no scheduled handler'); out = await plugin.scheduled({ name, payload }, userlessCtx); }
@@ -456,15 +456,15 @@ export async function runDev(dir: string, opts: { port?: number } = {}): Promise
     if (url.pathname === '/') return send(200, dashboard(id, String(manifest.type), plugin.routes ?? [], dbNote, broadcasts.length, gaps), 'text/html; charset=utf-8');
 
     // Faithful host preview: embeds /ui in a sandboxed opaque-origin iframe (exactly
-    // like TREK) and plays the host — posts trek:context (with a theme/accent toggle),
-    // proxies trek:invoke to your /api routes, and honours resize/notify/navigate. This
+    // like Trip Mate) and plays the host — posts tripmate:context (with a theme/accent toggle),
+    // proxies tripmate:invoke to your /api routes, and honours resize/notify/navigate. This
     // is where the design kit actually renders themed.
     if (url.pathname === '/preview' && String(manifest.type) !== 'integration') {
       // Preview against a trip that actually EXISTS in the fixtures. This used to be
       // hard-coded to 42 while the scaffold seeds trip 1, so the widget's first
-      // trek:invoke hit assertMember(42, …) and 500'd with RESOURCE_FORBIDDEN.
+      // tripmate:invoke hit assertMember(42, …) and 500'd with RESOURCE_FORBIDDEN.
       const previewTripId = Number(Object.keys(fx.trips ?? {})[0] ?? 1) || 1;
-      // ?chrome=0 strips the dev toolbar and centres the plugin — what `trek-plugin shot`
+      // ?chrome=0 strips the dev toolbar and centres the plugin — what `tripmate-plugin shot`
       // renders into docs/screenshot.png. ?theme=dark picks the dark palette.
       const chrome = url.searchParams.get('chrome') !== '0';
       const theme = url.searchParams.get('theme') === 'dark' ? 'dark' : 'light';
@@ -485,7 +485,7 @@ export async function runDev(dir: string, opts: { port?: number } = {}): Promise
       if (!fs.existsSync(file) || !fs.statSync(file).isFile()) return send(404, 'not found — build your client/ bundle');
       const raw = fs.readFileSync(file);
       const type = contentType(file);
-      // Only the HTML doc is rewritten (expand the `<!-- trek:ui -->` marker into the
+      // Only the HTML doc is rewritten (expand the `<!-- tripmate:ui -->` marker into the
       // design kit, then inject live-reload) as a string; every other asset is sent as
       // the raw Buffer — a UTF-8 round-trip corrupts binary files.
       const body: string | Buffer = type.startsWith('text/html')
@@ -532,10 +532,10 @@ export async function runDev(dir: string, opts: { port?: number } = {}): Promise
     server.listen(port, '127.0.0.1', resolve);
   });
   const routes = plugin.routes ?? [];
-  console.log(`\n  trek-plugin dev — ${id} (${String(manifest.type)})`);
+  console.log(`\n  tripmate-plugin dev — ${id} (${String(manifest.type)})`);
   console.log(`  ${dbNote}`);
   console.log(`  granted: ${[...grants].join(', ') || '(none)'}`);
-  console.log(`  egress:  ${egressHosts.join(', ') || '(none — all outbound is blocked, as in TREK)'}`);
+  console.log(`  egress:  ${egressHosts.join(', ') || '(none — all outbound is blocked, as in Trip Mate)'}`);
   printGaps(gaps);
   console.log(`\n  ▸ http://localhost:${port}/        dashboard`);
   if (String(manifest.type) !== 'integration') {
@@ -578,14 +578,14 @@ function dashboard(id: string, type: string, routes: PluginRouteLike[], dbNote: 
   const ui = type !== 'integration'
     ? `<p><a href="/preview">▸ open the themed host preview (/preview)</a> &nbsp;·&nbsp; <a href="/ui">raw /ui</a></p>`
     : '';
-  // The silent killer, made loud: in TREK these entry points are simply never invoked,
+  // The silent killer, made loud: in Trip Mate these entry points are simply never invoked,
   // with nothing logged anywhere. If any exist, they are the most important thing here.
   const warn = gaps.length
-    ? `<div class="warn"><strong>⚠ ${gaps.length} entry point(s) TREK would never run</strong><ul>${gaps
+    ? `<div class="warn"><strong>⚠ ${gaps.length} entry point(s) Trip Mate would never run</strong><ul>${gaps
         .map((g) => `<li><code>${g.entryPoint}</code> needs <code>${g.permission}</code> — ${g.consequence}</li>`)
-        .join('')}</ul><p>Add the permission(s) to <code>trek-plugin.json</code>. Until then this works in dev and does nothing once installed.</p></div>`
+        .join('')}</ul><p>Add the permission(s) to <code>tripmate-plugin.json</code>. Until then this works in dev and does nothing once installed.</p></div>`
     : '';
-  return `<!doctype html><meta charset="utf-8"><title>${id} · trek-plugin dev</title>
+  return `<!doctype html><meta charset="utf-8"><title>${id} · tripmate-plugin dev</title>
 <style>body{font:15px/1.5 system-ui,sans-serif;max-width:720px;margin:3rem auto;padding:0 1rem;color:#111}
 h1{font-size:1.4rem}code{background:#f3f4f6;padding:.1em .35em;border-radius:4px}
 table{border-collapse:collapse;width:100%;margin:1rem 0}td{border-bottom:1px solid #eee;padding:.5rem .4rem;text-align:left}
@@ -605,14 +605,14 @@ ${LIVE_RELOAD}`;
 
 /**
  * A faithful host preview for a page/widget plugin. Loads /ui in a sandboxed,
- * opaque-origin iframe (no allow-same-origin — exactly TREK's isolation) and plays
- * the host over postMessage: it sends trek:context (with a theme/accent/appearance
- * toggle), proxies trek:invoke to the dev server's /api routes with the dev user,
+ * opaque-origin iframe (no allow-same-origin — exactly Trip Mate's isolation) and plays
+ * the host over postMessage: it sends tripmate:context (with a theme/accent/appearance
+ * toggle), proxies tripmate:invoke to the dev server's /api routes with the dev user,
  * and surfaces resize/notify/navigate. This is where the design kit renders themed.
  */
 export function preview(id: string, type: string, tripId: number, opts: { chrome?: boolean; theme?: 'light' | 'dark'; geoAllowed?: boolean } = {}): string {
   const maxW = type === 'widget' ? '440px' : '1000px';
-  // `trek-plugin shot` renders this page into docs/screenshot.png — the image the plugin store
+  // `tripmate-plugin shot` renders this page into docs/screenshot.png — the image the plugin store
   // shows. The theme picker and the "runs sandboxed at an opaque origin" note are DEV furniture:
   // useful while you build, absurd on a store card. So shot mode strips them and centres the
   // plugin in the frame, and the shot is of the plugin rather than of the tool that drew it.
@@ -650,7 +650,7 @@ iframe{width:100%;border:0;background:transparent;min-height:120px;display:block
   <label><input type="checkbox" id="trip" checked> trip context</label>
 </header>
 <div class="stage"><div class="wrap"><iframe id="f" src="/ui/index.html" sandbox="allow-scripts allow-forms" referrerpolicy="no-referrer" title="${id}"></iframe></div></div>
-<p class="hint">The frame runs sandboxed at an opaque origin, exactly like TREK — <code>trek.invoke()</code> is proxied to your /api routes as the dev user.</p>
+<p class="hint">The frame runs sandboxed at an opaque origin, exactly like Trip Mate — <code>tripmate.invoke()</code> is proxied to your /api routes as the dev user.</p>
 <div class="toast" id="toast"></div>
 <script>
 var f=document.getElementById('f');
@@ -667,7 +667,7 @@ function ctx(){
   var theme=val("theme").value, accent=val("accent").value;
   document.body.classList.toggle("dark", theme==="dark");
   var tokens={}; var src=theme==="dark"?DA[accent]:LA[accent]; for(var k in src){tokens[k]=src[k];}
-  return {type:"trek:context",theme:theme,locale:"en",hostOrigin:location.origin,
+  return {type:"tripmate:context",theme:theme,locale:"en",hostOrigin:location.origin,
     tripId: val("trip").checked?${tripId}:null, userId:"1",
     user:{name:"Dev User",avatar:null,isAdmin:true},
     appearance:{scheme:accent,density:"comfortable",reducedMotion:val("rm").checked,noTransparency:val("nt").checked},
@@ -676,23 +676,23 @@ function ctx(){
 }
 function postCtx(){ if(f.contentWindow) f.contentWindow.postMessage(ctx(),"*"); }
 var tt; function toast(msg){var el=document.getElementById("toast");el.textContent=msg;el.classList.add("on");clearTimeout(tt);tt=setTimeout(function(){el.classList.remove("on");},2200);}
-var SESSION_PREFIX="trek:plugin-session:1:"+encodeURIComponent(${JSON.stringify(id)})+":";
+var SESSION_PREFIX="tripmate:plugin-session:1:"+encodeURIComponent(${JSON.stringify(id)})+":";
 var SESSION_MAX_KEYS=32,SESSION_MAX_KEY_LENGTH=64,SESSION_MAX_VALUE_BYTES=1024;
 var GEO_ALLOWED=${opts.geoAllowed ? 'true' : 'false'};
-function sessionFail(m,code,message){f.contentWindow.postMessage({type:"trek:error",requestId:m.requestId,code:code,message:message},"*");}
+function sessionFail(m,code,message){f.contentWindow.postMessage({type:"tripmate:error",requestId:m.requestId,code:code,message:message},"*");}
 function sessionMessage(m){
   try {
   var trip=ctx().tripId, scope=m.scope==="trip"?"trip":"plugin";
-  if(scope==="trip"&&!trip){f.contentWindow.postMessage({type:"trek:error",requestId:m.requestId,code:"NO_TRIP_CONTEXT",message:"trip session storage requires a trip context"},"*");return;}
+  if(scope==="trip"&&!trip){f.contentWindow.postMessage({type:"tripmate:error",requestId:m.requestId,code:"NO_TRIP_CONTEXT",message:"trip session storage requires a trip context"},"*");return;}
   var prefix=SESSION_PREFIX+scope+(scope==="trip"?":"+encodeURIComponent(String(trip)):"")+":";
   var data;
-  if(m.type==="trek:session:clear"){
+  if(m.type==="tripmate:session:clear"){
     var doomed=[];for(var i=0;i<sessionStorage.length;i++){var stored=sessionStorage.key(i);if(stored&&stored.indexOf(prefix)===0)doomed.push(stored);}doomed.forEach(function(stored){sessionStorage.removeItem(stored);});
   } else {
     if(typeof m.key!=="string"||!m.key||m.key.length>SESSION_MAX_KEY_LENGTH){sessionFail(m,"SESSION_INVALID_KEY","session key must be 1-"+SESSION_MAX_KEY_LENGTH+" characters");return;}
     var key=prefix+encodeURIComponent(m.key);
-    if(m.type==="trek:session:get"){var raw=sessionStorage.getItem(key);data=raw===null?undefined:JSON.parse(raw);}
-    else if(m.type==="trek:session:remove"){sessionStorage.removeItem(key);}
+    if(m.type==="tripmate:session:get"){var raw=sessionStorage.getItem(key);data=raw===null?undefined:JSON.parse(raw);}
+    else if(m.type==="tripmate:session:remove"){sessionStorage.removeItem(key);}
     else {
       var json=JSON.stringify(m.value);
       if(json===undefined){sessionFail(m,"SESSION_INVALID_VALUE","session value must be JSON-serialisable");return;}
@@ -704,47 +704,47 @@ function sessionMessage(m){
       sessionStorage.setItem(key,json);
     }
   }
-  f.contentWindow.postMessage({type:"trek:response",requestId:m.requestId,data:data},"*");
+  f.contentWindow.postMessage({type:"tripmate:response",requestId:m.requestId,data:data},"*");
   } catch(e) { sessionFail(m,"SESSION_STORAGE_ERROR",String(e&&e.message||e)); }
 }
 window.addEventListener("message", function(ev){
   if(ev.source!==f.contentWindow) return;
   var m=ev.data; if(!m||typeof m!=="object") return;
-  if(m.type==="trek:ready"||m.type==="trek:context:request"){ postCtx(); }
-  else if(m.type==="trek:resize"){ if(m.height>0) f.style.height=Math.min(m.height,2000)+"px"; }
-  else if(m.type==="trek:notify"){ toast((m.level?("["+m.level+"] "):"")+(m.message||"")); }
-  else if(m.type==="trek:navigate"){ toast("navigate \\u2192 "+m.to); }
-  else if(m.type==="trek:openExternal"){ toast("openExternal \\u2192 "+m.url); try{ var u=new URL(String(m.url||"")); if(u.protocol==="https:"||u.protocol==="http:") window.open(u.href,"_blank","noopener,noreferrer"); }catch(e){} }
-  else if(m.type==="trek:confirm"){
-    // Mirror the host contract so trek.confirm() resolves in the preview too.
+  if(m.type==="tripmate:ready"||m.type==="tripmate:context:request"){ postCtx(); }
+  else if(m.type==="tripmate:resize"){ if(m.height>0) f.style.height=Math.min(m.height,2000)+"px"; }
+  else if(m.type==="tripmate:notify"){ toast((m.level?("["+m.level+"] "):"")+(m.message||"")); }
+  else if(m.type==="tripmate:navigate"){ toast("navigate \\u2192 "+m.to); }
+  else if(m.type==="tripmate:openExternal"){ toast("openExternal \\u2192 "+m.url); try{ var u=new URL(String(m.url||"")); if(u.protocol==="https:"||u.protocol==="http:") window.open(u.href,"_blank","noopener,noreferrer"); }catch(e){} }
+  else if(m.type==="tripmate:confirm"){
+    // Mirror the host contract so tripmate.confirm() resolves in the preview too.
     var ok=window.confirm((m.title?m.title+"\\n\\n":"")+(m.message||""));
-    f.contentWindow.postMessage({type:"trek:confirm:result",requestId:m.requestId,confirmed:ok},"*");
+    f.contentWindow.postMessage({type:"tripmate:confirm:result",requestId:m.requestId,confirmed:ok},"*");
   }
-  else if(m.type==="trek:invoke"){
+  else if(m.type==="tripmate:invoke"){
     fetch("/api"+m.sub,{method:m.method||"GET",headers:{"content-type":"application/json"},body:m.body!=null?JSON.stringify(m.body):undefined})
       .then(function(r){var ct=r.headers.get("content-type")||"";return (ct.indexOf("json")>=0?r.json():r.text());})
-      .then(function(data){ f.contentWindow.postMessage({type:"trek:response",requestId:m.requestId,data:data},"*"); })
-      .catch(function(e){ f.contentWindow.postMessage({type:"trek:error",requestId:m.requestId,code:"error",message:String(e&&e.message||e)},"*"); });
+      .then(function(data){ f.contentWindow.postMessage({type:"tripmate:response",requestId:m.requestId,data:data},"*"); })
+      .catch(function(e){ f.contentWindow.postMessage({type:"tripmate:error",requestId:m.requestId,code:"error",message:String(e&&e.message||e)},"*"); });
   }
-  else if(m.type==="trek:geolocation"){
+  else if(m.type==="tripmate:geolocation"){
     // Mirror the host's geolocation bridge with a fixed dev position, so
-    // trek.geolocation.* works in the preview without a browser prompt. The grant
+    // tripmate.geolocation.* works in the preview without a browser prompt. The grant
     // still gates it: without geolocation:read the host answers "forbidden"
     // (PluginFrame.tsx), and a preview that answered anyway would green-light a
     // plugin that production then refuses.
-    if(!GEO_ALLOWED){ f.contentWindow.postMessage({type:"trek:geolocation:result",requestId:m.requestId,error:"forbidden"},"*"); return; }
+    if(!GEO_ALLOWED){ f.contentWindow.postMessage({type:"tripmate:geolocation:result",requestId:m.requestId,error:"forbidden"},"*"); return; }
     var pos={lat:52.5163,lng:13.3777,accuracy:12,heading:null,speed:null,timestamp:Date.now()};
     var act=m.action||"get";
-    if(act==="clear"){ clearInterval(geoTick); geoTick=null; f.contentWindow.postMessage({type:"trek:geolocation:result",requestId:m.requestId,cleared:true},"*"); }
+    if(act==="clear"){ clearInterval(geoTick); geoTick=null; f.contentWindow.postMessage({type:"tripmate:geolocation:result",requestId:m.requestId,cleared:true},"*"); }
     else if(act==="watch"){
-      f.contentWindow.postMessage({type:"trek:geolocation:result",requestId:m.requestId,watching:true},"*");
+      f.contentWindow.postMessage({type:"tripmate:geolocation:result",requestId:m.requestId,watching:true},"*");
       clearInterval(geoTick);
-      geoTick=setInterval(function(){ pos=Object.assign({},pos,{lng:pos.lng+0.0002,timestamp:Date.now()}); f.contentWindow.postMessage({type:"trek:geolocation:update",position:pos},"*"); },2000);
-      f.contentWindow.postMessage({type:"trek:geolocation:update",position:pos},"*");
+      geoTick=setInterval(function(){ pos=Object.assign({},pos,{lng:pos.lng+0.0002,timestamp:Date.now()}); f.contentWindow.postMessage({type:"tripmate:geolocation:update",position:pos},"*"); },2000);
+      f.contentWindow.postMessage({type:"tripmate:geolocation:update",position:pos},"*");
     }
-    else { f.contentWindow.postMessage({type:"trek:geolocation:result",requestId:m.requestId,position:pos},"*"); }
+    else { f.contentWindow.postMessage({type:"tripmate:geolocation:result",requestId:m.requestId,position:pos},"*"); }
   }
-  else if(m.type==="trek:session:get"||m.type==="trek:session:set"||m.type==="trek:session:remove"||m.type==="trek:session:clear"){
+  else if(m.type==="tripmate:session:get"||m.type==="tripmate:session:set"||m.type==="tripmate:session:remove"||m.type==="tripmate:session:clear"){
     sessionMessage(m);
   }
 });

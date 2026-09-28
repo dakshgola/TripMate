@@ -88,47 +88,35 @@ const admin: TranslationStrings = {
   'admin.requireMfaHint':
     'Benutzer ohne 2FA müssen die Einrichtung unter Einstellungen abschließen, bevor sie die App nutzen können.',
   'admin.apiKeys': 'API-Schlüssel',
-  'admin.apiKeysHint': 'Woher die Ortsdaten kommen. Der TREK-Index braucht keinen Schlüssel, die beiden Anbieter darunter sind optional.',
+  'admin.apiKeysHint':
+    'Woher die Ortsdaten kommen. Der Trip Mate-Index braucht keinen Schlüssel, die beiden Anbieter darunter sind optional.',
   'admin.trekApi.badgeDefault': 'Empfohlene Standardquelle',
   'admin.googleCaveat.badge': 'Nicht empfohlen',
   'admin.googleCaveat.body':
-    'TREK ist quelloffen und wir sind hier nicht neutral. Bewertungen und Fotos gewöhnlicher Läden gibt es in dieser Größenordnung nur bei Google, und genau das ist ein Monopol. Das Feld steht hier, weil es keine Alternative gibt, nicht weil wir es empfehlen. Jede Abfrage geht dann an Google.',
+    'Trip Mate ist quelloffen und wir sind hier nicht neutral. Bewertungen und Fotos gewöhnlicher Läden gibt es in dieser Größenordnung nur bei Google, und genau das ist ein Monopol. Das Feld steht hier, weil es keine Alternative gibt, nicht weil wir es empfehlen. Jede Abfrage geht dann an Google.',
   'admin.trekApi.tagline':
     'TREKs eigener Ortsindex. Suchen ohne Google-Schlüssel, ohne Kontingent und ohne dass jemand mitzählt.',
-  'admin.trekApi.factPlaces':
-    '73,6 Millionen Orte weltweit',
-  'admin.trekApi.factNoKey':
-    'Kein Schlüssel, kein Kontingent',
-  'admin.trekApi.factOffline':
-    'Länderpakete auch offline',
-  'admin.trekApi.factPrivacy':
-    'Suchanfragen werden nie protokolliert',
-  'admin.trekApi.more':
-    'Was drin ist',
-  'admin.trekApi.fieldPhone':
-    'Telefon',
-  'admin.trekApi.fieldStableId':
-    'Stabile Kennung',
+  'admin.trekApi.factPlaces': '73,6 Millionen Orte weltweit',
+  'admin.trekApi.factNoKey': 'Kein Schlüssel, kein Kontingent',
+  'admin.trekApi.factOffline': 'Länderpakete auch offline',
+  'admin.trekApi.factPrivacy': 'Suchanfragen werden nie protokolliert',
+  'admin.trekApi.more': 'Was drin ist',
+  'admin.trekApi.fieldPhone': 'Telefon',
+  'admin.trekApi.fieldStableId': 'Stabile Kennung',
   'admin.trekApi.includedNote':
     'Beschreibungen kommen von der Website des Ortes selbst, Öffnungszeiten aus OpenStreetMap, wo sie eingetragen sind.',
-  'admin.trekApi.notRatings':
-    'Bewertungen',
-  'admin.trekApi.notPhotos':
-    'Fotos gewöhnlicher Läden',
+  'admin.trekApi.notRatings': 'Bewertungen',
+  'admin.trekApi.notPhotos': 'Fotos gewöhnlicher Läden',
   'admin.trekApi.notIncludedNote':
     'Beides gibt es in keiner offenen Quelle, zu keinem Preis. Dafür bleibt ein Google-Schlüssel der einzige Weg.',
-  'admin.trekApi.sourcesLabel':
-    'Quellen',
-  'admin.trekApi.sourcesNote':
-    'Jedes Feld einer Antwort nennt, aus welcher davon es stammt.',
-  'admin.trekApi.included':
-    'Enthalten',
-  'admin.trekApi.notIncluded':
-    'Nicht enthalten',
+  'admin.trekApi.sourcesLabel': 'Quellen',
+  'admin.trekApi.sourcesNote': 'Jedes Feld einer Antwort nennt, aus welcher davon es stammt.',
+  'admin.trekApi.included': 'Enthalten',
+  'admin.trekApi.notIncluded': 'Nicht enthalten',
   'admin.mapsKey': 'Google Maps API-Schlüssel',
   'admin.mapsKeyHint': 'Für Ortsuche benötigt. Erstellen unter console.cloud.google.com',
   'admin.mapsKeyHintLong':
-    'Auch ohne Google-API-Schlüssel wird die empfohlene TREK API verwendet. Mit Schlüssel können zusätzlich Bilder, Bewertungen und Öffnungszeiten geladen werden. Erstellen unter console.cloud.google.com.',
+    'Auch ohne Google-API-Schlüssel wird die empfohlene Trip Mate API verwendet. Mit Schlüssel können zusätzlich Bilder, Bewertungen und Öffnungszeiten geladen werden. Erstellen unter console.cloud.google.com.',
   'admin.recommended': 'Empfohlen',
   'admin.weatherKey': 'OpenWeatherMap API-Schlüssel',
   'admin.weatherKeyHint': 'Für Wetterdaten. Kostenlos unter openweathermap.org',
@@ -138,12 +126,14 @@ const admin: TranslationStrings = {
   'admin.amapKeyHint':
     'Für die Ortssuche in Festlandchina, wo Google nicht erreichbar ist und OpenStreetMap kaum Daten hat. Benötigt einen Key vom Typ „Web 服务" (Webdienst), nicht einen JS-API-Key. Erhältlich auf console.amap.com.',
   'admin.placesProvider.title': 'Anbieter für die Ortssuche',
-  'admin.placesProvider.subtitle': 'Der TREK-Index und OpenStreetMap beantworten jede Suche. Hier wird gewählt, wer zusätzlich gefragt wird, wenn die beiden nichts finden: Automatisch bevorzugt Google, wenn ein Schlüssel da ist, danach Amap.',
+  'admin.placesProvider.subtitle':
+    'Der Trip Mate-Index und OpenStreetMap beantworten jede Suche. Hier wird gewählt, wer zusätzlich gefragt wird, wenn die beiden nichts finden: Automatisch bevorzugt Google, wenn ein Schlüssel da ist, danach Amap.',
   'admin.placesProvider.auto': 'Automatisch',
   'admin.placesProvider.google': 'Google Places',
   'admin.placesProvider.amap': 'Amap (高德地图)',
   'admin.placesProvider.openstreetmap': 'OpenStreetMap',
-  'admin.placesProvider.missingKey': 'Für den gewählten Anbieter ist kein API-Schlüssel hinterlegt, die Ortssuche beantworten daher nur der TREK-Index und OpenStreetMap.',
+  'admin.placesProvider.missingKey':
+    'Für den gewählten Anbieter ist kein API-Schlüssel hinterlegt, die Ortssuche beantworten daher nur der Trip Mate-Index und OpenStreetMap.',
   'admin.placesProvider.saved': 'Anbieter für die Ortssuche gespeichert',
   'admin.validateKey': 'Test',
   'admin.keyValid': 'Verbunden',
@@ -177,17 +167,24 @@ const admin: TranslationStrings = {
   'admin.placesEnrich.subtitle':
     'Bilder und eine Beschreibung beim Hinzufügen eines Ortes anzeigen. Wikipedia und OpenStreetMap werden immer genutzt; Google kommt zusätzlich dazu, wenn Ortsfotos oder Ortsdetails aktiv sind.',
   'admin.placesGoogleOnly.title': 'Nur mit Google suchen',
-  'admin.placesGoogleOnly.subtitle': 'Jede Suche und jeder Vorschlag geht an Google Places. Aus, antworten zuerst der TREK-Index und OpenStreetMap, Google wird nur gefragt, wenn beide nichts finden.',
-  'admin.placesGoogleOnly.missingKey': 'Braucht einen Google-Maps-API-Schlüssel. Ohne ihn läuft die Suche über den TREK-Index und OpenStreetMap, egal wie dieser Schalter steht.',
-  'admin.placesGoogleOnly.otherProvider': 'Braucht Google als Orts-Anbieter. Mit Amap oder OpenStreetMap als Auswahl geht keine Suche an Google, egal wie dieser Schalter steht.',
+  'admin.placesGoogleOnly.subtitle':
+    'Jede Suche und jeder Vorschlag geht an Google Places. Aus, antworten zuerst der Trip Mate-Index und OpenStreetMap, Google wird nur gefragt, wenn beide nichts finden.',
+  'admin.placesGoogleOnly.missingKey':
+    'Braucht einen Google-Maps-API-Schlüssel. Ohne ihn läuft die Suche über den Trip Mate-Index und OpenStreetMap, egal wie dieser Schalter steht.',
+  'admin.placesGoogleOnly.otherProvider':
+    'Braucht Google als Orts-Anbieter. Mit Amap oder OpenStreetMap als Auswahl geht keine Suche an Google, egal wie dieser Schalter steht.',
   'admin.transitProvider.title': 'Verkehrsanbieter',
   'admin.transitProvider.subtitle': 'Welcher Dienst die ÖPNV-Suche beantwortet.',
   'admin.transitProvider.transitous': 'Transitous (kostenlos)',
   'admin.transitProvider.google': 'Google',
-  'admin.transitProvider.transitousHint': 'Community-GTFS-Feeds. Kostenlos und ohne Schlüssel, mit der besten Abdeckung in Europa.',
-  'admin.transitProvider.googleHint': 'Nutzt den obigen Google-Schlüssel, für Regionen ohne Transitous-Daten. Wird pro Suche abgerechnet – solange kein Schlüssel gesetzt ist, wird Transitous verwendet.',
-  'admin.transitProvider.noKeyWarning': 'Google ist ausgewählt, aber es ist kein Google-Schlüssel hinterlegt — die ÖPNV-Suche nutzt weiterhin Transitous. Trage oben unter API-Schlüssel einen Schlüssel ein.',
-  'admin.transitProvider.personalKeyWarning': 'Es ist nur dein eigener Google-Schlüssel gesetzt, daher fällt die Suche der anderen Mitglieder weiterhin auf Transitous zurück. Speichere den Schlüssel oben als Admin, damit er instanzweit gilt.',
+  'admin.transitProvider.transitousHint':
+    'Community-GTFS-Feeds. Kostenlos und ohne Schlüssel, mit der besten Abdeckung in Europa.',
+  'admin.transitProvider.googleHint':
+    'Nutzt den obigen Google-Schlüssel, für Regionen ohne Transitous-Daten. Wird pro Suche abgerechnet – solange kein Schlüssel gesetzt ist, wird Transitous verwendet.',
+  'admin.transitProvider.noKeyWarning':
+    'Google ist ausgewählt, aber es ist kein Google-Schlüssel hinterlegt — die ÖPNV-Suche nutzt weiterhin Transitous. Trage oben unter API-Schlüssel einen Schlüssel ein.',
+  'admin.transitProvider.personalKeyWarning':
+    'Es ist nur dein eigener Google-Schlüssel gesetzt, daher fällt die Suche der anderen Mitglieder weiterhin auf Transitous zurück. Speichere den Schlüssel oben als Admin, damit er instanzweit gilt.',
   'admin.placeShadow.title': 'Ortssuche protokollieren',
   'admin.placeShadow.subtitle':
     'Festhalten, welches Suchergebnis ausgewählt wurde, damit sich ein anderer Ortsindex später an echten Suchen messen lässt. Nichts verlässt diese Instanz, und ein Administrator kann das Protokoll jederzeit exportieren oder löschen.',
@@ -291,7 +288,7 @@ const admin: TranslationStrings = {
   'admin.plugins.subtitle': 'Plugins von Drittanbietern auf deiner Instanz installieren und verwalten.',
   'admin.plugins.disabledTitle': 'Plugins sind deaktiviert',
   'admin.plugins.disabledBody':
-    'Die Plugin-Laufzeit ist ausgeschaltet (TREK_PLUGINS_ENABLED). Es kann kein Plugin laufen, bis ein Admin sie in der Serverkonfiguration aktiviert.',
+    'Die Plugin-Laufzeit ist ausgeschaltet (TRIPMATE_PLUGINS_ENABLED). Es kann kein Plugin laufen, bis ein Admin sie in der Serverkonfiguration aktiviert.',
   'admin.plugins.empty': 'Noch keine Plugins installiert.',
   'admin.plugins.loadError': 'Plugins konnten nicht geladen werden.',
   'admin.plugins.scaffoldNote':
@@ -314,7 +311,7 @@ const admin: TranslationStrings = {
   'admin.plugins.sourceRepo': 'Quell-Repository',
   'admin.plugins.reportIssue': 'Problem melden',
   'admin.plugins.homepage': 'Homepage',
-  'admin.plugins.requiresTrek': 'Benötigt TREK {version}+',
+  'admin.plugins.requiresTrek': 'Benötigt Trip Mate {version}+',
   'admin.plugins.reviewedOn': 'Geprüft am {date}',
   'admin.plugins.perm.db:own': 'Eigene Daten in einer isolierten Datenbank speichern',
   'admin.plugins.perm.db:read:trips': 'Reisen lesen, auf die der handelnde Nutzer Zugriff hat',
@@ -398,11 +395,12 @@ const admin: TranslationStrings = {
     'Tage im Tagesplan farblich markieren (z. B. zu welchem Reiseabschnitt ein Tag gehört)',
   'admin.plugins.cap.mcpTools': 'Veröffentlicht KI-Tools',
   'admin.plugins.mcpToolsTitle': 'Veröffentlichte KI-Tools',
-  'admin.plugins.mcpToolsHint': 'Ein Assistent kann sie im Namen eines Nutzers ausführen. Jedes handelt mit den oben erteilten Rechten.',
+  'admin.plugins.mcpToolsHint':
+    'Ein Assistent kann sie im Namen eines Nutzers ausführen. Jedes handelt mit den oben erteilten Rechten.',
   'admin.plugins.perm.mcp:tools':
     'Tools veröffentlichen, die ein KI-Assistent in deinem Namen ausführen kann (es handelt mit den Rechten, die du dem Plugin hier erteilst, nicht mit denen des Assistenten)',
   'admin.plugins.perm.geolocation:read':
-    'Deinen Live-Standort abfragen, solange eine seiner Ansichten offen ist (TREK liest ihn mit der Standortfreigabe dieser Seite, nicht mit einer eigenen des Plugins)',
+    'Deinen Live-Standort abfragen, solange eine seiner Ansichten offen ist (Trip Mate liest ihn mit der Standortfreigabe dieser Seite, nicht mit einer eigenen des Plugins)',
   'admin.plugins.perm.hook:pdf-section-provider': 'Textabschnitte an den PDF-Export einer Reise anhängen',
   'admin.plugins.perm.hook:atlas-layer-provider':
     'Länder auf der Atlas-Weltkarte hervorheben (z. B. Wunschlisten oder Reisehinweise)',
@@ -432,26 +430,26 @@ const admin: TranslationStrings = {
   'admin.plugins.updateLater': 'Vorerst aus lassen',
   'admin.plugins.updateKeptOff': 'Update installiert — bleibt aus, bis du die neuen Berechtigungen freigibst',
   'admin.plugins.reviewedMeaning':
-    '„Geprüft" heißt: Ein TREK-Maintainer hat den Code dieses Plugins bei jeder Version manuell auf Schadsoftware gescannt — nicht auf Qualität oder Funktion. Es ist keine Garantie, dass ein Plugin harmlos ist.',
+    '„Geprüft" heißt: Ein Trip Mate-Maintainer hat den Code dieses Plugins bei jeder Version manuell auf Schadsoftware gescannt — nicht auf Qualität oder Funktion. Es ist keine Garantie, dass ein Plugin harmlos ist.',
   'admin.plugins.security.title': 'Wie Plugins eingesperrt werden — und wo die Grenzen liegen',
   'admin.plugins.security.isolationTitle': 'Jedes Plugin läuft abgeschottet',
   'admin.plugins.security.isolationBody':
-    'Ein Plugin läuft als eigener, abgeriegelter Prozess, der nur seine eigenen Dateien lesen darf. Es kann weder deine Datenbank noch deinen Login-Schlüssel oder deinen Verschlüsselungsschlüssel lesen, keine anderen Programme starten und nirgends Dateien schreiben. Seine Oberfläche läuft in einem versiegelten Browser-Rahmen, der dein Sitzungs-Cookie nicht lesen und die TREK-Seite drumherum nicht anfassen kann.',
+    'Ein Plugin läuft als eigener, abgeriegelter Prozess, der nur seine eigenen Dateien lesen darf. Es kann weder deine Datenbank noch deinen Login-Schlüssel oder deinen Verschlüsselungsschlüssel lesen, keine anderen Programme starten und nirgends Dateien schreiben. Seine Oberfläche läuft in einem versiegelten Browser-Rahmen, der dein Sitzungs-Cookie nicht lesen und die Trip Mate-Seite drumherum nicht anfassen kann.',
   'admin.plugins.security.permsTitle': 'Was die Berechtigungen bedeuten',
   'admin.plugins.security.permsBody':
-    'Die Berechtigungen, die dir vor der Installation angezeigt werden, sind eine harte Obergrenze, die TREK zur Laufzeit durchsetzt — ein Plugin kann buchstäblich nichts tun, was nicht auf der Liste steht. Aber sie sagen dir, was ein Plugin kann, nicht was es tatsächlich tut. Ein Plugin, das deine Reisen lesen und einen Server erreichen darf, kann deine Reisen an diesen Server schicken — lies also die Berechtigungen und die Zielhosts, nicht nur die Beschreibung.',
+    'Die Berechtigungen, die dir vor der Installation angezeigt werden, sind eine harte Obergrenze, die Trip Mate zur Laufzeit durchsetzt — ein Plugin kann buchstäblich nichts tun, was nicht auf der Liste steht. Aber sie sagen dir, was ein Plugin kann, nicht was es tatsächlich tut. Ein Plugin, das deine Reisen lesen und einen Server erreichen darf, kann deine Reisen an diesen Server schicken — lies also die Berechtigungen und die Zielhosts, nicht nur die Beschreibung.',
   'admin.plugins.security.limitsTitle': 'Was wir nicht garantieren können',
   'admin.plugins.security.limitsBody':
-    'Die Isolation ist eine starke Software-Grenze, keine absolute. Ein Plugin handelt mit genau den Rechten, die du freigibst — innerhalb dieser Rechte kann es sich anders verhalten als seine Beschreibung nahelegt, und es kann Daten, die es legitim hat, an die von ihm deklarierten Hosts senden. TREK liest oder bewertet nicht, was der Code eines Plugins tatsächlich tut.',
+    'Die Isolation ist eine starke Software-Grenze, keine absolute. Ein Plugin handelt mit genau den Rechten, die du freigibst — innerhalb dieser Rechte kann es sich anders verhalten als seine Beschreibung nahelegt, und es kann Daten, die es legitim hat, an die von ihm deklarierten Hosts senden. Trip Mate liest oder bewertet nicht, was der Code eines Plugins tatsächlich tut.',
   'admin.plugins.security.worstTitle': 'Der schlimmste Fall',
   'admin.plugins.security.worstBody':
     'Ein bösartiges Plugin, das du einschaltest, kann die Daten und Verbindungen missbrauchen, die du ihm gegeben hast — etwa die Reisen abgreifen, die es lesen darf. Es kann keine Passwörter stehlen, keinen Admin-Login fälschen, keine Befehle auf deinem Server ausführen und keine Daten erreichen, die du nicht freigegeben hast. Der Schaden bleibt in dem, was du freigegeben hast, und das Ausschalten des Plugins stoppt ihn.',
   'admin.plugins.security.reviewedTitle': 'Was „Geprüft" bedeutet',
   'admin.plugins.security.reviewedBody':
-    'Ein geprüftes Plugin wurde bei jeder Version von einem TREK-Maintainer manuell auf Schadsoftware gescannt — geprüft auf feindlichen Code, nicht darauf, ob es gut funktioniert. Es ist kein Versprechen, dass das Plugin harmlos ist.',
+    'Ein geprüftes Plugin wurde bei jeder Version von einem Trip Mate-Maintainer manuell auf Schadsoftware gescannt — geprüft auf feindlichen Code, nicht darauf, ob es gut funktioniert. Es ist kein Versprechen, dass das Plugin harmlos ist.',
   'admin.plugins.security.signedTitle': 'Was „Signiert" bedeutet',
   'admin.plugins.security.signedBody':
-    'Die Prüfsumme, die TREK bei jeder Installation prüft, belegt, dass die Dateien genau das sind, wofür die Registry einsteht. Eine Signatur belegt etwas anderes: dass sie vom Autor stammen, signiert mit einem Schlüssel, den nur er besitzt. Ein signiertes Plugin hat beides. Ein unsigniertes ist nicht unsicher — es trägt schlicht eine Garantie weniger, und die meisten Plugins in der Registry sind heute unsigniert.',
+    'Die Prüfsumme, die Trip Mate bei jeder Installation prüft, belegt, dass die Dateien genau das sind, wofür die Registry einsteht. Eine Signatur belegt etwas anderes: dass sie vom Autor stammen, signiert mit einem Schlüssel, den nur er besitzt. Ein signiertes Plugin hat beides. Ein unsigniertes ist nicht unsicher — es trägt schlicht eine Garantie weniger, und die meisten Plugins in der Registry sind heute unsigniert.',
   'admin.plugins.signed': 'Signiert',
   'admin.plugins.signedHint': 'Bei der Installation gegen den Signaturschlüssel des Autors geprüft',
   'admin.plugins.unsigned': 'Unsigniert',
@@ -466,20 +464,20 @@ const admin: TranslationStrings = {
   'admin.plugins.sig.invalidBody':
     'Die Dateien passen nicht zur Signatur des Autors. Sie sind nicht das, was der Autor signiert hat — entweder wurden sie beschädigt oder manipuliert. Das lässt sich nicht übergehen.',
   'admin.plugins.sig.missingBody':
-    'Dieses Plugin war signiert, als du es installiert hast, aber die neue Version bringt keine Signatur mit. TREK akzeptiert diesen Rückschritt nicht stillschweigend. Das lässt sich nicht übergehen.',
+    'Dieses Plugin war signiert, als du es installiert hast, aber die neue Version bringt keine Signatur mit. Trip Mate akzeptiert diesen Rückschritt nicht stillschweigend. Das lässt sich nicht übergehen.',
   'admin.plugins.sig.incompleteBody':
     'Der Registry-Eintrag ist nur halb signiert: Er nennt einen Autorenschlüssel, die Version trägt aber keine Signatur (oder umgekehrt). Das ist ein Fehler auf Seiten des Plugins. Das lässt sich nicht übergehen.',
   'admin.plugins.sig.pinnedKey': 'Schlüssel, mit dem es installiert wurde',
   'admin.plugins.sig.newKey': 'Schlüssel, den es jetzt anbietet',
   'admin.plugins.sig.confirmOutOfBand':
-    'TREK kann einen legitimen Schlüsselwechsel nicht von einer Übernahme unterscheiden — von hier aus sehen beide gleich aus. Bestätige den neuen Schlüssel beim Autor über einen Kanal, dem du bereits vertraust, bevor du ihn annimmst. Sobald du das tust, wird das Plugin aktualisiert und der neue Schlüssel gemerkt.',
+    'Trip Mate kann einen legitimen Schlüsselwechsel nicht von einer Übernahme unterscheiden — von hier aus sehen beide gleich aus. Bestätige den neuen Schlüssel beim Autor über einen Kanal, dem du bereits vertraust, bevor du ihn annimmst. Sobald du das tust, wird das Plugin aktualisiert und der neue Schlüssel gemerkt.',
   'admin.plugins.sig.retrustConfirm': 'Neuem Schlüssel vertrauen & aktualisieren',
   'admin.plugins.sig.cancel': 'Nicht vertrauen',
   'admin.plugins.sig.consentUnsigned':
     'Nichts verbindet diese Version mit ihrem Autor — die Dateien entsprechen der Registry, tragen aber keine Autorensignatur.',
   'admin.plugins.security.trustTitle': 'Das Fazit',
   'admin.plugins.security.trustBody':
-    'Ein Plugin zu installieren ist wie jede fremde App zu installieren: Füge nur Code von Autoren hinzu, denen du vertraust, und prüfe ihn im Zweifel zuerst selbst. TREK übernimmt keine Verantwortung für Plugins von Drittanbietern.',
+    'Ein Plugin zu installieren ist wie jede fremde App zu installieren: Füge nur Code von Autoren hinzu, denen du vertraust, und prüfe ihn im Zweifel zuerst selbst. Trip Mate übernimmt keine Verantwortung für Plugins von Drittanbietern.',
   'admin.plugins.runtimeOn': 'Laufzeit aktiv',
   'admin.plugins.tabDiscover': 'Entdecken',
   'admin.plugins.searchPlaceholder': 'Plugins durchsuchen…',
@@ -495,15 +493,16 @@ const admin: TranslationStrings = {
   'admin.plugins.sortUpdates': 'Updates zuerst',
   'admin.plugins.sortDownloads': 'Meiste Downloads',
   'admin.plugins.updatesAvailable': '{count} Updates für deine Plugins verfügbar.',
-  'admin.plugins.newerNeedsTrek': 'v{version} verfügbar — benötigt TREK {range}',
+  'admin.plugins.newerNeedsTrek': 'v{version} verfügbar — benötigt Trip Mate {range}',
   'admin.plugins.versionsTitle': 'Versionen',
   'admin.plugins.versionPickerTitle': 'Version wechseln — {name}',
   'admin.plugins.versionSwitch': 'Zu {version} wechseln',
-  'admin.plugins.versionNeedsTrek': 'benötigt TREK {range}',
+  'admin.plugins.versionNeedsTrek': 'benötigt Trip Mate {range}',
   'admin.plugins.changeVersion': 'Version wechseln…',
   'admin.plugins.noVersions': 'Keine veröffentlichten Versionen in der Registry gefunden.',
   'admin.plugins.downgradeTitle': 'Dieses Plugin zurücksetzen?',
-  'admin.plugins.downgradeBody': 'Wechsel von v{from} zu v{to}: Von der neueren Version geschriebene Daten bleiben erhalten, und die ältere Version versteht sie möglicherweise nicht.',
+  'admin.plugins.downgradeBody':
+    'Wechsel von v{from} zu v{to}: Von der neueren Version geschriebene Daten bleiben erhalten, und die ältere Version versteht sie möglicherweise nicht.',
   'admin.plugins.downgradeConfirm': 'Zurücksetzen',
   'admin.plugins.updatesHeld': 'Updates pausiert bei v{version}',
   'admin.plugins.resumeUpdates': 'Updates fortsetzen',
@@ -562,22 +561,21 @@ const admin: TranslationStrings = {
   'admin.plugins.dep.download': 'Herunterladen',
   'admin.plugins.dep.update': 'Aktualisieren',
   'admin.plugins.dep.resolveHint': 'Lädt die neueste kompatible Version samt eigener Abhängigkeiten herunter.',
-  'admin.plugins.dep.trekIncompatible': 'Benötigt TREK {range} — auf diesem Server läuft {host}',
-  'admin.plugins.dep.trekUnknown': 'Gibt nicht an, welche TREK-Versionen unterstützt werden',
+  'admin.plugins.dep.trekIncompatible': 'Benötigt Trip Mate {range} — auf diesem Server läuft {host}',
+  'admin.plugins.dep.trekUnknown': 'Gibt nicht an, welche Trip Mate-Versionen unterstützt werden',
   'admin.plugins.installCompatible': '{version} installieren',
   'admin.plugins.installAnyway': 'Trotzdem installieren',
   'admin.plugins.rangeBypass.pill': 'Versionsprüfung aus',
   'admin.plugins.rangeBypass.pillHint':
-    'TREK_PLUGINS_IGNORE_TREK_RANGE ist gesetzt — Plugins dürfen außerhalb der von ihren Autoren angegebenen TREK-Versionen installiert und ausgeführt werden',
-  'admin.plugins.rangeBypass.title': 'Außerhalb der unterstützten TREK-Versionen',
-  'admin.plugins.rangeBypass.noticeTitle': 'Außerhalb der unterstützten TREK-Versionen installiert',
+    'TRIPMATE_PLUGINS_IGNORE_TREK_RANGE ist gesetzt — Plugins dürfen außerhalb der von ihren Autoren angegebenen Trip Mate-Versionen installiert und ausgeführt werden',
+  'admin.plugins.rangeBypass.title': 'Außerhalb der unterstützten Trip Mate-Versionen',
+  'admin.plugins.rangeBypass.noticeTitle': 'Außerhalb der unterstützten Trip Mate-Versionen installiert',
   'admin.plugins.rangeBypass.body':
-    '„{name}“ gibt Unterstützung für TREK {range} an, dieser Server läuft mit {host}. TREK lässt es nur durch, weil TREK_PLUGINS_IGNORE_TREK_RANGE gesetzt ist. Der Autor hat den Versionsbereich des Plugins für dieses TREK nicht aktualisiert, es gibt also keine Garantie, dass es funktioniert — und in seltenen Fällen kann ein unpassendes Plugin TREK-Daten beschädigen. Fahre nur fort, wenn du dieses Risiko akzeptierst.',
+    '„{name}“ gibt Unterstützung für Trip Mate {range} an, dieser Server läuft mit {host}. Trip Mate lässt es nur durch, weil TRIPMATE_PLUGINS_IGNORE_TREK_RANGE gesetzt ist. Der Autor hat den Versionsbereich des Plugins für dieses Trip Mate nicht aktualisiert, es gibt also keine Garantie, dass es funktioniert — und in seltenen Fällen kann ein unpassendes Plugin Trip Mate-Daten beschädigen. Fahre nur fort, wenn du dieses Risiko akzeptierst.',
   'admin.plugins.rangeBypass.bodyUnknown':
-    '„{name}“ gibt nicht an, welche TREK-Versionen es unterstützt; dieser Server läuft mit {host}. TREK lässt es nur durch, weil TREK_PLUGINS_IGNORE_TREK_RANGE gesetzt ist. Nichts belegt, dass der Autor es auf diesem TREK getestet hat, es gibt also keine Garantie, dass es funktioniert — und in seltenen Fällen kann ein unpassendes Plugin TREK-Daten beschädigen. Fahre nur fort, wenn du dieses Risiko akzeptierst.',
-  'admin.plugins.dep.trekBypassed':
-    'Außerhalb seines TREK-Bereichs ({range}) — Versionsprüfung aus',
-  'admin.plugins.dep.trekBypassedUnknown': 'Gibt keinen TREK-Bereich an — Versionsprüfung aus',
+    '„{name}“ gibt nicht an, welche Trip Mate-Versionen es unterstützt; dieser Server läuft mit {host}. Trip Mate lässt es nur durch, weil TRIPMATE_PLUGINS_IGNORE_TREK_RANGE gesetzt ist. Nichts belegt, dass der Autor es auf diesem Trip Mate getestet hat, es gibt also keine Garantie, dass es funktioniert — und in seltenen Fällen kann ein unpassendes Plugin Trip Mate-Daten beschädigen. Fahre nur fort, wenn du dieses Risiko akzeptierst.',
+  'admin.plugins.dep.trekBypassed': 'Außerhalb seines Trip Mate-Bereichs ({range}) — Versionsprüfung aus',
+  'admin.plugins.dep.trekBypassedUnknown': 'Gibt keinen Trip Mate-Bereich an — Versionsprüfung aus',
   'admin.plugins.incompatible': 'Nicht kompatibel',
   'admin.plugins.accessTitle': 'Worauf es zugreift',
   'admin.plugins.connectsTitle': 'Verbindet sich mit',
@@ -589,7 +587,7 @@ const admin: TranslationStrings = {
   'admin.plugins.metaReviewed': 'Geprüft am',
   'admin.plugins.downloads': 'Downloads',
   'admin.addons.title': 'Addons',
-  'admin.addons.subtitle': 'Aktiviere oder deaktiviere Funktionen, um TREK nach deinen Wünschen anzupassen.',
+  'admin.addons.subtitle': 'Aktiviere oder deaktiviere Funktionen, um Trip Mate nach deinen Wünschen anzupassen.',
   'admin.addons.catalog.packing.name': 'Listen',
   'admin.addons.catalog.packing.description': 'Packlisten und To-Do-Aufgaben für deine Reisen',
   'admin.addons.catalog.budget.name': 'Kosten',
@@ -603,7 +601,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.collab.name': 'Collab',
   'admin.addons.catalog.collab.description': 'Notizen, Umfragen, Chat und Vorschläge für die gemeinsame Planung',
   'admin.addons.catalog.roadtrip.name': 'Roadtrip',
-  'admin.addons.catalog.roadtrip.description': 'Fahrten mit Zwischenstopps planen — Fahrzeiten und Ankunftszeiten rechnen sich selbst neu',
+  'admin.addons.catalog.roadtrip.description':
+    'Fahrten mit Zwischenstopps planen — Fahrzeiten und Ankunftszeiten rechnen sich selbst neu',
   'admin.addons.catalog.memories.name': 'Fotos (Immich)',
   'admin.addons.catalog.memories.description': 'Reisefotos über deine Immich-Instanz teilen',
   'admin.addons.catalog.mcp.name': 'MCP',
@@ -618,7 +617,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.dawarich.description':
     'Aufenthalte und aufgezeichnete Routen aus einer Dawarich-Instanz lesen, die jeder selbst verbindet',
   'admin.addons.catalog.llm_parsing.name': 'KI-Auswertung',
-  'admin.addons.catalog.llm_parsing.description': 'Liest Buchungen, an denen der eingebaute Parser scheitert, mit einem KI-Modell deiner Wahl',
+  'admin.addons.catalog.llm_parsing.description':
+    'Liest Buchungen, an denen der eingebaute Parser scheitert, mit einem KI-Modell deiner Wahl',
   'admin.addons.enabled': 'Aktiviert',
   'admin.addons.disabled': 'Deaktiviert',
   'admin.addons.type.trip': 'Reise',
@@ -634,7 +634,7 @@ const admin: TranslationStrings = {
   'admin.weather.title': 'Wetterdaten',
   'admin.weather.badge': 'Seit 24. März 2026',
   'admin.weather.description':
-    'TREK nutzt Open-Meteo als Wetterdatenquelle. Open-Meteo ist ein kostenloser, quelloffener Wetterdienst — es wird kein API-Schlüssel benötigt.',
+    'Trip Mate nutzt Open-Meteo als Wetterdatenquelle. Open-Meteo ist ein kostenloser, quelloffener Wetterdienst — es wird kein API-Schlüssel benötigt.',
   'admin.weather.forecast': '16-Tage-Vorhersage',
   'admin.weather.forecastDesc': 'Statt bisher 5 Tage (OpenWeatherMap)',
   'admin.weather.climate': 'Historische Klimadaten',
@@ -693,14 +693,14 @@ const admin: TranslationStrings = {
   'admin.github.loading': 'Wird geladen...',
   'admin.github.error': 'Releases konnten nicht geladen werden',
   'admin.github.by': 'von',
-  'admin.github.support': 'Hilft mir, TREK weiterzuentwickeln',
+  'admin.github.support': 'Hilft mir, Trip Mate weiterzuentwickeln',
   'admin.update.available': 'Update verfügbar',
-  'admin.update.text': 'TREK {version} ist verfügbar. Du verwendest {current}.',
+  'admin.update.text': 'Trip Mate {version} ist verfügbar. Du verwendest {current}.',
   'admin.update.button': 'Auf GitHub ansehen',
   'admin.update.install': 'Update installieren',
   'admin.update.confirmTitle': 'Update installieren?',
   'admin.update.confirmText':
-    'TREK wird von {current} auf {version} aktualisiert. Der Server startet danach automatisch neu.',
+    'Trip Mate wird von {current} auf {version} aktualisiert. Der Server startet danach automatisch neu.',
   'admin.update.dataInfo':
     'Alle Daten (Reisen, Benutzer, API-Schlüssel, Uploads, Vacay, Atlas, Budgets) bleiben erhalten.',
   'admin.update.warning': 'Die App ist während des Neustarts kurz nicht erreichbar.',
@@ -712,9 +712,9 @@ const admin: TranslationStrings = {
   'admin.update.backupLink': 'Zum Backup',
   'admin.update.howTo': 'Update-Anleitung',
   'admin.update.dockerText':
-    'Deine TREK-Instanz läuft in Docker. Um auf {version} zu aktualisieren, führe folgende Befehle auf deinem Server aus:',
+    'Deine Trip Mate-Instanz läuft in Docker. Um auf {version} zu aktualisieren, führe folgende Befehle auf deinem Server aus:',
   'admin.update.nonDockerText':
-    'Diese TREK-Instanz läuft nicht in Docker. Um auf {version} zu aktualisieren, führe die Installations- oder Update-Methode erneut aus, die du verwendet hast — bei Proxmox Community Scripts startest du das Update zum Beispiel über die LXC-Konsole:',
+    'Diese Trip Mate-Instanz läuft nicht in Docker. Um auf {version} zu aktualisieren, führe die Installations- oder Update-Methode erneut aus, die du verwendet hast — bei Proxmox Community Scripts startest du das Update zum Beispiel über die LXC-Konsole:',
   'admin.update.wikiLink': 'Update-Anleitung öffnen',
   'admin.update.reloadHint': 'Bitte lade die Seite in wenigen Sekunden neu.',
   'admin.tabs.permissions': 'Berechtigungen',
@@ -745,7 +745,7 @@ const admin: TranslationStrings = {
     'Wird auch als Standardserver für Benutzer-ntfy-Benachrichtigungen verwendet. Leer lassen für ntfy.sh. Benutzer können dies in ihren eigenen Einstellungen überschreiben.',
   'admin.notifications.adminNtfyPanel.serverPlaceholder': 'https://ntfy.sh',
   'admin.notifications.adminNtfyPanel.topicLabel': 'Admin-Thema',
-  'admin.notifications.adminNtfyPanel.topicPlaceholder': 'trek-admin-alerts',
+  'admin.notifications.adminNtfyPanel.topicPlaceholder': 'tripmate-admin-alerts',
   'admin.notifications.adminNtfyPanel.tokenLabel': 'Zugriffstoken (optional)',
   'admin.notifications.adminNtfyPanel.tokenCleared': 'Admin-Zugriffstoken gelöscht',
   'admin.notifications.adminNtfyPanel.saved': 'Admin-Ntfy-Einstellungen gespeichert',
@@ -764,7 +764,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.journey.name': 'Journey',
   'admin.addons.catalog.journey.description': 'Reise-Tracking & Tagebuch mit Check-ins, Fotos und Tagesberichten',
   'admin.addons.catalog.collections.name': 'Sammlungen',
-  'admin.addons.catalog.collections.description': 'Orte aus allen Reisen in benannten Listen sammeln und wiederverwenden',
+  'admin.addons.catalog.collections.description':
+    'Orte aus allen Reisen in benannten Listen sammeln und wiederverwenden',
   'admin.passkey.title': 'Passkey-Anmeldung',
   'admin.passkey.cardHint': 'Erlaube Benutzern die Anmeldung mit Passkeys (WebAuthn). Standardmäßig deaktiviert.',
   'admin.passkey.login': 'Passkey-Anmeldung aktivieren',
@@ -774,10 +775,10 @@ const admin: TranslationStrings = {
     'Für diese Installation ist noch keine WebAuthn-Domain auflösbar. Lege unten APP_URL oder die Relying Party ID fest — bis dahin bleiben Passkeys ausgeblendet.',
   'admin.passkey.rpId': 'Relying Party ID (Domain)',
   'admin.passkey.rpIdHint':
-    'Die reine Domain, an die Passkeys gebunden sind, z. B. trek.example.org. Leer lassen, um sie aus APP_URL abzuleiten. Eine spätere Änderung macht bestehende Passkeys ungültig.',
+    'Die reine Domain, an die Passkeys gebunden sind, z. B. tripmate.example.org. Leer lassen, um sie aus APP_URL abzuleiten. Eine spätere Änderung macht bestehende Passkeys ungültig.',
   'admin.passkey.origins': 'Erlaubte Origins',
   'admin.passkey.originsHint':
-    'Vollständige Origins, durch Komma getrennt, z. B. https://trek.example.org. Leer lassen, um APP_URL zu verwenden.',
+    'Vollständige Origins, durch Komma getrennt, z. B. https://tripmate.example.org. Leer lassen, um APP_URL zu verwenden.',
   'admin.passkey.reset': 'Passkeys zurücksetzen',
   'admin.passkey.resetHint':
     'Entfernt alle Passkeys dieses Benutzers (z. B. bei einem verlorenen Gerät). Die Anmeldung mit Passwort bleibt weiterhin möglich.',
@@ -810,7 +811,8 @@ const admin: TranslationStrings = {
   'admin.invite.boundTo': 'fügt zu {trip} hinzu',
   'admin.placesUsageTitle': 'Wofür der Schlüssel benutzt wird',
   'admin.mapsKeyHintShort': 'Ergänzt Fotos, Bewertungen und Öffnungszeiten. Jede Abfrage geht dann an Google.',
-  'admin.amapKeyHintShort': 'Für die Ortssuche in Festlandchina. Braucht einen Web-Service-Schlüssel, keinen JS-API-Schlüssel.',
+  'admin.amapKeyHintShort':
+    'Für die Ortssuche in Festlandchina. Braucht einen Web-Service-Schlüssel, keinen JS-API-Schlüssel.',
   'admin.collab.links.subtitle': 'Geteilte Links und Lesezeichen',
 };
 export default admin;

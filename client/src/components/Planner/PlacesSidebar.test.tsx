@@ -287,7 +287,7 @@ describe('Filter tabs', () => {
     const planned = buildPlace({ name: 'Planned Place' });
     const unplanned = buildPlace({ name: 'Unplanned Place' });
     const assignments = { '1': [buildAssignment({ place: planned, day_id: 1 })] };
-    // Seed the pool filter directly: the tab label resolves from @trek/shared, but the
+    // Seed the pool filter directly: the tab label resolves from @tripmate/shared, but the
     // filter behaviour (only day-assigned places survive) is what this guards.
     seedStore(useTripStore, { placesFilter: 'planned' });
     render(<PlacesSidebar {...defaultProps} places={[planned, unplanned]} assignments={assignments} />);

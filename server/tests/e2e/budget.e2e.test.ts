@@ -44,7 +44,7 @@ import { createTables } from '../../src/db/schema';
 import { runMigrations } from '../../src/db/migrations';
 import { BudgetModule } from '../../src/nest/budget/budget.module';
 import { ExchangeRatesService } from '../../src/nest/budget/exchange-rates.service';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 describe('Budget e2e (real auth guard + temp SQLite, real budget SQL)', () => {

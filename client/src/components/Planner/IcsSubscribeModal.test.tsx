@@ -55,7 +55,7 @@ describe('IcsSubscribeModal', () => {
     const seen: string[] = [];
     server.use(
       http.get(TOKEN_URL, () => { seen.push('GET'); return HttpResponse.json({ feed_url: null }); }),
-      http.post(TOKEN_URL, () => { seen.push('POST'); return HttpResponse.json({ feed_url: 'https://trek.example/api/trips/9/feed/tok.ics' }); }),
+      http.post(TOKEN_URL, () => { seen.push('POST'); return HttpResponse.json({ feed_url: 'https://tripmate.example/api/trips/9/feed/tok.ics' }); }),
     );
     render(<IcsSubscribeModal {...defaultProps} />);
     fireEvent.click(await screen.findByRole('button', { name: /Enable calendar subscription/i }));
@@ -66,11 +66,11 @@ describe('IcsSubscribeModal', () => {
   });
 
   it('FE-PLANNER-ICS-005: an absolute feed_url is handed to the links as https and webcal', async () => {
-    server.use(http.get(TOKEN_URL, () => HttpResponse.json({ feed_url: 'https://trek.example/feed/tok.ics' })));
+    server.use(http.get(TOKEN_URL, () => HttpResponse.json({ feed_url: 'https://tripmate.example/feed/tok.ics' })));
     render(<IcsSubscribeModal {...defaultProps} />);
-    expect(await screen.findByText('https://trek.example/feed/tok.ics')).toBeInTheDocument();
+    expect(await screen.findByText('https://tripmate.example/feed/tok.ics')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Add to Apple Calendar \/ Outlook/i }))
-      .toHaveAttribute('href', 'webcal://trek.example/feed/tok.ics');
+      .toHaveAttribute('href', 'webcal://tripmate.example/feed/tok.ics');
   });
 
   it('FE-PLANNER-ICS-006: a host-relative feed_url is resolved against the current origin', async () => {
@@ -95,19 +95,19 @@ describe('IcsSubscribeModal', () => {
   it('FE-PLANNER-ICS-007: Regenerate sends PUT and shows the new link', async () => {
     let method = '';
     server.use(
-      http.get(TOKEN_URL, () => HttpResponse.json({ feed_url: 'https://trek.example/feed/old.ics' })),
-      http.put(TOKEN_URL, () => { method = 'PUT'; return HttpResponse.json({ feed_url: 'https://trek.example/feed/new.ics' }); }),
+      http.get(TOKEN_URL, () => HttpResponse.json({ feed_url: 'https://tripmate.example/feed/old.ics' })),
+      http.put(TOKEN_URL, () => { method = 'PUT'; return HttpResponse.json({ feed_url: 'https://tripmate.example/feed/new.ics' }); }),
     );
     render(<IcsSubscribeModal {...defaultProps} />);
     fireEvent.click(await screen.findByRole('button', { name: /Regenerate/i }));
-    expect(await screen.findByText('https://trek.example/feed/new.ics')).toBeInTheDocument();
+    expect(await screen.findByText('https://tripmate.example/feed/new.ics')).toBeInTheDocument();
     expect(method).toBe('PUT');
   });
 
   it('FE-PLANNER-ICS-008: Turn off sends DELETE and drops back to the enable state', async () => {
     let method = '';
     server.use(
-      http.get(TOKEN_URL, () => HttpResponse.json({ feed_url: 'https://trek.example/feed/tok.ics' })),
+      http.get(TOKEN_URL, () => HttpResponse.json({ feed_url: 'https://tripmate.example/feed/tok.ics' })),
       http.delete(TOKEN_URL, () => { method = 'DELETE'; return HttpResponse.json({ feed_url: null }); }),
     );
     render(<IcsSubscribeModal {...defaultProps} />);
@@ -126,14 +126,14 @@ describe('IcsSubscribeModal', () => {
   it('FE-PLANNER-ICS-010: a non-ok mutate response leaves the current token untouched', async () => {
     server.use(
       ...tokenHandlers(m => (m === 'GET'
-        ? HttpResponse.json({ feed_url: 'https://trek.example/feed/keep.ics' })
+        ? HttpResponse.json({ feed_url: 'https://tripmate.example/feed/keep.ics' })
         : new HttpResponse(null, { status: 500 }))),
     );
     render(<IcsSubscribeModal {...defaultProps} />);
     const regenerate = await screen.findByRole('button', { name: /Regenerate/i });
     fireEvent.click(regenerate);
     await waitFor(() => expect(regenerate).not.toBeDisabled());
-    expect(screen.getByText('https://trek.example/feed/keep.ics')).toBeInTheDocument();
+    expect(screen.getByText('https://tripmate.example/feed/keep.ics')).toBeInTheDocument();
   });
 
   it('FE-PLANNER-ICS-011: the close button and a backdrop click both call onClose, an inner click does not', async () => {

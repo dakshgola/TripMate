@@ -60,7 +60,7 @@ vi.mock('../../src/nest/audit/audit-log.logger', () => ({ LOG_LEVEL: 'error', lo
 
 import { TripInviteModule } from '../../src/nest/trip-invite/trip-invite.module';
 import { TripMembershipService } from '../../src/nest/trip-membership/trip-membership.service';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 describe('Trip invite-link e2e (real auth guard + temp SQLite)', () => {

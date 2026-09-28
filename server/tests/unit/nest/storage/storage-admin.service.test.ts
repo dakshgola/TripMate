@@ -14,7 +14,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { Logger } from '@nestjs/common';
-import { MASKED_SETTING_VALUE, type StorageConfig } from '@trek/shared';
+import { MASKED_SETTING_VALUE, type StorageConfig } from '@tripmate/shared';
 import { createTables } from '../../../../src/db/schema';
 import { runMigrations } from '../../../../src/db/migrations';
 import { DatabaseService } from '../../../../src/nest/database/database.service';
@@ -37,7 +37,7 @@ beforeAll(() => {
 
 const tmpDirs: string[] = [];
 function makeTmpDir(): string {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-storage-admin-'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-storage-admin-'));
   tmpDirs.push(dir);
   return dir;
 }
@@ -51,7 +51,7 @@ function readRow(key: string): string | undefined {
 
 const S3_OPTIONS = {
   endpoint: 'http://127.0.0.1:9000',
-  bucket: 'trek',
+  bucket: 'tripmate',
   accessKeyId: 'ak',
   secretAccessKey: 'sk-plain',
   region: 'us-east-1',
@@ -357,7 +357,7 @@ describe('StorageAdminService.testBackend', () => {
       type: 's3',
       options: {
         endpoint: 'http://127.0.0.1:1',
-        bucket: 'trek',
+        bucket: 'tripmate',
         accessKeyId: 'ak',
         secretAccessKey: 'sk',
         region: 'us-east-1',
@@ -424,7 +424,7 @@ describe('StorageAdminService.testBackend', () => {
         type: 's3',
         options: {
           endpoint: 'http://127.0.0.1:1',
-          bucket: 'trek',
+          bucket: 'tripmate',
           accessKeyId: 'ak',
           secretAccessKey: MASKED_SETTING_VALUE,
           region: 'us-east-1',

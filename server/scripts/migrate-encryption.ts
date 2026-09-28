@@ -1,7 +1,7 @@
 /**
  * Encryption key migration script.
  *
- * Re-encrypts all at-rest secrets in the TREK database from one ENCRYPTION_KEY
+ * Re-encrypts all at-rest secrets in the Trip Mate database from one ENCRYPTION_KEY
  * to another without requiring the application to be running.
  *
  * Usage (host):
@@ -9,7 +9,7 @@
  *   node --import tsx scripts/migrate-encryption.ts
  *
  * Usage (Docker):
- *   docker exec -it trek node --import tsx scripts/migrate-encryption.ts
+ *   docker exec -it tripmate node --import tsx scripts/migrate-encryption.ts
  *
  * The script will prompt for the old and new keys interactively so they never
  * appear in shell history, process arguments, or log output.
@@ -138,7 +138,7 @@ interface MigrationResult {
 }
 
 async function main() {
-  console.log('=== TREK Encryption Key Migration ===\n');
+  console.log('=== Trip Mate Encryption Key Migration ===\n');
   console.log('This script re-encrypts all stored secrets under a new ENCRYPTION_KEY.');
   console.log('A backup of the database will be created before any changes are made.\n');
 
@@ -210,17 +210,17 @@ async function main() {
   const journalModes = ['DELETE', 'TRUNCATE', 'PERSIST', 'MEMORY', 'WAL', 'OFF'];
   const syncLevels = ['OFF', 'NORMAL', 'FULL', 'EXTRA'];
 
-  const wantedJournal = (process.env.TREK_DB_JOURNAL_MODE ?? '').trim().toUpperCase();
+  const wantedJournal = (process.env.TRIPMATE_DB_JOURNAL_MODE ?? '').trim().toUpperCase();
   const journalMode = journalModes.includes(wantedJournal) ? wantedJournal : 'WAL';
   if (wantedJournal && journalMode !== wantedJournal) {
-    console.warn(`TREK_DB_JOURNAL_MODE="${process.env.TREK_DB_JOURNAL_MODE}" is not a SQLite journal mode — using ${journalMode}.`);
+    console.warn(`TRIPMATE_DB_JOURNAL_MODE="${process.env.TRIPMATE_DB_JOURNAL_MODE}" is not a SQLite journal mode — using ${journalMode}.`);
   }
 
-  const wantedSync = (process.env.TREK_DB_SYNCHRONOUS ?? '').trim().toUpperCase();
+  const wantedSync = (process.env.TRIPMATE_DB_SYNCHRONOUS ?? '').trim().toUpperCase();
   const defaultSync = journalMode === 'WAL' ? 'NORMAL' : 'FULL';
   const synchronous = syncLevels.includes(wantedSync) ? wantedSync : defaultSync;
   if (wantedSync && synchronous !== wantedSync) {
-    console.warn(`TREK_DB_SYNCHRONOUS="${process.env.TREK_DB_SYNCHRONOUS}" is not a SQLite synchronous level — using ${synchronous}.`);
+    console.warn(`TRIPMATE_DB_SYNCHRONOUS="${process.env.TRIPMATE_DB_SYNCHRONOUS}" is not a SQLite synchronous level — using ${synchronous}.`);
   }
 
   db.pragma(`journal_mode = ${journalMode}`);
@@ -357,7 +357,7 @@ async function main() {
     // secrets), on the fields the shared type registry marks `secret` (only
     // options.secretAccessKey for s3 today; src/nest/storage/storage-secrets.ts
     // encrypts it with the same enc:v1: scheme as the api-key columns above).
-    // This script can't import storageSecretFields from @trek/shared (kept
+    // This script can't import storageSecretFields from @tripmate/shared (kept
     // independent of the app, see the header note), so the field list per
     // backend type is pinned here. Miss one and that backend's secret stays
     // encrypted under the old key after rotation, then fails to decrypt on the

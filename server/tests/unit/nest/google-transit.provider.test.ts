@@ -5,7 +5,7 @@
  *
  * Coverage centres on the three things that are easy to get wrong and expensive
  * to get wrong: the activation chain (setting AND key, else Transitous), the
- * mapping from Google's step list onto TREK's compact itinerary — Google gives
+ * mapping from Google's step list onto Trip Mate's compact itinerary — Google gives
  * no journey-level clock, so start/end are derived from the scheduled legs —
  * and the request shape, whose field masks are what the install is billed for.
  *
@@ -22,7 +22,7 @@ vi.mock('../../../src/app-config', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../../src/app-config')>();
   return {
     ...actual,
-    getAppUrl: () => 'https://trek.example.com',
+    getAppUrl: () => 'https://tripmate.example.com',
     // No operator-env key, so resolveApiKey falls through to the stub DB below.
     readEnv: () => ({ ...actual.readEnv(), maps: { ...actual.readEnv().maps, placesApiKey: undefined } }),
   };
@@ -240,7 +240,7 @@ describe('plan mapping', () => {
     expect(itineraries).toEqual([]);
   });
 
-  it('GTRANSIT-009: maps Google vehicle types onto TREK modes', async () => {
+  it('GTRANSIT-009: maps Google vehicle types onto Trip Mate modes', async () => {
     const withVehicle = (type: string) => {
       const route = subwayRoute();
       const details = route.routes[0].legs[0].steps[1].transitDetails;
@@ -248,7 +248,7 @@ describe('plan mapping', () => {
       return route;
     };
     const provider = new GoogleTransitProvider(googleDb());
-    for (const [google, trek] of [
+    for (const [google, tripmate] of [
       ['HEAVY_RAIL', 'RAIL'],
       ['HIGH_SPEED_TRAIN', 'HIGHSPEED_RAIL'],
       ['COMMUTER_TRAIN', 'SUBURBAN'],
@@ -260,7 +260,7 @@ describe('plan mapping', () => {
       clearGoogleTransitCache();
       fetchMock.mockResolvedValue(okJson(withVehicle(google)));
       const { itineraries } = await provider.plan({ from: FROM, to: TO }, 'en', 1);
-      expect(itineraries[0].legs[1].mode, google).toBe(trek);
+      expect(itineraries[0].legs[1].mode, google).toBe(tripmate);
     }
   });
 });

@@ -14,7 +14,7 @@
  * that would hurt most if it drifted: the addon gate answering 404 before 401,
  * a stranger being unable to see that a trip exists, and a plain member being
  * able to READ where their documents go while only the owner may change it.
- * That last split is unusual for TREK (most trip routes treat members alike),
+ * That last split is unusual for Trip Mate (most trip routes treat members alike),
  * so it is worth a test that fails if someone "tidies" it away.
  */
 import { describe, it, expect, beforeAll, afterAll, beforeEach, vi } from 'vitest';
@@ -81,7 +81,7 @@ import { PaperlessDocumentProvider } from '../../src/nest/doc-sync/providers/pap
 import { PapraDocumentProvider } from '../../src/nest/doc-sync/providers/papra.provider';
 import { SynologyDriveDocumentProvider } from '../../src/nest/doc-sync/providers/synology-drive.provider';
 import { NextcloudDocumentProvider, OpencloudDocumentProvider } from '../../src/nest/doc-sync/providers/webdav.provider';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 /** A provider that answers plausibly but never opens a socket. */
@@ -102,15 +102,15 @@ function fakeProvider(id: string) {
     probe: vi.fn(async () => ({ success: true as const, data: { account: `${id}-account`, capabilities: caps } })),
     listScopes: vi.fn(async () => ({
       success: true as const,
-      data: [{ scopeKey: `tag:1`, label: 'Japan 2026', remoteRootId: '1', remoteRootPath: '/TREK/japan' }],
+      data: [{ scopeKey: `tag:1`, label: 'Japan 2026', remoteRootId: '1', remoteRootPath: '/Trip Mate/japan' }],
     })),
     createScope: vi.fn(async (_c: unknown, name: string) => ({
       success: true as const,
-      data: { scopeKey: `tag:2`, label: name, remoteRootId: '2', remoteRootPath: `/TREK/${name}` },
+      data: { scopeKey: `tag:2`, label: name, remoteRootId: '2', remoteRootPath: `/Trip Mate/${name}` },
     })),
     resolveScope: vi.fn(async () => ({
       success: true as const,
-      data: { scopeKey: 'tag:1', label: 'Japan 2026', remoteRootId: '1', remoteRootPath: '/TREK/japan' },
+      data: { scopeKey: 'tag:1', label: 'Japan 2026', remoteRootId: '1', remoteRootPath: '/Trip Mate/japan' },
     })),
     list: vi.fn(async () => ({ success: true as const, data: { documents: [], cursor: 'c1', cursorUnchanged: false, truncated: false } })),
     fetch: vi.fn(async () => ({ success: false as const, error: { code: 'not_found' as const } })),

@@ -306,7 +306,7 @@ describe('getMergedItems', () => {
 
 // The crossing from the report behind #2461: Amsterdam and Newcastle on the day, the
 // ferry from IJmuiden to the Port of Tyne in the evening. The road trip seats its
-// terminals by the same rule (`rideSeatAfter` in @trek/shared), so list and drive agree.
+// terminals by the same rule (`rideSeatAfter` in @tripmate/shared), so list and drive agree.
 describe('getMergedItems: a ride within one day, seated by where it goes (#2461)', () => {
   const place = (id: number, order_index: number, lat: number, lng: number, place_time: string | null = null) =>
     ({ id, order_index, place: { lat, lng, place_time } })

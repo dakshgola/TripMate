@@ -77,7 +77,7 @@ import { PlacePhotoCacheService } from '../../../src/nest/place-photos/place-pho
 import { RuntimeEnvService } from '../../../src/nest/app-config/runtime-env.service';
 import { makeStorageFixture } from '../../helpers/storage-fixture';
 import { JourneyDomainService } from '../../../src/nest/journey/journey-domain.service';
-import { TrekPhotosRepository } from '../../../src/nest/photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../../../src/nest/photos/tripmate-photos.repository';
 
 // Real sibling services over the same in-memory DB — the aggregation runs the
 // actual SQL of every domain it fans out to, so a shape change downstream shows

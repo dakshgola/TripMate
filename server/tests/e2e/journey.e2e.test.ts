@@ -64,11 +64,11 @@ const { booksvc } = vi.hoisted(() => ({
   },
 }));
 import { JourneyBookService } from '../../src/nest/journey/journey-book.service';
-import { MAX_SPREAD_ELEMENTS } from '@trek/shared';
+import { MAX_SPREAD_ELEMENTS } from '@tripmate/shared';
 
 import { JourneyModule } from '../../src/nest/journey/journey.module';
 import { AddonsService } from '../../src/nest/addons/addons.service';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 describe('Journey e2e (real auth guard + temp SQLite)', () => {
@@ -178,7 +178,7 @@ describe('Journey e2e (real auth guard + temp SQLite)', () => {
   });
 
   /*
-   * The journey figures TREK Studio prints (#1973). Read-only and derived, so
+   * The journey figures Trip Mate Studio prints (#1973). Read-only and derived, so
    * what e2e adds over the controller unit test is that the addon gate and the
    * auth guard both run in front of it — a route that reports where someone has
    * been must not be reachable without a session.

@@ -132,10 +132,10 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
 # UIs re-tokenise Config.Cmd when you edit a container in place, and a command
 # carrying quotes does not survive that round-trip (the container then dies with
 # a shell syntax error before Node starts). A CMD of one bare token does.
-COPY server/scripts/entrypoint.sh /usr/local/bin/trek-entrypoint
+COPY server/scripts/entrypoint.sh /usr/local/bin/tripmate-entrypoint
 # Root-owned on purpose — this is what calls gosu, so it runs before the drop to
 # node. chmod is explicit because a checkout on Windows carries no exec bit.
-RUN chmod 0755 /usr/local/bin/trek-entrypoint
+RUN chmod 0755 /usr/local/bin/tripmate-entrypoint
 
 ENTRYPOINT ["dumb-init", "--"]
-CMD ["/usr/local/bin/trek-entrypoint"]
+CMD ["/usr/local/bin/tripmate-entrypoint"]

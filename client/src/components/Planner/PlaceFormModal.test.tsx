@@ -178,7 +178,7 @@ describe('PlaceFormModal', () => {
     seedStore(useAuthStore, { user: buildUser(), isAuthenticated: true, hasMapsKey: true });
     server.use(
       http.post('/api/maps/search', () =>
-        HttpResponse.json({ places: [{ name: 'Weigh station', address: 'Ritzville', lat: '47.1', lng: '-118.4' }], source: 'trek-places+openstreetmap' }),
+        HttpResponse.json({ places: [{ name: 'Weigh station', address: 'Ritzville', lat: '47.1', lng: '-118.4' }], source: 'tripmate-places+openstreetmap' }),
       ),
     );
     const { rerender } = render(<PlaceFormModal {...defaultProps} isOpen />);
@@ -203,7 +203,7 @@ describe('PlaceFormModal', () => {
       http.post('/api/maps/autocomplete', async () => {
         gate.started = true;
         await new Promise<void>(res => { gate.release = res; });
-        return HttpResponse.json({ suggestions: [{ placeId: 'late-1', mainText: 'Late Suggestion', secondaryText: 'Nowhere' }], source: 'trek-places' });
+        return HttpResponse.json({ suggestions: [{ placeId: 'late-1', mainText: 'Late Suggestion', secondaryText: 'Nowhere' }], source: 'tripmate-places' });
       }),
     );
     const { rerender } = render(<PlaceFormModal {...defaultProps} isOpen />);
@@ -278,7 +278,7 @@ describe('PlaceFormModal', () => {
         bodies.push(body);
         return body.provider === 'google'
           ? HttpResponse.json({ places: [{ name: 'Tokyo Station', address: 'Chiyoda', lat: '35.68', lng: '139.77' }], source: 'google' })
-          : HttpResponse.json({ places: [{ name: 'Weigh station', address: 'Ritzville', lat: '47.1', lng: '-118.4' }], source: 'trek-places+openstreetmap' });
+          : HttpResponse.json({ places: [{ name: 'Weigh station', address: 'Ritzville', lat: '47.1', lng: '-118.4' }], source: 'tripmate-places+openstreetmap' });
       }),
     );
 
@@ -304,7 +304,7 @@ describe('PlaceFormModal', () => {
     const user = userEvent.setup();
     server.use(
       http.post('/api/maps/search', () =>
-        HttpResponse.json({ places: [{ name: 'Weigh station', address: 'Ritzville', lat: '47.1', lng: '-118.4' }], source: 'trek-places+openstreetmap' }),
+        HttpResponse.json({ places: [{ name: 'Weigh station', address: 'Ritzville', lat: '47.1', lng: '-118.4' }], source: 'tripmate-places+openstreetmap' }),
       ),
     );
     render(<PlaceFormModal {...defaultProps} />);
@@ -322,7 +322,7 @@ describe('PlaceFormModal', () => {
     seedStore(useAuthStore, { user: buildUser(), isAuthenticated: true, hasMapsKey: true, placesProvider: 'openstreetmap' });
     server.use(
       http.post('/api/maps/search', () =>
-        HttpResponse.json({ places: [{ name: 'Weigh station', address: 'Ritzville', lat: '47.1', lng: '-118.4' }], source: 'trek-places+openstreetmap' }),
+        HttpResponse.json({ places: [{ name: 'Weigh station', address: 'Ritzville', lat: '47.1', lng: '-118.4' }], source: 'tripmate-places+openstreetmap' }),
       ),
     );
     render(<PlaceFormModal {...defaultProps} />);
@@ -338,13 +338,13 @@ describe('PlaceFormModal', () => {
     seedStore(useAuthStore, { user: buildUser(), isAuthenticated: true, hasMapsKey: true });
     const bodies: Record<string, unknown>[] = [];
     server.use(
-      http.post('/api/maps/autocomplete', () => HttpResponse.json({ suggestions: [], source: 'trek-places' })),
+      http.post('/api/maps/autocomplete', () => HttpResponse.json({ suggestions: [], source: 'tripmate-places' })),
       http.post('/api/maps/search', async ({ request }) => {
         const body = (await request.json()) as Record<string, unknown>;
         bodies.push(body);
         return body.provider === 'google'
           ? HttpResponse.json({ places: [{ name: 'Tokyo Station', address: 'Chiyoda', lat: '35.68', lng: '139.77' }], source: 'google' })
-          : HttpResponse.json({ places: [{ name: 'Weigh station', address: 'Ritzville', lat: '47.1', lng: '-118.4' }], source: 'trek-places+openstreetmap' });
+          : HttpResponse.json({ places: [{ name: 'Weigh station', address: 'Ritzville', lat: '47.1', lng: '-118.4' }], source: 'tripmate-places+openstreetmap' });
       }),
     );
 
@@ -373,7 +373,7 @@ describe('PlaceFormModal', () => {
         bodies.push(body);
         return body.provider === 'google'
           ? HttpResponse.json({ places: [{ name: 'Tokyo Station', address: 'Chiyoda', lat: '35.68', lng: '139.77' }], source: 'google' })
-          : HttpResponse.json({ places: [{ name: 'Weigh station', address: 'Ritzville', lat: '47.1', lng: '-118.4' }], source: 'trek-places+openstreetmap' });
+          : HttpResponse.json({ places: [{ name: 'Weigh station', address: 'Ritzville', lat: '47.1', lng: '-118.4' }], source: 'tripmate-places+openstreetmap' });
       }),
     );
 
@@ -521,13 +521,13 @@ describe('PlaceFormModal', () => {
             lat: 35.6811816,
             lng: 139.76598265,
           }],
-          source: 'trek-places',
+          source: 'tripmate-places',
         }),
       ),
       http.get('/api/maps/details/:placeId', () => HttpResponse.json({ place: null, disabled: true })),
       http.post('/api/maps/search', () => {
         searched += 1;
-        return HttpResponse.json({ places: [{ name: 'Etwas ganz anderes', lat: '1', lng: '1' }], source: 'trek-places' });
+        return HttpResponse.json({ places: [{ name: 'Etwas ganz anderes', lat: '1', lng: '1' }], source: 'tripmate-places' });
       }),
     );
 
@@ -605,7 +605,7 @@ describe('PlaceFormModal', () => {
       http.post('/api/maps/autocomplete', () =>
         HttpResponse.json({
           suggestions: [{ placeId: 'gers:abc', mainText: 'Eiffel Tower', secondaryText: 'Paris, France' }],
-          source: 'trek-places',
+          source: 'tripmate-places',
         }),
       ),
     );
@@ -613,23 +613,23 @@ describe('PlaceFormModal', () => {
     render(<PlaceFormModal {...defaultProps} />);
     await user.type(screen.getByPlaceholderText('Search places...'), 'Eiffel');
 
-    expect(await screen.findByText('TREK')).toBeInTheDocument();
+    expect(await screen.findByText('Trip Mate')).toBeInTheDocument();
   });
 
   it('FE-PLANNER-PLACEFORM-022d: the typed-ahead list marks the OpenStreetMap rows as such', async () => {
     // The keystroke path asks both indexes at once, so the name the response
-    // carries for the whole list ('trek-places') is true of the call and wrong
-    // for half the rows. Marking every suggestion TREK is how a list that did
+    // carries for the whole list ('tripmate-places') is true of the call and wrong
+    // for half the rows. Marking every suggestion Trip Mate is how a list that did
     // contain OpenStreetMap places read as if it never had.
     const user = userEvent.setup();
     server.use(
       http.post('/api/maps/autocomplete', () =>
         HttpResponse.json({
           suggestions: [
-            { placeId: 'gers:abc', mainText: 'Tokyo Station Beer Stand', secondaryText: 'Chiyoda', source: 'trek-places' },
+            { placeId: 'gers:abc', mainText: 'Tokyo Station Beer Stand', secondaryText: 'Chiyoda', source: 'tripmate-places' },
             { placeId: 'node:9712313', mainText: 'Tokio Hauptbahnhof', secondaryText: '東京駅', source: 'openstreetmap' },
           ],
-          source: 'trek-places',
+          source: 'tripmate-places',
         }),
       ),
     );
@@ -637,7 +637,7 @@ describe('PlaceFormModal', () => {
     render(<PlaceFormModal {...defaultProps} />);
     await user.type(screen.getByPlaceholderText('Search places...'), 'Tokyo Station');
 
-    expect(await screen.findByText('TREK')).toBeInTheDocument();
+    expect(await screen.findByText('Trip Mate')).toBeInTheDocument();
     expect(await screen.findByText('OpenStreetMap')).toBeInTheDocument();
   });
 
@@ -650,10 +650,10 @@ describe('PlaceFormModal', () => {
       http.post('/api/maps/search', () =>
         HttpResponse.json({
           places: [
-            { name: 'Eiffel Tower', address: 'Paris', lat: '48.85', lng: '2.29', source: 'trek-places' },
+            { name: 'Eiffel Tower', address: 'Paris', lat: '48.85', lng: '2.29', source: 'tripmate-places' },
             { name: 'Champ de Mars', address: 'Paris', lat: '48.85', lng: '2.29' },
           ],
-          source: 'trek-places+openstreetmap',
+          source: 'tripmate-places+openstreetmap',
         }),
       ),
     );
@@ -662,7 +662,7 @@ describe('PlaceFormModal', () => {
     await user.type(screen.getByPlaceholderText('Search places...'), 'Eiffel');
     await user.keyboard('{Enter}');
 
-    expect(await screen.findByText('TREK')).toBeInTheDocument();
+    expect(await screen.findByText('Trip Mate')).toBeInTheDocument();
     expect(await screen.findByText('OpenStreetMap')).toBeInTheDocument();
   });
 
@@ -1921,7 +1921,7 @@ describe('PlaceFormModal remaining branches', () => {
  *
  * The corridor search reads OpenStreetMap and misses a good share of the chargers
  * actually standing at a junction, so "add manually" opens THIS form rather than a
- * bespoke one: its typed-ahead search is the one the rest of TREK uses. Three things
+ * bespoke one: its typed-ahead search is the one the rest of Trip Mate uses. Three things
  * change and nothing else does, which is what the first two tests here pin.
  *
  * Where the stop goes cannot be decided when the dialog opens, because nothing has been

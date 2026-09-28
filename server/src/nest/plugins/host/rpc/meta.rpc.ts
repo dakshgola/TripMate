@@ -8,7 +8,7 @@ import { DatabaseService } from '../../../database/database.service';
 /** Core entities a plugin may attach its own db:meta to. */
 const META_ENTITY_TYPES: ReadonlySet<string> = new Set(['trip', 'place', 'day', 'reservation', 'accommodation']);
 
-// Quotas: a cheap disk-DoS guard on the shared trek.db volume. Generous for real use,
+// Quotas: a cheap disk-DoS guard on the shared tripmate.db volume. Generous for real use,
 // small enough to bound abuse.
 const META_VALUE_MAX = 64 * 1024; // serialized JSON bytes per value
 const META_KEY_MAX = 256; // key length (the key is attacker-controlled too)

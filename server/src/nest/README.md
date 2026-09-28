@@ -31,7 +31,7 @@ remains as the platform underneath `@nestjs/platform-express`.
   transit, place, transit-itinerary, collections, atlas, auth, oidc, passkey,
   notifications, admin, webauthn-config, user-cleanup, oauth, wiki, mailer,
   notification transports, notification preferences, memories (immich, synology,
-  unified, photo-resolver, thumbnails, trek-photo cache), journey, journeyShare
+  unified, photo-resolver, thumbnails, tripmate-photo cache), journey, journeyShare
   — see the migration recipe below.
 - **Foundation (BE-Phase 1, complete):** the eight stateless helpers moved to
   `common/`; every trip-access check routes through `DatabaseService`
@@ -178,7 +178,7 @@ tools, which never pass through an HTTP guard. In the five domains piloted for
     stub; rooms on a provider instance would leave their broadcasts going to
     an empty map, with no error and no log. Same reasoning as the geo
     throttle cursor.
-  - `trek-ws.adapter.ts` exists because the stock `WsAdapter` dispatches on
+  - `tripmate-ws.adapter.ts` exists because the stock `WsAdapter` dispatches on
     `{ event, data }` and every deployed client sends `{ type, tripId }`. It
     also builds the ws server itself rather than delegating: the base's port-0
     branch uses `noServer: true` and performs the upgrade from its own registry,
@@ -501,7 +501,7 @@ well-covered small ones.
 
 ## Definition of Done (per module)
 
-Contract in `@trek/shared` → service ported 1:1 → controller with identical routes →
+Contract in `@tripmate/shared` → service ported 1:1 → controller with identical routes →
 validation/error parity → unit + e2e tests, with the old behaviour asserted in the
 unit test → module registered in `app.module.ts` → **then** decommission the legacy
 service (separate step) → frontend points at the typed contract (Frontend Track).
@@ -676,7 +676,7 @@ importers — folded into the wrapper `PlacesService`, with the pure pieces
 (frozen XML parsers, the KMZ unpacker, the dedup predicates, the Google
 hex-id parsers, `reclaimPhotoCache`) moving to `places.helpers.ts` on the
 maps.helpers precedent; the 10-tool `mcp/tools/places.ts` registrar + the
-`trek://trips/{tripId}/places` resource moved to `places.mcp.ts` —
+`tripmate://trips/{tripId}/places` resource moved to `places.mcp.ts` —
 `search_place` came along because its gate is `places:read`, not the geo
 group, and now injects `MapsService`; TripsService, DaysMcp,
 BookingImportService and the plugin host (its 21st constructor dep) inject
@@ -740,8 +740,8 @@ the 50k geocode cache with its import-time unref'd cleanup interval, and the
 those caches stay process-global across the container instance, the bridge
 instance and test helpers; `assetPath` re-anchored one directory deeper, the
 only non-verbatim line. The 10-tool legacy registrar `mcp/tools/atlas.ts`
-plus all four atlas resources in `mcp/resources.ts` (`trek://bucket-list`,
-`trek://visited-countries`, `trek://atlas/stats`, `trek://atlas/regions`)
+plus all four atlas resources in `mcp/resources.ts` (`tripmate://bucket-list`,
+`tripmate://visited-countries`, `tripmate://atlas/stats`, `tripmate://atlas/regions`)
 moved to `atlas.mcp.ts` — here the `when:` atlas-addon gate IS parity, since
 the legacy registrar and resources both gated on the addon while the REST
 controller deliberately does not; the mark_region_visited /

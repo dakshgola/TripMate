@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * trek-plugin entry --repo <owner/name> --tag <vX.Y.Z> [--zip plugin.zip]
+ * tripmate-plugin entry --repo <owner/name> --tag <vX.Y.Z> [--zip plugin.zip]
  *                   [--merge registry/plugins/<id>.json] [--out file]
  *
- * Generates the ready-to-PR TREK-Plugins registry entry from the manifest + the
+ * Generates the ready-to-PR Trip Mate-Plugins registry entry from the manifest + the
  * packed plugin.zip + the git tag — so the sha256, size, commitSha and downloadUrl
  * an author would compute by hand all come out of one command.
  * With --merge it prepends the new version onto an existing entry (the update
@@ -21,22 +21,22 @@ interface Version {
   version: string; gitTag: string; commitSha: string; downloadUrl: string;
   sha256: string;
   /**
-   * The manifest's `trek` range, verbatim — the ONE compatibility field an entry carries.
-   * It is what TREK gates installs and activation on, and the only field that can express
+   * The manifest's `tripmate` range, verbatim — the ONE compatibility field an entry carries.
+   * It is what Trip Mate gates installs and activation on, and the only field that can express
    * an exclusive upper bound.
    *
    * There is deliberately no `minTrekVersion` here any more. It said the same thing (the
    * range's lower bound) in a weaker form, and a second field restating a derived fact is a
    * second field that can be wrong. The registry still ACCEPTS one on entries published
-   * before `trek` existed — and checks it agrees with the range — but nothing emits one now.
+   * before `tripmate` existed — and checks it agrees with the range — but nothing emits one now.
    */
-  trek: string;
+  tripmate: string;
   size: number; apiVersion: number;
   nativeModules: false; operatorEgress?: boolean; publishedAt: string; signature?: string;
   /**
    * The manifest's dependency fields, mirrored.
    *
-   * These are NOT optional decoration. TREK resolves requiredAddons and pluginDependencies from
+   * These are NOT optional decoration. Trip Mate resolves requiredAddons and pluginDependencies from
    * the registry INDEX, before it ever downloads the artifact — so an entry that omits them
    * resolves against a dependency set the code does not actually have. Both the registry's CI
    * (validate-entry.mjs) and `preflight` parity-check them against the manifest at the pinned
@@ -56,16 +56,16 @@ interface Entry {
 }
 
 /**
- * Lower bound of a `trek` range like ">=4.0.0 <5.0.0" -> "4.0.0" (matches the server).
+ * Lower bound of a `tripmate` range like ">=4.0.0 <5.0.0" -> "4.0.0" (matches the server).
  *
  * Read off the range with semver rather than by finding the first version-shaped substring:
  * for "<4.0.0" the first such substring is 4.0.0, which is the range's *upper* bound and
  * would have been published as the minimum — the precise inverse of what the plugin says.
  */
-function minTrekFrom(trek: unknown): string | null {
-  if (typeof trek !== 'string' || validRange(trek) === null) return null;
+function minTrekFrom(tripmate: unknown): string | null {
+  if (typeof tripmate !== 'string' || validRange(tripmate) === null) return null;
   try {
-    return minVersion(trek)?.version ?? null;
+    return minVersion(tripmate)?.version ?? null;
   } catch {
     return null;
   }
@@ -93,12 +93,12 @@ export function buildEntry(opts: {
    */
   allowKeyChange?: boolean;
 }): Entry {
-  const manifest = readJsonFile<Record<string, unknown>>(path.join(opts.dir, 'trek-plugin.json'));
+  const manifest = readJsonFile<Record<string, unknown>>(path.join(opts.dir, 'tripmate-plugin.json'));
   if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(opts.repo)) throw new Error(`--repo must be "owner/name", got "${opts.repo}"`);
   // minVersion() is null for a range nothing can satisfy (">=4.0.0 <3.0.0" parses fine), so
-  // this doubles as the satisfiability check — TREK would refuse to install such a plugin.
-  if (!minTrekFrom(manifest.trek)) throw new Error('manifest has no valid "trek" version range (e.g. "trek": ">=4.0.0 <5.0.0")');
-  if (!fs.existsSync(opts.zipPath)) throw new Error(`artifact not found: ${opts.zipPath} — run \`trek-plugin pack\` first`);
+  // this doubles as the satisfiability check — Trip Mate would refuse to install such a plugin.
+  if (!minTrekFrom(manifest.tripmate)) throw new Error('manifest has no valid "tripmate" version range (e.g. "tripmate": ">=4.0.0 <5.0.0")');
+  if (!fs.existsSync(opts.zipPath)) throw new Error(`artifact not found: ${opts.zipPath} — run \`tripmate-plugin pack\` first`);
 
   const buf = fs.readFileSync(opts.zipPath);
   const asset = opts.asset || path.basename(opts.zipPath);
@@ -108,7 +108,7 @@ export function buildEntry(opts: {
     commitSha: resolveCommit(opts.dir, opts.tag, opts.commit),
     downloadUrl: `https://github.com/${opts.repo}/releases/download/${opts.tag}/${asset}`,
     sha256: createHash('sha256').update(buf).digest('hex'),
-    trek: String(manifest.trek),
+    tripmate: String(manifest.tripmate),
     size: buf.length,
     apiVersion: typeof manifest.apiVersion === 'number' ? manifest.apiVersion : 1,
     nativeModules: false,
@@ -120,7 +120,7 @@ export function buildEntry(opts: {
   if (manifest.operatorEgress === true) version.operatorEgress = true;
 
   // Mirror the dependency fields. See the Version interface for why omitting these was a bug:
-  // TREK resolves them from the index before downloading, and CI refuses an entry that
+  // Trip Mate resolves them from the index before downloading, and CI refuses an entry that
   // disagrees with the manifest. Only emitted when non-empty — an empty array and an absent
   // one normalise identically on both sides of the parity check.
   const requiredAddons = Array.isArray(manifest.requiredAddons) ? manifest.requiredAddons.map(String) : [];
@@ -143,12 +143,12 @@ export function buildEntry(opts: {
     const keyChanged = !!authorPublicKey && !!existing.authorPublicKey && existing.authorPublicKey !== authorPublicKey;
     if (keyChanged && !opts.allowKeyChange) {
       throw new Error(
-        'this signing key differs from the one already published for this plugin — TREK would reject the update. Use the original key.\n' +
+        'this signing key differs from the one already published for this plugin — Trip Mate would reject the update. Use the original key.\n' +
         'If you MEAN to rotate the key, pass --allow-key-change (the registry PR then needs a maintainer\'s allow-key-change label, and every admin must re-trust the plugin).',
       );
     }
     if (existing.authorPublicKey && !authorPublicKey) {
-      throw new Error('this plugin was published signed — sign the update too (pass --sign) or TREK will refuse it.');
+      throw new Error('this plugin was published signed — sign the update too (pass --sign) or Trip Mate will refuse it.');
     }
     let olderVersions = existing.versions.filter((v) => v.version !== version.version);
     if (keyChanged) {

@@ -1,4 +1,4 @@
-import { chargingLookupSchema } from '@trek/shared';
+import { chargingLookupSchema } from '@tripmate/shared';
 import { z } from 'zod';
 import { ADDON_IDS } from '../../addons';
 import { noAccess } from '../../mcp/tools/_shared';

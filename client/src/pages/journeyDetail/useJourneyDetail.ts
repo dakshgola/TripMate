@@ -4,7 +4,7 @@ import { useJourneyStore } from '../../store/journeyStore'
 import { useTranslation } from '../../i18n'
 import { addListener, removeListener } from '../../api/websocket'
 import { journeyApi } from '../../api/client'
-import type { JourneyTrack } from '@trek/shared'
+import type { JourneyTrack } from '@tripmate/shared'
 import { DAY_COLORS } from '../../components/Journey/dayColors'
 import type { JourneyMapAutoHandle as JourneyMapHandle } from '../../components/Journey/JourneyMapAuto'
 import { useToast } from '../../components/shared/Toast'
@@ -14,7 +14,7 @@ import type { JourneyEntry } from '../../store/journeyStore'
 import { createDraftJourneyEntry } from './JourneyDetailPage.helpers'
 import { useDawarichSuggestions } from '../../hooks/useDawarichSuggestions'
 import { openStaysByDate } from '../../components/Dawarich/dawarichSuggestionModel'
-import type { DawarichSuggestion, DawarichSuggestionTarget } from '@trek/shared'
+import type { DawarichSuggestion, DawarichSuggestionTarget } from '@tripmate/shared'
 
 import { useDawarichJournalTrail } from '../../hooks/useDawarichJournalTrail'
 
@@ -88,7 +88,7 @@ export function useJourneyDetail() {
   // The switch gates the REQUEST, not just the rendering: the endpoint ships
   // full unthinned geometry, which for a trip carrying a season of recorded
   // drives is megabytes fetched on every journey open for a map nobody asked
-  // for. It stays untouched on the server so TREK Studio, which freezes the
+  // for. It stays untouched on the server so Trip Mate Studio, which freezes the
   // same endpoint's output into a saved book, keeps the set it laid out with.
   const [tracks, setTracks] = useState<JourneyTrack[]>(NO_TRACKS)
   // Gate on the journey the route actually names: loadJourney leaves the previous
@@ -498,7 +498,7 @@ export function useJourneyDetail() {
   const STUDIO_INSET = 16
 
   /**
-   * Open TREK Studio.
+   * Open Trip Mate Studio.
    *
    * The button's own rect travels along in the navigation state so the panel can
    * grow out of the button instead of appearing from nowhere. The origin is

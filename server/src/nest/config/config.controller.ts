@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import type { PublicConfig } from '@trek/shared';
+import type { PublicConfig } from '@tripmate/shared';
 import { DEFAULT_LANGUAGE } from '../../config';
 import { Public } from '../auth/public.decorator';
 

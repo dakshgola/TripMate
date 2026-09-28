@@ -7,7 +7,7 @@ import { useTranslation } from '../../i18n'
 import { useToast } from '../../components/shared/Toast'
 import { getApiErrorMessage } from '../../types'
 import { localIsoToday } from './dashboardModel'
-import type { TripCreateRequest } from '@trek/shared'
+import type { TripCreateRequest } from '@tripmate/shared'
 import {
   type DashboardTrip,
   type TravelStats,

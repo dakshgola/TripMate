@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { RoadtripDayTrack, RoadtripVia, TrekWsPayload, TrekWsTripEventName } from '@trek/shared';
+import type { RoadtripDayTrack, RoadtripVia, TrekWsPayload, TrekWsTripEventName } from '@tripmate/shared';
 import { DatabaseService } from '../database/database.service';
 import { RealtimeService } from '../realtime/realtime.service';
 

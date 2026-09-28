@@ -43,7 +43,7 @@ interface CachedPhoto {
  * this container singleton rather than constructing its own.
  *
  * Bytes live in the 'photos-google' storage category as '<sha1>.jpg' names.
- * The registry's mode-aware prefix reproduces both TREK_PLACE_PHOTO_DIR
+ * The registry's mode-aware prefix reproduces both TRIPMATE_PLACE_PHOTO_DIR
  * layouts (unset: uploads/photos/google; set: that dir, bare keys), so the
  * cache itself is mode-agnostic.
  */

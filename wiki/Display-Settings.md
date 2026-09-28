@@ -8,20 +8,20 @@ The General tab (Settings → General) controls your locale preferences and a fe
 
 Open the user menu in the top navigation bar, select **Settings**, and stay on the **General** tab — it is the tab the page opens on.
 
-The tab is split into three sections: **Startup** (where opening TREK lands), **Language & region** (currency, language, temperature, distance, time format) and **Travel & map** (booking route labels, always show booking routes, explore places on the map, blur booking codes, optimize route from accommodation).
+The tab is split into three sections: **Startup** (where opening Trip Mate lands), **Language & region** (currency, language, temperature, distance, time format) and **Travel & map** (booking route labels, always show booking routes, explore places on the map, blur booking codes, optimize route from accommodation).
 
 > Color mode (Light / Dark / Auto) is **not** here — it lives on the **Appearance** tab. See [Appearance-Settings](Appearance-Settings).
 
 ## Start page
 
-Where TREK goes when you open it — the app root (`/`), which is also what the installed PWA and any home-screen shortcut launch.
+Where Trip Mate goes when you open it — the app root (`/`), which is also what the installed PWA and any home-screen shortcut launch.
 
 | Option | Behaviour |
 |--------|-----------|
 | **Dashboard** (default) | The trip overview, exactly as before. |
 | **Active trip** | Straight into your active trip, skipping the dashboard. |
 
-Your **active trip** is the one running today; if none is, the next one starting; if you have only past trips, the most recent one. That is the same trip the dashboard features in its hero, so the two never disagree. Archived trips are never picked, and if you have no trip at all, TREK opens the dashboard as usual.
+Your **active trip** is the one running today; if none is, the next one starting; if you have only past trips, the most recent one. That is the same trip the dashboard features in its hero, so the two never disagree. Archived trips are never picked, and if you have no trip at all, Trip Mate opens the dashboard as usual.
 
 The dashboard stays reachable at `/dashboard` — only the root redirects.
 
@@ -105,7 +105,7 @@ Shows or hides station / airport names on the endpoint markers of booking routes
 
 ## Explore places on the map
 
-Shows a row of category buttons on the trip map for finding nearby restaurants, accommodation, sights and more. TREK's own place index answers first and OpenStreetMap fills in; see [Exploring the map by category](Places-and-Search#exploring-the-map-by-category). Set to **On** or **Off**.
+Shows a row of category buttons on the trip map for finding nearby restaurants, accommodation, sights and more. Trip Mate's own place index answers first and OpenStreetMap fills in; see [Exploring the map by category](Places-and-Search#exploring-the-map-by-category). Set to **On** or **Off**.
 
 ## Always show booking routes
 

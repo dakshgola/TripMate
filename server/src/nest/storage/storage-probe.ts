@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { Readable } from 'node:stream';
-import type { StorageBackend } from '@trek/shared';
+import type { StorageBackend } from '@tripmate/shared';
 import { LocalDriver } from './drivers/local.driver';
 import { S3Driver } from './drivers/s3.driver';
 import { StorageBackendError, describeError, type StorageDriver } from './storage.types';
@@ -11,7 +11,7 @@ import { StorageBackendError, describeError, type StorageDriver } from './storag
  * registry state. A mirror is probed per target (primary and each replica
  * individually) because MirrorDriver hides replica failures by design.
  *
- * Residue: a local probe may leave an empty `trek-probe/` directory in the
+ * Residue: a local probe may leave an empty `tripmate-probe/` directory in the
  * target root. It is inert — not a category prefix, invisible to lists
  * (objects only), and outside every retention pattern.
  */
@@ -24,9 +24,9 @@ export interface ProbeTargetResult {
 
 /** put → stat → delete of a unique probe key; any throw becomes the target's error. */
 export async function probeDriver(name: string, driver: StorageDriver): Promise<ProbeTargetResult> {
-  const key = `trek-probe/${randomUUID()}`;
+  const key = `tripmate-probe/${randomUUID()}`;
   try {
-    await driver.put(key, Readable.from('trek storage probe'));
+    await driver.put(key, Readable.from('tripmate storage probe'));
     const stat = await driver.stat(key);
     if (!stat) throw new StorageBackendError('probe object vanished between put and stat');
     await driver.delete(key);

@@ -1,6 +1,6 @@
 import React from 'react'
 import { MapViewAuto } from '../Map/MapViewAuto'
-import type { CollectionPlace } from '@trek/shared'
+import type { CollectionPlace } from '@tripmate/shared'
 import { mappablePlaces } from '../../pages/collections/collectionsModel'
 import { useTileUrl } from '../../hooks/useTileUrl'
 import { OFM_DARK, OFM_POSITRON } from '../../constants/mapDefaults'

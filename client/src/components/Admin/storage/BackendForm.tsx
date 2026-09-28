@@ -5,7 +5,7 @@ import {
   type StorageBackend,
   type StorageBackendFieldDef,
   type StorageBackendTypeId,
-} from '@trek/shared'
+} from '@tripmate/shared'
 import { useTranslation } from '../../../i18n'
 import CustomSelect from '../../shared/CustomSelect'
 

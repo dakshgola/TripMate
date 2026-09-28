@@ -1,5 +1,5 @@
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
-import type { Airport } from '@trek/shared';
+import type { Airport } from '@tripmate/shared';
 import { searchAirports, findByIata, load } from './airports.data';
 import { DatabaseService } from '../database/database.service';
 

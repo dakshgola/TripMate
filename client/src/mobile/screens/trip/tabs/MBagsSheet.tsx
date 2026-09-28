@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Check, Plus, X } from 'lucide-react'
-import type { PackingUpdateBagRequest } from '@trek/shared'
+import type { PackingUpdateBagRequest } from '@tripmate/shared'
 import MSheet from '../../../components/MSheet'
 import { FIELD_CLS, FormSheetHeader } from '../sheets/PlSheetChrome'
 import { avatarSrc } from '../../../../utils/avatarSrc'

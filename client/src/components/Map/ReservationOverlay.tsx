@@ -3,7 +3,7 @@ import { renderIconMarkup } from '../../utils/iconMarkup'
 import { Marker, Polyline, Tooltip, useMap, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
 import { Plane, Train, Ship, Car, Bus, Sailboat, Bike, CarTaxiFront, Route, TramFront } from 'lucide-react'
-import { escapeHtml } from '@trek/shared'
+import { escapeHtml } from '@tripmate/shared'
 import { getTransitMapSegments, type TransitMapSegment } from './transitGeometry'
 import { geodesicArcs } from './flightGeodesy'
 import { cleanEndpointName } from './reservationName'
@@ -49,7 +49,7 @@ function endpointIcon(type: TransportType, label: string | null): L.DivIcon {
   const labelHtml = label ? `<span style="display:inline-flex;align-items:center;line-height:1">${escapeHtml(label)}</span>` : ''
   const estWidth = label ? Math.max(40, label.length * 6 + 28) : 26
   return L.divIcon({
-    className: 'trek-endpoint-marker',
+    className: 'tripmate-endpoint-marker',
     html: `<div style="
       display:inline-flex;align-items:center;justify-content:center;gap:4px;
       padding:0 8px;border-radius:999px;

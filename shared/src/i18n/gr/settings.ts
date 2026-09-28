@@ -26,10 +26,11 @@ const settings: TranslationStrings = {
   'settings.mapTemplatePlaceholder.select': 'Επιλέξτε πρότυπο...',
   'settings.mapDefaultHint': 'Αφήστε κενό για OpenStreetMap (προεπιλογή)',
   'settings.routingBase': 'Δική σας μηχανή δρομολόγησης',
-  'settings.routingBaseHint': 'Δική σας εγκατάσταση OSRM. Κενό σημαίνει τους δημόσιους διακομιστές, που επιτρέπουν περίπου ένα αίτημα ανά δευτερόλεπτο: αρκεί για μία ημέρα, λίγο για ένα οδικό ταξίδι. Ισχύει μετά από επανεκκίνηση του διακομιστή.',
+  'settings.routingBaseHint':
+    'Δική σας εγκατάσταση OSRM. Κενό σημαίνει τους δημόσιους διακομιστές, που επιτρέπουν περίπου ένα αίτημα ανά δευτερόλεπτο: αρκεί για μία ημέρα, λίγο για ένα οδικό ταξίδι. Ισχύει μετά από επανεκκίνηση του διακομιστή.',
   'settings.valhallaBase': 'Δική σας υπηρεσία Valhalla',
   'settings.valhallaBaseHint':
-    'Το TREK χρησιμοποιεί από προεπιλογή τη δημόσια Valhalla της FOSSGIS για την αποφυγή διοδίων, αυτοκινητοδρόμων και πορθμείων. Εισαγάγετε εδώ τη διεύθυνση URL της δικής σας Valhalla για να τη χρησιμοποιήσετε αντί της δημόσιας. Αν έχει ρυθμιστεί μόνο ιδιωτική υπηρεσία δρομολόγησης, η δημόσια Valhalla δεν χρησιμοποιείται. Αφού εισαγάγετε ιδιωτική διεύθυνση URL, επανεκκινήστε τον διακομιστή και φορτώστε ξανά τη σελίδα.',
+    'Το Trip Mate χρησιμοποιεί από προεπιλογή τη δημόσια Valhalla της FOSSGIS για την αποφυγή διοδίων, αυτοκινητοδρόμων και πορθμείων. Εισαγάγετε εδώ τη διεύθυνση URL της δικής σας Valhalla για να τη χρησιμοποιήσετε αντί της δημόσιας. Αν έχει ρυθμιστεί μόνο ιδιωτική υπηρεσία δρομολόγησης, η δημόσια Valhalla δεν χρησιμοποιείται. Αφού εισαγάγετε ιδιωτική διεύθυνση URL, επανεκκινήστε τον διακομιστή και φορτώστε ξανά τη σελίδα.',
   'settings.mapHint': 'Πρότυπο URL για πλακίδια χάρτη',
   'settings.mapProvider': 'Πάροχος Χάρτη',
   'settings.mapProviderHint':
@@ -46,7 +47,7 @@ const settings: TranslationStrings = {
     'Οι βασικοί χάρτες CARTO εμφανίζουν υδατογράφημα χωρίς κλειδί. Δωρεάν, χωρίς λογαριασμό, από',
   'settings.mapCartoKeyLink': 'κλειδί API βασικών χαρτών carto.com',
   'settings.mapCartoKeyMissing':
-    'Αυτό το πρότυπο είναι βασικός χάρτης CARTO. Χωρίς κλειδί, η CARTO τυπώνει "API KEY REQUIRED" σε κάθε πλακίδιο. Μέχρι να εισαγάγετε κλειδί, το TREK εμφανίζει τον προεπιλεγμένο βασικό χάρτη.',
+    'Αυτό το πρότυπο είναι βασικός χάρτης CARTO. Χωρίς κλειδί, η CARTO τυπώνει "API KEY REQUIRED" σε κάθε πλακίδιο. Μέχρι να εισαγάγετε κλειδί, το Trip Mate εμφανίζει τον προεπιλεγμένο βασικό χάρτη.',
   'settings.mapStyle': 'Στυλ Χάρτη',
   'settings.mapStylePlaceholder': 'Επιλέξτε ένα στυλ Mapbox',
   'settings.mapStyleHint': 'Προκαθορισμένο ή δικό σας mapbox://styles/USER/ID URL',
@@ -132,7 +133,7 @@ const settings: TranslationStrings = {
   'settings.webhookUrl.testSuccess': 'Η δοκιμή webhook στάλθηκε επιτυχώς',
   'settings.webhookUrl.testFailed': 'Η δοκιμή webhook απέτυχε',
   'settings.ntfyUrl.topicLabel': 'Θέμα Ntfy',
-  'settings.ntfyUrl.topicPlaceholder': 'my-trek-alerts',
+  'settings.ntfyUrl.topicPlaceholder': 'my-tripmate-alerts',
   'settings.ntfyUrl.serverLabel': 'URL Ntfy Server (προαιρετικό)',
   'settings.ntfyUrl.serverPlaceholder': 'https://ntfy.sh',
   'settings.ntfyUrl.hint':
@@ -244,13 +245,13 @@ const settings: TranslationStrings = {
   'settings.about.featureRequestHint': 'Προτείνετε ένα νέο χαρακτηριστικό',
   'settings.about.wikiHint': 'Τεκμηρίωση & οδηγοί',
   'settings.about.descriptionManaged':
-    'TREK helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
+    'Trip Mate helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
   'settings.about.sourceTitle': 'Source code',
-  'settings.about.sourceHint': 'TREK is open source, licensed AGPL-3.0',
+  'settings.about.sourceHint': 'Trip Mate is open source, licensed AGPL-3.0',
   'settings.about.supporters.badge': 'Μηνιαίοι Υποστηρικτές',
-  'settings.about.supporters.title': 'Συνταξιδιώτες για το TREK',
+  'settings.about.supporters.title': 'Συνταξιδιώτες για το Trip Mate',
   'settings.about.supporters.subtitle':
-    'Καθώς εσείς σχεδιάζετε την επόμενή σας διαδρομή, αυτοί οι άνθρωποι βοηθούν να σχεδιαστεί το μέλλον του TREK. Η μηνιαία τους συνεισφορά πηγαίνει απευθείας στην ανάπτυξη και σε πραγματικές ώρες εργασίας — ώστε το TREK να παραμένει Open Source.',
+    'Καθώς εσείς σχεδιάζετε την επόμενή σας διαδρομή, αυτοί οι άνθρωποι βοηθούν να σχεδιαστεί το μέλλον του Trip Mate. Η μηνιαία τους συνεισφορά πηγαίνει απευθείας στην ανάπτυξη και σε πραγματικές ώρες εργασίας — ώστε το Trip Mate να παραμένει Open Source.',
   'settings.about.supporters.since': 'υποστηρικτής από {date}',
   'settings.about.supporters.tierEmpty': 'Γίνετε ο πρώτος',
   'settings.about.supporter.tier.noReturnTicket': 'Χωρίς Εισιτήριο Επιστροφής',
@@ -259,7 +260,7 @@ const settings: TranslationStrings = {
   'settings.about.supporter.tier.budgetTraveller': 'Οικονομικός Ταξιδιώτης',
   'settings.about.supporter.tier.hostelBunkmate': 'Συγκάτοικος Hostel',
   'settings.about.description':
-    'Το TREK είναι ένας self-hosted ταξιδιωτικός σχεδιαστής που σας βοηθά να οργανώσετε τα ταξίδια σας από την πρώτη ιδέα μέχρι την τελευταία ανάμνηση. Σχεδιασμός ημερών, προϋπολογισμός, λίστες πακεταρίσματος, φωτογραφίες και πολλά άλλα — όλα σε ένα μέρος, στον δικό σας server.',
+    'Το Trip Mate είναι ένας self-hosted ταξιδιωτικός σχεδιαστής που σας βοηθά να οργανώσετε τα ταξίδια σας από την πρώτη ιδέα μέχρι την τελευταία ανάμνηση. Σχεδιασμός ημερών, προϋπολογισμός, λίστες πακεταρίσματος, φωτογραφίες και πολλά άλλα — όλα σε ένα μέρος, στον δικό σας server.',
   'settings.about.madeWith': 'Φτιαγμένο με',
   'settings.about.madeBy': 'από τον Maurice και μια αναπτυσσόμενη κοινότητα open-source.',
   'settings.username': 'Όνομα χρήστη',
@@ -370,7 +371,7 @@ const settings: TranslationStrings = {
   'settings.airtrail.allowInsecureTlsHint': 'Ενεργοποιήστε το μόνο για μια αξιόπιστη εγκατάσταση στο δικό σας δίκτυο.',
   'settings.airtrail.writeBack': 'Εγγραφή αλλαγών πίσω στο AirTrail',
   'settings.airtrail.writeBackHint':
-    'Απενεργοποιημένο από προεπιλογή: το AirTrail είναι η πηγή αλήθειας και το TREK μόνο διαβάζει από αυτό. Ενεργοποιήστε το για να στέλνετε πίσω στο AirTrail τις αλλαγές που κάνετε στο TREK.',
+    'Απενεργοποιημένο από προεπιλογή: το AirTrail είναι η πηγή αλήθειας και το Trip Mate μόνο διαβάζει από αυτό. Ενεργοποιήστε το για να στέλνετε πίσω στο AirTrail τις αλλαγές που κάνετε στο Trip Mate.',
   'settings.airtrail.connected': 'Συνδέθηκε',
   'settings.airtrail.notConnected': 'Δεν συνδέθηκε',
   'settings.airtrail.toast.saved': 'Η σύνδεση με το AirTrail αποθηκεύτηκε',
@@ -483,7 +484,7 @@ const settings: TranslationStrings = {
   'settings.startPageDashboard': 'Πίνακας ελέγχου',
   'settings.startPageActiveTrip': 'Ενεργό ταξίδι',
   'settings.startPageHint':
-    'Το TREK ανοίγει απευθείας στο ταξίδι που είναι σε εξέλιξη ή στο επόμενο που ξεκινά. Είναι το ίδιο ταξίδι που προβάλλει ο πίνακας ελέγχου.',
+    'Το Trip Mate ανοίγει απευθείας στο ταξίδι που είναι σε εξέλιξη ή στο επόμενο που ξεκινά. Είναι το ίδιο ταξίδι που προβάλλει ο πίνακας ελέγχου.',
   'settings.startTripTab': 'Αρχική καρτέλα',
   'settings.startTripTabHint':
     'Η καρτέλα με την οποία ανοίγει το ταξίδι. Αν ανήκει σε απενεργοποιημένο πρόσθετο, ανοίγει το πλάνο.',
@@ -516,12 +517,15 @@ const settings: TranslationStrings = {
   'settings.offline.storage.tripOff': 'Μη αποθηκευμένο',
   'settings.offline.storage.tripFinished': 'Ολοκληρώθηκε. Αποθηκεύεται μόνο αν το ενεργοποιήσετε.',
   'settings.offline.notice.stored': 'Αποθηκεύτηκαν {count} ταξίδια σε αυτή τη συσκευή',
-  'settings.offline.notice.nothing': 'Δεν υπάρχει τίποτα για αποθήκευση. Ενεργοποιήστε τα ταξίδια που θέλετε να κρατήσετε.',
+  'settings.offline.notice.nothing':
+    'Δεν υπάρχει τίποτα για αποθήκευση. Ενεργοποιήστε τα ταξίδια που θέλετε να κρατήσετε.',
   'settings.offline.notice.busy': 'Γίνεται ήδη συγχρονισμός. Δοκιμάστε ξανά σε λίγο.',
-  'settings.offline.notice.offline': 'Δεν υπάρχει σύνδεση. Συνδεθείτε για να αποθηκεύσετε ταξίδια για χρήση χωρίς σύνδεση.',
+  'settings.offline.notice.offline':
+    'Δεν υπάρχει σύνδεση. Συνδεθείτε για να αποθηκεύσετε ταξίδια για χρήση χωρίς σύνδεση.',
   'settings.offline.notice.signedOut': 'Η συνεδρία σας έληξε. Συνδεθείτε ξανά για συγχρονισμό.',
   'settings.offline.notice.failed': 'Η λήψη δεν ολοκληρώθηκε. Ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά.',
-  'settings.offline.notice.loadFailed': 'Δεν ήταν δυνατή η ανάγνωση του τοπικού χώρου αποθήκευσης. Συνήθως βοηθάει η εκκαθάριση της προσωρινής μνήμης.',
+  'settings.offline.notice.loadFailed':
+    'Δεν ήταν δυνατή η ανάγνωση του τοπικού χώρου αποθήκευσης. Συνήθως βοηθάει η εκκαθάριση της προσωρινής μνήμης.',
   'settings.offline.clear': 'Εκκαθάριση προσωρινής μνήμης',
   'settings.offline.clearConfirm':
     'Εκκαθάριση όλων των δεδομένων ταξιδιού εκτός σύνδεσης; Μπορείτε να επανασυγχρονίσετε ανά πάσα στιγμή όσο είστε συνδεδεμένοι.',
@@ -569,7 +573,8 @@ const settings: TranslationStrings = {
   'settings.apiScopes.hint':
     'Αφήστε τα όλα ενεργά για ένα κλειδί που πρέπει να τα βλέπει όλα. Ό,τι απενεργοποιήσετε απορρίπτεται για αυτό το κλειδί, δεν παραλείπεται απλώς από την απάντηση.',
   'settings.apiScopes.all': 'Τα πάντα',
-  'settings.apiScopes.noneSelected': 'Διάλεξε τουλάχιστον έναν τομέα, αλλιώς το κλειδί δεν θα μπορούσε να διαβάσει τίποτα.',
+  'settings.apiScopes.noneSelected':
+    'Διάλεξε τουλάχιστον έναν τομέα, αλλιώς το κλειδί δεν θα μπορούσε να διαβάσει τίποτα.',
   'settings.apiScopes.limited': '{count} από {total}',
   'settings.apiScopes.trips': 'Ταξίδια',
   'settings.apiScopes.days': 'Ημέρες',
@@ -581,13 +586,15 @@ const settings: TranslationStrings = {
   'settings.apiScopes.bucket-list': 'Λίστα επιθυμιών',
   'settings.apiScopes.stats': 'Σύνολα',
   'settings.apiKeys.title': 'Κλειδιά API',
-  'settings.apiKeys.description': 'Κλειδιά για το δημόσιο API, ώστε άλλο λογισμικό να μπορεί να διαβάζει τα ταξίδια σου. Μόνο για ανάγνωση: ένα κλειδί δεν μπορεί να αλλάξει ή να διαγράψει τίποτα.',
+  'settings.apiKeys.description':
+    'Κλειδιά για το δημόσιο API, ώστε άλλο λογισμικό να μπορεί να διαβάζει τα ταξίδια σου. Μόνο για ανάγνωση: ένα κλειδί δεν μπορεί να αλλάξει ή να διαγράψει τίποτα.',
   'settings.apiKeys.create': 'Δημιουργία κλειδιού',
   'settings.apiKeys.empty': 'Δεν υπάρχουν κλειδιά ακόμη. Δημιούργησε ένα για να συνδέσεις άλλο λογισμικό.',
   'settings.apiKeys.createdAt': 'δημιουργήθηκε',
   'settings.apiKeys.usedAt': 'τελευταία χρήση',
   'settings.apiKeys.deleteTitle': 'Διαγραφή κλειδιού',
-  'settings.apiKeys.deleteMessage': 'Ό,τι χρησιμοποιεί αυτό το κλειδί σταματά αμέσως να λειτουργεί. Η ενέργεια δεν αναιρείται.',
+  'settings.apiKeys.deleteMessage':
+    'Ό,τι χρησιμοποιεί αυτό το κλειδί σταματά αμέσως να λειτουργεί. Η ενέργεια δεν αναιρείται.',
   'settings.apiKeys.deleted': 'Το κλειδί διαγράφηκε',
   'settings.apiKeys.deleteFailed': 'Δεν ήταν δυνατή η διαγραφή του κλειδιού',
   'settings.apiKeys.createFailed': 'Δεν ήταν δυνατή η δημιουργία του κλειδιού',
@@ -595,8 +602,10 @@ const settings: TranslationStrings = {
   'settings.apiKeys.docsHint': 'Στείλε το κλειδί ως "Authorization: Bearer ..." ή "X-API-Key: ..." στο /api/v1.',
   'settings.apiKeys.endpoint': 'Endpoint',
   'settings.apiKeys.neverUsed': 'δεν χρησιμοποιήθηκε ποτέ',
-  'settings.apiKeys.loadFailed': 'Δεν ήταν δυνατή η φόρτωση των κλειδιών σου. Φόρτωσε ξανά τη σελίδα για να δοκιμάσεις πάλι.',
-  'settings.apiKeys.limitReached': 'Έχεις {max} κλειδιά, το μέγιστο για έναν λογαριασμό. Διάγραψε ένα που δεν χρησιμοποιείς πια για να δημιουργήσεις νέο.',
+  'settings.apiKeys.loadFailed':
+    'Δεν ήταν δυνατή η φόρτωση των κλειδιών σου. Φόρτωσε ξανά τη σελίδα για να δοκιμάσεις πάλι.',
+  'settings.apiKeys.limitReached':
+    'Έχεις {max} κλειδιά, το μέγιστο για έναν λογαριασμό. Διάγραψε ένα που δεν χρησιμοποιείς πια για να δημιουργήσεις νέο.',
   'settings.apiKeys.copyFailed': 'Η αντιγραφή απέτυχε. Επίλεξε το κείμενο και αντίγραψέ το χειροκίνητα.',
   'settings.apiKeys.modal.createTitle': 'Δημιουργία κλειδιού API',
   'settings.apiKeys.modal.name': 'Όνομα',
@@ -605,7 +614,8 @@ const settings: TranslationStrings = {
   'settings.apiKeys.modal.creating': 'Δημιουργία...',
   'settings.apiKeys.modal.create': 'Δημιουργία',
   'settings.apiKeys.modal.createdTitle': 'Το κλειδί API δημιουργήθηκε',
-  'settings.apiKeys.modal.createdWarning': 'Αντίγραψε το κλειδί τώρα. Εμφανίζεται μία φορά και δεν μπορεί να ανακτηθεί αργότερα.',
+  'settings.apiKeys.modal.createdWarning':
+    'Αντίγραψε το κλειδί τώρα. Εμφανίζεται μία φορά και δεν μπορεί να ανακτηθεί αργότερα.',
   'settings.apiKeys.modal.done': 'Έτοιμο',
 };
 

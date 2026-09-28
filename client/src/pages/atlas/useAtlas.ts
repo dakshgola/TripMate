@@ -10,7 +10,7 @@ import apiClient, { mapsApi, pluginsApi, type PluginAtlasLayer } from '../../api
 import L from 'leaflet'
 import type { GeoJsonFeatureCollection } from '../../types'
 import { A2_TO_A3, countryStatus, visitMonth, findBucketDuplicate, isBucketDuplicateError, isCountryVisible, normalizeRegionName, regionCacheEvictions, withCountryMarkedVisited, wishlistA3Codes, countryColor, REGION_CACHE_MAX, bucketTooltipWidth, bucketTooltipPlacement, bucketTooltipNeedsScroll, type AtlasData, type AtlasPlaceHit, type CountryDetail, type BucketItem } from './atlasModel'
-import { continentForCountry, escapeHtml, type VisitStatus } from '@trek/shared'
+import { continentForCountry, escapeHtml, type VisitStatus } from '@tripmate/shared'
 import { useGlassGlare } from '../../components/Atlas/useGlassGlare'
 import { dawarichApi } from '../../api/dawarich'
 import { useToast } from '../../components/shared/Toast'

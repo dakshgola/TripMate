@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "trek.fullname" . }}-config
+  name: {{ include "tripmate.fullname" . }}-config
   labels:
-    app: {{ include "trek.name" . }}
+    app: {{ include "tripmate.name" . }}
 data:
   NODE_ENV: {{ .Values.env.NODE_ENV | quote }}
   PORT: {{ .Values.env.PORT | quote }}
@@ -13,8 +13,8 @@ data:
   {{- if .Values.env.LOG_LEVEL }}
   LOG_LEVEL: {{ .Values.env.LOG_LEVEL | quote }}
   {{- end }}
-  {{- if .Values.env.TREK_WIKI_DIR }}
-  TREK_WIKI_DIR: {{ .Values.env.TREK_WIKI_DIR | quote }}
+  {{- if .Values.env.TRIPMATE_WIKI_DIR }}
+  TRIPMATE_WIKI_DIR: {{ .Values.env.TRIPMATE_WIKI_DIR | quote }}
   {{- end }}
   {{- if .Values.env.ALLOWED_ORIGINS }}
   ALLOWED_ORIGINS: {{ .Values.env.ALLOWED_ORIGINS | quote }}
@@ -86,13 +86,13 @@ data:
   OVERPASS_TIMEOUT_MS: {{ .Values.env.OVERPASS_TIMEOUT_MS | quote }}
   {{- end }}
   {{- /* Tested for presence rather than truth: the one value this switch gets set to is
-         false, and an unquoted false (or --set env.TREK_PLACES_ENABLED=false) would
+         false, and an unquoted false (or --set env.TRIPMATE_PLACES_ENABLED=false) would
          otherwise drop the key and leave the index on. */}}
-  {{- if not (kindIs "invalid" .Values.env.TREK_PLACES_ENABLED) }}
-  TREK_PLACES_ENABLED: {{ .Values.env.TREK_PLACES_ENABLED | quote }}
+  {{- if not (kindIs "invalid" .Values.env.TRIPMATE_PLACES_ENABLED) }}
+  TRIPMATE_PLACES_ENABLED: {{ .Values.env.TRIPMATE_PLACES_ENABLED | quote }}
   {{- end }}
-  {{- if .Values.env.TREK_PLACES_URL }}
-  TREK_PLACES_URL: {{ .Values.env.TREK_PLACES_URL | quote }}
+  {{- if .Values.env.TRIPMATE_PLACES_URL }}
+  TRIPMATE_PLACES_URL: {{ .Values.env.TRIPMATE_PLACES_URL | quote }}
   {{- end }}
   {{- if .Values.env.AMAP_API_BASE }}
   AMAP_API_BASE: {{ .Values.env.AMAP_API_BASE | quote }}

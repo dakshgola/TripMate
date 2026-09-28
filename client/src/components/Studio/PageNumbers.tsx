@@ -1,4 +1,4 @@
-import type { BookPageSetup, BookSpread } from '@trek/shared'
+import type { BookPageSetup, BookSpread } from '@tripmate/shared'
 import { fontStack } from './bookFonts'
 import { folioInk } from './folioColour'
 import { isNumbered } from './bookSheets'

@@ -35,7 +35,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -884,10 +884,10 @@ describe('Tool: bulk_delete_places', () => {
 });
 
 // ---------------------------------------------------------------------------
-// trek://trips/{tripId}/places resource (moved from resources.test.ts)
+// tripmate://trips/{tripId}/places resource (moved from resources.test.ts)
 // ---------------------------------------------------------------------------
 
-describe('Resource: trek://trips/{tripId}/places', () => {
+describe('Resource: tripmate://trips/{tripId}/places', () => {
   it('returns all places for a trip', async () => {
     const { user } = createUser(testDb);
     const trip = createTrip(testDb, user.id);
@@ -895,7 +895,7 @@ describe('Resource: trek://trips/{tripId}/places', () => {
     createPlace(testDb, trip.id, { name: 'Louvre' });
 
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/places` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/places` });
       const places = parseResourceResult(result) as any[];
       expect(places).toHaveLength(2);
       const names = places.map((p) => p.name);
@@ -915,7 +915,7 @@ describe('Resource: trek://trips/{tripId}/places', () => {
     const trip = createTrip(testDb, other.id);
 
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/places` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/places` });
       const data = parseResourceResult(result) as any;
       expect(data.error).toBeTruthy();
     });

@@ -11,7 +11,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import Database from 'better-sqlite3';
 import { PlaceShadowService, RETENTION_DAYS } from '../../../src/nest/place-shadow/place-shadow.service';
 import type { DatabaseService } from '../../../src/nest/database/database.service';
-import type { PlaceShadowPickRequest } from '@trek/shared';
+import type { PlaceShadowPickRequest } from '@tripmate/shared';
 
 const SCHEMA = `
   CREATE TABLE app_settings (key TEXT PRIMARY KEY, value TEXT);

@@ -21,7 +21,7 @@ describe('storage keys', () => {
     'files/a.pdf',
     'journey/thumbs/ab12.jpg',
     'backup-2026.zip', // backups category uses bare keys (spec rev 3.1)
-    'photos/trek/deadbeef.bin',
+    'photos/tripmate/deadbeef.bin',
     // legacy photos/<filename> keys are user-named flat files — spaces stay valid
     'photos/my holiday pic.jpg',
   ];

@@ -1,8 +1,8 @@
 /**
- * The check registry: every gate the TREK-Plugins registry enforces, declared ONCE.
+ * The check registry: every gate the Trip Mate-Plugins registry enforces, declared ONCE.
  *
  * The problem this solves: the registry's gates are, almost all of them, functions of two
- * files that are sitting in the author's working directory (`trek-plugin.json`, `README.md`).
+ * files that are sitting in the author's working directory (`tripmate-plugin.json`, `README.md`).
  * But CI reads them over the network at a pinned commit, so we used to only check them over
  * the network too — from `preflight`, which runs against a PUSHED TAG. By then the author has
  * cut an immutable GitHub release, and the registry pins its sha256. Learning there that the
@@ -18,7 +18,7 @@
  *
  * One list, three depths. The contract inherited from preflight.ts still holds and now covers
  * `validate` too: A GATE THE REGISTRY HAS AND THIS FILE DOESN'T IS A FALSE GREEN, and an
- * author trusts a green. When TREK-Plugins' scripts/validate-entry.mjs or check-readme.mjs
+ * author trusts a green. When Trip Mate-Plugins' scripts/validate-entry.mjs or check-readme.mjs
  * grows a rule, it grows one here — test/checks-parity.test.ts is what stops the two drifting.
  */
 
@@ -42,7 +42,7 @@ export type CheckDepth = 'offline' | 'network';
  * 'error' fails `validate` (and blocks `publish`). 'warn' never fails a command — it is for
  * things that are legal but almost always a mistake, where refusing would be presumptuous.
  *
- * The bar for 'error' is: THE REGISTRY WOULD REJECT THIS, or TREK WOULD REFUSE TO RUN IT.
+ * The bar for 'error' is: THE REGISTRY WOULD REJECT THIS, or Trip Mate WOULD REFUSE TO RUN IT.
  * Anything softer is a warn. Getting this wrong in the lenient direction is a false green,
  * which is the bug class this whole module exists to kill.
  */
@@ -53,7 +53,7 @@ export type CheckSeverity = 'error' | 'warn';
  *
  * The distinction is not academic. `pack` validates before it zips, so without this axis an
  * unwritten README would refuse to build an artifact — and packing is how you install a plugin
- * into a local TREK to try it. Blocking the dev loop on a docs gate that only matters at publish
+ * into a local Trip Mate to try it. Blocking the dev loop on a docs gate that only matters at publish
  * time would be exactly the over-eager gatekeeping this rework exists to remove.
  *
  *   'artifact' — the plugin is broken. It cannot be built, loaded or installed. `pack` refuses.
@@ -72,7 +72,7 @@ export interface CheckResult {
   detail?: string;
   /** A human sentence: what to actually do about it. Shown indented under a failure. */
   fix?: string;
-  /** The literal command that fixes this, e.g. `trek-plugin shot`. Drives "next →". */
+  /** The literal command that fixes this, e.g. `tripmate-plugin shot`. Drives "next →". */
   next?: string;
 }
 
@@ -92,9 +92,9 @@ export const fail = (detail: string, fix?: string, next?: string): CheckResult =
 export interface CheckContext {
   /** Absolute path to the plugin directory. */
   dir: string;
-  /** Parsed `trek-plugin.json`, or undefined when it is missing or unparseable. */
+  /** Parsed `tripmate-plugin.json`, or undefined when it is missing or unparseable. */
   manifest?: Record<string, unknown>;
-  /** Why the manifest is absent, when it is — "no trek-plugin.json" / a JSON parse error. */
+  /** Why the manifest is absent, when it is — "no tripmate-plugin.json" / a JSON parse error. */
   manifestError?: string;
   /** `README.md`, or undefined when missing. */
   readme?: string;
@@ -122,7 +122,7 @@ export interface CheckContext {
   allowKeyChange?: boolean;
 }
 
-/** The shape `entry.ts` builds and TREK-Plugins stores at registry/plugins/<id>.json. */
+/** The shape `entry.ts` builds and Trip Mate-Plugins stores at registry/plugins/<id>.json. */
 export interface RegistryEntry {
   id: string;
   name: string;
@@ -143,7 +143,7 @@ export interface RegistryEntryVersion {
   commitSha: string;
   downloadUrl: string;
   sha256: string;
-  trek: string;
+  tripmate: string;
   size: number;
   apiVersion: number;
   nativeModules: false;

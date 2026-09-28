@@ -2,7 +2,7 @@
  * Every gate that is a pure function of the working tree.
  *
  * This is most of them. See ./types.ts for why that matters: the registry grades
- * `trek-plugin.json` and `README.md` at a pinned commit, but those are the same two files
+ * `tripmate-plugin.json` and `README.md` at a pinned commit, but those are the same two files
  * the author has open right now, so there is no reason to make them push a tag to find out.
  *
  * Each check answers ONE question and says what to do about it. The `fix` text is the whole
@@ -43,14 +43,14 @@ const manifestPresent: OfflineCheck = {
   stage: 'manifest',
   depth: 'offline',
   severity: 'error',
-  title: 'trek-plugin.json exists and parses',
+  title: 'tripmate-plugin.json exists and parses',
   run: (c) =>
     c.manifest
       ? pass()
       : fail(
-          c.manifestError ?? 'no trek-plugin.json',
-          'Every plugin is rooted at a trek-plugin.json manifest. Scaffold one rather than writing it by hand.',
-          'trek-plugin create',
+          c.manifestError ?? 'no tripmate-plugin.json',
+          'Every plugin is rooted at a tripmate-plugin.json manifest. Scaffold one rather than writing it by hand.',
+          'tripmate-plugin create',
         ),
 };
 
@@ -60,7 +60,7 @@ const manifestValid: OfflineCheck = {
   stage: 'manifest',
   depth: 'offline',
   severity: 'error',
-  title: 'Manifest passes the same rules the TREK installer applies',
+  title: 'Manifest passes the same rules the Trip Mate installer applies',
   run: (c) => {
     if (!c.manifest) return skip();
     const r = validateManifest(c.manifest);
@@ -92,22 +92,22 @@ const manifestIdMatchesDir: OfflineCheck = {
 };
 
 const manifestTrekRange: OfflineCheck = {
-  id: 'manifest.trek-range',
+  id: 'manifest.tripmate-range',
   stage: 'manifest',
   depth: 'offline',
   severity: 'warn',
-  title: 'TREK version range is bounded',
+  title: 'Trip Mate version range is bounded',
   run: (c) => {
-    const trek = str(c.manifest?.trek);
+    const tripmate = str(c.manifest?.tripmate);
     // Unsatisfiable/missing is an ERROR, but manifest.valid already reports it — don't say it twice.
-    if (!isSatisfiableRange(trek)) return skip();
-    return isUnboundedRange(trek)
+    if (!isSatisfiableRange(tripmate)) return skip();
+    return isUnboundedRange(tripmate)
       ? fail(
-          `trek: "${trek}"`,
-          'This claims support for every TREK version, including ones that do not exist yet. It opts you out of the\n' +
+          `tripmate: "${tripmate}"`,
+          'This claims support for every Trip Mate version, including ones that do not exist yet. It opts you out of the\n' +
             'one mechanism that stops your plugin running on a host it was never tested against. Pin a range like ">=4.0.0 <5.0.0".',
         )
-      : pass(trek);
+      : pass(tripmate);
   },
 };
 
@@ -120,15 +120,15 @@ const manifestIcon: OfflineCheck = {
   run: (c) => {
     if (!c.manifest) return skip();
     const icon = str(c.manifest.icon);
-    // Absent is LEGAL — TREK falls back to Blocks and CI accepts it. But every plugin without
+    // Absent is LEGAL — Trip Mate falls back to Blocks and CI accepts it. But every plugin without
     // an icon is the same grey square in the store, so say so. Warn-shaped, reported as a pass
     // with a caveat rather than a failure, because refusing to publish over it would be absurd.
-    if (!icon) return pass('none — TREK will show the generic Blocks glyph');
+    if (!icon) return pass('none — Trip Mate will show the generic Blocks glyph');
     return LUCIDE_ICON_NAMES.has(icon)
       ? pass(icon)
       : fail(
           `"${icon}" is not a lucide icon`,
-          'TREK resolves the icon against lucide at render time and silently falls back to Blocks, so a typo is\n' +
+          'Trip Mate resolves the icon against lucide at render time and silently falls back to Blocks, so a typo is\n' +
             'invisible locally — but the registry rejects it. Pick a name from https://lucide.dev/icons (PascalCase).',
         );
   },
@@ -202,7 +202,7 @@ const manifestAddonsKnown: OfflineCheck = {
   stage: 'manifest',
   depth: 'offline',
   severity: 'warn',
-  title: 'requiredAddons are addons TREK has',
+  title: 'requiredAddons are addons Trip Mate has',
   run: (c) => {
     const addons = arr(c.manifest?.requiredAddons);
     if (!addons.length) return skip();
@@ -210,7 +210,7 @@ const manifestAddonsKnown: OfflineCheck = {
     return unknown.length
       ? fail(
           unknown.join(', '),
-          `Not necessarily wrong — you may be targeting a newer TREK than this SDK knows about — but an addon\nTREK does not have can never be enabled, so the plugin would never activate. Known: ${KNOWN_ADDONS.join(', ')}.`,
+          `Not necessarily wrong — you may be targeting a newer Trip Mate than this SDK knows about — but an addon\nTREK does not have can never be enabled, so the plugin would never activate. Known: ${KNOWN_ADDONS.join(', ')}.`,
         )
       : pass(addons.join(', '));
   },
@@ -237,7 +237,7 @@ const manifestSettingsKnownKeys: OfflineCheck = {
     return unknown.length
       ? fail(
           unknown.join(', '),
-          `TREK stores only the attributes it knows and SILENTLY DROPS the rest at install — a typo ("defalt")\nor an attribute from a newer SDK simply does nothing, with no diagnostic anywhere.\nKnown: ${SETTING_FIELD_KEYS.join(', ')}.`,
+          `Trip Mate stores only the attributes it knows and SILENTLY DROPS the rest at install — a typo ("defalt")\nor an attribute from a newer SDK simply does nothing, with no diagnostic anywhere.\nKnown: ${SETTING_FIELD_KEYS.join(', ')}.`,
         )
       : pass(`${fields.length} field(s) clean`);
   },
@@ -256,7 +256,7 @@ const manifestNoEmoji: OfflineCheck = {
     return hit
       ? fail(
           'name/description contains emojis',
-          'TREK renders with lucide icons and STRIPS emojis from plugin-rendered text and notifications, so they\n' +
+          'Trip Mate renders with lucide icons and STRIPS emojis from plugin-rendered text and notifications, so they\n' +
             'simply vanish at render. Use the `icon` field with a lucide name instead.',
         )
       : pass();
@@ -313,7 +313,7 @@ const codeEgressReachable: OfflineCheck = {
 
     return fail(
       unreachable.join(', '),
-      'TREK opens the network guard and the iframe CSP from the `http:outbound:<host>` PERMISSIONS only — it never\n' +
+      'Trip Mate opens the network guard and the iframe CSP from the `http:outbound:<host>` PERMISSIONS only — it never\n' +
         'reads egress[]. These hosts are declared but unreachable: the plugin will install, activate, and then have\n' +
         'every request to them silently blocked.\n' +
         'Add to permissions: ' + unreachable.map((h) => `"http:outbound:${h}"`).join(', '),
@@ -348,16 +348,16 @@ const codeDesignKit: OfflineCheck = {
   stage: 'code',
   depth: 'offline',
   severity: 'warn',
-  title: 'Client UI inlines the TREK design kit',
+  title: 'Client UI inlines the Trip Mate design kit',
   run: (c) => {
     if (!c.clientHtml) return skip();
-    const rawSelect = /<select(?![^>]*\bdata-trek-native\b)(\s|>)/i.test(c.clientHtml);
-    const usesKit = c.clientHtml.includes('<!-- trek:ui -->') || c.clientHtml.includes('data-trek-ui');
+    const rawSelect = /<select(?![^>]*\bdata-tripmate-native\b)(\s|>)/i.test(c.clientHtml);
+    const usesKit = c.clientHtml.includes('<!-- tripmate:ui -->') || c.clientHtml.includes('data-tripmate-ui');
     return rawSelect && !usesKit
       ? fail(
           'a raw <select> with no design kit',
-          'Native dropdowns are drawn by the OS and cannot match TREK. Add the <!-- trek:ui --> marker so selects are\n' +
-            'auto-styled, or mark a field data-trek-native to opt out on purpose.',
+          'Native dropdowns are drawn by the OS and cannot match Trip Mate. Add the <!-- tripmate:ui --> marker so selects are\n' +
+            'auto-styled, or mark a field data-tripmate-native to opt out on purpose.',
         )
       : pass();
   },
@@ -435,7 +435,7 @@ const docsReadmeProse: OfflineCheck = {
  *
  * Two generations of this check drifted lenient. The first regexed the README for an image
  * *link* and passed on the scaffold's dangling `![screenshot](./docs/screenshot.png)`. The
- * second resolved README image paths — but the registry (check-readme.mjs, TREK-Plugins #40)
+ * second resolved README image paths — but the registry (check-readme.mjs, Trip Mate-Plugins #40)
  * does not read the README for this gate at all: it fetches **exactly `docs/screenshot.png`**
  * at the pinned commit, because that precise path is what the store card loads
  * (`raw…/<commit>/docs/screenshot.png`). A README whose only images had other names went
@@ -454,7 +454,7 @@ const docsScreenshot: OfflineCheck = {
       'The registry fetches exactly this path at the pinned commit — it is the store card image, and a README\n' +
         'that links other image names does not satisfy the gate. Capture a 16:9 shot (1600×900 is ideal — the\n' +
         'card crops the edges) and commit it as docs/screenshot.png.',
-      'trek-plugin shot',
+      'tripmate-plugin shot',
     );
   },
 };
@@ -502,7 +502,7 @@ const releaseNoNativeBinaries: OfflineCheck = {
     return native.length
       ? fail(
           native.slice(0, 5).join(', '),
-          'Native modules (.node / binding.gyp / prebuilds) are forbidden in v1 — TREK runs plugins under Node\'s\n' +
+          'Native modules (.node / binding.gyp / prebuilds) are forbidden in v1 — Trip Mate runs plugins under Node\'s\n' +
             'permission model in a child process and cannot sandbox native code.',
         )
       : pass(`${names.length} files`);
@@ -536,7 +536,7 @@ const releaseEntryParity: OfflineCheck = {
     if (str(m.type) !== c.entry.type) problems.push(`• manifest type "${str(m.type)}" != entry type "${c.entry.type}"`);
     const mApi = typeof m.apiVersion === 'number' ? m.apiVersion : 1;
     if (mApi !== v.apiVersion) problems.push(`• manifest apiVersion ${mApi} != entry ${v.apiVersion}`);
-    if (str(m.trek) !== v.trek) problems.push(`• manifest trek "${str(m.trek)}" != entry trek "${v.trek}"`);
+    if (str(m.tripmate) !== v.tripmate) problems.push(`• manifest tripmate "${str(m.tripmate)}" != entry tripmate "${v.tripmate}"`);
     if ((m.operatorEgress === true) !== (v.operatorEgress === true)) {
       problems.push(`• manifest operatorEgress ${m.operatorEgress === true} != entry ${v.operatorEgress === true}`);
     }
@@ -588,7 +588,7 @@ const releaseArtifactHash: OfflineCheck = {
  * A key without a signature, or a signature without a key.
  *
  * Passes the registry's JSON schema — the two fields sit at different levels, so no schema can
- * relate them — and is then REFUSED by TREK at install time. A half-signed entry is dead on
+ * relate them — and is then REFUSED by Trip Mate at install time. A half-signed entry is dead on
  * arrival, and it is a pure function of the entry, so there is no reason to wait for the network
  * to say so.
  */

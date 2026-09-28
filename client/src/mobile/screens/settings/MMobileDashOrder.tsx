@@ -2,7 +2,7 @@ import { ChevronUp, ChevronDown } from 'lucide-react'
 import { useTranslation } from '../../../i18n'
 import { useAddonStore } from '../../../store/addonStore'
 import { resolveMobileDashOrder } from '../dashboard/MDashWidgets'
-import type { AppearanceConfig, MobileDashToken } from '@trek/shared'
+import type { AppearanceConfig, MobileDashToken } from '@tripmate/shared'
 
 const LABEL_KEY: Record<Exclude<MobileDashToken, 'trips'>, string> = {
   currency: 'settings.appearance.widget.currency',

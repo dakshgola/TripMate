@@ -25,10 +25,11 @@ const settings: TranslationStrings = {
   'settings.mapTemplatePlaceholder.select': 'Wybierz szablon...',
   'settings.mapDefaultHint': 'Pozostaw puste dla OpenStreetMap (domyślnie)',
   'settings.routingBase': 'Własny silnik tras',
-  'settings.routingBaseHint': 'Własna instancja OSRM. Puste używa serwerów publicznych, które pozwalają na około jedno zapytanie na sekundę — wystarczy na dzień, mało na road trip. Działa po restarcie serwera.',
+  'settings.routingBaseHint':
+    'Własna instancja OSRM. Puste używa serwerów publicznych, które pozwalają na około jedno zapytanie na sekundę — wystarczy na dzień, mało na road trip. Działa po restarcie serwera.',
   'settings.valhallaBase': 'Własna instancja Valhalli',
   'settings.valhallaBaseHint':
-    'TREK domyślnie używa publicznej Valhalli FOSSGIS do omijania opłat, autostrad i promów. Wpisz tutaj URL własnej Valhalli, aby używać jej zamiast publicznej. Jeśli skonfigurowano tylko własną instancję wyznaczania tras, publiczna Valhalla nie jest używana. Po wpisaniu własnego adresu URL uruchom ponownie serwer i odśwież stronę.',
+    'Trip Mate domyślnie używa publicznej Valhalli FOSSGIS do omijania opłat, autostrad i promów. Wpisz tutaj URL własnej Valhalli, aby używać jej zamiast publicznej. Jeśli skonfigurowano tylko własną instancję wyznaczania tras, publiczna Valhalla nie jest używana. Po wpisaniu własnego adresu URL uruchom ponownie serwer i odśwież stronę.',
   'settings.mapHint': 'Szablon URL dla kafelków mapy',
   'settings.mapProvider': 'Dostawca mapy',
   'settings.mapProviderHint': 'Dotyczy map Trip Planner i Journey. Atlas zawsze używa Leaflet.',
@@ -43,7 +44,7 @@ const settings: TranslationStrings = {
   'settings.mapCartoKeyHint': 'Mapy podkładowe CARTO bez klucza pokazują znak wodny. Bezpłatny, bez konta, z',
   'settings.mapCartoKeyLink': 'klucz API map podkładowych carto.com',
   'settings.mapCartoKeyMissing':
-    'Ten szablon to mapa podkładowa CARTO. Bez klucza CARTO nanosi "API KEY REQUIRED" na każdy kafelek. Dopóki nie podasz klucza, TREK pokazuje domyślną mapę podkładową.',
+    'Ten szablon to mapa podkładowa CARTO. Bez klucza CARTO nanosi "API KEY REQUIRED" na każdy kafelek. Dopóki nie podasz klucza, Trip Mate pokazuje domyślną mapę podkładową.',
   'settings.mapStyle': 'Styl mapy',
   'settings.mapStylePlaceholder': 'Wybierz styl Mapbox',
   'settings.mapStyleHint': 'Preset lub własny URL mapbox://styles/USER/ID',
@@ -194,13 +195,13 @@ const settings: TranslationStrings = {
   'settings.about.featureRequestHint': 'Zaproponuj nową funkcję',
   'settings.about.wikiHint': 'Dokumentacja i poradniki',
   'settings.about.descriptionManaged':
-    'TREK helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
+    'Trip Mate helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
   'settings.about.sourceTitle': 'Source code',
-  'settings.about.sourceHint': 'TREK is open source, licensed AGPL-3.0',
+  'settings.about.sourceHint': 'Trip Mate is open source, licensed AGPL-3.0',
   'settings.about.supporters.badge': 'Miesięczni Patroni',
-  'settings.about.supporters.title': 'Towarzystwo podróży dla TREK',
+  'settings.about.supporters.title': 'Towarzystwo podróży dla Trip Mate',
   'settings.about.supporters.subtitle':
-    'Gdy planujesz kolejną trasę, te osoby planują razem ze mną przyszłość TREK. Ich comiesięczny wkład idzie bezpośrednio na rozwój i realnie przepracowane godziny — aby TREK pozostał Open Source.',
+    'Gdy planujesz kolejną trasę, te osoby planują razem ze mną przyszłość Trip Mate. Ich comiesięczny wkład idzie bezpośrednio na rozwój i realnie przepracowane godziny — aby Trip Mate pozostał Open Source.',
   'settings.about.supporters.since': 'patron od {date}',
   'settings.about.supporters.tierEmpty': 'Bądź pierwszy',
   'settings.about.supporter.tier.noReturnTicket': 'No Return Ticket',
@@ -209,7 +210,7 @@ const settings: TranslationStrings = {
   'settings.about.supporter.tier.budgetTraveller': 'Budget Traveller',
   'settings.about.supporter.tier.hostelBunkmate': 'Hostel Bunkmate',
   'settings.about.description':
-    'TREK to samodzielnie hostowany planer podróży, który pomaga organizować wyprawy od pierwszego pomysłu po ostatnie wspomnienie. Planowanie dzienne, budżet, listy pakowania, zdjęcia i wiele więcej — wszystko w jednym miejscu, na własnym serwerze.',
+    'Trip Mate to samodzielnie hostowany planer podróży, który pomaga organizować wyprawy od pierwszego pomysłu po ostatnie wspomnienie. Planowanie dzienne, budżet, listy pakowania, zdjęcia i wiele więcej — wszystko w jednym miejscu, na własnym serwerze.',
   'settings.about.madeWith': 'Stworzone z',
   'settings.about.madeBy': "przez Maurice'a i rosnącą społeczność open-source.",
   'settings.username': 'Nazwa użytkownika',
@@ -289,7 +290,7 @@ const settings: TranslationStrings = {
   'settings.webhookUrl.testSuccess': 'Testowy webhook wysłany pomyślnie',
   'settings.webhookUrl.testFailed': 'Wysyłanie testowego webhooka nie powiodło się',
   'settings.ntfyUrl.topicLabel': 'Temat Ntfy',
-  'settings.ntfyUrl.topicPlaceholder': 'my-trek-alerts',
+  'settings.ntfyUrl.topicPlaceholder': 'my-tripmate-alerts',
   'settings.ntfyUrl.serverLabel': 'URL serwera Ntfy (opcjonalne)',
   'settings.ntfyUrl.serverPlaceholder': 'https://ntfy.sh',
   'settings.ntfyUrl.hint':
@@ -359,7 +360,7 @@ const settings: TranslationStrings = {
   'settings.airtrail.allowInsecureTlsHint': 'Włącz tylko dla zaufanej instancji we własnej sieci.',
   'settings.airtrail.writeBack': 'Zapisuj zmiany z powrotem w AirTrail',
   'settings.airtrail.writeBackHint':
-    'Domyślnie wyłączone: AirTrail jest źródłem prawdy, a TREK tylko z niego odczytuje. Włącz, aby wysyłać zmiany wprowadzone w TREK z powrotem do AirTrail.',
+    'Domyślnie wyłączone: AirTrail jest źródłem prawdy, a Trip Mate tylko z niego odczytuje. Włącz, aby wysyłać zmiany wprowadzone w Trip Mate z powrotem do AirTrail.',
   'settings.airtrail.connected': 'Połączono',
   'settings.airtrail.notConnected': 'Nie połączono',
   'settings.airtrail.toast.saved': 'Zapisano połączenie z AirTrail',
@@ -472,7 +473,7 @@ const settings: TranslationStrings = {
   'settings.startPageDashboard': 'Panel',
   'settings.startPageActiveTrip': 'Aktywna podróż',
   'settings.startPageHint':
-    'TREK otwiera się od razu na podróży, która właśnie trwa, albo na najbliższej nadchodzącej. To ta sama podróż, którą wyróżnia panel.',
+    'Trip Mate otwiera się od razu na podróży, która właśnie trwa, albo na najbliższej nadchodzącej. To ta sama podróż, którą wyróżnia panel.',
   'settings.startTripTab': 'Karta startowa',
   'settings.startTripTabHint':
     'Karta, na której otwiera się podróż. Jeśli należy do wyłączonego dodatku, otworzy się widok planu.',
@@ -510,7 +511,8 @@ const settings: TranslationStrings = {
   'settings.offline.notice.offline': 'Brak połączenia. Połącz się, aby zapisać podróże offline.',
   'settings.offline.notice.signedOut': 'Twoja sesja wygasła. Zaloguj się ponownie, aby zsynchronizować.',
   'settings.offline.notice.failed': 'Nie udało się ukończyć pobierania. Sprawdź połączenie i spróbuj ponownie.',
-  'settings.offline.notice.loadFailed': 'Nie udało się odczytać pamięci offline tego urządzenia. Zwykle pomaga wyczyszczenie pamięci podręcznej.',
+  'settings.offline.notice.loadFailed':
+    'Nie udało się odczytać pamięci offline tego urządzenia. Zwykle pomaga wyczyszczenie pamięci podręcznej.',
   'settings.offline.clear': 'Wyczyść pamięć podręczną',
   'settings.offline.clearConfirm':
     'Wyczyścić wszystkie dane podróży zapisane offline? Możesz je w każdej chwili zsynchronizować ponownie, będąc online.',
@@ -569,13 +571,15 @@ const settings: TranslationStrings = {
   'settings.apiScopes.bucket-list': 'Lista marzeń',
   'settings.apiScopes.stats': 'Podsumowania',
   'settings.apiKeys.title': 'Klucze API',
-  'settings.apiKeys.description': 'Klucze do publicznego API, aby inne oprogramowanie mogło odczytywać Twoje podróże. Tylko odczyt: klucz niczego nie zmieni ani nie usunie.',
+  'settings.apiKeys.description':
+    'Klucze do publicznego API, aby inne oprogramowanie mogło odczytywać Twoje podróże. Tylko odczyt: klucz niczego nie zmieni ani nie usunie.',
   'settings.apiKeys.create': 'Utwórz klucz',
   'settings.apiKeys.empty': 'Brak kluczy. Utwórz jeden, aby połączyć inne oprogramowanie.',
   'settings.apiKeys.createdAt': 'utworzono',
   'settings.apiKeys.usedAt': 'ostatnio użyty',
   'settings.apiKeys.deleteTitle': 'Usuń klucz',
-  'settings.apiKeys.deleteMessage': 'Wszystko, co korzysta z tego klucza, natychmiast przestanie działać. Tej operacji nie można cofnąć.',
+  'settings.apiKeys.deleteMessage':
+    'Wszystko, co korzysta z tego klucza, natychmiast przestanie działać. Tej operacji nie można cofnąć.',
   'settings.apiKeys.deleted': 'Klucz usunięty',
   'settings.apiKeys.deleteFailed': 'Nie udało się usunąć klucza',
   'settings.apiKeys.createFailed': 'Nie udało się utworzyć klucza',
@@ -584,7 +588,8 @@ const settings: TranslationStrings = {
   'settings.apiKeys.endpoint': 'Endpoint',
   'settings.apiKeys.neverUsed': 'nigdy nieużywany',
   'settings.apiKeys.loadFailed': 'Nie udało się wczytać kluczy. Odśwież stronę, aby spróbować ponownie.',
-  'settings.apiKeys.limitReached': 'Masz {max} kluczy, czyli maksimum na konto. Usuń klucz, którego już nie używasz, aby utworzyć nowy.',
+  'settings.apiKeys.limitReached':
+    'Masz {max} kluczy, czyli maksimum na konto. Usuń klucz, którego już nie używasz, aby utworzyć nowy.',
   'settings.apiKeys.copyFailed': 'Nie udało się skopiować. Zaznacz tekst i skopiuj go ręcznie.',
   'settings.apiKeys.modal.createTitle': 'Utwórz klucz API',
   'settings.apiKeys.modal.name': 'Nazwa',
@@ -593,7 +598,8 @@ const settings: TranslationStrings = {
   'settings.apiKeys.modal.creating': 'Tworzenie...',
   'settings.apiKeys.modal.create': 'Utwórz',
   'settings.apiKeys.modal.createdTitle': 'Klucz API utworzony',
-  'settings.apiKeys.modal.createdWarning': 'Skopiuj klucz teraz. Jest pokazywany tylko raz i później nie można go odzyskać.',
+  'settings.apiKeys.modal.createdWarning':
+    'Skopiuj klucz teraz. Jest pokazywany tylko raz i później nie można go odzyskać.',
   'settings.apiKeys.modal.done': 'Gotowe',
 };
 

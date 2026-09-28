@@ -61,7 +61,7 @@ import {
 import type { CalendarService, TripCalendar } from '../../../src/nest/calendar/calendar.service';
 import { expectRegisteredProvider, expectRegisteredController } from '../../helpers/module-providers';
 
-const BASE = 'https://trek.example.test';
+const BASE = 'https://tripmate.example.test';
 
 const buildTripCalendar = vi.fn();
 const svc = new FeedsService(
@@ -72,7 +72,7 @@ const svc = new FeedsService(
 // ── Calendar parts the stub hands back ────────────────────────────────────────
 
 const vevent = (summary: string) =>
-  `BEGIN:VEVENT\r\nUID:trek-trip-${summary}@trek\r\nDTSTAMP:20260101T000000Z\r\n` +
+  `BEGIN:VEVENT\r\nUID:tripmate-trip-${summary}@tripmate\r\nDTSTAMP:20260101T000000Z\r\n` +
   `DTSTART;VALUE=DATE:20260101\r\nDTEND;VALUE=DATE:20260102\r\nSUMMARY:${summary}\r\nEND:VEVENT\r\n`;
 
 const vtimezone = (tzid: string, tzname = tzid) =>

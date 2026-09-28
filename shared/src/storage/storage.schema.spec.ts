@@ -21,11 +21,11 @@ const SAMPLES: Record<StorageBackendTypeId, Record<string, unknown>> = {
   local: { root: '/data/uploads' },
   s3: {
     endpoint: 'http://127.0.0.1:9000',
-    bucket: 'trek',
+    bucket: 'tripmate',
     accessKeyId: 'ak',
     secretAccessKey: 'sk',
     region: 'auto',
-    keyPrefix: 'trek/prod',
+    keyPrefix: 'tripmate/prod',
     retries: 0,
     timeoutMs: 5000,
   },
@@ -75,7 +75,7 @@ describe('STORAGE_BACKEND_TYPES generation parity', () => {
   it('defaults fill omitted optional s3 fields', () => {
     const parsed = STORAGE_BACKEND_TYPES.s3.optionsSchema.parse({
       endpoint: 'http://127.0.0.1:9000',
-      bucket: 'trek',
+      bucket: 'tripmate',
       accessKeyId: 'ak',
       secretAccessKey: 'sk',
     });
@@ -95,7 +95,7 @@ describe('storageConfigSchema wire compatibility', () => {
     // The exact local→NAS mirror example the S3 spec documents as raw SQL.
     const doc = {
       backends: [
-        { name: 'nas-backups', type: 'local', options: { root: '/mnt/nas/trek-backups' } },
+        { name: 'nas-backups', type: 'local', options: { root: '/mnt/nas/tripmate-backups' } },
         { name: 'backup-mirror', type: 'mirror', options: { primary: 'backups-local', replicas: ['nas-backups'] } },
       ],
       categories: { backups: 'backup-mirror' },
@@ -138,7 +138,7 @@ describe('storageConfigSchema wire compatibility', () => {
       'avatars',
       'places',
       'photos-google',
-      'photos-trek',
+      'photos-tripmate',
       'backups',
     ]);
   });

@@ -34,7 +34,7 @@ function seedAdminAccount(db: Database.Database): void {
       return;
     }
 
-    // Demo mode seeds its own admin (admin@trek.app, username 'admin') right after this.
+    // Demo mode seeds its own admin (admin@tripmate.app, username 'admin') right after this.
     // Creating a first-run admin here would grab username 'admin' first and make the demo
     // seeder fail on the UNIQUE(username) constraint, leaving the demo user uncreated.
     if (readEnv().demo.enabled) return;
@@ -42,7 +42,7 @@ function seedAdminAccount(db: Database.Database): void {
     if (isOidcOnlyConfigured()) {
       console.log('');
       console.log('╔══════════════════════════════════════════════╗');
-      console.log('║  TREK — OIDC-Only Mode                       ║');
+      console.log('║  Trip Mate — OIDC-Only Mode                       ║');
       console.log('║  First SSO login will become admin.           ║');
       console.log('╚══════════════════════════════════════════════╝');
       console.log('');
@@ -61,10 +61,10 @@ function seedAdminAccount(db: Database.Database): void {
       // generated password is created instead. Flag it so the chosen credentials silently not
       // working isn't a surprise.
       if (adminEnvProvided) {
-        console.warn('[admin] Only one of ADMIN_EMAIL/ADMIN_PASSWORD is set — both are required for a custom admin. Falling back to admin@trek.local with a generated password (shown below).');
+        console.warn('[admin] Only one of ADMIN_EMAIL/ADMIN_PASSWORD is set — both are required for a custom admin. Falling back to admin@tripmate.local with a generated password (shown below).');
       }
       password = crypto.randomBytes(12).toString('base64url');
-      email = 'admin@trek.local';
+      email = 'admin@tripmate.local';
     }
 
     const hash = bcrypt.hashSync(password, BCRYPT_COST);
@@ -74,7 +74,7 @@ function seedAdminAccount(db: Database.Database): void {
 
     console.log('');
     console.log('╔══════════════════════════════════════════════╗');
-    console.log('║  TREK — First Run: Admin Account Created     ║');
+    console.log('║  Trip Mate — First Run: Admin Account Created     ║');
     console.log('╠══════════════════════════════════════════════╣');
     console.log(`║  Email:    ${email.padEnd(33)}║`);
     console.log(`║  Password: ${password.padEnd(33)}║`);

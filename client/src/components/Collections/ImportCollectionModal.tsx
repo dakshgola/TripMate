@@ -1,7 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react'
 import { Upload, FileJson, Loader2, MapPin, Tag, AlertCircle, Route, Info, Plus, FolderInput, Check, Search, Bookmark } from 'lucide-react'
 import Modal from '../shared/Modal'
-import { MAX_COLLECTION_FILE_PLACES, type Collection, type CollectionFile } from '@trek/shared'
+import { MAX_COLLECTION_FILE_PLACES, type Collection, type CollectionFile } from '@tripmate/shared'
 import type { TranslationFn } from '../../types'
 import { getApiErrorMessage } from '../../types'
 import {

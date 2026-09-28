@@ -25,10 +25,11 @@ const settings: TranslationStrings = {
   'settings.mapTemplatePlaceholder.select': 'Pilih template...',
   'settings.mapDefaultHint': 'Kosongkan untuk OpenStreetMap (default)',
   'settings.routingBase': 'Mesin rute sendiri',
-  'settings.routingBaseHint': 'Instans OSRM milik sendiri. Kosong berarti server publik, yang mengizinkan sekitar satu permintaan per detik — cukup untuk sehari, mepet untuk perjalanan darat. Berlaku setelah server dimulai ulang.',
+  'settings.routingBaseHint':
+    'Instans OSRM milik sendiri. Kosong berarti server publik, yang mengizinkan sekitar satu permintaan per detik — cukup untuk sehari, mepet untuk perjalanan darat. Berlaku setelah server dimulai ulang.',
   'settings.valhallaBase': 'Instans Valhalla sendiri',
   'settings.valhallaBaseHint':
-    'Secara bawaan, TREK menggunakan Valhalla publik FOSSGIS untuk menghindari tol, jalan bebas hambatan, dan feri. Masukkan URL Valhalla Anda sendiri di sini untuk menggunakannya sebagai pengganti. Jika hanya instans perutean sendiri yang dikonfigurasi, Valhalla publik tidak digunakan. Setelah memasukkan URL sendiri, mulai ulang server dan muat ulang halaman.',
+    'Secara bawaan, Trip Mate menggunakan Valhalla publik FOSSGIS untuk menghindari tol, jalan bebas hambatan, dan feri. Masukkan URL Valhalla Anda sendiri di sini untuk menggunakannya sebagai pengganti. Jika hanya instans perutean sendiri yang dikonfigurasi, Valhalla publik tidak digunakan. Setelah memasukkan URL sendiri, mulai ulang server dan muat ulang halaman.',
   'settings.mapHint': 'Template URL untuk tile peta',
   'settings.mapProvider': 'Penyedia peta',
   'settings.mapProviderHint': 'Berlaku untuk peta Trip Planner dan Journey. Atlas selalu menggunakan Leaflet.',
@@ -43,7 +44,7 @@ const settings: TranslationStrings = {
   'settings.mapCartoKeyHint': 'Peta dasar CARTO menampilkan tanda air tanpa kunci. Gratis, tanpa akun, dari',
   'settings.mapCartoKeyLink': 'kunci API peta dasar carto.com',
   'settings.mapCartoKeyMissing':
-    'Templat ini adalah peta dasar CARTO. Tanpa kunci, CARTO mencetak "API KEY REQUIRED" di setiap ubin. Sampai kunci dimasukkan, TREK menampilkan peta dasar bawaan.',
+    'Templat ini adalah peta dasar CARTO. Tanpa kunci, CARTO mencetak "API KEY REQUIRED" di setiap ubin. Sampai kunci dimasukkan, Trip Mate menampilkan peta dasar bawaan.',
   'settings.mapStyle': 'Gaya peta',
   'settings.mapStylePlaceholder': 'Pilih gaya Mapbox',
   'settings.mapStyleHint': 'Preset atau URL mapbox://styles/USER/ID milikmu',
@@ -120,7 +121,7 @@ const settings: TranslationStrings = {
   'settings.webhookUrl.testSuccess': 'Test webhook berhasil dikirim',
   'settings.webhookUrl.testFailed': 'Test webhook gagal',
   'settings.ntfyUrl.topicLabel': 'Topik Ntfy',
-  'settings.ntfyUrl.topicPlaceholder': 'my-trek-alerts',
+  'settings.ntfyUrl.topicPlaceholder': 'my-tripmate-alerts',
   'settings.ntfyUrl.serverLabel': 'URL Server Ntfy (opsional)',
   'settings.ntfyUrl.serverPlaceholder': 'https://ntfy.sh',
   'settings.ntfyUrl.hint':
@@ -232,13 +233,13 @@ const settings: TranslationStrings = {
   'settings.about.featureRequestHint': 'Sarankan fitur baru',
   'settings.about.wikiHint': 'Dokumentasi & panduan',
   'settings.about.descriptionManaged':
-    'TREK helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
+    'Trip Mate helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
   'settings.about.sourceTitle': 'Source code',
-  'settings.about.sourceHint': 'TREK is open source, licensed AGPL-3.0',
+  'settings.about.sourceHint': 'Trip Mate is open source, licensed AGPL-3.0',
   'settings.about.supporters.badge': 'Pendukung Bulanan',
-  'settings.about.supporters.title': 'Rekan perjalanan untuk TREK',
+  'settings.about.supporters.title': 'Rekan perjalanan untuk Trip Mate',
   'settings.about.supporters.subtitle':
-    'Saat kamu merencanakan rute berikutnya, orang-orang ini ikut merencanakan masa depan TREK. Kontribusi bulanan mereka langsung masuk ke pengembangan dan jam kerja nyata — supaya TREK tetap Open Source.',
+    'Saat kamu merencanakan rute berikutnya, orang-orang ini ikut merencanakan masa depan Trip Mate. Kontribusi bulanan mereka langsung masuk ke pengembangan dan jam kerja nyata — supaya Trip Mate tetap Open Source.',
   'settings.about.supporters.since': 'pendukung sejak {date}',
   'settings.about.supporters.tierEmpty': 'Jadilah yang pertama',
   'settings.about.supporter.tier.noReturnTicket': 'No Return Ticket',
@@ -247,7 +248,7 @@ const settings: TranslationStrings = {
   'settings.about.supporter.tier.budgetTraveller': 'Budget Traveller',
   'settings.about.supporter.tier.hostelBunkmate': 'Hostel Bunkmate',
   'settings.about.description':
-    'TREK adalah perencana perjalanan self-hosted yang membantu kamu mengatur perjalanan dari ide pertama hingga kenangan terakhir. Perencanaan harian, anggaran, daftar bawaan, foto dan masih banyak lagi — semua di satu tempat, di servermu sendiri.',
+    'Trip Mate adalah perencana perjalanan self-hosted yang membantu kamu mengatur perjalanan dari ide pertama hingga kenangan terakhir. Perencanaan harian, anggaran, daftar bawaan, foto dan masih banyak lagi — semua di satu tempat, di servermu sendiri.',
   'settings.about.madeWith': 'Dibuat dengan',
   'settings.about.madeBy': 'oleh Maurice dan komunitas open-source yang terus berkembang.',
   'settings.username': 'Nama pengguna',
@@ -357,7 +358,7 @@ const settings: TranslationStrings = {
   'settings.airtrail.allowInsecureTlsHint': 'Aktifkan hanya untuk instans tepercaya di jaringanmu sendiri.',
   'settings.airtrail.writeBack': 'Tulis perubahan kembali ke AirTrail',
   'settings.airtrail.writeBackHint':
-    'Nonaktif secara bawaan: AirTrail adalah sumber kebenaran dan TREK hanya membaca darinya. Aktifkan untuk mengirim perubahan yang dibuat di TREK kembali ke AirTrail.',
+    'Nonaktif secara bawaan: AirTrail adalah sumber kebenaran dan Trip Mate hanya membaca darinya. Aktifkan untuk mengirim perubahan yang dibuat di Trip Mate kembali ke AirTrail.',
   'settings.airtrail.connected': 'Terhubung',
   'settings.airtrail.notConnected': 'Tidak terhubung',
   'settings.airtrail.toast.saved': 'Koneksi AirTrail disimpan',
@@ -470,7 +471,7 @@ const settings: TranslationStrings = {
   'settings.startPageDashboard': 'Dasbor',
   'settings.startPageActiveTrip': 'Perjalanan aktif',
   'settings.startPageHint':
-    'TREK langsung membuka perjalanan yang sedang berlangsung, atau yang paling dekat akan dimulai. Perjalanan yang sama yang disorot dasbor.',
+    'Trip Mate langsung membuka perjalanan yang sedang berlangsung, atau yang paling dekat akan dimulai. Perjalanan yang sama yang disorot dasbor.',
   'settings.startTripTab': 'Tab awal',
   'settings.startTripTabHint':
     'Tab yang dibuka bersama perjalanan. Jika tab itu milik addon yang dimatikan, tampilan rencana yang dibuka.',
@@ -508,7 +509,8 @@ const settings: TranslationStrings = {
   'settings.offline.notice.offline': 'Tidak ada koneksi. Hubungkan untuk menyimpan perjalanan secara offline.',
   'settings.offline.notice.signedOut': 'Sesimu telah berakhir. Masuk lagi untuk menyinkronkan.',
   'settings.offline.notice.failed': 'Unduhan tidak dapat diselesaikan. Periksa koneksimu dan coba lagi.',
-  'settings.offline.notice.loadFailed': 'Tidak dapat membaca penyimpanan offline perangkat ini. Membersihkan cache biasanya memperbaikinya.',
+  'settings.offline.notice.loadFailed':
+    'Tidak dapat membaca penyimpanan offline perangkat ini. Membersihkan cache biasanya memperbaikinya.',
   'settings.offline.clear': 'Hapus cache',
   'settings.offline.clearConfirm':
     'Hapus semua data perjalanan offline? Kamu bisa menyinkronkan ulang kapan saja saat online.',
@@ -567,13 +569,15 @@ const settings: TranslationStrings = {
   'settings.apiScopes.bucket-list': 'Daftar keinginan',
   'settings.apiScopes.stats': 'Total',
   'settings.apiKeys.title': 'Kunci API',
-  'settings.apiKeys.description': 'Kunci untuk API publik, agar perangkat lunak lain dapat membaca perjalananmu. Hanya baca: kunci tidak dapat mengubah atau menghapus apa pun.',
+  'settings.apiKeys.description':
+    'Kunci untuk API publik, agar perangkat lunak lain dapat membaca perjalananmu. Hanya baca: kunci tidak dapat mengubah atau menghapus apa pun.',
   'settings.apiKeys.create': 'Buat kunci',
   'settings.apiKeys.empty': 'Belum ada kunci. Buat satu untuk menghubungkan perangkat lunak lain.',
   'settings.apiKeys.createdAt': 'dibuat',
   'settings.apiKeys.usedAt': 'terakhir dipakai',
   'settings.apiKeys.deleteTitle': 'Hapus kunci',
-  'settings.apiKeys.deleteMessage': 'Semua yang memakai kunci ini langsung berhenti bekerja. Tindakan ini tidak bisa dibatalkan.',
+  'settings.apiKeys.deleteMessage':
+    'Semua yang memakai kunci ini langsung berhenti bekerja. Tindakan ini tidak bisa dibatalkan.',
   'settings.apiKeys.deleted': 'Kunci dihapus',
   'settings.apiKeys.deleteFailed': 'Kunci tidak dapat dihapus',
   'settings.apiKeys.createFailed': 'Kunci tidak dapat dibuat',
@@ -582,7 +586,8 @@ const settings: TranslationStrings = {
   'settings.apiKeys.endpoint': 'Endpoint',
   'settings.apiKeys.neverUsed': 'belum pernah dipakai',
   'settings.apiKeys.loadFailed': 'Kunci tidak dapat dimuat. Muat ulang halaman untuk mencoba lagi.',
-  'settings.apiKeys.limitReached': 'Kamu punya {max} kunci, batas maksimum per akun. Hapus kunci yang tidak lagi dipakai untuk membuat yang baru.',
+  'settings.apiKeys.limitReached':
+    'Kamu punya {max} kunci, batas maksimum per akun. Hapus kunci yang tidak lagi dipakai untuk membuat yang baru.',
   'settings.apiKeys.copyFailed': 'Gagal menyalin. Pilih teksnya dan salin secara manual.',
   'settings.apiKeys.modal.createTitle': 'Buat kunci API',
   'settings.apiKeys.modal.name': 'Nama',
@@ -591,7 +596,8 @@ const settings: TranslationStrings = {
   'settings.apiKeys.modal.creating': 'Membuat...',
   'settings.apiKeys.modal.create': 'Buat',
   'settings.apiKeys.modal.createdTitle': 'Kunci API dibuat',
-  'settings.apiKeys.modal.createdWarning': 'Salin kunci sekarang. Kunci hanya ditampilkan sekali dan tidak bisa diambil lagi.',
+  'settings.apiKeys.modal.createdWarning':
+    'Salin kunci sekarang. Kunci hanya ditampilkan sekali dan tidak bisa diambil lagi.',
   'settings.apiKeys.modal.done': 'Selesai',
 };
 

@@ -21,7 +21,7 @@ import { formatDistance } from '../../../../utils/units'
 import { Eyebrow, displayTime } from '../sheets/MTripSheetUi'
 import { showStopOnMap } from './useMRoadtrip'
 import type { DistanceUnit } from '../../../../types'
-import type { RoadtripDay, ScheduleWarning } from '@trek/shared/roadtrip'
+import type { RoadtripDay, ScheduleWarning } from '@tripmate/shared/roadtrip'
 
 /**
  * One stop of the stage, written out.

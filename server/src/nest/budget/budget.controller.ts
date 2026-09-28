@@ -44,7 +44,7 @@ import {
  * win over the param. Updating total_price on a reservation-linked item syncs the
  * price back.
  *
- * Bodies are validated against the @trek/shared budget schemas via budget.dto.ts
+ * Bodies are validated against the @tripmate/shared budget schemas via budget.dto.ts
  * (global ZodValidationPipe). This replaced the legacy bespoke 400s ('Name is
  * required', 'from_user_id, to_user_id and amount are required', 'user_ids must
  * be an array', 'payers must be an array') with the pipe's uniform

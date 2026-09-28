@@ -55,7 +55,7 @@ import { OauthModule } from '../../src/nest/oauth/oauth.module';
 import { OauthService } from '../../src/nest/oauth/oauth.service';
 import { AddonsService } from '../../src/nest/addons/addons.service';
 import { DatabaseModule } from '../../src/nest/database/database.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 
 describe('OAuth e2e (real guards + temp SQLite)', () => {
   let server: Server;

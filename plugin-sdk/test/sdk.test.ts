@@ -14,7 +14,7 @@ import { buildEntry } from '../src/cli/entry.js';
 import { generateKeypair, signArtifact, publicKeyBase64, verifyArtifact, loadPrivateKey } from '../src/cli/sign.js';
 import { makePublishable } from './helpers.js';
 
-/** A central-directory zip reader mirroring the TREK server's, to prove round-trip. */
+/** A central-directory zip reader mirroring the Trip Mate server's, to prove round-trip. */
 function readZip(buf: Buffer): Record<string, Buffer> {
   let e = -1;
   for (let i = buf.length - 22; i >= 0; i--) if (buf.readUInt32LE(i) === 0x06054b50) { e = i; break; }
@@ -46,7 +46,7 @@ describe('definePlugin + api version', () => {
 });
 
 describe('validateManifest', () => {
-  const base = { id: 'flight-tracker', name: 'Flight', version: '1.0.0', type: 'widget', apiVersion: 1, trek: '>=3.2.0 <4.0.0' };
+  const base = { id: 'flight-tracker', name: 'Flight', version: '1.0.0', type: 'widget', apiVersion: 1, tripmate: '>=3.2.0 <4.0.0' };
   it('accepts a valid manifest', () => {
     expect(validateManifest(base).ok).toBe(true);
   });
@@ -61,7 +61,7 @@ describe('validateManifest', () => {
   });
   it('waives the egress requirement for an operatorEgress plugin', () => {
     // A self-hosted target (Gotify, ntfy) has no host the author can name at publish
-    // time — the admin supplies it after install, and TREK blocks all outbound until then.
+    // time — the admin supplies it after install, and Trip Mate blocks all outbound until then.
     expect(validateManifest({ ...base, permissions: ['http:outbound'], operatorEgress: true }).ok).toBe(true);
     // The waiver is tied to the flag: no flag, still an error.
     expect(validateManifest({ ...base, permissions: ['http:outbound'], operatorEgress: false }).ok).toBe(false);
@@ -369,7 +369,7 @@ describe('createMockHost', () => {
       async exportUserData({ userId }) { return { userId, rows: 2 }; },
       hooks: { tripCardProvider: { async getCards(tripIds) { return tripIds.map((id) => ({ tripId: id, id: 'b', label: 'X' })); } } },
     });
-    // Every entry point needs the grant TREK would gate it on — events and the GDPR
+    // Every entry point needs the grant Trip Mate would gate it on — events and the GDPR
     // handlers included, or the driver refuses them exactly as the host would.
     const host = createMockHost({
       grants: ['jobs:run', 'events:subscribe', 'hook:user-data', 'hook:trip-card-provider'],
@@ -394,10 +394,10 @@ describe('createMockHost', () => {
     await expect(host.run(definePlugin({})).scheduled('x')).rejects.toThrow(/no scheduled handler/);
   });
 
-  // TREK gates hooks, events, jobs and the GDPR handlers on a permission BEFORE the plugin
+  // Trip Mate gates hooks, events, jobs and the GDPR handlers on a permission BEFORE the plugin
   // is reached, and skips an ungranted plugin silently — no error, no log, it just never
   // runs. The driver must refuse them, or a green unit test still means a dead plugin.
-  it('refuses every entry point the manifest did not grant, the way TREK would', async () => {
+  it('refuses every entry point the manifest did not grant, the way Trip Mate would', async () => {
     const ran: string[] = [];
     const def = definePlugin({
       jobs: [{ id: 'refresh', schedule: '* * * * *', async handler() { ran.push('job'); } }],
@@ -537,7 +537,7 @@ describe('scaffold + validate CLIs', () => {
    * A scaffold is HONESTLY INCOMPLETE: it builds and runs, but it is not publishable until it is
    * documented. These two facts are the contract, and they are deliberately different:
    *
-   *   pack/dev      work immediately — you can install it into a local TREK and try it.
+   *   pack/dev      work immediately — you can install it into a local Trip Mate and try it.
    *   validate      fails until the README is written and a screenshot exists.
    *
    * It used to be the other way round: a fresh scaffold passed `validate` (which only checked a
@@ -548,7 +548,7 @@ describe('scaffold + validate CLIs', () => {
   it('scaffolds a widget that builds immediately but is not yet publishable', () => {
     scaffold('my-widget', 'widget', tmp);
     const dir = path.join(tmp, 'my-widget');
-    expect(fs.existsSync(path.join(dir, 'trek-plugin.json'))).toBe(true);
+    expect(fs.existsSync(path.join(dir, 'tripmate-plugin.json'))).toBe(true);
     expect(fs.existsSync(path.join(dir, 'server', 'index.js'))).toBe(true);
     expect(fs.existsSync(path.join(dir, 'client', 'index.html'))).toBe(true);
 
@@ -585,7 +585,7 @@ describe('scaffold + validate CLIs', () => {
     scaffold('icon-plug', 'widget', tmp);
     const dir = path.join(tmp, 'icon-plug');
     makePublishable(dir);
-    const file = path.join(dir, 'trek-plugin.json');
+    const file = path.join(dir, 'tripmate-plugin.json');
     const m = JSON.parse(fs.readFileSync(file, 'utf8'));
     fs.writeFileSync(file, JSON.stringify({ ...m, icon: 'Stethscope' }, null, 2));
 
@@ -598,7 +598,7 @@ describe('scaffold + validate CLIs', () => {
     scaffold('icon-plug', 'widget', tmp);
     const dir = path.join(tmp, 'icon-plug');
     makePublishable(dir);
-    const file = path.join(dir, 'trek-plugin.json');
+    const file = path.join(dir, 'tripmate-plugin.json');
     const m = JSON.parse(fs.readFileSync(file, 'utf8'));
     fs.writeFileSync(file, JSON.stringify({ ...m, icon: 'Stethoscope' }, null, 2));
 
@@ -610,15 +610,15 @@ describe('scaffold + validate CLIs', () => {
   it('scaffolds a client that opts into the design kit via the marker (source stays one line)', () => {
     scaffold('kit-plug', 'widget', tmp);
     const html = fs.readFileSync(path.join(tmp, 'kit-plug', 'client', 'index.html'), 'utf8');
-    expect(html).toContain('<!-- trek:ui -->'); // the one-line opt-in
-    expect(html).toContain('trek.onContext');   // uses the bridge the marker installs
+    expect(html).toContain('<!-- tripmate:ui -->'); // the one-line opt-in
+    expect(html).toContain('tripmate.onContext');   // uses the bridge the marker installs
     expect(html).not.toContain('--glass-bg');    // kit is NOT pre-inlined in the source
   });
 
   it('scaffolds a trip-page plugin (a tab inside the trip) with a client UI', () => {
     scaffold('trip-diary', 'trip-page', tmp);
     const dir = path.join(tmp, 'trip-diary');
-    const m = JSON.parse(fs.readFileSync(path.join(dir, 'trek-plugin.json'), 'utf8'));
+    const m = JSON.parse(fs.readFileSync(path.join(dir, 'tripmate-plugin.json'), 'utf8'));
     expect(m.type).toBe('trip-page');
     expect(fs.existsSync(path.join(dir, 'client', 'index.html'))).toBe(true); // non-integration → gets a UI
     makePublishable(dir);
@@ -630,9 +630,9 @@ describe('scaffold + validate CLIs', () => {
     const out = path.join(tmp, 'kit-plug.zip');
     packPluginDir(path.join(tmp, 'kit-plug'), out);
     const html = readZip(fs.readFileSync(out))['client/index.html'].toString('utf8');
-    expect(html).not.toContain('<!-- trek:ui -->'); // expanded away
-    expect(html).toContain('.trek-glass');          // kit CSS inlined
-    expect(html).toContain('window.trek');          // bridge inlined
+    expect(html).not.toContain('<!-- tripmate:ui -->'); // expanded away
+    expect(html).toContain('.tripmate-glass');          // kit CSS inlined
+    expect(html).toContain('window.tripmate');          // bridge inlined
   });
 
   it('scaffolds a CommonJS package.json with the SDK as a devDependency only', () => {
@@ -646,7 +646,7 @@ describe('scaffold + validate CLIs', () => {
 
   it('applies author, description, and permissions from options', () => {
     scaffold('opt-plug', 'integration', tmp, { author: 'Jane', description: 'Does X', permissions: ['db:own', 'db:read:trips'] });
-    const m = JSON.parse(fs.readFileSync(path.join(tmp, 'opt-plug', 'trek-plugin.json'), 'utf8'));
+    const m = JSON.parse(fs.readFileSync(path.join(tmp, 'opt-plug', 'tripmate-plugin.json'), 'utf8'));
     expect(m.author).toBe('Jane');
     expect(m.description).toBe('Does X');
     expect(m.permissions).toEqual(['db:own', 'db:read:trips']);
@@ -656,11 +656,11 @@ describe('scaffold + validate CLIs', () => {
     expect(() => scaffold('Bad Name', 'widget', tmp)).toThrow(/invalid plugin id/);
   });
 
-  it('tolerates a UTF-8 BOM in trek-plugin.json (Windows editors add one)', () => {
+  it('tolerates a UTF-8 BOM in tripmate-plugin.json (Windows editors add one)', () => {
     scaffold('bom-plug', 'integration', tmp);
     const dir = path.join(tmp, 'bom-plug');
     makePublishable(dir);
-    const mp = path.join(dir, 'trek-plugin.json');
+    const mp = path.join(dir, 'tripmate-plugin.json');
     fs.writeFileSync(mp, '\uFEFF' + fs.readFileSync(mp, 'utf8'));
 
     // A bare JSON.parse chokes on the BOM and reports "Unexpected token" against an invisible
@@ -703,7 +703,7 @@ describe('dev-server SDK injection', () => {
 
 describe('dev-server preview', () => {
   // The preview plays the host, so it has to refuse what the host refuses. A preview
-  // that answered trek:geolocation without the grant green-lights a plugin production
+  // that answered tripmate:geolocation without the grant green-lights a plugin production
   // then breaks — the one drift direction this package cannot afford.
   it('gates the geolocation bridge on geolocation:read, like PluginFrame', async () => {
     const { preview } = await import('../src/cli/dev.js');
@@ -764,7 +764,7 @@ describe('reference plugin (examples/koffi)', () => {
   });
 
   it('has a valid, minimal-permission hero-widget manifest', () => {
-    const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'trek-plugin.json'), 'utf8')) as {
+    const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'tripmate-plugin.json'), 'utf8')) as {
       capabilities?: { widget?: { slot?: string } };
     };
     const res = validateManifest(manifest);
@@ -777,14 +777,14 @@ describe('reference plugin (examples/koffi)', () => {
 describe('makeZip', () => {
   it('round-trips through a central-directory reader (installer-compatible)', () => {
     const files = [
-      { name: 'trek-plugin.json', data: Buffer.from('{"id":"x"}') },
+      { name: 'tripmate-plugin.json', data: Buffer.from('{"id":"x"}') },
       { name: 'server/index.js', data: Buffer.from('module.exports={}\n'.repeat(200)) },
     ];
     const zip = makeZip(files);
     expect(zip.subarray(0, 2).toString()).toBe('PK'); // local file header magic
     const back = readZip(zip);
-    expect(Object.keys(back).sort()).toEqual(['server/index.js', 'trek-plugin.json']);
-    expect(back['trek-plugin.json'].toString()).toBe('{"id":"x"}');
+    expect(Object.keys(back).sort()).toEqual(['server/index.js', 'tripmate-plugin.json']);
+    expect(back['tripmate-plugin.json'].toString()).toBe('{"id":"x"}');
     expect(back['server/index.js'].length).toBe(files[1].data.length);
   });
 });
@@ -798,29 +798,29 @@ describe('pack + entry (publishing automation)', () => {
   it('packs the canonical layout, excludes docs/, and reports sha256 + size', () => {
     const out = path.join(tmp, 'plugin.zip');
     const r = packPluginDir(koffi, out);
-    expect(r.files).toEqual(['README.md', 'client/index.html', 'server/index.js', 'trek-plugin.json']);
+    expect(r.files).toEqual(['README.md', 'client/index.html', 'server/index.js', 'tripmate-plugin.json']);
     expect(r.sha256).toMatch(/^[0-9a-f]{64}$/);
     expect(r.size).toBeGreaterThan(0);
     const back = readZip(fs.readFileSync(out));
-    expect(back['trek-plugin.json']).toBeTruthy();
+    expect(back['tripmate-plugin.json']).toBeTruthy();
     expect(Object.keys(back).some((n) => n.startsWith('docs/'))).toBe(false); // screenshot served from repo, not shipped
   });
 
   it('refuses a plugin that ships a native binary', () => {
     const bad = path.join(tmp, 'bad');
     fs.mkdirSync(path.join(bad, 'server'), { recursive: true });
-    fs.writeFileSync(path.join(bad, 'trek-plugin.json'), JSON.stringify({ id: 'bad-plug', name: 'Bad', version: '1.0.0', type: 'integration', permissions: [], egress: [], trek: '>=3.2.0 <4.0.0' }));
+    fs.writeFileSync(path.join(bad, 'tripmate-plugin.json'), JSON.stringify({ id: 'bad-plug', name: 'Bad', version: '1.0.0', type: 'integration', permissions: [], egress: [], tripmate: '>=3.2.0 <4.0.0' }));
     fs.writeFileSync(path.join(bad, 'server', 'index.js'), 'module.exports={}');
     fs.writeFileSync(path.join(bad, 'server', 'thing.node'), Buffer.from([1, 2, 3]));
     fs.writeFileSync(path.join(bad, 'README.md'), '# Bad\n![x](x.png)\ncontent');
     expect(() => packPluginDir(bad, path.join(tmp, 'x.zip'))).toThrow(/native binaries/);
   });
 
-  it('builds a registry entry with sha256/size/commit/trek filled in', () => {
+  it('builds a registry entry with sha256/size/commit/tripmate filled in', () => {
     const out = path.join(tmp, 'plugin.zip');
     const packed = packPluginDir(koffi, out);
     const entry = buildEntry({
-      dir: koffi, repo: 'mauriceboe/TREK-plugin-koffi', tag: 'v1.0.0', zipPath: out,
+      dir: koffi, repo: 'mauriceboe/Trip Mate-plugin-koffi', tag: 'v1.0.0', zipPath: out,
       commit: 'a'.repeat(40), now: '2026-07-04T00:00:00.000Z',
     });
     expect(entry.id).toBe('koffi');
@@ -831,11 +831,11 @@ describe('pack + entry (publishing automation)', () => {
     expect(v.commitSha).toBe('a'.repeat(40));
     // The RAW range is the one compatibility field an entry carries. minTrekVersion is gone:
     // it restated the range's lower bound in a weaker form (it cannot express the exclusive
-    // upper bound), so the entry used to drop "<4.0.0" silently and a TREK 4 server read
+    // upper bound), so the entry used to drop "<4.0.0" silently and a Trip Mate 4 server read
     // "requires 3.2.0+" and considered the plugin compatible.
-    expect(v.trek).toBe('>=3.2.0 <4.0.0');
+    expect(v.tripmate).toBe('>=3.2.0 <4.0.0');
     expect(v).not.toHaveProperty('minTrekVersion');
-    expect(v.downloadUrl).toBe('https://github.com/mauriceboe/TREK-plugin-koffi/releases/download/v1.0.0/plugin.zip');
+    expect(v.downloadUrl).toBe('https://github.com/mauriceboe/Trip Mate-plugin-koffi/releases/download/v1.0.0/plugin.zip');
     expect(v.nativeModules).toBe(false);
   });
 
@@ -845,10 +845,10 @@ describe('pack + entry (publishing automation)', () => {
     const out = path.join(tmp, 'plugin.zip');
     packPluginDir(koffi, out);
     const entry = buildEntry({
-      dir: koffi, repo: 'mauriceboe/TREK-plugin-koffi', tag: 'v1.0.0', zipPath: out,
+      dir: koffi, repo: 'mauriceboe/Trip Mate-plugin-koffi', tag: 'v1.0.0', zipPath: out,
       commit: 'a'.repeat(40), now: '2026-07-04T00:00:00.000Z',
     });
-    expect(entry.icon).toBe('Luggage'); // koffi's trek-plugin.json declares it
+    expect(entry.icon).toBe('Luggage'); // koffi's tripmate-plugin.json declares it
   });
 
   it('--merge refreshes the icon from the manifest, but never wipes one the entry already carries', () => {
@@ -857,8 +857,8 @@ describe('pack + entry (publishing automation)', () => {
     const prior = (icon: string) => {
       const p = path.join(tmp, `prior-${icon}.json`);
       fs.writeFileSync(p, JSON.stringify({
-        id: 'koffi', name: 'Koffi', author: 'TREK', description: 'x',
-        repo: 'mauriceboe/TREK-plugin-koffi', type: 'widget', icon,
+        id: 'koffi', name: 'Koffi', author: 'Trip Mate', description: 'x',
+        repo: 'mauriceboe/Trip Mate-plugin-koffi', type: 'widget', icon,
         versions: [{ version: '0.9.0', gitTag: 'v0.9.0', commitSha: 'b'.repeat(40), downloadUrl: 'https://x/y.zip', sha256: 'c'.repeat(64), size: 10, apiVersion: 1, nativeModules: false, publishedAt: '2026-01-01T00:00:00.000Z' }],
       }));
       return p;
@@ -866,7 +866,7 @@ describe('pack + entry (publishing automation)', () => {
 
     // koffi's manifest declares Luggage → an author who rebrands sees it in the store
     const rebranded = buildEntry({
-      dir: koffi, repo: 'mauriceboe/TREK-plugin-koffi', tag: 'v1.0.0', zipPath: out,
+      dir: koffi, repo: 'mauriceboe/Trip Mate-plugin-koffi', tag: 'v1.0.0', zipPath: out,
       commit: 'a'.repeat(40), now: '2026-07-04T00:00:00.000Z', mergePath: prior('Coffee'),
     });
     expect(rebranded.icon).toBe('Luggage');
@@ -875,7 +875,7 @@ describe('pack + entry (publishing automation)', () => {
     const noIconOpts = entryOptsFor('no-icon', '>=3.2.0 <4.0.0');
     const keepPath = path.join(tmp, 'keep.json');
     fs.writeFileSync(keepPath, JSON.stringify({
-      id: 'no-icon', name: 'No Icon', author: 'TREK', description: 'x', repo: 'a/b',
+      id: 'no-icon', name: 'No Icon', author: 'Trip Mate', description: 'x', repo: 'a/b',
       type: 'integration', icon: 'Coffee', versions: [],
     }));
     const kept = buildEntry({ ...noIconOpts, now: '2026-07-04T00:00:00.000Z', mergePath: keepPath });
@@ -888,24 +888,24 @@ describe('pack + entry (publishing automation)', () => {
     // that supports everything BELOW 4 as requiring 4+, the precise inverse of what its author
     // wrote. A field that only ever restates the range cannot be wrong if it does not exist.
     const entry = buildEntry({ ...entryOptsFor('upper-only', '<4.0.0'), now: '2026-07-04T00:00:00.000Z' });
-    expect(entry.versions[0].trek).toBe('<4.0.0');
+    expect(entry.versions[0].tripmate).toBe('<4.0.0');
     expect(entry.versions[0]).not.toHaveProperty('minTrekVersion');
   });
 
-  it('refuses to publish a plugin with no usable trek range', () => {
-    expect(() => buildEntry({ ...entryOptsFor('no-trek', undefined), now: '2026-07-04T00:00:00.000Z' }))
-      .toThrow(/no valid "trek" version range/);
-    expect(() => buildEntry({ ...entryOptsFor('bad-trek', '>=4.0.0 <3.0.0'), now: '2026-07-04T00:00:00.000Z' }))
-      .toThrow(/no valid "trek" version range/);
+  it('refuses to publish a plugin with no usable tripmate range', () => {
+    expect(() => buildEntry({ ...entryOptsFor('no-tripmate', undefined), now: '2026-07-04T00:00:00.000Z' }))
+      .toThrow(/no valid "tripmate" version range/);
+    expect(() => buildEntry({ ...entryOptsFor('bad-tripmate', '>=4.0.0 <3.0.0'), now: '2026-07-04T00:00:00.000Z' }))
+      .toThrow(/no valid "tripmate" version range/);
   });
 
   /** A minimal plugin dir + artifact for buildEntry (which only needs the zip to exist). */
-  function entryOptsFor(id: string, trek: string | undefined) {
+  function entryOptsFor(id: string, tripmate: string | undefined) {
     const dir = path.join(tmp, id);
     fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(path.join(dir, 'trek-plugin.json'), JSON.stringify({ id, name: id, version: '1.0.0', type: 'integration', ...(trek === undefined ? {} : { trek }) }));
+    fs.writeFileSync(path.join(dir, 'tripmate-plugin.json'), JSON.stringify({ id, name: id, version: '1.0.0', type: 'integration', ...(tripmate === undefined ? {} : { tripmate }) }));
     const zipPath = path.join(tmp, `${id}.zip`);
-    fs.writeFileSync(zipPath, makeZip([{ name: 'trek-plugin.json', data: Buffer.from('{}') }]));
+    fs.writeFileSync(zipPath, makeZip([{ name: 'tripmate-plugin.json', data: Buffer.from('{}') }]));
     return { dir, repo: 'a/b', tag: 'v1.0.0', zipPath, commit: 'a'.repeat(40) };
   }
 
@@ -914,11 +914,11 @@ describe('pack + entry (publishing automation)', () => {
     packPluginDir(koffi, out);
     const existingPath = path.join(tmp, 'koffi.json');
     fs.writeFileSync(existingPath, JSON.stringify({
-      id: 'koffi', name: 'Koffi', author: 'TREK', description: 'x', repo: 'mauriceboe/TREK-plugin-koffi', type: 'widget',
+      id: 'koffi', name: 'Koffi', author: 'Trip Mate', description: 'x', repo: 'mauriceboe/Trip Mate-plugin-koffi', type: 'widget',
       versions: [{ version: '0.9.0', gitTag: 'v0.9.0', commitSha: 'b'.repeat(40), downloadUrl: 'https://github.com/x/y/releases/download/v0.9.0/plugin.zip', sha256: 'c'.repeat(64), minTrekVersion: '3.2.0', size: 10, apiVersion: 1, nativeModules: false, publishedAt: '2026-01-01T00:00:00.000Z' }],
     }));
     const merged = buildEntry({
-      dir: koffi, repo: 'mauriceboe/TREK-plugin-koffi', tag: 'v1.0.0', zipPath: out,
+      dir: koffi, repo: 'mauriceboe/Trip Mate-plugin-koffi', tag: 'v1.0.0', zipPath: out,
       commit: 'a'.repeat(40), mergePath: existingPath, now: '2026-07-04T00:00:00.000Z',
     });
     expect(merged.versions.map((v) => v.version)).toEqual(['1.0.0', '0.9.0']);
@@ -962,7 +962,7 @@ describe('sign + keygen (author signatures, TOFU)', () => {
     packPluginDir(koffi, out);
     const keyPath = path.join(tmp, 'k.pem');
     const { publicKey } = generateKeypair(keyPath);
-    const entry = buildEntry({ dir: koffi, repo: 'mauriceboe/TREK-plugin-koffi', tag: 'v1.0.0', zipPath: out, commit: 'a'.repeat(40), signKeyPath: keyPath, now: '2026-07-04T00:00:00.000Z' });
+    const entry = buildEntry({ dir: koffi, repo: 'mauriceboe/Trip Mate-plugin-koffi', tag: 'v1.0.0', zipPath: out, commit: 'a'.repeat(40), signKeyPath: keyPath, now: '2026-07-04T00:00:00.000Z' });
     expect(entry.authorPublicKey).toBe(publicKey);
     const sig = entry.versions[0].signature;
     expect(sig).toBeTruthy();
@@ -974,12 +974,12 @@ describe('sign + keygen (author signatures, TOFU)', () => {
     packPluginDir(koffi, out);
     const key1 = path.join(tmp, 'k1.pem');
     generateKeypair(key1);
-    const existing = buildEntry({ dir: koffi, repo: 'mauriceboe/TREK-plugin-koffi', tag: 'v1.0.0', zipPath: out, commit: 'a'.repeat(40), signKeyPath: key1, now: '2026-07-04T00:00:00.000Z' });
+    const existing = buildEntry({ dir: koffi, repo: 'mauriceboe/Trip Mate-plugin-koffi', tag: 'v1.0.0', zipPath: out, commit: 'a'.repeat(40), signKeyPath: key1, now: '2026-07-04T00:00:00.000Z' });
     const existingPath = path.join(tmp, 'koffi.json');
     fs.writeFileSync(existingPath, JSON.stringify({ ...existing, versions: existing.versions.map((v) => ({ ...v, version: '0.9.0', gitTag: 'v0.9.0' })) }));
     const key2 = path.join(tmp, 'k2.pem');
     generateKeypair(key2);
-    expect(() => buildEntry({ dir: koffi, repo: 'mauriceboe/TREK-plugin-koffi', tag: 'v1.1.0', zipPath: out, commit: 'a'.repeat(40), mergePath: existingPath, signKeyPath: key2, now: '2026-07-04T00:00:00.000Z' })).toThrow(/differs from the one already published/);
+    expect(() => buildEntry({ dir: koffi, repo: 'mauriceboe/Trip Mate-plugin-koffi', tag: 'v1.1.0', zipPath: out, commit: 'a'.repeat(40), mergePath: existingPath, signKeyPath: key2, now: '2026-07-04T00:00:00.000Z' })).toThrow(/differs from the one already published/);
   });
 });
 
@@ -1111,7 +1111,7 @@ describe('mock-host inter-plugin (plugins.call + events.emit)', () => {
   });
 
   it('validates the scope of a settings action', () => {
-    const base = { id: 'plugin', name: 'P', version: '1.0.0', type: 'integration', trek: '>=4.0.0 <5.0.0' };
+    const base = { id: 'plugin', name: 'P', version: '1.0.0', type: 'integration', tripmate: '>=4.0.0 <5.0.0' };
     expect(validateManifest({ ...base, actions: [{ key: 'a', scope: 'instance' }] }).ok).toBe(true);
     expect(validateManifest({ ...base, actions: [{ key: 'a', scope: 'user' }] }).ok).toBe(true);
     expect(validateManifest({ ...base, actions: [{ key: 'a' }] }).ok).toBe(true); // scope optional
@@ -1138,7 +1138,7 @@ describe('mock-host inter-plugin (plugins.call + events.emit)', () => {
 });
 
 describe('validateManifest capabilities.provides/emits', () => {
-  const base = { id: 'my-plug', name: 'My Plug', version: '1.0.0', type: 'integration', permissions: ['db:own'], trek: '>=3.2.0 <4.0.0' };
+  const base = { id: 'my-plug', name: 'My Plug', version: '1.0.0', type: 'integration', permissions: ['db:own'], tripmate: '>=3.2.0 <4.0.0' };
   it('accepts well-formed provides + emits', () => {
     const r = validateManifest({ ...base, capabilities: { provides: ['computeRate'], emits: ['rate.updated'] } });
     expect(r.ok).toBe(true);
@@ -1150,34 +1150,34 @@ describe('validateManifest capabilities.provides/emits', () => {
 });
 
 /**
- * The `trek` range is what TREK gates installs on, so it has to be caught HERE — the same
+ * The `tripmate` range is what Trip Mate gates installs on, so it has to be caught HERE — the same
  * validateManifest the registry CI runs — rather than by a rejected install.
  */
-describe('validateManifest: the trek range', () => {
+describe('validateManifest: the tripmate range', () => {
   const base = { id: 'my-plug', name: 'My Plug', version: '1.0.0', type: 'integration', permissions: ['db:own'] };
 
   it('requires a range', () => {
     const r = validateManifest({ ...base });
     expect(r.ok).toBe(false);
-    expect(r.errors.join()).toMatch(/missing "trek"/);
+    expect(r.errors.join()).toMatch(/missing "tripmate"/);
   });
 
   it('rejects a range that is not semver, and one nothing can satisfy', () => {
-    expect(validateManifest({ ...base, trek: '3.2+' }).ok).toBe(false);
-    // Syntactically valid, semantically empty: no TREK could ever run it.
-    expect(validateManifest({ ...base, trek: '>=4.0.0 <3.0.0' }).ok).toBe(false);
+    expect(validateManifest({ ...base, tripmate: '3.2+' }).ok).toBe(false);
+    // Syntactically valid, semantically empty: no Trip Mate could ever run it.
+    expect(validateManifest({ ...base, tripmate: '>=4.0.0 <3.0.0' }).ok).toBe(false);
   });
 
   it('accepts the ranges authors really write, and carries the range through', () => {
-    for (const trek of ['>=3.2.0 <4.0.0', '^3.2.0', '>=3']) {
-      const r = validateManifest({ ...base, trek });
-      expect(r.ok, trek).toBe(true);
-      expect(r.manifest?.trek).toBe(trek);
+    for (const tripmate of ['>=3.2.0 <4.0.0', '^3.2.0', '>=3']) {
+      const r = validateManifest({ ...base, tripmate });
+      expect(r.ok, tripmate).toBe(true);
+      expect(r.manifest?.tripmate).toBe(tripmate);
     }
   });
 
   it('allows "*" (it is a legal claim) but validate warns — it is nearly always a lie', () => {
-    expect(validateManifest({ ...base, trek: '*' }).ok).toBe(true);
+    expect(validateManifest({ ...base, tripmate: '*' }).ok).toBe(true);
     expect(isUnboundedRange('*')).toBe(true);
     expect(isUnboundedRange('>=3.2.0 <4.0.0')).toBe(false);
   });

@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Scope: the **`@trek/shared`** workspace — the **single source of truth** for API contracts (Zod) and all i18n strings; server and client both import from it. See the repo-root `CLAUDE.md` for the monorepo picture.
+Scope: the **`@tripmate/shared`** workspace — the **single source of truth** for API contracts (Zod) and all i18n strings; server and client both import from it. See the repo-root `CLAUDE.md` for the monorepo picture.
 
 ## Commands (run from `shared/`)
 
@@ -20,7 +20,7 @@ Single test: `npx vitest run src/i18n/i18n-parity.spec.ts`, or `npx vitest run -
 
 ## Build & exports
 
-`tsdown.config.ts` emits the root barrel, the i18n metadata barrel, and **one entry per locale** so each locale is its own lazy-loadable chunk (the client dynamic-imports them). `zod` is never bundled. The `exports` map exposes `@trek/shared` (contracts), `@trek/shared/i18n` (metadata/types) and `@trek/shared/i18n/<locale>`.
+`tsdown.config.ts` emits the root barrel, the i18n metadata barrel, and **one entry per locale** so each locale is its own lazy-loadable chunk (the client dynamic-imports them). `zod` is never bundled. The `exports` map exposes `@tripmate/shared` (contracts), `@tripmate/shared/i18n` (metadata/types) and `@tripmate/shared/i18n/<locale>`.
 
 ## Contracts (`src/<domain>/<domain>.schema.ts`)
 
@@ -47,7 +47,7 @@ The parity rule governs **existing** routes; it is not a license to mint new deb
 - **`<locale>/`** — one folder per language, one file per UI domain plus an `index.ts` barrel; each file exports a flat map of dot-namespaced keys typed as `TranslationStrings`. The runtime `t(key)` only resolves these top-level keys.
 - **`en/` is canonical.** Every other locale must have the identical file set and top-level keys — `i18n:parity:strict` enforces it in CI. When you add or rename a key, update every locale.
 - **Every locale gets a real translation — an English placeholder is not acceptable.** Parity only checks that the key exists, so copying the `en` string passes CI while shipping English to those users. Write native phrasing with the locale's own punctuation and the same `{placeholders}` as `en`; if you genuinely cannot translate one, say so instead of filling it with English.
-- **Further i18n specs run in `npm test`** and fail changes that parity lets through: placeholder parity (every `{placeholder}` in an `en` string must appear in each translation), no `en` string may call TREK "self-hosted" (the same build runs on managed installs; exemptions live in the spec), and a wording regression test for plugin permission descriptions (currently one string — add a case there when a permission's real behavior changes). None of these are part of `i18n:parity`, which checks key sets only.
+- **Further i18n specs run in `npm test`** and fail changes that parity lets through: placeholder parity (every `{placeholder}` in an `en` string must appear in each translation), no `en` string may call Trip Mate "self-hosted" (the same build runs on managed installs; exemptions live in the spec), and a wording regression test for plugin permission descriptions (currently one string — add a case there when a permission's real behavior changes). None of these are part of `i18n:parity`, which checks key sets only.
 
 ## Sanitization (`src/sanitize/sanitize.ts`)
 

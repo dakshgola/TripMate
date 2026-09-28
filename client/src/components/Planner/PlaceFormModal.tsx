@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import Modal from '../shared/Modal'
-import type { RoadtripStopType } from '@trek/shared'
+import type { RoadtripStopType } from '@tripmate/shared'
 import CustomSelect from '../shared/CustomSelect'
 import NoteFormatToolbar from '../shared/NoteFormatToolbar'
 import { mapsApi } from '../../api/client'

@@ -7,7 +7,7 @@ import {
   type StorageConfig,
   type StorageMigrationStatus,
   type StorageTestResponse,
-} from '@trek/shared'
+} from '@tripmate/shared'
 import { useTranslation } from '../../../i18n'
 import { formatBytes } from '../../../utils/formatBytes'
 import { relativeTime } from '../../../utils/relativeTime'

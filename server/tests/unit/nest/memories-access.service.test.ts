@@ -403,7 +403,7 @@ describe('canAccessTrekPhoto', () => {
     const { user: stranger } = createUser(testDb, { username: 'stranger' });
     const trip = createTrip(testDb, owner.id);
     testDb.prepare('INSERT INTO trip_members (trip_id, user_id) VALUES (?, ?)').run(trip.id, member.id);
-    const photoId = shareInTrip(trip.id, owner.id, 'trek-shared');
+    const photoId = shareInTrip(trip.id, owner.id, 'tripmate-shared');
 
     expect(access.canAccessTrekPhoto(member.id, photoId)).toBe(true);
     expect(access.canAccessTrekPhoto(stranger.id, photoId)).toBe(false);
@@ -423,7 +423,7 @@ describe('canAccessTrekPhoto', () => {
     const { user: contributor } = createUser(testDb, { username: 'contrib' });
     const journeyId = makeJourney(owner.id);
     const photoId = Number(testDb.prepare(
-      "INSERT INTO trek_photos (provider, asset_id, owner_id) VALUES ('immich', 'j-trek', ?)"
+      "INSERT INTO trek_photos (provider, asset_id, owner_id) VALUES ('immich', 'j-tripmate', ?)"
     ).run(owner.id).lastInsertRowid);
     testDb.prepare('INSERT INTO journey_photos (journey_id, photo_id, created_at) VALUES (?, ?, 0)').run(journeyId, photoId);
     testDb.prepare("INSERT INTO journey_contributors (journey_id, user_id, role, added_at) VALUES (?, ?, 'editor', 0)").run(journeyId, contributor.id);

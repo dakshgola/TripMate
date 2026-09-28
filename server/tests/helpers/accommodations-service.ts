@@ -6,7 +6,7 @@ import { JourneyDomainService } from '../../src/nest/journey/journey-domain.serv
 import { PermissionsService } from '../../src/nest/permissions/permissions.service';
 import { QueryHelpersService } from '../../src/nest/query-helpers/query-helpers.service';
 import { RealtimeService } from '../../src/nest/realtime/realtime.service';
-import { TrekPhotosRepository } from '../../src/nest/photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../../src/nest/photos/tripmate-photos.repository';
 
 /**
  * AccommodationsService over a test connection.

@@ -70,7 +70,7 @@ export default function ApplyTemplateButton({ tripId, visibility, style, classNa
       </button>
       {open && (
         <div
-          className="trek-menu-enter"
+          className="tripmate-menu-enter"
           style={{
             position: 'absolute', right: 0, top: '100%', marginTop: 6, zIndex: 50,
             background: 'var(--bg-card)', border: '1px solid var(--border-primary)', borderRadius: 10,

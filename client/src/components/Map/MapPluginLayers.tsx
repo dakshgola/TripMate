@@ -20,7 +20,7 @@ const TONE_COLORS: Record<PluginMapLayerFeature['tone'], string> = {
   danger: '#ef4444',
 }
 
-const PANE = 'trek-plugin-layers'
+const PANE = 'tripmate-plugin-layers'
 
 const DASH_ARRAYS: Record<PluginMapLayerFeature['dash'], string | undefined> = {
   solid: undefined,

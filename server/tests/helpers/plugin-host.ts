@@ -70,7 +70,7 @@ import { EphemeralTokenService } from '../../src/nest/auth/ephemeral-token.servi
 import { UserCleanupService } from '../../src/nest/auth/user-cleanup.service';
 import { UnsplashService } from '../../src/nest/unsplash/unsplash.service';
 import { PlacePhotoCacheService } from '../../src/nest/place-photos/place-photo-cache.service';
-import { TrekPhotosRepository } from '../../src/nest/photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../../src/nest/photos/tripmate-photos.repository';
 import { RuntimeEnvService } from '../../src/nest/app-config/runtime-env.service';
 import { makeStorageFixture } from './storage-fixture';
 

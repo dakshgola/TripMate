@@ -1,6 +1,6 @@
 // FE-W4WQ-001 to FE-W4WQ-005
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import type { WeatherResult } from '@trek/shared'
+import type { WeatherResult } from '@tripmate/shared'
 
 const get = vi.fn(async (_lat: number, _lng: number, _date: string, _lang?: string) => ({} as WeatherResult))
 

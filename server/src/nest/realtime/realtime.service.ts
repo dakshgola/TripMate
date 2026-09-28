@@ -4,7 +4,7 @@ import type {
   TrekWsPluginEventName,
   TrekWsTripEventName,
   TrekWsUserEventName,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import { broadcast, broadcastToUser, getOnlineUserIds } from '../../websocket';
 
 /**
@@ -35,7 +35,7 @@ export class RealtimeService {
    * packing items).
    *
    * Compile-time contract (runtime is a pure pass-through): the event name
-   * must be a key of the shared TREK_WS_EVENTS registry and the payload must
+   * must be a key of the shared TRIPMATE_WS_EVENTS registry and the payload must
    * match its schema — a typo'd name or drifted payload fails `tsc`, never
    * ships silence. The `plugin:` overload is the deliberate escape hatch for
    * the host's force-namespaced `plugin:<id>:<event>` broadcasts.

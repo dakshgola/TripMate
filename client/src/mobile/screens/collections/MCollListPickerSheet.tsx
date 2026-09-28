@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Loader2 } from 'lucide-react'
-import type { Collection } from '@trek/shared'
+import type { Collection } from '@tripmate/shared'
 import type { TranslationFn } from '../../../types'
 import MSheet from '../../components/MSheet'
 import { SheetHeader } from './MCollSheetKit'

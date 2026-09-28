@@ -1,9 +1,9 @@
-# TREK Helm Chart
+# Trip Mate Helm Chart
 
-This is a minimal Helm chart for deploying the TREK app.
+This is a minimal Helm chart for deploying the Trip Mate app.
 
 ## Features
-- Deploys the TREK container
+- Deploys the Trip Mate container
 - Exposes port 3000 via Service
 - Optional persistent storage for `/app/data` and `/app/uploads`
 - Configurable environment variables and secrets
@@ -15,19 +15,19 @@ This is a minimal Helm chart for deploying the TREK app.
 A hosted Helm repository is available:
 
 ```sh
-helm repo add trek https://chart.liketrek.com
+helm repo add tripmate https://chart.liketrek.com
 helm repo update
-helm install trek trek/trek
+helm install tripmate tripmate/tripmate
 ```
 
-> **Note:** `chart.liketrek.com` is a custom domain (CNAME) for the GitHub Pages site at `https://liketrek.github.io/TREK` — both URLs serve the same repository. The github.io URL keeps working (it redirects to `chart.liketrek.com`), but the custom domain is the canonical one to use.
+> **Note:** `chart.liketrek.com` is a custom domain (CNAME) for the GitHub Pages site at `https://liketrek.github.io/Trip Mate` — both URLs serve the same repository. The github.io URL keeps working (it redirects to `chart.liketrek.com`), but the custom domain is the canonical one to use.
 
 ## Usage
 
 Or install directly from the local chart:
 
 ```sh
-helm install trek ./chart \
+helm install tripmate ./chart \
   --set ingress.enabled=true \
   --set ingress.hosts[0].host=yourdomain.com
 ```
@@ -49,7 +49,7 @@ See `values.yaml` for more options.
 - Liveness and readiness probes are configurable under `probes`. Overrides are merged over the defaults, so `--set probes.liveness.initialDelaySeconds=60` keeps the `httpGet` handler. When switching to `exec` or `tcpSocket`, clear `httpGet` in the same override. Set `probes.liveness: null` to remove a probe.
 - If using ingress, you must manually keep `env.ALLOWED_ORIGINS` and `ingress.hosts` in sync to ensure CORS works correctly. The chart does not sync these automatically.
 - Set `env.ALLOW_INTERNAL_NETWORK: "true"` if Immich or other integrated services are hosted on a private/RFC-1918 address (e.g. a pod on the same cluster or a NAS on your LAN). Loopback (`127.x`) and link-local/metadata addresses (`169.254.x`) remain blocked regardless.
-- Set `env.ALLOW_LINK_LOCAL_IPS` to a single link-local address (e.g. `"169.254.1.2"`) only when a service TREK needs sits behind one, such as a host gateway. Cloud metadata addresses (`169.254.169.x`, `169.254.170.x`) cannot be listed.
+- Set `env.ALLOW_LINK_LOCAL_IPS` to a single link-local address (e.g. `"169.254.1.2"`) only when a service Trip Mate needs sits behind one, such as a host gateway. Cloud metadata addresses (`169.254.169.x`, `169.254.170.x`) cannot be listed.
 - `FORCE_HTTPS` is optional. Set `env.FORCE_HTTPS: "true"` only when ingress (or another proxy) terminates TLS. It enables HTTPS redirects, HSTS, CSP `upgrade-insecure-requests`, and forces the session cookie `secure` flag. Requires `TRUST_PROXY` to be set.
 - Set `env.TRUST_PROXY: "1"` (or the number of proxy hops) when running behind ingress or a load balancer. Required for `FORCE_HTTPS` to detect the forwarded protocol correctly. In production it defaults to `1` automatically.
 - `COOKIE_SECURE` is auto-derived (on when `NODE_ENV=production` or `FORCE_HTTPS=true`). Set `env.COOKIE_SECURE: "false"` only during local testing without TLS. **Not recommended for production.**

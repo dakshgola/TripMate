@@ -20,7 +20,7 @@ import { MCP_TOOLS_MAX, TOOL_DESCRIPTION_MAX, TOOL_TITLE_MAX } from '../mcp-tool
 import { sanitiseAssistantText } from '../text-sanitize';
 
 /**
- * TREK-side of the plugin registry (#plugins, M5). Fetches the single aggregated
+ * Trip Mate-side of the plugin registry (#plugins, M5). Fetches the single aggregated
  * dist/index.json (never per-plugin GitHub API calls — the HACS rate-limit
  * lesson), caches it briefly + soft-fails, and installs a pinned version through
  * the M4 pipeline: SSRF-safe download -> sha256 verify -> zip/tar-slip-safe
@@ -42,13 +42,13 @@ interface RegistryVersion {
   downloadUrl: string;
   sha256: string;
   /**
-   * The version's declared TREK range, mirroring its manifest's `trek`. Authoritative
+   * The version's declared Trip Mate range, mirroring its manifest's `tripmate`. Authoritative
    * when present. `minTrekVersion`/`maxTrekVersion` are the legacy shape — a lower bound
    * plus an optional INCLUSIVE upper bound, which cannot express the exclusive `<4.0.0`
    * that a manifest actually declares — and stay only so entries published before this
    * field existed still gate.
    */
-  trek?: string;
+  tripmate?: string;
   /** Nullable: an entry may carry no lower bound at all (and a legacy one carries only this). */
   minTrekVersion?: string | null;
   maxTrekVersion?: string | null;
@@ -94,12 +94,12 @@ interface Registry {
   plugins: RegistryEntry[];
 }
 
-/** A registry entry's standing against the running TREK, resolved server-side. */
+/** A registry entry's standing against the running Trip Mate, resolved server-side. */
 export interface HostCompat {
-  /** The latest version's declared TREK range, or null for a legacy (min/max-only) entry. */
-  trek: string | null;
+  /** The latest version's declared Trip Mate range, or null for a legacy (min/max-only) entry. */
+  tripmate: string | null;
   hostVersion: string;
-  /** Whether the LATEST version can be installed on this TREK. */
+  /** Whether the LATEST version can be installed on this Trip Mate. */
   compatible: boolean;
   /** Newest installable version — the latest one, or an older fallback, or null if none fits. */
   latestCompatible: string | null;
@@ -182,7 +182,7 @@ export class PluginRegistryService {
     if (force) _detailCache.clear();
     try {
       const url = force ? `${REGISTRY_URL}${REGISTRY_URL.includes('?') ? '&' : '?'}_=${Date.now()}` : REGISTRY_URL;
-      const headers: Record<string, string> = { 'User-Agent': 'TREK-Server' };
+      const headers: Record<string, string> = { 'User-Agent': 'Trip Mate-Server' };
       if (force) {
         headers['Cache-Control'] = 'no-cache';
         headers.Pragma = 'no-cache';
@@ -248,11 +248,11 @@ export class PluginRegistryService {
   }
 
   /**
-   * How this entry stands against the running TREK, computed SERVER-side. The client has
+   * How this entry stands against the running Trip Mate, computed SERVER-side. The client has
    * no semver dependency and must never grow a second implementation of range logic — a
    * UI that disagreed with the install gate would show an enabled button that 400s.
    *
-   * `latestCompatible` is the useful half: when the newest version has outrun this TREK,
+   * `latestCompatible` is the useful half: when the newest version has outrun this Trip Mate,
    * an older one often still fits, so the UI can offer it instead of a dead grey button.
    */
   private hostCompat(entry: RegistryEntry): HostCompat {
@@ -262,7 +262,7 @@ export class PluginRegistryService {
     // bypassed: "latest compatible" must keep naming a version the author vouched for.
     const fallback = compatible ? null : this.latestCompatible(entry, undefined, hostCompatible);
     return {
-      trek: latest?.trek ?? null,
+      tripmate: latest?.tripmate ?? null,
       hostVersion: hostVersion(),
       compatible,
       latestCompatible: compatible ? (latest?.version ?? null) : (fallback?.version ?? null),
@@ -290,7 +290,7 @@ export class PluginRegistryService {
     if (latest) {
       try {
         const { bytes } = await safeDownload(
-          rawFileUrl(entry.repo, latest.commitSha, 'trek-plugin.json'),
+          rawFileUrl(entry.repo, latest.commitSha, 'tripmate-plugin.json'),
           MANIFEST_MAX_BYTES,
         );
         manifest = previewManifest(parseJsonText(bytes.toString('utf8')));
@@ -327,7 +327,7 @@ export class PluginRegistryService {
         publishedAt: v.publishedAt ?? null,
         size: v.size ?? null,
         signed: !!entry.authorPublicKey && !!v.signature,
-        trek: trekRequirementOrNull(v),
+        tripmate: trekRequirementOrNull(v),
         compatible: hostCompatible(v, normalizedHost()),
       })),
       ...this.hostCompat(entry),
@@ -341,7 +341,7 @@ export class PluginRegistryService {
 
   /**
    * Resolve which registry version of `id` to install: the highest that satisfies
-   * `constraint` (any version if omitted) AND is compatible with the running TREK
+   * `constraint` (any version if omitted) AND is compatible with the running Trip Mate
    * version (`minTrekVersion`/`maxTrekVersion`). Throws if the plugin isn't in the
    * registry or nothing qualifies. Backs "download the latest compatible version".
    */
@@ -353,17 +353,17 @@ export class PluginRegistryService {
     if (!v) {
       throw new RegistryError(
         constraint
-          ? `no version of ${id} satisfies "${constraint}" and TREK ${hostVersion()}`
-          : `no version of ${id} is compatible with TREK ${hostVersion()}`,
-        'TREK_VERSION_INCOMPATIBLE',
+          ? `no version of ${id} satisfies "${constraint}" and Trip Mate ${hostVersion()}`
+          : `no version of ${id} is compatible with Trip Mate ${hostVersion()}`,
+        'TRIPMATE_VERSION_INCOMPATIBLE',
       );
     }
     return v;
   }
 
   /**
-   * The newest version of `entry` that satisfies `constraint` AND admits the running TREK.
-   * `admits` defaults to the picker's rule (which honours TREK_PLUGINS_IGNORE_TREK_RANGE);
+   * The newest version of `entry` that satisfies `constraint` AND admits the running Trip Mate.
+   * `admits` defaults to the picker's rule (which honours TRIPMATE_PLUGINS_IGNORE_TREK_RANGE);
    * the UI verdict passes the strict {@link hostCompatible} instead.
    */
   private latestCompatible(
@@ -385,7 +385,7 @@ export class PluginRegistryService {
    * path, which is the whole point. An explicit `version` and the bare "install latest"
    * both used to bypass the compat check entirely (only the `constraint` path went
    * through resolveVersion), so the admin UI's own Install button — which sends neither —
-   * happily installed a plugin that declared it doesn't support this TREK.
+   * happily installed a plugin that declared it doesn't support this Trip Mate.
    */
   private selectVersion(entry: RegistryEntry, opts?: { version?: string; constraint?: string }): RegistryVersion {
     if (opts?.version) {
@@ -393,8 +393,8 @@ export class PluginRegistryService {
       if (!ver) throw new RegistryError(`version ${opts.version} not found for ${entry.id}`);
       if (!installable(ver, normalizedHost())) {
         throw new RegistryError(
-          `${entry.id} ${ver.version} requires TREK ${trekRequirement(ver)} — this is TREK ${hostVersion()}`,
-          'TREK_VERSION_INCOMPATIBLE',
+          `${entry.id} ${ver.version} requires Trip Mate ${trekRequirement(ver)} — this is Trip Mate ${hostVersion()}`,
+          'TRIPMATE_VERSION_INCOMPATIBLE',
         );
       }
       return ver;
@@ -402,19 +402,19 @@ export class PluginRegistryService {
     const ver = this.latestCompatible(entry, opts?.constraint);
     if (ver) return ver;
     // Nothing compatible. Say WHY against the newest version the admin was actually
-    // shown, rather than a bare "not found" — the fix is a TREK upgrade, not a retry.
+    // shown, rather than a bare "not found" — the fix is a Trip Mate upgrade, not a retry.
     const latest = entry.versions[0];
     if (latest && !opts?.constraint) {
       throw new RegistryError(
-        `${entry.id} ${latest.version} requires TREK ${trekRequirement(latest)} — this is TREK ${hostVersion()}`,
-        'TREK_VERSION_INCOMPATIBLE',
+        `${entry.id} ${latest.version} requires Trip Mate ${trekRequirement(latest)} — this is Trip Mate ${hostVersion()}`,
+        'TRIPMATE_VERSION_INCOMPATIBLE',
       );
     }
     throw new RegistryError(
       opts?.constraint
-        ? `no version of ${entry.id} satisfies "${opts.constraint}" and TREK ${hostVersion()}`
-        : `no version of ${entry.id} is compatible with TREK ${hostVersion()}`,
-      'TREK_VERSION_INCOMPATIBLE',
+        ? `no version of ${entry.id} satisfies "${opts.constraint}" and Trip Mate ${hostVersion()}`
+        : `no version of ${entry.id} is compatible with Trip Mate ${hostVersion()}`,
+      'TRIPMATE_VERSION_INCOMPATIBLE',
     );
   }
 
@@ -434,7 +434,7 @@ export class PluginRegistryService {
     const reg = await this.fetchRegistry();
     const entry = reg.plugins.find((p) => p.id === id);
     if (!entry) throw new RegistryError(`plugin ${id} not in registry`);
-    const ver = this.selectVersion(entry, opts); // throws TREK_VERSION_INCOMPATIBLE before we fetch a byte
+    const ver = this.selectVersion(entry, opts); // throws TRIPMATE_VERSION_INCOMPATIBLE before we fetch a byte
 
     // 1. SSRF-safe download + 2. sha256 verify
     const { bytes, sha256 } = await safeDownload(ver.downloadUrl, (ver.size ?? 50 * 1024 * 1024) + 4096);
@@ -457,18 +457,18 @@ export class PluginRegistryService {
     try {
       extractArchive(bytes, staging);
       const pluginRoot = locateManifestDir(staging);
-      if (!pluginRoot) throw new RegistryError('archive contains no trek-plugin.json');
+      if (!pluginRoot) throw new RegistryError('archive contains no tripmate-plugin.json');
 
       // 4. re-validate the bundled manifest + 5. native re-scan
       const manifest = parseManifest(
-        parseJsonText(fs.readFileSync(path.join(pluginRoot, 'trek-plugin.json'), 'utf8')),
+        parseJsonText(fs.readFileSync(path.join(pluginRoot, 'tripmate-plugin.json'), 'utf8')),
         { requireTrek: true },
       );
       if (manifest.id !== id) throw new RegistryError(`manifest id "${manifest.id}" != "${id}"`);
       // The artifact's OWN range is the authoritative compat check. The index metadata
       // gated above is only what the registry says about this version, and it is weaker:
       // published entries usually carry a lower bound and no upper one at all, so a
-      // plugin that declares "<4.0.0" passes the pre-download filter on TREK 4 and is
+      // plugin that declares "<4.0.0" passes the pre-download filter on Trip Mate 4 and is
       // caught only here.
       const trekRangeBypassed = assertHostCompatible(manifest.trekRange, id);
       if (scanForNativeBinaries(pluginRoot).length) throw new RegistryError('artifact contains native binaries');
@@ -551,7 +551,7 @@ export class PluginRegistryService {
    *
    * The hold exists so a DELIBERATE rollback isn't immediately nagged away by the
    * update banner. It is set only when `explicit` (the admin picked this exact
-   * version) AND a newer TREK-compatible version exists; every other outcome writes
+   * version) AND a newer Trip Mate-compatible version exists; every other outcome writes
    * 0, so landing back on the newest compatible version — by any path — releases a
    * stale hold. An unresolvable registry never sets a hold: refusing to pin on
    * missing information beats silently muting future updates.
@@ -584,8 +584,8 @@ export class PluginRegistryService {
     try {
       extractArchive(bytes, stagingDir);
       const root = locateManifestDir(stagingDir);
-      if (!root) throw new RegistryError('archive contains no trek-plugin.json');
-      const manifest = parseManifest(parseJsonText(fs.readFileSync(path.join(root, 'trek-plugin.json'), 'utf8')), {
+      if (!root) throw new RegistryError('archive contains no tripmate-plugin.json');
+      const manifest = parseManifest(parseJsonText(fs.readFileSync(path.join(root, 'tripmate-plugin.json'), 'utf8')), {
         requireTrek: true,
       });
       const trekRangeBypassed = assertHostCompatible(manifest.trekRange, manifest.id);
@@ -744,9 +744,9 @@ function rawFileUrl(repo: string, commitSha: string, file: string): string {
 }
 
 /**
- * Whether a registry version admits the running TREK.
+ * Whether a registry version admits the running Trip Mate.
  *
- * The version's `trek` range is authoritative when the entry carries one. Entries
+ * The version's `tripmate` range is authoritative when the entry carries one. Entries
  * published before that field existed only carry min/max bounds, so those remain the
  * fallback — but they are a strictly weaker check (maxTrekVersion is inclusive and is
  * usually absent entirely, because the SDK never emitted it), which is why install
@@ -755,7 +755,7 @@ function rawFileUrl(repo: string, commitSha: string, file: string): string {
  */
 function hostCompatible(v: RegistryVersion, host: string | null): boolean {
   if (host === null) return true; // unversioned build — don't block on compat
-  if (v.trek) return hostSatisfies(v.trek, host);
+  if (v.tripmate) return hostSatisfies(v.tripmate, host);
   if (v.minTrekVersion && semver.valid(v.minTrekVersion) && semver.lt(host, v.minTrekVersion)) return false;
   if (v.maxTrekVersion && semver.valid(v.maxTrekVersion) && semver.gt(host, v.maxTrekVersion)) return false;
   return true;
@@ -763,7 +763,7 @@ function hostCompatible(v: RegistryVersion, host: string | null): boolean {
 
 /**
  * Whether the registry picker may offer `v`: it fits the host, or the operator set
- * TREK_PLUGINS_IGNORE_TREK_RANGE and asked for the newest published version regardless.
+ * TRIPMATE_PLUGINS_IGNORE_TREK_RANGE and asked for the newest published version regardless.
  * Only the PICKER uses this — the compat verdict the UI shows (hostCompat/detail) stays
  * on {@link hostCompatible}, so a bypassed install is still labelled as outside its range.
  */
@@ -772,11 +772,11 @@ function installable(v: RegistryVersion, host: string | null): boolean {
 }
 
 /**
- * Refuse an artifact whose declared TREK range doesn't admit the running host. Shared by
+ * Refuse an artifact whose declared Trip Mate range doesn't admit the running host. Shared by
  * every install front door (registry, sideload, dev-link) so they all fail the same way,
  * with a code the admin UI can act on rather than prose it would have to string-match.
  *
- * Under TREK_PLUGINS_IGNORE_TREK_RANGE the refusal becomes a log warning, and the
+ * Under TRIPMATE_PLUGINS_IGNORE_TREK_RANGE the refusal becomes a log warning, and the
  * returned marker is what the front door hands back so the admin is told too. Null
  * means the range fits and nothing was bypassed.
  */
@@ -787,17 +787,17 @@ export function assertHostCompatible(range: string | null, id: string): TrekRang
     warnRangeBypass(id, bypass);
     return bypass;
   }
-  throw new RegistryError(`${id} requires TREK ${range} — this is TREK ${hostVersion()}`, 'TREK_VERSION_INCOMPATIBLE');
+  throw new RegistryError(`${id} requires Trip Mate ${range} — this is Trip Mate ${hostVersion()}`, 'TRIPMATE_VERSION_INCOMPATIBLE');
 }
 
 /**
- * A version's declared TREK requirement as a range string, or null when the entry
+ * A version's declared Trip Mate requirement as a range string, or null when the entry
  * carries no bounds at all. Each bound is optional — an entry may declare only a
- * ceiling, or (once `trek` is absent too) nothing — so this composes whatever
+ * ceiling, or (once `tripmate` is absent too) nothing — so this composes whatever
  * bounds exist rather than interpolating a missing one as "null".
  */
 function trekRequirementOrNull(v: RegistryVersion): string | null {
-  if (v.trek) return v.trek;
+  if (v.tripmate) return v.tripmate;
   const bounds = [
     v.minTrekVersion ? `>=${v.minTrekVersion}` : null,
     v.maxTrekVersion ? `<=${v.maxTrekVersion}` : null,
@@ -805,7 +805,7 @@ function trekRequirementOrNull(v: RegistryVersion): string | null {
   return bounds.length ? bounds.join(' ') : null;
 }
 
-/** How a version's TREK requirement reads in an error/UI string. */
+/** How a version's Trip Mate requirement reads in an error/UI string. */
 function trekRequirement(v: RegistryVersion): string {
   return trekRequirementOrNull(v) ?? 'any version';
 }
@@ -894,13 +894,13 @@ export function previewManifest(raw: unknown): ManifestPreview {
 
 /** The extracted plugin root: staging itself, or its single wrapper subdir (codeload archives wrap in {repo}-{sha}/). */
 function locateManifestDir(staging: string): string | null {
-  if (fs.existsSync(path.join(staging, 'trek-plugin.json'))) return staging;
+  if (fs.existsSync(path.join(staging, 'tripmate-plugin.json'))) return staging;
   const subs = fs.existsSync(staging)
     ? fs.readdirSync(staging, { withFileTypes: true }).filter((d) => d.isDirectory())
     : [];
   for (const s of subs) {
     const p = path.join(staging, s.name);
-    if (fs.existsSync(path.join(p, 'trek-plugin.json'))) return p;
+    if (fs.existsSync(path.join(p, 'tripmate-plugin.json'))) return p;
   }
   return null;
 }

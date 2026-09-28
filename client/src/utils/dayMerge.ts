@@ -1,5 +1,5 @@
-import { chronoOrder } from '@trek/shared'
-import { rideSeatAfter, sameDayRide, type CarrierBooking, type SeatItem } from '@trek/shared/roadtrip'
+import { chronoOrder } from '@tripmate/shared'
+import { rideSeatAfter, sameDayRide, type CarrierBooking, type SeatItem } from '@tripmate/shared/roadtrip'
 // `orderedEndpoints` is the geometry order's single source of truth, in the module
 // that documents the multi-leg model. Sorting endpoints a second time here is how
 // the two drift.
@@ -273,7 +273,7 @@ export function getAssignmentReservations<T extends {
  * time inherits the time of the timed item before it, so untimed items stay where
  * they were manually placed. Stable on the incoming order for ties.
  *
- * The rule itself is `chronoOrder` in @trek/shared, the same one the server uses when
+ * The rule itself is `chronoOrder` in @tripmate/shared, the same one the server uses when
  * a start time is saved. The server feeds it the day's stops only, though. An untimed
  * place behind a timed note or booking inherits that item's time here and the previous
  * stop's time there, so on such a day the stored order and this one can differ.
@@ -311,7 +311,7 @@ function seatItemsOf(row: MergedItem): SeatItem[] {
  * Where a booking without a saved slot goes among the day's rows by where it goes: the
  * key of the row it goes behind, -Infinity to open the day, or null to leave it to the
  * clock. Only a ride that leaves and lands on this day, with both terminals located,
- * has a say (`sameDayRide`); the rule itself is `rideSeatAfter` in @trek/shared, which
+ * has a say (`sameDayRide`); the rule itself is `rideSeatAfter` in @tripmate/shared, which
  * the road trip seats its terminals with, so the list and the drive keep one order.
  *
  * A place counts with its time and its coordinates, another booking with its time, a

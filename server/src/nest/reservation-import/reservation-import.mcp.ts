@@ -4,7 +4,7 @@ import {
   demoDenied, errorResult, ok,
 } from '../../nest-mcp';
 import { z } from 'zod';
-import { airtrailImportSchema } from '@trek/shared';
+import { airtrailImportSchema } from '@tripmate/shared';
 import { ADDON_IDS } from '../../addons';
 import { addonGate } from '../addons/addon-gate';
 import { AddonsService } from '../addons/addons.service';

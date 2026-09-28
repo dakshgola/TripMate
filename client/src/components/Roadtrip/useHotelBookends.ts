@@ -1,4 +1,4 @@
-import { hotelBookendsOn } from '@trek/shared/roadtrip'
+import { hotelBookendsOn } from '@tripmate/shared/roadtrip'
 import { useRoadtripSettings } from '../../hooks/useRoadtripSettings'
 
 /** The preference the switch is stored under, spelled once for both surfaces. */

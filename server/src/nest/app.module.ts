@@ -69,7 +69,7 @@ import { PluginsModule } from './plugins/plugins.module';
 import { SchedulingModule } from './scheduling/scheduling.module';
 import { McpModule } from '../nest-mcp';
 import { trekMcpAccessPolicy, trekMcpValidateAccess } from '../mcp/nest-mcp-policy';
-import { TrekExceptionFilter } from './common/trek-exception.filter';
+import { TrekExceptionFilter } from './common/tripmate-exception.filter';
 import { SpaFallbackFilter } from './platform/spa-fallback.filter';
 import { IdempotencyInterceptor } from './common/idempotency.interceptor';
 import { SessionRenewalInterceptor } from './auth/session-renewal.interceptor';
@@ -106,13 +106,13 @@ import { RealtimeGatewayModule } from './realtime/realtime-gateway.module';
     // Replays the X-Idempotency-Key the client sends on every write, so retried
     // mutations don't double-apply.
     { provide: APP_INTERCEPTOR, useClass: IdempotencyInterceptor },
-    // Sliding session renewal: re-issues the trek_session cookie once a
+    // Sliding session renewal: re-issues the tripmate_session cookie once a
     // cookie-authenticated token is past half its lifetime (#1927).
     { provide: APP_INTERCEPTOR, useClass: SessionRenewalInterceptor },
     // Its nightly TTL purge — a provider here because common/ has no module.
     IdempotencyCleanupJob,
     // Global Zod validation: any parameter typed with a createZodDto class
-    // (the <domain>.dto.ts wrappers over @trek/shared schemas) is validated;
+    // (the <domain>.dto.ts wrappers over @tripmate/shared schemas) is validated;
     // everything else passes through untouched. Paired with the boot gate in
     // common/validate-body-contracts.ts so unvalidated mutation bodies refuse
     // to boot instead of shipping silently.

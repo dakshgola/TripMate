@@ -1,5 +1,5 @@
 /**
- * With TREK_MANAGED unset, nothing in this feature does anything.
+ * With TRIPMATE_MANAGED unset, nothing in this feature does anything.
  *
  * That is the promise the whole design rests on: the same image runs on a
  * self-hosted install and on a centrally administered one, and the first must
@@ -22,14 +22,14 @@ import { deriveMaps, deriveManaged } from '../../../src/app-config/derive';
 const env = new RuntimeEnvService();
 
 afterEach(() => {
-  delete process.env.TREK_MANAGED;
+  delete process.env.TRIPMATE_MANAGED;
   delete process.env.PLACES_API_BASE;
   delete process.env.PLACES_API_KEY;
 });
 
 describe('a self-hosted install', () => {
   it('MANAGED-INERT-001: is not managed, and no other variable can make it so', () => {
-    // Only TREK_MANAGED decides. Setting the operator plumbing without it must
+    // Only TRIPMATE_MANAGED decides. Setting the operator plumbing without it must
     // not flip the mode, or an operator half-way through a migration would take
     // settings away from admins without meaning to.
     process.env.PLACES_API_BASE = 'https://places.example.test';
@@ -68,7 +68,7 @@ describe('a self-hosted install', () => {
     // Fail closed in the direction that matters here: the failure mode of a typo
     // must be "the admin keeps their settings", not "the admin quietly loses them".
     for (const value of ['', ' ', 'maybe', 'TRUE_ISH', '2', 'null', 'undefined']) {
-      expect(deriveManaged({ TREK_MANAGED: value }).enabled, `TREK_MANAGED=${value}`).toBe(false);
+      expect(deriveManaged({ TRIPMATE_MANAGED: value }).enabled, `TRIPMATE_MANAGED=${value}`).toBe(false);
     }
   });
 });

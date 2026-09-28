@@ -17,7 +17,7 @@ import type { useDocSync } from './useDocSync'
 
 export interface ConflictItem {
   id: number
-  /** The trip file's name, or the provider's when TREK never got a copy. */
+  /** The trip file's name, or the provider's when Trip Mate never got a copy. */
   name: string
   remoteName: string | null
 }
@@ -50,7 +50,7 @@ export function useConflicts(tripId: number | string, sync: ReturnType<typeof us
   }, [open, reload])
 
   const resolve = useCallback(
-    async (itemId: number, keep: 'trek' | 'provider' | 'both') => {
+    async (itemId: number, keep: 'tripmate' | 'provider' | 'both') => {
       setWorking(itemId)
       try {
         await sync.resolveConflict(itemId, keep)

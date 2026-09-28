@@ -35,7 +35,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../src/db/database', () => dbMock);
 vi.mock('../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
   SESSION_DURATION: '24h',
@@ -356,7 +356,7 @@ describe('GET /api/auth/oidc/exchange', () => {
     const cookieHeader = Array.isArray(res.headers['set-cookie'])
       ? res.headers['set-cookie'].join(';')
       : res.headers['set-cookie'];
-    expect(cookieHeader).toContain('trek_session');
+    expect(cookieHeader).toContain('tripmate_session');
   });
 
   it('OIDC-012: missing code returns 400', async () => {
@@ -379,7 +379,7 @@ describe('GET /api/auth/oidc/exchange', () => {
     expect(res.status).toBe(400);
     // Same wording as an unknown code: presenting a code must not confirm it exists.
     expect(res.body.error).toBe('Invalid or expired code');
-    expect(readCookie(res, 'trek_session')).toBeUndefined();
+    expect(readCookie(res, 'tripmate_session')).toBeUndefined();
   });
 
   it('OIDC-014: auth code is single-use (second use returns 400)', async () => {
@@ -429,7 +429,7 @@ describe('OIDC remember-me (#1927)', () => {
 
   function sessionCookie(res: request.Response): string {
     const cookies = Array.isArray(res.headers['set-cookie']) ? res.headers['set-cookie'] : [res.headers['set-cookie']];
-    return cookies.filter((c: string) => c.startsWith('trek_session=')).pop()!;
+    return cookies.filter((c: string) => c.startsWith('tripmate_session=')).pop()!;
   }
 
   it('OIDC-015: remember=1 issues a 30d JWT and a Max-Age=2592000 cookie', async () => {
@@ -508,7 +508,7 @@ describe('OIDC auth-code binding', () => {
     const inB = await request(app).get(`/api/auth/oidc/exchange?code=${a.code}`);
 
     expect(inB.status).toBe(400);
-    expect(readCookie(inB, 'trek_session')).toBeUndefined();
+    expect(readCookie(inB, 'tripmate_session')).toBeUndefined();
   });
 
   it('OIDC-020: the failed attempt burns the code, so a stolen code is never redeemable', async () => {
@@ -523,7 +523,7 @@ describe('OIDC auth-code binding', () => {
       .set('Cookie', `trek_oidc_exchange=${a.binding}`);
 
     expect(retryInA.status).toBe(400);
-    expect(readCookie(retryInA, 'trek_session')).toBeUndefined();
+    expect(readCookie(retryInA, 'tripmate_session')).toBeUndefined();
   });
 
   it('OIDC-021: an attacker-minted code cannot be forced onto a victim browser', async () => {
@@ -540,7 +540,7 @@ describe('OIDC auth-code binding', () => {
       .set('Cookie', `trek_oidc_exchange=${victimHasHisOwnFlow.binding}`);
 
     expect(forced.status).toBe(400);
-    expect(readCookie(forced, 'trek_session')).toBeUndefined();
+    expect(readCookie(forced, 'tripmate_session')).toBeUndefined();
   });
 
   it('OIDC-022: /exchange clears the binding cookie on the way out', async () => {

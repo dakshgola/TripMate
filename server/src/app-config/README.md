@@ -1,4 +1,4 @@
-# app-config — TREK's environment configuration layer
+# app-config — Trip Mate's environment configuration layer
 
 One validated source of truth for every environment variable the server reads.
 Framework-free (no Nest imports), so it is consumable from anywhere: Nest DI
@@ -27,7 +27,7 @@ tokens, `RuntimeEnvService`) and consumes the SAME derive functions.
    or a request path. Unset/blank variables always pass (defaults apply); only
    present-but-malformed values abort startup. The one addition on top of the
    schema is `managedPreconditions()` in `env.ts`: cross-field rules that only
-   apply with `TREK_MANAGED`, for combinations that are individually valid and
+   apply with `TRIPMATE_MANAGED`, for combinations that are individually valid and
    together wrong. It is empty without the switch, so a self-hoster never meets
    it. Put a rule there only if booting anyway would be a security or data
    problem — not to enforce a preference.
@@ -65,10 +65,10 @@ fallthrough and the strip-ALL-slashes quirk (see `parsers.ts`
 **Boot-stable** (frozen at app/module creation; snapshot `registerAs`/`ConfigType`
 DI in Nest, module-top `readEnv()` consts elsewhere):
 PORT, HOST, TRUST_PROXY, SESSION_DURATION(_REMEMBER), MCP_SESSION_TTL,
-MCP_MAX_SESSION_PER_USER, MCP_SSE_KEEPALIVE, TREK_PLUGIN_RPC_*/LOG_*/MAX_RSS_MB,
-TREK_PLUGIN_REGISTRY_URL, TREK_WIKI_DIR*, TREK_PLACE_PHOTO_DIR, BACKUP_*,
+MCP_MAX_SESSION_PER_USER, MCP_SSE_KEEPALIVE, TRIPMATE_PLUGIN_RPC_*/LOG_*/MAX_RSS_MB,
+TRIPMATE_PLUGIN_REGISTRY_URL, TRIPMATE_WIKI_DIR*, TRIPMATE_PLACE_PHOTO_DIR, BACKUP_*,
 TRANSIT_API_URL, LOG_LEVEL*, ALLOW_INTERNAL_NETWORK*, ALLOW_LINK_LOCAL_IPS*, DEFAULT_LANGUAGE,
-TREK_DB_FILE, TREK_DB_JOURNAL_MODE, TREK_DB_SYNCHRONOUS, ENCRYPTION_KEY**.
+TRIPMATE_DB_FILE, TRIPMATE_DB_JOURNAL_MODE, TRIPMATE_DB_SYNCHRONOUS, ENCRYPTION_KEY**.
 (* frozen today because the consuming module captures it at import; tests that
 override these set them at file top, before the SUT import.)
 (** ENCRYPTION_KEY is boot-stable for the cipher key material itself —
@@ -77,8 +77,8 @@ below.)
 
 **Runtime-toggled** (read live on every access via `readEnv()` /
 `RuntimeEnvService`; tests mutate these mid-lifetime):
-TREK_MANAGED, PLACES_API_BASE, PLACES_API_KEY, AMAP_API_BASE, AMAP_API_KEY, AMAP_API_SECRET, MAPBOX_ACCESS_TOKEN, CARTO_API_KEY, DEMO_MODE, NODE_ENV, APP_VERSION, APP_URL, TREK_API_DOCS_ENABLED,
-TREK_PLUGINS_ENABLED / _DEV_LINK / _IGNORE_TREK_RANGE / _DIR / _DATA_DIR / TREK_PLUGIN_PERMISSIONS,
+TRIPMATE_MANAGED, PLACES_API_BASE, PLACES_API_KEY, AMAP_API_BASE, AMAP_API_KEY, AMAP_API_SECRET, MAPBOX_ACCESS_TOKEN, CARTO_API_KEY, DEMO_MODE, NODE_ENV, APP_VERSION, APP_URL, TRIPMATE_API_DOCS_ENABLED,
+TRIPMATE_PLUGINS_ENABLED / _DEV_LINK / _IGNORE_TREK_RANGE / _DIR / _DATA_DIR / TRIPMATE_PLUGIN_PERMISSIONS,
 OIDC_*, SMTP_*, FORCE_HTTPS, COOKIE_SECURE, HSTS_INCLUDE_SUBDOMAINS,
 ALLOWED_ORIGINS, UNSPLASH_ACCESS_KEY, WEBAUTHN_*, TZ, ADMIN_EMAIL,
 ADMIN_PASSWORD, IDEMPOTENCY_TTL_SECONDS, MCP_RATE_LIMIT (request-path check),
@@ -96,8 +96,8 @@ LLM_TIMEOUT_MS, NOMINATIM_URL.
   persistence and runtime rotation, not env config.
 - Standalone scripts (`reset-admin.js`, `scripts/*`) and `tests/**`. Note that
   `reset-admin.js` and `scripts/migrate-encryption.ts` open the database file
-  read-write and therefore re-implement `TREK_DB_JOURNAL_MODE` /
-  `TREK_DB_SYNCHRONOUS` inline (the journal mode lives in the file header, so
+  read-write and therefore re-implement `TRIPMATE_DB_JOURNAL_MODE` /
+  `TRIPMATE_DB_SYNCHRONOUS` inline (the journal mode lives in the file header, so
   they must agree with the server). Neither can import this layer — the image
   ships `dist/`, not `src/` — so the defaults in `parsers.resolveDurability()`
   and in those two files move together.
@@ -108,10 +108,10 @@ The exemption list is enforced by the `no-restricted-syntax` ban on
 ## Follow-up candidates (quirks pinned during the migration, deliberately NOT fixed)
 
 - `numberOr` (`Number(x) || d`) treats `"0"` and negative-invalid values oddly:
-  `PORT=0` silently becomes 3001, `TREK_PLUGIN_RPC_BURST=-5` stays -5.
+  `PORT=0` silently becomes 3001, `TRIPMATE_PLUGIN_RPC_BURST=-5` stays -5.
 - APP_URL trailing-slash stripping differs per site (feeds strips one slash,
   notifications strips all).
-- `DEMO_ADMIN_EMAIL` defaults differ (demo-seed: admin@trek.app, demo-reset:
+- `DEMO_ADMIN_EMAIL` defaults differ (demo-seed: admin@tripmate.app, demo-reset:
   admin@nomad.app).
 - NODE_ENV comparisons are case-sensitive at some sites (HSTS activation,
   platform statics, spa-fallback, authService dev_mode, oidcService

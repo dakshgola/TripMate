@@ -1,5 +1,5 @@
 import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
-import { chargingLookupSchema } from '@trek/shared';
+import { chargingLookupSchema } from '@tripmate/shared';
 import { createZodDto } from 'nestjs-zod';
 import { ADDON_IDS } from '../../addons';
 import { AddonGuard } from '../addons/addon.guard';

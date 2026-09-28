@@ -13,12 +13,12 @@ import type { Readable } from 'node:stream';
 
 // Relocated to shared (the wire schema needs it; a second copy is forbidden).
 // Re-exported so every existing `./storage.types` import keeps working.
-export { STORAGE_CATEGORIES, type StorageCategory } from '@trek/shared';
-import { STORAGE_CATEGORIES as CONFIGURABLE_CATEGORIES, type StorageCategory as ConfigurableCategory } from '@trek/shared';
+export { STORAGE_CATEGORIES, type StorageCategory } from '@tripmate/shared';
+import { STORAGE_CATEGORIES as CONFIGURABLE_CATEGORIES, type StorageCategory as ConfigurableCategory } from '@tripmate/shared';
 
 /**
  * Categories the byte-paths serve. `photos` is the legacy shared photo
- * directory (/uploads/photos): earlier TREK versions wrote place photos there
+ * directory (/uploads/photos): earlier Trip Mate versions wrote place photos there
  * and its objects are still served and backed up, but it is NOT configurable —
  * it left STORAGE_CATEGORIES (category-labels spec) and always resolves to
  * uploads-local (following a name-override, never a category entry).

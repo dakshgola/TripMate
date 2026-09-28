@@ -3,7 +3,7 @@ import React from 'react';
 import { afterEach, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor, within } from '../../../tests/helpers/render';
 import userEvent from '@testing-library/user-event';
-import type { Collection, CollectionListResponse } from '@trek/shared';
+import type { Collection, CollectionListResponse } from '@tripmate/shared';
 import { collectionsApi } from '../../api/collections';
 import SaveTripPlacesToListModal from './SaveTripPlacesToListModal';
 

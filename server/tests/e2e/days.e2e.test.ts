@@ -92,7 +92,7 @@ import { DaysModule } from '../../src/nest/days/days.module';
 // this container has to assemble both or /days/:dayId/notes 404s here while
 // working in production.
 import { DayNotesModule } from '../../src/nest/day-notes/day-notes.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 describe('Days + day-notes e2e (real auth guard + temp SQLite, real day SQL)', () => {

@@ -21,7 +21,7 @@ export function haversineKm(a: { lat: number; lng: number }, b: { lat: number; l
  * Consulted where a stay records no check-in/check-out time and the shape of the day is
  * therefore a guess (#2157): a stop inside this radius is somewhere the hotel sent you out
  * to for the day, a stop outside it is where you travelled from or to. It has to be a
- * road-day radius rather than the booking-geometry MAX_DRIVE_KM in @trek/shared: 2000 km
+ * road-day radius rather than the booking-geometry MAX_DRIVE_KM in @tripmate/shared: 2000 km
  * spans the whole of Europe, so every car journey on the continent passed as a day trip
  * and kept the phantom hotel leg the issue reported.
  */

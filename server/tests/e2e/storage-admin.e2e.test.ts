@@ -55,7 +55,7 @@ vi.mock('../../src/nest/audit/audit-log.logger', () => ({ LOG_LEVEL: 'error', lo
 // keeping both consistent.
 vi.mock('../../src/config', () => ({ ENCRYPTION_KEY: 'e2e-storage-key', JWT_SECRET: 'e2e-storage-jwt-secret' }));
 
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 describe('Storage admin e2e (real auth + admin guard + managed guard + temp SQLite)', () => {
@@ -131,14 +131,14 @@ describe('Storage admin e2e (real auth + admin guard + managed guard + temp SQLi
   });
 
   it('STORE2E-004 PUT persists, answers the fresh world, audits with redacted secrets', async () => {
-    const nasRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-e2e-nas-'));
+    const nasRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-e2e-nas-'));
     const body = {
       backends: [
         { name: 'nas-backups', type: 'local', options: { root: nasRoot } },
         {
           name: 'off-box',
           type: 's3',
-          options: { endpoint: 'http://127.0.0.1:9000', bucket: 'trek', accessKeyId: 'ak', secretAccessKey: 'sk-e2e' },
+          options: { endpoint: 'http://127.0.0.1:9000', bucket: 'tripmate', accessKeyId: 'ak', secretAccessKey: 'sk-e2e' },
         },
       ],
       categories: { backups: 'nas-backups' },
@@ -191,7 +191,7 @@ describe('Storage admin e2e (real auth + admin guard + managed guard + temp SQLi
             {
               name: 'off-box',
               type: 's3',
-              options: { endpoint: 'http://127.0.0.1:9000', bucket: 'trek', accessKeyId: 'ak', secretAccessKey: 'sk' },
+              options: { endpoint: 'http://127.0.0.1:9000', bucket: 'tripmate', accessKeyId: 'ak', secretAccessKey: 'sk' },
             },
           ],
           categories: {},
@@ -212,7 +212,7 @@ describe('Storage admin e2e (real auth + admin guard + managed guard + temp SQLi
   });
 
   it('STORE2E-008 managed mode refuses the whole surface with the standard body', async () => {
-    process.env.TREK_MANAGED = 'true';
+    process.env.TRIPMATE_MANAGED = 'true';
     try {
       const res = await request(server).get('/api/admin/storage').set('Cookie', adminCookie);
       expect(res.status).toBe(403);
@@ -221,12 +221,12 @@ describe('Storage admin e2e (real auth + admin guard + managed guard + temp SQLi
         code: 'MANAGED_FORBIDDEN',
       });
     } finally {
-      delete process.env.TREK_MANAGED;
+      delete process.env.TRIPMATE_MANAGED;
     }
   });
 
   it('STORE2E-009 POST /test probes a local candidate and answers 200 with per-target results', async () => {
-    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-e2e-probe-'));
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-e2e-probe-'));
     const res = await request(server)
       .post('/api/admin/storage/test')
       .set('Cookie', adminCookie)
@@ -238,7 +238,7 @@ describe('Storage admin e2e (real auth + admin guard + managed guard + temp SQLi
   });
 
   it('STORE2E-010 migration moves a category end to end', async () => {
-    const destRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-e2e-migration-dest-'));
+    const destRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-e2e-migration-dest-'));
     const put = await request(server)
       .put('/api/admin/storage')
       .set('Cookie', adminCookie)
@@ -280,10 +280,10 @@ describe('Storage admin e2e (real auth + admin guard + managed guard + temp SQLi
   it('STORE2E-012 backfill happy path copies pre-existing objects and surfaces in state until done', async () => {
     // Route backups through a mirror with a local replica, then plant a
     // pre-mirror object directly on the primary.
-    const nasRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-e2e-nas-'));
+    const nasRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-e2e-nas-'));
     // Override backups-local to a tmp root: WITHOUT this the built-in default
     // is the repo's real server/data/backups directory — never write there.
-    const backupsRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-e2e-backups-'));
+    const backupsRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-e2e-backups-'));
     const put = await request(server)
       .put('/api/admin/storage')
       .set('Cookie', adminCookie)
@@ -328,7 +328,7 @@ describe('Storage admin e2e (real auth + admin guard + managed guard + temp SQLi
   });
 
   it('STORE2E-014 regression (audit #7): a migration flip while the admin form is open makes the stale save 409, and the flip survives', async () => {
-    const destRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-e2e-migration-dest2-'));
+    const destRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-e2e-migration-dest2-'));
     const put = await request(server)
       .put('/api/admin/storage')
       .set('Cookie', adminCookie)

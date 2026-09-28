@@ -2,7 +2,7 @@
  * Help, tiered.
  *
  * The old help was eleven commands in one flat list, one line each, with no order and no
- * per-command detail — `trek-plugin dev --help` fell through to the same flat list. So the only
+ * per-command detail — `tripmate-plugin dev --help` fell through to the same flat list. So the only
  * description of any command was that one line, and nothing anywhere said which to run first.
  *
  * Two changes. The top-level lists THE PATH (create → dev → status → publish) and pushes the
@@ -32,7 +32,7 @@ export interface CommandHelp {
 export const COMMAND_HELP: Record<string, CommandHelp> = {
   create: {
     summary: 'scaffold a new plugin',
-    usage: 'trek-plugin create [name] [--type integration|page|widget|trip-page] [--template blank|notification-channel]',
+    usage: 'tripmate-plugin create [name] [--type integration|page|widget|trip-page] [--template blank|notification-channel]',
     body: `Scaffolds a plugin: manifest, server entry, README, and a client UI for anything that is not
 an integration. With no name it runs a wizard that asks for the id, type, icon, permissions,
 egress hosts and required addons.
@@ -56,13 +56,13 @@ tell you exactly what is left.
 
   dev: {
     summary: 'run it locally, hot-reloaded',
-    usage: 'trek-plugin dev [dir] [--port 4317]',
-    body: `Runs the plugin against a mock TREK host, with hot reload. It enforces the SAME permissions
+    usage: 'tripmate-plugin dev [dir] [--port 4317]',
+    body: `Runs the plugin against a mock Trip Mate host, with hot reload. It enforces the SAME permissions
 your manifest declares, so an ungranted call throws PERMISSION_DENIED here exactly as it would in
-production, and \`db:own\` is backed by a real SQLite file under .trek-dev/.
+production, and \`db:own\` is backed by a real SQLite file under .tripmate-dev/.
 
   /           a dashboard: your routes, your grants, what is wired up
-  /preview    your UI in the themed, sandboxed frame TREK actually renders it in
+  /preview    your UI in the themed, sandboxed frame Trip Mate actually renders it in
   /ui         your UI raw, unframed
   /api/*      your routes
   /__dev/fire/<kind>   fire a job, a scheduled run, an event or a hook by hand
@@ -72,10 +72,10 @@ Binds 127.0.0.1 only. Editing server/ or client/ reloads.`,
 
   status: {
     summary: "where am I? what's left?",
-    usage: 'trek-plugin status [dir]',
+    usage: 'tripmate-plugin status [dir]',
     body: `The command to run when you are not sure what to do next.
 
-Runs every check the TREK-Plugins registry enforces that can be answered without a network — which
+Runs every check the Trip Mate-Plugins registry enforces that can be answered without a network — which
 is nearly all of them — and prints the whole journey as a checklist: what passes, what does not,
 what is still to come, and the ONE command to run next.
 
@@ -85,14 +85,14 @@ you like.`,
 
   publish: {
     summary: 'release + open the registry PR',
-    usage: 'trek-plugin publish [dir] --repo <owner/name> --tag <vX.Y.Z> [--sign] [--keep-release]',
+    usage: 'tripmate-plugin publish [dir] --repo <owner/name> --tag <vX.Y.Z> [--sign] [--keep-release]',
     body: `The whole release, in order:
 
   1. check       every registry gate that can be checked locally
   2. pack        build plugin.zip
   3. release     git tag, push, and cut the GitHub release with the artifact
   4. preflight   the gates that need the tag and the release to exist
-  5. submit      open the PR against the TREK-Plugins registry
+  5. submit      open the PR against the Trip Mate-Plugins registry
 
 Step 1 comes first for a reason: a GitHub release is effectively immutable, because the registry
 pins its sha256. If a check fails, NOTHING is packed, tagged, pushed or released — so you can fix
@@ -107,19 +107,19 @@ failed run is recognised (no release for it, not on HEAD) and moved to HEAD rath
 In a terminal it OFFERS TO SIGN, and creates a key for you if you have none. A signature proves the
 artifact came from you, not just that its bytes match what the registry saw. You can add signing
 later — publishing unsigned now and signing at v1.4.0 breaks nobody — but you can never take it
-back: once a plugin has shipped signed, TREK refuses an unsigned update to it. So back the key up.
+back: once a plugin has shipped signed, Trip Mate refuses an unsigned update to it. So back the key up.
 Scripts are never prompted; pass --sign.
 
 Needs git and an authenticated \`gh\`.
 
-  --sign [key]      sign the artifact (default key: ~/.trek-plugin/signing.key)
+  --sign [key]      sign the artifact (default key: ~/.tripmate-plugin/signing.key)
   --allow-key-change  rotate to a NEW signing key as part of this release: the older versions
                     are re-signed with it, and the registry PR is flagged as a rotation (a
                     maintainer must apply the allow-key-change label; every admin must
                     re-trust the plugin). Without this flag, a key that differs from the
                     published one is refused before anything is tagged. See \`rotate-key\`
                     to rotate without shipping a version.
-  --registry o/n    a registry other than liketrek/TREK-Plugins
+  --registry o/n    a registry other than liketrek/Trip Mate-Plugins
   --notes           release notes
   --draft           open the registry PR as a draft
   --force           overwrite an existing release's artifact. Breaks the sha256 pin for
@@ -131,7 +131,7 @@ Needs git and an authenticated \`gh\`.
 
   validate: {
     summary: 'check it against the registry gates',
-    usage: 'trek-plugin validate [dir]',
+    usage: 'tripmate-plugin validate [dir]',
     body: `The gate. Runs the same offline checks as \`status\` and exits non-zero if any of them would
 be rejected by the registry. This is the form for scripts and CI; \`status\` is the form for humans.
 
@@ -141,12 +141,12 @@ the release to exist. Those four run in \`preflight\`.`,
 
   pack: {
     summary: 'build plugin.zip',
-    usage: 'trek-plugin pack [dir] [--out plugin.zip] [--json]',
-    body: `Builds the exact plugin.zip the TREK installer expects, and prints its sha256 and byte size.
+    usage: 'tripmate-plugin pack [dir] [--out plugin.zip] [--json]',
+    body: `Builds the exact plugin.zip the Trip Mate installer expects, and prints its sha256 and byte size.
 
 It refuses to pack a plugin that could not LOAD — a broken manifest, a missing server entry, a
 native binary. It does not enforce the registry's publish gates (an unwritten README, a missing
-screenshot), because packing is how you install a plugin into a local TREK to try it, and the docs
+screenshot), because packing is how you install a plugin into a local Trip Mate to try it, and the docs
 only matter when you ship.
 
   --json   the PackResult on stdout, for scripts`,
@@ -154,8 +154,8 @@ only matter when you ship.
 
   shot: {
     summary: 'capture docs/screenshot.png',
-    usage: 'trek-plugin shot [dir] [--port 4317] [--out docs/screenshot.png] [--dark] [--no-serve]',
-    body: `Boots the dev server, renders your plugin in the themed frame TREK uses, and writes a 1600×900
+    usage: 'tripmate-plugin shot [dir] [--port 4317] [--out docs/screenshot.png] [--dark] [--no-serve]',
+    body: `Boots the dev server, renders your plugin in the themed frame Trip Mate uses, and writes a 1600×900
 docs/screenshot.png.
 
 The registry requires a screenshot that resolves to a real image, and the store card shows it. This
@@ -165,19 +165,19 @@ Needs Playwright, which is NOT a dependency of this SDK (it ships a browser):
 
   npm i -D playwright && npx playwright install chromium
 
-An \`integration\` plugin has no UI to render, so \`shot\` cannot help — screenshot the TREK surface
+An \`integration\` plugin has no UI to render, so \`shot\` cannot help — screenshot the Trip Mate surface
 your plugin changes instead.
 
-  --dark       render in TREK's dark theme
+  --dark       render in Trip Mate's dark theme
   --no-serve   shoot a dev server you are already running`,
   },
 
   keygen: {
     summary: 'create an Ed25519 signing key',
-    usage: 'trek-plugin keygen [--key file]',
-    body: `Generates a signing key at ~/.trek-plugin/signing.key. One key for all your plugins.
+    usage: 'tripmate-plugin keygen [--key file]',
+    body: `Generates a signing key at ~/.tripmate-plugin/signing.key. One key for all your plugins.
 
-BACK IT UP. Signing is a one-way door: once a plugin has shipped signed, TREK refuses an unsigned
+BACK IT UP. Signing is a one-way door: once a plugin has shipped signed, Trip Mate refuses an unsigned
 update — and one signed with a different key — on every instance that already has it. Losing the
 key means \`rotate-key\` with a new one: a registry maintainer must approve the rotation, and every
 admin who has your plugin must re-trust it.`,
@@ -185,13 +185,13 @@ admin who has your plugin must re-trust it.`,
 
   sign: {
     summary: 'print a signature for an artifact',
-    usage: 'trek-plugin sign [zip] [--key file]',
+    usage: 'tripmate-plugin sign [zip] [--key file]',
     body: 'Prints the signature and public key for an artifact. Usually you want `publish --sign` instead.',
   },
 
   'rotate-key': {
     summary: 'move a published plugin to a NEW signing key',
-    usage: 'trek-plugin rotate-key [dir] [--id plugin-id] [--key file] [--out entry.json] [--draft]',
+    usage: 'tripmate-plugin rotate-key [dir] [--id plugin-id] [--key file] [--out entry.json] [--draft]',
     body: `For a lost or compromised key, or a planned rotation — WITHOUT shipping a new version. Fetches
 your published registry entry, re-signs EVERY pinned version's artifact with the new key
 (all-or-nothing, each verified against its pinned sha256 first), swaps authorPublicKey, and opens
@@ -206,15 +206,15 @@ A rotation is never just a merge, and this command only does the half tooling ca
      the new key on their instance
 
   --id plugin-id    when not running from the plugin's directory
-  --key file        the NEW key (default: ~/.trek-plugin/signing.key)
+  --key file        the NEW key (default: ~/.tripmate-plugin/signing.key)
   --out entry.json  write the rotated entry instead of opening the PR
   --draft           open the registry PR as a draft`,
   },
 
   entry: {
     summary: 'print the registry entry JSON',
-    usage: 'trek-plugin entry --repo <owner/name> --tag <vX.Y.Z> [--zip plugin.zip] [--merge entry.json] [--out file]',
-    body: `Builds the TREK-Plugins registry entry from your manifest, your packed artifact and your git tag —
+    usage: 'tripmate-plugin entry --repo <owner/name> --tag <vX.Y.Z> [--zip plugin.zip] [--merge entry.json] [--out file]',
+    body: `Builds the Trip Mate-Plugins registry entry from your manifest, your packed artifact and your git tag —
 so the sha256, size, commitSha and downloadUrl all come out of one command instead of being
 computed by hand.
 
@@ -229,7 +229,7 @@ computed by hand.
 
   preflight: {
     summary: 'run the registry CI checks locally',
-    usage: 'trek-plugin preflight [dir] --repo <owner/name> --tag <vX.Y.Z> [--entry file.json] [--all]',
+    usage: 'tripmate-plugin preflight [dir] --repo <owner/name> --tag <vX.Y.Z> [--entry file.json] [--all]',
     body: `Runs the registry's checks — including the ones that need the network: that your tag resolves to
 the commit the entry pins, that the released artifact downloads and hashes to the pinned sha256,
 that your plugin id is not bound to another GitHub owner, and that an update does not drop or
@@ -243,20 +243,20 @@ hand, or to re-check a release you have already cut.
 
   submit: {
     summary: 'open the registry PR',
-    usage: 'trek-plugin submit [dir] --repo <owner/name> --tag <vX.Y.Z> [--registry o/n] [--draft]',
+    usage: 'tripmate-plugin submit [dir] --repo <owner/name> --tag <vX.Y.Z> [--registry o/n] [--draft]',
     body: `Forks the registry, writes registry/plugins/<id>.json, and opens the PR. Needs an authenticated
 \`gh\`. \`publish\` does this for you as step 5.`,
   },
 
   release: {
     summary: 'pack + cut the GitHub release',
-    usage: 'trek-plugin release [dir] --repo <owner/name> --tag <vX.Y.Z> [--sign] [--merge entry.json]',
+    usage: 'tripmate-plugin release [dir] --repo <owner/name> --tag <vX.Y.Z> [--sign] [--merge entry.json]',
     body: `Packs, cuts the GitHub release, and prints the registry entry — but does NOT open the registry PR.
 For when you want to release now and submit later. \`publish\` is the whole thing.`,
   },
   unrelease: {
     summary: 'delete a stranded tag + release (never a published one)',
-    usage: 'trek-plugin unrelease <vX.Y.Z> [dir] --repo <owner/name> [--registry owner/name] [--yes]',
+    usage: 'tripmate-plugin unrelease <vX.Y.Z> [dir] --repo <owner/name> [--registry owner/name] [--yes]',
     body: `Undoes a release that never made it into the registry: deletes the GitHub release, the remote
 tag, and the local tag — each reported, each skipped when already gone. For when a publish
 failed halfway (though \`publish\` now rolls its own failures back), or you changed your mind
@@ -272,16 +272,16 @@ registry cannot be reached to check, it refuses unless you pass --yes.`,
 export function topLevelHelp(version: string): string {
   const pad = (s: string) => s.padEnd(9);
   const path = PATH_COMMANDS.map((c) => `    ${pad(c)}  ${COMMAND_HELP[c].summary}`).join('\n');
-  return `${VERSION_LINE(version)} — build a plugin for TREK
+  return `${VERSION_LINE(version)} — build a plugin for Trip Mate
 
   The path
 ${path}
 
   Also: ${OTHER_COMMANDS.join(' ')}
-        \`trek-plugin help <command>\` for any of them
+        \`tripmate-plugin help <command>\` for any of them
 
-  New here?  trek-plugin create
-  Lost?      trek-plugin status`;
+  New here?  tripmate-plugin create
+  Lost?      tripmate-plugin status`;
 }
 
 export function commandHelp(command: string): string | undefined {

@@ -11,7 +11,7 @@
  * Amounts are the raw input strings, parsed on use (same as customAmounts).
  */
 
-import type { BudgetParticipantFinal } from '@trek/shared'
+import type { BudgetParticipantFinal } from '@tripmate/shared'
 import { currencyDecimals } from '../../utils/formatters'
 
 // The split and receipt fields guard their own precision on every keystroke, so the

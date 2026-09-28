@@ -11,7 +11,7 @@
  * A bare express() + http.Server wraps StorageService directly — no need to
  * boot the full Nest app for this, since sendToResponse is the one place
  * every byte-serving caller (files-download, journey-public,
- * photo-resolver, trek-photo-cache, backup, /uploads/photos) funnels
+ * photo-resolver, tripmate-photo-cache, backup, /uploads/photos) funnels
  * through, per storage.service.ts's own docblock.
  */
 import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'vitest';
@@ -65,7 +65,7 @@ class FailingBeforeFirstByteReadable extends Readable {
 }
 
 function makeRemoteFixture(): { storage: StorageService; lastStream: () => SlowReadable | undefined } {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-abort-'));
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-abort-'));
   let last: SlowReadable | undefined;
   const stat: ObjectStat = { key: 'remote.bin', size: 40 * 2048, mtimeMs: 1 };
   const driver: StorageDriver = {
@@ -90,7 +90,7 @@ function makeRemoteFixture(): { storage: StorageService; lastStream: () => SlowR
 }
 
 function makeFailingRemoteFixture(): { storage: StorageService } {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-abort-fail-'));
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-abort-fail-'));
   const stat: ObjectStat = { key: 'remote.bin', size: 40 * 2048, mtimeMs: 1 };
   const driver: StorageDriver = {
     id: 'stub-remote-fail',
@@ -111,7 +111,7 @@ function makeFailingRemoteFixture(): { storage: StorageService } {
 }
 
 function makeLocalFixture(): { storage: StorageService; root: string } {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-abort-local-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-abort-local-'));
   const driver = new LocalDriver({ id: 'stub-local-abort', root });
   driver.init({ cleanSpool: true });
   const registry = {

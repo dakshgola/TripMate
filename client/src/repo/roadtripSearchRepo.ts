@@ -1,4 +1,4 @@
-import { roadtripSearchAreaResponseSchema } from '@trek/shared'
+import { roadtripSearchAreaResponseSchema } from '@tripmate/shared'
 import { apiClient } from '../api/client'
 import { isEffectivelyOffline } from '../sync/networkMode'
 

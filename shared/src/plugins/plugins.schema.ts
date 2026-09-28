@@ -123,7 +123,7 @@ export type PluginRetrustRequest = z.infer<typeof pluginRetrustRequestSchema>;
 /**
  * POST /api/admin/plugins/:id/update — `version` pins the exact version to
  * install (the rollback path). Omitted, the runtime resolves the newest
- * TREK-compatible version itself (the classic update).
+ * Trip Mate-compatible version itself (the classic update).
  */
 export const pluginUpdateRequestSchema = z.looseObject({ version: z.string().optional() });
 export type PluginUpdateRequest = z.infer<typeof pluginUpdateRequestSchema>;

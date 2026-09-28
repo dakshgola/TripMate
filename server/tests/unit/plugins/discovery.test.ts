@@ -16,14 +16,14 @@ let codeRoot: string;
 function writePlugin(id: string, manifest: Record<string, unknown>, extra?: () => void) {
   const dir = path.join(codeRoot, id, 'server');
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(codeRoot, id, 'trek-plugin.json'), JSON.stringify({ id, name: id, version: '1.0.0', type: 'integration', ...manifest }));
+  fs.writeFileSync(path.join(codeRoot, id, 'tripmate-plugin.json'), JSON.stringify({ id, name: id, version: '1.0.0', type: 'integration', ...manifest }));
   fs.writeFileSync(path.join(dir, 'index.js'), 'module.exports={}');
   extra?.()
 }
 
 beforeEach(() => {
   codeRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'disc-'));
-  process.env.TREK_PLUGINS_DIR = codeRoot;
+  process.env.TRIPMATE_PLUGINS_DIR = codeRoot;
   db = new Database(':memory:');
   db.exec(`
     CREATE TABLE plugins (id TEXT PRIMARY KEY, name TEXT, description TEXT, type TEXT, icon TEXT, version TEXT,
@@ -35,7 +35,7 @@ beforeEach(() => {
     CREATE TABLE plugin_error_log (id INTEGER PRIMARY KEY AUTOINCREMENT, plugin_id TEXT, level TEXT, message TEXT, ts TEXT);`);
 });
 afterEach(() => {
-  delete process.env.TREK_PLUGINS_DIR;
+  delete process.env.TRIPMATE_PLUGINS_DIR;
   db.close();
   fs.rmSync(codeRoot, { recursive: true, force: true });
 });
@@ -87,9 +87,9 @@ describe('discoverPlugins', () => {
     expect(JSON.parse(row.granted_permissions)).toEqual(['db:own']); // grants preserved
   });
 
-  it('tolerates a UTF-8 BOM in trek-plugin.json (Windows-authored plugins)', () => {
+  it('tolerates a UTF-8 BOM in tripmate-plugin.json (Windows-authored plugins)', () => {
     writePlugin('bom-plug', { type: 'integration' });
-    const mp = path.join(codeRoot, 'bom-plug', 'trek-plugin.json');
+    const mp = path.join(codeRoot, 'bom-plug', 'tripmate-plugin.json');
     fs.writeFileSync(mp, '\uFEFF' + fs.readFileSync(mp, 'utf8'));
     expect(discoverPlugins(db).discovered).toEqual(['bom-plug']);
   });
@@ -111,37 +111,37 @@ describe('discoverPlugins', () => {
 
   it('follows a symlinked dev-link plugin only when dev-link mode is on', () => {
     const srcRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'disc-src-'));
-    const prev = process.env.TREK_PLUGINS_DEV_LINK;
+    const prev = process.env.TRIPMATE_PLUGINS_DEV_LINK;
     try {
       const src = path.join(srcRoot, 'linked');
       fs.mkdirSync(path.join(src, 'server'), { recursive: true });
-      fs.writeFileSync(path.join(src, 'trek-plugin.json'), JSON.stringify({ id: 'linked', name: 'Linked', version: '1.0.0', type: 'integration', permissions: ['db:own'] }));
+      fs.writeFileSync(path.join(src, 'tripmate-plugin.json'), JSON.stringify({ id: 'linked', name: 'Linked', version: '1.0.0', type: 'integration', permissions: ['db:own'] }));
       fs.writeFileSync(path.join(src, 'server', 'index.js'), 'module.exports={}');
       fs.symlinkSync(src, path.join(codeRoot, 'linked'), 'junction'); // junction on Windows, symlink on POSIX
 
       // Off (default): a stale dev-link symlink is not discovered or registered.
-      delete process.env.TREK_PLUGINS_DEV_LINK;
+      delete process.env.TRIPMATE_PLUGINS_DEV_LINK;
       expect(discoverPlugins(db).discovered).toEqual([]);
       expect(db.prepare("SELECT status FROM plugins WHERE id='linked'").get()).toBeUndefined();
 
       // On: the dev-link is followed and registered inactive.
-      process.env.TREK_PLUGINS_DEV_LINK = '1';
+      process.env.TRIPMATE_PLUGINS_DEV_LINK = '1';
       expect(discoverPlugins(db).discovered).toEqual(['linked']);
       expect(db.prepare("SELECT status FROM plugins WHERE id='linked'").get()).toMatchObject({ status: 'inactive' });
     } finally {
-      if (prev === undefined) delete process.env.TREK_PLUGINS_DEV_LINK; else process.env.TREK_PLUGINS_DEV_LINK = prev;
+      if (prev === undefined) delete process.env.TRIPMATE_PLUGINS_DEV_LINK; else process.env.TRIPMATE_PLUGINS_DEV_LINK = prev;
       fs.rmSync(srcRoot, { recursive: true, force: true });
     }
   });
 
   it('is a no-op when the plugins dir is absent', () => {
-    process.env.TREK_PLUGINS_DIR = path.join(codeRoot, 'does-not-exist');
+    process.env.TRIPMATE_PLUGINS_DIR = path.join(codeRoot, 'does-not-exist');
     expect(discoverPlugins(db)).toEqual({ discovered: [], skipped: [] });
   });
 
-  describe('the TREK range', () => {
+  describe('the Trip Mate range', () => {
     it('persists the range and its lower bound', () => {
-      writePlugin('ranged', { trek: '>=3.2.0 <4.0.0' });
+      writePlugin('ranged', { tripmate: '>=3.2.0 <4.0.0' });
       discoverPlugins(db);
       expect(db.prepare("SELECT trek_range, min_trek_version FROM plugins WHERE id='ranged'").get())
         .toMatchObject({ trek_range: '>=3.2.0 <4.0.0', min_trek_version: '3.2.0' });
@@ -151,16 +151,16 @@ describe('discoverPlugins', () => {
       // Discovery is a reconciler, not a gate: it only logs and skips on a throw and never
       // touches the plugins row, so refusing here would leave an existing plugin's stale
       // enabled=1 row to be spawned by the next boot — invisible AND running. The row is
-      // registered with a null range and the activation gate refuses it (TREK_VERSION_UNKNOWN).
+      // registered with a null range and the activation gate refuses it (TRIPMATE_VERSION_UNKNOWN).
       writePlugin('rangeless', {});
       expect(discoverPlugins(db).discovered).toEqual(['rangeless']);
       expect(db.prepare("SELECT trek_range FROM plugins WHERE id='rangeless'").get()).toMatchObject({ trek_range: null });
     });
 
     it('refreshes the range on re-discovery, so a plugin that narrowed its support is caught', () => {
-      writePlugin('shrink', { trek: '>=3.0.0' });
+      writePlugin('shrink', { tripmate: '>=3.0.0' });
       discoverPlugins(db);
-      writePlugin('shrink', { trek: '>=3.0.0 <3.1.0' });
+      writePlugin('shrink', { tripmate: '>=3.0.0 <3.1.0' });
       discoverPlugins(db);
       expect(db.prepare("SELECT trek_range FROM plugins WHERE id='shrink'").get()).toMatchObject({ trek_range: '>=3.0.0 <3.1.0' });
     });

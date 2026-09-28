@@ -1,4 +1,4 @@
-import type { BookShapeId } from '@trek/shared'
+import type { BookShapeId } from '@tripmate/shared'
 
 /**
  * Every shape Studio can draw, as a path on a 0..100 square.

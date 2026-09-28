@@ -35,7 +35,7 @@ beforeEach(() => {
   log = []
   server.use(recorder())
   // parseInDev/checkInDev warn on every stub payload that doesn't match its
-  // @trek/shared schema — expected here, so keep the output readable.
+  // @tripmate/shared schema — expected here, so keep the output readable.
   vi.spyOn(console, 'warn').mockImplementation(() => {})
 })
 
@@ -292,7 +292,7 @@ describe('client > endpoint wiring', () => {
     await assertCalls([
       { n: 'plugins', r: () => adminApi.plugins(), e: 'GET /api/admin/plugins' },
       { n: 'pluginBrowse', r: () => adminApi.pluginBrowse(), e: 'GET /api/admin/plugins/registry' },
-      { n: 'pluginDetail', r: () => adminApi.pluginDetail('trek/koffi'), e: 'GET /api/admin/plugins/registry/trek%2Fkoffi' },
+      { n: 'pluginDetail', r: () => adminApi.pluginDetail('tripmate/koffi'), e: 'GET /api/admin/plugins/registry/tripmate%2Fkoffi' },
       { n: 'pluginInstall', r: () => adminApi.pluginInstall('koffi', { version: '1.0.0' }), e: 'POST /api/admin/plugins/install' },
       { n: 'pluginActivate', r: () => adminApi.pluginActivate('koffi'), e: 'POST /api/admin/plugins/koffi/activate' },
       { n: 'pluginDeactivate', r: () => adminApi.pluginDeactivate('koffi'), e: 'POST /api/admin/plugins/koffi/deactivate' },
@@ -416,7 +416,7 @@ describe('client > endpoint wiring', () => {
 
   /**
    * The one call in this file that is deliberately TWO requests, which is why it is not
-   * in the list above: a search asks TREK's own indexes and any installed search-provider
+   * in the list above: a search asks Trip Mate's own indexes and any installed search-provider
    * plugin at the same time, and the caller gets one list back (#2221).
    */
   it('FE-APISURF-055: mapsApi.search asks the core index and the plugin providers side by side', async () => {
@@ -948,7 +948,7 @@ describe('client > multipart uploads', () => {
     // A run, and a conflict choice that runs the binding afterwards.
     post.mockClear()
     await docsyncApi.syncNow(1, 9)
-    await docsyncApi.resolve(1, 4, 'trek')
+    await docsyncApi.resolve(1, 4, 'tripmate')
 
     expect(post.mock.calls.map(c => c[0])).toEqual([
       '/trips/1/docsync/links/9/sync',

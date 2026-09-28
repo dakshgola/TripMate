@@ -13,10 +13,10 @@ import { addListener, removeListener } from '../../api/websocket'
 import { useCollectionStore, ALL_SAVED } from '../../store/collectionStore'
 import type { ActiveCollectionId } from '../../store/collectionStore'
 import { categoriesApi } from '../../api/client'
-import type { Collection, CollectionStatus, CollectionFile } from '@trek/shared'
+import type { Collection, CollectionStatus, CollectionFile } from '@tripmate/shared'
 import type { Category, Place } from '../../types'
 import { filterPlaces, sortPlaces, statusCounts, mappablePlaces, presentCategories, presentLabels } from './collectionsModel'
-import type { CollectionLabelUpdateRequest } from '@trek/shared'
+import type { CollectionLabelUpdateRequest } from '@tripmate/shared'
 
 /**
  * Collections page logic — owns the page-local UI state (new/edit-list forms,
@@ -224,11 +224,11 @@ export function useCollections() {
    * A GPX holds only places with coordinates, so the rest are counted and the
    * count is said; a list with none at all gets no empty file (#2301).
    */
-  const handleExportList = useCallback(async (format: CollectionExportFormat = 'trek') => {
+  const handleExportList = useCallback(async (format: CollectionExportFormat = 'tripmate') => {
     if (typeof activeId !== 'number') return
     setExporting(true)
     try {
-      if (format === 'trek') {
+      if (format === 'tripmate') {
         downloadCollectionFile(await collectionsApi.exportFile(activeId))
         return
       }

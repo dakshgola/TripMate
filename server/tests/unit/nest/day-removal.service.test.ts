@@ -45,7 +45,7 @@ import { QueryHelpersService } from '../../../src/nest/query-helpers/query-helpe
 import { DaysService } from '../../../src/nest/days/days.service';
 import { DayRemovalService, DayDeleteError, LAST_DAY_MESSAGE, type DayRemoval } from '../../../src/nest/days/day-removal.service';
 import { JourneyDomainService } from '../../../src/nest/journey/journey-domain.service';
-import { TrekPhotosRepository } from '../../../src/nest/photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../../../src/nest/photos/tripmate-photos.repository';
 import { AssignmentsService } from '../../../src/nest/assignments/assignments.service';
 import { AccommodationsService, type MirrorSender } from '../../../src/nest/accommodations/accommodations.service';
 

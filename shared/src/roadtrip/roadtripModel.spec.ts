@@ -479,7 +479,7 @@ describe('deriveDriveWarnings', () => {
   it('FE-ROADTRIP-MODEL-065: only fuel and charging refuel', () => {
     expect(refuelsRange('fuel')).toBe(true);
     expect(refuelsRange('charging')).toBe(true);
-    // A two-hour lunch fills no tank, and TREK does not know whether the restaurant has a
+    // A two-hour lunch fills no tank, and Trip Mate does not know whether the restaurant has a
     // charger in its car park.
     expect(refuelsRange('restaurant')).toBe(false);
     expect(refuelsRange('rest_area')).toBe(false);
@@ -681,7 +681,7 @@ describe('deriveDriveWarnings — where the tank actually runs dry', () => {
 
 describe('refuelsRange — what fills which tank', () => {
   it('FE-ROADTRIP-MODEL-096: with no vehicle named, either kind fills up', () => {
-    // What TREK did before the setting existed, and the right answer for somebody who
+    // What Trip Mate did before the setting existed, and the right answer for somebody who
     // never opened the dialog. Anything else would quietly change their warnings.
     expect(refuelsRange('fuel')).toBe(true);
     expect(refuelsRange('charging')).toBe(true);
@@ -1095,7 +1095,6 @@ describe('scheduleStopOf', () => {
   });
 });
 
-
 describe('hasChosenArrival', () => {
   // The rail prints a chosen hour in ink and a computed one in grey. Every scheduler
   // anchors on `time ?? checkInTime`, so a booked night's check-in is as chosen as a
@@ -1128,7 +1127,10 @@ describe('a check-in holds a booked night the way a pinned time does', () => {
   // these run on the anchor the way the rail does.
   it('waits for it when the drive gets there first', () => {
     const schedule = computeSchedule(
-      [{ anchor: '09:00', dwellMinutes: 0 }, { anchor: '15:00', dwellMinutes: 0 }],
+      [
+        { anchor: '09:00', dwellMinutes: 0 },
+        { anchor: '15:00', dwellMinutes: 0 },
+      ],
       [3600],
     );
     expect(schedule.entries[1]!.arrival).toBe('15:00');
@@ -1141,7 +1143,10 @@ describe('a check-in holds a booked night the way a pinned time does', () => {
     // Read only as a floor, the chain worked the hotel backwards out of the afternoon
     // and put it at 13:46: true enough as arithmetic, and nothing anybody asked for.
     const schedule = computeSchedule(
-      [{ anchor: '10:00', dwellMinutes: 60 }, { anchor: '15:00', dwellMinutes: 60 }],
+      [
+        { anchor: '10:00', dwellMinutes: 60 },
+        { anchor: '15:00', dwellMinutes: 60 },
+      ],
       [14 * 60],
     );
     expect(schedule.entries[0]!.arrival).toBe('10:00');
@@ -1155,7 +1160,11 @@ describe('a check-in holds a booked night the way a pinned time does', () => {
     // night stays at ten and the day is lined up behind that, and the finding says
     // by how much the drive misses it, the way it would for any pinned stop.
     const schedule = computeSchedule(
-      [{ anchor: '08:00', dwellMinutes: 30 }, { anchor: null, dwellMinutes: 60 }, { anchor: '10:00', dwellMinutes: 60 }],
+      [
+        { anchor: '08:00', dwellMinutes: 30 },
+        { anchor: null, dwellMinutes: 60 },
+        { anchor: '10:00', dwellMinutes: 60 },
+      ],
       [89 * 60, 78 * 60],
     );
     expect(schedule.entries[1]!.arrival).toBe('09:59');
@@ -1169,7 +1178,10 @@ describe('a check-in holds a booked night the way a pinned time does', () => {
 
   it('still reports a pinned time that cannot be made', () => {
     const schedule = computeSchedule(
-      [{ anchor: '15:00', dwellMinutes: 60 }, { anchor: '11:00', dwellMinutes: 0 }],
+      [
+        { anchor: '15:00', dwellMinutes: 60 },
+        { anchor: '11:00', dwellMinutes: 0 },
+      ],
       [14 * 60],
     );
     expect(schedule.warnings).toContainEqual({ index: 1, code: 'late', minutes: 314 });

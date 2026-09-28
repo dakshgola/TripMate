@@ -179,15 +179,15 @@ describe('AdminSettingsTab', () => {
   it('FE-ADMSET-013: webauthn RP ID and origins inputs write through their setters', () => {
     const admin = renderTab({ webauthnRpId: 'old.example', webauthnOrigins: '' });
 
-    expect(screen.getByPlaceholderText('trek.example.org')).toHaveValue('old.example');
+    expect(screen.getByPlaceholderText('tripmate.example.org')).toHaveValue('old.example');
 
-    fireEvent.change(screen.getByPlaceholderText('trek.example.org'), { target: { value: 'trek.test' } });
-    expect(admin.setWebauthnRpId).toHaveBeenCalledWith('trek.test');
+    fireEvent.change(screen.getByPlaceholderText('tripmate.example.org'), { target: { value: 'tripmate.test' } });
+    expect(admin.setWebauthnRpId).toHaveBeenCalledWith('tripmate.test');
 
-    fireEvent.change(screen.getByPlaceholderText('https://trek.example.org'), {
-      target: { value: 'https://trek.test' },
+    fireEvent.change(screen.getByPlaceholderText('https://tripmate.example.org'), {
+      target: { value: 'https://tripmate.test' },
     });
-    expect(admin.setWebauthnOrigins).toHaveBeenCalledWith('https://trek.test');
+    expect(admin.setWebauthnOrigins).toHaveBeenCalledWith('https://tripmate.test');
   });
 
   it('FE-ADMSET-014: passkey save button calls handleSaveWebauthn', () => {
@@ -300,7 +300,7 @@ describe('AdminSettingsTab', () => {
     // failing, which is quiet enough to be mistaken for the provider working.
     renderTab({ placesProvider: 'amap', hasAmapKey: false });
     expect(
-      within(card('API Keys')).getByText(/TREK index and OpenStreetMap alone/i),
+      within(card('API Keys')).getByText(/Trip Mate index and OpenStreetMap alone/i),
     ).toBeInTheDocument();
   });
 
@@ -459,11 +459,11 @@ describe('AdminSettingsTab', () => {
     expect(hint.textContent).toMatch(/provider/i);
   });
 
-  it('FE-ADMSET-031: the API keys card leads with the TREK index and no weather panel', () => {
+  it('FE-ADMSET-031: the API keys card leads with the Trip Mate index and no weather panel', () => {
     renderTab();
 
     const keys = card('API Keys');
-    expect(within(keys).getByRole('img', { name: 'TREK Places API' })).toBeInTheDocument();
+    expect(within(keys).getByRole('img', { name: 'Trip Mate Places API' })).toBeInTheDocument();
     expect(within(keys).getByText('Recommended default')).toBeInTheDocument();
     // Weather needs no key, so it left a card about keys. The panel itself lives
     // on in the mobile section, where FE-MOB-ASET-019 asserts it.
@@ -504,12 +504,12 @@ describe('AdminSettingsTab', () => {
     const oidc = card(/single sign-on/i);
 
     const clientId = within(oidc).getByText('Client ID').parentElement!.querySelector('input')!;
-    fireEvent.change(clientId, { target: { value: 'trek-client' } });
+    fireEvent.change(clientId, { target: { value: 'tripmate-client' } });
 
     const clientSecret = within(oidc).getByText('Client Secret').parentElement!.querySelector('input')!;
     fireEvent.change(clientSecret, { target: { value: 's3cr3t' } });
 
-    expect(clientId).toHaveValue('trek-client');
+    expect(clientId).toHaveValue('tripmate-client');
     expect(clientSecret).toHaveValue('s3cr3t');
   });
 
@@ -581,13 +581,13 @@ describe('AdminSettingsTab', () => {
 
   it('FE-ADMSET-041: the index has no switch, because turning it off is a deployment decision', () => {
     // It decides whether a search leaves the instance at all, so it belongs in
-    // the compose file rather than in a browser: TREK_PLACES_ENABLED=false.
+    // the compose file rather than in a browser: TRIPMATE_PLACES_ENABLED=false.
     // A card that offered the choice here also had to explain what answers
     // instead, which is a paragraph about configuration inside a card about a
     // data source.
     renderTab();
 
-    expect(screen.queryByRole('button', { name: /trek place index/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /tripmate place index/i })).not.toBeInTheDocument();
     expect(screen.queryByText(/place search uses openstreetmap/i)).not.toBeInTheDocument();
   });
 

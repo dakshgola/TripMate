@@ -12,14 +12,14 @@ const storage: TranslationStrings = {
   'storage.field.region': 'Регион',
   'storage.help.region': 'Оставьте значение по умолчанию, если провайдер не требует конкретный регион.',
   'storage.field.keyPrefix': 'Префикс ключа',
-  'storage.help.keyPrefix': 'Необязательный префикс, добавляемый к каждому ключу объекта, например trek/prod.',
+  'storage.help.keyPrefix': 'Необязательный префикс, добавляемый к каждому ключу объекта, например tripmate/prod.',
   'storage.field.retries': 'Повторные попытки',
   'storage.field.timeoutMs': 'Тайм-аут (мс)',
   'storage.field.primary': 'Основной бэкенд',
   'storage.field.replicas': 'Реплики',
   'storage.title': 'Хранилище',
   'storage.description':
-    'Где TREK хранит загруженные файлы, фото и резервные копии. Ничего не изменится, пока вы не сохраните.',
+    'Где Trip Mate хранит загруженные файлы, фото и резервные копии. Ничего не изменится, пока вы не сохраните.',
   'storage.loading': 'Загрузка…',
   'storage.saved': 'Конфигурация хранилища сохранена',
   'storage.save': 'Сохранить изменения',
@@ -66,7 +66,7 @@ const storage: TranslationStrings = {
   'storage.category.avatars': 'Фото профиля',
   'storage.category.places': 'Изображения мест',
   'storage.category.photos-google': 'Кэш фото Google',
-  'storage.category.photos-trek': 'Кэш фото TREK',
+  'storage.category.photos-tripmate': 'Кэш фото Trip Mate',
   'storage.category.backups': 'Резервные копии',
 
   // What each category stores — rendered under the label in the category map.
@@ -79,8 +79,8 @@ const storage: TranslationStrings = {
     'Изображения, прикреплённые к местам и местам коллекций — загруженные или импортированные.',
   'storage.categoryDesc.photos-google':
     'Кэшированные копии фото Google Places — их можно получить заново, потеря безопасна.',
-  'storage.categoryDesc.photos-trek':
-    'Кэшированные фото из фотосервиса TREK, используемого функцией Фото (Memories) — их можно получить заново, потеря безопасна.',
+  'storage.categoryDesc.photos-tripmate':
+    'Кэшированные фото из фотосервиса Trip Mate, используемого функцией Фото (Memories) — их можно получить заново, потеря безопасна.',
   'storage.categoryDesc.backups':
     'Архивы резервных копий сервера, созданные панелью резервного копирования или по расписанию.',
   'storage.health.title': 'Состояние',

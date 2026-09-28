@@ -36,7 +36,7 @@ import { resetTestDb } from '../../helpers/test-db';
 import { createUser, createJourney, createJourneyEntry, addJourneyContributor } from '../../helpers/factories';
 import { DatabaseService } from '../../../src/nest/database/database.service';
 import { RealtimeService } from '../../../src/nest/realtime/realtime.service';
-import { TrekPhotosRepository } from '../../../src/nest/photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../../../src/nest/photos/tripmate-photos.repository';
 import { JourneyDomainService } from '../../../src/nest/journey/journey-domain.service';
 import { JourneyShareService } from '../../../src/nest/journey/journey-share.service';
 import { SettingsService } from '../../../src/nest/settings/settings.service';

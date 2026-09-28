@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, screen, waitFor } from '../../../tests/helpers/render';
 import userEvent from '@testing-library/user-event';
-import type { CollectionLabel } from '@trek/shared';
+import type { CollectionLabel } from '@tripmate/shared';
 import { useTranslation } from '../../i18n/TranslationContext';
 import BulkAssignLabelModal from './BulkAssignLabelModal';
 

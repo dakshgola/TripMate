@@ -156,7 +156,8 @@ const collection: TranslationStrings = {
   'collections.file.targetExisting': 'Προσθήκη σε λίστα',
   'collections.file.targetExistingHint': 'Σε μία που έχετε ήδη',
   'collections.file.searchLists': 'Αναζήτηση λιστών',
-  'collections.file.intoHint': 'Τα μέρη που έχει ήδη η λίστα μένουν όπως είναι, όπως και το όνομα και το χρώμα της. Οι ετικέτες του αρχείου προστίθενται.',
+  'collections.file.intoHint':
+    'Τα μέρη που έχει ήδη η λίστα μένουν όπως είναι, όπως και το όνομα και το χρώμα της. Οι ετικέτες του αρχείου προστίθενται.',
   'collections.file.confirmInto': 'Προσθήκη στη λίστα',
   'collections.file.doneInto': '{count} μέρη προστέθηκαν στη λίστα {name}',
   'collections.file.doneIntoDuplicates': '{count} προστέθηκαν στη λίστα {name}, {duplicates} υπήρχαν ήδη',
@@ -169,9 +170,9 @@ const collection: TranslationStrings = {
   'collections.file.doneSkipped': 'Εισήχθησαν {count} μέρη, παραλείφθηκαν {skipped}',
   'collections.file.errorTooLarge': 'Αυτό το αρχείο είναι πολύ μεγάλο για λίστα.',
   'collections.file.errorUnreadable': 'Δεν ήταν δυνατή η ανάγνωση αυτού του αρχείου.',
-  'collections.file.errorNotACollection': 'Αυτό δεν είναι αρχείο λίστας του TREK.',
-  'collections.file.formatTrek': 'Λίστα TREK',
-  'collections.file.formatTrekHint': 'Για άλλο TREK, με ετικέτες και κατάσταση',
+  'collections.file.errorNotACollection': 'Αυτό δεν είναι αρχείο λίστας του Trip Mate.',
+  'collections.file.formatTrek': 'Λίστα Trip Mate',
+  'collections.file.formatTrekHint': 'Για άλλο Trip Mate, με ετικέτες και κατάσταση',
   'collections.file.formatGpxHint': 'Σημεία διαδρομής για OsmAnd, Organic Maps, Garmin και άλλες εφαρμογές χαρτών',
   'collections.file.gpxOmitted': '{count} μέρη χωρίς συντεταγμένες έμειναν εκτός του αρχείου GPX',
   'collections.file.gpxNothing':

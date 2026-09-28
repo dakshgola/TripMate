@@ -1,5 +1,5 @@
 import { readCappedJson } from '../../../utils/cappedFetch';
-import type { DocsyncErrorCode } from '@trek/shared';
+import type { DocsyncErrorCode } from '@tripmate/shared';
 import {
   guardDownload,
   providerFetch,
@@ -33,12 +33,12 @@ import { Readable } from 'node:stream';
  *    plain 200. Both are `deduplicated` to the sync core; see `uploadDocument`.
  *  - **The search grammar needs quoting**: `tag:"Trek Reise 2026"` matches,
  *    `tag:Trek Reise 2026` matches nothing. It is an exact, case-insensitive
- *    match on the tag name (`tag:trek-trip-4` does not find `trek-trip-42`),
+ *    match on the tag name (`tag:tripmate-trip-4` does not find `tripmate-trip-42`),
  *    and it cannot search a sha256 at all.
  *  - **`custom-properties`, `webhooks` and the restore and hard-delete routes
  *    are session-only.** With a valid API key they answer 401; with a browser
  *    session the same request succeeds. So there is no anchor property to write
- *    and no subscription TREK can register for itself.
+ *    and no subscription Trip Mate can register for itself.
  *  - `pageSize` caps at 100 (101 is a 400), `pageIndex` is 0-based, and
  *    `documentsCount` is the total rather than the length of the page. The
  *    trash listing takes those two parameters and refuses every other one.
@@ -533,7 +533,7 @@ export class PapraClient {
     return guardDownload(response, {
       maxBytes: MAX_DOWNLOAD_BYTES,
       tooLarge: () =>
-        new PapraError('too_large', 'The Papra document is larger than TREK will transfer', response.status),
+        new PapraError('too_large', 'The Papra document is larger than Trip Mate will transfer', response.status),
       noBody: () => new PapraError('provider_error', 'Papra answered the document file with no body', response.status),
     });
   }
@@ -555,7 +555,7 @@ export class PapraClient {
     creds: PapraCreds,
     file: { body: Readable; fileName: string; mimeType: string },
   ): Promise<PapraUploadResult> {
-    const boundary = `----trek${crypto.randomBytes(16).toString('hex')}`;
+    const boundary = `----tripmate${crypto.randomBytes(16).toString('hex')}`;
     const header = multipartHeader(boundary, file.fileName, file.mimeType);
     const footer = multipartFooter(boundary);
 

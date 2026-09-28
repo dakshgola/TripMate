@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { attachLocationMarker } from './locationMarkerMapbox'
 import type { GeoPosition } from '../../hooks/useGeolocation'
 
-const SOURCE_ID = 'trek-location-accuracy'
+const SOURCE_ID = 'tripmate-location-accuracy'
 
 type FeatureCollection = {
   type: 'FeatureCollection'
@@ -78,7 +78,7 @@ function attach(map: ReturnType<typeof fakeMap>) {
 beforeEach(() => {
   markers = []
   vi.clearAllMocks()
-  document.getElementById('trek-location-style')?.remove()
+  document.getElementById('tripmate-location-style')?.remove()
   document.body.innerHTML = ''
 })
 
@@ -86,9 +86,9 @@ describe('attachLocationMarker', () => {
   it('FE-COMP-LOCMARKERGL-001: injects the pulse keyframes exactly once per document', () => {
     attach(fakeMap())
     attach(fakeMap())
-    const styles = document.querySelectorAll('#trek-location-style')
+    const styles = document.querySelectorAll('#tripmate-location-style')
     expect(styles).toHaveLength(1)
-    expect(styles[0].textContent).toContain('@keyframes trek-location-pulse')
+    expect(styles[0].textContent).toContain('@keyframes tripmate-location-pulse')
   })
 
   it('FE-COMP-LOCMARKERGL-002: builds a marker element with a pulse, a heading cone and a dot', () => {

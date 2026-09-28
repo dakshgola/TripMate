@@ -16,12 +16,12 @@ import { MCP_METADATA_MIDDLEWARE } from './nest/platform/mcp-metadata.middleware
 import { validateBodyContracts } from './nest/common/validate-body-contracts';
 import { validateRouteGuards } from './nest/common/validate-route-guards';
 import { validateManagedRoutes } from './nest/common/validate-managed-routes';
-import { TrekWsAdapter } from './nest/realtime/trek-ws.adapter';
+import { TrekWsAdapter } from './nest/realtime/tripmate-ws.adapter';
 import { StorageService } from './nest/storage/storage.service';
-import { MAX_COLLECTION_FILE_BYTES } from '@trek/shared';
+import { MAX_COLLECTION_FILE_BYTES } from '@tripmate/shared';
 
 /**
- * Builds the unified TREK NestJS application that serves the ENTIRE surface — the
+ * Builds the unified Trip Mate NestJS application that serves the ENTIRE surface — the
  * former Express app is gone. One builder is shared by the production bootstrap
  * (index.ts) and the integration-test harness so the two can never drift.
  *
@@ -39,7 +39,7 @@ import { MAX_COLLECTION_FILE_BYTES } from '@trek/shared';
  *      gate, container-built (DI) but mounted pathless here (see below).
  *   4. applyPlatformStatic — the production built-client static assets (so a
  *      real asset request returns the file before the Nest router 404s it).
- *   4b. setupApiDocs — Swagger UI/spec at /api/docs* when TREK_API_DOCS_ENABLED.
+ *   4b. setupApiDocs — Swagger UI/spec at /api/docs* when TRIPMATE_API_DOCS_ENABLED.
  *   4c. the named body-parser wrappers — the global 100kb JSON/urlencoded
  *      parsers, exempting /mcp so the MCP SDK reads the raw stream.
  *   5. app.init() — every domain controller, including the transport surface

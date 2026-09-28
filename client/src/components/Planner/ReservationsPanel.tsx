@@ -738,7 +738,7 @@ export default function ReservationsPanel({ tripId, reservations, days, assignme
   const canEdit = can('reservation_edit', trip)
   const [showHint, setShowHint] = useState(() => !localStorage.getItem('hideReservationHint'))
 
-  const storageKey = `trek-reservation-filters-${tripId}`
+  const storageKey = `tripmate-reservation-filters-${tripId}`
   // Plugin-contributed columns/actions for this view, keyed by reservation id (#plugins).
   // The bookings and transports tabs share this panel but are distinct plugin views.
   const contribFor = usePluginViewContributions(contributionView, tripId)
@@ -987,17 +987,17 @@ export default function ReservationsPanel({ tripId, reservations, days, assignme
         ) : (
           <>
             {transitEntries.length > 0 && (
-              <Section title={t('transit.sectionTitle')} count={transitEntries.length} accent="gray" storageKey={`trek:bookings-transit-open:${tripId}`}>
+              <Section title={t('transit.sectionTitle')} count={transitEntries.length} accent="gray" storageKey={`tripmate:bookings-transit-open:${tripId}`}>
                 {transitEntries.map(r => <TransitJourneyCard key={r.id} r={r} days={days} onOpen={onEdit} onDelete={onDelete} canEdit={canEdit} tripId={tripId} contributions={contribFor(r.id)} detailPlugins={reservationDetailPlugins} />)}
               </Section>
             )}
             {allPending.length > 0 && (
-              <Section title={t('reservations.pending')} count={allPending.length} accent="gray" storageKey={`trek:bookings-pending-open:${tripId}`}>
+              <Section title={t('reservations.pending')} count={allPending.length} accent="gray" storageKey={`tripmate:bookings-pending-open:${tripId}`}>
                 {allPending.map(r => <ReservationCard key={r.id} r={r} tripId={tripId} onEdit={onEdit} onDelete={onDelete} files={files} onNavigateToFiles={onNavigateToFiles} assignmentLookup={assignmentLookup} canEdit={canEdit} days={days} contributions={contribFor(r.id)} detailPlugins={reservationDetailPlugins} />)}
               </Section>
             )}
             {allConfirmed.length > 0 && (
-              <Section title={t('reservations.confirmed')} count={allConfirmed.length} accent="green" storageKey={`trek:bookings-confirmed-open:${tripId}`}>
+              <Section title={t('reservations.confirmed')} count={allConfirmed.length} accent="green" storageKey={`tripmate:bookings-confirmed-open:${tripId}`}>
                 {allConfirmed.map(r => <ReservationCard key={r.id} r={r} tripId={tripId} onEdit={onEdit} onDelete={onDelete} files={files} onNavigateToFiles={onNavigateToFiles} assignmentLookup={assignmentLookup} canEdit={canEdit} days={days} contributions={contribFor(r.id)} detailPlugins={reservationDetailPlugins} />)}
               </Section>
             )}

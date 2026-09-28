@@ -3,7 +3,7 @@ import {
   Camera, Check, ChevronDown, ChevronUp, Compass, Copy, FileDown, Files, ImageIcon, LayoutTemplate,
   Plus, Search, Shapes, Trash2, Upload, X,
 } from 'lucide-react'
-import type { BookElement, BookPageSetup, JourneyStats } from '@trek/shared'
+import type { BookElement, BookPageSetup, JourneyStats } from '@tripmate/shared'
 import { useElementSize } from '../../hooks/useElementSize'
 import { useStudioStore } from '../../store/studioStore'
 import { formatDate } from '../../utils/formatters'
@@ -599,7 +599,7 @@ function ContentPanel({
                     // gives us the thumbnail as the drag image for free. The
                     // canvas uses pointer events instead, because free transform
                     // needs a live position that a drop event cannot provide.
-                    e.dataTransfer.setData('application/x-trek-photo', String(p.photoId))
+                    e.dataTransfer.setData('application/x-tripmate-photo', String(p.photoId))
                     e.dataTransfer.effectAllowed = 'copy'
                   }}
                 >
@@ -635,7 +635,7 @@ function ContentPanel({
                     {/* Two facts, two badges. Joined by a dot they read as one
                         string and the eye has to parse where the date ends. The
                         date follows the app's language, like every other date in
-                        TREK — see utils/formatters.ts. */}
+                        Trip Mate — see utils/formatters.ts. */}
                     {e.date && <span className="st-badge">{formatDate(e.date, locale) ?? e.date}</span>}
                     {e.location && <span className="st-badge is-quiet">{e.location}</span>}
                   </div>

@@ -298,7 +298,7 @@ describe('reconcileAppVersion: a new version without a handover to wait for', ()
     expect(reload).toHaveBeenCalledTimes(1)
     const target = new URL(reload.mock.calls[0][0] as string)
     expect(target.pathname).toBe('/dashboard')
-    expect(target.searchParams.get('trek-reload')).toBeTruthy()
+    expect(target.searchParams.get('tripmate-reload')).toBeTruthy()
   })
 
 })

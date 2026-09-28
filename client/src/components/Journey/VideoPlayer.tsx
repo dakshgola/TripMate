@@ -70,7 +70,7 @@ function PlyrVideo({ src, poster, autoPlay = true, style }: Props): React.ReactE
 
   return (
     <div
-      className="trek-video-player"
+      className="tripmate-video-player"
       style={{
         width: 'min(92vw, 1100px)',
         height: 'min(88vh, 900px)',

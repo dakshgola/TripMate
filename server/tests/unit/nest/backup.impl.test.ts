@@ -546,7 +546,7 @@ describe('BACKUP-036 createBackup', () => {
   });
 
   it('BACKUP-036e — excludes the re-derivable photo caches nested under photos/', async () => {
-    // In mode A the google/trek caches live inside the photos/ prefix, so the
+    // In mode A the google/tripmate caches live inside the photos/ prefix, so the
     // category walk must skip them. (In mode B photos-google is a separate
     // category that is simply never enumerated — no extra branch needed.)
     fsMock.existsSync.mockReturnValue(false);
@@ -554,7 +554,7 @@ describe('BACKUP-036 createBackup', () => {
     const storage = stubStorage({
       stat: statOf(1024),
       list: listByCategory({
-        photos: [{ key: 'flat.jpg' }, { key: 'google/g.jpg' }, { key: 'trek/t.bin' }],
+        photos: [{ key: 'flat.jpg' }, { key: 'google/g.jpg' }, { key: 'tripmate/t.bin' }],
       }),
     });
 
@@ -563,7 +563,7 @@ describe('BACKUP-036 createBackup', () => {
     expect(archiverInstanceMock.file).toHaveBeenCalledWith('/stub/local/path', { name: 'uploads/photos/flat.jpg' });
     const names = archiverInstanceMock.file.mock.calls.map(c => c[1]?.name as string);
     expect(names.some(n => n?.includes('google/'))).toBe(false);
-    expect(names.some(n => n?.includes('trek/'))).toBe(false);
+    expect(names.some(n => n?.includes('tripmate/'))).toBe(false);
     // Only the archived categories are ever listed — the excludes are structural.
     expect(storage.getLocalPathOrNull).toHaveBeenCalledTimes(1);
   });

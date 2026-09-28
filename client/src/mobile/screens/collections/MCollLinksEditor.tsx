@@ -1,5 +1,5 @@
 import { Link2, Plus, Trash2 } from 'lucide-react'
-import type { CollectionLink } from '@trek/shared'
+import type { CollectionLink } from '@tripmate/shared'
 import type { TranslationFn } from '../../../types'
 
 interface MCollLinksEditorProps {

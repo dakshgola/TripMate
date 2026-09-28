@@ -2,10 +2,10 @@
 
 Decorator-driven MCP registration for NestJS. Domains declare MCP tools, resources and prompts as decorated methods on ordinary Nest providers; a discovery-backed registry collects them at boot and attaches them — filtered by the access policy — onto each per-session `McpServer`.
 
-Formerly the standalone `@trek/nest-mcp` workspace package; folded into the server 2026-08-22. Two invariants survive the fold:
+Formerly the standalone `@tripmate/nest-mcp` workspace package; folded into the server 2026-08-22. Two invariants survive the fold:
 
-- **Self-contained**: this directory imports nothing from the rest of `server/` except the type-only `../mcp/scopes` import in `types.ts` (which types `access.group`/`mode` against the real scope unions). Keep it that way — new TREK semantics belong in the host layer, not here.
-- **No scope semantics of its own**: access *meaning* comes entirely from the `accessPolicy`/`validateAccess` given at `McpModule.forRoot(...)` — TREK's live in `src/mcp/nest-mcp-policy.ts`.
+- **Self-contained**: this directory imports nothing from the rest of `server/` except the type-only `../mcp/scopes` import in `types.ts` (which types `access.group`/`mode` against the real scope unions). Keep it that way — new Trip Mate semantics belong in the host layer, not here.
+- **No scope semantics of its own**: access *meaning* comes entirely from the `accessPolicy`/`validateAccess` given at `McpModule.forRoot(...)` — Trip Mate's live in `src/mcp/nest-mcp-policy.ts`.
 
 Tests live in `server/tests/unit/nest-mcp/` and run with the normal server suite; coverage is gated at ≥80% in `server/vitest.config.ts`.
 
@@ -63,7 +63,7 @@ errorResult('Tag not found.') // { content: [...], isError: true } — message v
 demoDenied()                  // canned demo-mode write refusal
 ```
 
-Six `TOOL_ANNOTATIONS_*` presets cover the read/write/delete/idempotency matrix (plus `OPEN_WORLD` variants). TREK-specific canned errors (permission wording, RBAC lookups) belong in the host layer, built on `errorResult` — see `server/src/mcp/tools/_shared.ts`, which re-exports the generic helpers from here.
+Six `TOOL_ANNOTATIONS_*` presets cover the read/write/delete/idempotency matrix (plus `OPEN_WORLD` variants). Trip Mate-specific canned errors (permission wording, RBAC lookups) belong in the host layer, built on `errorResult` — see `server/src/mcp/tools/_shared.ts`, which re-exports the generic helpers from here.
 
 ### Fail-fast validation
 
@@ -87,7 +87,7 @@ McpModule.forRoot({
 
 ### Context and access typing
 
-`McpContext` (the per-session context handed to every handler, predicate and the policy) and the `McpAccessGroupRegistry`/`McpAccessModeRegistry` interfaces that type `access.group`/`mode` are defined directly in `types.ts`. Before the fold they were empty interfaces the host augmented via `declare module '@trek/nest-mcp'`; the TREK shapes are now baked in, with the lockstep asserts in `src/mcp/nest-mcp-policy.ts` pinning the registries to `scopes.ts` at compile time.
+`McpContext` (the per-session context handed to every handler, predicate and the policy) and the `McpAccessGroupRegistry`/`McpAccessModeRegistry` interfaces that type `access.group`/`mode` are defined directly in `types.ts`. Before the fold they were empty interfaces the host augmented via `declare module '@tripmate/nest-mcp'`; the Trip Mate shapes are now baked in, with the lockstep asserts in `src/mcp/nest-mcp-policy.ts` pinning the registries to `scopes.ts` at compile time.
 
 ### Wiring
 
@@ -111,10 +111,10 @@ const registry = createTestRegistry([new ThingsMcp(new ThingsService(db))], { ac
 registry.attach(server, ctx);
 ```
 
-## Migrating a TREK MCP domain (recipe)
+## Migrating a Trip Mate MCP domain (recipe)
 
 1. Create `server/src/nest/<domain>/<domain>.mcp.ts`: an `@McpController()` class injecting the domain's Nest service. Port each `server.registerTool(...)` from `server/src/mcp/tools/<domain>.ts` to a `@Tool()` method **byte-identically** (names, descriptions, schemas, annotations, error strings, `ok()` payloads).
-2. Replace the registrar's `canRead/canWrite` registration-time gates with `access: { group, mode }` (TREK's policy in `server/src/mcp/nest-mcp-policy.ts` implements the `scopes.ts` semantics). Addon gates become `when: (_ctx, self: XMcp) => self.addons.isAddonEnabled(ADDON_IDS.X)` alongside the declarative `access`.
+2. Replace the registrar's `canRead/canWrite` registration-time gates with `access: { group, mode }` (Trip Mate's policy in `server/src/mcp/nest-mcp-policy.ts` implements the `scopes.ts` semantics). Addon gates become `when: (_ctx, self: XMcp) => self.addons.isAddonEnabled(ADDON_IDS.X)` alongside the declarative `access`.
 3. Add the class to the domain module's `providers: []`.
 4. Delete the legacy registrar file and its call in `server/src/mcp/tools.ts`.
 5. Add one line constructing the instance in `server/tests/helpers/mcp-test-controllers.ts` and keep the domain's existing unit tests green — behavior must be indistinguishable to a client.

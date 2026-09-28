@@ -37,7 +37,7 @@
 import { createElement, type ReactNode } from 'react'
 import { act, renderHook, waitFor } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import type { DawarichAccept, DawarichAcceptResult, DawarichSuggestion, DawarichSuggestionList } from '@trek/shared'
+import type { DawarichAccept, DawarichAcceptResult, DawarichSuggestion, DawarichSuggestionList } from '@tripmate/shared'
 import { TranslationProvider } from '../i18n/TranslationContext'
 import { useAddonStore } from '../store/addonStore'
 import { setForcedOffline } from '../sync/networkMode'
@@ -152,7 +152,7 @@ const PLACE_BODY: DawarichAccept = { target: 'place', tripId: 7, dayId: 3 }
 // read back from the bundle so a reader of this file sees the sentence that ends
 // up on screen, and so a reworded string is a decision somebody makes here too.
 const EN = {
-  offline: 'This needs a connection — TREK is offline right now.',
+  offline: 'This needs a connection — Trip Mate is offline right now.',
   unauthorized: 'Dawarich rejected the API key.',
   unknown: 'Something went wrong talking to Dawarich.',
   acceptError: 'Could not add this',
@@ -208,7 +208,7 @@ describe('useDawarichSuggestions', () => {
   })
 
   it('FE-DAWARICH-SUGG-003: a list from an instance nobody is connected to still shows its rows', async () => {
-    // The suggestions survive a disconnect: they are TREK's own rows by then,
+    // The suggestions survive a disconnect: they are Trip Mate's own rows by then,
     // and hiding them would lose a backlog somebody still has to work through.
     repo.suggestions.mockResolvedValue(list({ connected: false, lastSyncState: 'never', lastSyncAt: null }))
 

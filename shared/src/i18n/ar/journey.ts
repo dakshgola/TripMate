@@ -233,7 +233,7 @@ const journey: TranslationStrings = {
   'journey.public.sharedVia': 'Shared via', // en-fallback
   'journey.public.madeWith': 'Made with', // en-fallback
   'journey.pdf.journeyBook': 'Journey Book', // en-fallback
-  'journey.pdf.madeWith': 'Made with TREK', // en-fallback
+  'journey.pdf.madeWith': 'Made with Trip Mate', // en-fallback
   'journey.pdf.day': 'Day', // en-fallback
   'journey.pdf.theEnd': 'The End', // en-fallback
   'journey.pdf.saveAsPdf': 'Save as PDF', // en-fallback
@@ -246,7 +246,7 @@ const journey: TranslationStrings = {
   'journey.editor.externalPhotosUnavailable': 'No connected photo providers are available.', // en-fallback
   'journey.editor.externalPhotosPartialFailed': '{failed} photo groups failed — save again to retry', // en-fallback
   'journey.picker.day': 'This day', // en-fallback
-  'journey.studio.title': 'TREK Studio', // en-fallback
+  'journey.studio.title': 'Trip Mate Studio', // en-fallback
   'journey.studio.open': 'Studio', // en-fallback
   'journey.studio.openAria': 'Open the photo book studio', // en-fallback
   'journey.studio.backToJourney': 'Back to the journey', // en-fallback
@@ -288,9 +288,10 @@ const journey: TranslationStrings = {
   'journey.studio.downloadSpreadHint': 'يحفظ تصميم هذه الصفحة كملف، بدون الصور، لمشاركته أو إعادة استخدامه',
   'journey.studio.importSpread': 'استيراد',
   'journey.studio.importSpreadHint': 'إضافة صفحة مزدوجة من ملف تصميم منزّل',
-  'journey.studio.importSpreadFailed': 'هذا الملف ليس صفحة من TREK Studio',
+  'journey.studio.importSpreadFailed': 'هذا الملف ليس صفحة من Trip Mate Studio',
   'journey.studio.desktopOnly': 'Studio needs a bigger screen', // en-fallback
-  'journey.studio.desktopOnlyHint': 'تصميم كتاب يحتاج مساحة للعمل، لذلك يعمل الاستوديو على سطح المكتب فقط، وكذلك إنشاء ملف PDF. كل شيء آخر في رحلتك يعمل هنا كالمعتاد.', // en-fallback
+  'journey.studio.desktopOnlyHint':
+    'تصميم كتاب يحتاج مساحة للعمل، لذلك يعمل الاستوديو على سطح المكتب فقط، وكذلك إنشاء ملف PDF. كل شيء آخر في رحلتك يعمل هنا كالمعتاد.', // en-fallback
   'journey.studio.formatA5Landscape': 'A5 landscape', // en-fallback
   'journey.studio.bookView': 'Book view', // en-fallback
   'journey.studio.multiple': 'Several', // en-fallback
@@ -354,7 +355,8 @@ const journey: TranslationStrings = {
   'journey.studio.sampleSubheading': 'A subheading', // en-fallback
   'journey.studio.sampleBody': 'Write something about this day.', // en-fallback
   'journey.studio.sampleCaption': 'Caption', // en-fallback
-  'journey.studio.templatesCoverHint': 'Layouts apply to the inside spreads. The cover and the back are designed on their own.', // en-fallback
+  'journey.studio.templatesCoverHint':
+    'Layouts apply to the inside spreads. The cover and the back are designed on their own.', // en-fallback
   'journey.studio.tpl.heroStory': 'Hero and story', // en-fallback
   'journey.studio.tpl.fullBleed': 'One picture, full spread', // en-fallback
   'journey.studio.tpl.twoUp': 'Two full pages', // en-fallback
@@ -536,7 +538,8 @@ const journey: TranslationStrings = {
   'journey.studio.mapSourceVector': 'المخططات',
   'journey.studio.mapSourceRelief': 'تضاريس',
   'journey.studio.mapSourceSatellite': 'قمر صناعي',
-  'journey.studio.mapSourceSatelliteHint': 'صور Sentinel-2 خالية من السحب، يمكن طباعتها بحرية مع ذكر المصدر. حادة حتى مستوى شارع في المدينة.',
+  'journey.studio.mapSourceSatelliteHint':
+    'صور Sentinel-2 خالية من السحب، يمكن طباعتها بحرية مع ذكر المصدر. حادة حتى مستوى شارع في المدينة.',
   'journey.studio.routeLook': 'الخط',
   'journey.studio.routeStyle': 'الشكل',
   'journey.studio.routePlain': 'عادي',
@@ -561,7 +564,8 @@ const journey: TranslationStrings = {
   'journey.studio.roadsBusy': 'جارٍ الجلب',
   'journey.studio.roadsHint': 'اطلب من خدمة توجيه الطريق الذي قُطعت به كل مرحلة. المراحل الطويلة تبقى كما هي.',
   'journey.studio.roadsHave': 'تُحفظ الطرق في هذا الكتاب، فيُطبع الخط نفسه دون اتصال.',
-  'journey.studio.mapSourceReliefHint': 'تضاريس ناسا المظللة، يمكن طباعتها بحرية. تناسب بلدًا أو قارة، وهي خشنة جدًا لمدينة واحدة.',
+  'journey.studio.mapSourceReliefHint':
+    'تضاريس ناسا المظللة، يمكن طباعتها بحرية. تناسب بلدًا أو قارة، وهي خشنة جدًا لمدينة واحدة.',
   'journey.studio.mapPrintDpi': 'تُطبع بنحو',
   'journey.studio.mapPrintDpiLow': 'غير حادة بهذا الحجم، جرّب عرضًا أوسع أو مصدرًا آخر',
   'journey.studio.mapPerTrip': 'رحلة واحدة في كل مرة',

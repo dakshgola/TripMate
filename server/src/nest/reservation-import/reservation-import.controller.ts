@@ -23,9 +23,9 @@ import { BookingImportService } from '../booking-import/booking-import.service';
 import { ImportJobsService } from '../booking-import/import-jobs.service';
 import { AirtrailImportService } from '../integrations/airtrail-import.service';
 import { AirtrailImportDto } from '../integrations/airtrail.dto';
-import type { AirtrailImportResult } from '@trek/shared';
-import { bookingImportModeSchema } from '@trek/shared';
-import type { BookingImportPreviewItem, BookingImportPreviewResponse, BookingImportConfirmResponse, BookingImportMode } from '@trek/shared';
+import type { AirtrailImportResult } from '@tripmate/shared';
+import { bookingImportModeSchema } from '@tripmate/shared';
+import type { BookingImportPreviewItem, BookingImportPreviewResponse, BookingImportConfirmResponse, BookingImportMode } from '@tripmate/shared';
 import { BookingImportConfirmDto, BookingImportPreviewDto } from './reservation-import.dto';
 
 const ACCEPTED_EXTS = new Set(['.eml', '.pdf', '.pkpass', '.html', '.htm', '.txt']);

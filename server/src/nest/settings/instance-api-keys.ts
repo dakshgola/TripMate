@@ -1,6 +1,6 @@
 import { DatabaseService } from '../database/database.service';
 import { decrypt_api_key, maybe_encrypt_api_key } from '../common/crypto/apiKeyCrypto';
-import type { ApiKeySource } from '@trek/shared';
+import type { ApiKeySource } from '@tripmate/shared';
 
 /**
  * The third-party keys that belong to the instance rather than to a person.
@@ -32,7 +32,7 @@ export const INSTANCE_API_KEY_NAMES: readonly InstanceApiKeyName[] = [
  * the admin, 403 for everyone else" is one line in the log rather than a
  * guessing game; the key itself is never logged.
  *
- * Defined in @trek/shared because the admin transit-provider response (#1699)
+ * Defined in @tripmate/shared because the admin transit-provider response (#1699)
  * puts it on the wire — re-declaring the union here would fork the contract.
  */
 export type { ApiKeySource };

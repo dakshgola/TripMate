@@ -1,5 +1,5 @@
 /**
- * Storing TREK Studio books (#1973).
+ * Storing Trip Mate Studio books (#1973).
  *
  * The half worth testing hard is concurrency. Every editor on a journey edits
  * the same book, so "two saves arrive together" is the ordinary case rather
@@ -41,7 +41,7 @@ import { resetTestDb } from '../../helpers/test-db';
 import { createUser, createJourney, addJourneyContributor } from '../../helpers/factories';
 import { DatabaseService } from '../../../src/nest/database/database.service';
 import { RealtimeService } from '../../../src/nest/realtime/realtime.service';
-import { TrekPhotosRepository } from '../../../src/nest/photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../../../src/nest/photos/tripmate-photos.repository';
 import { JourneyDomainService } from '../../../src/nest/journey/journey-domain.service';
 import { JourneyBookService } from '../../../src/nest/journey/journey-book.service';
 import { db as dbConn } from '../../../src/db/database';

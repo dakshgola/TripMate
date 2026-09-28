@@ -8,7 +8,7 @@ import { resolve } from 'node:path';
 
 const SOURCE = readFileSync(resolve(process.cwd(), 'public/shell-guard.js'), 'utf8');
 const ENTRY = '/assets/index-BZcJ9-lk.js';
-const MARKER = 'trek:shell-reload';
+const MARKER = 'tripmate:shell-reload';
 
 type Listener = [string, EventListenerOrEventListenerObject, boolean | AddEventListenerOptions | undefined];
 let listeners: Listener[] = [];
@@ -93,7 +93,7 @@ afterEach(() => {
 
 describe('shell-guard.js', () => {
   it('FE-SHELLGUARD-001: strips the fresh-reload parameter and keeps the rest of the URL', () => {
-    window.history.replaceState({ usr: 1 }, '', '/trips/4?tab=plan&trek-reload=mfz3x1&x=2#day-2');
+    window.history.replaceState({ usr: 1 }, '', '/trips/4?tab=plan&tripmate-reload=mfz3x1&x=2#day-2');
     runGuard();
     expect(window.location.pathname + window.location.search + window.location.hash).toBe('/trips/4?tab=plan&x=2#day-2');
     expect(window.history.state).toEqual({ usr: 1 });
@@ -122,7 +122,7 @@ describe('shell-guard.js', () => {
     const target = new URL(env.replace.mock.calls[0][0] as string);
     expect(target.pathname + target.hash).toBe('/trips/4#day-2');
     expect(target.searchParams.get('tab')).toBe('plan');
-    expect(target.searchParams.get('trek-reload')).toBe((1790358416100).toString(36));
+    expect(target.searchParams.get('tripmate-reload')).toBe((1790358416100).toString(36));
   });
 
   it.each([
@@ -197,7 +197,7 @@ describe('shell-guard.js', () => {
     await vi.waitFor(() => expect(env.replace).toHaveBeenCalledTimes(1));
     expect(env.deleted).toEqual([]);
     expect(env.unregister).not.toHaveBeenCalled();
-    expect(new URL(env.replace.mock.calls[0][0] as string).searchParams.has('trek-reload')).toBe(true);
+    expect(new URL(env.replace.mock.calls[0][0] as string).searchParams.has('tripmate-reload')).toBe(true);
   });
 
   it('FE-SHELLGUARD-009: works where there is no service worker and no Cache Storage', async () => {

@@ -1,2 +1,2 @@
-export { spillChains } from '@trek/shared/roadtrip'
-export type { SpillMark, SpillChain } from '@trek/shared/roadtrip'
+export { spillChains } from '@tripmate/shared/roadtrip'
+export type { SpillMark, SpillChain } from '@tripmate/shared/roadtrip'

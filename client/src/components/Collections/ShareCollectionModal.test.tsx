@@ -2,7 +2,7 @@
 import React from 'react'
 import type { Mock } from 'vitest'
 import { render, screen, fireEvent, waitFor, within } from '../../../tests/helpers/render'
-import type { CollectionMember } from '@trek/shared'
+import type { CollectionMember } from '@tripmate/shared'
 import { collectionsApi } from '../../api/collections'
 import { useCollectionStore } from '../../store/collectionStore'
 import { useAuthStore } from '../../store/authStore'

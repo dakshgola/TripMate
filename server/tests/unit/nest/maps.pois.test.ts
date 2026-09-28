@@ -18,8 +18,8 @@ const { mockNearby } = vi.hoisted(() => ({
     ): Promise<unknown[]> => [],
   ),
 }));
-vi.mock('../../../src/nest/maps/trek-places.client', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('../../../src/nest/maps/trek-places.client')>()),
+vi.mock('../../../src/nest/maps/tripmate-places.client', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../../../src/nest/maps/tripmate-places.client')>()),
   trekPlacesNearby: mockNearby,
 }));
 
@@ -95,19 +95,19 @@ const OVERPASS_ANSWER = {
   clamped: false,
 };
 
-const ORIGINAL_TREK_PLACES = process.env.TREK_PLACES_ENABLED;
+const ORIGINAL_TREK_PLACES = process.env.TRIPMATE_PLACES_ENABLED;
 
 afterEach(() => {
-  if (ORIGINAL_TREK_PLACES === undefined) delete process.env.TREK_PLACES_ENABLED;
-  else process.env.TREK_PLACES_ENABLED = ORIGINAL_TREK_PLACES;
+  if (ORIGINAL_TREK_PLACES === undefined) delete process.env.TRIPMATE_PLACES_ENABLED;
+  else process.env.TRIPMATE_PLACES_ENABLED = ORIGINAL_TREK_PLACES;
 });
 
 // The index is an operator switch, not an admin row, so switching it off means
 // moving the env rather than stubbing a settings lookup. The service reads the
 // flag per call, which is why the restore above belongs in afterEach.
 function make(enabled = true) {
-  if (enabled) delete process.env.TREK_PLACES_ENABLED;
-  else process.env.TREK_PLACES_ENABLED = 'false';
+  if (enabled) delete process.env.TRIPMATE_PLACES_ENABLED;
+  else process.env.TRIPMATE_PLACES_ENABLED = 'false';
   const database = { get: vi.fn(() => undefined) } as unknown as DatabaseService;
   return new MapsService(database, {} as PlacePhotoCacheService);
 }
@@ -163,10 +163,10 @@ describe('MapsService.pois answered from the index', () => {
         // elsewhere that naming a source is a licence obligation rather than a
         // courtesy. Nothing on the client switches on the field, and the wire
         // contract keeps it an open string, so saying so costs nothing.
-        source: 'trek-places',
+        source: 'tripmate-places',
       },
     ]);
-    expect(out.source).toBe('trek-places');
+    expect(out.source).toBe('tripmate-places');
   });
 
   it('MAPS-POIS-002: a row without address, contact or hours becomes nulls, typed as the pill', async () => {
@@ -193,7 +193,7 @@ describe('MapsService.pois answered from the index', () => {
       // "not stated" rather than claiming it offers nothing.
       charging: null,
       cuisine: null,
-      source: 'trek-places',
+      source: 'tripmate-places',
     });
   });
 
@@ -232,7 +232,7 @@ describe('MapsService.pois answered from the index', () => {
       // "not stated" rather than claiming it offers nothing.
       charging: null,
       cuisine: null,
-      source: 'trek-places',
+      source: 'tripmate-places',
     });
   });
 
@@ -434,6 +434,6 @@ describe('MapsService.pois falls back to Overpass', () => {
 
     expect(await svc.pois('cafe', BOX, 'de')).toEqual(OVERPASS_ANSWER);
     expect(overpass).toHaveBeenCalledWith('cafe', BOX, 'de', 60);
-    expect(warn).toHaveBeenCalledWith('TREK Places nearby failed, falling back:', 'places api down');
+    expect(warn).toHaveBeenCalledWith('Trip Mate Places nearby failed, falling back:', 'places api down');
   });
 });

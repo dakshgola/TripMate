@@ -93,7 +93,7 @@ export class PluginGuards {
   }
 
   /**
-   * The @trek/shared write schemas carry no string-length caps, so mirror the ones
+   * The @tripmate/shared write schemas carry no string-length caps, so mirror the ones
    * the REST controllers add. Without this a plugin could write a field the web app
    * would reject with 400.
    */

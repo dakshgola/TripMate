@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { Collection, CollectionListResponse } from '@trek/shared'
+import type { Collection, CollectionListResponse } from '@tripmate/shared'
 import { fireEvent, render, screen, waitFor } from '../../../helpers/render'
 import MPlacesSaveToCollectionSheet from '../../../../src/mobile/screens/trip/places/MPlacesSaveToCollectionSheet'
 import { collectionsApi } from '../../../../src/api/collections'

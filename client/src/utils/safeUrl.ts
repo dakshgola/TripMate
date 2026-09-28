@@ -1,4 +1,4 @@
-import { placeWebsiteSchema } from '@trek/shared'
+import { placeWebsiteSchema } from '@tripmate/shared'
 
 /**
  * Allow-list a URL before handing it to window.open.

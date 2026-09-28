@@ -8,7 +8,7 @@ import { IS_PUBLIC } from './public.decorator';
 import type { User } from '../../types';
 
 /** Metadata key `@MfaExempt()` writes. */
-export const MFA_EXEMPT = 'trek:mfa-exempt';
+export const MFA_EXEMPT = 'tripmate:mfa-exempt';
 
 /**
  * Reachable by an authenticated user who has not set up MFA yet, while the

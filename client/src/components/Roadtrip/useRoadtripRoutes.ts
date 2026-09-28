@@ -1,5 +1,5 @@
 import { useRoadtripSettings } from '../../hooks/useRoadtripSettings'
-import { assembleRoadtrip, bookendStaysOf, carrierLegsFor, carrierSeam, foldRouteRun, hotelBookendsOn, isCarrierMode, isStationaryJoin, mergeRouteSegments, seatCarrierStops, seatNightBookends, standsAsDay, terminalAssignmentId, viasOnLeg, type CarrierSeam, type RoadtripStop, type RoadtripRoutes, type PlanDay, type QuietDay, type RoutedLeg } from '@trek/shared/roadtrip'
+import { assembleRoadtrip, bookendStaysOf, carrierLegsFor, carrierSeam, foldRouteRun, hotelBookendsOn, isCarrierMode, isStationaryJoin, mergeRouteSegments, seatCarrierStops, seatNightBookends, standsAsDay, terminalAssignmentId, viasOnLeg, type CarrierSeam, type RoadtripStop, type RoadtripRoutes, type PlanDay, type QuietDay, type RoutedLeg } from '@tripmate/shared/roadtrip'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { avoidedClasses, calculateRouteWithLegs, routeEngineFor, RoutingRefusedError, type RouteEngine } from '../Map/RouteCalculator'
 import { resolveLegMode } from '../Planner/legMode'
@@ -9,16 +9,16 @@ import { useSettingsStore } from '../../store/settingsStore'
 import { useTripStore } from '../../store/tripStore'
 import { useVehicleRange } from './useVehicleRange'
 import type { Assignment, AssignmentsMap, Accommodation, Day, Reservation, RouteAvoidClass, SnappedWaypoint } from '../../types'
-import type { RoadtripVia, RoadtripDayBoundary } from '@trek/shared'
+import type { RoadtripVia, RoadtripDayBoundary } from '@tripmate/shared'
 import { dayWindow } from './dayWindow'
 import { useTranslation } from '../../i18n/TranslationContext'
 import { stayStartingOn } from '../../utils/dayMerge'
 import { staysAtTheirPlaces } from './nightBookend'
 
-export type { RoadtripStop, RoadtripDay, RoadtripRoutes, QuietDay, AccessSpur, RoutedLeg, SnappedPoint } from '@trek/shared/roadtrip'
+export type { RoadtripStop, RoadtripDay, RoadtripRoutes, QuietDay, AccessSpur, RoutedLeg, SnappedPoint } from '@tripmate/shared/roadtrip'
 
 /**
- * Gap between two routing requests. The public OSRM hosts TREK ships with state one
+ * Gap between two routing requests. The public OSRM hosts Trip Mate ships with state one
  * request per second; a road trip asks for every leg of every day, so without spacing
  * the first handful answer and the rest come back 429.
  */
@@ -193,7 +193,7 @@ const asStop = (a: Assignment, ownerDayId: number, ownerIndex: number, accommoda
  *
  * A day is one request, not one per leg: the router already returns a leg for every
  * consecutive pair of the waypoints it is handed. Requests go out one after another
- * with a gap, because the public routing hosts TREK ships with allow about one per
+ * with a gap, because the public routing hosts Trip Mate ships with allow about one per
  * second — but only the ones that actually reach the network are paced, so returning
  * to this view costs nothing.
  */

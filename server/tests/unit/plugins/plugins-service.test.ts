@@ -1,6 +1,6 @@
 /**
  * The read-side plugin service + controller (#plugins, M0). Lists installed
- * plugins and reports whether the runtime is enabled (TREK_PLUGINS_ENABLED).
+ * plugins and reports whether the runtime is enabled (TRIPMATE_PLUGINS_ENABLED).
  */
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 
@@ -29,10 +29,10 @@ import type { RuntimeEnvService } from '../../../src/nest/app-config/runtime-env
 beforeEach(() => {
   testDb.exec('DELETE FROM plugins');
   testDb.exec('DELETE FROM plugin_settings_fields');
-  delete process.env.TREK_PLUGINS_ENABLED;
+  delete process.env.TRIPMATE_PLUGINS_ENABLED;
 });
 afterEach(() => {
-  delete process.env.TREK_PLUGINS_ENABLED;
+  delete process.env.TRIPMATE_PLUGINS_ENABLED;
 });
 
 describe('PluginsService.list', () => {
@@ -40,7 +40,7 @@ describe('PluginsService.list', () => {
     testDb
       .prepare('INSERT INTO plugins (id, name, description, type, status, version) VALUES (?,?,?,?,?,?)')
       .run('flight', 'Flight', 'desc', 'widget', 'inactive', '1.0.0');
-    process.env.TREK_PLUGINS_ENABLED = 'true';
+    process.env.TRIPMATE_PLUGINS_ENABLED = 'true';
 
     const out = new PluginsService(new DatabaseService(dbConn), new AddonsService(new DatabaseService(dbConn))).list();
     expect(out.enabled).toBe(true);
@@ -48,10 +48,10 @@ describe('PluginsService.list', () => {
     expect(out.plugins[0]).toMatchObject({ id: 'flight', name: 'Flight', status: 'inactive' });
   });
 
-  describe('TREK-range bypass', () => {
+  describe('Trip Mate-range bypass', () => {
     const APP_VERSION = process.env.APP_VERSION;
     afterEach(() => {
-      delete process.env.TREK_PLUGINS_IGNORE_TREK_RANGE;
+      delete process.env.TRIPMATE_PLUGINS_IGNORE_TREK_RANGE;
       if (APP_VERSION === undefined) delete process.env.APP_VERSION;
       else process.env.APP_VERSION = APP_VERSION;
     });
@@ -70,7 +70,7 @@ describe('PluginsService.list', () => {
 
     it('with the switch on, the plugin may activate but the row still says it is outside its range', () => {
       process.env.APP_VERSION = '4.1.0';
-      process.env.TREK_PLUGINS_IGNORE_TREK_RANGE = '1';
+      process.env.TRIPMATE_PLUGINS_IGNORE_TREK_RANGE = '1';
       seed();
       const out = new PluginsService(new DatabaseService(dbConn), new AddonsService(new DatabaseService(dbConn))).list();
       expect(out.ignoreTrekRange).toBe(true);
@@ -82,7 +82,7 @@ describe('PluginsService.list', () => {
 
     it('a plugin inside its range carries no marker even with the switch on', () => {
       process.env.APP_VERSION = '3.5.0';
-      process.env.TREK_PLUGINS_IGNORE_TREK_RANGE = '1';
+      process.env.TRIPMATE_PLUGINS_IGNORE_TREK_RANGE = '1';
       seed();
       const out = new PluginsService(new DatabaseService(dbConn), new AddonsService(new DatabaseService(dbConn))).list();
       expect(out.plugins[0]).toMatchObject({ dependencyStatus: 'ok', trekRangeBypassed: null });
@@ -123,8 +123,8 @@ describe('PluginsService.list', () => {
     expect(out.plugins).toHaveLength(1);
   });
 
-  it('reports disabled when the kill switch is off (TREK_PLUGINS_ENABLED=false)', () => {
-    process.env.TREK_PLUGINS_ENABLED = 'false';
+  it('reports disabled when the kill switch is off (TRIPMATE_PLUGINS_ENABLED=false)', () => {
+    process.env.TRIPMATE_PLUGINS_ENABLED = 'false';
     const out = new PluginsService(new DatabaseService(dbConn), new AddonsService(new DatabaseService(dbConn))).list();
     expect(out.enabled).toBe(false);
     expect(out.plugins).toEqual([]);
@@ -208,18 +208,18 @@ describe('PluginsFeedController (client feed)', () => {
     testDb.prepare("INSERT INTO plugins (id, name, type, icon, status) VALUES ('i','I','integration','Plug','inactive')").run();
     const feed = new PluginsFeedController(new DatabaseService(dbConn));
 
-    process.env.TREK_PLUGINS_ENABLED = 'true';
+    process.env.TRIPMATE_PLUGINS_ENABLED = 'true';
     const active = feed.list();
     expect(active.plugins).toEqual([{ id: 'w', name: 'W', type: 'widget', icon: 'Box', slot: 'sidebar' }]);
 
-    process.env.TREK_PLUGINS_ENABLED = 'false';
+    process.env.TRIPMATE_PLUGINS_ENABLED = 'false';
     expect(feed.list().plugins).toEqual([]);
   });
 
   it('exposes the widget slot from capabilities (hero) and defaults on bad JSON', () => {
     testDb.prepare("INSERT INTO plugins (id, name, type, icon, status, capabilities) VALUES ('h','H','widget','Box','active','{\"widget\":{\"slot\":\"hero\"}}')").run();
     testDb.prepare("INSERT INTO plugins (id, name, type, icon, status, capabilities) VALUES ('b','B','widget','Box','active','not-json')").run();
-    process.env.TREK_PLUGINS_ENABLED = 'true';
+    process.env.TRIPMATE_PLUGINS_ENABLED = 'true';
     const out = new PluginsFeedController(new DatabaseService(dbConn)).list();
     expect(out.plugins.find((p) => p.id === 'h')?.slot).toBe('hero');
     expect(out.plugins.find((p) => p.id === 'b')?.slot).toBe('sidebar');
@@ -227,14 +227,14 @@ describe('PluginsFeedController (client feed)', () => {
 
   it('exposes the day-detail slot (a day-panel widget must not fall back to the dashboard)', () => {
     testDb.prepare("INSERT INTO plugins (id, name, type, icon, status, capabilities) VALUES ('d','D','widget','Box','active','{\"widget\":{\"slot\":\"day-detail\"}}')").run();
-    process.env.TREK_PLUGINS_ENABLED = 'true';
+    process.env.TRIPMATE_PLUGINS_ENABLED = 'true';
     expect(new PluginsFeedController(new DatabaseService(dbConn)).list().plugins.find((p) => p.id === 'd')?.slot).toBe('day-detail');
   });
 
   it('exposes settingsUi only when the capability is exactly true', () => {
     testDb.prepare("INSERT INTO plugins (id, name, type, icon, status, capabilities) VALUES ('su','S','widget','Box','active','{\"settingsUi\":true}')").run();
     testDb.prepare("INSERT INTO plugins (id, name, type, icon, status, capabilities) VALUES ('no','N','widget','Box','active','{\"settingsUi\":\"yes\"}')").run();
-    process.env.TREK_PLUGINS_ENABLED = 'true';
+    process.env.TRIPMATE_PLUGINS_ENABLED = 'true';
     const out = new PluginsFeedController(new DatabaseService(dbConn)).list();
     expect(out.plugins.find((p) => p.id === 'su')?.settingsUi).toBe(true);
     expect(out.plugins.find((p) => p.id === 'no')?.settingsUi).toBeUndefined();
@@ -242,7 +242,7 @@ describe('PluginsFeedController (client feed)', () => {
 
   it('exposes the reservation-detail slot (a booking-card widget must not fall back to the dashboard)', () => {
     testDb.prepare("INSERT INTO plugins (id, name, type, icon, status, capabilities) VALUES ('r','R','widget','Box','active','{\"widget\":{\"slot\":\"reservation-detail\"}}')").run();
-    process.env.TREK_PLUGINS_ENABLED = 'true';
+    process.env.TRIPMATE_PLUGINS_ENABLED = 'true';
     expect(new PluginsFeedController(new DatabaseService(dbConn)).list().plugins.find((p) => p.id === 'r')?.slot).toBe('reservation-detail');
   });
 
@@ -252,7 +252,7 @@ describe('PluginsFeedController (client feed)', () => {
     testDb.prepare("INSERT INTO plugins (id, name, type, icon, status, capabilities) VALUES ('evil','E','trip-page','Box','active','{\"tripPage\":{\"replaces\":[\"plan\",\"nope\"],\"position\":-3}}')").run();
     // the capability is meaningless off a trip-page and must not leak onto widgets
     testDb.prepare("INSERT INTO plugins (id, name, type, icon, status, capabilities) VALUES ('w2','W2','widget','Box','active','{\"tripPage\":{\"replaces\":[\"transports\"]}}')").run();
-    process.env.TREK_PLUGINS_ENABLED = 'true';
+    process.env.TRIPMATE_PLUGINS_ENABLED = 'true';
     const out = new PluginsFeedController(new DatabaseService(dbConn)).list();
     expect(out.plugins.find((p) => p.id === 't')?.tripPage).toEqual({ replaces: ['transports', 'buchungen'], position: 1 });
     expect(out.plugins.find((p) => p.id === 'evil')?.tripPage).toBeUndefined();
@@ -273,7 +273,7 @@ describe('PluginsController M2 endpoints', () => {
   beforeEach(() => {
     (svc.getInstanceConfig as ReturnType<typeof vi.fn>).mockClear();
     (svc.updateInstanceConfig as ReturnType<typeof vi.fn>).mockClear();
-    process.env.TREK_PLUGINS_ENABLED = 'true';
+    process.env.TRIPMATE_PLUGINS_ENABLED = 'true';
   });
 
   it('get/update config delegate to the service (get carries the form fields, update the restart)', async () => {
@@ -290,7 +290,7 @@ describe('PluginsController M2 endpoints', () => {
   });
 
   it('activate is 503 when the runtime is disabled', async () => {
-    process.env.TREK_PLUGINS_ENABLED = 'false';
+    process.env.TRIPMATE_PLUGINS_ENABLED = 'false';
     const rt = { activate: vi.fn(), isActive: vi.fn() } as never;
     await expect(new PluginsController(svc, rt, {} as never, envStub).activate('x', {})).rejects.toMatchObject({ status: 503 });
   });

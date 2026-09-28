@@ -91,7 +91,7 @@ beforeEach(() => {
   svc = makeServices();
 
   getAirtrailCredentials.mockReturnValue({ baseUrl: 'https://at.example', apiKey: 'k', allowInsecureTls: false });
-  // GET returns AirTrail-owned detail TREK doesn't model — must survive the writeback.
+  // GET returns AirTrail-owned detail Trip Mate doesn't model — must survive the writeback.
   getFlight.mockResolvedValue({ id: 42, from: { iata: 'JFK' }, to: { iata: 'LHR' }, seats: [], departureTerminal: '7' });
   saveFlight.mockResolvedValue({ id: 42 });
   getReservationWithJoins.mockReturnValue({
@@ -122,7 +122,7 @@ describe('pushReservationToAirtrail write gate (#1240)', () => {
     expect(saveFlight).toHaveBeenCalledTimes(1);
     const payload = saveFlight.mock.calls[0][1] as Record<string, unknown>;
     expect(payload.departureTerminal).toBe('7'); // spread preserved the unmanaged field
-    expect(payload.from).toBe('JFK'); // TREK-managed field still applied as a code
+    expect(payload.from).toBe('JFK'); // Trip Mate-managed field still applied as a code
   });
 
   it('#1535 detaches instead of pushing when the reservation grew extra stops', async () => {
@@ -205,7 +205,7 @@ describe('inbound sync multi-leg guard (#1535)', () => {
     expect(runSpy).not.toHaveBeenCalledWith(expect.stringContaining('sync_enabled = 0'), expect.anything());
   });
 
-  it('detaches a flight that vanished from AirTrail, keeping the TREK row', async () => {
+  it('detaches a flight that vanished from AirTrail, keeping the Trip Mate row', async () => {
     withLinkedRow(2);
     listFlights.mockResolvedValue([]); // the linked id is no longer there
     const { changed } = await svc.sync.runAirtrailSyncForUser(7);

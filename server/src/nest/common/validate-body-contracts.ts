@@ -86,7 +86,7 @@ export function validateBodyContracts(
   if (violations.length) {
     problems.push(
       `${violations.length} mutation handler(s) read @Body() without a createZodDto class ` +
-        `(add a <domain>.dto.ts wrapper over the @trek/shared schema — do NOT extend the allow-list): ` +
+        `(add a <domain>.dto.ts wrapper over the @tripmate/shared schema — do NOT extend the allow-list): ` +
         violations.sort(byCodeUnit).join(', '),
     );
   }

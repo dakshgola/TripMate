@@ -286,7 +286,7 @@ describe('offlineDb — clearTripData', () => {
 describe('offlineDb — per-user database scoping', () => {
   it('FE-DB-OFFLINE-020: reopenForUser switches to the user-scoped database', async () => {
     await reopenForUser(7)
-    expect(offlineDb.name).toBe('trek-offline-u7')
+    expect(offlineDb.name).toBe('tripmate-offline-u7')
     expect(offlineDb.isOpen()).toBe(true)
   })
 
@@ -306,7 +306,7 @@ describe('offlineDb — per-user database scoping', () => {
     offlineDb.close()
 
     await reopenForUser(7)
-    expect(offlineDb.name).toBe('trek-offline-u7')
+    expect(offlineDb.name).toBe('tripmate-offline-u7')
     expect(offlineDb.isOpen()).toBe(true)
   })
 
@@ -315,7 +315,7 @@ describe('offlineDb — per-user database scoping', () => {
     await upsertTrip(buildTrip({ id: 501 }))
 
     await deleteCurrentUserDb()
-    expect(offlineDb.name).toBe('trek-offline')
+    expect(offlineDb.name).toBe('tripmate-offline')
 
     await reopenForUser(9)
     expect(await offlineDb.trips.count()).toBe(0)
@@ -327,7 +327,7 @@ describe('offlineDb — per-user database scoping', () => {
 
     await deleteCurrentUserDb()
 
-    expect(offlineDb.name).toBe('trek-offline')
+    expect(offlineDb.name).toBe('tripmate-offline')
     expect(await offlineDb.trips.get(502)).toBeDefined()
   })
 })
@@ -343,7 +343,7 @@ describe('offlineDb — connection proxy', () => {
   })
 
   it('FE-DB-OFFLINE-029: upgrading a pre-v3 cache backfills tripId and bytes on blob rows', async () => {
-    const legacy = new Dexie('trek-offline-u55')
+    const legacy = new Dexie('tripmate-offline-u55')
     legacy.version(1).stores({
       trips: 'id',
       days: 'id, trip_id',
@@ -381,7 +381,7 @@ describe('offlineDb — initial database name', () => {
     vi.resetModules()
 
     const mod = await import('./offlineDb')
-    expect(mod.offlineDb.name).toBe('trek-offline-u33')
+    expect(mod.offlineDb.name).toBe('tripmate-offline-u33')
   })
 
   it('FE-DB-OFFLINE-026: falls back to the anonymous database without a snapshot', async () => {
@@ -389,7 +389,7 @@ describe('offlineDb — initial database name', () => {
     vi.resetModules()
 
     const mod = await import('./offlineDb')
-    expect(mod.offlineDb.name).toBe('trek-offline')
+    expect(mod.offlineDb.name).toBe('tripmate-offline')
   })
 
   it('FE-DB-OFFLINE-027: a corrupt snapshot falls back to the anonymous database', async () => {
@@ -397,6 +397,6 @@ describe('offlineDb — initial database name', () => {
     vi.resetModules()
 
     const mod = await import('./offlineDb')
-    expect(mod.offlineDb.name).toBe('trek-offline')
+    expect(mod.offlineDb.name).toBe('tripmate-offline')
   })
 })

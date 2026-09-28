@@ -54,7 +54,7 @@ import { AssignmentsService } from '../../../src/nest/assignments/assignments.se
 import { RealtimeService } from '../../../src/nest/realtime/realtime.service';
 import { QueryHelpersService } from '../../../src/nest/query-helpers/query-helpers.service';
 import { JourneyDomainService } from '../../../src/nest/journey/journey-domain.service';
-import { TrekPhotosRepository } from '../../../src/nest/photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../../../src/nest/photos/tripmate-photos.repository';
 
 const dbs = new DatabaseService(testDb);
 const realtime = new RealtimeService();

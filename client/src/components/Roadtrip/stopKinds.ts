@@ -1,11 +1,11 @@
 import { Fuel, Zap, ParkingSquare, Tent, Utensils, Camera, BedDouble, type LucideIcon } from 'lucide-react'
 import { SERVICE_COLORS, SERVICE_STOP_TYPES } from './roadtripModel'
-import type { RoadtripStopType } from '@trek/shared'
+import type { RoadtripStopType } from '@tripmate/shared'
 
 /**
  * One row per kind of stop a drive can have, and the only place a new one is added.
  *
- * The six kinds used to be written out in nine separate lists: the enum in `@trek/shared`,
+ * The six kinds used to be written out in nine separate lists: the enum in `@tripmate/shared`,
  * `SERVICE_STOP_TYPES` and `SERVICE_COLORS` here in the model, the corridor's category
  * keys, the map's `ROADTRIP_POI_CATEGORIES`, the popup's own `STOP_KINDS`, two lookups in
  * the rail, one in the map markers and one in the corridor panel. Every one of those

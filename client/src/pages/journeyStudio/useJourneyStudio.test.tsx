@@ -1,5 +1,5 @@
 import { act, renderHook, waitFor } from '@testing-library/react'
-import type { JourneyStats } from '@trek/shared'
+import type { JourneyStats } from '@tripmate/shared'
 import { useStudioStore } from '../../store/studioStore'
 import { useJourneyStore } from '../../store/journeyStore'
 import { journeyApi } from '../../api/client'

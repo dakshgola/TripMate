@@ -15,10 +15,10 @@ class Decorated {
   })
   doThing() {}
 
-  @Resource({ name: 'thing_doc', uri: 'trek://thing', mimeType: 'application/json' })
+  @Resource({ name: 'thing_doc', uri: 'tripmate://thing', mimeType: 'application/json' })
   readThing() {}
 
-  @ResourceTemplate({ name: 'thing_by_id', uriTemplate: 'trek://thing/{id}' })
+  @ResourceTemplate({ name: 'thing_by_id', uriTemplate: 'tripmate://thing/{id}' })
   readThingById() {}
 
   @Prompt({ name: 'thing_prompt', description: 'Prompt.', argsSchema: { topic: z.string() } })
@@ -67,11 +67,11 @@ describe('nest-mcp decorators', () => {
 
     expect(getEntry(ctor(Decorated), 'readThing')).toMatchObject({
       kind: 'resource',
-      options: { name: 'thing_doc', uri: 'trek://thing', mimeType: 'application/json' },
+      options: { name: 'thing_doc', uri: 'tripmate://thing', mimeType: 'application/json' },
     });
     expect(getEntry(ctor(Decorated), 'readThingById')).toMatchObject({
       kind: 'resourceTemplate',
-      options: { name: 'thing_by_id', uriTemplate: 'trek://thing/{id}' },
+      options: { name: 'thing_by_id', uriTemplate: 'tripmate://thing/{id}' },
     });
     expect(getEntry(ctor(Decorated), 'promptThing')).toMatchObject({
       kind: 'prompt',

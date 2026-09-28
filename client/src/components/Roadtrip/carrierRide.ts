@@ -3,7 +3,7 @@ import { formatClock, formatDurationShort, parseClock, type ScheduleEntry, type 
 import { formatClockTime } from '../../utils/formatters'
 import { stripAirportCode } from '../../utils/flightLegs'
 import { TRANSPORT_TYPES } from '../../utils/dayMerge'
-import { CARRIER_TYPES, type RoadtripDay, type RoadtripStop, type RouteSegment } from '@trek/shared/roadtrip'
+import { CARRIER_TYPES, type RoadtripDay, type RoadtripStop, type RouteSegment } from '@tripmate/shared/roadtrip'
 import type { Reservation, TranslationFn } from '../../types'
 
 /**

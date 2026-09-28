@@ -3,7 +3,7 @@ import { Marker, Tooltip, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import { useTranslation } from '../../i18n/TranslationContext'
 import { useStableVias } from './viaMarkerState'
-import type { RoadtripVia } from '@trek/shared'
+import type { RoadtripVia } from '@tripmate/shared'
 
 /**
  * The handles that shape a drive.

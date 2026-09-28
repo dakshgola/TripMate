@@ -2,7 +2,7 @@ import React from 'react'
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '../../../helpers/render'
 import MCollPlaceRow from '../../../../src/mobile/screens/collections/MCollPlaceRow'
-import type { CollectionPlace } from '@trek/shared'
+import type { CollectionPlace } from '@tripmate/shared'
 
 // FE-MOB-COLL-010 onwards
 

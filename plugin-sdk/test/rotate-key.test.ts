@@ -47,28 +47,28 @@ describe('entry --merge with a changed key', () => {
   beforeEach(() => {
     dir = path.join(tmp, 'plug');
     fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(path.join(dir, 'trek-plugin.json'), JSON.stringify({
+    fs.writeFileSync(path.join(dir, 'tripmate-plugin.json'), JSON.stringify({
       id: 'rotate-plug', name: 'Rotate Plug', version: '1.1.0', type: 'integration',
-      trek: '>=4.0.0 <5.0.0', author: 'Someone', description: 'x',
+      tripmate: '>=4.0.0 <5.0.0', author: 'Someone', description: 'x',
     }));
     zipPath = path.join(dir, 'plugin.zip');
     fs.writeFileSync(zipPath, Buffer.from('fresh artifact bytes'));
     mergePath = path.join(tmp, 'existing.json');
     fs.writeFileSync(mergePath, JSON.stringify({
       id: 'rotate-plug', name: 'Rotate Plug', author: 'Someone', description: 'x',
-      repo: 'someone/trek-plugin-rotate-plug', type: 'integration',
+      repo: 'someone/tripmate-plugin-rotate-plug', type: 'integration',
       authorPublicKey: oldPublicKey,
       versions: [{
         version: '1.0.0', gitTag: 'v1.0.0', commitSha: COMMIT,
         downloadUrl: 'https://github.com/x/y/releases/download/v1.0.0/plugin.zip',
-        sha256: 'aa'.repeat(32), trek: '>=4.0.0 <5.0.0', size: 10, apiVersion: 1,
+        sha256: 'aa'.repeat(32), tripmate: '>=4.0.0 <5.0.0', size: 10, apiVersion: 1,
         nativeModules: false, publishedAt: '2026-01-01T00:00:00Z', signature: 'old-key-sig',
       }],
     }));
   });
 
   const build = (allowKeyChange?: boolean) => buildEntry({
-    dir, repo: 'someone/trek-plugin-rotate-plug', tag: 'v1.1.0', zipPath,
+    dir, repo: 'someone/tripmate-plugin-rotate-plug', tag: 'v1.1.0', zipPath,
     commit: COMMIT, mergePath, signKeyPath: newKeyPath, now: '2026-08-28T00:00:00Z',
     allowKeyChange,
   });
@@ -92,7 +92,7 @@ describe('entry --merge with a changed key', () => {
 
   it('with --allow-key-change but NO --sign: refuses — a rotation cannot ship unsigned', () => {
     expect(() => buildEntry({
-      dir, repo: 'someone/trek-plugin-rotate-plug', tag: 'v1.1.0', zipPath,
+      dir, repo: 'someone/tripmate-plugin-rotate-plug', tag: 'v1.1.0', zipPath,
       commit: COMMIT, mergePath, now: '2026-08-28T00:00:00Z', allowKeyChange: true,
     })).toThrow(/--sign/);
   });
@@ -108,12 +108,12 @@ describe('signing-downgrade check under an intended rotation', () => {
 
   const localEntry = (over: Partial<RegistryEntry> = {}): RegistryEntry => ({
     id: 'rotate-plug', name: 'Rotate Plug', author: 'Someone', description: 'x',
-    repo: 'someone/trek-plugin-rotate-plug', type: 'integration',
+    repo: 'someone/tripmate-plugin-rotate-plug', type: 'integration',
     authorPublicKey: newPublicKey,
     versions: [{
       version: '1.1.0', gitTag: 'v1.1.0', commitSha: COMMIT,
       downloadUrl: 'https://github.com/x/y/releases/download/v1.1.0/plugin.zip',
-      sha256: 'bb'.repeat(32), trek: '>=4.0.0 <5.0.0', size: 10, apiVersion: 1,
+      sha256: 'bb'.repeat(32), tripmate: '>=4.0.0 <5.0.0', size: 10, apiVersion: 1,
       nativeModules: false, publishedAt: '2026-08-28T00:00:00Z', signature: 'new-sig',
     }],
     ...over,
@@ -170,7 +170,7 @@ describe('rotate-key — rotate a published plugin to a new key without shipping
   beforeEach(() => {
     published = {
       id: 'rotate-plug', name: 'Rotate Plug', author: 'Someone', description: 'x',
-      repo: 'someone/trek-plugin-rotate-plug', type: 'integration',
+      repo: 'someone/tripmate-plugin-rotate-plug', type: 'integration',
       authorPublicKey: oldPublicKey,
       versions: [
         { version: '1.1.0', downloadUrl: 'https://github.com/x/y/releases/download/v1.1.0/plugin.zip', sha256: sha(V11_BYTES), signature: 'old-sig-11' },
@@ -205,7 +205,7 @@ describe('rotate-key — rotate a published plugin to a new key without shipping
   it('reads the plugin id from the directory manifest when no --id is given', async () => {
     const dir = path.join(tmp, 'plug-dir');
     fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(path.join(dir, 'trek-plugin.json'), JSON.stringify({ id: 'rotate-plug' }));
+    fs.writeFileSync(path.join(dir, 'tripmate-plugin.json'), JSON.stringify({ id: 'rotate-plug' }));
     const out = path.join(tmp, 'rotated-from-dir.json');
     const r = await rotateKey({ dir, keyPath: newKeyPath, out, log: () => {} });
     expect(r.id).toBe('rotate-plug');
@@ -221,6 +221,6 @@ describe('rotate-key — rotate a published plugin to a new key without shipping
     const empty = path.join(tmp, 'not-a-plugin');
     fs.mkdirSync(empty, { recursive: true });
     await expect(rotateKey({ dir: empty, keyPath: newKeyPath, out: path.join(tmp, 'x.json'), log: () => {} }))
-      .rejects.toThrow(/--id|trek-plugin\.json/);
+      .rejects.toThrow(/--id|tripmate-plugin\.json/);
   });
 });

@@ -52,7 +52,7 @@ import { UnsplashService } from '../../../src/nest/unsplash/unsplash.service';
 import { RuntimeEnvService } from '../../../src/nest/app-config/runtime-env.service';
 import type { PlacePhotoCacheService } from '../../../src/nest/place-photos/place-photo-cache.service';
 import { JourneyDomainService } from '../../../src/nest/journey/journey-domain.service';
-import { TrekPhotosRepository } from '../../../src/nest/photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../../../src/nest/photos/tripmate-photos.repository';
 import { makeStorageFixture } from '../../helpers/storage-fixture';
 
 const dbs = new DatabaseService(testDb);
@@ -72,7 +72,7 @@ function svc(searchNominatim: MapsService['searchNominatim']): PlacesService {
     new RealtimeService(),
     // The address backfill runs fire-and-forget after every import, so the stub answers
     // it too — otherwise every passing test prints a rejected promise.
-    // geocodeQuery is what the importer calls now: it asks the TREK index first
+    // geocodeQuery is what the importer calls now: it asks the Trip Mate index first
     // and falls through to Nominatim on the background lane. Stubbed in terms of
     // the searchNominatim each case already provides, so the cases keep driving
     // one seam while the code under test uses the real one.
@@ -217,7 +217,7 @@ describe('PlacesService.importGoogleDirections', () => {
   });
 
   it('PLACES-DIR-012: the bulk geocoding goes through the index, not straight at Nominatim', async () => {
-    // geocodeQuery asks the TREK index first and only falls through to
+    // geocodeQuery asks the Trip Mate index first and only falls through to
     // Nominatim for what it does not know, on the BACKGROUND lane. That matters
     // more here than anywhere: this loop runs up to thirty times in one request,
     // each Nominatim call taking the next slot on a 1.1 s process-wide throttle,

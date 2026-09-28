@@ -7,7 +7,7 @@ import {
   docsyncResolveConflictSchema,
   docsyncScopeCreateSchema,
   docsyncSyncNowSchema,
-} from '@trek/shared';
+} from '@tripmate/shared';
 
 /**
  * Zod DTOs for every mutating route in this domain.

@@ -30,7 +30,7 @@ import type {
   CollectionLabel,
   CollectionLabelCreateRequest,
   CollectionLabelUpdateRequest,
-} from '@trek/shared'
+} from '@tripmate/shared'
 
 const ax = apiClient
 const base = '/addons/collections'

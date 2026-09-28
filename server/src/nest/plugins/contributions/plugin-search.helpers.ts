@@ -1,15 +1,15 @@
-import { normalizePlaceWebsite } from '@trek/shared';
+import { normalizePlaceWebsite } from '@tripmate/shared';
 import { stripEmoji } from '../text-sanitize';
 
 /**
- * Turning what a `searchProvider` plugin answers into rows TREK can show (#2221).
+ * Turning what a `searchProvider` plugin answers into rows Trip Mate can show (#2221).
  *
  * Shared by the REST route and the MCP tool rather than written twice: the two are the
  * same question asked by a browser and by an assistant, and a cap or a url check that
  * held on one path but not the other would be a hole with a second door.
  *
  * Every hit is normalized into the record shape the core search returns (`toPlaceRecord`
- * in maps/trek-places.client.ts), because the callers read `name`, `lat`, `lng` and
+ * in maps/tripmate-places.client.ts), because the callers read `name`, `lat`, `lng` and
  * `address` off whatever the list holds and must not need to know which index a row
  * came from.
  */

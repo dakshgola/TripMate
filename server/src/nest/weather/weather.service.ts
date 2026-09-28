@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
-import type { WeatherResult } from '@trek/shared';
+import type { WeatherResult } from '@tripmate/shared';
 import { getWeather, getDetailedWeather, startCacheCleanup, stopCacheCleanup } from './weather.impl';
 
 /**

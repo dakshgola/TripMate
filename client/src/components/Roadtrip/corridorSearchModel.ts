@@ -1,6 +1,6 @@
 import { formatDistance } from '../../utils/units'
 import type { CorridorPoi, CorridorWindow } from './useCorridorPois'
-import type { DistanceUnit } from '@trek/shared/roadtrip'
+import type { DistanceUnit } from '@tripmate/shared/roadtrip'
 import type { TranslationFn } from '../../types'
 
 /**

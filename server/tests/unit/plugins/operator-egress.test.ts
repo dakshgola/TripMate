@@ -166,7 +166,7 @@ describe('settings-page actions (runtime)', () => {
 describe('the admin list surfaces operator egress (so the chip can be shown)', () => {
   it('OEG-008 — reports operatorEgress + the host count', async () => {
     const { PluginsService } = await import('../../../src/nest/plugins/plugins.service');
-    process.env.TREK_PLUGINS_ENABLED = 'true';
+    process.env.TRIPMATE_PLUGINS_ENABLED = 'true';
     install('gotify', true);
     install('plain', false);
 
@@ -185,6 +185,6 @@ describe('the admin list surfaces operator egress (so the chip can be shown)', (
     await rt.setOperatorEgressHosts('gotify', ['a.example.com', 'b.example.com']);
     const after = listPlugins();
     expect(after.find(p => p.id === 'gotify')!.egressHostCount).toBe(2);
-    delete process.env.TREK_PLUGINS_ENABLED;
+    delete process.env.TRIPMATE_PLUGINS_ENABLED;
   });
 });

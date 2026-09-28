@@ -225,7 +225,7 @@ describe('DaysController (parity with the legacy /api/trips/:tripId/days route)'
 
 describe('DayNotesController (parity with the legacy /api/.../days/:dayId/notes route)', () => {
   // The legacy in-controller length guard moved to the global ZodValidationPipe
-  // (day-notes.dto.ts over the @trek/shared schemas) — like the old guard it
+  // (day-notes.dto.ts over the @tripmate/shared schemas) — like the old guard it
   // rejects before the trip-access check. The pipe path is exercised end-to-end
   // in tests/e2e/days.e2e.test.ts; here we pin the caps on the DTO schemas.
   it('DTO schemas carry the length caps and moveDayNote nulls', () => {

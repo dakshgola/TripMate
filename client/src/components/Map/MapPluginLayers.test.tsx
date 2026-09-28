@@ -36,7 +36,7 @@ import { PluginMapLayers } from './MapPluginLayers'
 
 function paneMap(preexisting = false) {
   const panes = new Map<string, HTMLElement>()
-  if (preexisting) panes.set('trek-plugin-layers', document.createElement('div'))
+  if (preexisting) panes.set('tripmate-plugin-layers', document.createElement('div'))
   return {
     panes,
     getPane: vi.fn((name: string) => panes.get(name)),
@@ -97,10 +97,10 @@ describe('PluginMapLayers', () => {
     render(<PluginMapLayers tripId={4} />)
     const line = await screen.findByTestId('polyline')
 
-    expect(map.createPane).toHaveBeenCalledWith('trek-plugin-layers')
+    expect(map.createPane).toHaveBeenCalledWith('tripmate-plugin-layers')
     // Core geometry (overlayPane, 400) has to stay on top of plugin shapes.
-    expect(map.panes.get('trek-plugin-layers')?.style.zIndex).toBe('399')
-    expect(optionsOf(line).pane).toBe('trek-plugin-layers')
+    expect(map.panes.get('tripmate-plugin-layers')?.style.zIndex).toBe('399')
+    expect(optionsOf(line).pane).toBe('tripmate-plugin-layers')
   })
 
   it('FE-COMP-MAPPLUGINLAYERS-003: reuses an existing pane instead of creating a second one', async () => {

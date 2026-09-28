@@ -6,7 +6,7 @@
  * SQL (the injected DaysService is DI-native too); the budget service, the
  * permission check and the WebSocket broadcast stay mocked.
  */
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 import { ReservationsModule } from '../../src/nest/reservations/reservations.module';
 // Accommodations left reservations/ for a domain of their own; this container has

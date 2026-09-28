@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Scope: the **`@trek/client`** workspace (React 19 + Vite + Zustand + Tailwind PWA). See the repo-root `CLAUDE.md` for the monorepo picture and the philosophy, `server/CLAUDE.md` for the API. This file holds the client's commands, invariants and pitfalls; `ls` the directories for the inventory.
+Scope: the **`@tripmate/client`** workspace (React 19 + Vite + Zustand + Tailwind PWA). See the repo-root `CLAUDE.md` for the monorepo picture and the philosophy, `server/CLAUDE.md` for the API. This file holds the client's commands, invariants and pitfalls; `ls` the directories for the inventory.
 
 ## Commands (run from `client/`)
 
@@ -31,7 +31,7 @@ The layering is **component → feature hook → store/slice → `repo/` → `ap
 
 - **`src/store/`** — Zustand. `tripStore.ts` is composed from slices in `store/slices/`; `slices/remoteEventHandler.ts` applies inbound WebSocket events to local state.
 - **`src/repo/`** — per-entity repositories mediating between the network and the offline cache: online, call REST and upsert into Dexie; offline, read Dexie. Always go through a repo for trip data.
-- **`src/api/client.ts`** — the single Axios instance, typed from `@trek/shared`. New API surface goes in a per-domain `api/<domain>.ts`, not the god module.
+- **`src/api/client.ts`** — the single Axios instance, typed from `@tripmate/shared`. New API surface goes in a per-domain `api/<domain>.ts`, not the god module.
 - **`src/db/offlineDb.ts`** — the Dexie schema. Database and table names are the on-device contract — renaming one orphans every user's cache.
 - **`src/sync/`** — `mutationQueue.ts`: offline writes do an optimistic Dexie write (temporary **negative id** for creates), then `flush()` replays REST on reconnect with the mutation's UUID as the **`X-Idempotency-Key`** header (matching the server interceptor) and reconciles the row. The rest of the directory drives reconnection sync, the auth gate that stops background loops before logout swaps the DB, offline preferences, and map pre-download (raster and vector prefetchers).
 
@@ -47,7 +47,7 @@ The offline core is flagship work surrounded by a periphery that ignores it. New
 - **WS remote-event handling must match local slice reducers field-for-field.** Divergence is silent, cross-user data loss.
 - **Subscribe with selectors** (`useShallow` for multi-field reads); never whole-store subscriptions; `getState()` for imperative access in effects.
 - **Connectivity**: `isEffectivelyOffline()` is the single source of truth — never read `navigator.onLine` in feature code.
-- **Rendering security**: never interpolate user content into HTML strings (map popups included — build via DOM + `textContent`, or `escapeHtml` from `@trek/shared`); untrusted markdown gets `rehype-sanitize`; never `rehype-raw` near it.
+- **Rendering security**: never interpolate user content into HTML strings (map popups included — build via DOM + `textContent`, or `escapeHtml` from `@tripmate/shared`); untrusted markdown gets `rehype-sanitize`; never `rehype-raw` near it.
 - **No `window` event buses or global mutable `window` state.** No `any` at boundaries: WS payloads and map renderer props get real types.
 - **Hygiene**: error boundaries around new shells/routes (`components/shared/ErrorBoundary.tsx`); every async `.then(setState)` needs a cancelled flag or `AbortController`; no routine `eslint-disable exhaustive-deps` (a missing dep has already shipped wrong money on screen); no sequential-await N+1 fetch loops; search for an existing utility before writing a duplicate.
 - **Theming**: use the semantic Tailwind tokens defined in `tailwind.config.js` (`bg-surface*`, `text-content*`, `border-edge*`, `bg-accent*`, status colors) — no palette classes, hex literals, arbitrary-value color classes, or invented CSS vars. Only `applyAppearance()` in `src/theme/` mutates `<html>` styling (see `src/theme/README.md`). `theme:lint` catches literals and `bg-[#...]`-style classes but not named palette classes — review those by hand.
@@ -55,9 +55,9 @@ The offline core is flagship work surrounded by a periphery that ignores it. New
 ## Big-picture pieces
 
 - **Maps** (`src/components/Map/`): two interchangeable renderers — Leaflet and Mapbox/MapLibre GL — chosen at runtime by `MapViewAuto.tsx`. Keep both in sync when changing map features, and keep `mapbox-gl` and `maplibre-gl` in separate chunks (`check:gl-split`). The raster prefetcher fetches tiles `no-cors` so custom tile providers without CORS headers keep working; the vector prefetcher deliberately uses `cors` because it has to read the responses — don't "align" one with the other.
-- **i18n** (`src/i18n/TranslationContext.tsx`): `en` is bundled; every other locale is a dynamic `import('@trek/shared/i18n/<locale>')` so Vite emits one chunk per locale. Strings live in `shared/`, never here.
+- **i18n** (`src/i18n/TranslationContext.tsx`): `en` is bundled; every other locale is a dynamic `import('@tripmate/shared/i18n/<locale>')` so Vite emits one chunk per locale. Strings live in `shared/`, never here.
 - **Mobile shell** (`src/mobile/`): below the phone breakpoint (`useIsPhone`) `App.tsx` wraps routes in `MobileShell` and the `M*` screens under `mobile/screens/` take over. A UI change to a domain with an `M*` twin usually needs both — and the shared-hook rule below.
-- **Plugins UI** (`src/components/Plugins/`): third-party surfaces render only inside the sandboxed `PluginFrame` iframe (postMessage bridge, live theme-token sync). Host-rendered contribution points (widgets, schedule rows, map layers, planner columns/actions) render server-normalized primitives only — plugin markup never runs inline. Authoring is covered by the `trek-plugin-dev` skill.
+- **Plugins UI** (`src/components/Plugins/`): third-party surfaces render only inside the sandboxed `PluginFrame` iframe (postMessage bridge, live theme-token sync). Host-rendered contribution points (widgets, schedule rows, map layers, planner columns/actions) render server-normalized primitives only — plugin markup never runs inline. Authoring is covered by the `tripmate-plugin-dev` skill.
 - **Managed installs** (`src/managed/index.tsx`): the attachment point for screens that only exist on a centrally administered install. Empty here by design — an operator replaces it at build time. Don't put features there.
 
 ## Desktop ↔ mobile shells and the SonarQube duplication gate

@@ -414,14 +414,14 @@ describe('DashboardPage (desktop)', () => {
       expect(found.length).toBeGreaterThan(0);
       return found;
     });
-    expect(container.querySelectorAll('.atlas-card .trek-skeleton').length).toBeGreaterThan(0);
+    expect(container.querySelectorAll('.atlas-card .tripmate-skeleton').length).toBeGreaterThan(0);
     for (const tile of Array.from(tiles)) {
       expect((tile.querySelector('.value')?.textContent || '').trim()).not.toBe('0');
     }
 
     release!();
     expect(await screen.findByText('12')).toBeInTheDocument();
-    expect(container.querySelectorAll('.atlas-card .trek-skeleton').length).toBe(0);
+    expect(container.querySelectorAll('.atlas-card .tripmate-skeleton').length).toBe(0);
   });
 
   it('FE-PAGE-DESKDASH-029: the trip grid stands in for itself while the trips load', async () => {
@@ -435,13 +435,13 @@ describe('DashboardPage (desktop)', () => {
 
     const { container } = render(<DashboardPage />);
 
-    await waitFor(() => expect(container.querySelectorAll('.trips .trek-skeleton').length).toBeGreaterThan(0));
+    await waitFor(() => expect(container.querySelectorAll('.trips .tripmate-skeleton').length).toBeGreaterThan(0));
     // The finished empty state must not show while the answer is still in flight.
     expect(screen.queryByText(/no trips yet/i)).toBeNull();
 
     release!();
     expect(await screen.findByText('Kyoto')).toBeInTheDocument();
-    expect(container.querySelectorAll('.trips .trek-skeleton').length).toBe(0);
+    expect(container.querySelectorAll('.trips .tripmate-skeleton').length).toBe(0);
   });
 
 });

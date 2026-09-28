@@ -147,7 +147,7 @@ describe('serviceWorkerShell', () => {
     const registration = { unregister: vi.fn(async () => true) }
     installContainer(new FakeWorker(), registration)
     const deleted = installCaches([
-      'workbox-precache-v2-https://trek.example/',
+      'workbox-precache-v2-https://tripmate.example/',
       'map-tiles',
       'gl-map-styles',
       'gl-map-offline',
@@ -158,7 +158,7 @@ describe('serviceWorkerShell', () => {
     await shell.dropAppShell()
 
     // Offline map regions and cached uploads were downloaded on purpose.
-    expect(deleted).toEqual(['workbox-precache-v2-https://trek.example/'])
+    expect(deleted).toEqual(['workbox-precache-v2-https://tripmate.example/'])
     expect(registration.unregister).toHaveBeenCalledTimes(1)
   })
 
@@ -188,7 +188,7 @@ describe('repairPrecache (#2524)', () => {
     expect(fetch).toHaveBeenCalledTimes(1)
     const [url, init] = fetch.mock.calls[0] as unknown as [string, RequestInit]
     expect(new URL(url).pathname).toBe('/assets/index-N6AFa1mB.css')
-    expect(new URL(url).searchParams.get('trek-repair')).toBeTruthy()
+    expect(new URL(url).searchParams.get('tripmate-repair')).toBeTruthy()
     expect(init).toMatchObject({ cache: 'no-store', credentials: 'same-origin', redirect: 'error' })
     // Kept without the one-off URL it came from, since a module is known by it.
     const kept = precache.put.mock.calls[0][1] as Response
@@ -231,7 +231,7 @@ describe('repairPrecache (#2524)', () => {
     expect(await shell.repairPrecache()).toEqual([])
 
     expect(precache.entries.size).toBe(0)
-    expect(localStorage.getItem('trek:precache-checked')).toBeTruthy()
+    expect(localStorage.getItem('tripmate:precache-checked')).toBeTruthy()
   })
 
   it.each([
@@ -248,7 +248,7 @@ describe('repairPrecache (#2524)', () => {
     expect(await shell.repairPrecache()).toEqual([])
     expect(precache.typeOf('/assets/index-N6AFa1mB.css')).toBe('text/html')
     expect(precache.delete).not.toHaveBeenCalled()
-    expect(localStorage.getItem('trek:precache-checked')).toBeNull()
+    expect(localStorage.getItem('tripmate:precache-checked')).toBeNull()
 
     fetch.mockImplementation(async () => file(CSS, 'text/css'))
     expect(await shell.repairPrecache()).toEqual(['/assets/index-N6AFa1mB.css'])
@@ -315,7 +315,7 @@ describe('repairPrecache (#2524)', () => {
 
     expect(fetch).toHaveBeenCalledTimes(2)
     expect(precache.typeOf('/assets/Inter-latin.woff2')).toBe('text/html')
-    expect(localStorage.getItem('trek:precache-checked')).toBeNull()
+    expect(localStorage.getItem('tripmate:precache-checked')).toBeNull()
   })
 
   it('FE-UTIL-SWSHELL-018: a server that does not answer is given up on after a while', async () => {
@@ -331,7 +331,7 @@ describe('repairPrecache (#2524)', () => {
       await vi.advanceTimersByTimeAsync(15_000)
 
       await expect(done).resolves.toEqual([])
-      expect(localStorage.getItem('trek:precache-checked')).toBeNull()
+      expect(localStorage.getItem('tripmate:precache-checked')).toBeNull()
     } finally {
       vi.useRealTimers()
     }

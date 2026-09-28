@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react'
-import type { BookElement, BookFrame, BookPageSetup, BookSpread } from '@trek/shared'
+import type { BookElement, BookFrame, BookPageSetup, BookSpread } from '@tripmate/shared'
 import { useStudioStore } from '../../store/studioStore'
 
 /**

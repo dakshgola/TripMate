@@ -14,10 +14,10 @@ const { testDb } = vi.hoisted(() => {
   db.exec(`CREATE TABLE plugins (
     id TEXT PRIMARY KEY, status TEXT, enabled INTEGER DEFAULT 0, version TEXT, api_version INTEGER DEFAULT 1, permissions TEXT DEFAULT '[]', operator_egress INTEGER DEFAULT 0, granted_permissions TEXT DEFAULT '',
     config TEXT DEFAULT '{}', dependencies TEXT DEFAULT '{}', capabilities TEXT DEFAULT '{}', last_error TEXT, updated_at TEXT,
-    -- Activation refuses a plugin that declares no TREK range, so the fixtures default to a
+    -- Activation refuses a plugin that declares no Trip Mate range, so the fixtures default to a
     -- satisfied one: these tests are about permissions/dependencies, and every row would
     -- otherwise fail on the version gate before reaching the behaviour under test. The gate
-    -- itself is exercised in "TREK host-version gating" below, with explicit ranges.
+    -- itself is exercised in "Trip Mate host-version gating" below, with explicit ranges.
     trek_range TEXT DEFAULT '>=3.0.0',
     source_repo TEXT, author_pubkey TEXT, update_block_code TEXT, update_block_detail TEXT, update_block_version TEXT);
     CREATE TABLE plugin_error_log (id INTEGER PRIMARY KEY AUTOINCREMENT, plugin_id TEXT, level TEXT, message TEXT, ts TEXT);
@@ -58,9 +58,9 @@ let runtime: PluginRuntimeService;
 beforeAll(() => {
   codeRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'trekplug-rt-code-'));
   dataRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'trekplug-rt-data-'));
-  process.env.TREK_PLUGINS_DIR = codeRoot;
-  process.env.TREK_PLUGINS_DATA_DIR = dataRoot;
-  process.env.TREK_PLUGINS_ENABLED = 'true';
+  process.env.TRIPMATE_PLUGINS_DIR = codeRoot;
+  process.env.TRIPMATE_PLUGINS_DATA_DIR = dataRoot;
+  process.env.TRIPMATE_PLUGINS_ENABLED = 'true';
 
   const dir = path.join(codeRoot, 'counter', 'server');
   fs.mkdirSync(dir, { recursive: true });
@@ -85,9 +85,9 @@ beforeAll(() => {
 
 afterAll(async () => {
   await runtime?.deactivate('counter').catch(() => {});
-  delete process.env.TREK_PLUGINS_DIR;
-  delete process.env.TREK_PLUGINS_DATA_DIR;
-  delete process.env.TREK_PLUGINS_ENABLED;
+  delete process.env.TRIPMATE_PLUGINS_DIR;
+  delete process.env.TRIPMATE_PLUGINS_DATA_DIR;
+  delete process.env.TRIPMATE_PLUGINS_ENABLED;
   fs.rmSync(codeRoot, { recursive: true, force: true });
   fs.rmSync(dataRoot, { recursive: true, force: true });
 });
@@ -149,9 +149,9 @@ describe('PluginRuntimeService (M2 end-to-end)', () => {
   });
 
   it('onApplicationBootstrap is a no-op when the runtime is disabled', () => {
-    process.env.TREK_PLUGINS_ENABLED = 'false';
+    process.env.TRIPMATE_PLUGINS_ENABLED = 'false';
     expect(() => createPluginRuntime(new DatabaseService(dbConn)).onApplicationBootstrap()).not.toThrow();
-    process.env.TREK_PLUGINS_ENABLED = 'true';
+    process.env.TRIPMATE_PLUGINS_ENABLED = 'true';
   });
 
   it('deactivate stops the plugin and clears the enabled intent', async () => {
@@ -338,7 +338,7 @@ describe('PluginRuntimeService (M2 end-to-end)', () => {
 });
 
 describe('PluginRuntimeService.update (re-consent gate)', () => {
-  // update() now asks the registry which version this TREK can actually run before it
+  // update() now asks the registry which version this Trip Mate can actually run before it
   // installs anything, so the fake has to answer resolveVersion as well as install.
   const fakeRegistry = (impl: () => void, latest = '2.0.0') =>
     ({
@@ -649,11 +649,11 @@ describe('PluginRuntimeService.retrust', () => {
 /**
  * The activation gate is where an incompatible plugin is actually STOPPED.
  *
- * Install alone can't be the whole answer: a plugin installed legitimately on TREK 3.3
+ * Install alone can't be the whole answer: a plugin installed legitimately on Trip Mate 3.3
  * still sits on disk after the operator upgrades to 4.0, and its code — written against a
  * host it declared it doesn't support — would otherwise be spawned on the next boot.
  */
-describe('TREK host-version gating', () => {
+describe('Trip Mate host-version gating', () => {
   const seedRanged = (id: string, trekRange: string | null, enabled = 0) => {
     fs.mkdirSync(path.join(codeRoot, id, 'server'), { recursive: true });
     fs.writeFileSync(path.join(codeRoot, id, 'server', 'index.js'), 'module.exports = { async onLoad() {} };');
@@ -664,12 +664,12 @@ describe('TREK host-version gating', () => {
 
   afterEach(() => { delete process.env.APP_VERSION; });
 
-  it('refuses to activate a plugin this TREK has outgrown, and says so with a code', async () => {
+  it('refuses to activate a plugin this Trip Mate has outgrown, and says so with a code', async () => {
     process.env.APP_VERSION = '4.0.0';
     seedRanged('outgrown', '>=3.2.0 <4.0.0');
     const err = await createPluginRuntime(new DatabaseService(dbConn)).activate('outgrown').catch((e) => e);
     expect(err).toBeInstanceOf(PluginDependencyError);
-    expect(err).toMatchObject({ code: 'TREK_VERSION_INCOMPATIBLE' });
+    expect(err).toMatchObject({ code: 'TRIPMATE_VERSION_INCOMPATIBLE' });
     expect(err.detail).toMatchObject({ trekRange: '>=3.2.0 <4.0.0', hostVersion: '4.0.0' });
     // It stays INSTALLED and visible — the admin needs to see it to act on it.
     expect(testDb.prepare("SELECT id FROM plugins WHERE id='outgrown'").get()).toBeTruthy();
@@ -679,7 +679,7 @@ describe('TREK host-version gating', () => {
   it('refuses a plugin that never declared a range at all', async () => {
     process.env.APP_VERSION = '3.3.0';
     seedRanged('undeclared', null);
-    await expect(createPluginRuntime(new DatabaseService(dbConn)).activate('undeclared')).rejects.toMatchObject({ code: 'TREK_VERSION_UNKNOWN' });
+    await expect(createPluginRuntime(new DatabaseService(dbConn)).activate('undeclared')).rejects.toMatchObject({ code: 'TRIPMATE_VERSION_UNKNOWN' });
     cleanup('undeclared');
   });
 
@@ -712,11 +712,11 @@ describe('TREK host-version gating', () => {
     cleanup('boot-broken');
   });
 
-  describe('with TREK_PLUGINS_IGNORE_TREK_RANGE set', () => {
-    beforeEach(() => { process.env.TREK_PLUGINS_IGNORE_TREK_RANGE = '1'; });
-    afterEach(() => { delete process.env.TREK_PLUGINS_IGNORE_TREK_RANGE; });
+  describe('with TRIPMATE_PLUGINS_IGNORE_TREK_RANGE set', () => {
+    beforeEach(() => { process.env.TRIPMATE_PLUGINS_IGNORE_TREK_RANGE = '1'; });
+    afterEach(() => { delete process.env.TRIPMATE_PLUGINS_IGNORE_TREK_RANGE; });
 
-    it('activates a plugin this TREK has outgrown, warning in the log instead of refusing', async () => {
+    it('activates a plugin this Trip Mate has outgrown, warning in the log instead of refusing', async () => {
       process.env.APP_VERSION = '4.0.0';
       seedRanged('outgrown-ok', '>=3.2.0 <4.0.0');
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
@@ -748,15 +748,15 @@ describe('TREK host-version gating', () => {
     fs.mkdirSync(path.join(codeRoot, 'both-wrong', 'server'), { recursive: true });
     fs.writeFileSync(path.join(codeRoot, 'both-wrong', 'server', 'index.js'), 'module.exports = {};');
     testDb.prepare("INSERT INTO plugins (id, status, enabled, permissions, granted_permissions, config, trek_range) VALUES ('both-wrong','inactive',0,'[\"db:own\"]','[]','{}','>=3.2.0 <4.0.0')").run();
-    await expect(createPluginRuntime(new DatabaseService(dbConn)).activate('both-wrong')).rejects.toMatchObject({ code: 'TREK_VERSION_INCOMPATIBLE' });
+    await expect(createPluginRuntime(new DatabaseService(dbConn)).activate('both-wrong')).rejects.toMatchObject({ code: 'TRIPMATE_VERSION_INCOMPATIBLE' });
     cleanup('both-wrong');
   });
 });
 
 /**
  * The activation gate also refuses a plugin whose manifest `apiVersion` is newer than
- * what this TREK's plugin-API surface supports (`PLUGIN_API_VERSION`) — mirrors the
- * TREK-version gate above, just for the plugin-API surface instead of the host version.
+ * what this Trip Mate's plugin-API surface supports (`PLUGIN_API_VERSION`) — mirrors the
+ * Trip Mate-version gate above, just for the plugin-API surface instead of the host version.
  */
 describe('plugin-API version gating', () => {
   const seedApi = (id: string, apiVersion: number) => {
@@ -770,27 +770,27 @@ describe('plugin-API version gating', () => {
   };
   const cleanup = (...ids: string[]) => { for (const id of ids) testDb.prepare('DELETE FROM plugins WHERE id = ?').run(id); };
 
-  it('refuses to activate a plugin whose apiVersion this TREK does not support', async () => {
+  it('refuses to activate a plugin whose apiVersion this Trip Mate does not support', async () => {
     seedApi('future-api', 2);
     const err = await createPluginRuntime(new DatabaseService(dbConn)).activate('future-api').catch((e) => e);
     expect(err).toBeInstanceOf(PluginDependencyError);
     expect(err).toMatchObject({ code: 'API_VERSION_INCOMPATIBLE' });
-    expect(err.message).toBe('plugin requires plugin-API v2; this TREK supports v1');
+    expect(err.message).toBe('plugin requires plugin-API v2; this Trip Mate supports v1');
     cleanup('future-api');
   });
 
-  it('still refuses a newer apiVersion when the TREK-range bypass is on — it is not a range problem', async () => {
-    process.env.TREK_PLUGINS_IGNORE_TREK_RANGE = '1';
+  it('still refuses a newer apiVersion when the Trip Mate-range bypass is on — it is not a range problem', async () => {
+    process.env.TRIPMATE_PLUGINS_IGNORE_TREK_RANGE = '1';
     try {
       seedApi('future-api-bypass', 2);
       await expect(createPluginRuntime(new DatabaseService(dbConn)).activate('future-api-bypass')).rejects.toMatchObject({ code: 'API_VERSION_INCOMPATIBLE' });
     } finally {
-      delete process.env.TREK_PLUGINS_IGNORE_TREK_RANGE;
+      delete process.env.TRIPMATE_PLUGINS_IGNORE_TREK_RANGE;
       cleanup('future-api-bypass');
     }
   });
 
-  it('activates normally when apiVersion is within what this TREK supports', async () => {
+  it('activates normally when apiVersion is within what this Trip Mate supports', async () => {
     seedApi('current-api', 1);
     const rt = createPluginRuntime(new DatabaseService(dbConn));
     await rt.activate('current-api');

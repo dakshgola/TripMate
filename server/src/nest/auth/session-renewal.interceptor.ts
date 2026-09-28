@@ -7,7 +7,7 @@ import { setAuthCookie } from '../common/cookie';
 
 /**
  * Sliding session renewal (#1927): once a cookie-authenticated session token is
- * past half of its lifetime, re-issue the trek_session cookie with a fresh
+ * past half of its lifetime, re-issue the tripmate_session cookie with a fresh
  * token so an active user never hits the expiry cliff mid-use. Renewal
  * preserves the login's remember semantics via the token's `remember` claim
  * (true → long persistent cookie, false → browser-session cookie, absent → the
@@ -25,7 +25,7 @@ import { setAuthCookie } from '../common/cookie';
  * The cookie is written eagerly, before the handler runs: renewal doesn't
  * depend on the handler's outcome, and this sidesteps @Res()/streaming routes
  * whose headers are gone by the time the observable settles. When a handler
- * later sets or clears trek_session itself (password change, logout), Express
+ * later sets or clears tripmate_session itself (password change, logout), Express
  * appends its Set-Cookie after this one and the browser keeps the last — the
  * handler's cookie wins, which is the correct outcome.
  */
@@ -43,7 +43,7 @@ export class SessionRenewalInterceptor implements NestInterceptor {
   }
 
   private maybeRenew(req: Request & { user?: { id: number } }, res: Response): void {
-    const cookieToken: string | undefined = (req as { cookies?: Record<string, string> }).cookies?.trek_session;
+    const cookieToken: string | undefined = (req as { cookies?: Record<string, string> }).cookies?.tripmate_session;
     if (!req.user || !cookieToken || res.headersSent) return;
 
     const claims = decodeSessionClaims(cookieToken);

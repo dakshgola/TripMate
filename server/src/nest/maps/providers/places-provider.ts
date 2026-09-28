@@ -1,7 +1,7 @@
 /**
  * The keyed places-provider seam.
  *
- * Search, autocomplete and details ask the TREK index and OpenStreetMap first;
+ * Search, autocomplete and details ask the Trip Mate index and OpenStreetMap first;
  * neither needs a credential, and together they answer on every install.
  * Behind them sits one keyed provider, the one an admin configures and that
  * bills somebody: Google, which MapsService still calls inline, or Amap,
@@ -45,7 +45,7 @@ export function isPlacesProviderChoice(value: unknown): value is PlacesProviderC
   return typeof value === 'string' && (PLACES_PROVIDER_CHOICES as readonly string[]).includes(value);
 }
 
-/** A place as the rest of TREK consumes it. Open by design, see maps.schema.ts. */
+/** A place as the rest of Trip Mate consumes it. Open by design, see maps.schema.ts. */
 export type ProviderPlace = Record<string, unknown>;
 
 export interface ProviderSuggestion {

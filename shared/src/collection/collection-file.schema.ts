@@ -12,7 +12,7 @@ import { z } from 'zod';
  * worth the walk, and that knowledge currently exists in one account on one
  * server. Sharing a list already works between members of the same instance;
  * this is the other case, where the person you want to send it to runs their
- * own TREK, or none yet (#2198).
+ * own Trip Mate, or none yet (#2198).
  *
  * ── What travels ─────────────────────────────────────────────────────────
  *
@@ -64,7 +64,7 @@ import { z } from 'zod';
  */
 
 /** What the file says it is, so a stray JSON is refused rather than half-read. */
-export const COLLECTION_FILE_FORMAT = 'trek.collection';
+export const COLLECTION_FILE_FORMAT = 'tripmate.collection';
 export const COLLECTION_FILE_VERSION = 1;
 
 /**
@@ -218,7 +218,7 @@ export interface CollectionImportResult {
  * Each place becomes a waypoint, and a waypoint needs coordinates: a place
  * without them is left out and counted, never guessed. What GPX 1.1 has an
  * element for goes into that element, so every reader shows it. What it has
- * none for travels in TREK's own extension namespace, so a GPX made by TREK
+ * none for travels in Trip Mate's own extension namespace, so a GPX made by Trip Mate
  * comes back as the same place rather than a pin with a name.
  *
  * Reading goes the other way through the same contract: a GPX is turned into
@@ -229,7 +229,7 @@ export interface CollectionImportResult {
  * own and tested, where a browser's differ by engine.
  */
 
-/** TREK's extension namespace. Versioned in the path; nothing resolves it. */
+/** Trip Mate's extension namespace. Versioned in the path; nothing resolves it. */
 export const COLLECTION_GPX_NAMESPACE = 'https://liketrek.com/xmlns/gpx/collection/1';
 
 /**

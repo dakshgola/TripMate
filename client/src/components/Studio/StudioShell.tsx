@@ -28,7 +28,7 @@ import './bookFontFaces'
  * stays mounted underneath and shows through the blurred 16px margin. That
  * margin is the whole point — you are meant to see that you never left.
  *
- * `.trek-dash` on the root is not decoration: every colour, radius and shadow in
+ * `.tripmate-dash` on the root is not decoration: every colour, radius and shadow in
  * studio.css resolves against those tokens, so Studio follows the user's theme
  * and accent without a second palette to keep in sync.
  */
@@ -40,7 +40,7 @@ export default function StudioShell() {
 
   if (s.isMobile) {
     return createPortal(
-      <div className="st-phone trek-dash">
+      <div className="st-phone tripmate-dash">
         <BookOpen size={30} strokeWidth={1.5} style={{ color: 'var(--ink-3)' }} />
         <div style={{ fontSize: 17, fontWeight: 600, letterSpacing: '-0.02em' }}>
           {s.t('journey.studio.desktopOnly')}
@@ -72,7 +72,7 @@ export default function StudioShell() {
         aria-hidden
       />
       <div
-        className={`st-root trek-dash ${s.closing ? 'st-exit' : 'st-enter'}`}
+        className={`st-root tripmate-dash ${s.closing ? 'st-exit' : 'st-enter'}`}
         style={originStyle}
         role="dialog"
         aria-modal="true"

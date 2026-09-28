@@ -76,7 +76,7 @@ vi.mock('../../src/websocket', () => ({ broadcastToUser: vi.fn() }));
 import { DatabaseModule } from '../../src/nest/database/database.module';
 import { RealtimeModule } from '../../src/nest/realtime/realtime.module';
 import { VacayModule } from '../../src/nest/vacay/vacay.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 import { broadcastToUser } from '../../src/websocket';
 

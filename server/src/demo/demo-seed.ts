@@ -8,9 +8,9 @@ import { saveBaseline, hasBaseline } from './demo-reset';
 
 function seedDemoData(db: Database.Database): { adminId: number; demoId: number } {
   const ADMIN_USER = readEnv().demo.adminUser;
-  const ADMIN_EMAIL = readEnv().demo.adminEmailRaw || 'admin@trek.app';
+  const ADMIN_EMAIL = readEnv().demo.adminEmailRaw || 'admin@tripmate.app';
   const ADMIN_PASS = readEnv().demo.adminPass;
-  const DEMO_EMAIL = 'demo@trek.app';
+  const DEMO_EMAIL = 'demo@tripmate.app';
 
   // Create admin user if not exists
   let admin = db.prepare('SELECT id FROM users WHERE email = ?').get(ADMIN_EMAIL) as { id: number } | undefined;

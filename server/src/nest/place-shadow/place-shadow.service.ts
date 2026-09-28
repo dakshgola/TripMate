@@ -4,7 +4,7 @@ import type {
   PlaceShadowPickRequest,
   PlaceShadowRow,
   PlaceShadowSummaryResult,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import { DatabaseService } from '../database/database.service';
 
 /** Rows older than this are removed nightly. */

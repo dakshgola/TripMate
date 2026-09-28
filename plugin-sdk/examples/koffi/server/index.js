@@ -1,4 +1,4 @@
-// Koffi — the TREK suitcase mascot (hero-slot widget).
+// Koffi — the Trip Mate suitcase mascot (hero-slot widget).
 //
 // One route: GET /state?tripId= → { days, ongoing, title }. The mascot's mood is
 // driven by how close the trip is. The host membership-checks the trip against

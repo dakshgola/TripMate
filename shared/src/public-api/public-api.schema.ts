@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * Public API v1 contract — the read-only surface third-party integrations bind to.
  *
- * Everything else in TREK's REST surface is internal: it answers a session cookie,
+ * Everything else in Trip Mate's REST surface is internal: it answers a session cookie,
  * carries no version, and changes whenever the client changes. This is the opposite
  * promise. Once an integration ships against `/api/v1`, these shapes are a contract,
  * so the rules are: fields may be added, never removed or retyped, and a breaking
@@ -46,7 +46,7 @@ export const publicApiDayNoteSchema = z.object({
 export type PublicApiDayNote = z.infer<typeof publicApiDayNoteSchema>;
 
 /**
- * A booking. `type` is TREK's own vocabulary (flight, train, restaurant, …) and is
+ * A booking. `type` is Trip Mate's own vocabulary (flight, train, restaurant, …) and is
  * passed through unmapped: inventing a canonical enum here would silently drop the
  * types a consumer might actually care about.
  */
@@ -96,7 +96,7 @@ export type PublicApiDay = z.infer<typeof publicApiDaySchema>;
  * Someone who is on the trip.
  *
  * Display name only. Ids would let a consumer correlate the same person across
- * instances, and email addresses have no business leaving TREK over an
+ * instances, and email addresses have no business leaving Trip Mate over an
  * integration key — the name is what a traveller already sees on the trip.
  */
 export const publicApiTravellerSchema = z.object({
@@ -111,7 +111,7 @@ export type PublicApiTraveller = z.infer<typeof publicApiTravellerSchema>;
  * trip attached yet.
  *
  * Lives on the user rather than on a trip, which is why it has its own endpoint
- * rather than an `include`. It is the one part of TREK that is explicitly about
+ * rather than an `include`. It is the one part of Trip Mate that is explicitly about
  * places not yet visited, so a consumer that knows where someone actually went
  * can tell them they got there.
  */
@@ -198,7 +198,12 @@ export type PublicApiInclude = (typeof PUBLIC_API_INCLUDES)[number];
  */
 export const publicApiIncludeQuerySchema = z
   .string()
-  .transform((raw) => raw.split(',').map((part) => part.trim()).filter(Boolean))
+  .transform((raw) =>
+    raw
+      .split(',')
+      .map((part) => part.trim())
+      .filter(Boolean),
+  )
   .pipe(z.array(z.enum(PUBLIC_API_INCLUDES)).min(1));
 
 export const publicApiTripListSchema = z.object({
@@ -317,7 +322,7 @@ export type PublicApiLastTrip = z.infer<typeof publicApiLastTripSchema>;
  * out the rows for a consumer that wants to count its own way; this endpoint
  * exists for the one that wants a number and a single HTTP request.
  *
- * The figures are the ones TREK's own dashboard shows, computed from the same
+ * The figures are the ones Trip Mate's own dashboard shows, computed from the same
  * source, so a widget cannot disagree with the passport card sitting next to it.
  * That is the whole reason this is not a fresh count over `/trips`: "visited
  * countries" carries years of accumulated rules — countries reached only by a

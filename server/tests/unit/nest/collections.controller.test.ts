@@ -6,7 +6,7 @@ import type { CollectionsService } from '../../../src/nest/collections/collectio
 import type { StorageService } from '../../../src/nest/storage/storage.service';
 import { CollectionGpxError } from '../../../src/nest/collections/collection-gpx.helpers';
 import type { User } from '../../../src/types';
-import type { CollectionGpxProblem } from '@trek/shared';
+import type { CollectionGpxProblem } from '@tripmate/shared';
 
 const storageStub = { put: vi.fn().mockResolvedValue(undefined) } as unknown as StorageService;
 
@@ -194,9 +194,9 @@ describe('CollectionsController', () => {
     const file = { filename: 'x.jpg' } as Express.Multer.File;
     it('403 in demo mode for a demo user', async () => {
       process.env.DEMO_MODE = 'true';
-      const demo = { ...user, email: 'demo@trek.app' } as User;
+      const demo = { ...user, email: 'demo@tripmate.app' } as User;
       expect(await thrownAsync(() => new CollectionsController(makeService(), new RuntimeEnvService(), storageStub).uploadCover(demo, '3', file)))
-        .toEqual({ status: 403, body: { error: 'Uploads are disabled in demo mode. Self-host TREK for full functionality.' } });
+        .toEqual({ status: 403, body: { error: 'Uploads are disabled in demo mode. Self-host Trip Mate for full functionality.' } });
     });
     it('400 when no file was uploaded', async () => {
       expect(await thrownAsync(() => new CollectionsController(makeService(), new RuntimeEnvService(), storageStub).uploadCover(user, '3', undefined)))
@@ -214,9 +214,9 @@ describe('CollectionsController', () => {
     const file = { filename: 'x.jpg' } as Express.Multer.File;
     it('403 in demo mode for a demo user', async () => {
       process.env.DEMO_MODE = 'true';
-      const demo = { ...user, email: 'demo@trek.app' } as User;
+      const demo = { ...user, email: 'demo@tripmate.app' } as User;
       expect(await thrownAsync(() => new CollectionsController(makeService(), new RuntimeEnvService(), storageStub).uploadPlaceImage(demo, '9', file)))
-        .toEqual({ status: 403, body: { error: 'Uploads are disabled in demo mode. Self-host TREK for full functionality.' } });
+        .toEqual({ status: 403, body: { error: 'Uploads are disabled in demo mode. Self-host Trip Mate for full functionality.' } });
     });
     it('400 when no file was uploaded', async () => {
       expect(await thrownAsync(() => new CollectionsController(makeService(), new RuntimeEnvService(), storageStub).uploadPlaceImage(user, '9', undefined)))

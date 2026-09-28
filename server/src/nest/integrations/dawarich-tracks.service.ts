@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DAWARICH_TRACK_POINTS_PER_DAY, type DawarichTrack } from '@trek/shared';
+import { DAWARICH_TRACK_POINTS_PER_DAY, type DawarichTrack } from '@tripmate/shared';
 import { DatabaseService } from '../database/database.service';
 import { DawarichClient, type DawarichCreds } from './dawarich.client';
 import { DawarichService } from './dawarich.service';
@@ -14,7 +14,7 @@ import {
  * The recorded route for a window, fetched on demand and never stored.
  *
  * That is the point of the whole feature and the one rule it must not break:
- * Dawarich owns the location archive. TREK draws the part of it somebody is
+ * Dawarich owns the location archive. Trip Mate draws the part of it somebody is
  * looking at right now and forgets it again. There is no table here, no
  * `route_geometry` written to a place, no background import.
  *

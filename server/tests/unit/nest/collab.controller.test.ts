@@ -100,13 +100,13 @@ describe('CollabController (parity with the legacy /api/trips/:tripId/collab rou
     it('reclaims the upload on every refusal, spooled or already committed', async () => {
       // multer has written the file before any check runs, and nothing sweeps
       // orphans, so a loop of rejected POSTs would otherwise fill the disk.
-      const spool = path.join(os.tmpdir(), `trek-collab-${Date.now()}-${Math.random().toString(16).slice(2)}.pdf`);
+      const spool = path.join(os.tmpdir(), `tripmate-collab-${Date.now()}-${Math.random().toString(16).slice(2)}.pdf`);
       fs.writeFileSync(spool, 'x');
       const spooled = { filename: 'a.pdf', path: spool } as Express.Multer.File;
       expect(await thrownAsync(() => new CollabController(svc({ canUploadFiles: vi.fn().mockReturnValue(false) }), storageStub).addNoteFile(user, '5', '9', spooled))).toEqual({ status: 403, body: { error: 'No permission to upload files' } });
       expect(fs.existsSync(spool)).toBe(false);
 
-      const spool2 = path.join(os.tmpdir(), `trek-collab-${Date.now()}-${Math.random().toString(16).slice(2)}.pdf`);
+      const spool2 = path.join(os.tmpdir(), `tripmate-collab-${Date.now()}-${Math.random().toString(16).slice(2)}.pdf`);
       fs.writeFileSync(spool2, 'x');
       expect(await thrownAsync(() => new CollabController(svc({ verifyTripAccess: vi.fn().mockReturnValue(null) }), storageStub).addNoteFile(user, '5', '9', { filename: 'b.pdf', path: spool2 } as Express.Multer.File))).toEqual({ status: 404, body: { error: 'Trip not found' } });
       expect(fs.existsSync(spool2)).toBe(false);

@@ -732,8 +732,8 @@ export class ImmichService {
       const addField = (name: string, value: string) => {
         parts.push(Buffer.from(`--${boundary}\r\nContent-Disposition: form-data; name="${name}"\r\n\r\n${value}\r\n`));
       };
-      addField('deviceAssetId', `trek-${Date.now()}`);
-      addField('deviceId', 'TREK');
+      addField('deviceAssetId', `tripmate-${Date.now()}`);
+      addField('deviceId', 'Trip Mate');
       addField('fileCreatedAt', now);
       addField('fileModifiedAt', now);
 

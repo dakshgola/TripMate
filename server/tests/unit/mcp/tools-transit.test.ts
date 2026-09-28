@@ -37,7 +37,7 @@ const { broadcastMock } = vi.hoisted(() => ({
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/websocket', () => ({ broadcast: broadcastMock }));
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -416,7 +416,7 @@ describe('MCP transit tools', () => {
 
   it('enforces demo, trip access, and reservation permissions', async () => {
     const { user: owner } = createUser(testDb);
-    const { user: demo } = createUser(testDb, { email: 'demo@trek.app' });
+    const { user: demo } = createUser(testDb, { email: 'demo@tripmate.app' });
     const { user: stranger } = createUser(testDb);
     const { user: member } = createUser(testDb);
     const trip = createTrip(testDb, owner.id, { start_date: '2026-12-03', end_date: '2026-12-03' });

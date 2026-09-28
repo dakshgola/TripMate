@@ -12,13 +12,14 @@ const storage: TranslationStrings = {
   'storage.field.region': 'Region',
   'storage.help.region': 'Behåll standardvärdet om inte din leverantör kräver en specifik region.',
   'storage.field.keyPrefix': 'Nyckelprefix',
-  'storage.help.keyPrefix': 'Valfritt prefix som läggs till varje objektnyckel, t.ex. trek/prod.',
+  'storage.help.keyPrefix': 'Valfritt prefix som läggs till varje objektnyckel, t.ex. tripmate/prod.',
   'storage.field.retries': 'Nya försök',
   'storage.field.timeoutMs': 'Tidsgräns (ms)',
   'storage.field.primary': 'Primär backend',
   'storage.field.replicas': 'Repliker',
   'storage.title': 'Lagring',
-  'storage.description': 'Var TREK sparar uppladdade filer, foton och säkerhetskopior. Inget ändras förrän du sparar.',
+  'storage.description':
+    'Var Trip Mate sparar uppladdade filer, foton och säkerhetskopior. Inget ändras förrän du sparar.',
   'storage.loading': 'Laddar…',
   'storage.saved': 'Lagringskonfiguration sparad',
   'storage.save': 'Spara ändringar',
@@ -66,7 +67,7 @@ const storage: TranslationStrings = {
   'storage.category.avatars': 'Profilbilder',
   'storage.category.places': 'Platsbilder',
   'storage.category.photos-google': 'Google-fotocache',
-  'storage.category.photos-trek': 'TREK-fotocache',
+  'storage.category.photos-tripmate': 'Trip Mate-fotocache',
   'storage.category.backups': 'Säkerhetskopior',
 
   // What each category stores — rendered under the label in the category map.
@@ -78,8 +79,8 @@ const storage: TranslationStrings = {
   'storage.categoryDesc.places': 'Bilder kopplade till platser och samlingsplatser — uppladdade eller importerade.',
   'storage.categoryDesc.photos-google':
     'Cachade kopior av foton från Google Places — kan hämtas igen, säkert att förlora.',
-  'storage.categoryDesc.photos-trek':
-    'Cachade foton från TREK-fototjänsten som används av Foton (Memories) — kan hämtas igen, säkert att förlora.',
+  'storage.categoryDesc.photos-tripmate':
+    'Cachade foton från Trip Mate-fototjänsten som används av Foton (Memories) — kan hämtas igen, säkert att förlora.',
   'storage.categoryDesc.backups': 'Serverbackuparkiv skapade av backuppanelen eller schemat.',
   'storage.health.title': 'Hälsa',
   'storage.health.allClear': 'Inga replikfel registrerade.',

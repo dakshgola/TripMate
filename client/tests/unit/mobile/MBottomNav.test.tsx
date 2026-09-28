@@ -6,7 +6,7 @@ import MBottomNav from '../../../src/mobile/components/MBottomNav';
 import { useAddonStore } from '../../../src/store/addonStore';
 import { usePluginStore } from '../../../src/store/pluginStore';
 import { useSettingsStore } from '../../../src/store/settingsStore';
-import { DEFAULT_APPEARANCE } from '@trek/shared';
+import { DEFAULT_APPEARANCE } from '@tripmate/shared';
 
 function LocationEcho() {
   const location = useLocation();

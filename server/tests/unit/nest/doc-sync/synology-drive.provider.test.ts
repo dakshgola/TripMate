@@ -48,7 +48,7 @@ import type {
 } from '../../../../src/nest/doc-sync/document-provider';
 
 const BASE_URL = 'https://nas.example.org:5001';
-const SCOPE = '/trek/japan-2026';
+const SCOPE = '/tripmate/japan-2026';
 
 // ── the fake NAS ─────────────────────────────────────────────────────────────
 
@@ -197,7 +197,7 @@ function connection(overrides: Partial<DocumentConnectionRef> = {}): DocumentCon
     ownerId: 11,
     baseUrl: BASE_URL,
     secrets: { password: 'nas-secret' },
-    settings: { username: 'trek', base_path: '/trek' },
+    settings: { username: 'tripmate', base_path: '/tripmate' },
     allowInsecureTls: false,
     ...overrides,
   };
@@ -287,13 +287,13 @@ describe('SynologyDriveDocumentProvider: login', () => {
     route({ 'SYNO.FileStation.Info:get': ok({ hostname: 'nas' }) });
     const result = await provider.probe(connection());
 
-    expect(result).toMatchObject({ success: true, data: { account: 'trek' } });
+    expect(result).toMatchObject({ success: true, data: { account: 'tripmate' } });
     expect(calls[0].url).toBe(`${BASE_URL}/webapi/auth.cgi`);
     expect(paramsOf(0)).toMatchObject({
       api: 'SYNO.API.Auth',
       version: '6',
       method: 'login',
-      account: '"trek"',
+      account: '"tripmate"',
       passwd: '"nas-secret"',
       session: 'FileStation',
       format: 'sid',
@@ -386,7 +386,7 @@ describe('SynologyDriveDocumentProvider: login', () => {
 
   it('SYNO-PROVIDER-020: one session serves every call of a run', async () => {
     route({
-      'SYNO.FileStation.List:list_share': ok({ shares: [entry('/trek', { dir: true })] }),
+      'SYNO.FileStation.List:list_share': ok({ shares: [entry('/tripmate', { dir: true })] }),
       'SYNO.FileStation.List:list': ok({ total: 0, files: [] }),
       'SYNO.FileStation.List:getinfo': ok({ files: [entry(SCOPE, { dir: true })] }),
     });
@@ -571,7 +571,7 @@ describe('SynologyDriveDocumentProvider: device tokens', () => {
     // The same connection repointed at another NAS, or at another account on
     // this one, has passed nobody's second factor there.
     await provider.probe(connection({ baseUrl: 'https://other-nas.example.org:5001' }));
-    await provider.probe(connection({ settings: { username: 'someone-else', base_path: '/trek' } }));
+    await provider.probe(connection({ settings: { username: 'someone-else', base_path: '/tripmate' } }));
     expect(logins().slice(3).map((call) => call.params.device_id)).toEqual([undefined, undefined]);
   });
 
@@ -673,7 +673,7 @@ describe('SynologyDriveDocumentProvider: device tokens', () => {
     const store: Record<string, string> = { password: 'nas-secret', otp_code: '111111' };
     await provider.listScopes(saved(store));
 
-    // TREK was removed from the account's trusted devices. After a restart the
+    // Trip Mate was removed from the account's trusted devices. After a restart the
     // owner types a new code and tests the form, which merges in what is stored
     // but has no way to write.
     route({
@@ -705,7 +705,7 @@ describe('SynologyDriveDocumentProvider: device tokens', () => {
     await provider.listScopes(saved(store));
     calls = [];
 
-    await provider.listScopes(saved(store, { settings: { username: 'someone-else', base_path: '/trek' } }));
+    await provider.listScopes(saved(store, { settings: { username: 'someone-else', base_path: '/tripmate' } }));
     expect(logins()[0].params.device_id).toBeUndefined();
     expect(store.device_token).toBeUndefined();
 
@@ -754,13 +754,13 @@ describe('SynologyDriveDocumentProvider: device tokens', () => {
 describe('SynologyDriveDocumentProvider: scopes', () => {
   it('SYNO-PROVIDER-030: offers the shares and the folders under the base path', async () => {
     route({
-      'SYNO.FileStation.List:list_share': ok({ shares: [entry('/trek', { dir: true }), entry('/photo', { dir: true })] }),
+      'SYNO.FileStation.List:list_share': ok({ shares: [entry('/tripmate', { dir: true }), entry('/photo', { dir: true })] }),
       'SYNO.FileStation.List:list': ok({
         total: 3,
         files: [
-          entry('/trek/japan-2026', { dir: true }),
-          entry('/trek/.trek-trash', { dir: true }),
-          entry('/trek/readme.txt'),
+          entry('/tripmate/japan-2026', { dir: true }),
+          entry('/tripmate/.tripmate-trash', { dir: true }),
+          entry('/tripmate/readme.txt'),
         ],
       }),
     });
@@ -770,8 +770,8 @@ describe('SynologyDriveDocumentProvider: scopes', () => {
     if (!result.success) return;
     expect(result.data.map((option) => option.scopeKey)).toEqual([
       'path:/photo',
-      'path:/trek',
-      'path:/trek/japan-2026',
+      'path:/tripmate',
+      'path:/tripmate/japan-2026',
     ]);
     // There is no stable folder id on a Synology share; inventing one would put
     // a fiction into the stored binding.
@@ -780,7 +780,7 @@ describe('SynologyDriveDocumentProvider: scopes', () => {
 
   it('SYNO-PROVIDER-031: a base path that does not exist yet still lists the shares', async () => {
     route({
-      'SYNO.FileStation.List:list_share': ok({ shares: [entry('/trek', { dir: true })] }),
+      'SYNO.FileStation.List:list_share': ok({ shares: [entry('/tripmate', { dir: true })] }),
       'SYNO.FileStation.List:list': fail(408),
     });
     const result = await provider.listScopes(connection());
@@ -790,22 +790,22 @@ describe('SynologyDriveDocumentProvider: scopes', () => {
 
   it('SYNO-PROVIDER-032: the picker query filters on label and path', async () => {
     route({
-      'SYNO.FileStation.List:list_share': ok({ shares: [entry('/trek', { dir: true }), entry('/photo', { dir: true })] }),
-      'SYNO.FileStation.List:list': ok({ total: 1, files: [entry('/trek/japan-2026', { dir: true })] }),
+      'SYNO.FileStation.List:list_share': ok({ shares: [entry('/tripmate', { dir: true }), entry('/photo', { dir: true })] }),
+      'SYNO.FileStation.List:list': ok({ total: 1, files: [entry('/tripmate/japan-2026', { dir: true })] }),
     });
     const result = await provider.listScopes(connection(), 'japan');
-    expect(result.success && result.data.map((option) => option.scopeKey)).toEqual(['path:/trek/japan-2026']);
+    expect(result.success && result.data.map((option) => option.scopeKey)).toEqual(['path:/tripmate/japan-2026']);
   });
 
   it('SYNO-PROVIDER-033: creates a folder under the base path with JSON arrays and force_parent', async () => {
-    route({ 'SYNO.FileStation.CreateFolder:create': ok({ folders: [entry('/trek/kyoto', { dir: true })] }) });
+    route({ 'SYNO.FileStation.CreateFolder:create': ok({ folders: [entry('/tripmate/kyoto', { dir: true })] }) });
     const result = await provider.createScope(connection(), '  kyoto  ');
 
-    expect(result).toMatchObject({ success: true, data: { scopeKey: 'path:/trek/kyoto', remoteRootPath: '/trek/kyoto' } });
+    expect(result).toMatchObject({ success: true, data: { scopeKey: 'path:/tripmate/kyoto', remoteRootPath: '/tripmate/kyoto' } });
     expect(paramsOf(1)).toMatchObject({
       api: 'SYNO.FileStation.CreateFolder',
       version: '2',
-      folder_path: '["/trek"]',
+      folder_path: '["/tripmate"]',
       name: '["kyoto"]',
       force_parent: 'true',
     });
@@ -819,7 +819,7 @@ describe('SynologyDriveDocumentProvider: scopes', () => {
 
   it('SYNO-PROVIDER-035: a missing share is scope_missing, because force_parent cannot create one', async () => {
     route({ 'SYNO.FileStation.CreateFolder:create': fail(408) });
-    const result = await provider.createScope(connection({ settings: { username: 'trek', base_path: '/nope' } }), 'kyoto');
+    const result = await provider.createScope(connection({ settings: { username: 'tripmate', base_path: '/nope' } }), 'kyoto');
     expect(result).toMatchObject({ success: false, error: { code: 'scope_missing' } });
   });
 
@@ -847,7 +847,7 @@ describe('SynologyDriveDocumentProvider: scopes', () => {
 describe('SynologyDriveDocumentProvider: list', () => {
   it('SYNO-PROVIDER-040: walks sub-folders, skips the bin and maps each file', async () => {
     const byFolder: Record<string, unknown[]> = {
-      [SCOPE]: [entry(`${SCOPE}/boarding.pdf`, { size: 12, mtime: 1_700_000_500 }), entry(`${SCOPE}/leg-2`, { dir: true }), entry(`${SCOPE}/.trek-trash`, { dir: true })],
+      [SCOPE]: [entry(`${SCOPE}/boarding.pdf`, { size: 12, mtime: 1_700_000_500 }), entry(`${SCOPE}/leg-2`, { dir: true }), entry(`${SCOPE}/.tripmate-trash`, { dir: true })],
       [`${SCOPE}/leg-2`]: [entry(`${SCOPE}/leg-2/hotel.pdf`)],
     };
     route({
@@ -1010,7 +1010,7 @@ describe('SynologyDriveDocumentProvider: fetch', () => {
 
   it('SYNO-PROVIDER-053: a path that walks out of the scope never reaches the NAS', async () => {
     route({});
-    for (const escape of [`${SCOPE}/../../payroll/2026.pdf`, '/payroll/2026.pdf', SCOPE, `${SCOPE}/.trek-trash/a.pdf`]) {
+    for (const escape of [`${SCOPE}/../../payroll/2026.pdf`, '/payroll/2026.pdf', SCOPE, `${SCOPE}/.tripmate-trash/a.pdf`]) {
       const result = await provider.fetch(connection(), scope(), escape);
       expect(result).toMatchObject({ success: false, error: { code: 'not_found' } });
     }
@@ -1203,7 +1203,7 @@ describe('SynologyDriveDocumentProvider: rename and trash', () => {
 
   it('SYNO-PROVIDER-072: trash ensures the bin, then moves with remove_src and waits for the task', async () => {
     route({
-      'SYNO.FileStation.CreateFolder:create': ok({ folders: [entry(`${SCOPE}/.trek-trash`, { dir: true })] }),
+      'SYNO.FileStation.CreateFolder:create': ok({ folders: [entry(`${SCOPE}/.tripmate-trash`, { dir: true })] }),
       'SYNO.FileStation.CopyMove:start': ok({ taskid: 'T-move' }),
       'SYNO.FileStation.CopyMove:status': sequence(ok({ finished: false }), ok({ finished: true })),
       'SYNO.FileStation.List:getinfo': fail(408),
@@ -1214,7 +1214,7 @@ describe('SynologyDriveDocumentProvider: rename and trash', () => {
     expect(callsTo('SYNO.FileStation.CopyMove', 'start')[0].params).toMatchObject({
       version: '3',
       path: `["${SCOPE}/a.pdf"]`,
-      dest_folder_path: `"${SCOPE}/.trek-trash"`,
+      dest_folder_path: `"${SCOPE}/.tripmate-trash"`,
       remove_src: 'true',
       overwrite: 'false',
     });
@@ -1230,24 +1230,24 @@ describe('SynologyDriveDocumentProvider: rename and trash', () => {
 
   it('SYNO-PROVIDER-073: a twin already in the bin steps aside instead of being overwritten', async () => {
     route({
-      'SYNO.FileStation.CreateFolder:create': ok({ folders: [entry(`${SCOPE}/.trek-trash`, { dir: true })] }),
+      'SYNO.FileStation.CreateFolder:create': ok({ folders: [entry(`${SCOPE}/.tripmate-trash`, { dir: true })] }),
       'SYNO.FileStation.CopyMove:start': sequence(fail(1805), ok({ taskid: 'T-move' })),
       'SYNO.FileStation.CopyMove:status': ok({ finished: true }),
-      'SYNO.FileStation.Rename:rename': ok({ files: [entry(`${SCOPE}/.trek-trash/a.123.pdf`)] }),
+      'SYNO.FileStation.Rename:rename': ok({ files: [entry(`${SCOPE}/.tripmate-trash/a.123.pdf`)] }),
       'SYNO.FileStation.List:getinfo': fail(408),
     });
     const result = await provider.trash(connection(), scope(), `${SCOPE}/a.pdf`);
 
     expect(result).toMatchObject({ success: true });
     const renamed = callsTo('SYNO.FileStation.Rename', 'rename')[0];
-    expect(JSON.parse(renamed.params.path)).toEqual([`${SCOPE}/.trek-trash/a.pdf`]);
+    expect(JSON.parse(renamed.params.path)).toEqual([`${SCOPE}/.tripmate-trash/a.pdf`]);
     expect(JSON.parse(renamed.params.name)[0]).toMatch(/^a\.\d+\.pdf$/);
     expect(callsTo('SYNO.FileStation.CopyMove', 'start')).toHaveLength(2);
   });
 
   it('SYNO-PROVIDER-074: nothing inside the bin can be trashed again', async () => {
     route({});
-    const result = await provider.trash(connection(), scope(), `${SCOPE}/.trek-trash/a.pdf`);
+    const result = await provider.trash(connection(), scope(), `${SCOPE}/.tripmate-trash/a.pdf`);
     expect(result).toMatchObject({ success: false, error: { code: 'not_found' } });
     expect(calls).toHaveLength(0);
   });
@@ -1257,29 +1257,29 @@ describe('SynologyDriveDocumentProvider: rename and trash', () => {
     // does: still there means not moved, so the twin steps aside and the move
     // runs again, and only a source that is gone counts as binned.
     route({
-      'SYNO.FileStation.CreateFolder:create': ok({ folders: [entry(`${SCOPE}/.trek-trash`, { dir: true })] }),
+      'SYNO.FileStation.CreateFolder:create': ok({ folders: [entry(`${SCOPE}/.tripmate-trash`, { dir: true })] }),
       'SYNO.FileStation.CopyMove:start': ok({ taskid: 'T-move' }),
       'SYNO.FileStation.CopyMove:status': ok({ finished: true }),
       'SYNO.FileStation.List:getinfo': sequence(ok({ files: [entry(`${SCOPE}/a.pdf`)] }), fail(408)),
-      'SYNO.FileStation.Rename:rename': ok({ files: [entry(`${SCOPE}/.trek-trash/a.123.pdf`)] }),
+      'SYNO.FileStation.Rename:rename': ok({ files: [entry(`${SCOPE}/.tripmate-trash/a.123.pdf`)] }),
     });
     const result = await provider.trash(connection(), scope(), `${SCOPE}/a.pdf`);
 
     expect(result).toMatchObject({ success: true });
     const renamed = callsTo('SYNO.FileStation.Rename', 'rename');
     expect(renamed).toHaveLength(1);
-    expect(JSON.parse(renamed[0].params.path)).toEqual([`${SCOPE}/.trek-trash/a.pdf`]);
+    expect(JSON.parse(renamed[0].params.path)).toEqual([`${SCOPE}/.tripmate-trash/a.pdf`]);
     expect(callsTo('SYNO.FileStation.CopyMove', 'start')).toHaveLength(2);
     expect(callsTo('SYNO.FileStation.List', 'getinfo')).toHaveLength(2);
   });
 
   it('SYNO-PROVIDER-076: a file that will not leave even after the bin made room is a conflict, not a success', async () => {
     route({
-      'SYNO.FileStation.CreateFolder:create': ok({ folders: [entry(`${SCOPE}/.trek-trash`, { dir: true })] }),
+      'SYNO.FileStation.CreateFolder:create': ok({ folders: [entry(`${SCOPE}/.tripmate-trash`, { dir: true })] }),
       'SYNO.FileStation.CopyMove:start': ok({ taskid: 'T-move' }),
       'SYNO.FileStation.CopyMove:status': ok({ finished: true }),
       'SYNO.FileStation.List:getinfo': ok({ files: [entry(`${SCOPE}/a.pdf`)] }),
-      'SYNO.FileStation.Rename:rename': ok({ files: [entry(`${SCOPE}/.trek-trash/a.123.pdf`)] }),
+      'SYNO.FileStation.Rename:rename': ok({ files: [entry(`${SCOPE}/.tripmate-trash/a.123.pdf`)] }),
     });
     const result = await provider.trash(connection(), scope(), `${SCOPE}/a.pdf`);
 
@@ -1459,7 +1459,7 @@ describe('SynologyDriveDocumentProvider: how a NAS disappoints', () => {
 
   it('SYNO-PROVIDER-093: a move DSM answers without a task id is not waited on', async () => {
     route({
-      'SYNO.FileStation.CreateFolder:create': ok({ folders: [entry(`${SCOPE}/.trek-trash`, { dir: true })] }),
+      'SYNO.FileStation.CreateFolder:create': ok({ folders: [entry(`${SCOPE}/.tripmate-trash`, { dir: true })] }),
       'SYNO.FileStation.CopyMove:start': ok({}),
       'SYNO.FileStation.List:getinfo': fail(408),
     });
@@ -1472,7 +1472,7 @@ describe('SynologyDriveDocumentProvider: how a NAS disappoints', () => {
     vi.useFakeTimers();
     try {
       route({
-        'SYNO.FileStation.CreateFolder:create': ok({ folders: [entry(`${SCOPE}/.trek-trash`, { dir: true })] }),
+        'SYNO.FileStation.CreateFolder:create': ok({ folders: [entry(`${SCOPE}/.tripmate-trash`, { dir: true })] }),
         'SYNO.FileStation.CopyMove:start': ok({ taskid: 'T-stuck' }),
         'SYNO.FileStation.CopyMove:status': ok({ finished: false }),
       });
@@ -1518,26 +1518,26 @@ describe('SynologyDriveDocumentProvider: how a NAS disappoints', () => {
 
 describe('synology-drive.client: paths and versions', () => {
   it('SYNO-CLIENT-090: normalises the spellings that mean the same folder', () => {
-    expect(normalizeSynoPath('/trek//japan-2026/')).toBe('/trek/japan-2026');
-    expect(normalizeSynoPath('  /trek/./japan-2026  ')).toBe('/trek/japan-2026');
+    expect(normalizeSynoPath('/tripmate//japan-2026/')).toBe('/tripmate/japan-2026');
+    expect(normalizeSynoPath('  /tripmate/./japan-2026  ')).toBe('/tripmate/japan-2026');
     expect(normalizeSynoPath('/')).toBe('/');
   });
 
   it('SYNO-CLIENT-091: refuses what would leave the scope or confuse DSM', () => {
     // Resolving `..` rather than refusing it would produce a path that passes
     // the scope check for a folder the trip was never bound to.
-    expect(normalizeSynoPath('/trek/../payroll')).toBeNull();
-    expect(normalizeSynoPath('trek/japan')).toBeNull();
-    expect(normalizeSynoPath('/trek/japan\\2026')).toBeNull();
-    expect(normalizeSynoPath('/trek/japan\u0000.pdf')).toBeNull();
-    expect(normalizeSynoPath(`/trek/${'a'.repeat(300)}`)).toBeNull();
-    expect(normalizeSynoPath(`/trek/${'ab/'.repeat(200)}x`, 500)).toBeNull();
+    expect(normalizeSynoPath('/tripmate/../payroll')).toBeNull();
+    expect(normalizeSynoPath('tripmate/japan')).toBeNull();
+    expect(normalizeSynoPath('/tripmate/japan\\2026')).toBeNull();
+    expect(normalizeSynoPath('/tripmate/japan\u0000.pdf')).toBeNull();
+    expect(normalizeSynoPath(`/tripmate/${'a'.repeat(300)}`)).toBeNull();
+    expect(normalizeSynoPath(`/tripmate/${'ab/'.repeat(200)}x`, 500)).toBeNull();
   });
 
   it('SYNO-CLIENT-092: a scope prefix is a path prefix, not a string prefix', () => {
-    expect(isWithinScope('/trek/japan', '/trek/japan/a.pdf')).toBe(true);
-    expect(isWithinScope('/trek/japan', '/trek/japan')).toBe(true);
-    expect(isWithinScope('/trek/japan', '/trek/japan-2027/a.pdf')).toBe(false);
+    expect(isWithinScope('/tripmate/japan', '/tripmate/japan/a.pdf')).toBe(true);
+    expect(isWithinScope('/tripmate/japan', '/tripmate/japan')).toBe(true);
+    expect(isWithinScope('/tripmate/japan', '/tripmate/japan-2027/a.pdf')).toBe(false);
   });
 
   it('SYNO-CLIENT-093: the names DSM refuses are refused here', () => {
@@ -1548,13 +1548,13 @@ describe('synology-drive.client: paths and versions', () => {
   });
 
   it('SYNO-CLIENT-094: the version hashes a fixed field order, so it survives a new DSM field', () => {
-    const version = snapshotVersion('/trek/a.pdf', 10, 1_700_000_000);
-    expect(version).toBe(snapshotVersion('/trek/a.pdf', 10, 1_700_000_000));
-    expect(version).not.toBe(snapshotVersion('/trek/a.pdf', 11, 1_700_000_000));
-    expect(version).not.toBe(snapshotVersion('/trek/a.pdf', 10, 1_700_000_001));
-    expect(version).not.toBe(snapshotVersion('/trek/b.pdf', 10, 1_700_000_000));
+    const version = snapshotVersion('/tripmate/a.pdf', 10, 1_700_000_000);
+    expect(version).toBe(snapshotVersion('/tripmate/a.pdf', 10, 1_700_000_000));
+    expect(version).not.toBe(snapshotVersion('/tripmate/a.pdf', 11, 1_700_000_000));
+    expect(version).not.toBe(snapshotVersion('/tripmate/a.pdf', 10, 1_700_000_001));
+    expect(version).not.toBe(snapshotVersion('/tripmate/b.pdf', 10, 1_700_000_000));
     // A missing field is not the same as a zero one.
-    expect(snapshotVersion('/trek/a.pdf', null, null)).not.toBe(snapshotVersion('/trek/a.pdf', 0, 0));
+    expect(snapshotVersion('/tripmate/a.pdf', null, null)).not.toBe(snapshotVersion('/tripmate/a.pdf', 0, 0));
   });
 
   it('SYNO-CLIENT-095: tolerates the URL spellings people paste out of a browser', () => {

@@ -10,7 +10,7 @@ type Row = Record<string, unknown>;
 
 function plugin(over: Row = {}): Row {
   return {
-    id: 'trek-gotify',
+    id: 'tripmate-gotify',
     name: 'Gotify',
     description: 'Push notifications',
     type: 'integration',
@@ -33,10 +33,10 @@ function plugin(over: Row = {}): Row {
 
 function registryEntry(over: Row = {}): Row {
   return {
-    id: 'trek-gotify',
+    id: 'tripmate-gotify',
     name: 'Gotify',
     author: 'Acme',
-    description: 'Push notifications for TREK',
+    description: 'Push notifications for Trip Mate',
     repo: 'acme/gotify',
     type: 'integration',
     latest: '2.0.0',
@@ -183,28 +183,28 @@ describe('MAdminPluginsPanel — the installed row', () => {
     expect(screen.queryByText('Notification channel')).not.toBeInTheDocument();
   });
 
-  it('FE-MOB-PLUGP-008: dependency chips name the blocker — addon, plugin and TREK range', async () => {
+  it('FE-MOB-PLUGP-008: dependency chips name the blocker — addon, plugin and Trip Mate range', async () => {
     mockPanel([plugin({
       enabled: 0,
       status: 'inactive',
       dependencyStatus: 'hostIncompatible',
       trekRange: '>=3.2.0 <4.0.0',
       hostVersion: '4.0.0',
-      dependencies: { requiredAddons: ['budget'], pluginDependencies: [{ id: 'trek-base', version: '^1.0.0' }] },
-      dependencyIssues: { disabledAddons: ['budget'], missing: [{ id: 'trek-base', version: '^1.0.0' }], versionMismatch: [] },
+      dependencies: { requiredAddons: ['budget'], pluginDependencies: [{ id: 'tripmate-base', version: '^1.0.0' }] },
+      dependencyIssues: { disabledAddons: ['budget'], missing: [{ id: 'tripmate-base', version: '^1.0.0' }], versionMismatch: [] },
     })]);
     render(<MAdminPluginsPanel />);
 
-    expect(await screen.findByText('Needs TREK >=3.2.0 <4.0.0 — this server runs 4.0.0')).toBeInTheDocument();
+    expect(await screen.findByText('Needs Trip Mate >=3.2.0 <4.0.0 — this server runs 4.0.0')).toBeInTheDocument();
     expect(screen.getByText('Requires budget')).toBeInTheDocument();
-    expect(screen.getByText('Needs trek-base ^1.0.0')).toBeInTheDocument();
+    expect(screen.getByText('Needs tripmate-base ^1.0.0')).toBeInTheDocument();
   });
 
-  it('FE-MOB-PLUGP-009: a plugin that never declared a TREK range says so', async () => {
+  it('FE-MOB-PLUGP-009: a plugin that never declared a Trip Mate range says so', async () => {
     mockPanel([plugin({ dependencyStatus: 'hostIncompatible', trekRange: null })]);
     render(<MAdminPluginsPanel />);
 
-    expect(await screen.findByText('Does not say which TREK versions it supports')).toBeInTheDocument();
+    expect(await screen.findByText('Does not say which Trip Mate versions it supports')).toBeInTheDocument();
   });
 
   it('FE-MOB-PLUGP-010: the source badge wins over the trust badge', async () => {
@@ -343,28 +343,28 @@ describe('MAdminPluginsPanel — Discover', () => {
     }));
 
     fireEvent.click(await screen.findByRole('button', { name: /^Install$/ }));
-    await waitFor(() => expect(body).toEqual({ id: 'trek-gotify' }));
+    await waitFor(() => expect(body).toEqual({ id: 'tripmate-gotify' }));
     await waitFor(() => expect(toastMessages()).toContain('Installed'));
   });
 
   it('FE-MOB-PLUGP-018: an entry no published version fits gets a dead, explained button', async () => {
-    await openDiscover([registryEntry({ trek: '>=4.0.0', hostVersion: '3.3.0', compatible: false, latestCompatible: null })]);
+    await openDiscover([registryEntry({ tripmate: '>=4.0.0', hostVersion: '3.3.0', compatible: false, latestCompatible: null })]);
 
     const btn = await screen.findByRole('button', { name: 'Incompatible' });
     expect(btn).toBeDisabled();
-    expect(btn).toHaveAttribute('title', 'Needs TREK >=4.0.0 — this server runs 3.3.0');
+    expect(btn).toHaveAttribute('title', 'Needs Trip Mate >=4.0.0 — this server runs 3.3.0');
   });
 
   it('FE-MOB-PLUGP-019: when only an older release fits, that version is offered and installed', async () => {
     let body: unknown = null;
-    await openDiscover([registryEntry({ trek: '>=3.4.0', hostVersion: '3.3.0', compatible: false, latestCompatible: '1.5.0' })]);
+    await openDiscover([registryEntry({ tripmate: '>=3.4.0', hostVersion: '3.3.0', compatible: false, latestCompatible: '1.5.0' })]);
     server.use(http.post('*/api/admin/plugins/install', async ({ request }) => {
       body = await request.json();
       return HttpResponse.json({ ok: true });
     }));
 
     fireEvent.click(await screen.findByRole('button', { name: 'Install 1.5.0' }));
-    await waitFor(() => expect(body).toEqual({ id: 'trek-gotify', version: '1.5.0' }));
+    await waitFor(() => expect(body).toEqual({ id: 'tripmate-gotify', version: '1.5.0' }));
   });
 
   it('FE-MOB-PLUGP-020: an already-installed plugin cannot be installed twice', async () => {
@@ -445,7 +445,7 @@ describe('MAdminPluginsPanel — Discover', () => {
 
   it('FE-MOB-PLUGP-027: the card opens the detail sheet from the keyboard too', async () => {
     await openDiscover([registryEntry()]);
-    server.use(http.get('*/api/admin/plugins/registry/trek-gotify', () =>
+    server.use(http.get('*/api/admin/plugins/registry/tripmate-gotify', () =>
       HttpResponse.json({ ...registryEntry(), size: null, publishedAt: null, manifest: null })));
 
     const card = (await screen.findByText('Acme')).closest('[role="button"]') as HTMLElement;
@@ -476,7 +476,7 @@ describe('MAdminPluginsPanel — the registry detail sheet', () => {
 
   async function openDetail(detail: Row, entry: Row = registryEntry()) {
     mockPanel([], [entry]);
-    server.use(http.get('*/api/admin/plugins/registry/trek-gotify', () => HttpResponse.json(detail)));
+    server.use(http.get('*/api/admin/plugins/registry/tripmate-gotify', () => HttpResponse.json(detail)));
     render(<MAdminPluginsPanel />);
     fireEvent.click(await screen.findByRole('tab', { name: /Discover/ }));
     fireEvent.click(await screen.findByText('Acme'));
@@ -484,7 +484,7 @@ describe('MAdminPluginsPanel — the registry detail sheet', () => {
   }
 
   it('FE-MOB-PLUGP-028: lists access, outbound hosts, the operator caveat, setup fields and the meta grid', async () => {
-    const entry = registryEntry({ reviewedAt: '2026-01-05T00:00:00Z', downloadCount: 4200, trek: '>=3.2.0 <4.0.0' });
+    const entry = registryEntry({ reviewedAt: '2026-01-05T00:00:00Z', downloadCount: 4200, tripmate: '>=3.2.0 <4.0.0' });
     await openDetail({ ...entry, size: 4096, publishedAt: null, manifest }, entry);
 
     expect(await screen.findByText('What it can access')).toBeInTheDocument();
@@ -496,7 +496,7 @@ describe('MAdminPluginsPanel — the registry detail sheet', () => {
     expect(screen.getByText('Instance-wide')).toBeInTheDocument();
     expect(screen.getByText('Required')).toBeInTheDocument();
     expect(screen.getByText('4 KB')).toBeInTheDocument();
-    expect(screen.getByText('TREK >=3.2.0 <4.0.0')).toBeInTheDocument();
+    expect(screen.getByText('Trip Mate >=3.2.0 <4.0.0')).toBeInTheDocument();
     expect(screen.getByText('4,200')).toBeInTheDocument();
   });
 
@@ -508,7 +508,7 @@ describe('MAdminPluginsPanel — the registry detail sheet', () => {
     );
 
     expect(await screen.findByText('Needs no special access.')).toBeInTheDocument();
-    expect(screen.getByText('TREK 3.0.0+')).toBeInTheDocument();
+    expect(screen.getByText('Trip Mate 3.0.0+')).toBeInTheDocument();
     expect(screen.queryByText('Connects to')).not.toBeInTheDocument();
   });
 
@@ -529,7 +529,7 @@ describe('MAdminPluginsPanel — the registry detail sheet', () => {
 
   it('FE-MOB-PLUGP-030: a failed detail fetch is reported inside the sheet', async () => {
     mockPanel([], [registryEntry()]);
-    server.use(http.get('*/api/admin/plugins/registry/trek-gotify', () =>
+    server.use(http.get('*/api/admin/plugins/registry/tripmate-gotify', () =>
       HttpResponse.json({ error: 'nope' }, { status: 500 })));
     render(<MAdminPluginsPanel />);
     fireEvent.click(await screen.findByRole('button', { name: /Discover/ }));
@@ -539,10 +539,10 @@ describe('MAdminPluginsPanel — the registry detail sheet', () => {
   });
 
   it('FE-MOB-PLUGP-031: the blocked reason is spelled out in the sheet, not just as a tooltip', async () => {
-    const entry = registryEntry({ trek: '>=4.0.0', hostVersion: '3.3.0', compatible: false, latestCompatible: null });
+    const entry = registryEntry({ tripmate: '>=4.0.0', hostVersion: '3.3.0', compatible: false, latestCompatible: null });
     await openDetail({ ...entry, size: null, publishedAt: null, manifest: null }, entry);
 
-    expect(await screen.findAllByText('Needs TREK >=4.0.0 — this server runs 3.3.0')).toHaveLength(1);
+    expect(await screen.findAllByText('Needs Trip Mate >=4.0.0 — this server runs 3.3.0')).toHaveLength(1);
   });
 
   it('FE-MOB-PLUGP-032: a distinct homepage gets its own link, and the sheet closes again', async () => {
@@ -561,7 +561,7 @@ describe('MAdminPluginsPanel — the registry detail sheet', () => {
 
   it('FE-MOB-PLUGP-033: installing straight from the sheet uses the offered version', async () => {
     let body: unknown = null;
-    const entry = registryEntry({ trek: '>=3.4.0', hostVersion: '3.3.0', compatible: false, latestCompatible: '1.5.0' });
+    const entry = registryEntry({ tripmate: '>=3.4.0', hostVersion: '3.3.0', compatible: false, latestCompatible: '1.5.0' });
     await openDetail({ ...entry, size: null, publishedAt: null, manifest: null }, entry);
     server.use(http.post('*/api/admin/plugins/install', async ({ request }) => {
       body = await request.json();
@@ -570,7 +570,7 @@ describe('MAdminPluginsPanel — the registry detail sheet', () => {
 
     const dialog = await screen.findByRole('dialog');
     fireEvent.click(within(dialog).getByRole('button', { name: 'Install 1.5.0' }));
-    await waitFor(() => expect(body).toEqual({ id: 'trek-gotify', version: '1.5.0' }));
+    await waitFor(() => expect(body).toEqual({ id: 'tripmate-gotify', version: '1.5.0' }));
   });
 });
 
@@ -578,7 +578,7 @@ describe('MAdminPluginsPanel — the row action sheet', () => {
   async function openRowMenu(over: Row = {}) {
     mockPanel([plugin(over)]);
     render(<MAdminPluginsPanel />);
-    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-trek-gotify'));
+    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-tripmate-gotify'));
     return screen.findByRole('dialog');
   }
 
@@ -613,8 +613,8 @@ describe('MAdminPluginsPanel — the row action sheet', () => {
     const calls: string[] = [];
     await openRowMenu();
     server.use(
-      http.post('*/api/admin/plugins/trek-gotify/deactivate', () => { calls.push('deactivate'); return HttpResponse.json({ ok: true }); }),
-      http.post('*/api/admin/plugins/trek-gotify/activate', () => { calls.push('activate'); return HttpResponse.json({ ok: true }); }),
+      http.post('*/api/admin/plugins/tripmate-gotify/deactivate', () => { calls.push('deactivate'); return HttpResponse.json({ ok: true }); }),
+      http.post('*/api/admin/plugins/tripmate-gotify/activate', () => { calls.push('activate'); return HttpResponse.json({ ok: true }); }),
     );
 
     fireEvent.click(screen.getByText('Restart'));
@@ -624,7 +624,7 @@ describe('MAdminPluginsPanel — the row action sheet', () => {
 
   it('FE-MOB-PLUGP-037: the error log sheet lists the recorded lines', async () => {
     await openRowMenu();
-    server.use(http.get('*/api/admin/plugins/trek-gotify/errors', () =>
+    server.use(http.get('*/api/admin/plugins/tripmate-gotify/errors', () =>
       HttpResponse.json({ errors: [{ ts: '2026-07-01T10:00:00Z', level: 'error', message: 'ECONNREFUSED' }] })));
 
     fireEvent.click(screen.getByText('View error log'));
@@ -634,7 +634,7 @@ describe('MAdminPluginsPanel — the row action sheet', () => {
 
   it('FE-MOB-PLUGP-038: a failing error-log fetch still opens the sheet, empty', async () => {
     await openRowMenu();
-    server.use(http.get('*/api/admin/plugins/trek-gotify/errors', () =>
+    server.use(http.get('*/api/admin/plugins/tripmate-gotify/errors', () =>
       HttpResponse.json({ error: 'nope' }, { status: 500 })));
 
     fireEvent.click(screen.getByText('View error log'));
@@ -644,7 +644,7 @@ describe('MAdminPluginsPanel — the row action sheet', () => {
   it('FE-MOB-PLUGP-039: Delete asks first, then uninstalls with its data', async () => {
     let body: unknown = null;
     await openRowMenu();
-    server.use(http.post('*/api/admin/plugins/trek-gotify/uninstall', async ({ request }) => {
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/uninstall', async ({ request }) => {
       body = await request.json();
       return HttpResponse.json({ ok: true });
     }));
@@ -660,7 +660,7 @@ describe('MAdminPluginsPanel — the row action sheet', () => {
   it('FE-MOB-PLUGP-040: cancelling the uninstall confirmation calls nothing', async () => {
     let called = false;
     await openRowMenu();
-    server.use(http.post('*/api/admin/plugins/trek-gotify/uninstall', () => { called = true; return HttpResponse.json({ ok: true }); }));
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/uninstall', () => { called = true; return HttpResponse.json({ ok: true }); }));
 
     fireEvent.click(screen.getByText('Delete'));
     fireEvent.click(await screen.findByRole('button', { name: 'Cancel' }));
@@ -685,9 +685,9 @@ describe('MAdminPluginsPanel — operator-supplied egress hosts', () => {
     const bodies: unknown[] = [];
     mockPanel([plugin({ operatorEgress: true, egressHostCount: 1 })]);
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/egress-hosts', () =>
+      http.get('*/api/admin/plugins/tripmate-gotify/egress-hosts', () =>
         HttpResponse.json({ supported: true, hosts: ['gotify.mydomain.test'] })),
-      http.put('*/api/admin/plugins/trek-gotify/egress-hosts', async ({ request }) => {
+      http.put('*/api/admin/plugins/tripmate-gotify/egress-hosts', async ({ request }) => {
         const body = await request.json() as { hosts: string[] };
         bodies.push(body);
         return HttpResponse.json({ hosts: body.hosts });
@@ -709,8 +709,8 @@ describe('MAdminPluginsPanel — operator-supplied egress hosts', () => {
   it('FE-MOB-PLUGP-043: a rejected save surfaces the server message and keeps the sheet open', async () => {
     mockPanel([plugin({ operatorEgress: true, egressHostCount: 0 })]);
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/egress-hosts', () => HttpResponse.json({ supported: true, hosts: [] })),
-      http.put('*/api/admin/plugins/trek-gotify/egress-hosts', () =>
+      http.get('*/api/admin/plugins/tripmate-gotify/egress-hosts', () => HttpResponse.json({ supported: true, hosts: [] })),
+      http.put('*/api/admin/plugins/tripmate-gotify/egress-hosts', () =>
         HttpResponse.json({ error: 'not a hostname' }, { status: 400 })),
     );
     render(<MAdminPluginsPanel />);
@@ -727,18 +727,18 @@ describe('MAdminPluginsPanel — operator-supplied egress hosts', () => {
     // Declares operatorEgress (so the menu item shows), but the runtime lookup
     // disagrees — the sheet's unsupported notice is the truth-teller.
     mockPanel([plugin({ source_repo: 'acme/gotify', operatorEgress: true })]);
-    server.use(http.get('*/api/admin/plugins/trek-gotify/egress-hosts', () =>
+    server.use(http.get('*/api/admin/plugins/tripmate-gotify/egress-hosts', () =>
       HttpResponse.json({ supported: false, hosts: [] })));
     render(<MAdminPluginsPanel />);
 
-    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-trek-gotify'));
+    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-tripmate-gotify'));
     fireEvent.click(screen.getByText('Allowed hosts'));
     expect(await screen.findByText(/does not use operator-supplied hosts/i)).toBeInTheDocument();
   });
 
   it('FE-MOB-PLUGP-045: a failing hosts fetch degrades to the unsupported notice', async () => {
     mockPanel([plugin({ operatorEgress: true, egressHostCount: 0 })]);
-    server.use(http.get('*/api/admin/plugins/trek-gotify/egress-hosts', () =>
+    server.use(http.get('*/api/admin/plugins/tripmate-gotify/egress-hosts', () =>
       HttpResponse.json({ error: 'nope' }, { status: 500 })));
     render(<MAdminPluginsPanel />);
 
@@ -766,10 +766,10 @@ describe('MAdminPluginsPanel — updates and consent', () => {
     await waitFor(() => expect(toastMessages()).toContain('Plugin updated'));
   });
 
-  it('FE-MOB-PLUGP-046a: an update this TREK cannot install is neither offered nor counted', async () => {
+  it('FE-MOB-PLUGP-046a: an update this Trip Mate cannot install is neither offered nor counted', async () => {
     mockPanel(
       [plugin({ source_repo: 'acme/gotify', version: '1.0.0' })],
-      [registryEntry({ latest: '2.0.0', latestCompatible: null, trek: '>=4.0.0', hostVersion: '3.3.0' })],
+      [registryEntry({ latest: '2.0.0', latestCompatible: null, tripmate: '>=4.0.0', hostVersion: '3.3.0' })],
     );
     render(<MAdminPluginsPanel />);
     await screen.findByText('Gotify');
@@ -778,14 +778,14 @@ describe('MAdminPluginsPanel — updates and consent', () => {
     expect(screen.queryByRole('button', { name: /update → v2\.0\.0/i })).not.toBeInTheDocument();
   });
 
-  it('FE-MOB-PLUGP-046b: a newer version needing a newer TREK leaves a passive hint on the row', async () => {
+  it('FE-MOB-PLUGP-046b: a newer version needing a newer Trip Mate leaves a passive hint on the row', async () => {
     mockPanel(
       [plugin({ source_repo: 'acme/gotify', version: '1.0.0' })],
-      [registryEntry({ latest: '2.0.0', latestCompatible: null, trek: '>=4.0.0', hostVersion: '3.3.0' })],
+      [registryEntry({ latest: '2.0.0', latestCompatible: null, tripmate: '>=4.0.0', hostVersion: '3.3.0' })],
     );
     render(<MAdminPluginsPanel />);
 
-    expect(await screen.findByText('v2.0.0 available — needs TREK >=4.0.0')).toBeInTheDocument();
+    expect(await screen.findByText('v2.0.0 available — needs Trip Mate >=4.0.0')).toBeInTheDocument();
   });
 
   it('FE-MOB-PLUGP-046f: a held plugin leaves the banner and offers Resume updates instead', async () => {
@@ -794,7 +794,7 @@ describe('MAdminPluginsPanel — updates and consent', () => {
       [plugin({ source_repo: 'acme/gotify', version: '1.0.0', updateHold: true })],
       [registryEntry({ latest: '2.0.0' })],
     );
-    server.use(http.post('*/api/admin/plugins/trek-gotify/resume-updates', () => {
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/resume-updates', () => {
       resumed = true;
       return HttpResponse.json({ updateHold: false });
     }));
@@ -811,20 +811,20 @@ describe('MAdminPluginsPanel — updates and consent', () => {
 
   it('FE-MOB-PLUGP-046d: the detail sheet lists every version and installs the picked one', async () => {
     const bodies: unknown[] = [];
-    mockPanel([], [registryEntry({ latest: '3.0.0', latestCompatible: '2.0.0', trek: '>=4.0.0', hostVersion: '3.3.0', compatible: false })]);
+    mockPanel([], [registryEntry({ latest: '3.0.0', latestCompatible: '2.0.0', tripmate: '>=4.0.0', hostVersion: '3.3.0', compatible: false })]);
     server.use(
-      http.get('*/api/admin/plugins/registry/trek-gotify', () => HttpResponse.json({
-        ...registryEntry({ latest: '3.0.0', latestCompatible: '2.0.0', trek: '>=4.0.0', hostVersion: '3.3.0', compatible: false }),
+      http.get('*/api/admin/plugins/registry/tripmate-gotify', () => HttpResponse.json({
+        ...registryEntry({ latest: '3.0.0', latestCompatible: '2.0.0', tripmate: '>=4.0.0', hostVersion: '3.3.0', compatible: false }),
         size: 1024, publishedAt: null, manifest: null,
         versions: [
-          { version: '3.0.0', publishedAt: '2026-08-01', size: 2048, signed: true, trek: '>=4.0.0', compatible: false },
-          { version: '2.0.0', publishedAt: '2026-07-01', size: 1024, signed: true, trek: '>=3.0.0 <4.0.0', compatible: true },
-          { version: '1.5.0', publishedAt: '2026-06-01', size: 1000, signed: true, trek: '>=3.0.0 <4.0.0', compatible: true },
+          { version: '3.0.0', publishedAt: '2026-08-01', size: 2048, signed: true, tripmate: '>=4.0.0', compatible: false },
+          { version: '2.0.0', publishedAt: '2026-07-01', size: 1024, signed: true, tripmate: '>=3.0.0 <4.0.0', compatible: true },
+          { version: '1.5.0', publishedAt: '2026-06-01', size: 1000, signed: true, tripmate: '>=3.0.0 <4.0.0', compatible: true },
         ],
       })),
       http.post('*/api/admin/plugins/install', async ({ request }) => {
         bodies.push(await request.json());
-        return HttpResponse.json({ id: 'trek-gotify', version: '1.5.0' });
+        return HttpResponse.json({ id: 'tripmate-gotify', version: '1.5.0' });
       }),
     );
     render(<MAdminPluginsPanel />);
@@ -832,11 +832,11 @@ describe('MAdminPluginsPanel — updates and consent', () => {
     fireEvent.click(await screen.findByText('Acme'));
 
     // The incompatible latest is explained, never offered.
-    expect(await screen.findByText(/^needs TREK >=4\.0\.0$/i)).toBeInTheDocument();
+    expect(await screen.findByText(/^needs Trip Mate >=4\.0\.0$/i)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /^install 3\.0\.0$/i })).not.toBeInTheDocument();
 
     fireEvent.click(await screen.findByRole('button', { name: /^install 1\.5\.0$/i }));
-    await waitFor(() => expect(bodies).toEqual([{ id: 'trek-gotify', version: '1.5.0' }]));
+    await waitFor(() => expect(bodies).toEqual([{ id: 'tripmate-gotify', version: '1.5.0' }]));
   });
 
   it('FE-MOB-PLUGP-046e: Change version rolls back through update, after an explicit data warning', async () => {
@@ -846,20 +846,20 @@ describe('MAdminPluginsPanel — updates and consent', () => {
       [registryEntry()],
     );
     server.use(
-      http.get('*/api/admin/plugins/registry/trek-gotify', () => HttpResponse.json({
+      http.get('*/api/admin/plugins/registry/tripmate-gotify', () => HttpResponse.json({
         ...registryEntry(), size: 1024, publishedAt: null, manifest: null,
         versions: [
-          { version: '2.0.0', publishedAt: '2026-07-01', size: 1024, signed: true, trek: '>=3.0.0 <4.0.0', compatible: true },
-          { version: '1.5.0', publishedAt: '2026-06-01', size: 1000, signed: true, trek: '>=3.0.0 <4.0.0', compatible: true },
+          { version: '2.0.0', publishedAt: '2026-07-01', size: 1024, signed: true, tripmate: '>=3.0.0 <4.0.0', compatible: true },
+          { version: '1.5.0', publishedAt: '2026-06-01', size: 1000, signed: true, tripmate: '>=3.0.0 <4.0.0', compatible: true },
         ],
       })),
-      http.post('*/api/admin/plugins/trek-gotify/update', async ({ request }) => {
+      http.post('*/api/admin/plugins/tripmate-gotify/update', async ({ request }) => {
         body = await request.json();
         return HttpResponse.json({ version: '1.5.0', activated: true, newPermissions: [], newEgress: [] });
       }),
     );
     render(<MAdminPluginsPanel />);
-    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-trek-gotify'));
+    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-tripmate-gotify'));
     fireEvent.click(await screen.findByRole('button', { name: /change version/i }));
 
     // The installed version is marked, not switchable.
@@ -876,7 +876,7 @@ describe('MAdminPluginsPanel — updates and consent', () => {
   it('FE-MOB-PLUGP-046c: the update offer is the newest compatible version, not the absolute latest', async () => {
     mockPanel(
       [plugin({ source_repo: 'acme/gotify', version: '1.0.0' })],
-      [registryEntry({ latest: '3.0.0', latestCompatible: '2.0.0', trek: '>=4.0.0', hostVersion: '3.3.0' })],
+      [registryEntry({ latest: '3.0.0', latestCompatible: '2.0.0', tripmate: '>=4.0.0', hostVersion: '3.3.0' })],
     );
     render(<MAdminPluginsPanel />);
 
@@ -888,9 +888,9 @@ describe('MAdminPluginsPanel — updates and consent', () => {
     let consentBody: unknown = null;
     mockPanel([plugin({ source_repo: 'acme/gotify', signed: true, version: '1.0.0' })], [registryEntry()]);
     server.use(
-      http.post('*/api/admin/plugins/trek-gotify/update', () =>
+      http.post('*/api/admin/plugins/tripmate-gotify/update', () =>
         HttpResponse.json({ version: '2.0.0', activated: false, newPermissions: ['db:read:trips', 'x:unknown'], newEgress: ['api.acme.test'] })),
-      http.post('*/api/admin/plugins/trek-gotify/activate', async ({ request }) => {
+      http.post('*/api/admin/plugins/tripmate-gotify/activate', async ({ request }) => {
         consentBody = await request.json();
         return HttpResponse.json({ ok: true });
       }),
@@ -912,7 +912,7 @@ describe('MAdminPluginsPanel — updates and consent', () => {
 
   it('FE-MOB-PLUGP-048: "Keep off for now" drops the prompt and says the update stays off', async () => {
     mockPanel([plugin({ source_repo: 'acme/gotify', version: '1.0.0' })], [registryEntry()]);
-    server.use(http.post('*/api/admin/plugins/trek-gotify/update', () =>
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/update', () =>
       HttpResponse.json({ version: '2.0.0', activated: false, newPermissions: ['db:read:trips'], newEgress: [] })));
     render(<MAdminPluginsPanel />);
 
@@ -925,7 +925,7 @@ describe('MAdminPluginsPanel — updates and consent', () => {
 
   it('FE-MOB-PLUGP-049: an unsigned update says nothing ties it to its author', async () => {
     mockPanel([plugin({ source_repo: 'acme/gotify', signed: false, version: '1.0.0' })], [registryEntry({ signed: false })]);
-    server.use(http.post('*/api/admin/plugins/trek-gotify/update', () =>
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/update', () =>
       HttpResponse.json({ version: '2.0.0', activated: false, newPermissions: ['db:read:trips'], newEgress: [] })));
     render(<MAdminPluginsPanel />);
 
@@ -935,7 +935,7 @@ describe('MAdminPluginsPanel — updates and consent', () => {
 
   it('FE-MOB-PLUGP-050: a failed update reports the server message', async () => {
     mockPanel([plugin({ source_repo: 'acme/gotify', version: '1.0.0' })], [registryEntry()]);
-    server.use(http.post('*/api/admin/plugins/trek-gotify/update', () =>
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/update', () =>
       HttpResponse.json({ error: 'registry unreachable' }, { status: 502 })));
     render(<MAdminPluginsPanel />);
 
@@ -976,7 +976,7 @@ describe('MAdminPluginsPanel — signature refusals', () => {
   it('FE-MOB-PLUGP-054: Review compares both fingerprints and the confirmation re-pins and updates in one call', async () => {
     let body: unknown = null;
     mockPanel([blocked('SIGNATURE_KEY_CHANGED')], [registryEntry()]);
-    server.use(http.post('*/api/admin/plugins/trek-gotify/retrust', async ({ request }) => {
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/retrust', async ({ request }) => {
       body = await request.json();
       return HttpResponse.json({ version: '2.0.0', activated: true, newPermissions: [], newEgress: [] });
     }));
@@ -998,7 +998,7 @@ describe('MAdminPluginsPanel — signature refusals', () => {
 
   it('FE-MOB-PLUGP-055: a re-trust whose update widens rights still asks for consent', async () => {
     mockPanel([blocked('SIGNATURE_KEY_CHANGED')], [registryEntry()]);
-    server.use(http.post('*/api/admin/plugins/trek-gotify/retrust', () =>
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/retrust', () =>
       HttpResponse.json({ version: '2.0.0', activated: false, newPermissions: ['db:read:trips'], newEgress: [] })));
     render(<MAdminPluginsPanel />);
 
@@ -1010,7 +1010,7 @@ describe('MAdminPluginsPanel — signature refusals', () => {
 
   it('FE-MOB-PLUGP-056: a rejected re-trust reports the server message', async () => {
     mockPanel([blocked('SIGNATURE_KEY_CHANGED')], [registryEntry()]);
-    server.use(http.post('*/api/admin/plugins/trek-gotify/retrust', () =>
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/retrust', () =>
       HttpResponse.json({ error: 'key changed again' }, { status: 409 })));
     render(<MAdminPluginsPanel />);
 
@@ -1046,7 +1046,7 @@ describe('MAdminPluginsPanel — signature refusals', () => {
 
   it('FE-MOB-PLUGP-059: an update refused on its signature opens the dialog instead of a toast', async () => {
     mockPanel([plugin({ source_repo: 'acme/gotify', version: '1.0.0', keyFingerprint: 'OLDKEYaa…aaaaaaaa' })], [registryEntry()]);
-    server.use(http.post('*/api/admin/plugins/trek-gotify/update', () =>
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/update', () =>
       HttpResponse.json({ error: 'signing key changed', code: 'SIGNATURE_KEY_CHANGED' }, { status: 409 })));
     render(<MAdminPluginsPanel />);
 
@@ -1084,7 +1084,7 @@ describe('MAdminPluginsPanel — enabling a plugin', () => {
   it('FE-MOB-PLUGP-062: the toggle turns an active plugin off', async () => {
     let called = false;
     mockPanel([plugin()]);
-    server.use(http.post('*/api/admin/plugins/trek-gotify/deactivate', () => { called = true; return HttpResponse.json({ ok: true }); }));
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/deactivate', () => { called = true; return HttpResponse.json({ ok: true }); }));
     render(<MAdminPluginsPanel />);
 
     fireEvent.click(await screen.findByRole('switch', { name: 'Enable plugin' }));
@@ -1095,10 +1095,10 @@ describe('MAdminPluginsPanel — enabling a plugin', () => {
   it('FE-MOB-PLUGP-063: enabling a plugin also reports the dependencies it switched on for you', async () => {
     // Named so the parent sorts first — the rows are ordered by name, and the toggle is picked by position.
     mockPanel([
-      off({ dependencies: { requiredAddons: [], pluginDependencies: [{ id: 'trek-base', version: '^1.0.0' }] } }),
-      plugin({ id: 'trek-base', name: 'Zzz Base', enabled: 0, status: 'inactive' }),
+      off({ dependencies: { requiredAddons: [], pluginDependencies: [{ id: 'tripmate-base', version: '^1.0.0' }] } }),
+      plugin({ id: 'tripmate-base', name: 'Zzz Base', enabled: 0, status: 'inactive' }),
     ]);
-    server.use(http.post('*/api/admin/plugins/trek-gotify/activate', () => HttpResponse.json({ ok: true })));
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/activate', () => HttpResponse.json({ ok: true })));
     render(<MAdminPluginsPanel />);
 
     await screen.findByText('Gotify');
@@ -1109,7 +1109,7 @@ describe('MAdminPluginsPanel — enabling a plugin', () => {
 
   it('FE-MOB-PLUGP-064: a 409 CONSENT_REQUIRED routes to the consent sheet', async () => {
     mockPanel([off({ source_repo: 'acme/gotify', signed: false })], []);
-    server.use(http.post('*/api/admin/plugins/trek-gotify/activate', () =>
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/activate', () =>
       HttpResponse.json({ error: 'consent required', code: 'CONSENT_REQUIRED', newPermissions: ['db:read:trips'], newEgress: [] }, { status: 409 })));
     render(<MAdminPluginsPanel />);
 
@@ -1121,7 +1121,7 @@ describe('MAdminPluginsPanel — enabling a plugin', () => {
 
   it('FE-MOB-PLUGP-065: a 409 ADDON_DISABLED names the addons to switch on first', async () => {
     mockPanel([off()]);
-    server.use(http.post('*/api/admin/plugins/trek-gotify/activate', () =>
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/activate', () =>
       HttpResponse.json({ error: 'addon disabled', code: 'ADDON_DISABLED', addons: ['budget', 'vacay'] }, { status: 409 })));
     render(<MAdminPluginsPanel />);
 
@@ -1131,7 +1131,7 @@ describe('MAdminPluginsPanel — enabling a plugin', () => {
 
   it('FE-MOB-PLUGP-066: any other activation failure surfaces the server message', async () => {
     mockPanel([off()]);
-    server.use(http.post('*/api/admin/plugins/trek-gotify/activate', () =>
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/activate', () =>
       HttpResponse.json({ error: 'dependency cycle', code: 'DEPENDENCY_CYCLE' }, { status: 409 })));
     render(<MAdminPluginsPanel />);
 
@@ -1144,20 +1144,20 @@ describe('MAdminPluginsPanel — enabling a plugin', () => {
     let activateCalls = 0;
     mockPanel([off()]);
     server.use(
-      http.post('*/api/admin/plugins/trek-gotify/activate', () => {
+      http.post('*/api/admin/plugins/tripmate-gotify/activate', () => {
         activateCalls += 1;
         if (activateCalls === 1) {
           return HttpResponse.json({
             error: 'missing dependency', code: 'DEPENDENCY_MISSING',
-            missing: [{ id: 'trek-base', version: '^1.0.0' }],
-            versionMismatch: [{ id: 'trek-old', wanted: '^2.0.0', installed: '1.0.0' }],
+            missing: [{ id: 'tripmate-base', version: '^1.0.0' }],
+            versionMismatch: [{ id: 'tripmate-old', wanted: '^2.0.0', installed: '1.0.0' }],
           }, { status: 409 });
         }
         return HttpResponse.json({ ok: true });
       }),
       http.post('*/api/admin/plugins/install', async ({ request }) => {
         installBody = await request.json();
-        return HttpResponse.json({ installed: ['trek-base'], requiredAddons: ['budget'] });
+        return HttpResponse.json({ installed: ['tripmate-base'], requiredAddons: ['budget'] });
       }),
     );
     render(<MAdminPluginsPanel />);
@@ -1169,8 +1169,8 @@ describe('MAdminPluginsPanel — enabling a plugin', () => {
     expect(screen.getByText('Downloads the latest compatible version, including its own dependencies.')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /Download/ }));
-    await waitFor(() => expect(installBody).toEqual({ id: 'trek-base', constraint: '^1.0.0', withDependencies: true }));
-    await waitFor(() => expect(toastMessages()).toContain('Downloaded trek-base'));
+    await waitFor(() => expect(installBody).toEqual({ id: 'tripmate-base', constraint: '^1.0.0', withDependencies: true }));
+    await waitFor(() => expect(toastMessages()).toContain('Downloaded tripmate-base'));
     // The dependency install revealed a disabled addon on top.
     expect(toastMessages()).toContain('Enable the required addon(s) first: budget');
     await waitFor(() => expect(activateCalls).toBe(2));
@@ -1179,8 +1179,8 @@ describe('MAdminPluginsPanel — enabling a plugin', () => {
   it('FE-MOB-PLUGP-068: a signature refusal while downloading a dependency names the dependency', async () => {
     mockPanel([off()]);
     server.use(
-      http.post('*/api/admin/plugins/trek-gotify/activate', () =>
-        HttpResponse.json({ error: 'missing dependency', code: 'DEPENDENCY_MISSING', missing: [{ id: 'trek-base', version: '^1.0.0' }], versionMismatch: [] }, { status: 409 })),
+      http.post('*/api/admin/plugins/tripmate-gotify/activate', () =>
+        HttpResponse.json({ error: 'missing dependency', code: 'DEPENDENCY_MISSING', missing: [{ id: 'tripmate-base', version: '^1.0.0' }], versionMismatch: [] }, { status: 409 })),
       http.post('*/api/admin/plugins/install', () =>
         HttpResponse.json({ error: 'author signature verification failed', code: 'SIGNATURE_INVALID' }, { status: 400 })),
     );
@@ -1189,13 +1189,13 @@ describe('MAdminPluginsPanel — enabling a plugin', () => {
     fireEvent.click(await screen.findByRole('switch', { name: 'Enable plugin' }));
     fireEvent.click(await screen.findByRole('button', { name: /Download/ }));
 
-    expect(await screen.findByText("trek-base's signature could not be verified")).toBeInTheDocument();
+    expect(await screen.findByText("tripmate-base's signature could not be verified")).toBeInTheDocument();
   });
 
   it('FE-MOB-PLUGP-069: the resolve sheet can be dismissed without downloading', async () => {
     mockPanel([off()]);
-    server.use(http.post('*/api/admin/plugins/trek-gotify/activate', () =>
-      HttpResponse.json({ error: 'missing dependency', code: 'DEPENDENCY_MISSING', missing: [{ id: 'trek-base', version: '^1.0.0' }], versionMismatch: [] }, { status: 409 })));
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/activate', () =>
+      HttpResponse.json({ error: 'missing dependency', code: 'DEPENDENCY_MISSING', missing: [{ id: 'tripmate-base', version: '^1.0.0' }], versionMismatch: [] }, { status: 409 })));
     render(<MAdminPluginsPanel />);
 
     fireEvent.click(await screen.findByRole('switch', { name: 'Enable plugin' }));
@@ -1208,7 +1208,7 @@ describe('MAdminPluginsPanel — sideloading, dev-link and rescan', () => {
   it('FE-MOB-PLUGP-070: the toolbar upload button installs the picked archive', async () => {
     let uploaded = false;
     mockPanel([]);
-    server.use(http.post('*/api/admin/plugins/upload', () => { uploaded = true; return HttpResponse.json({ id: 'trek-new' }); }));
+    server.use(http.post('*/api/admin/plugins/upload', () => { uploaded = true; return HttpResponse.json({ id: 'tripmate-new' }); }));
     const { container } = render(<MAdminPluginsPanel />);
     await screen.findByText('No plugins installed yet.');
 
@@ -1217,7 +1217,7 @@ describe('MAdminPluginsPanel — sideloading, dev-link and rescan', () => {
     fireEvent.change(input, { target: { files: [new File(['zip'], 'plugin.zip', { type: 'application/zip' })] } });
 
     await waitFor(() => expect(uploaded).toBe(true));
-    await waitFor(() => expect(toastMessages()).toContain('Plugin “trek-new” uploaded — activate it to run'));
+    await waitFor(() => expect(toastMessages()).toContain('Plugin “tripmate-new” uploaded — activate it to run'));
   });
 
   it('FE-MOB-PLUGP-071: a rejected upload reports the server message', async () => {
@@ -1371,12 +1371,12 @@ describe('MAdminPluginsPanel — edge paths', () => {
 
   it('FE-MOB-PLUGP-082: an outdated dependency is flagged amber just like a missing one', async () => {
     mockPanel([plugin({
-      dependencies: { requiredAddons: [], pluginDependencies: [{ id: 'trek-base', version: '^2.0.0' }] },
-      dependencyIssues: { disabledAddons: [], missing: [], versionMismatch: [{ id: 'trek-base', wanted: '^2.0.0', installed: '1.0.0' }] },
+      dependencies: { requiredAddons: [], pluginDependencies: [{ id: 'tripmate-base', version: '^2.0.0' }] },
+      dependencyIssues: { disabledAddons: [], missing: [], versionMismatch: [{ id: 'tripmate-base', wanted: '^2.0.0', installed: '1.0.0' }] },
     })]);
     render(<MAdminPluginsPanel />);
 
-    expect(await screen.findByText('Needs trek-base ^2.0.0')).toBeInTheDocument();
+    expect(await screen.findByText('Needs tripmate-base ^2.0.0')).toBeInTheDocument();
   });
 
   it('FE-MOB-PLUGP-083: switching to Discover drops the installed-only sort key', async () => {
@@ -1413,8 +1413,8 @@ describe('MAdminPluginsPanel — edge paths', () => {
   it('FE-MOB-PLUGP-085: an ordinary failure downloading a dependency falls back to the activation error', async () => {
     mockPanel([plugin({ enabled: 0, status: 'inactive' })]);
     server.use(
-      http.post('*/api/admin/plugins/trek-gotify/activate', () =>
-        HttpResponse.json({ error: 'missing dependency', code: 'DEPENDENCY_MISSING', missing: [{ id: 'trek-base', version: '^1.0.0' }], versionMismatch: [] }, { status: 409 })),
+      http.post('*/api/admin/plugins/tripmate-gotify/activate', () =>
+        HttpResponse.json({ error: 'missing dependency', code: 'DEPENDENCY_MISSING', missing: [{ id: 'tripmate-base', version: '^1.0.0' }], versionMismatch: [] }, { status: 409 })),
       http.post('*/api/admin/plugins/install', () => HttpResponse.json({ error: 'registry unreachable' }, { status: 502 })),
     );
     render(<MAdminPluginsPanel />);
@@ -1427,18 +1427,18 @@ describe('MAdminPluginsPanel — edge paths', () => {
   it('FE-MOB-PLUGP-086: every sheet closes from its own close button and from Escape', async () => {
     mockPanel([plugin({ source_repo: 'acme/gotify', operatorEgress: true, egressHostCount: 1 })]);
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/errors', () => HttpResponse.json({ errors: [] })),
-      http.get('*/api/admin/plugins/trek-gotify/egress-hosts', () => HttpResponse.json({ supported: true, hosts: [] })),
+      http.get('*/api/admin/plugins/tripmate-gotify/errors', () => HttpResponse.json({ errors: [] })),
+      http.get('*/api/admin/plugins/tripmate-gotify/egress-hosts', () => HttpResponse.json({ supported: true, hosts: [] })),
     );
     render(<MAdminPluginsPanel />);
 
     // Row action sheet → its own close button.
-    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-trek-gotify'));
+    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-tripmate-gotify'));
     fireEvent.click(within(await screen.findByRole('dialog')).getByRole('button', { name: 'Close' }));
     await waitFor(() => expect(screen.queryByText('View error log')).not.toBeInTheDocument());
 
     // Error log → Escape, then the close button.
-    fireEvent.click(screen.getByTestId('plugin-row-menu-btn-trek-gotify'));
+    fireEvent.click(screen.getByTestId('plugin-row-menu-btn-tripmate-gotify'));
     fireEvent.click(screen.getByText('View error log'));
     await screen.findByText('No errors logged.');
     await escapeUntilGone('No errors logged.');
@@ -1451,7 +1451,7 @@ describe('MAdminPluginsPanel — edge paths', () => {
 
   it('FE-MOB-PLUGP-087: the hosts sheet closes from its own close button too', async () => {
     mockPanel([plugin({ operatorEgress: true, egressHostCount: 0 })]);
-    server.use(http.get('*/api/admin/plugins/trek-gotify/egress-hosts', () =>
+    server.use(http.get('*/api/admin/plugins/tripmate-gotify/egress-hosts', () =>
       HttpResponse.json({ supported: true, hosts: [] })));
     render(<MAdminPluginsPanel />);
 
@@ -1463,10 +1463,10 @@ describe('MAdminPluginsPanel — edge paths', () => {
 
   it('FE-MOB-PLUGP-088: the error log sheet closes from its own close button too', async () => {
     mockPanel([plugin()]);
-    server.use(http.get('*/api/admin/plugins/trek-gotify/errors', () => HttpResponse.json({ errors: [] })));
+    server.use(http.get('*/api/admin/plugins/tripmate-gotify/errors', () => HttpResponse.json({ errors: [] })));
     render(<MAdminPluginsPanel />);
 
-    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-trek-gotify'));
+    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-tripmate-gotify'));
     fireEvent.click(screen.getByText('View error log'));
     await screen.findByText('No errors logged.');
     fireEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Close' }));
@@ -1489,7 +1489,7 @@ describe('MAdminPluginsPanel — edge paths', () => {
     let release: () => void = () => {};
     const gate = new Promise<void>(resolve => { release = resolve; });
     mockPanel([plugin({ enabled: 0, status: 'inactive' })]);
-    server.use(http.post('*/api/admin/plugins/trek-gotify/activate', async () => {
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/activate', async () => {
       calls += 1;
       await gate;
       return HttpResponse.json({ ok: true });
@@ -1547,12 +1547,12 @@ describe('MAdminPluginsPanel — instance settings', () => {
   async function openRowSheet(p: Row) {
     mockPanel([p]);
     render(<MAdminPluginsPanel />);
-    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-trek-gotify'));
+    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-tripmate-gotify'));
   }
 
   async function openSettings() {
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/config', () =>
+      http.get('*/api/admin/plugins/tripmate-gotify/config', () =>
         HttpResponse.json({ fields: FIELDS, config: { apiUrl: 'https://gotify.mydomain.com', apiKey: '••••••••' } })),
     );
     await openRowSheet(plugin({ instanceSettingsCount: 2 }));
@@ -1574,7 +1574,7 @@ describe('MAdminPluginsPanel — instance settings', () => {
   it('FE-MOB-PLUGP-CFG-003: saving sends the edits but never the untouched secret mask', async () => {
     let body: Record<string, unknown> | null = null;
     server.use(
-      http.put('*/api/admin/plugins/trek-gotify/config', async ({ request }) => {
+      http.put('*/api/admin/plugins/tripmate-gotify/config', async ({ request }) => {
         body = await request.json() as Record<string, unknown>;
         return HttpResponse.json({ config: body, restarted: false });
       }),
@@ -1590,7 +1590,7 @@ describe('MAdminPluginsPanel — instance settings', () => {
 
   it('FE-MOB-PLUGP-CFG-004: a save that restarted the running plugin says so', async () => {
     server.use(
-      http.put('*/api/admin/plugins/trek-gotify/config', () =>
+      http.put('*/api/admin/plugins/tripmate-gotify/config', () =>
         HttpResponse.json({ config: { apiUrl: 'https://gotify.mydomain.com' }, restarted: true })),
     );
     await openSettings();
@@ -1608,9 +1608,9 @@ describe('MAdminPluginsPanel — instance settings', () => {
     ];
     let body: Record<string, unknown> | null = null;
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/config', () =>
+      http.get('*/api/admin/plugins/tripmate-gotify/config', () =>
         HttpResponse.json({ fields: RICH, config: { mode: 'slow', enabled: true } })),
-      http.put('*/api/admin/plugins/trek-gotify/config', async ({ request }) => {
+      http.put('*/api/admin/plugins/tripmate-gotify/config', async ({ request }) => {
         body = await request.json() as Record<string, unknown>;
         return HttpResponse.json({ config: body, restarted: false });
       }),
@@ -1635,7 +1635,7 @@ describe('MAdminPluginsPanel — instance settings', () => {
 
   it('FE-MOB-PLUGP-CFG-007: a failed config fetch is a toast, not a broken sheet', async () => {
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/config', () => HttpResponse.json({ error: 'nope' }, { status: 500 })),
+      http.get('*/api/admin/plugins/tripmate-gotify/config', () => HttpResponse.json({ error: 'nope' }, { status: 500 })),
     );
     await openRowSheet(plugin({ instanceSettingsCount: 2 }));
     fireEvent.click(screen.getByText('Instance settings'));
@@ -1645,7 +1645,7 @@ describe('MAdminPluginsPanel — instance settings', () => {
 
   it('FE-MOB-PLUGP-CFG-008: a rejected save shows the server reason and keeps the sheet open', async () => {
     server.use(
-      http.put('*/api/admin/plugins/trek-gotify/config', () =>
+      http.put('*/api/admin/plugins/tripmate-gotify/config', () =>
         HttpResponse.json({ error: 'config refused' }, { status: 400 })),
     );
     await openSettings();
@@ -1675,7 +1675,7 @@ describe('MAdminPluginsPanel — instance settings', () => {
 
   async function openWithActions(p: Row = plugin({ instanceSettingsCount: 2 })) {
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/config', () =>
+      http.get('*/api/admin/plugins/tripmate-gotify/config', () =>
         HttpResponse.json({ fields: FIELDS, config: { apiUrl: 'https://gotify.mydomain.com' }, actions: ACTIONS })),
     );
     await openRowSheet(p);
@@ -1686,7 +1686,7 @@ describe('MAdminPluginsPanel — instance settings', () => {
   it('FE-MOB-PLUGP-ACT-010: instance actions render from the config response and post to the admin action route', async () => {
     let posted = '';
     server.use(
-      http.post('*/api/admin/plugins/trek-gotify/actions/:key', ({ params }) => {
+      http.post('*/api/admin/plugins/tripmate-gotify/actions/:key', ({ params }) => {
         posted = String(params.key);
         return HttpResponse.json({ ok: true, message: 'pong' });
       }),
@@ -1703,7 +1703,7 @@ describe('MAdminPluginsPanel — instance settings', () => {
   it('FE-MOB-PLUGP-ACT-011: a danger action opens the MConfirmSheet first; confirming posts', async () => {
     let posted = '';
     server.use(
-      http.post('*/api/admin/plugins/trek-gotify/actions/:key', ({ params }) => {
+      http.post('*/api/admin/plugins/tripmate-gotify/actions/:key', ({ params }) => {
         posted = String(params.key);
         return HttpResponse.json({ ok: false, message: 'cache locked' });
       }),
@@ -1726,12 +1726,12 @@ describe('MAdminPluginsPanel — instance settings', () => {
 });
 
 /**
- * TREK_PLUGINS_IGNORE_TREK_RANGE on the phone shell — the same three surfaces as the
+ * TRIPMATE_PLUGINS_IGNORE_TREK_RANGE on the phone shell — the same three surfaces as the
  * desktop panel: the header pill, the confirm-before-install sheet, and the notice after a
  * sideload that could not ask first, plus the persistent warning chip on the row.
  */
-describe('MAdminPluginsPanel — TREK-range bypass (TREK_PLUGINS_IGNORE_TREK_RANGE)', () => {
-  const incompatibleEntry = () => registryEntry({ trek: '>=4.0.0', hostVersion: '3.3.0', compatible: false, latestCompatible: null });
+describe('MAdminPluginsPanel — Trip Mate-range bypass (TRIPMATE_PLUGINS_IGNORE_TREK_RANGE)', () => {
+  const incompatibleEntry = () => registryEntry({ tripmate: '>=4.0.0', hostVersion: '3.3.0', compatible: false, latestCompatible: null });
 
   it('FE-MOB-PLUGP-BYPASS-001: says so in the header', async () => {
     mockPanel([plugin()], [], { ignoreTrekRange: true });
@@ -1744,7 +1744,7 @@ describe('MAdminPluginsPanel — TREK-range bypass (TREK_PLUGINS_IGNORE_TREK_RAN
     mockPanel([], [incompatibleEntry()], { ignoreTrekRange: true });
     server.use(http.post('*/api/admin/plugins/install', async ({ request }) => {
       body = await request.json();
-      return HttpResponse.json({ id: 'trek-gotify', version: '2.0.0', trekRangeBypassed: { trekRange: '>=4.0.0', hostVersion: '3.3.0' } });
+      return HttpResponse.json({ id: 'tripmate-gotify', version: '2.0.0', trekRangeBypassed: { trekRange: '>=4.0.0', hostVersion: '3.3.0' } });
     }));
     render(<MAdminPluginsPanel />);
     fireEvent.click(await screen.findByRole('tab', { name: /Discover/ }));
@@ -1753,41 +1753,41 @@ describe('MAdminPluginsPanel — TREK-range bypass (TREK_PLUGINS_IGNORE_TREK_RAN
     expect(btn).toBeEnabled();
     fireEvent.click(btn);
 
-    const sheet = await screen.findByRole('dialog', { name: 'Outside its supported TREK versions' });
+    const sheet = await screen.findByRole('dialog', { name: 'Outside its supported Trip Mate versions' });
     expect(within(sheet).getByText(/no guarantee/i)).toBeInTheDocument();
     expect(body).toBeNull();
 
     fireEvent.click(within(sheet).getByRole('button', { name: 'Install anyway' }));
-    await waitFor(() => expect(body).toEqual({ id: 'trek-gotify' }));
+    await waitFor(() => expect(body).toEqual({ id: 'tripmate-gotify' }));
   });
 
   it('FE-MOB-PLUGP-BYPASS-003: cancelling the warning installs nothing', async () => {
     let posted = false;
     mockPanel([], [incompatibleEntry()], { ignoreTrekRange: true });
-    server.use(http.post('*/api/admin/plugins/install', () => { posted = true; return HttpResponse.json({ id: 'trek-gotify', version: '2.0.0', trekRangeBypassed: null }); }));
+    server.use(http.post('*/api/admin/plugins/install', () => { posted = true; return HttpResponse.json({ id: 'tripmate-gotify', version: '2.0.0', trekRangeBypassed: null }); }));
     render(<MAdminPluginsPanel />);
     fireEvent.click(await screen.findByRole('tab', { name: /Discover/ }));
     fireEvent.click(await screen.findByRole('button', { name: 'Install anyway' }));
 
-    const sheet = await screen.findByRole('dialog', { name: 'Outside its supported TREK versions' });
+    const sheet = await screen.findByRole('dialog', { name: 'Outside its supported Trip Mate versions' });
     fireEvent.click(within(sheet).getByRole('button', { name: 'Cancel' }));
-    await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Outside its supported TREK versions' })).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Outside its supported Trip Mate versions' })).not.toBeInTheDocument());
     expect(posted).toBe(false);
   });
 
   it('FE-MOB-PLUGP-BYPASS-004: a sideload that landed outside its range is warned about afterwards', async () => {
     mockPanel([plugin()], [], { ignoreTrekRange: true });
     server.use(http.post('*/api/admin/plugins/upload', () =>
-      HttpResponse.json({ id: 'trek-new', version: '1.0.0', replaced: false, trekRangeBypassed: { trekRange: null, hostVersion: '3.3.0' } })));
+      HttpResponse.json({ id: 'tripmate-new', version: '1.0.0', replaced: false, trekRangeBypassed: { trekRange: null, hostVersion: '3.3.0' } })));
     const { container } = render(<MAdminPluginsPanel />);
     await screen.findByText('Gotify');
 
     const input = container.querySelector('input[type="file"]') as HTMLInputElement;
     fireEvent.change(input, { target: { files: [new File(['zip'], 'plugin.zip', { type: 'application/zip' })] } });
 
-    const sheet = await screen.findByRole('dialog', { name: 'Installed outside its supported TREK versions' });
+    const sheet = await screen.findByRole('dialog', { name: 'Installed outside its supported Trip Mate versions' });
     expect(within(sheet).getByText(/no guarantee/i)).toBeInTheDocument();
-    expect(within(sheet).getByText(/trek-new/)).toBeInTheDocument();
+    expect(within(sheet).getByText(/tripmate-new/)).toBeInTheDocument();
   });
 
   it('FE-MOB-PLUGP-BYPASS-005: a plugin running outside its range keeps a warning chip on its row', async () => {
@@ -1796,6 +1796,6 @@ describe('MAdminPluginsPanel — TREK-range bypass (TREK_PLUGINS_IGNORE_TREK_RAN
       trekRangeBypassed: { trekRange: '>=3.2.0 <4.0.0', hostVersion: '4.0.0' },
     })], [], { ignoreTrekRange: true });
     render(<MAdminPluginsPanel />);
-    expect(await screen.findByText('Outside its TREK range (>=3.2.0 <4.0.0) — version checks off')).toBeInTheDocument();
+    expect(await screen.findByText('Outside its Trip Mate range (>=3.2.0 <4.0.0) — version checks off')).toBeInTheDocument();
   });
 });

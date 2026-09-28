@@ -133,11 +133,11 @@ const call = (
 let tmp: string;
 beforeAll(() => {
   tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'trekplug-hostrpc-'));
-  process.env.TREK_PLUGINS_DATA_DIR = tmp;
+  process.env.TRIPMATE_PLUGINS_DATA_DIR = tmp;
 });
 afterAll(() => {
   closePluginDataDb('wired');
-  delete process.env.TREK_PLUGINS_DATA_DIR;
+  delete process.env.TRIPMATE_PLUGINS_DATA_DIR;
   fs.rmSync(tmp, { recursive: true, force: true });
 });
 

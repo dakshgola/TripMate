@@ -35,7 +35,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../src/db/database', () => dbMock);
 vi.mock('../../src/config', () => ({
-    JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+    JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
     ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
     updateJwtSecret: () => {},
     SESSION_DURATION: '24h',
@@ -46,7 +46,7 @@ vi.mock('../../src/config', () => ({
 
 vi.mock('../../src/app-config', async (importOriginal) => {
     const actual = await importOriginal<typeof import('../../src/app-config')>();
-    return { ...actual, getMcpSafeUrl: () => 'https://trek.example.com' };
+    return { ...actual, getMcpSafeUrl: () => 'https://tripmate.example.com' };
 });
 
 vi.mock('../../src/websocket', () => ({ broadcast: vi.fn(), broadcastToUser: vi.fn() }));
@@ -121,7 +121,7 @@ describe('GET /.well-known/oauth-authorization-server', () => {
     it('OAUTH-001 — returns RFC 8414 discovery document', async () => {
         const res = await request(app).get('/.well-known/oauth-authorization-server');
         expect(res.status).toBe(200);
-        expect(res.body.issuer).toBe('https://trek.example.com');
+        expect(res.body.issuer).toBe('https://tripmate.example.com');
         expect(res.body.authorization_endpoint).toContain('/oauth/authorize');
         expect(res.body.token_endpoint).toContain('/oauth/token');
         expect(Array.isArray(res.body.scopes_supported)).toBe(true);
@@ -190,7 +190,7 @@ describe('DCR redirect URI policy (issue #2227)', () => {
     });
 
     // The SDK's own metadata schema only blocks javascript:, data: and vbscript:,
-    // so these two are TREK's to refuse, one per verdict branch.
+    // so these two are Trip Mate's to refuse, one per verdict branch.
     it('OAUTH-2227C: POST /oauth/register still refuses dangerous and non-navigable schemes on a loopback host', async () => {
         for (const uri of ['blob://localhost/x', 'ws://localhost/cb']) {
             const res = await request(app)
@@ -220,17 +220,17 @@ describe('platform/discovery parity pins', () => {
         const res = await request(app).get('/.well-known/openid-configuration');
         expect(res.status).toBe(200);
         expect(res.body).toEqual({
-            issuer:                                'https://trek.example.com',
-            authorization_endpoint:                'https://trek.example.com/oauth/authorize',
-            token_endpoint:                        'https://trek.example.com/oauth/token',
-            revocation_endpoint:                   'https://trek.example.com/oauth/revoke',
-            registration_endpoint:                 'https://trek.example.com/oauth/register',
+            issuer:                                'https://tripmate.example.com',
+            authorization_endpoint:                'https://tripmate.example.com/oauth/authorize',
+            token_endpoint:                        'https://tripmate.example.com/oauth/token',
+            revocation_endpoint:                   'https://tripmate.example.com/oauth/revoke',
+            registration_endpoint:                 'https://tripmate.example.com/oauth/register',
             response_types_supported:              ['code'],
             grant_types_supported:                 ['authorization_code', 'refresh_token', 'client_credentials'],
             code_challenge_methods_supported:      ['S256'],
             token_endpoint_auth_methods_supported: ['client_secret_post', 'none'],
             scopes_supported:                      ALL_SCOPES,
-            userinfo_endpoint:                     'https://trek.example.com/oauth/userinfo',
+            userinfo_endpoint:                     'https://tripmate.example.com/oauth/userinfo',
         });
     });
 
@@ -238,11 +238,11 @@ describe('platform/discovery parity pins', () => {
         const res = await request(app).get('/.well-known/oauth-protected-resource');
         expect(res.status).toBe(200);
         expect(res.body).toEqual({
-            resource:                 'https://trek.example.com/mcp',
-            authorization_servers:    ['https://trek.example.com'],
+            resource:                 'https://tripmate.example.com/mcp',
+            authorization_servers:    ['https://tripmate.example.com'],
             bearer_methods_supported: ['header'],
             scopes_supported:         ALL_SCOPES,
-            resource_name:            'TREK MCP',
+            resource_name:            'Trip Mate MCP',
         });
     });
 
@@ -1379,7 +1379,7 @@ describe('M7 — Cookie-only auth on privileged OAuth endpoints', () => {
         const { user } = createUser(testDb);
         // Use a valid JWT in Authorization header (no cookie) — must be rejected
         const jwt = require('jsonwebtoken');
-        const token = jwt.sign({ id: user.id }, 'test-jwt-secret-for-trek-testing-only', { algorithm: 'HS256' });
+        const token = jwt.sign({ id: user.id }, 'test-jwt-secret-for-tripmate-testing-only', { algorithm: 'HS256' });
 
         const res = await request(app)
             .post('/api/oauth/authorize')
@@ -1392,7 +1392,7 @@ describe('M7 — Cookie-only auth on privileged OAuth endpoints', () => {
     it('OAUTH-SEC-010 — POST /api/oauth/clients rejects Bearer JWT (no cookie)', async () => {
         const jwt = require('jsonwebtoken');
         const { user } = createUser(testDb);
-        const token = jwt.sign({ id: user.id }, 'test-jwt-secret-for-trek-testing-only', { algorithm: 'HS256' });
+        const token = jwt.sign({ id: user.id }, 'test-jwt-secret-for-tripmate-testing-only', { algorithm: 'HS256' });
 
         const res = await request(app)
             .post('/api/oauth/clients')
@@ -1405,7 +1405,7 @@ describe('M7 — Cookie-only auth on privileged OAuth endpoints', () => {
     it('OAUTH-SEC-011 — DELETE /api/oauth/sessions/:id rejects Bearer JWT (no cookie)', async () => {
         const jwt = require('jsonwebtoken');
         const { user } = createUser(testDb);
-        const token = jwt.sign({ id: user.id }, 'test-jwt-secret-for-trek-testing-only', { algorithm: 'HS256' });
+        const token = jwt.sign({ id: user.id }, 'test-jwt-secret-for-tripmate-testing-only', { algorithm: 'HS256' });
 
         const res = await request(app)
             .delete('/api/oauth/sessions/1')

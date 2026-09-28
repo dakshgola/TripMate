@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   deploy:
-    if: github.repository == 'liketrek/TREK'
+    if: github.repository == 'liketrek/Trip Mate'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

@@ -12,7 +12,7 @@ import {
   type HotelLegs, type PlanRow, type TransportEntry,
 } from './planTimelineModel'
 import type { TripPlanner } from '../MTripShell'
-import type { WeatherResult } from '@trek/shared'
+import type { WeatherResult } from '@tripmate/shared'
 import type { Assignment, Place, RouteSegment } from '../../../../types'
 import type { MergedItem } from '../../../../utils/dayMerge'
 

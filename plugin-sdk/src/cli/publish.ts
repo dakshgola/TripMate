@@ -1,5 +1,5 @@
 /**
- * trek-plugin publish — the whole release in one command:
+ * tripmate-plugin publish — the whole release in one command:
  *   check → pack → tag + GitHub release → preflight → open the registry PR.
  *
  * THE ORDER IS THE POINT. It used to be pack → release → preflight → submit, which meant the
@@ -81,11 +81,11 @@ export async function publishPlugin(opts: {
       throw new Error(
         `${report.errors.length} check${report.errors.length === 1 ? '' : 's'} would be rejected by the registry.\n\n` +
         detail +
-        '\n\nNothing was packed, tagged or released. Fix these and re-run — or `trek-plugin status` for the full picture.',
+        '\n\nNothing was packed, tagged or released. Fix these and re-run — or `tripmate-plugin status` for the full picture.',
       );
     }
 
-    // Signing is not just a preference once a plugin has shipped signed: TREK refuses an unsigned
+    // Signing is not just a preference once a plugin has shipped signed: Trip Mate refuses an unsigned
     // update to it, so this publish is doomed. preflight would catch it — at step 4, AFTER the
     // immutable release is cut, which is precisely the trap this command's reorder exists to close.
     // So it belongs here, before anything exists to be wasted.

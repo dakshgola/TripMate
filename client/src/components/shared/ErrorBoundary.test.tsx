@@ -214,7 +214,7 @@ describe('RootErrorFallback', () => {
     render(<RootErrorFallback error={new Error('boot failed')} reset={() => {}} isChunkError={false} />);
     // If it called t() and the provider was the thing that broke, the user would
     // be reading "common.errorTitle".
-    expect(screen.getByText('TREK could not start')).toBeInTheDocument();
+    expect(screen.getByText('Trip Mate could not start')).toBeInTheDocument();
     expect(screen.getByText('boot failed')).toBeInTheDocument();
   });
 
@@ -242,7 +242,7 @@ describe('Reload button', () => {
   });
 
   it('FE-COMP-ERRBOUND-018: the route fallback for a dead chunk does the same', () => {
-    sessionStorage.setItem('trek:chunk-reload', '1');
+    sessionStorage.setItem('tripmate:chunk-reload', '1');
     render(
       <ErrorBoundary boundaryId="route" level="route">
         <Boom message={CHUNK_MESSAGE} />

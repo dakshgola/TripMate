@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { RoadtripPreferences } from '@trek/shared'
+import type { RoadtripPreferences } from '@tripmate/shared'
 
 export const EMPTY_ROADTRIP_PREFERENCES: RoadtripPreferences = {}
 

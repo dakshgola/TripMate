@@ -20,7 +20,7 @@ import { RequirePermission, TripAccessGuard } from '../permissions/trip-access.g
 /**
  * /api/trips/:tripId/days/:dayId/notes — free-text annotations on a day.
  *
- * Bodies validate against the @trek/shared day-note contracts via the global
+ * Bodies validate against the @tripmate/shared day-note contracts via the global
  * ZodValidationPipe (which, like the legacy string-length guard, 400s before
  * the trip-access check), then trip access (404), then the 'day_edit'
  * permission (403); create 201 / rest 200; the bespoke "Day not found" /

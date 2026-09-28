@@ -1,6 +1,6 @@
 /**
  * Unit tests for SessionRenewalInterceptor (#1927) — sliding renewal of the
- * trek_session cookie once a cookie-authenticated token is past half of its
+ * tripmate_session cookie once a cookie-authenticated token is past half of its
  * lifetime. Covers the renew path (fresh token + cookie semantics per the
  * `remember` claim) and every skip condition: young token, bearer-only request,
  * unauthenticated request, purpose token, id mismatch, malformed claims,
@@ -12,7 +12,7 @@ import { of, lastValueFrom } from 'rxjs';
 import jwt from 'jsonwebtoken';
 
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   SESSION_DURATION: '24h',
   SESSION_DURATION_MS: 86400000,
   SESSION_DURATION_SECONDS: 86400,
@@ -25,7 +25,7 @@ vi.mock('../../../src/config', () => ({
 import { SessionRenewalInterceptor } from '../../../src/nest/auth/session-renewal.interceptor';
 import type { AuthService } from '../../../src/nest/auth/auth.service';
 
-const SECRET = 'test-jwt-secret-for-trek-testing-only';
+const SECRET = 'test-jwt-secret-for-tripmate-testing-only';
 
 /** Sign a session token whose lifetime is `lifetime` seconds, `consumed` of which have already passed. */
 function token(payload: Record<string, unknown>, lifetime: number, consumed: number): string {
@@ -69,7 +69,7 @@ describe('SessionRenewalInterceptor', () => {
     const { interceptor, generateToken } = makeInterceptor();
     const res = makeRes();
     const t = token({ id: 1, pv: 0 }, 86400, 1000); // ~1% consumed
-    await run(interceptor, { cookies: { trek_session: t }, user: { id: 1 } }, res);
+    await run(interceptor, { cookies: { tripmate_session: t }, user: { id: 1 } }, res);
     expect(generateToken).not.toHaveBeenCalled();
     expect(res.cookie).not.toHaveBeenCalled();
   });
@@ -78,25 +78,25 @@ describe('SessionRenewalInterceptor', () => {
     const { interceptor, generateToken } = makeInterceptor();
     const res = makeRes();
     const t = token({ id: 1, pv: 3 }, 86400, 60000); // ~70% consumed
-    await run(interceptor, { cookies: { trek_session: t }, user: { id: 1 } }, res);
+    await run(interceptor, { cookies: { tripmate_session: t }, user: { id: 1 } }, res);
     expect(generateToken).toHaveBeenCalledWith({ id: 1, password_version: 3 }, undefined);
-    expect(res.cookie).toHaveBeenCalledWith('trek_session', 'renewed.jwt', expect.objectContaining({ maxAge: 86400000, httpOnly: true }));
+    expect(res.cookie).toHaveBeenCalledWith('tripmate_session', 'renewed.jwt', expect.objectContaining({ maxAge: 86400000, httpOnly: true }));
   });
 
   it('SES-RENEW-003: a remember:true claim renews with the long persistent cookie', async () => {
     const { interceptor, generateToken } = makeInterceptor();
     const res = makeRes();
     const t = token({ id: 1, pv: 0, remember: true }, 2592000, 1600000); // ~62% consumed
-    await run(interceptor, { cookies: { trek_session: t }, user: { id: 1 } }, res);
+    await run(interceptor, { cookies: { tripmate_session: t }, user: { id: 1 } }, res);
     expect(generateToken).toHaveBeenCalledWith({ id: 1, password_version: 0 }, true);
-    expect(res.cookie).toHaveBeenCalledWith('trek_session', 'renewed.jwt', expect.objectContaining({ maxAge: 2592000000 }));
+    expect(res.cookie).toHaveBeenCalledWith('tripmate_session', 'renewed.jwt', expect.objectContaining({ maxAge: 2592000000 }));
   });
 
   it('SES-RENEW-004: a remember:false claim renews as a browser-session cookie (no maxAge)', async () => {
     const { interceptor, generateToken } = makeInterceptor();
     const res = makeRes();
     const t = token({ id: 1, pv: 0, remember: false }, 86400, 60000);
-    await run(interceptor, { cookies: { trek_session: t }, user: { id: 1 } }, res);
+    await run(interceptor, { cookies: { tripmate_session: t }, user: { id: 1 } }, res);
     expect(generateToken).toHaveBeenCalledWith({ id: 1, password_version: 0 }, false);
     const options = res.cookie.mock.calls[0][2];
     expect(options).not.toHaveProperty('maxAge');
@@ -106,9 +106,9 @@ describe('SessionRenewalInterceptor', () => {
     const { interceptor, generateToken } = makeInterceptor();
     const res = makeRes();
     const t = token({ id: 1, pv: 0 }, 86400, 60000);
-    await run(interceptor, { cookies: { trek_session: t }, user: { id: 1 } }, res);
+    await run(interceptor, { cookies: { tripmate_session: t }, user: { id: 1 } }, res);
     expect(generateToken).toHaveBeenCalledWith({ id: 1, password_version: 0 }, undefined);
-    expect(res.cookie).toHaveBeenCalledWith('trek_session', 'renewed.jwt', expect.objectContaining({ maxAge: 86400000 }));
+    expect(res.cookie).toHaveBeenCalledWith('tripmate_session', 'renewed.jwt', expect.objectContaining({ maxAge: 86400000 }));
   });
 
   it('SES-RENEW-006: never renews a Bearer-only request (no session cookie)', async () => {
@@ -123,7 +123,7 @@ describe('SessionRenewalInterceptor', () => {
     const { interceptor, generateToken } = makeInterceptor();
     const res = makeRes();
     const t = token({ id: 1, pv: 0 }, 86400, 60000);
-    await run(interceptor, { cookies: { trek_session: t } }, res);
+    await run(interceptor, { cookies: { tripmate_session: t } }, res);
     expect(generateToken).not.toHaveBeenCalled();
   });
 
@@ -131,11 +131,11 @@ describe('SessionRenewalInterceptor', () => {
     const { interceptor, generateToken } = makeInterceptor();
     const purposeRes = makeRes();
     const purposeToken = token({ id: 1, pv: 0, purpose: 'mfa_login' }, 86400, 60000);
-    await run(interceptor, { cookies: { trek_session: purposeToken }, user: { id: 1 } }, purposeRes);
+    await run(interceptor, { cookies: { tripmate_session: purposeToken }, user: { id: 1 } }, purposeRes);
 
     const mismatchRes = makeRes();
     const otherUsers = token({ id: 2, pv: 0 }, 86400, 60000);
-    await run(interceptor, { cookies: { trek_session: otherUsers }, user: { id: 1 } }, mismatchRes);
+    await run(interceptor, { cookies: { tripmate_session: otherUsers }, user: { id: 1 } }, mismatchRes);
 
     expect(generateToken).not.toHaveBeenCalled();
     expect(purposeRes.cookie).not.toHaveBeenCalled();
@@ -146,10 +146,10 @@ describe('SessionRenewalInterceptor', () => {
     const { interceptor, generateToken } = makeInterceptor();
     const sentRes = makeRes(true);
     const t = token({ id: 1, pv: 0 }, 86400, 60000);
-    await run(interceptor, { cookies: { trek_session: t }, user: { id: 1 } }, sentRes);
+    await run(interceptor, { cookies: { tripmate_session: t }, user: { id: 1 } }, sentRes);
 
     const garbageRes = makeRes();
-    await run(interceptor, { cookies: { trek_session: 'not-a-jwt' }, user: { id: 1 } }, garbageRes);
+    await run(interceptor, { cookies: { tripmate_session: 'not-a-jwt' }, user: { id: 1 } }, garbageRes);
 
     expect(generateToken).not.toHaveBeenCalled();
     expect(sentRes.cookie).not.toHaveBeenCalled();
@@ -161,7 +161,7 @@ describe('SessionRenewalInterceptor', () => {
     const res = makeRes();
     // Hand-built token without exp (noTimestamp keeps iat but expiresIn omitted).
     const noExp = jwt.sign({ id: 1, pv: 0 }, SECRET, { algorithm: 'HS256' });
-    await run(interceptor, { cookies: { trek_session: noExp }, user: { id: 1 } }, res);
+    await run(interceptor, { cookies: { tripmate_session: noExp }, user: { id: 1 } }, res);
     expect(generateToken).not.toHaveBeenCalled();
   });
 
@@ -169,7 +169,7 @@ describe('SessionRenewalInterceptor', () => {
     const { interceptor, generateToken } = makeInterceptor();
     const res = makeRes();
     const t = token({ id: 1, pv: 0 }, 86400, 60000);
-    await run(interceptor, { cookies: { trek_session: t }, user: { id: 1 } }, res, 'ws');
+    await run(interceptor, { cookies: { tripmate_session: t }, user: { id: 1 } }, res, 'ws');
     expect(generateToken).not.toHaveBeenCalled();
   });
 });

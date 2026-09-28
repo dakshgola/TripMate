@@ -38,7 +38,7 @@ const admin: TranslationStrings = {
     'Χρησιμοποιείται επίσης ως ο προεπιλεγμένος server για τις ντόπιες ntfy ειδοποιήσεις χρηστών. Αφήστε κενό για προεπιλογή ntfy.sh. Οι χρήστες μπορούν να το παρακάμψουν στις δικές τους ρυθμίσεις.',
   'admin.notifications.adminNtfyPanel.serverPlaceholder': 'https://ntfy.sh',
   'admin.notifications.adminNtfyPanel.topicLabel': 'Θέμα Διαχειριστή',
-  'admin.notifications.adminNtfyPanel.topicPlaceholder': 'trek-admin-alerts',
+  'admin.notifications.adminNtfyPanel.topicPlaceholder': 'tripmate-admin-alerts',
   'admin.notifications.adminNtfyPanel.tokenLabel': 'Access Token (προαιρετικό)',
   'admin.notifications.adminNtfyPanel.tokenCleared': 'Το access token διαχειριστή εκκαθαρίστηκε',
   'admin.notifications.adminNtfyPanel.saved': 'Οι ρυθμίσεις ntfy διαχειριστή αποθηκεύτηκαν',
@@ -133,47 +133,35 @@ const admin: TranslationStrings = {
   'admin.requireMfaHint':
     'Οι χρήστες χωρίς 2FA πρέπει να ολοκληρώσουν τη ρύθμιση στις Ρυθμίσεις πριν χρησιμοποιήσουν την εφαρμογή.',
   'admin.apiKeys': 'Κλειδιά API',
-  'admin.apiKeysHint': 'Από πού προέρχονται τα δεδομένα τόπων. Το ευρετήριο του TREK δεν χρειάζεται κλειδί· οι δύο πάροχοι παρακάτω είναι προαιρετικοί.',
+  'admin.apiKeysHint':
+    'Από πού προέρχονται τα δεδομένα τόπων. Το ευρετήριο του Trip Mate δεν χρειάζεται κλειδί· οι δύο πάροχοι παρακάτω είναι προαιρετικοί.',
   'admin.trekApi.badgeDefault': 'Προτεινόμενη προεπιλογή',
   'admin.googleCaveat.badge': 'Δεν συνιστάται',
   'admin.googleCaveat.body':
-    'Το TREK είναι ανοιχτού κώδικα και εδώ δεν είμαστε ουδέτεροι. Σε αυτή την κλίμακα, βαθμολογίες και φωτογραφίες συνηθισμένων καταστημάτων υπάρχουν μόνο στη Google, και αυτό είναι μονοπώλιο. Το πεδίο υπάρχει ελλείψει εναλλακτικής, όχι επειδή το συνιστούμε. Τότε κάθε αναζήτηση πηγαίνει στη Google.',
+    'Το Trip Mate είναι ανοιχτού κώδικα και εδώ δεν είμαστε ουδέτεροι. Σε αυτή την κλίμακα, βαθμολογίες και φωτογραφίες συνηθισμένων καταστημάτων υπάρχουν μόνο στη Google, και αυτό είναι μονοπώλιο. Το πεδίο υπάρχει ελλείψει εναλλακτικής, όχι επειδή το συνιστούμε. Τότε κάθε αναζήτηση πηγαίνει στη Google.',
   'admin.trekApi.tagline':
-    'Το δικό του ευρετήριο τόπων του TREK. Αναζήτηση χωρίς κλειδί Google, χωρίς όριο και χωρίς να μετράει κανείς τις αναζητήσεις σας.',
-  'admin.trekApi.factPlaces':
-    '73,6 εκατομμύρια τόποι παγκοσμίως',
-  'admin.trekApi.factNoKey':
-    'Χωρίς κλειδί, χωρίς όριο',
-  'admin.trekApi.factOffline':
-    'Τα πακέτα χωρών δουλεύουν και εκτός σύνδεσης',
-  'admin.trekApi.factPrivacy':
-    'Οι αναζητήσεις δεν καταγράφονται ποτέ',
-  'admin.trekApi.more':
-    'Τι περιλαμβάνει',
-  'admin.trekApi.fieldPhone':
-    'Τηλέφωνο',
-  'admin.trekApi.fieldStableId':
-    'Σταθερό αναγνωριστικό',
+    'Το δικό του ευρετήριο τόπων του Trip Mate. Αναζήτηση χωρίς κλειδί Google, χωρίς όριο και χωρίς να μετράει κανείς τις αναζητήσεις σας.',
+  'admin.trekApi.factPlaces': '73,6 εκατομμύρια τόποι παγκοσμίως',
+  'admin.trekApi.factNoKey': 'Χωρίς κλειδί, χωρίς όριο',
+  'admin.trekApi.factOffline': 'Τα πακέτα χωρών δουλεύουν και εκτός σύνδεσης',
+  'admin.trekApi.factPrivacy': 'Οι αναζητήσεις δεν καταγράφονται ποτέ',
+  'admin.trekApi.more': 'Τι περιλαμβάνει',
+  'admin.trekApi.fieldPhone': 'Τηλέφωνο',
+  'admin.trekApi.fieldStableId': 'Σταθερό αναγνωριστικό',
   'admin.trekApi.includedNote':
     'Οι περιγραφές έρχονται από τον ιστότοπο του ίδιου του τόπου, οι ώρες λειτουργίας από το OpenStreetMap όπου έχουν καταχωρηθεί.',
-  'admin.trekApi.notRatings':
-    'Βαθμολογίες',
-  'admin.trekApi.notPhotos':
-    'Φωτογραφίες συνηθισμένων καταστημάτων',
+  'admin.trekApi.notRatings': 'Βαθμολογίες',
+  'admin.trekApi.notPhotos': 'Φωτογραφίες συνηθισμένων καταστημάτων',
   'admin.trekApi.notIncludedNote':
     'Καμία ανοιχτή πηγή δεν έχει ούτε το ένα ούτε το άλλο, σε καμία τιμή. Για αυτά τα δύο το κλειδί Google παραμένει ο μόνος δρόμος.',
-  'admin.trekApi.sourcesLabel':
-    'Πηγές',
-  'admin.trekApi.sourcesNote':
-    'Κάθε πεδίο μιας απάντησης λέει από ποια από αυτές προέρχεται.',
-  'admin.trekApi.included':
-    'Περιλαμβάνεται',
-  'admin.trekApi.notIncluded':
-    'Δεν περιλαμβάνεται',
+  'admin.trekApi.sourcesLabel': 'Πηγές',
+  'admin.trekApi.sourcesNote': 'Κάθε πεδίο μιας απάντησης λέει από ποια από αυτές προέρχεται.',
+  'admin.trekApi.included': 'Περιλαμβάνεται',
+  'admin.trekApi.notIncluded': 'Δεν περιλαμβάνεται',
   'admin.mapsKey': 'Google Maps API Key',
   'admin.mapsKeyHint': 'Απαιτείται για αναζήτηση τόπων. Λάβετε το από console.cloud.google.com',
   'admin.mapsKeyHintLong':
-    'Χωρίς κλειδί Google API χρησιμοποιείται το προτεινόμενο TREK API. Με κλειδί μπορούν επιπλέον να φορτωθούν φωτογραφίες, βαθμολογίες και ώρες λειτουργίας. Δημιουργήστε ένα στο console.cloud.google.com.',
+    'Χωρίς κλειδί Google API χρησιμοποιείται το προτεινόμενο Trip Mate API. Με κλειδί μπορούν επιπλέον να φορτωθούν φωτογραφίες, βαθμολογίες και ώρες λειτουργίας. Δημιουργήστε ένα στο console.cloud.google.com.',
   'admin.recommended': 'Συνιστάται',
   'admin.weatherKey': 'OpenWeatherMap API Key',
   'admin.weatherKeyHint': 'Για δεδομένα καιρού. Δωρεάν στο openweathermap.org',
@@ -184,12 +172,13 @@ const admin: TranslationStrings = {
     'Για αναζήτηση τοποθεσιών στην ηπειρωτική Κίνα, όπου το Google δεν είναι προσβάσιμο και το OpenStreetMap έχει ελάχιστα δεδομένα. Χρειάζεται κλειδί τύπου «Web 服务» (υπηρεσία web), όχι κλειδί JS API. Διαθέσιμο στο console.amap.com.',
   'admin.placesProvider.title': 'Πάροχος αναζήτησης τοποθεσιών',
   'admin.placesProvider.subtitle':
-    'Το δικό του ευρετήριο του TREK και το OpenStreetMap απαντούν σε κάθε αναζήτηση. Εδώ επιλέγεται ποιος άλλος ρωτιέται όταν δεν βρίσκουν τίποτα: το Αυτόματο προτιμά τη Google αν υπάρχει κλειδί, μετά το Amap.',
+    'Το δικό του ευρετήριο του Trip Mate και το OpenStreetMap απαντούν σε κάθε αναζήτηση. Εδώ επιλέγεται ποιος άλλος ρωτιέται όταν δεν βρίσκουν τίποτα: το Αυτόματο προτιμά τη Google αν υπάρχει κλειδί, μετά το Amap.',
   'admin.placesProvider.auto': 'Αυτόματα',
   'admin.placesProvider.google': 'Google Places',
   'admin.placesProvider.amap': 'Amap (高德地图)',
   'admin.placesProvider.openstreetmap': 'OpenStreetMap',
-  'admin.placesProvider.missingKey': 'Ο επιλεγμένος πάροχος δεν έχει ρυθμισμένο κλειδί API, οπότε στην αναζήτηση τόπων απαντούν μόνο το ευρετήριο του TREK και το OpenStreetMap.',
+  'admin.placesProvider.missingKey':
+    'Ο επιλεγμένος πάροχος δεν έχει ρυθμισμένο κλειδί API, οπότε στην αναζήτηση τόπων απαντούν μόνο το ευρετήριο του Trip Mate και το OpenStreetMap.',
   'admin.placesProvider.saved': 'Ο πάροχος αναζήτησης τοποθεσιών αποθηκεύτηκε',
   'admin.validateKey': 'Δοκιμή',
   'admin.keyValid': 'Συνδέθηκε',
@@ -224,17 +213,24 @@ const admin: TranslationStrings = {
   'admin.placesEnrich.subtitle':
     'Εμφανίζει εικόνες και περιγραφή κατά την προσθήκη τοποθεσίας. Η Wikipedia και το OpenStreetMap χρησιμοποιούνται πάντα· η Google προστίθεται όταν είναι ενεργές οι Φωτογραφίες ή οι Λεπτομέρειες τοποθεσίας.',
   'admin.placesGoogleOnly.title': 'Αναζήτηση μόνο με Google',
-  'admin.placesGoogleOnly.subtitle': 'Κάθε αναζήτηση και κάθε πρόταση πηγαίνει στο Google Places. Απενεργοποιημένο, απαντούν πρώτα το ευρετήριο του TREK και το OpenStreetMap, και το Google ρωτιέται μόνο αν δεν βρουν τίποτα.',
-  'admin.placesGoogleOnly.missingKey': 'Χρειάζεται κλειδί Google Maps API. Χωρίς αυτό η αναζήτηση τρέχει στο ευρετήριο του TREK και στο OpenStreetMap, όπως κι αν είναι ο διακόπτης.',
-  'admin.placesGoogleOnly.otherProvider': 'Χρειάζεται το Google ως πάροχο τοποθεσιών. Με επιλεγμένο Amap ή OpenStreetMap καμία αναζήτηση δεν πηγαίνει στο Google, ό,τι κι αν λέει αυτός ο διακόπτης.',
+  'admin.placesGoogleOnly.subtitle':
+    'Κάθε αναζήτηση και κάθε πρόταση πηγαίνει στο Google Places. Απενεργοποιημένο, απαντούν πρώτα το ευρετήριο του Trip Mate και το OpenStreetMap, και το Google ρωτιέται μόνο αν δεν βρουν τίποτα.',
+  'admin.placesGoogleOnly.missingKey':
+    'Χρειάζεται κλειδί Google Maps API. Χωρίς αυτό η αναζήτηση τρέχει στο ευρετήριο του Trip Mate και στο OpenStreetMap, όπως κι αν είναι ο διακόπτης.',
+  'admin.placesGoogleOnly.otherProvider':
+    'Χρειάζεται το Google ως πάροχο τοποθεσιών. Με επιλεγμένο Amap ή OpenStreetMap καμία αναζήτηση δεν πηγαίνει στο Google, ό,τι κι αν λέει αυτός ο διακόπτης.',
   'admin.transitProvider.title': 'Πάροχος μέσων μεταφοράς',
   'admin.transitProvider.subtitle': 'Ποια υπηρεσία απαντά στην αναζήτηση μέσων μεταφοράς.',
   'admin.transitProvider.transitous': 'Transitous (δωρεάν)',
   'admin.transitProvider.google': 'Google',
-  'admin.transitProvider.transitousHint': 'Κοινοτικές ροές GTFS. Δωρεάν και χωρίς κλειδί, με την καλύτερη κάλυψη στην Ευρώπη.',
-  'admin.transitProvider.googleHint': 'Χρησιμοποιεί το παραπάνω κλειδί Google, για περιοχές χωρίς δεδομένα στο Transitous. Χρεώνεται ανά αναζήτηση — όσο δεν υπάρχει κλειδί, χρησιμοποιείται το Transitous.',
-  'admin.transitProvider.noKeyWarning': 'Έχει επιλεγεί το Google, αλλά δεν έχει ρυθμιστεί κλειδί Google — η αναζήτηση μέσων μεταφοράς εξακολουθεί να χρησιμοποιεί το Transitous. Προσθέστε κλειδί στα Κλειδιά API παραπάνω.',
-  'admin.transitProvider.personalKeyWarning': 'Έχει οριστεί μόνο το δικό σας κλειδί Google, οπότε η αναζήτηση των υπόλοιπων μελών επιστρέφει στο Transitous. Αποθηκεύστε το κλειδί παραπάνω ως διαχειριστής για να ισχύει σε όλη την εγκατάσταση.',
+  'admin.transitProvider.transitousHint':
+    'Κοινοτικές ροές GTFS. Δωρεάν και χωρίς κλειδί, με την καλύτερη κάλυψη στην Ευρώπη.',
+  'admin.transitProvider.googleHint':
+    'Χρησιμοποιεί το παραπάνω κλειδί Google, για περιοχές χωρίς δεδομένα στο Transitous. Χρεώνεται ανά αναζήτηση — όσο δεν υπάρχει κλειδί, χρησιμοποιείται το Transitous.',
+  'admin.transitProvider.noKeyWarning':
+    'Έχει επιλεγεί το Google, αλλά δεν έχει ρυθμιστεί κλειδί Google — η αναζήτηση μέσων μεταφοράς εξακολουθεί να χρησιμοποιεί το Transitous. Προσθέστε κλειδί στα Κλειδιά API παραπάνω.',
+  'admin.transitProvider.personalKeyWarning':
+    'Έχει οριστεί μόνο το δικό σας κλειδί Google, οπότε η αναζήτηση των υπόλοιπων μελών επιστρέφει στο Transitous. Αποθηκεύστε το κλειδί παραπάνω ως διαχειριστής για να ισχύει σε όλη την εγκατάσταση.',
   'admin.placeShadow.title': 'Αρχείο αναζητήσεων τόπων',
   'admin.placeShadow.subtitle':
     'Καταγραφή του ποιο αποτέλεσμα αναζήτησης επιλέχθηκε, ώστε ένα διαφορετικό ευρετήριο τόπων να μετρηθεί αργότερα με πραγματικές αναζητήσεις. Τίποτα δεν φεύγει από αυτήν την εγκατάσταση και ένας διαχειριστής μπορεί ανά πάσα στιγμή να εξαγάγει ή να διαγράψει το αρχείο.',
@@ -337,7 +333,7 @@ const admin: TranslationStrings = {
   'admin.plugins.subtitle': 'Εγκαταστήστε και διαχειριστείτε plugins τρίτων στην εγκατάστασή σας.',
   'admin.plugins.disabledTitle': 'Τα plugins είναι απενεργοποιημένα',
   'admin.plugins.disabledBody':
-    'Το περιβάλλον εκτέλεσης plugins είναι απενεργοποιημένο (TREK_PLUGINS_ENABLED). Κανένα plugin δεν μπορεί να εκτελεστεί μέχρι ένας διαχειριστής να το ενεργοποιήσει στη διαμόρφωση του server.',
+    'Το περιβάλλον εκτέλεσης plugins είναι απενεργοποιημένο (TRIPMATE_PLUGINS_ENABLED). Κανένα plugin δεν μπορεί να εκτελεστεί μέχρι ένας διαχειριστής να το ενεργοποιήσει στη διαμόρφωση του server.',
   'admin.plugins.empty': 'Δεν έχουν εγκατασταθεί plugins ακόμη.',
   'admin.plugins.loadError': 'Δεν ήταν δυνατή η φόρτωση των plugins.',
   'admin.plugins.scaffoldNote':
@@ -360,7 +356,7 @@ const admin: TranslationStrings = {
   'admin.plugins.sourceRepo': 'Αποθετήριο πηγαίου κώδικα',
   'admin.plugins.reportIssue': 'Αναφορά προβλήματος',
   'admin.plugins.homepage': 'Αρχική σελίδα',
-  'admin.plugins.requiresTrek': 'Απαιτεί TREK {version}+',
+  'admin.plugins.requiresTrek': 'Απαιτεί Trip Mate {version}+',
   'admin.plugins.reviewedOn': 'Ελέγχθηκε {date}',
   'admin.plugins.perm.db:own': 'Αποθήκευση των δικών του δεδομένων σε απομονωμένη βάση δεδομένων',
   'admin.plugins.perm.db:read:trips': 'Ανάγνωση ταξιδιών στα οποία έχει πρόσβαση ο ενεργός χρήστης',
@@ -436,7 +432,7 @@ const admin: TranslationStrings = {
   'admin.plugins.perm.hook:place-detail-provider':
     'Συνεισφορά επιπλέον λεπτομερειών (κριτικές, βαθμολογίες, σύνδεσμοι) σε ένα μέρος',
   'admin.plugins.perm.hook:search-provider':
-    'Απάντηση σε αναζητήσεις τοποθεσιών από δικό του ευρετήριο, δίπλα στα αποτελέσματα του TREK',
+    'Απάντηση σε αναζητήσεις τοποθεσιών από δικό του ευρετήριο, δίπλα στα αποτελέσματα του Trip Mate',
   'admin.plugins.perm.hook:trip-warning-provider':
     'Εμφάνιση προειδοποιήσεων επικύρωσης σε ένα ταξίδι (εμφανίζονται στον σχεδιαστή)',
   'admin.plugins.perm.hook:table-contributor':
@@ -452,11 +448,12 @@ const admin: TranslationStrings = {
     'Χρωματική σήμανση ημερών στο πλάνο της ημέρας (π.χ. σε ποιο σκέλος του ταξιδιού ανήκει μια ημέρα)',
   'admin.plugins.cap.mcpTools': 'Δημοσιεύει εργαλεία AI',
   'admin.plugins.mcpToolsTitle': 'Δημοσιευμένα εργαλεία AI',
-  'admin.plugins.mcpToolsHint': 'Ένας βοηθός μπορεί να τα εκτελέσει εκ μέρους ενός χρήστη. Καθένα ενεργεί με τα δικαιώματα που δόθηκαν παραπάνω.',
+  'admin.plugins.mcpToolsHint':
+    'Ένας βοηθός μπορεί να τα εκτελέσει εκ μέρους ενός χρήστη. Καθένα ενεργεί με τα δικαιώματα που δόθηκαν παραπάνω.',
   'admin.plugins.perm.mcp:tools':
     'Δημοσίευση εργαλείων που μπορεί να εκτελέσει ένας βοηθός AI εκ μέρους σας (ενεργεί με τα δικαιώματα που δίνετε εδώ στο πρόσθετο, όχι με τα δικά του)',
   'admin.plugins.perm.geolocation:read':
-    'Αίτημα της τρέχουσας τοποθεσίας σας όσο μία από τις προβολές του είναι ανοιχτή (το TREK τη διαβάζει με την άδεια τοποθεσίας αυτού του ιστότοπου, όχι με δική του άδεια του πρόσθετου)',
+    'Αίτημα της τρέχουσας τοποθεσίας σας όσο μία από τις προβολές του είναι ανοιχτή (το Trip Mate τη διαβάζει με την άδεια τοποθεσίας αυτού του ιστότοπου, όχι με δική του άδεια του πρόσθετου)',
   'admin.plugins.perm.hook:pdf-section-provider': 'Προσθήκη ενοτήτων κειμένου στην εξαγωγή PDF του ταξιδιού',
   'admin.plugins.perm.hook:atlas-layer-provider':
     'Επισήμανση χωρών στον παγκόσμιο χάρτη του Άτλαντα (π.χ. λίστες επιθυμιών ή ταξιδιωτικές οδηγίες)',
@@ -486,26 +483,26 @@ const admin: TranslationStrings = {
   'admin.plugins.updateLater': 'Διατήρηση ανενεργού προς το παρόν',
   'admin.plugins.updateKeptOff': 'Η ενημέρωση εγκαταστάθηκε — παραμένει ανενεργή μέχρι να εγκρίνετε τα νέα δικαιώματα',
   'admin.plugins.reviewedMeaning':
-    'Το "Ελεγμένο" σημαίνει ότι ένας συντηρητής του TREK σάρωσε αυτό το plugin για κακόβουλο λογισμικό σε κάθε έκδοση — όχι για την ποιότητα ή για το αν λειτουργεί. Δεν αποτελεί εγγύηση ότι ένα plugin είναι ακίνδυνο.',
+    'Το "Ελεγμένο" σημαίνει ότι ένας συντηρητής του Trip Mate σάρωσε αυτό το plugin για κακόβουλο λογισμικό σε κάθε έκδοση — όχι για την ποιότητα ή για το αν λειτουργεί. Δεν αποτελεί εγγύηση ότι ένα plugin είναι ακίνδυνο.',
   'admin.plugins.security.title': 'Πώς περιορίζονται τα plugins — και τα όρια',
   'admin.plugins.security.isolationTitle': 'Κάθε plugin εκτελείται απομονωμένο',
   'admin.plugins.security.isolationBody':
-    'Ένα plugin εκτελείται ως δική του κλειδωμένη διεργασία που μπορεί να διαβάσει μόνο τα δικά της αρχεία. Δεν μπορεί να διαβάσει τη βάση δεδομένων σας, το μυστικό σύνδεσής σας ή το κλειδί κρυπτογράφησής σας, δεν μπορεί να εκκινήσει άλλα προγράμματα και δεν μπορεί να γράψει αρχεία πουθενά. Η διεπαφή του εκτελείται σε ένα σφραγισμένο browser frame που δεν μπορεί να διαβάσει το cookie συνεδρίας σας ούτε να αγγίξει τη γύρω σελίδα του TREK.',
+    'Ένα plugin εκτελείται ως δική του κλειδωμένη διεργασία που μπορεί να διαβάσει μόνο τα δικά της αρχεία. Δεν μπορεί να διαβάσει τη βάση δεδομένων σας, το μυστικό σύνδεσής σας ή το κλειδί κρυπτογράφησής σας, δεν μπορεί να εκκινήσει άλλα προγράμματα και δεν μπορεί να γράψει αρχεία πουθενά. Η διεπαφή του εκτελείται σε ένα σφραγισμένο browser frame που δεν μπορεί να διαβάσει το cookie συνεδρίας σας ούτε να αγγίξει τη γύρω σελίδα του Trip Mate.',
   'admin.plugins.security.permsTitle': 'Τι σημαίνουν τα δικαιώματα',
   'admin.plugins.security.permsBody':
-    'Τα δικαιώματα που εμφανίζονται πριν την εγκατάσταση αποτελούν ένα αυστηρό όριο που το TREK επιβάλλει όσο εκτελείται το plugin — κυριολεκτικά δεν μπορεί να κάνει τίποτα που δεν βρίσκεται στη λίστα. Όμως σας λένε τι μπορεί να κάνει ένα plugin, όχι τι κάνει στην πραγματικότητα. Ένα plugin που επιτρέπεται να διαβάζει τα ταξίδια σας και να συνδέεται σε έναν server μπορεί να στείλει τα ταξίδια σας σε αυτόν τον server, επομένως διαβάστε τα δικαιώματα και τους εξερχόμενους hosts, όχι μόνο την περιγραφή.',
+    'Τα δικαιώματα που εμφανίζονται πριν την εγκατάσταση αποτελούν ένα αυστηρό όριο που το Trip Mate επιβάλλει όσο εκτελείται το plugin — κυριολεκτικά δεν μπορεί να κάνει τίποτα που δεν βρίσκεται στη λίστα. Όμως σας λένε τι μπορεί να κάνει ένα plugin, όχι τι κάνει στην πραγματικότητα. Ένα plugin που επιτρέπεται να διαβάζει τα ταξίδια σας και να συνδέεται σε έναν server μπορεί να στείλει τα ταξίδια σας σε αυτόν τον server, επομένως διαβάστε τα δικαιώματα και τους εξερχόμενους hosts, όχι μόνο την περιγραφή.',
   'admin.plugins.security.limitsTitle': 'Τι δεν μπορούμε να υποσχεθούμε',
   'admin.plugins.security.limitsBody':
-    'Η απομόνωση είναι ένα ισχυρό όριο λογισμικού, όχι απόλυτο. Ένα plugin λειτουργεί με ακριβώς τα δικαιώματα που εγκρίνετε, επομένως εντός αυτών των δικαιωμάτων μπορεί να συμπεριφέρεται διαφορετικά από ό,τι υποδηλώνει η περιγραφή του, και μπορεί να στείλει δεδομένα που κατέχει νόμιμα στους hosts που έχει δηλώσει. Το TREK δεν διαβάζει ούτε κρίνει τι κάνει στην πραγματικότητα ο κώδικας ενός plugin.',
+    'Η απομόνωση είναι ένα ισχυρό όριο λογισμικού, όχι απόλυτο. Ένα plugin λειτουργεί με ακριβώς τα δικαιώματα που εγκρίνετε, επομένως εντός αυτών των δικαιωμάτων μπορεί να συμπεριφέρεται διαφορετικά από ό,τι υποδηλώνει η περιγραφή του, και μπορεί να στείλει δεδομένα που κατέχει νόμιμα στους hosts που έχει δηλώσει. Το Trip Mate δεν διαβάζει ούτε κρίνει τι κάνει στην πραγματικότητα ο κώδικας ενός plugin.',
   'admin.plugins.security.worstTitle': 'Η χειρότερη περίπτωση',
   'admin.plugins.security.worstBody':
     'Ένα εχθρικό plugin που ενεργοποιείτε μπορεί να κάνει κακή χρήση των δεδομένων και των συνδέσεων που του παραχωρήσατε — για παράδειγμα, να διαρρεύσει τα ταξίδια που του επιτρέπεται να διαβάζει. Δεν μπορεί να κλέψει κωδικούς, να πλαστογραφήσει μια σύνδεση διαχειριστή, να εκτελέσει εντολές στον server σας ή να αποκτήσει πρόσβαση σε δεδομένα που δεν παραχωρήσατε. Η ζημιά παραμένει εντός όσων εγκρίνατε, και η απενεργοποίηση του plugin το σταματά.',
   'admin.plugins.security.reviewedTitle': 'Τι σημαίνει το "Ελεγμένο"',
   'admin.plugins.security.reviewedBody':
-    'Ένα ελεγμένο plugin σαρώθηκε χειροκίνητα για κακόβουλο λογισμικό από έναν συντηρητή του TREK σε κάθε έκδοση — ελέγχθηκε για εχθρικό κώδικα, όχι για το αν λειτουργεί καλά. Δεν αποτελεί υπόσχεση ότι το plugin είναι ακίνδυνο.',
+    'Ένα ελεγμένο plugin σαρώθηκε χειροκίνητα για κακόβουλο λογισμικό από έναν συντηρητή του Trip Mate σε κάθε έκδοση — ελέγχθηκε για εχθρικό κώδικα, όχι για το αν λειτουργεί καλά. Δεν αποτελεί υπόσχεση ότι το plugin είναι ακίνδυνο.',
   'admin.plugins.security.signedTitle': 'Τι σημαίνει το "Υπογεγραμμένο"',
   'admin.plugins.security.signedBody':
-    'Το checksum που επαληθεύει το TREK σε κάθε εγκατάσταση αποδεικνύει ότι τα αρχεία είναι ακριβώς αυτά για τα οποία εγγυάται το μητρώο. Μια υπογραφή αποδεικνύει κάτι διαφορετικό: ότι προέρχονται από τον δημιουργό, υπογεγραμμένα με ένα κλειδί που κατέχει μόνο εκείνος. Ένα υπογεγραμμένο plugin έχει και τα δύο. Ένα ανυπόγραφο δεν είναι επικίνδυνο — απλώς φέρει μία εγγύηση λιγότερη, και τα περισσότερα plugins στο μητρώο είναι σήμερα ανυπόγραφα.',
+    'Το checksum που επαληθεύει το Trip Mate σε κάθε εγκατάσταση αποδεικνύει ότι τα αρχεία είναι ακριβώς αυτά για τα οποία εγγυάται το μητρώο. Μια υπογραφή αποδεικνύει κάτι διαφορετικό: ότι προέρχονται από τον δημιουργό, υπογεγραμμένα με ένα κλειδί που κατέχει μόνο εκείνος. Ένα υπογεγραμμένο plugin έχει και τα δύο. Ένα ανυπόγραφο δεν είναι επικίνδυνο — απλώς φέρει μία εγγύηση λιγότερη, και τα περισσότερα plugins στο μητρώο είναι σήμερα ανυπόγραφα.',
   'admin.plugins.signed': 'Υπογεγραμμένο',
   'admin.plugins.signedHint': 'Επαληθεύτηκε με το κλειδί υπογραφής του δημιουργού κατά την εγκατάσταση',
   'admin.plugins.unsigned': 'Ανυπόγραφο',
@@ -520,20 +517,20 @@ const admin: TranslationStrings = {
   'admin.plugins.sig.invalidBody':
     'Τα αρχεία δεν ταιριάζουν με την υπογραφή του δημιουργού. Δεν είναι αυτά που υπέγραψε ο δημιουργός — είτε αλλοιώθηκαν, είτε παραποιήθηκαν. Αυτό δεν μπορεί να παρακαμφθεί.',
   'admin.plugins.sig.missingBody':
-    'Αυτό το plugin ήταν υπογεγραμμένο όταν το εγκαταστήσατε, αλλά η νέα έκδοση δεν περιλαμβάνει καμία υπογραφή. Το TREK δεν θα δεχτεί σιωπηλά αυτή την υποβάθμιση. Αυτό δεν μπορεί να παρακαμφθεί.',
+    'Αυτό το plugin ήταν υπογεγραμμένο όταν το εγκαταστήσατε, αλλά η νέα έκδοση δεν περιλαμβάνει καμία υπογραφή. Το Trip Mate δεν θα δεχτεί σιωπηλά αυτή την υποβάθμιση. Αυτό δεν μπορεί να παρακαμφθεί.',
   'admin.plugins.sig.incompleteBody':
     'Η καταχώριση στο μητρώο είναι μισοϋπογεγραμμένη: δηλώνει κλειδί δημιουργού αλλά η έκδοση δεν φέρει υπογραφή (ή το αντίστροφο). Αυτό είναι σφάλμα από την πλευρά του plugin. Αυτό δεν μπορεί να παρακαμφθεί.',
   'admin.plugins.sig.pinnedKey': 'Κλειδί με το οποίο εγκαταστάθηκε',
   'admin.plugins.sig.newKey': 'Κλειδί που προσφέρει τώρα',
   'admin.plugins.sig.confirmOutOfBand':
-    'Το TREK δεν μπορεί να ξεχωρίσει μια νόμιμη αλλαγή κλειδιού από μια κατάληψη — από εδώ φαίνονται πανομοιότυπες. Επιβεβαιώστε το νέο κλειδί με τον δημιουργό μέσω ενός καναλιού που ήδη εμπιστεύεστε, προτού το αποδεχτείτε. Μόλις το κάνετε, το plugin ενημερώνεται και το νέο κλειδί απομνημονεύεται.',
+    'Το Trip Mate δεν μπορεί να ξεχωρίσει μια νόμιμη αλλαγή κλειδιού από μια κατάληψη — από εδώ φαίνονται πανομοιότυπες. Επιβεβαιώστε το νέο κλειδί με τον δημιουργό μέσω ενός καναλιού που ήδη εμπιστεύεστε, προτού το αποδεχτείτε. Μόλις το κάνετε, το plugin ενημερώνεται και το νέο κλειδί απομνημονεύεται.',
   'admin.plugins.sig.retrustConfirm': 'Εμπιστοσύνη στο νέο κλειδί & ενημέρωση',
   'admin.plugins.sig.cancel': 'Να μην γίνει αποδεκτό',
   'admin.plugins.sig.consentUnsigned':
     'Τίποτα δεν συνδέει αυτή την έκδοση με τον δημιουργό της — τα αρχεία ταιριάζουν με το μητρώο, αλλά δεν φέρουν υπογραφή δημιουργού.',
   'admin.plugins.security.trustTitle': 'Το συμπέρασμα',
   'admin.plugins.security.trustBody':
-    'Η εγκατάσταση ενός plugin είναι σαν την εγκατάσταση οποιασδήποτε εφαρμογής τρίτου: προσθέστε κώδικα μόνο από δημιουργούς που εμπιστεύεστε, και σε περίπτωση αμφιβολίας, ελέγξτε τον πρώτα μόνοι σας. Το TREK δεν αναλαμβάνει καμία ευθύνη για plugins τρίτων.',
+    'Η εγκατάσταση ενός plugin είναι σαν την εγκατάσταση οποιασδήποτε εφαρμογής τρίτου: προσθέστε κώδικα μόνο από δημιουργούς που εμπιστεύεστε, και σε περίπτωση αμφιβολίας, ελέγξτε τον πρώτα μόνοι σας. Το Trip Mate δεν αναλαμβάνει καμία ευθύνη για plugins τρίτων.',
   'admin.plugins.runtimeOn': 'Περιβάλλον εκτέλεσης ενεργό',
   'admin.plugins.tabDiscover': 'Ανακάλυψη',
   'admin.plugins.searchPlaceholder': 'Αναζήτηση plugins…',
@@ -549,15 +546,16 @@ const admin: TranslationStrings = {
   'admin.plugins.sortUpdates': 'Ενημερώσεις πρώτα',
   'admin.plugins.sortDownloads': 'Περισσότερες λήψεις',
   'admin.plugins.updatesAvailable': 'Διαθέσιμες {count} ενημερώσεις για τα plugins σας.',
-  'admin.plugins.newerNeedsTrek': 'Διαθέσιμη η v{version} — απαιτεί TREK {range}',
+  'admin.plugins.newerNeedsTrek': 'Διαθέσιμη η v{version} — απαιτεί Trip Mate {range}',
   'admin.plugins.versionsTitle': 'Εκδόσεις',
   'admin.plugins.versionPickerTitle': 'Αλλαγή έκδοσης — {name}',
   'admin.plugins.versionSwitch': 'Μετάβαση σε {version}',
-  'admin.plugins.versionNeedsTrek': 'απαιτεί TREK {range}',
+  'admin.plugins.versionNeedsTrek': 'απαιτεί Trip Mate {range}',
   'admin.plugins.changeVersion': 'Αλλαγή έκδοσης…',
   'admin.plugins.noVersions': 'Δεν βρέθηκαν δημοσιευμένες εκδόσεις στο μητρώο.',
   'admin.plugins.downgradeTitle': 'Επαναφορά αυτού του πρόσθετου;',
-  'admin.plugins.downgradeBody': 'Μετάβαση από v{from} σε v{to}: τα δεδομένα της νεότερης έκδοσης παραμένουν, και η παλαιότερη έκδοση ίσως να μην τα κατανοεί.',
+  'admin.plugins.downgradeBody':
+    'Μετάβαση από v{from} σε v{to}: τα δεδομένα της νεότερης έκδοσης παραμένουν, και η παλαιότερη έκδοση ίσως να μην τα κατανοεί.',
   'admin.plugins.downgradeConfirm': 'Επαναφορά',
   'admin.plugins.updatesHeld': 'Οι ενημερώσεις είναι σε παύση στην v{version}',
   'admin.plugins.resumeUpdates': 'Συνέχιση ενημερώσεων',
@@ -616,22 +614,21 @@ const admin: TranslationStrings = {
   'admin.plugins.dep.download': 'Λήψη',
   'admin.plugins.dep.update': 'Ενημέρωση',
   'admin.plugins.dep.resolveHint': 'Λαμβάνει την πιο πρόσφατη συμβατή έκδοση, μαζί με τις δικές της εξαρτήσεις.',
-  'admin.plugins.dep.trekIncompatible': 'Απαιτεί TREK {range} — αυτός ο διακομιστής εκτελεί {host}',
-  'admin.plugins.dep.trekUnknown': 'Δεν δηλώνει ποιες εκδόσεις TREK υποστηρίζει',
+  'admin.plugins.dep.trekIncompatible': 'Απαιτεί Trip Mate {range} — αυτός ο διακομιστής εκτελεί {host}',
+  'admin.plugins.dep.trekUnknown': 'Δεν δηλώνει ποιες εκδόσεις Trip Mate υποστηρίζει',
   'admin.plugins.installCompatible': 'Εγκατάσταση {version}',
   'admin.plugins.installAnyway': 'Εγκατάσταση ούτως ή άλλως',
   'admin.plugins.rangeBypass.pill': 'Έλεγχοι έκδοσης απενεργοποιημένοι',
   'admin.plugins.rangeBypass.pillHint':
-    'Το TREK_PLUGINS_IGNORE_TREK_RANGE είναι ορισμένο — τα πρόσθετα μπορούν να εγκατασταθούν και να εκτελεστούν εκτός των εκδόσεων TREK που δηλώνουν οι δημιουργοί τους',
-  'admin.plugins.rangeBypass.title': 'Εκτός των υποστηριζόμενων εκδόσεων TREK',
-  'admin.plugins.rangeBypass.noticeTitle': 'Εγκαταστάθηκε εκτός των υποστηριζόμενων εκδόσεων TREK',
+    'Το TRIPMATE_PLUGINS_IGNORE_TREK_RANGE είναι ορισμένο — τα πρόσθετα μπορούν να εγκατασταθούν και να εκτελεστούν εκτός των εκδόσεων Trip Mate που δηλώνουν οι δημιουργοί τους',
+  'admin.plugins.rangeBypass.title': 'Εκτός των υποστηριζόμενων εκδόσεων Trip Mate',
+  'admin.plugins.rangeBypass.noticeTitle': 'Εγκαταστάθηκε εκτός των υποστηριζόμενων εκδόσεων Trip Mate',
   'admin.plugins.rangeBypass.body':
-    'Το «{name}» δηλώνει υποστήριξη για TREK {range}, ενώ αυτός ο διακομιστής εκτελεί {host}. Το TREK το επιτρέπει μόνο επειδή είναι ορισμένο το TREK_PLUGINS_IGNORE_TREK_RANGE. Ο δημιουργός δεν έχει ενημερώσει το εύρος εκδόσεων του πρόσθετου για αυτό το TREK, οπότε δεν υπάρχει εγγύηση ότι λειτουργεί — και σε σπάνιες περιπτώσεις ένα ασύμβατο πρόσθετο μπορεί να καταστρέψει δεδομένα του TREK. Συνεχίστε μόνο αν αποδέχεστε αυτόν τον κίνδυνο.',
+    'Το «{name}» δηλώνει υποστήριξη για Trip Mate {range}, ενώ αυτός ο διακομιστής εκτελεί {host}. Το Trip Mate το επιτρέπει μόνο επειδή είναι ορισμένο το TRIPMATE_PLUGINS_IGNORE_TREK_RANGE. Ο δημιουργός δεν έχει ενημερώσει το εύρος εκδόσεων του πρόσθετου για αυτό το Trip Mate, οπότε δεν υπάρχει εγγύηση ότι λειτουργεί — και σε σπάνιες περιπτώσεις ένα ασύμβατο πρόσθετο μπορεί να καταστρέψει δεδομένα του Trip Mate. Συνεχίστε μόνο αν αποδέχεστε αυτόν τον κίνδυνο.',
   'admin.plugins.rangeBypass.bodyUnknown':
-    'Το «{name}» δεν δηλώνει ποιες εκδόσεις TREK υποστηρίζει· αυτός ο διακομιστής εκτελεί {host}. Το TREK το επιτρέπει μόνο επειδή είναι ορισμένο το TREK_PLUGINS_IGNORE_TREK_RANGE. Τίποτα δεν δείχνει ότι ο δημιουργός το δοκίμασε σε αυτό το TREK, οπότε δεν υπάρχει εγγύηση ότι λειτουργεί — και σε σπάνιες περιπτώσεις ένα ασύμβατο πρόσθετο μπορεί να καταστρέψει δεδομένα του TREK. Συνεχίστε μόνο αν αποδέχεστε αυτόν τον κίνδυνο.',
-  'admin.plugins.dep.trekBypassed':
-    'Εκτός του εύρους TREK του ({range}) — έλεγχοι έκδοσης απενεργοποιημένοι',
-  'admin.plugins.dep.trekBypassedUnknown': 'Δεν δηλώνει εύρος TREK — έλεγχοι έκδοσης απενεργοποιημένοι',
+    'Το «{name}» δεν δηλώνει ποιες εκδόσεις Trip Mate υποστηρίζει· αυτός ο διακομιστής εκτελεί {host}. Το Trip Mate το επιτρέπει μόνο επειδή είναι ορισμένο το TRIPMATE_PLUGINS_IGNORE_TREK_RANGE. Τίποτα δεν δείχνει ότι ο δημιουργός το δοκίμασε σε αυτό το Trip Mate, οπότε δεν υπάρχει εγγύηση ότι λειτουργεί — και σε σπάνιες περιπτώσεις ένα ασύμβατο πρόσθετο μπορεί να καταστρέψει δεδομένα του Trip Mate. Συνεχίστε μόνο αν αποδέχεστε αυτόν τον κίνδυνο.',
+  'admin.plugins.dep.trekBypassed': 'Εκτός του εύρους Trip Mate του ({range}) — έλεγχοι έκδοσης απενεργοποιημένοι',
+  'admin.plugins.dep.trekBypassedUnknown': 'Δεν δηλώνει εύρος Trip Mate — έλεγχοι έκδοσης απενεργοποιημένοι',
   'admin.plugins.incompatible': 'Μη συμβατό',
   'admin.plugins.accessTitle': 'Σε τι έχει πρόσβαση',
   'admin.plugins.connectsTitle': 'Συνδέεται σε',
@@ -644,7 +641,7 @@ const admin: TranslationStrings = {
   'admin.plugins.downloads': 'Λήψεις',
   'admin.addons.title': 'Πρόσθετα',
   'admin.addons.subtitle':
-    'Ενεργοποιήστε ή απενεργοποιήστε λειτουργίες για να εξατομικεύσετε την εμπειρία σας στο TREK.',
+    'Ενεργοποιήστε ή απενεργοποιήστε λειτουργίες για να εξατομικεύσετε την εμπειρία σας στο Trip Mate.',
   'admin.addons.catalog.packing.name': 'Λίστες',
   'admin.addons.catalog.packing.description': 'Λίστες πακεταρίσματος και εργασίες προς εκτέλεση για τα ταξίδια σας',
   'admin.addons.catalog.budget.name': 'Κόστη',
@@ -659,7 +656,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.collab.name': 'Collab',
   'admin.addons.catalog.collab.description': 'Σημειώσεις, ψηφοφορίες, συνομιλία και προτάσεις για κοινό σχεδιασμό',
   'admin.addons.catalog.roadtrip.name': 'Οδικό ταξίδι',
-  'admin.addons.catalog.roadtrip.description': 'Σχεδιάστε διαδρομές με στάσεις — οι χρόνοι οδήγησης και άφιξης υπολογίζονται ξανά αυτόματα',
+  'admin.addons.catalog.roadtrip.description':
+    'Σχεδιάστε διαδρομές με στάσεις — οι χρόνοι οδήγησης και άφιξης υπολογίζονται ξανά αυτόματα',
   'admin.addons.catalog.memories.name': 'Φωτογραφίες (Immich)',
   'admin.addons.catalog.memories.description':
     'Μοιραστείτε φωτογραφίες ταξιδιού μέσω της δικής σας εγκατάστασης Immich',
@@ -676,7 +674,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.dawarich.description':
     'Ανάγνωση επισκέψεων και καταγεγραμμένων διαδρομών από μια εγκατάσταση Dawarich που συνδέει ο κάθε χρήστης μόνος του',
   'admin.addons.catalog.llm_parsing.name': 'Ανάλυση με τεχνητή νοημοσύνη',
-  'admin.addons.catalog.llm_parsing.description': 'Διαβάζει κρατήσεις που δεν καταλαβαίνει ο ενσωματωμένος αναλυτής, με μοντέλο ΤΝ της επιλογής σας',
+  'admin.addons.catalog.llm_parsing.description':
+    'Διαβάζει κρατήσεις που δεν καταλαβαίνει ο ενσωματωμένος αναλυτής, με μοντέλο ΤΝ της επιλογής σας',
   'admin.addons.enabled': 'Ενεργοποιημένο',
   'admin.addons.disabled': 'Απενεργοποιημένο',
   'admin.addons.type.trip': 'Ταξίδι',
@@ -692,7 +691,7 @@ const admin: TranslationStrings = {
   'admin.weather.title': 'Δεδομένα Καιρού',
   'admin.weather.badge': 'Από 24 Μαρτίου 2026',
   'admin.weather.description':
-    'Το TREK χρησιμοποιεί το Open-Meteo ως πηγή δεδομένων καιρού. Το Open-Meteo είναι μια δωρεάν, ανοιχτού κώδικα υπηρεσία καιρού — δεν απαιτείται κλειδί API.',
+    'Το Trip Mate χρησιμοποιεί το Open-Meteo ως πηγή δεδομένων καιρού. Το Open-Meteo είναι μια δωρεάν, ανοιχτού κώδικα υπηρεσία καιρού — δεν απαιτείται κλειδί API.',
   'admin.weather.forecast': 'Πρόγνωση 16 ημερών',
   'admin.weather.forecastDesc': 'Προηγουμένως 5 ημέρες (OpenWeatherMap)',
   'admin.weather.climate': 'Ιστορικά δεδομένα κλίματος',
@@ -751,14 +750,14 @@ const admin: TranslationStrings = {
   'admin.github.loading': 'Φόρτωση...',
   'admin.github.error': 'Αποτυχία φόρτωσης εκδόσεων',
   'admin.github.by': 'από',
-  'admin.github.support': 'Βοηθά να συνεχίσω την ανάπτυξη του TREK',
+  'admin.github.support': 'Βοηθά να συνεχίσω την ανάπτυξη του Trip Mate',
   'admin.update.available': 'Διαθέσιμη ενημέρωση',
-  'admin.update.text': 'Το TREK {version} είναι διαθέσιμο. Εκτελείτε το {current}.',
+  'admin.update.text': 'Το Trip Mate {version} είναι διαθέσιμο. Εκτελείτε το {current}.',
   'admin.update.button': 'Προβολή στο GitHub',
   'admin.update.install': 'Εγκατάσταση Ενημέρωσης',
   'admin.update.confirmTitle': 'Εγκατάσταση Ενημέρωσης;',
   'admin.update.confirmText':
-    'Το TREK θα ενημερωθεί από {current} σε {version}. Ο server θα επανεκκινήσει αυτόματα στη συνέχεια.',
+    'Το Trip Mate θα ενημερωθεί από {current} σε {version}. Ο server θα επανεκκινήσει αυτόματα στη συνέχεια.',
   'admin.update.dataInfo':
     'Όλα τα δεδομένα σας (ταξίδια, χρήστες, κλειδιά API, μεταφορτώσεις, Vacay, Atlas, προϋπολογισμοί) θα διατηρηθούν.',
   'admin.update.warning': 'Η εφαρμογή θα είναι σύντομα μη διαθέσιμη κατά την επανεκκίνηση.',
@@ -770,9 +769,9 @@ const admin: TranslationStrings = {
   'admin.update.backupLink': 'Μετάβαση στο Αντίγραφο Ασφαλείας',
   'admin.update.howTo': 'Πώς να Ενημερώσετε',
   'admin.update.dockerText':
-    'Η εγκατάστασή σας TREK εκτελείται σε Docker. Για να ενημερωθείτε στο {version}, εκτελέστε τις ακόλουθες εντολές στον server σας:',
+    'Η εγκατάστασή σας Trip Mate εκτελείται σε Docker. Για να ενημερωθείτε στο {version}, εκτελέστε τις ακόλουθες εντολές στον server σας:',
   'admin.update.nonDockerText':
-    'Αυτή η εγκατάσταση TREK δεν εκτελείται σε Docker. Για να ενημερωθείτε στο {version}, εκτελέστε ξανά τη μέθοδο εγκατάστασης ή ενημέρωσης που χρησιμοποιήσατε — για παράδειγμα, στα Proxmox Community Scripts εκτελέστε την ενημέρωση από την κονσόλα LXC:',
+    'Αυτή η εγκατάσταση Trip Mate δεν εκτελείται σε Docker. Για να ενημερωθείτε στο {version}, εκτελέστε ξανά τη μέθοδο εγκατάστασης ή ενημέρωσης που χρησιμοποιήσατε — για παράδειγμα, στα Proxmox Community Scripts εκτελέστε την ενημέρωση από την κονσόλα LXC:',
   'admin.update.wikiLink': 'Άνοιγμα του οδηγού ενημέρωσης',
   'admin.update.reloadHint': 'Παρακαλώ ανανεώστε τη σελίδα σε λίγα δευτερόλεπτα.',
   'admin.tabs.permissions': 'Δικαιώματα',
@@ -780,7 +779,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.journey.description':
     'Παρακολούθηση ταξιδιών & ημερολόγιο ταξιδιών με αφίξεις, φωτογραφίες και καθημερινές ιστορίες',
   'admin.addons.catalog.collections.name': 'Συλλογές',
-  'admin.addons.catalog.collections.description': 'Συγκεντρώστε τοποθεσίες από κάθε ταξίδι σε λίστες με όνομα και χρησιμοποιήστε τις ξανά',
+  'admin.addons.catalog.collections.description':
+    'Συγκεντρώστε τοποθεσίες από κάθε ταξίδι σε λίστες με όνομα και χρησιμοποιήστε τις ξανά',
   'admin.passkey.title': 'Σύνδεση με passkey',
   'admin.passkey.cardHint':
     'Επιτρέψτε στους χρήστες να συνδέονται με passkeys (WebAuthn). Απενεργοποιημένο από προεπιλογή.',
@@ -791,10 +791,10 @@ const admin: TranslationStrings = {
     'Δεν αναλύεται ακόμη κανένας τομέας WebAuthn για αυτή την εγκατάσταση. Ορίστε το APP_URL ή το Relying Party ID παρακάτω — τα passkeys παραμένουν κρυφά μέχρι τότε.',
   'admin.passkey.rpId': 'Relying Party ID (τομέας)',
   'admin.passkey.rpIdHint':
-    'Ο σκέτος τομέας στον οποίο δεσμεύονται τα passkeys, π.χ. trek.example.org. Αφήστε το κενό για να παραχθεί από το APP_URL. Η μεταγενέστερη αλλαγή του ακυρώνει τα υπάρχοντα passkeys.',
+    'Ο σκέτος τομέας στον οποίο δεσμεύονται τα passkeys, π.χ. tripmate.example.org. Αφήστε το κενό για να παραχθεί από το APP_URL. Η μεταγενέστερη αλλαγή του ακυρώνει τα υπάρχοντα passkeys.',
   'admin.passkey.origins': 'Επιτρεπόμενες προελεύσεις',
   'admin.passkey.originsHint':
-    'Πλήρεις προελεύσεις χωρισμένες με κόμμα, π.χ. https://trek.example.org. Αφήστε το κενό για χρήση του APP_URL.',
+    'Πλήρεις προελεύσεις χωρισμένες με κόμμα, π.χ. https://tripmate.example.org. Αφήστε το κενό για χρήση του APP_URL.',
   'admin.passkey.reset': 'Επαναφορά passkeys',
   'admin.passkey.resetHint':
     'Αφαιρέστε όλα τα passkeys αυτού του χρήστη (π.χ. σε περίπτωση χαμένης συσκευής). Μπορούν ακόμη να συνδεθούν με τον κωδικό τους.',
@@ -825,7 +825,8 @@ const admin: TranslationStrings = {
   'admin.invite.tripHint': 'Ο νέος χρήστης προστίθεται αυτόματα σε αυτό το ταξίδι όταν εγγραφεί μέσω του συνδέσμου.',
   'admin.invite.boundTo': 'προσθήκη στο {trip}',
   'admin.placesUsageTitle': 'Σε τι χρησιμοποιείται το κλειδί',
-  'admin.mapsKeyHintShort': 'Προσθέτει φωτογραφίες, βαθμολογίες και ώρες λειτουργίας. Κάθε αναζήτηση πηγαίνει τότε στη Google.',
+  'admin.mapsKeyHintShort':
+    'Προσθέτει φωτογραφίες, βαθμολογίες και ώρες λειτουργίας. Κάθε αναζήτηση πηγαίνει τότε στη Google.',
   'admin.amapKeyHintShort': 'Για αναζήτηση τόπων στην ηπειρωτική Κίνα. Χρειάζεται κλειδί web service, όχι JS API.',
   'admin.collab.links.subtitle': 'Κοινόχρηστοι σύνδεσμοι και σελιδοδείκτες',
 };

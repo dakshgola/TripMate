@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpCode, HttpException, Param, Post, Req, UseGuards } from '@nestjs/common';
 import type { Request } from 'express';
-import type { MapsPlaceEnrichmentResult } from '@trek/shared';
+import type { MapsPlaceEnrichmentResult } from '@tripmate/shared';
 import type { User } from '../../types';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CurrentUser } from '../auth/current-user.decorator';

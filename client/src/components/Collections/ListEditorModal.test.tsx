@@ -2,7 +2,7 @@
 import React from 'react'
 import type { Mock } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '../../../tests/helpers/render'
-import type { Collection } from '@trek/shared'
+import type { Collection } from '@tripmate/shared'
 import { useCollectionStore } from '../../store/collectionStore'
 import { tripsApi } from '../../api/client'
 import { useTranslation } from '../../i18n/TranslationContext'

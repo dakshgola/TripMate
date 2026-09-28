@@ -258,7 +258,7 @@ describe('FilesRpc writes', () => {
       // The demo guard resolves the uploader's email; user 9 is the demo account.
       const db = {
         canAccessTrip: vi.fn(() => ({ id: 1, user_id: 42 })),
-        prepare: vi.fn(() => ({ get: (id: number) => (id === 9 ? { role: 'user', email: 'demo@trek.app' } : { role: 'user', email: 'real@example.test' }) })),
+        prepare: vi.fn(() => ({ get: (id: number) => (id === 9 ? { role: 'user', email: 'demo@tripmate.app' } : { role: 'user', email: 'real@example.test' }) })),
       } as unknown as DatabaseService;
       const guards = new PluginGuards(
         db,

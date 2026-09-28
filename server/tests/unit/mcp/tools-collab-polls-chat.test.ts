@@ -4,7 +4,7 @@
  * delete_collab_poll, list_collab_messages, send_collab_message,
  * delete_collab_message, react_collab_message (CollabMcp, DI-discovered —
  * attached via the nest-mcp registry inside registerTools).
- * Resources: trek://trips/{tripId}/collab/polls, trek://trips/{tripId}/collab/messages.
+ * Resources: tripmate://trips/{tripId}/collab/polls, tripmate://trips/{tripId}/collab/messages.
  */
 import { describe, it, expect, vi, beforeAll, beforeEach, afterAll } from 'vitest';
 
@@ -29,7 +29,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -483,12 +483,12 @@ describe('Tool: react_collab_message', () => {
 // Resources
 // ---------------------------------------------------------------------------
 
-describe('Resource: trek://trips/{tripId}/collab/polls', () => {
+describe('Resource: tripmate://trips/{tripId}/collab/polls', () => {
   it('returns polls list', async () => {
     const { user } = createUser(testDb);
     const trip = createTrip(testDb, user.id);
     await withResourceHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/collab/polls` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/collab/polls` });
       const data = parseResourceResult(result) as any;
       expect(Array.isArray(data)).toBe(true);
     });
@@ -499,19 +499,19 @@ describe('Resource: trek://trips/{tripId}/collab/polls', () => {
     const { user: other } = createUser(testDb);
     const trip = createTrip(testDb, other.id);
     await withResourceHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/collab/polls` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/collab/polls` });
       const data = parseResourceResult(result) as any;
       expect(data.error).toBeDefined();
     });
   });
 });
 
-describe('Resource: trek://trips/{tripId}/collab/messages', () => {
+describe('Resource: tripmate://trips/{tripId}/collab/messages', () => {
   it('returns messages list', async () => {
     const { user } = createUser(testDb);
     const trip = createTrip(testDb, user.id);
     await withResourceHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/collab/messages` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/collab/messages` });
       const data = parseResourceResult(result) as any;
       expect(Array.isArray(data)).toBe(true);
     });

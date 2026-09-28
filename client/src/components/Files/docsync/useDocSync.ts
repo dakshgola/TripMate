@@ -398,7 +398,7 @@ export function useDocSync(tripId: number | string, enabled: boolean) {
    * elsewhere a moment ago, or the server answered 403) put the button back
    * and left the row standing with nothing said.
    */
-  const resolveConflict = useCallback(async (itemId: number, keep: 'trek' | 'provider' | 'both') => {
+  const resolveConflict = useCallback(async (itemId: number, keep: 'tripmate' | 'provider' | 'both') => {
     setError(null)
     try {
       await docsyncApi.resolve(tripId, itemId, keep)

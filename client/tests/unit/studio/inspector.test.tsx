@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import type { BookDocument, BookElement, BookPageNumbers, BookPageSetup } from '@trek/shared'
+import type { BookDocument, BookElement, BookPageNumbers, BookPageSetup } from '@tripmate/shared'
 import {
   bookIconElementSchema, bookPageSetupSchema, bookPhotoElementSchema,
   bookShapeElementSchema, bookTextElementSchema,
-} from '@trek/shared'
+} from '@tripmate/shared'
 import { fireEvent, render } from '../../helpers/render'
 import { StudioInspector } from '../../../src/components/Studio/StudioInspector'
 import { useStudioStore } from '../../../src/store/studioStore'

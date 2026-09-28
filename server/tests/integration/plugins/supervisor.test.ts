@@ -69,12 +69,12 @@ function logMeta<T = Record<string, unknown>>(events: Array<{ topic: string; dat
 beforeAll(() => {
   codeRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'trekplug-code-'));
   dataRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'trekplug-pdata-'));
-  process.env.TREK_PLUGINS_DIR = codeRoot;
-  process.env.TREK_PLUGINS_DATA_DIR = dataRoot;
+  process.env.TRIPMATE_PLUGINS_DIR = codeRoot;
+  process.env.TRIPMATE_PLUGINS_DATA_DIR = dataRoot;
 });
 afterAll(async () => {
-  delete process.env.TREK_PLUGINS_DIR;
-  delete process.env.TREK_PLUGINS_DATA_DIR;
+  delete process.env.TRIPMATE_PLUGINS_DIR;
+  delete process.env.TRIPMATE_PLUGINS_DATA_DIR;
   fs.rmSync(codeRoot, { recursive: true, force: true });
   fs.rmSync(dataRoot, { recursive: true, force: true });
 });

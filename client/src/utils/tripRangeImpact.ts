@@ -1,4 +1,4 @@
-import type { DayGridPlan } from '@trek/shared'
+import type { DayGridPlan } from '@tripmate/shared'
 import type { Day } from '../types'
 import { contentOnDays, type DayContent, type DayContentData } from './dayDeleteImpact'
 

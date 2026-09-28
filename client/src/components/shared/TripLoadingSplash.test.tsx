@@ -41,11 +41,11 @@ describe('TripLoadingSplash', () => {
     expect(screen.getByText('Iceland 2026')).toBeInTheDocument()
   })
 
-  it('FE-W4TLS-002: falls back to the TREK wordmark without a title', () => {
+  it('FE-W4TLS-002: falls back to the Trip Mate wordmark without a title', () => {
     render(<TripLoadingSplash />)
 
-    expect(screen.getByRole('status')).toHaveAttribute('aria-label', 'TREK')
-    expect(screen.getByText('TREK')).toBeInTheDocument()
+    expect(screen.getByRole('status')).toHaveAttribute('aria-label', 'Trip Mate')
+    expect(screen.getByText('Trip Mate')).toBeInTheDocument()
   })
 
   it('FE-W4TLS-003: starts on the packing scene', () => {

@@ -6,7 +6,7 @@ import {
 } from '../../nest-mcp';
 import { McpToolGuardsService } from '../mcp-shared/mcp-tool-guards.service';
 import { z } from 'zod';
-import { assignmentEndDayRequestSchema, type AssignmentEndDayRequest } from '@trek/shared';
+import { assignmentEndDayRequestSchema, type AssignmentEndDayRequest } from '@tripmate/shared';
 import { AuthService } from '../auth/auth.service';
 import { noAccess, permissionDenied } from '../../mcp/tools/_shared';
 import { AssignmentsService } from './assignments.service';

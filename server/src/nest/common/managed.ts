@@ -3,14 +3,14 @@ import { RuntimeEnvService } from '../app-config/runtime-env.service';
 import { byCodeUnit } from './compare';
 
 /** Metadata key `@ManagedForbidden()` writes. */
-export const MANAGED_FORBIDDEN = 'trek:managed-forbidden';
+export const MANAGED_FORBIDDEN = 'tripmate:managed-forbidden';
 
 /**
  * The one 403 body a managed instance returns, shared by REST and MCP.
  *
  * Deliberately a single constant rather than a per-route message. DEMO_MODE grew
  * two texts for the same condition — 'Uploads are disabled in demo mode. Self-host
- * TREK for full functionality.' on REST and 'Write operations are disabled in demo
+ * Trip Mate for full functionality.' on REST and 'Write operations are disabled in demo
  * mode.' on MCP — and now neither can be changed without hunting for the other.
  *
  * It says who owns the setting and stops there. A caller learns that the value is

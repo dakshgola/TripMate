@@ -1,5 +1,5 @@
 /**
- * Reads the canonical locale and reports every line that calls TREK self-hosted.
+ * Reads the canonical locale and reports every line that calls Trip Mate self-hosted.
  *
  * Plain .mjs and outside `src/` for the same reason as i18n-parity.mjs next to
  * it: shared's typecheck runs with only shared's own dependencies installed
@@ -30,7 +30,7 @@ export const ALLOWED = [
   {
     key: 'settings.about.description',
     because:
-      'the self-description shown to somebody who set TREK up themselves, and it is ' +
+      'the self-description shown to somebody who set Trip Mate up themselves, and it is ' +
       'accurate for them. A centrally administered install renders ' +
       'settings.about.descriptionManaged instead, so neither reader is told the ' +
       'wrong thing and self-hosters lose nothing.',
@@ -38,7 +38,7 @@ export const ALLOWED = [
   {
     key: 'system_notice.release_notes.feature_dawarich_body',
     because:
-      'it calls Dawarich self-hosted, not TREK, which is what Dawarich is, and the ' +
+      'it calls Dawarich self-hosted, not Trip Mate, which is what Dawarich is, and the ' +
       'release notice carrying it is shown only where the managed condition is false',
   },
   {

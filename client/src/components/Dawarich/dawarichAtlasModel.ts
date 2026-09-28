@@ -1,4 +1,4 @@
-import type { DawarichAtlasCountry, DawarichBucketMatch } from '@trek/shared'
+import type { DawarichAtlasCountry, DawarichBucketMatch } from '@tripmate/shared'
 
 /**
  * Pure shaping for the Atlas dialog — no React, so the ordering, the naming and

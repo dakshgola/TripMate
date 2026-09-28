@@ -149,7 +149,7 @@ function StatCard({ stat: s, isMe, canEdit, selectedYear, isShiftedYear, onSave,
       </div>
       <div className="overflow-hidden" style={{ height: 6, borderRadius: 99, background: 'var(--vg-surf2)', marginBottom: 7 }}>
         <div
-          className="trek-bar-fill h-full rounded-full transition-[width] duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]"
+          className="tripmate-bar-fill h-full rounded-full transition-[width] duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]"
           style={{ width: `${pct}%`, backgroundColor: s.person_color }}
         />
       </div>

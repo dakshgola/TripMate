@@ -5,7 +5,7 @@ import {
   demoDenied, errorResult, ok,
 } from '../../nest-mcp';
 import { z } from 'zod';
-import { createCategoryRequestSchema, updateCategoryRequestSchema } from '@trek/shared';
+import { createCategoryRequestSchema, updateCategoryRequestSchema } from '@tripmate/shared';
 import { DatabaseService } from '../database/database.service';
 import { RuntimeEnvService } from '../app-config/runtime-env.service';
 import { isDemoUserId } from '../common/demo-write';
@@ -17,7 +17,7 @@ import { CategoriesService } from './categories.service';
  * Categories MCP surface — ported 1:1 from the legacy registrars: the
  * list_categories tool from src/mcp/tools/places.ts (identical name,
  * description, annotations and places-read gating via the declarative access
- * marker + trekMcpAccessPolicy) and the trek://categories resource from
+ * marker + trekMcpAccessPolicy) and the tripmate://categories resource from
  * src/mcp/resources.ts (first production @Resource; intentionally ungated —
  * the legacy registration was unconditional, safe for any authenticated
  * session — and the payload reproduces the legacy jsonContent shape verbatim).
@@ -25,7 +25,7 @@ import { CategoriesService } from './categories.service';
  * The three write tools mirror POST/PUT/DELETE /api/categories, which sit
  * behind JwtAuthGuard + AdminGuard: the palette is instance-wide, not
  * trip-scoped, so there is no trip to check access against and the admin role
- * is the whole gate. Bodies reuse the same @trek/shared contracts the
+ * is the whole gate. Bodies reuse the same @tripmate/shared contracts the
  * controller's DTOs wrap, so `color` stays hex-only on both surfaces (it is
  * interpolated into a style="…" attribute of hand-built marker HTML).
  */
@@ -113,7 +113,7 @@ export class CategoriesMcp {
 
   @Resource({
     name: 'categories',
-    uri: 'trek://categories',
+    uri: 'tripmate://categories',
     description: 'All available place categories (id, name, color, icon) for use when creating places',
     mimeType: 'application/json',
   })

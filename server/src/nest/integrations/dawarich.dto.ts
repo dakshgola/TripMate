@@ -1,5 +1,5 @@
 /**
- * Server-side createZodDto wrappers over the @trek/shared Dawarich contracts,
+ * Server-side createZodDto wrappers over the @tripmate/shared Dawarich contracts,
  * so the global ZodValidationPipe (APP_PIPE) validates bodies by metatype —
  * the shared Zod schemas stay the single source of truth.
  */
@@ -10,7 +10,7 @@ import {
   dawarichBucketConfirmSchema,
   dawarichSettingsSchema,
   dawarichSuggestionStateSchemaBody,
-} from '@trek/shared';
+} from '@tripmate/shared';
 
 export class DawarichSettingsDto extends createZodDto(dawarichSettingsSchema) {}
 export class DawarichAcceptDto extends createZodDto(dawarichAcceptSchema) {}

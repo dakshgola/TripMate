@@ -30,7 +30,7 @@ const trip: TranslationStrings = {
   'trip.toast.placesDeleted': '{count} llocs eliminats',
   'trip.invite.linkTitle': "Enllaç d'invitació al viatge",
   'trip.invite.linkHint':
-    "Qualsevol persona amb un compte de TREK que obri aquest enllaç s'unirà al viatge com a membre. Torna'l a generar si vols invalidar l'enllaç antic.",
+    "Qualsevol persona amb un compte de Trip Mate que obri aquest enllaç s'unirà al viatge com a membre. Torna'l a generar si vols invalidar l'enllaç antic.",
   'trip.invite.create': "Crear enllaç d'invitació",
   'trip.invite.regenerate': 'Tornar a generar',
   'trip.invite.disable': 'Desactivar',
@@ -60,7 +60,7 @@ const trip: TranslationStrings = {
   'transit.search': 'Cercar',
   'transit.searching': 'Cercant…',
   'transit.searchError': 'Ha fallat la cerca de la ruta. Torna-ho a provar.',
-  'transit.noResultsVia': 'No s\'ha trobat cap connexió mitjançant {provider}. Prova una altra hora o altres filtres.',
+  'transit.noResultsVia': "No s'ha trobat cap connexió mitjançant {provider}. Prova una altra hora o altres filtres.",
   'transit.noResults': "No s'han trobat connexions. Prova amb un altre horari o filtres.",
   'transit.direct': 'Directe',
   'transit.transfers': '{count} transbords',

@@ -9,13 +9,13 @@ import { safeExternalHref } from '../../utils/safeUrl'
 import { STOP_KINDS, STOP_KIND_BY_KEY } from './stopKinds'
 import { StopKindChips, StopStayChips } from './StopChips'
 import type { CorridorPoi } from './useCorridorPois'
-import type { RoadtripStopType } from '@trek/shared'
+import type { RoadtripStopType } from '@tripmate/shared'
 
 /**
  * The four kinds of stop, with the icon and colour they already carry in the corridor
  * search, and how long each one usually takes.
  *
- * Deliberately not TREK's place categories: those are the traveller's own editable list,
+ * Deliberately not Trip Mate's place categories: those are the traveller's own editable list,
  * shared across the whole instance. Refuelling is not a taste, it is a fact about the
  * place, so it lives in `places.stop_type` and keeps the palette the search gave it.
  *

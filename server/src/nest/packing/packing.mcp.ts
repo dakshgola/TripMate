@@ -17,7 +17,7 @@ import {
   packingUpdateBagRequestSchema,
   packingUpdateItemRequestSchema,
   type PackingVisibility,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import { addonGate } from '../addons/addon-gate';
 import { AddonsService } from '../addons/addons.service';
 
@@ -31,8 +31,8 @@ function parseId(value: string | string[]): number | null {
 
 /**
  * Packing MCP surface — ported from the legacy registrars: the seventeen
- * tools from src/mcp/tools/packing.ts and the trek://trips/{tripId}/packing +
- * trek://trips/{tripId}/packing/bags resources from src/mcp/resources.ts
+ * tools from src/mcp/tools/packing.ts and the tripmate://trips/{tripId}/packing +
+ * tripmate://trips/{tripId}/packing/bags resources from src/mcp/resources.ts
  * (identical names, descriptions, schemas, annotations and error/payload
  * shapes; the one deviation is the packing:bag-deleted payload, aligned with
  * the REST route). The registration-time gates map to `when` (the
@@ -543,7 +543,7 @@ export class PackingMcp {
 
   @ResourceTemplate({
     name: 'trip-packing',
-    uriTemplate: 'trek://trips/{tripId}/packing',
+    uriTemplate: 'tripmate://trips/{tripId}/packing',
     description: 'Packing checklist for a trip',
     mimeType: 'application/json',
     when: packingAddonOn,
@@ -573,7 +573,7 @@ export class PackingMcp {
 
   @ResourceTemplate({
     name: 'trip-packing-bags',
-    uriTemplate: 'trek://trips/{tripId}/packing/bags',
+    uriTemplate: 'tripmate://trips/{tripId}/packing/bags',
     description: 'All packing bags for a trip with their members',
     mimeType: 'application/json',
     when: packingAddonOn,

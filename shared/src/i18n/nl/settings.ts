@@ -26,10 +26,11 @@ const settings: TranslationStrings = {
   'settings.mapTemplatePlaceholder.select': 'Selecteer sjabloon...',
   'settings.mapDefaultHint': 'Laat leeg voor OpenStreetMap (standaard)',
   'settings.routingBase': 'Eigen routeserver',
-  'settings.routingBaseHint': 'Een eigen OSRM-server. Leeg gebruikt de publieke servers, die ongeveer één verzoek per seconde toestaan — genoeg voor een dag, krap voor een roadtrip. Werkt na een herstart van de server.',
+  'settings.routingBaseHint':
+    'Een eigen OSRM-server. Leeg gebruikt de publieke servers, die ongeveer één verzoek per seconde toestaan — genoeg voor een dag, krap voor een roadtrip. Werkt na een herstart van de server.',
   'settings.valhallaBase': 'Eigen Valhalla-instantie',
   'settings.valhallaBaseHint':
-    'TREK gebruikt standaard de publieke Valhalla van FOSSGIS om tolwegen, snelwegen en veerboten te vermijden. Vul hier de URL van je eigen Valhalla in om die te gebruiken. Als alleen een eigen routeringsinstantie is ingesteld, wordt de publieke Valhalla niet gebruikt. Herstart na het invoeren van een eigen URL de server en laad de pagina opnieuw.',
+    'Trip Mate gebruikt standaard de publieke Valhalla van FOSSGIS om tolwegen, snelwegen en veerboten te vermijden. Vul hier de URL van je eigen Valhalla in om die te gebruiken. Als alleen een eigen routeringsinstantie is ingesteld, wordt de publieke Valhalla niet gebruikt. Herstart na het invoeren van een eigen URL de server en laad de pagina opnieuw.',
   'settings.mapHint': 'URL-sjabloon voor kaarttegels',
   'settings.mapProvider': 'Kaartprovider',
   'settings.mapProviderHint': 'Geldt voor Trip Planner en Journey kaarten. Atlas gebruikt altijd Leaflet.',
@@ -44,7 +45,7 @@ const settings: TranslationStrings = {
   'settings.mapCartoKeyHint': 'CARTO-basiskaarten tonen zonder sleutel een watermerk. Gratis en zonder account, via',
   'settings.mapCartoKeyLink': 'carto.com basemap API-sleutel',
   'settings.mapCartoKeyMissing':
-    'Deze sjabloon is een CARTO-basiskaart. Zonder sleutel drukt CARTO "API KEY REQUIRED" op elke tegel. Zolang er geen sleutel is, toont TREK de standaardbasiskaart.',
+    'Deze sjabloon is een CARTO-basiskaart. Zonder sleutel drukt CARTO "API KEY REQUIRED" op elke tegel. Zolang er geen sleutel is, toont Trip Mate de standaardbasiskaart.',
   'settings.mapStyle': 'Kaartstijl',
   'settings.mapStylePlaceholder': 'Kies een Mapbox-stijl',
   'settings.mapStyleHint': 'Preset of eigen mapbox://styles/USER/ID URL',
@@ -197,13 +198,13 @@ const settings: TranslationStrings = {
   'settings.about.featureRequestHint': 'Stel een nieuwe functie voor',
   'settings.about.wikiHint': 'Documentatie en handleidingen',
   'settings.about.descriptionManaged':
-    'TREK helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
+    'Trip Mate helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
   'settings.about.sourceTitle': 'Source code',
-  'settings.about.sourceHint': 'TREK is open source, licensed AGPL-3.0',
+  'settings.about.sourceHint': 'Trip Mate is open source, licensed AGPL-3.0',
   'settings.about.supporters.badge': 'Maandelijkse Steuners',
-  'settings.about.supporters.title': 'Reisgezelschap voor TREK',
+  'settings.about.supporters.title': 'Reisgezelschap voor Trip Mate',
   'settings.about.supporters.subtitle':
-    'Terwijl jij je volgende route plant, plannen deze mensen mee aan de toekomst van TREK. Hun maandelijkse bijdrage gaat rechtstreeks naar ontwikkeling en echte uren — zodat TREK Open Source blijft.',
+    'Terwijl jij je volgende route plant, plannen deze mensen mee aan de toekomst van Trip Mate. Hun maandelijkse bijdrage gaat rechtstreeks naar ontwikkeling en echte uren — zodat Trip Mate Open Source blijft.',
   'settings.about.supporters.since': 'steuner sinds {date}',
   'settings.about.supporters.tierEmpty': 'Wees de eerste',
   'settings.about.supporter.tier.noReturnTicket': 'No Return Ticket',
@@ -212,7 +213,7 @@ const settings: TranslationStrings = {
   'settings.about.supporter.tier.budgetTraveller': 'Budget Traveller',
   'settings.about.supporter.tier.hostelBunkmate': 'Hostel Bunkmate',
   'settings.about.description':
-    "TREK is een zelf-gehoste reisplanner die je helpt je reizen te organiseren van het eerste idee tot de laatste herinnering. Dagplanning, budget, paklijsten, foto's en nog veel meer — alles op één plek, op je eigen server.",
+    "Trip Mate is een zelf-gehoste reisplanner die je helpt je reizen te organiseren van het eerste idee tot de laatste herinnering. Dagplanning, budget, paklijsten, foto's en nog veel meer — alles op één plek, op je eigen server.",
   'settings.about.madeWith': 'Gemaakt met',
   'settings.about.madeBy': 'door Maurice en een groeiende open-source community.',
   'settings.username': 'Gebruikersnaam',
@@ -294,7 +295,7 @@ const settings: TranslationStrings = {
   'settings.webhookUrl.testSuccess': 'Test-webhook succesvol verzonden',
   'settings.webhookUrl.testFailed': 'Test-webhook mislukt',
   'settings.ntfyUrl.topicLabel': 'Ntfy-onderwerp',
-  'settings.ntfyUrl.topicPlaceholder': 'my-trek-alerts',
+  'settings.ntfyUrl.topicPlaceholder': 'my-tripmate-alerts',
   'settings.ntfyUrl.serverLabel': 'Ntfy-server-URL (optioneel)',
   'settings.ntfyUrl.serverPlaceholder': 'https://ntfy.sh',
   'settings.ntfyUrl.hint':
@@ -360,7 +361,7 @@ const settings: TranslationStrings = {
   'settings.airtrail.allowInsecureTlsHint': 'Schakel dit alleen in voor een vertrouwde instantie op je eigen netwerk.',
   'settings.airtrail.writeBack': 'Wijzigingen terugschrijven naar AirTrail',
   'settings.airtrail.writeBackHint':
-    'Standaard uit: AirTrail is de bron van waarheid en TREK leest er alleen uit. Schakel in om in TREK gemaakte wijzigingen terug te sturen naar AirTrail.',
+    'Standaard uit: AirTrail is de bron van waarheid en Trip Mate leest er alleen uit. Schakel in om in Trip Mate gemaakte wijzigingen terug te sturen naar AirTrail.',
   'settings.airtrail.connected': 'Verbonden',
   'settings.airtrail.notConnected': 'Niet verbonden',
   'settings.airtrail.toast.saved': 'AirTrail-verbinding opgeslagen',
@@ -473,7 +474,7 @@ const settings: TranslationStrings = {
   'settings.startPageDashboard': 'Dashboard',
   'settings.startPageActiveTrip': 'Actieve reis',
   'settings.startPageHint':
-    'TREK opent direct de reis die nu loopt, of anders de eerstvolgende. Dat is dezelfde reis die het dashboard uitlicht.',
+    'Trip Mate opent direct de reis die nu loopt, of anders de eerstvolgende. Dat is dezelfde reis die het dashboard uitlicht.',
   'settings.startTripTab': 'Starttabblad',
   'settings.startTripTabHint':
     'Het tabblad waarmee de reis opent. Hoort het bij een uitgeschakelde add-on, dan opent het plan in plaats daarvan.',
@@ -510,8 +511,10 @@ const settings: TranslationStrings = {
   'settings.offline.notice.busy': 'Er loopt al een synchronisatie. Probeer het zo opnieuw.',
   'settings.offline.notice.offline': 'Geen verbinding. Maak verbinding om reizen offline op te slaan.',
   'settings.offline.notice.signedOut': 'Je sessie is verlopen. Meld je opnieuw aan om te synchroniseren.',
-  'settings.offline.notice.failed': 'De download kon niet worden voltooid. Controleer je verbinding en probeer het opnieuw.',
-  'settings.offline.notice.loadFailed': 'Kan de offlineopslag van dit apparaat niet lezen. De cache wissen helpt meestal.',
+  'settings.offline.notice.failed':
+    'De download kon niet worden voltooid. Controleer je verbinding en probeer het opnieuw.',
+  'settings.offline.notice.loadFailed':
+    'Kan de offlineopslag van dit apparaat niet lezen. De cache wissen helpt meestal.',
   'settings.offline.clear': 'Cache wissen',
   'settings.offline.clearConfirm':
     'Alle offline reisgegevens wissen? Je kunt altijd opnieuw synchroniseren wanneer je online bent.',
@@ -570,13 +573,15 @@ const settings: TranslationStrings = {
   'settings.apiScopes.bucket-list': 'Wensenlijst',
   'settings.apiScopes.stats': 'Totalen',
   'settings.apiKeys.title': 'API-sleutels',
-  'settings.apiKeys.description': 'Sleutels voor de publieke API, zodat andere software je reizen kan lezen. Alleen-lezen: een sleutel kan niets wijzigen of verwijderen.',
+  'settings.apiKeys.description':
+    'Sleutels voor de publieke API, zodat andere software je reizen kan lezen. Alleen-lezen: een sleutel kan niets wijzigen of verwijderen.',
   'settings.apiKeys.create': 'Sleutel aanmaken',
   'settings.apiKeys.empty': 'Nog geen sleutels. Maak er een om andere software te koppelen.',
   'settings.apiKeys.createdAt': 'aangemaakt',
   'settings.apiKeys.usedAt': 'laatst gebruikt',
   'settings.apiKeys.deleteTitle': 'Sleutel verwijderen',
-  'settings.apiKeys.deleteMessage': 'Alles wat deze sleutel gebruikt, stopt direct met werken. Dit kan niet ongedaan worden gemaakt.',
+  'settings.apiKeys.deleteMessage':
+    'Alles wat deze sleutel gebruikt, stopt direct met werken. Dit kan niet ongedaan worden gemaakt.',
   'settings.apiKeys.deleted': 'Sleutel verwijderd',
   'settings.apiKeys.deleteFailed': 'Sleutel kon niet worden verwijderd',
   'settings.apiKeys.createFailed': 'Sleutel kon niet worden aangemaakt',
@@ -584,8 +589,10 @@ const settings: TranslationStrings = {
   'settings.apiKeys.docsHint': 'Stuur de sleutel als "Authorization: Bearer ..." of "X-API-Key: ..." naar /api/v1.',
   'settings.apiKeys.endpoint': 'Eindpunt',
   'settings.apiKeys.neverUsed': 'nooit gebruikt',
-  'settings.apiKeys.loadFailed': 'Je sleutels konden niet worden geladen. Herlaad de pagina om het opnieuw te proberen.',
-  'settings.apiKeys.limitReached': 'Je hebt {max} sleutels, het maximum per account. Verwijder er een die je niet meer gebruikt om een nieuwe te maken.',
+  'settings.apiKeys.loadFailed':
+    'Je sleutels konden niet worden geladen. Herlaad de pagina om het opnieuw te proberen.',
+  'settings.apiKeys.limitReached':
+    'Je hebt {max} sleutels, het maximum per account. Verwijder er een die je niet meer gebruikt om een nieuwe te maken.',
   'settings.apiKeys.copyFailed': 'Kopiëren is mislukt. Selecteer de tekst en kopieer hem handmatig.',
   'settings.apiKeys.modal.createTitle': 'API-sleutel aanmaken',
   'settings.apiKeys.modal.name': 'Naam',
@@ -594,7 +601,8 @@ const settings: TranslationStrings = {
   'settings.apiKeys.modal.creating': 'Aanmaken...',
   'settings.apiKeys.modal.create': 'Aanmaken',
   'settings.apiKeys.modal.createdTitle': 'API-sleutel aangemaakt',
-  'settings.apiKeys.modal.createdWarning': 'Kopieer de sleutel nu. Hij wordt één keer getoond en kan later niet worden opgehaald.',
+  'settings.apiKeys.modal.createdWarning':
+    'Kopieer de sleutel nu. Hij wordt één keer getoond en kan later niet worden opgehaald.',
   'settings.apiKeys.modal.done': 'Klaar',
 };
 

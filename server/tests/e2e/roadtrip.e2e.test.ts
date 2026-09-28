@@ -14,7 +14,7 @@ import { ChargingService } from '../../src/nest/roadtrip/charging.service';
  * The addon ships disabled, so "off" is the state an existing install upgrades
  * into. That is what makes it worth a test rather than a comment.
  */
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 import { DatabaseModule } from '../../src/nest/database/database.module';
 import { PermissionsService } from '../../src/nest/permissions/permissions.service';

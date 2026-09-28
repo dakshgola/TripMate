@@ -4,11 +4,11 @@ import type { ActivePlugin } from '../../store/pluginStore'
 
 /**
  * Renders active `widget` plugins as dashboard cards (#plugins, M8). Each is a
- * sandboxed PluginFrame; the widget talks to TREK only over the bridge.
+ * sandboxed PluginFrame; the widget talks to Trip Mate only over the bridge.
  *
  * The card mirrors the native dashboard tools (glassy `.tool` surface + uppercase
  * title) so plugins sit alongside them seamlessly, and the body auto-sizes to the
- * height the widget reports over trek:resize — no fixed height that would clip a
+ * height the widget reports over tripmate:resize — no fixed height that would clip a
  * taller widget's controls.
  */
 export default function PluginWidgets({ plugins, tripId = null }: { plugins: ActivePlugin[]; tripId?: string | null }) {
@@ -19,7 +19,7 @@ export default function PluginWidgets({ plugins, tripId = null }: { plugins: Act
         <div
           key={p.id}
           // The glass vocabulary (--glass-*, --r-xl, --ink-3) is scoped to
-          // .trek-dash. The phone dashboard is a different route and mounts these
+          // .tripmate-dash. The phone dashboard is a different route and mounts these
           // widgets outside that subtree, so every one of those resolved empty and
           // the card lost its background, border, shadow and blur — a bare title
           // over the gradient. Each now falls back to a mobile token, which is
@@ -44,7 +44,7 @@ export default function PluginWidgets({ plugins, tripId = null }: { plugins: Act
             <PluginIcon name={p.icon} size={14} style={{ flexShrink: 0 }} />
             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name}</span>
           </div>
-          {/* min-height is just a pre-resize floor; trek:resize drives the real height. */}
+          {/* min-height is just a pre-resize floor; tripmate:resize drives the real height. */}
           <div style={{ minHeight: 60 }}>
             <PluginFrame pluginId={p.id} tripId={tripId} title={p.name} surface="dashboard-widget" />
           </div>

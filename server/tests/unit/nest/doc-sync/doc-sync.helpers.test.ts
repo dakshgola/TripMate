@@ -15,7 +15,7 @@ import type { RemoteDocument } from '../../../../src/nest/doc-sync/document-prov
  * The planner decides everything that matters about two-way sync, and it does
  * it without a database, a container or a network. That is the point of having
  * it: the cases that are painful to reproduce against a live provider (an
- * unmounted share, a rename with no stable id, TREK's own write echoing back)
+ * unmounted share, a rename with no stable id, Trip Mate's own write echoing back)
  * are cheap to state here as data.
  */
 
@@ -80,7 +80,7 @@ describe('planReconcile', () => {
     expect(p.actions).toEqual([{ kind: 'pull', remote: remote(), itemId: null }]);
   });
 
-  it('pushes a document that only exists in TREK', () => {
+  it('pushes a document that only exists in Trip Mate', () => {
     const p = plan({ local: [local()] });
     expect(p.actions).toEqual([{ kind: 'push', local: local(), itemId: null, remoteId: null }]);
   });
@@ -95,7 +95,7 @@ describe('planReconcile', () => {
     expect(p.actions[0].kind).toBe('pull_update');
   });
 
-  it('pushes an update when only TREK moved on', () => {
+  it('pushes an update when only Trip Mate moved on', () => {
     const p = plan({ items: [item()], remote: [remote()], local: [local({ sha256: 'bbb' })] });
     expect(p.actions[0]).toMatchObject({ kind: 'push_update', remoteId: 'r1' });
   });
@@ -110,12 +110,12 @@ describe('planReconcile', () => {
   });
 
   /**
-   * The echo guard. A provider reports TREK's own upload as a change, and
+   * The echo guard. A provider reports Trip Mate's own upload as a change, and
    * without this the file would be pulled back down, re-uploaded, and bounce
    * forever. It compares content rather than timestamps on purpose: a time
-   * window misfires on any clock skew between TREK and a NAS.
+   * window misfires on any clock skew between Trip Mate and a NAS.
    */
-  it('treats a change whose content matches TREK\'s own push as no change', () => {
+  it('treats a change whose content matches Trip Mate\'s own push as no change', () => {
     const p = plan({
       items: [item({ pushedSha256: 'aaa' })],
       remote: [remote({ remoteVersion: 'v2', contentHash: 'aaa' })],
@@ -205,11 +205,11 @@ describe('planReconcile', () => {
 
   /**
    * Which side renamed is decided against the name both sides last agreed on.
-   * Reading a `both` binding as "TREK always wins" renamed the provider's copy
+   * Reading a `both` binding as "Trip Mate always wins" renamed the provider's copy
    * back every time somebody tidied a folder, which is the opposite of what a
    * two-way sync is for.
    */
-  it('renames at the provider when TREK is the side that renamed', () => {
+  it('renames at the provider when Trip Mate is the side that renamed', () => {
     const p = plan({
       items: [item({ remoteName: 'old.pdf' })],
       remote: [remote({ name: 'old.pdf' })],
@@ -218,7 +218,7 @@ describe('planReconcile', () => {
     expect(p.actions[0]).toMatchObject({ kind: 'rename_remote', name: 'new.pdf' });
   });
 
-  it('renames in TREK when the provider is the side that renamed', () => {
+  it('renames in Trip Mate when the provider is the side that renamed', () => {
     const p = plan({
       items: [item({ remoteName: 'old.pdf' })],
       remote: [remote({ name: 'new-upstream.pdf' })],
@@ -240,7 +240,7 @@ describe('planReconcile', () => {
     expect(p.actions.map((a) => a.kind)).toEqual(['pull_update']);
   });
 
-  it('lets TREK win when the binding says so', () => {
+  it('lets Trip Mate win when the binding says so', () => {
     const p = plan({
       conflictPolicy: 'trek_wins',
       items: [item({ contentSha256: 'old', remoteVersion: 'v1' })],
@@ -251,7 +251,7 @@ describe('planReconcile', () => {
   });
 
   it('will not resolve a conflict by doing what the direction forbids', () => {
-    // A pull-only binding cannot push, so "TREK wins" cannot mean "upload it".
+    // A pull-only binding cannot push, so "Trip Mate wins" cannot mean "upload it".
     // Parking is the honest answer; the alternative is silently doing the
     // opposite of one of the two settings.
     const p = plan({
@@ -333,7 +333,7 @@ describe('sanitizeIncomingName', () => {
 });
 
 describe('isBlockedName', () => {
-  it('blocks the extensions TREK serves inline', () => {
+  it('blocks the extensions Trip Mate serves inline', () => {
     // A download is served with a Content-Type derived from the extension, so
     // these would be stored XSS if a provider folder could introduce them.
     expect(isBlockedName('map.svg')).toBe(true);
@@ -491,7 +491,7 @@ describe('planReconcile > upstream reported as unchanged', () => {
     expect(p.actions.map(a => a.kind)).not.toContain('mark_remote_missing');
   });
 
-  it('still pushes a document TREK gained in the meantime', () => {
+  it('still pushes a document Trip Mate gained in the meantime', () => {
     const p = plan({
       items: [],
       remote: [],
@@ -501,7 +501,7 @@ describe('planReconcile > upstream reported as unchanged', () => {
     expect(p.actions).toEqual([{ kind: 'push', local: expect.objectContaining({ fileId: 7 }), itemId: null, remoteId: null }]);
   });
 
-  it('still reports a document TREK deleted in the meantime', () => {
+  it('still reports a document Trip Mate deleted in the meantime', () => {
     const p = plan({
       items: [item({ id: 5, fileId: 3, remoteId: 'r3' })],
       remote: [],
@@ -556,7 +556,7 @@ describe('planReconcile > upstream reported as unchanged', () => {
  * in the planner ever planned a second attempt, so the document never arrived,
  * the attempt counter never grew past one, and "Sync now" produced the same
  * plan. The asymmetry was visible in these tests: a failed PUSH was covered,
- * because the TREK-only branch re-plans it; a failed PULL was not.
+ * because the Trip Mate-only branch re-plans it; a failed PULL was not.
  */
 describe('planReconcile > a pairing whose download never landed', () => {
   const failedPull = (over: Partial<SyncItemState> = {}) =>
@@ -631,12 +631,12 @@ describe('planReconcile > a pairing whose download never landed', () => {
 /**
  * Names are compared through the same sanitiser the local one went through.
  *
- * A provider name TREK had to clean up (a slash, a control character, a
- * leading dot) otherwise reads as "TREK renamed this document" on the very
+ * A provider name Trip Mate had to clean up (a slash, a control character, a
+ * leading dot) otherwise reads as "Trip Mate renamed this document" on the very
  * next run, and the provider's copy is renamed to the cleaned version without
  * anybody asking for it.
  */
-describe('planReconcile > a provider name TREK had to clean up', () => {
+describe('planReconcile > a provider name Trip Mate had to clean up', () => {
   it('does not read the cleaning as a local rename', () => {
     const p = plan({
       items: [item({ remoteName: 'a/b.pdf', contentSha256: 'aaa' })],
@@ -655,9 +655,9 @@ describe('planReconcile > a provider name TREK had to clean up', () => {
     expect(p.actions.map(a => a.kind)).toEqual(['rename_local']);
   });
 
-  it('takes a new name into TREK the way a download would have written it, so it stays', () => {
+  it('takes a new name into Trip Mate the way a download would have written it, so it stays', () => {
     // Taken over raw, the next run compared the cleaned provider name with the
-    // raw one in TREK, read the difference as a rename made in TREK, and sent
+    // raw one in Trip Mate, read the difference as a rename made in Trip Mate, and sent
     // the name back upstream: a Paperless title with a colon, renamed to itself.
     const renamed = remote({ remoteId: 'r1', name: 'Hotel: Kyoto.pdf', remoteVersion: 'v1' });
     const first = plan({
@@ -677,20 +677,20 @@ describe('planReconcile > a provider name TREK had to clean up', () => {
 });
 
 /**
- * TREK's own name with a character the cleaning replaces.
+ * Trip Mate's own name with a character the cleaning replaces.
  *
  * An upload keeps the name the browser sent, and on Linux and macOS that may
  * be `Zugticket 08:15.pdf`. A push stores it as the agreed name, and the next
- * run compared the raw TREK name with the cleaned agreed name, which never
+ * run compared the raw Trip Mate name with the cleaned agreed name, which never
  * match: Paperless was sent the same title on every run, and on Nextcloud,
  * which cleans the colon its own way, the row sat in a conflict that "keep
- * TREK" could never settle, because the three names came out the same again.
+ * Trip Mate" could never settle, because the three names came out the same again.
  */
-describe('planReconcile > a TREK name the cleaning would change', () => {
+describe('planReconcile > a Trip Mate name the cleaning would change', () => {
   const pushed = item({ remoteName: 'Zugticket 08:15.pdf', contentSha256: 'aaa', pushedSha256: 'aaa' });
   const mine = local({ fileId: 1, name: 'Zugticket 08:15.pdf' });
 
-  it('does not read the cleaning as a rename made in TREK', () => {
+  it('does not read the cleaning as a rename made in Trip Mate', () => {
     // Paperless keeps the title as it was sent, so the listing carries the colon.
     const p = plan({ items: [pushed], remote: [remote({ name: 'Zugticket 08:15.pdf' })], local: [mine] });
     expect(p.actions.map(a => a.kind)).toEqual(['touch']);
@@ -715,7 +715,7 @@ describe('planReconcile > a TREK name the cleaning would change', () => {
     expect(p.actions.map(a => a.kind)).toEqual(['touch']);
   });
 
-  it('still sends a real rename made in TREK', () => {
+  it('still sends a real rename made in Trip Mate', () => {
     const p = plan({ items: [pushed], remote: [remote({ name: 'Zugticket 08:15.pdf' })], local: [local({ fileId: 1, name: 'Zugticket 09:15.pdf' })] });
     expect(p.actions).toEqual([{ kind: 'rename_remote', itemId: 10, remoteId: 'r1', name: 'Zugticket 09:15.pdf' }]);
   });
@@ -726,7 +726,7 @@ describe('planReconcile > a TREK name the cleaning would change', () => {
  *
  * It bounced. The upstream-only loop re-paired the renamed copy with a `touch`,
  * and `touch` wrote the provider's new name into the rename arbiter while the
- * trip file kept the old one: the next run read that as a rename made in TREK
+ * trip file kept the old one: the next run read that as a rename made in Trip Mate
  * and renamed the provider's copy back. The same run had flagged the pairing
  * missing too, because the vanished list was drawn up before the re-pairing.
  * Observed: run 1 [touch b.pdf, mark_remote_missing], run 2 [rename_remote a.pdf].
@@ -734,20 +734,20 @@ describe('planReconcile > a TREK name the cleaning would change', () => {
 describe('planReconcile > a rename upstream where the id is the path', () => {
   const at = '2026-09-18T10:00:00Z';
   const paired = (over: Partial<SyncItemState> = {}) => item({
-    remoteId: '/trek/a.pdf', remoteVersion: 'va', remoteName: 'a.pdf', contentSha256: 'hash-a',
+    remoteId: '/tripmate/a.pdf', remoteVersion: 'va', remoteName: 'a.pdf', contentSha256: 'hash-a',
     remoteSize: 1024, remoteModifiedAt: at, ...over,
   });
   const listed = (over: Partial<RemoteDocument> = {}) => remote({
-    remoteId: '/trek/b.pdf', name: 'b.pdf', remoteVersion: 'vb', contentHash: 'hash-a',
+    remoteId: '/tripmate/b.pdf', name: 'b.pdf', remoteVersion: 'vb', contentHash: 'hash-a',
     size: 1024, remoteModifiedAt: at, ...over,
   });
-  // No local hash, as in production: TREK has no way to change a file's bytes,
+  // No local hash, as in production: Trip Mate has no way to change a file's bytes,
   // so the service never reports one (see loadLocalDocuments).
   const file = (over: Partial<LocalDocument> = {}) => local({ name: 'a.pdf', sha256: null, ...over });
   const pathIds = (over: Partial<Parameters<typeof planReconcile>[0]> = {}) => plan({ stableRemoteIds: false, ...over });
   const kinds = (p: ReturnType<typeof plan>) => p.actions.map(a => a.kind);
 
-  it('takes the new name into TREK and leaves it there on the next run', () => {
+  it('takes the new name into Trip Mate and leaves it there on the next run', () => {
     const first = pathIds({ items: [paired()], remote: [listed()], local: [file()] });
     expect(first.actions).toEqual([
       { kind: 'relocate', itemId: 10, remote: listed() },
@@ -757,7 +757,7 @@ describe('planReconcile > a rename upstream where the id is the path', () => {
     // What the executor leaves behind: the pairing on the new path, the agreed
     // name moved on by rename_local, the trip file renamed.
     const second = pathIds({
-      items: [paired({ remoteId: '/trek/b.pdf', remoteVersion: 'vb', remoteName: 'b.pdf' })],
+      items: [paired({ remoteId: '/tripmate/b.pdf', remoteVersion: 'vb', remoteName: 'b.pdf' })],
       remote: [listed()],
       local: [file({ name: 'b.pdf' })],
     });
@@ -767,7 +767,7 @@ describe('planReconcile > a rename upstream where the id is the path', () => {
   it('ends the way it ends where ids are stable, apart from moving the pairing', () => {
     const pathKeyed = pathIds({ items: [paired()], remote: [listed()], local: [file()] });
     const stable = plan({
-      items: [paired({ remoteId: '/trek/b.pdf', remoteVersion: 'vb' })],
+      items: [paired({ remoteId: '/tripmate/b.pdf', remoteVersion: 'vb' })],
       remote: [listed()],
       local: [file()],
     });
@@ -782,11 +782,11 @@ describe('planReconcile > a rename upstream where the id is the path', () => {
 
   it('does not read a whole folder moved in one go as a mass deletion', () => {
     const rows = Array.from({ length: 10 }, (_, i) => paired({
-      id: 100 + i, fileId: 100 + i, remoteId: `/trek/${i}.pdf`, remoteName: `${i}.pdf`, contentSha256: `hash-${i}`,
+      id: 100 + i, fileId: 100 + i, remoteId: `/tripmate/${i}.pdf`, remoteName: `${i}.pdf`, contentSha256: `hash-${i}`,
     }));
     const p = pathIds({
       items: rows,
-      remote: rows.map((_, i) => listed({ remoteId: `/trek/2026/${i}.pdf`, name: `${i}.pdf`, contentHash: `hash-${i}` })),
+      remote: rows.map((_, i) => listed({ remoteId: `/tripmate/2026/${i}.pdf`, name: `${i}.pdf`, contentHash: `hash-${i}` })),
       local: rows.map((r, i) => file({ fileId: r.fileId as number, name: `${i}.pdf` })),
     });
     expect(p.massDeleteGuardTripped).toBe(false);
@@ -796,7 +796,7 @@ describe('planReconcile > a rename upstream where the id is the path', () => {
   });
 
   it('follows a copy moved to another folder and leaves its name alone', () => {
-    const moved = listed({ remoteId: '/trek/receipts/a.pdf', name: 'a.pdf' });
+    const moved = listed({ remoteId: '/tripmate/receipts/a.pdf', name: 'a.pdf' });
     const p = pathIds({ items: [paired()], remote: [moved], local: [file()] });
     expect(p.actions).toEqual([
       { kind: 'relocate', itemId: 10, remote: moved },
@@ -837,22 +837,22 @@ describe('planReconcile > a rename upstream where the id is the path', () => {
     // and undone; a swapped pairing cannot be seen at all.
     const p = pathIds({
       items: [
-        paired({ id: 1, fileId: 1, remoteId: '/trek/a1.pdf', remoteName: 'a1.pdf' }),
-        paired({ id: 2, fileId: 2, remoteId: '/trek/a2.pdf', remoteName: 'a2.pdf' }),
+        paired({ id: 1, fileId: 1, remoteId: '/tripmate/a1.pdf', remoteName: 'a1.pdf' }),
+        paired({ id: 2, fileId: 2, remoteId: '/tripmate/a2.pdf', remoteName: 'a2.pdf' }),
       ],
-      remote: [listed({ remoteId: '/trek/b1.pdf', name: 'b1.pdf' }), listed({ remoteId: '/trek/b2.pdf', name: 'b2.pdf' })],
+      remote: [listed({ remoteId: '/tripmate/b1.pdf', name: 'b1.pdf' }), listed({ remoteId: '/tripmate/b2.pdf', name: 'b2.pdf' })],
       local: [file({ fileId: 1, name: 'a1.pdf' }), file({ fileId: 2, name: 'a2.pdf' })],
     });
     expect(kinds(p).sort()).toEqual(['mark_remote_missing', 'mark_remote_missing', 'pull', 'pull']);
   });
 
   it('tells two copies of the same bytes apart when they were moved and kept their names', () => {
-    const one = listed({ remoteId: '/trek/2026/a1.pdf', name: 'a1.pdf' });
-    const two = listed({ remoteId: '/trek/2026/a2.pdf', name: 'a2.pdf' });
+    const one = listed({ remoteId: '/tripmate/2026/a1.pdf', name: 'a1.pdf' });
+    const two = listed({ remoteId: '/tripmate/2026/a2.pdf', name: 'a2.pdf' });
     const p = pathIds({
       items: [
-        paired({ id: 1, fileId: 1, remoteId: '/trek/a1.pdf', remoteName: 'a1.pdf' }),
-        paired({ id: 2, fileId: 2, remoteId: '/trek/a2.pdf', remoteName: 'a2.pdf' }),
+        paired({ id: 1, fileId: 1, remoteId: '/tripmate/a1.pdf', remoteName: 'a1.pdf' }),
+        paired({ id: 2, fileId: 2, remoteId: '/tripmate/a2.pdf', remoteName: 'a2.pdf' }),
       ],
       remote: [two, one],
       local: [file({ fileId: 1, name: 'a1.pdf' }), file({ fileId: 2, name: 'a2.pdf' })],
@@ -865,12 +865,12 @@ describe('planReconcile > a rename upstream where the id is the path', () => {
   });
 
   it('follows the one of two identical copies that was renamed and leaves the other', () => {
-    const kept = listed({ remoteId: '/trek/a2.pdf', name: 'a2.pdf', remoteVersion: 'va' });
-    const renamed = listed({ remoteId: '/trek/b1.pdf', name: 'b1.pdf' });
+    const kept = listed({ remoteId: '/tripmate/a2.pdf', name: 'a2.pdf', remoteVersion: 'va' });
+    const renamed = listed({ remoteId: '/tripmate/b1.pdf', name: 'b1.pdf' });
     const p = pathIds({
       items: [
-        paired({ id: 1, fileId: 1, remoteId: '/trek/a1.pdf', remoteName: 'a1.pdf' }),
-        paired({ id: 2, fileId: 2, remoteId: '/trek/a2.pdf', remoteName: 'a2.pdf' }),
+        paired({ id: 1, fileId: 1, remoteId: '/tripmate/a1.pdf', remoteName: 'a1.pdf' }),
+        paired({ id: 2, fileId: 2, remoteId: '/tripmate/a2.pdf', remoteName: 'a2.pdf' }),
       ],
       remote: [kept, renamed],
       local: [file({ fileId: 1, name: 'a1.pdf' }), file({ fileId: 2, name: 'a2.pdf' })],
@@ -882,7 +882,7 @@ describe('planReconcile > a rename upstream where the id is the path', () => {
     ]);
   });
 
-  it('finds a copy again after TREK renamed it upstream', () => {
+  it('finds a copy again after Trip Mate renamed it upstream', () => {
     // The adapter cannot say what path a rename produced, so the row keeps the
     // old one (and the name rename_remote agreed) until the next listing.
     const p = pathIds({
@@ -893,7 +893,7 @@ describe('planReconcile > a rename upstream where the id is the path', () => {
     expect(kinds(p)).toEqual(['relocate', 'touch']);
   });
 
-  it('keeps a document deleted in TREK deleted when its copy is renamed upstream', () => {
+  it('keeps a document deleted in Trip Mate deleted when its copy is renamed upstream', () => {
     // Where ids are stable a pairing already acted on stays put. Here the
     // renamed copy would otherwise come back as a new document.
     const p = pathIds({
@@ -904,16 +904,16 @@ describe('planReconcile > a rename upstream where the id is the path', () => {
     expect(p.actions).toEqual([{ kind: 'relocate', itemId: 10, remote: listed() }]);
   });
 
-  describe('next to a twin TREK binned', () => {
-    // Deleting one of two identical files in TREK is the usual way two rows
+  describe('next to a twin Trip Mate binned', () => {
+    // Deleting one of two identical files in Trip Mate is the usual way two rows
     // come to share content. The binned one used to count as a candidate, so a
     // rename of the live one was a tie and came back as missing plus new.
     const binned = (over: Partial<SyncItemState> = {}) => paired({
-      id: 1, fileId: 1, remoteId: '/trek/a1.pdf', remoteName: 'a1.pdf',
+      id: 1, fileId: 1, remoteId: '/tripmate/a1.pdf', remoteName: 'a1.pdf',
       state: 'local_deleted', remoteTrashedAt: '2026-09-18 08:05:00', ...over,
     });
-    const live = paired({ id: 2, fileId: 2, remoteId: '/trek/a2.pdf', remoteName: 'a2.pdf' });
-    const renamed = listed({ remoteId: '/trek/b.pdf', name: 'b.pdf', contentHash: null });
+    const live = paired({ id: 2, fileId: 2, remoteId: '/tripmate/a2.pdf', remoteName: 'a2.pdf' });
+    const renamed = listed({ remoteId: '/tripmate/b.pdf', name: 'b.pdf', contentHash: null });
 
     it('follows the rename of the live one', () => {
       const p = pathIds({
@@ -935,7 +935,7 @@ describe('planReconcile > a rename upstream where the id is the path', () => {
     });
 
     it('still recognises the binned copy when it comes back elsewhere on its own', () => {
-      const back = listed({ remoteId: '/trek/restored/a1.pdf', name: 'a1.pdf', contentHash: null });
+      const back = listed({ remoteId: '/tripmate/restored/a1.pdf', name: 'a1.pdf', contentHash: null });
       const p = pathIds({
         items: [binned()],
         remote: [back],
@@ -975,25 +975,25 @@ describe('planReconcile > a rename upstream where the id is the path', () => {
  * re-sent identical bytes, and where the provider replaces in place (WebDAV,
  * and Synology once renames there were followed) the upload kept the
  * provider's name: the next run read it as a rename made upstream and renamed
- * TREK's file to it. Observed: run 1 [relocate, push_update], run 2 [rename_local].
+ * Trip Mate's file to it. Observed: run 1 [relocate, push_update], run 2 [rename_local].
  */
 describe('planReconcile > both sides renamed', () => {
   const at = '2026-09-18T10:00:00Z';
-  const paired = item({ remoteId: '/trek/a.pdf', remoteName: 'a.pdf', remoteSize: 1024, remoteModifiedAt: at });
-  const theirs = remote({ remoteId: '/trek/c.pdf', name: 'c.pdf', remoteModifiedAt: at });
+  const paired = item({ remoteId: '/tripmate/a.pdf', remoteName: 'a.pdf', remoteSize: 1024, remoteModifiedAt: at });
+  const theirs = remote({ remoteId: '/tripmate/c.pdf', name: 'c.pdf', remoteModifiedAt: at });
   const mine = local({ name: 'b.pdf', sha256: null });
   const pathIds = (over: Partial<Parameters<typeof planReconcile>[0]> = {}) =>
     plan({ stableRemoteIds: false, items: [paired], remote: [theirs], local: [mine], ...over });
 
-  it('carries TREK\'s name upstream when TREK wins, and sends no bytes', () => {
+  it('carries Trip Mate\'s name upstream when Trip Mate wins, and sends no bytes', () => {
     const p = pathIds({ conflictPolicy: 'trek_wins' });
     expect(p.actions).toEqual([
       { kind: 'relocate', itemId: 10, remote: theirs },
-      { kind: 'rename_remote', itemId: 10, remoteId: '/trek/c.pdf', name: 'b.pdf' },
+      { kind: 'rename_remote', itemId: 10, remoteId: '/tripmate/c.pdf', name: 'b.pdf' },
     ]);
   });
 
-  it('takes the provider\'s name into TREK when the provider wins, and fetches nothing', () => {
+  it('takes the provider\'s name into Trip Mate when the provider wins, and fetches nothing', () => {
     const p = pathIds({ conflictPolicy: 'provider_wins' });
     expect(p.actions).toEqual([
       { kind: 'relocate', itemId: 10, remote: theirs },
@@ -1021,14 +1021,14 @@ describe('planReconcile > both sides renamed', () => {
 });
 
 /**
- * A deletion in TREK is acted on once.
+ * A deletion in Trip Mate is acted on once.
  *
  * Both branches used to plan `local_deleted` for as long as the file sat in
- * TREK's trash, so the policy was applied again on every run. Under `unlink`
+ * Trip Mate's trash, so the policy was applied again on every run. Under `unlink`
  * that was invisible until the binding was switched to `trash`: the next run
- * then binned every document ever deleted in TREK.
+ * then binned every document ever deleted in Trip Mate.
  */
-describe('planReconcile > a deletion TREK already acted on', () => {
+describe('planReconcile > a deletion Trip Mate already acted on', () => {
   const settled = (over: Partial<SyncItemState> = {}) =>
     item({ id: 50, fileId: 5, remoteId: 'r5', state: 'local_deleted', ...over });
   const inTrash = local({ fileId: 5, deletedAt: '2026-09-18 08:00:00' });
@@ -1061,7 +1061,7 @@ describe('planReconcile > a deletion TREK already acted on', () => {
   });
 
   it('leaves a copy already on record as gone alone under an unchanged upstream', () => {
-    // Binning it would record the gap as TREK's doing, and a restore would
+    // Binning it would record the gap as Trip Mate's doing, and a restore would
     // later upload a document somebody else deleted.
     const p = plan({
       items: [item({ state: 'remote_missing', remoteMissingAt: '2026-09-17 08:00:00' })],
@@ -1073,9 +1073,9 @@ describe('planReconcile > a deletion TREK already acted on', () => {
   });
 
   /**
-   * A copy on record as gone whose TREK copy was then purged.
+   * A copy on record as gone whose Trip Mate copy was then purged.
    *
-   * The row waited for a person to decide about the TREK copy, and nothing
+   * The row waited for a person to decide about the Trip Mate copy, and nothing
    * closed it once they had: the pair loop never sees a row with no listing
    * entry, the unchanged branch skips the state by name, and the purge left
    * `file_id` NULL with the row still counting under "Needs a look" for good.
@@ -1101,7 +1101,7 @@ describe('planReconcile > a deletion TREK already acted on', () => {
     expect(p.actions).toEqual([{ kind: 'local_deleted', itemId: 10, remoteId: 'r1' }]);
   });
 
-  it('notices when the copy TREK binned is listed again', () => {
+  it('notices when the copy Trip Mate binned is listed again', () => {
     const p = plan({
       items: [settled({ remoteTrashedAt: '2026-09-18 08:05:00' })],
       remote: [remote({ remoteId: 'r5' })],
@@ -1153,13 +1153,13 @@ describe('planReconcile > a deletion TREK already acted on', () => {
 });
 
 /**
- * A file taken back out of TREK's trash.
+ * A file taken back out of Trip Mate's trash.
  *
  * Which way the row goes depends on what became of the provider copy while
- * TREK's sat in the bin: still there, binned by TREK itself, or deleted by
+ * Trip Mate's sat in the bin: still there, binned by Trip Mate itself, or deleted by
  * somebody else.
  */
-describe('planReconcile > a file taken back out of TREK trash', () => {
+describe('planReconcile > a file taken back out of Trip Mate trash', () => {
   const settled = (over: Partial<SyncItemState> = {}) =>
     item({ id: 50, fileId: 5, remoteId: 'r5', state: 'local_deleted', ...over });
   const binnedByTrek = (over: Partial<SyncItemState> = {}) =>
@@ -1199,7 +1199,7 @@ describe('planReconcile > a file taken back out of TREK trash', () => {
     expect(p.actions.map(a => a.kind)).toEqual(['local_restored', 'touch']);
   });
 
-  it('uploads it again when TREK was the one that binned the copy', () => {
+  it('uploads it again when Trip Mate was the one that binned the copy', () => {
     const p = plan({ items: [binnedByTrek()], remote: [], local: [back] });
     expect(p.actions).toEqual([
       { kind: 'detach', itemId: 50 },
@@ -1232,7 +1232,7 @@ describe('planReconcile > a file taken back out of TREK trash', () => {
     expect(p.actions.map(a => a.kind)).toEqual(['local_restored', 'touch']);
   });
 
-  it('reads many restores after TREK binned them as uploads, not as a mass deletion', () => {
+  it('reads many restores after Trip Mate binned them as uploads, not as a mass deletion', () => {
     const rows = Array.from({ length: 10 }, (_, i) =>
       binnedByTrek({ id: 100 + i, fileId: 100 + i, remoteId: `r${100 + i}` }));
     const p = plan({ items: rows, remote: [], local: rows.map((r) => local({ fileId: r.fileId as number })) });
@@ -1242,7 +1242,7 @@ describe('planReconcile > a file taken back out of TREK trash', () => {
   });
 
   it('does not read many restores whose copies are gone as a mass deletion', () => {
-    // Nothing was recorded about those copies while TREK's files sat in the
+    // Nothing was recorded about those copies while Trip Mate's files sat in the
     // bin, so they may have been gone for weeks: the listing did not shrink.
     // Counted as vanished, they tripped the guard, the run was dropped before
     // the restores were written, and every run after it planned the same.
@@ -1281,22 +1281,22 @@ describe('planReconcile > a file taken back out of TREK trash', () => {
 
   it('resumes when the binned copy was restored at the provider under a new path', () => {
     // Detached first, the row lost its id before the move could be followed:
-    // the restored copy came down as a new document and TREK's file went up as
+    // the restored copy came down as a new document and Trip Mate's file went up as
     // another, two of each.
     const p = plan({
       stableRemoteIds: false,
-      items: [binnedByTrek({ remoteId: '/trek/a.pdf', remoteName: 'a.pdf', remoteSize: 1024, remoteModifiedAt: '2026-09-18T10:00:00Z' })],
-      remote: [remote({ remoteId: '/trek/a restored.pdf', name: 'a restored.pdf' })],
+      items: [binnedByTrek({ remoteId: '/tripmate/a.pdf', remoteName: 'a.pdf', remoteSize: 1024, remoteModifiedAt: '2026-09-18T10:00:00Z' })],
+      remote: [remote({ remoteId: '/tripmate/a restored.pdf', name: 'a restored.pdf' })],
       local: [local({ fileId: 5, name: 'a.pdf', sha256: null })],
     });
     expect(p.actions.map(a => a.kind)).toEqual(['relocate', 'local_restored', 'rename_local']);
   });
 
-  it('follows a copy moved while the file was in the bin, when TREK did not bin it', () => {
-    const moved = remote({ remoteId: '/trek/2026/a.pdf', name: 'a.pdf' });
+  it('follows a copy moved while the file was in the bin, when Trip Mate did not bin it', () => {
+    const moved = remote({ remoteId: '/tripmate/2026/a.pdf', name: 'a.pdf' });
     const p = plan({
       stableRemoteIds: false,
-      items: [settled({ remoteId: '/trek/a.pdf', remoteName: 'a.pdf', remoteSize: 1024, remoteModifiedAt: '2026-09-18T10:00:00Z' })],
+      items: [settled({ remoteId: '/tripmate/a.pdf', remoteName: 'a.pdf', remoteSize: 1024, remoteModifiedAt: '2026-09-18T10:00:00Z' })],
       remote: [moved],
       local: [local({ fileId: 5, name: 'a.pdf', sha256: null })],
     });
@@ -1312,7 +1312,7 @@ describe('needsFullListing', () => {
   const settled = (over: Partial<SyncItemState> = {}) =>
     item({ id: 50, fileId: 5, remoteId: 'r5', state: 'local_deleted', ...over });
 
-  it('asks for one once a file whose copy TREK left alone is back', () => {
+  it('asks for one once a file whose copy Trip Mate left alone is back', () => {
     expect(needsFullListing([settled()], [local({ fileId: 5 })])).toBe(true);
   });
 
@@ -1320,7 +1320,7 @@ describe('needsFullListing', () => {
     expect(needsFullListing([settled()], [local({ fileId: 5, deletedAt: '2026-09-18 08:00:00' })])).toBe(false);
   });
 
-  it('does not for a copy TREK binned: that gap is known, and the file goes up again', () => {
+  it('does not for a copy Trip Mate binned: that gap is known, and the file goes up again', () => {
     expect(needsFullListing([settled({ remoteTrashedAt: '2026-09-18 08:05:00' })], [local({ fileId: 5 })])).toBe(false);
   });
 

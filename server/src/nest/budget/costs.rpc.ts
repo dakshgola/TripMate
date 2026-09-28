@@ -1,4 +1,4 @@
-import { budgetCreateItemRequestSchema, budgetUpdateItemRequestSchema } from '@trek/shared';
+import { budgetCreateItemRequestSchema, budgetUpdateItemRequestSchema } from '@tripmate/shared';
 import { PluginController, PluginMethod } from '../plugins/host/rpc-kit/decorators';
 import { PluginGuards } from '../plugins/host/plugin-guards.service';
 import { BadParams, ForbiddenResource } from '../plugins/host/rpc-errors';

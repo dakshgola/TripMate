@@ -195,7 +195,7 @@ function CollectionsPageDesktop(): React.ReactElement {
   return (
     <>
       <Navbar />
-      <div className="trek-dash col-root">
+      <div className="tripmate-dash col-root">
         <div className="col-page">
           <aside className="col-rail" style={{ minHeight: c.heroHeight || undefined }}>{rail}</aside>
 

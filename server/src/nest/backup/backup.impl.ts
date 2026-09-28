@@ -150,7 +150,7 @@ export async function listBackups(storage: StorageService): Promise<BackupInfo[]
 // ---------------------------------------------------------------------------
 
 /** The categories a backup archives — everything else under uploads/ is a
- *  re-derivable cache (photos-google, photos-trek) or not uploads at all
+ *  re-derivable cache (photos-google, photos-tripmate) or not uploads at all
  *  (backups). Restore's rehydration walks the same list. */
 export const BACKUP_UPLOAD_CATEGORIES = ['files', 'journey', 'covers', 'avatars', 'places', 'photos'] as const;
 
@@ -187,15 +187,15 @@ export async function createBackup(storage: StorageService, prefix: 'backup' | '
     // lazily during finalize(), so the promise executor below must stay
     // synchronous). Everything NOT in BACKUP_UPLOAD_CATEGORIES is excluded by
     // construction: the re-derivable caches (photos-google in both
-    // TREK_PLACE_PHOTO_DIR modes, photos-trek) and backups itself are never
+    // TRIPMATE_PLACE_PHOTO_DIR modes, photos-tripmate) and backups itself are never
     // enumerated, which is what makes the same-dir-misconfig guard (#1358)
     // structural instead of pattern-based.
     const uploadEntries: { absPath: string; name: string }[] = [];
     for (const category of BACKUP_UPLOAD_CATEGORIES) {
       for await (const obj of storage.list(category)) {
-        // In mode A the google/trek caches nest under the photos/ prefix — the
+        // In mode A the google/tripmate caches nest under the photos/ prefix — the
         // category walk would sweep them back in without this skip.
-        if (category === 'photos' && (obj.key.startsWith('google/') || obj.key.startsWith('trek/'))) continue;
+        if (category === 'photos' && (obj.key.startsWith('google/') || obj.key.startsWith('tripmate/'))) continue;
         // Local path available (exists on disk right now — the fail-safe half
         // of getLocalPathOrNull's contract) → push it directly: zero-copy, the
         // default-install path. Otherwise (a remote/S3 primary, or a local
@@ -453,7 +453,7 @@ export async function restoreFromZip(storage: StorageService, zipPath: string): 
       for (const table of requiredTables) {
         if (!tableNames.has(table)) {
           fs.rmSync(extractDir, { recursive: true, force: true });
-          return { success: false, error: `Uploaded database is missing required table: ${table}. This does not appear to be a TREK backup.`, status: 400 };
+          return { success: false, error: `Uploaded database is missing required table: ${table}. This does not appear to be a Trip Mate backup.`, status: 400 };
         }
       }
     } catch (err) {

@@ -18,7 +18,7 @@ import {
 } from 'lucide-react'
 import { useNavigate, useSearchParams } from 'react-router'
 import { startRegistration } from '@simplewebauthn/browser'
-import { escapeHtml } from '@trek/shared'
+import { escapeHtml } from '@tripmate/shared'
 import { useTranslation } from '../../../i18n'
 import { useAuthStore } from '../../../store/authStore'
 import { useToast } from '../../../components/shared/Toast'
@@ -134,7 +134,7 @@ export default function MSettingsAccount() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = 'trek-mfa-backup-codes.txt'
+    a.download = 'tripmate-mfa-backup-codes.txt'
     document.body.appendChild(a)
     a.click()
     a.remove()
@@ -142,9 +142,9 @@ export default function MSettingsAccount() {
   }
 
   const printBackupCodes = () => {
-    const html = `<!doctype html><html><head><meta charset="utf-8"/><title>TREK MFA Backup Codes</title>
+    const html = `<!doctype html><html><head><meta charset="utf-8"/><title>Trip Mate MFA Backup Codes</title>
       <style>body{font-family:Arial,sans-serif;padding:32px}h1{font-size:20px}pre{font-size:16px;line-height:1.6}</style>
-      </head><body><h1>TREK MFA Backup Codes</h1><p>${escapeHtml(new Date().toLocaleString())}</p><pre>${escapeHtml(backupCodesText)}</pre></body></html>`
+      </head><body><h1>Trip Mate MFA Backup Codes</h1><p>${escapeHtml(new Date().toLocaleString())}</p><pre>${escapeHtml(backupCodesText)}</pre></body></html>`
     const w = window.open('', '_blank', 'width=900,height=700')
     if (!w) return
     w.document.open()

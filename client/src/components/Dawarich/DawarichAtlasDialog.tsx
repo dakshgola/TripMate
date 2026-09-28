@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Building2, Check, CalendarDays, Globe2, Hourglass, Info, Loader2, MapPin, RefreshCw, Star } from 'lucide-react'
-import type { DawarichAtlasSuggestions, DawarichBucketScan } from '@trek/shared'
-import { DAWARICH_BUCKET_MATCH_MIN_MINUTES, DAWARICH_BUCKET_MATCH_RADIUS_M } from '@trek/shared'
+import type { DawarichAtlasSuggestions, DawarichBucketScan } from '@tripmate/shared'
+import { DAWARICH_BUCKET_MATCH_MIN_MINUTES, DAWARICH_BUCKET_MATCH_RADIUS_M } from '@tripmate/shared'
 import { useTranslation } from '../../i18n'
 import { useToast } from '../shared/Toast'
 import { Skeleton } from '../shared/Skeleton'
@@ -383,7 +383,7 @@ export default function DawarichAtlasDialog({
       size="xl"
       title={
         <span className="flex items-center gap-2.5">
-          {/* Rounded, like every other avatar-sized mark in TREK: the logo is a
+          {/* Rounded, like every other avatar-sized mark in Trip Mate: the logo is a
               square badge and a hard corner beside a rounded dialog reads as a
               pasted-in image. */}
           <span className="flex-shrink-0 overflow-hidden rounded-lg">

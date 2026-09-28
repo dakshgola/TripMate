@@ -5,7 +5,7 @@ import { readEnv } from '../app-config';
 const dataDir = path.join(__dirname, '../../data');
 const baselinePath = path.join(dataDir, 'travel-baseline.db');
 
-// Where the live DB actually is. database.ts honours TREK_DB_FILE, so hardcoding
+// Where the live DB actually is. database.ts honours TRIPMATE_DB_FILE, so hardcoding
 // data/travel.db here would copy the baseline over an unrelated file and leave
 // the database we just closed untouched. The open connection knows its own path.
 function liveDbPath(db: { name: string }): string {
@@ -26,7 +26,7 @@ function resetDemoUser(): void {
   }
 
   // Save admin's current credentials and API keys (these should survive the reset)
-  // NOTE: different default than demo-seed (admin@trek.app) — pinned legacy quirk.
+  // NOTE: different default than demo-seed (admin@tripmate.app) — pinned legacy quirk.
   const adminEmail = readEnv().demo.adminEmailRaw || 'admin@nomad.app';
   interface AdminData { password_hash: string; maps_api_key: string | null; openweather_api_key: string | null; unsplash_api_key: string | null; avatar: string | null; }
   let adminData: AdminData | undefined = undefined;

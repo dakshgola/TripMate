@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PhotosController } from './photos.controller';
 import { PhotosService } from './photos.service';
-import { TrekPhotosModule } from './trek-photos.module';
+import { TrekPhotosModule } from './tripmate-photos.module';
 import { MemoriesModule } from '../memories/memories.module';
 
 /**

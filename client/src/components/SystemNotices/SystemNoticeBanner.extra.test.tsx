@@ -124,11 +124,11 @@ describe('BannerRenderer', () => {
 
   it('FE-W4SNB-011: a link CTA opens a hardened new tab', () => {
     const open = vi.spyOn(window, 'open').mockImplementation(() => null)
-    render(<BannerRenderer notices={[notice({ id: 'a', cta: { kind: 'link', href: 'https://trek.dev', labelKey: 'Read more' } })]} />)
+    render(<BannerRenderer notices={[notice({ id: 'a', cta: { kind: 'link', href: 'https://tripmate.dev', labelKey: 'Read more' } })]} />)
 
     fireEvent.click(screen.getByRole('link', { name: 'Read more' }))
 
-    expect(open).toHaveBeenCalledWith('https://trek.dev', '_blank', 'noopener,noreferrer')
+    expect(open).toHaveBeenCalledWith('https://tripmate.dev', '_blank', 'noopener,noreferrer')
     expect(dismiss).not.toHaveBeenCalled()
   })
 

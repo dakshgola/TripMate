@@ -8,7 +8,7 @@ import { pluginDataDir, pluginDbFile, pluginsDataRoot } from '../paths';
  * A plugin's own sqlite database (#plugins, db:own). The HOST owns the handle;
  * the plugin child never gets a path or a connection — it can only reach this
  * through RPC (db.exec / db.query / db.migrate). Because it is a SEPARATE FILE,
- * containment is a filesystem fact: the plugin physically cannot read trek.db,
+ * containment is a filesystem fact: the plugin physically cannot read tripmate.db,
  * and we don't have to police table-name prefixes in its SQL.
  *
  * A thin guard still rejects statements that would let a plugin escape its file
@@ -32,7 +32,7 @@ const FORBIDDEN = /\b(ATTACH|DETACH|VACUUM|PRAGMA|RECURSIVE|LOAD_EXTENSION)\b/i;
 const TX_CONTROL = /^\s*(BEGIN|COMMIT|ROLLBACK|SAVEPOINT|RELEASE|END)\b/i;
 // Per-plugin on-disk quota. better-sqlite3 is synchronous and runs in the HOST
 // process, so an unbounded plugin DB is both a disk-exhaustion DoS on the shared
-// trek.db volume and (via a huge scan) an event-loop stall. max_page_count caps
+// tripmate.db volume and (via a huge scan) an event-loop stall. max_page_count caps
 // the file (writes past it fail SQLITE_FULL, contained to the plugin) and bounds
 // the worst-case scan cost. Result sets are additionally row-capped below so a
 // recursive CTE / cartesian product can't materialize an unbounded array.

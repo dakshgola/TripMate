@@ -34,7 +34,7 @@ import type {
   DawarichTrackFeature,
   DawarichVisitRaw,
 } from '../../../src/nest/integrations/dawarich.client';
-import type { DawarichTrackDay } from '@trek/shared';
+import type { DawarichTrackDay } from '@tripmate/shared';
 
 // ── Fixtures ─────────────────────────────────────────────────────────────────
 
@@ -217,7 +217,7 @@ describe('visitHash', () => {
     expect(visitHash(visit({ status: 'suggested' }))).not.toBe(visitHash(BASE_VISIT));
   });
 
-  it('DAWARICH-HASH-007: ignores fields TREK does not show — a re-scored confidence is not a change', () => {
+  it('DAWARICH-HASH-007: ignores fields Trip Mate does not show — a re-scored confidence is not a change', () => {
     expect(visitHash(visit({ confidence: '0.11', confidence_band: 'low' }))).toBe(visitHash(BASE_VISIT));
     expect(visitHash(visit({ area_id: 99, user_id: 3 }))).toBe(visitHash(BASE_VISIT));
   });
@@ -266,7 +266,7 @@ describe('toNumber', () => {
 // ── normalizeVisit ───────────────────────────────────────────────────────────
 
 describe('normalizeVisit', () => {
-  it('DAWARICH-VISIT-001: reduces a full visit to what TREK stores', () => {
+  it('DAWARICH-VISIT-001: reduces a full visit to what Trip Mate stores', () => {
     expect(normalizeVisit(BASE_VISIT)).toEqual({
       sourceVisitId: '42',
       name: 'Cafe Kranzler',
@@ -540,7 +540,7 @@ describe('capPoints', () => {
 // ── geoJsonToLatLng ──────────────────────────────────────────────────────────
 
 describe('geoJsonToLatLng', () => {
-  it('DAWARICH-GEO-016: swaps GeoJSON [lng, lat] into TREK [lat, lng]', () => {
+  it('DAWARICH-GEO-016: swaps GeoJSON [lng, lat] into Trip Mate [lat, lng]', () => {
     expect(geoJsonToLatLng([[13.4, 52.5]])).toEqual([[52.5, 13.4]]);
   });
 
@@ -575,7 +575,7 @@ describe('geoJsonToLatLng', () => {
   });
 
   it('DAWARICH-GEO-023: ignores anything past the first two entries of a pair', () => {
-    // GeoJSON positions may carry an elevation; TREK draws in two dimensions.
+    // GeoJSON positions may carry an elevation; Trip Mate draws in two dimensions.
     expect(geoJsonToLatLng([[13.4, 52.5, 34]])).toEqual([[52.5, 13.4]]);
   });
 });
@@ -710,7 +710,7 @@ describe('bucketTracksByDay', () => {
         date: '2024-06-15',
         segments: [
           {
-            // GeoJSON [lng, lat] in, TREK [lat, lng] out.
+            // GeoJSON [lng, lat] in, Trip Mate [lat, lng] out.
             points: [[10, 10], [11, 11], [12, 11]],
             mode: 'car',
             startedAt: '2024-06-15T10:00:00Z',
@@ -724,7 +724,7 @@ describe('bucketTracksByDay', () => {
 
   it('DAWARICH-TRACK-002: the local day comes from the offset the track carries', () => {
     // 00:30+02:00 is still 22:30Z the day before, but the recording user saw
-    // the 16th, which is the day TREK must file it under.
+    // the 16th, which is the day Trip Mate must file it under.
     const days = bucketTracksByDay([
       track('2024-06-16T00:30:00+02:00', '2024-06-16T01:30:00+02:00', [[10, 10], [11, 11], [11, 12]]),
     ]);

@@ -134,7 +134,7 @@ export interface Durability {
 }
 
 /**
- * TREK_DB_JOURNAL_MODE / TREK_DB_SYNCHRONOUS → the pragmas to apply.
+ * TRIPMATE_DB_JOURNAL_MODE / TRIPMATE_DB_SYNCHRONOUS → the pragmas to apply.
  *
  * journal_mode is persisted in the database file header, so it outlives the
  * process that set it and every entry point opening the file read-write has to
@@ -155,7 +155,7 @@ export function resolveDurability(rawJournalMode: string | undefined, rawSynchro
       journalMode = wanted;
     } else {
       warnings.push(
-        `TREK_DB_JOURNAL_MODE="${rawJournalMode}" is not a SQLite journal mode ` +
+        `TRIPMATE_DB_JOURNAL_MODE="${rawJournalMode}" is not a SQLite journal mode ` +
           `(${JOURNAL_MODES.join(', ')}) — using ${DEFAULT_JOURNAL_MODE}.`,
       );
     }
@@ -169,7 +169,7 @@ export function resolveDurability(rawJournalMode: string | undefined, rawSynchro
       synchronous = wantedSync;
     } else {
       warnings.push(
-        `TREK_DB_SYNCHRONOUS="${rawSynchronous}" is not a SQLite synchronous level ` +
+        `TRIPMATE_DB_SYNCHRONOUS="${rawSynchronous}" is not a SQLite synchronous level ` +
           `(${SYNCHRONOUS_LEVELS.join(', ')}) — using ${defaultSynchronous}.`,
       );
     }

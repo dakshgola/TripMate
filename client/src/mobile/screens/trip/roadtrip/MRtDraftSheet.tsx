@@ -7,7 +7,7 @@ import { STOP_KINDS, STOP_KIND_BY_KEY, isOvernightCategory } from '../../../../c
 import { formatDurationShort } from '../../../../components/Roadtrip/roadtripModel'
 import type { RoadtripStopDraft } from '../../../../components/Roadtrip/RoadtripStopPopup'
 import type { TripPlanner } from '../MTripShell'
-import type { RoadtripStopType } from '@trek/shared'
+import type { RoadtripStopType } from '@tripmate/shared'
 
 export interface MRtDraftSheetProps {
   planner: TripPlanner

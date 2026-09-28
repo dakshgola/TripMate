@@ -1,5 +1,5 @@
 /**
- * TREK_MANAGED — the switch that says the configuration belongs to whoever runs
+ * TRIPMATE_MANAGED — the switch that says the configuration belongs to whoever runs
  * this install rather than to its admin.
  *
  * Runtime-toggled, exactly like DEMO_MODE: read live on every access, never
@@ -15,7 +15,7 @@ import { deriveManaged } from '../../../src/app-config/derive';
 const env = new RuntimeEnvService();
 
 afterEach(() => {
-  delete process.env.TREK_MANAGED;
+  delete process.env.TRIPMATE_MANAGED;
 });
 
 describe('deriveManaged', () => {
@@ -25,15 +25,15 @@ describe('deriveManaged', () => {
 
   it('MANAGED-002: on for the documented truthy spellings', () => {
     for (const value of ['true', 'TRUE', '1', 'yes', 'on']) {
-      expect(deriveManaged({ TREK_MANAGED: value }).enabled).toBe(true);
+      expect(deriveManaged({ TRIPMATE_MANAGED: value }).enabled).toBe(true);
     }
   });
 
   it('MANAGED-003: off for an empty, unparseable or falsy value', () => {
     // A typo must not take settings away from an admin who never asked for it,
     // so anything that is not recognisably true stays off.
-    for (const value of ['', 'false', '0', 'no', 'off', 'maybe', 'TREK_MANAGED']) {
-      expect(deriveManaged({ TREK_MANAGED: value }).enabled).toBe(false);
+    for (const value of ['', 'false', '0', 'no', 'off', 'maybe', 'TRIPMATE_MANAGED']) {
+      expect(deriveManaged({ TRIPMATE_MANAGED: value }).enabled).toBe(false);
     }
   });
 });
@@ -42,10 +42,10 @@ describe('RuntimeEnvService.isManaged', () => {
   it('MANAGED-004: reads the env live, so a toggle takes effect without a restart', () => {
     expect(env.isManaged()).toBe(false);
 
-    process.env.TREK_MANAGED = 'true';
+    process.env.TRIPMATE_MANAGED = 'true';
     expect(env.isManaged()).toBe(true);
 
-    delete process.env.TREK_MANAGED;
+    delete process.env.TRIPMATE_MANAGED;
     expect(env.isManaged()).toBe(false);
   });
 });
@@ -56,7 +56,7 @@ describe('isManagedBlocked', () => {
   });
 
   it('MANAGED-006: true once the instance is centrally administered', () => {
-    process.env.TREK_MANAGED = 'true';
+    process.env.TRIPMATE_MANAGED = 'true';
     expect(isManagedBlocked(env)).toBe(true);
   });
 });
@@ -64,7 +64,7 @@ describe('isManagedBlocked', () => {
 describe('the shared 403', () => {
   it('MANAGED-007: one body, and it does not name a reason', () => {
     // Pinned because DEMO_MODE grew two texts for one condition (REST says
-    // 'Self-host TREK for full functionality.', MCP says something else) and
+    // 'Self-host Trip Mate for full functionality.', MCP says something else) and
     // neither can now be changed without hunting for the other.
     expect(MANAGED_FORBIDDEN_ERROR).toEqual({
       error: 'This is configured by the operator of this instance.',

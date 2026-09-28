@@ -1,5 +1,5 @@
 import { Ban } from 'lucide-react'
-import { NOTE_COLORS } from '@trek/shared'
+import { NOTE_COLORS } from '@tripmate/shared'
 import { useTranslation } from '../../i18n'
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 /**
  * Swatch row for a note's colour (#1629).
  *
- * The palette is deliberately short and lives in @trek/shared, so the picker,
+ * The palette is deliberately short and lives in @tripmate/shared, so the picker,
  * the card and the PDF cannot drift apart. The first cell clears the colour
  * rather than being a colour of its own — "no colour" is the default state, not
  * an eighth option.

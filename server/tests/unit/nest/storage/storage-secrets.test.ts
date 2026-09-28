@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 
 vi.mock('../../../../src/config', () => ({ ENCRYPTION_KEY: 'storage-secrets-test-key' }));
 
-import { MASKED_SETTING_VALUE, type StorageConfig } from '@trek/shared';
+import { MASKED_SETTING_VALUE, type StorageConfig } from '@tripmate/shared';
 import {
   decrypt_api_key,
   encrypt_api_key,
@@ -18,7 +18,7 @@ import {
 
 const S3_OPTIONS = {
   endpoint: 'http://127.0.0.1:9000',
-  bucket: 'trek',
+  bucket: 'tripmate',
   accessKeyId: 'ak',
   secretAccessKey: 'sk-plain',
   region: 'us-east-1',

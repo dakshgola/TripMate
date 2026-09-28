@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Pipette, RotateCcw } from 'lucide-react'
-import { TRACK_COLORS } from '@trek/shared'
+import { TRACK_COLORS } from '@tripmate/shared'
 import { useTranslation } from '../../i18n'
 
 interface TrackColorPickerProps {

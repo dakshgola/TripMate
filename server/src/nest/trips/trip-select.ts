@@ -14,7 +14,7 @@
  * The column is the sole credential for the anonymous /api/feed/trip/:token.ics
  * route, and `SELECT t.*` hands it to every reader of the trip. Gating the
  * token endpoint on `share_manage` means nothing while any member can read the
- * same value out of the trip payload, so the two go together. No TREK client
+ * same value out of the trip payload, so the two go together. No Trip Mate client
  * reads the field (it is absent from client/ and shared/ entirely).
  */
 export function withoutFeedToken<T>(row: T): T {

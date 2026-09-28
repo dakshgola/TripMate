@@ -18,7 +18,7 @@ import os from 'node:os';
 import path from 'node:path';
 import Database from 'better-sqlite3';
 import { INSTANCE_API_KEY_NAMES } from '../../../src/nest/settings/instance-api-keys';
-import { storageSecretFields } from '@trek/shared';
+import { storageSecretFields } from '@tripmate/shared';
 
 const SERVER_ROOT = path.join(__dirname, '..', '..', '..');
 
@@ -159,7 +159,7 @@ describe('migrate-encryption.ts storage.backends: malformed shape', () => {
   let dbPath: string;
 
   beforeEach(() => {
-    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-migrate-encryption-'));
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-migrate-encryption-'));
     dbPath = path.join(tmpDir, 'travel.db');
   });
 
@@ -263,7 +263,7 @@ describe('migrate-encryption.ts rotates the stores the app writes', () => {
   let dbPath: string;
 
   beforeEach(() => {
-    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-migrate-encryption-plugins-'));
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-migrate-encryption-plugins-'));
     dbPath = path.join(tmpDir, 'travel.db');
   });
 

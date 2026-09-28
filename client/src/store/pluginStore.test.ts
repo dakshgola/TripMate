@@ -37,12 +37,12 @@ describe('pluginStore', () => {
   });
 
   it('FE-STORE-PLUGIN-002: a failed fetch still marks the store loaded (no crash)', async () => {
-    sessionStorage.setItem('trek:plugin-session:7:active:plugin:filters', '["flight"]');
+    sessionStorage.setItem('tripmate:plugin-session:7:active:plugin:filters', '["flight"]');
     server.use(http.get('/api/plugins', () => HttpResponse.error()));
     await usePluginStore.getState().loadPlugins();
     expect(usePluginStore.getState().loaded).toBe(true);
     expect(usePluginStore.getState().plugins).toEqual([]);
-    expect(sessionStorage.getItem('trek:plugin-session:7:active:plugin:filters')).toBe('["flight"]');
+    expect(sessionStorage.getItem('tripmate:plugin-session:7:active:plugin:filters')).toBe('["flight"]');
   });
 
   it('FE-STORE-PLUGIN-003: tolerates a missing plugins array', async () => {
@@ -52,10 +52,10 @@ describe('pluginStore', () => {
   });
 
   it('FE-STORE-PLUGIN-004: clears session state for disabled plugins after a successful refresh', async () => {
-    sessionStorage.setItem('trek:plugin-session:7:active:plugin:filters', '["flight"]');
-    sessionStorage.setItem('trek:plugin-session:7:disabled:plugin:filters', '["hotel"]');
-    sessionStorage.setItem('trek:plugin-session:7:disabled:trip:42:view', '"table"');
-    sessionStorage.setItem('trek_session', 'app-session');
+    sessionStorage.setItem('tripmate:plugin-session:7:active:plugin:filters', '["flight"]');
+    sessionStorage.setItem('tripmate:plugin-session:7:disabled:plugin:filters', '["hotel"]');
+    sessionStorage.setItem('tripmate:plugin-session:7:disabled:trip:42:view', '"table"');
+    sessionStorage.setItem('tripmate_session', 'app-session');
 
     server.use(
       http.get('/api/plugins', () =>
@@ -67,22 +67,22 @@ describe('pluginStore', () => {
 
     await usePluginStore.getState().loadPlugins();
 
-    expect(sessionStorage.getItem('trek:plugin-session:7:active:plugin:filters')).toBe('["flight"]');
-    expect(sessionStorage.getItem('trek:plugin-session:7:disabled:plugin:filters')).toBeNull();
-    expect(sessionStorage.getItem('trek:plugin-session:7:disabled:trip:42:view')).toBeNull();
-    expect(sessionStorage.getItem('trek_session')).toBe('app-session');
+    expect(sessionStorage.getItem('tripmate:plugin-session:7:active:plugin:filters')).toBe('["flight"]');
+    expect(sessionStorage.getItem('tripmate:plugin-session:7:disabled:plugin:filters')).toBeNull();
+    expect(sessionStorage.getItem('tripmate:plugin-session:7:disabled:trip:42:view')).toBeNull();
+    expect(sessionStorage.getItem('tripmate_session')).toBe('app-session');
   });
 
   it('FE-STORE-PLUGIN-005: clearAllPluginSessions drops every user and scope, but nothing else', () => {
-    sessionStorage.setItem('trek:plugin-session:7:active:plugin:filters', '["flight"]');
-    sessionStorage.setItem('trek:plugin-session:9:active:trip:42:view', '"table"');
-    sessionStorage.setItem('trek_session', 'app-session');
+    sessionStorage.setItem('tripmate:plugin-session:7:active:plugin:filters', '["flight"]');
+    sessionStorage.setItem('tripmate:plugin-session:9:active:trip:42:view', '"table"');
+    sessionStorage.setItem('tripmate_session', 'app-session');
 
     clearAllPluginSessions();
 
-    expect(sessionStorage.getItem('trek:plugin-session:7:active:plugin:filters')).toBeNull();
-    expect(sessionStorage.getItem('trek:plugin-session:9:active:trip:42:view')).toBeNull();
-    expect(sessionStorage.getItem('trek_session')).toBe('app-session');
+    expect(sessionStorage.getItem('tripmate:plugin-session:7:active:plugin:filters')).toBeNull();
+    expect(sessionStorage.getItem('tripmate:plugin-session:9:active:trip:42:view')).toBeNull();
+    expect(sessionStorage.getItem('tripmate_session')).toBe('app-session');
   });
 
   it('FE-STORE-PLUGIN-006: a sessionStorage failure during the purge still keeps the loaded plugins', async () => {

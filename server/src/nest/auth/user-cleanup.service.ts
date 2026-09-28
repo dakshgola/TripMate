@@ -15,7 +15,7 @@ import { pluginsDataRoot } from '../plugins/paths';
  * paths (a user deleting their own account, an admin deleting someone else's)
  * go through here, and `TripsService.deleteGuest` reuses the plugin half for a
  * guest id. The plugin erasure runs in the CORE deletion path, not via the
- * plugin runtime, so it works even when TREK_PLUGINS_ENABLED=false or before
+ * plugin runtime, so it works even when TRIPMATE_PLUGINS_ENABLED=false or before
  * the runtime has booted — otherwise a deletion in those windows would leave
  * the user's plugin data behind forever.
  */
@@ -29,7 +29,7 @@ export class UserCleanupService {
   /**
    * Erase a user's PLUGIN-held data on account deletion. Two parts:
    *  1. Host-side per-user plugin tables (encrypted config values, OAuth access/refresh
-   *     tokens, in-flight OAuth state) — deleted directly; these live in trek.db, not in
+   *     tokens, in-flight OAuth state) — deleted directly; these live in tripmate.db, not in
    *     a plugin's own db, so nothing else ever removes them.
    *  2. A durable erasure row per plugin that holds `hook:user-data`, so its OWN db is
    *     purged of the user (drained to the plugin when it is next active).

@@ -66,7 +66,7 @@ import { ImmichService } from '../../src/nest/memories/immich.service';
 import { SynologyService } from '../../src/nest/memories/synology.service';
 import { MemoriesAccessService } from '../../src/nest/memories/memories-access.service';
 import { RealtimeModule } from '../../src/nest/realtime/realtime.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 const BASE = '/api/integrations/memories';

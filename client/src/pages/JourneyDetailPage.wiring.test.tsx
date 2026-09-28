@@ -360,7 +360,7 @@ describe('JourneyDetailPage wiring', () => {
     const target = buildEntry({ id: 4, title: 'Old' });
     const { hook } = setup({ deleteTarget: target });
     const heading = screen.getByRole('heading', { name: 'journey.entries.deleteTitle' });
-    const dialog = heading.closest('.trek-modal-enter') as HTMLElement;
+    const dialog = heading.closest('.tripmate-modal-enter') as HTMLElement;
     fireEvent.click(within(dialog).getByRole('button', { name: 'common.delete' }));
 
     await waitFor(() => expect(hook.deleteEntry).toHaveBeenCalledWith(4));

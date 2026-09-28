@@ -204,7 +204,7 @@ describe('getUserSettings', () => {
     const { user } = createUser(testDb);
     setAdminDefault('carto_api_key', 'carto-admin');
     testDb.prepare("INSERT INTO settings (user_id, key, value) VALUES (?, 'carto_api_key', 'carto-user')").run(user.id);
-    vi.stubEnv('TREK_MANAGED', 'true');
+    vi.stubEnv('TRIPMATE_MANAGED', 'true');
     vi.stubEnv('CARTO_API_KEY', 'carto-operator');
     try {
       expect(svc.getUserSettings(user.id).carto_api_key).toBe('carto-operator');
@@ -215,7 +215,7 @@ describe('getUserSettings', () => {
 
   it('SET-SVC-034 — the injected CARTO key leaves map_provider alone', () => {
     const { user } = createUser(testDb);
-    vi.stubEnv('TREK_MANAGED', 'true');
+    vi.stubEnv('TRIPMATE_MANAGED', 'true');
     vi.stubEnv('CARTO_API_KEY', 'carto-operator');
     vi.stubEnv('MAPBOX_ACCESS_TOKEN', '');
     try {
@@ -363,12 +363,12 @@ describe('legacy quirk fixes', () => {
   it('SET-SVC-029 — bulk skips the masked sentinel so a stored secret survives', () => {
     const { user } = createUser(testDb);
     svc.upsertSetting(user.id, 'ntfy_token', 'tok-real');
-    const count = svc.bulkUpsertSettings(user.id, { ntfy_topic: 'trek', ntfy_token: '••••••••' });
+    const count = svc.bulkUpsertSettings(user.id, { ntfy_topic: 'tripmate', ntfy_token: '••••••••' });
     expect(count).toBe(1);
     // Passthrough crypto mock: the stored value must still be the real token.
     const raw = testDb.prepare("SELECT value FROM settings WHERE user_id = ? AND key = 'ntfy_token'").get(user.id) as { value: string };
     expect(raw.value).toBe('tok-real');
-    expect(testDb.prepare("SELECT value FROM settings WHERE user_id = ? AND key = 'ntfy_topic'").get(user.id)).toEqual({ value: 'trek' });
+    expect(testDb.prepare("SELECT value FROM settings WHERE user_id = ? AND key = 'ntfy_topic'").get(user.id)).toEqual({ value: 'tripmate' });
   });
 
   it('SET-SVC-030 — bulk returns the count of keys actually written', () => {

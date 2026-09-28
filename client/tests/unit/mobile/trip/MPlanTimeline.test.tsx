@@ -472,7 +472,7 @@ describe('MPlanTimeline', () => {
       const { container } = renderTimeline({ rows: [], merged: [], upNext: null })
 
       expect(screen.getByText('dayplan.emptyDay')).toBeInTheDocument()
-      expect(container.querySelector('.trek--guide')).toBeTruthy()
+      expect(container.querySelector('.tripmate--guide')).toBeTruthy()
     })
 
     it('FE-MOB-PLTL-024: replaces it with the action grid in edit mode', () => {

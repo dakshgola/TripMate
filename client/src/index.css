@@ -56,16 +56,16 @@ body { height: 100%; overflow: auto; overscroll-behavior: none; -webkit-overflow
  * then overflowed and pushed its own controls out of reach (#2041). Pinning the
  * wrapper to the box and letting the video letterbox inside it keeps any aspect
  * ratio whole and the control bar on screen. */
-.trek-video-player .plyr,
-.trek-video-player .plyr__video-wrapper {
+.tripmate-video-player .plyr,
+.tripmate-video-player .plyr__video-wrapper {
   width: 100%;
   height: 100%;
   background: #000;
 }
-.trek-video-player .plyr__video-wrapper {
+.tripmate-video-player .plyr__video-wrapper {
   padding-bottom: 0 !important;
 }
-.trek-video-player video {
+.tripmate-video-player video {
   width: 100% !important;
   height: 100% !important;
   object-fit: contain !important;
@@ -73,7 +73,7 @@ body { height: 100%; overflow: auto; overscroll-behavior: none; -webkit-overflow
 
 /* Leaflet Popups — Enter-Animation vom Anchor-Tip */
 .leaflet-popup {
-  animation: trek-popover-enter 220ms cubic-bezier(0.23, 1, 0.32, 1);
+  animation: tripmate-popover-enter 220ms cubic-bezier(0.23, 1, 0.32, 1);
   transform-origin: bottom center;
   will-change: transform, opacity;
 }
@@ -98,9 +98,9 @@ body { height: 100%; overflow: auto; overscroll-behavior: none; -webkit-overflow
 /* GL hover popup — the name/category/address card on marker hover.
    Matches the Leaflet map's white hover tooltip. pointer-events:none so moving
    onto the popup never steals the marker's mouseleave and causes flicker. */
-.trek-map-popup { pointer-events: none; }
-.trek-map-popup .mapboxgl-popup-content,
-.trek-map-popup .maplibregl-popup-content {
+.tripmate-map-popup { pointer-events: none; }
+.tripmate-map-popup .mapboxgl-popup-content,
+.tripmate-map-popup .maplibregl-popup-content {
   padding: 7px 10px;
   border-radius: 10px;
   background: #fff;
@@ -110,8 +110,8 @@ body { height: 100%; overflow: auto; overscroll-behavior: none; -webkit-overflow
    26px and reads as a label, not as a callout pinned to a point — the tail
    hung off the bottom edge as a stray notch. The popup's offset carries the
    gap on its own. */
-.trek-map-popup .mapboxgl-popup-tip,
-.trek-map-popup .maplibregl-popup-tip {
+.tripmate-map-popup .mapboxgl-popup-tip,
+.tripmate-map-popup .maplibregl-popup-tip {
   display: none;
 }
 /* Both engines square off one corner per anchor so the tail meets the card
@@ -119,8 +119,8 @@ body { height: 100%; overflow: auto; overscroll-behavior: none; -webkit-overflow
    its three siblings). Same specificity as the rule above, so which one wins
    comes down to stylesheet order — and with no tail there, a squared corner is
    just a squared corner. `[class]` buys the extra weight to settle it. */
-.trek-map-popup[class] .mapboxgl-popup-content,
-.trek-map-popup[class] .maplibregl-popup-content {
+.tripmate-map-popup[class] .mapboxgl-popup-content,
+.tripmate-map-popup[class] .maplibregl-popup-content {
   border-radius: 10px;
 }
 
@@ -345,10 +345,10 @@ input, textarea, select {
 }
 
 /* Back-Button Icon-Slide on hover */
-.trek-back-btn .trek-back-icon {
+.tripmate-back-btn .tripmate-back-icon {
   transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1);
 }
-.trek-back-btn:hover .trek-back-icon {
+.tripmate-back-btn:hover .tripmate-back-icon {
   transform: translateX(-2px);
 }
 
@@ -367,9 +367,9 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
 
 /* Theme crossfade — beim Dark/Light switch, Hauptflächen + Text faden ihre Farben.
    Sparingly: nur background-color und color bekommen eine Transition. */
-html.trek-theme-transitioning,
-html.trek-theme-transitioning body,
-html.trek-theme-transitioning *:not(img):not(video):not(canvas):not([class*="trek-skeleton"]):not(.leaflet-layer) {
+html.tripmate-theme-transitioning,
+html.tripmate-theme-transitioning body,
+html.tripmate-theme-transitioning *:not(img):not(video):not(canvas):not([class*="tripmate-skeleton"]):not(.leaflet-layer) {
   transition:
     background-color 320ms cubic-bezier(0.23, 1, 0.32, 1),
     color 320ms cubic-bezier(0.23, 1, 0.32, 1),
@@ -404,68 +404,68 @@ input[type="number"], input[type="time"], input[type="date"], input[type="dateti
 /* ── Popover/Dropdown Enter-Animationen ─────────────────────────
    Emil: Popovers sollen von ihrem Trigger aus scalen, nicht vom Center.
    Start bei scale(0.95) — nichts in der echten Welt poppt aus dem Nichts. */
-@keyframes trek-menu-enter {
+@keyframes tripmate-menu-enter {
   from { opacity: 0; transform: scale(0.95) translateY(-4px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
 }
-@keyframes trek-popover-enter {
+@keyframes tripmate-popover-enter {
   from { opacity: 0; transform: scale(0.96); }
   to   { opacity: 1; transform: scale(1); }
 }
-@keyframes trek-modal-enter {
+@keyframes tripmate-modal-enter {
   from { opacity: 0; transform: scale(0.97); }
   to   { opacity: 1; transform: scale(1); }
 }
-@keyframes trek-backdrop-enter {
+@keyframes tripmate-backdrop-enter {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
-@keyframes trek-toast-enter {
+@keyframes tripmate-toast-enter {
   from { opacity: 0; transform: translateY(8px) scale(0.96); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
-@keyframes trek-progress-fill {
+@keyframes tripmate-progress-fill {
   from { width: 0%; }
-  to   { width: var(--trek-progress-to, 0%); }
+  to   { width: var(--tripmate-progress-to, 0%); }
 }
 
 /* Pie-Chart Reveal — rotate + fade-in, gibt dem Kreisdiagramm ein "Draw"-Gefühl */
-@keyframes trek-pie-reveal {
+@keyframes tripmate-pie-reveal {
   from { opacity: 0; transform: rotate(-90deg) scale(0.85); }
   to   { opacity: 1; transform: rotate(0deg) scale(1); }
 }
-.trek-pie-reveal {
-  animation: trek-pie-reveal 900ms cubic-bezier(0.23, 1, 0.32, 1) both;
+.tripmate-pie-reveal {
+  animation: tripmate-pie-reveal 900ms cubic-bezier(0.23, 1, 0.32, 1) both;
   transform-origin: center;
   will-change: transform, opacity;
 }
 
 /* Bar-Chart Reveal — horizontaler Fill von links */
-@keyframes trek-bar-fill {
+@keyframes tripmate-bar-fill {
   from { transform: scaleX(0); }
   to   { transform: scaleX(1); }
 }
-.trek-bar-fill {
-  animation: trek-bar-fill 700ms cubic-bezier(0.23, 1, 0.32, 1) both;
+.tripmate-bar-fill {
+  animation: tripmate-bar-fill 700ms cubic-bezier(0.23, 1, 0.32, 1) both;
   transform-origin: left center;
   will-change: transform;
 }
 
 /* Page-Transition — subtiler Fade-Up beim Mount */
-@keyframes trek-page-enter {
+@keyframes tripmate-page-enter {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.trek-page-enter {
-  animation: trek-page-enter 220ms cubic-bezier(0.23, 1, 0.32, 1) both;
+.tripmate-page-enter {
+  animation: tripmate-page-enter 220ms cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
 /* Skeleton shimmer — ein fließender Gradient-Strip überquert den Platzhalter */
-@keyframes trek-shimmer {
+@keyframes tripmate-shimmer {
   from { background-position: -200% 0; }
   to   { background-position: 200% 0; }
 }
-.trek-skeleton {
+.tripmate-skeleton {
   background: linear-gradient(
     90deg,
     var(--bg-tertiary) 0%,
@@ -473,12 +473,12 @@ input[type="number"], input[type="time"], input[type="date"], input[type="dateti
     var(--bg-tertiary) 100%
   );
   background-size: 200% 100%;
-  animation: trek-shimmer 1.6s linear infinite;
+  animation: tripmate-shimmer 1.6s linear infinite;
   border-radius: 8px;
   color: transparent;
   user-select: none;
 }
-.dark .trek-skeleton {
+.dark .tripmate-skeleton {
   background: linear-gradient(
     90deg,
     rgba(255,255,255,0.04) 0%,
@@ -487,22 +487,22 @@ input[type="number"], input[type="time"], input[type="date"], input[type="dateti
   );
   background-size: 200% 100%;
 }
-.trek-menu-enter {
-  animation: trek-menu-enter 200ms cubic-bezier(0.23, 1, 0.32, 1);
+.tripmate-menu-enter {
+  animation: tripmate-menu-enter 200ms cubic-bezier(0.23, 1, 0.32, 1);
   transform-origin: top right;
   will-change: transform, opacity;
 }
-.trek-menu-enter-left {
-  animation: trek-menu-enter 200ms cubic-bezier(0.23, 1, 0.32, 1);
+.tripmate-menu-enter-left {
+  animation: tripmate-menu-enter 200ms cubic-bezier(0.23, 1, 0.32, 1);
   transform-origin: top left;
   will-change: transform, opacity;
 }
-.trek-popover-enter {
-  animation: trek-popover-enter 180ms cubic-bezier(0.23, 1, 0.32, 1);
+.tripmate-popover-enter {
+  animation: tripmate-popover-enter 180ms cubic-bezier(0.23, 1, 0.32, 1);
   will-change: transform, opacity;
 }
-.trek-modal-enter {
-  animation: trek-modal-enter 220ms cubic-bezier(0.23, 1, 0.32, 1);
+.tripmate-modal-enter {
+  animation: tripmate-modal-enter 220ms cubic-bezier(0.23, 1, 0.32, 1);
   will-change: transform, opacity;
 }
 
@@ -510,26 +510,26 @@ input[type="number"], input[type="time"], input[type="date"], input[type="dateti
    Bewegung als Antwort auf eine Handlung, nicht als Dekoration: sie hoert auf,
    sobald der Lauf durch ist, und sagt in der Zwischenzeit, in welche Richtung
    gerade etwas unterwegs ist. */
-@keyframes trek-docsync-lane {
+@keyframes tripmate-docsync-lane {
   from { background-position: 0 0; }
   to   { background-position: 16px 0; }
 }
-.trek-docsync-lane-run {
+.tripmate-docsync-lane-run {
   background-image: repeating-linear-gradient(
     90deg,
     currentColor 0 5px,
     transparent 5px 16px
   );
-  animation: trek-docsync-lane 700ms linear infinite;
+  animation: tripmate-docsync-lane 700ms linear infinite;
 }
-.trek-docsync-lane-run-rev {
+.tripmate-docsync-lane-run-rev {
   animation-direction: reverse;
 }
 
 /* Die abgeschaltete Richtung bekommt eine Schraffur, dasselbe Zeichen, das eine
    gesperrte Flaeche ueberall traegt. Es liest sich als "hier geht nichts durch",
    ohne dass die Bahn verschwindet und die Zeile zusammenklappt. */
-.trek-docsync-lane-off {
+.tripmate-docsync-lane-off {
   background-image: repeating-linear-gradient(
     -45deg,
     var(--border-primary) 0 5px,
@@ -539,7 +539,7 @@ input[type="number"], input[type="time"], input[type="date"], input[type="dateti
 
 /* Dieselbe Schraffur im Telefon-Schema: die mobilen Flaechen kennen die
    Desktop-Randfarbe nicht, und eine Fremdfarbe faellt dort sofort auf. */
-.trek-docsync-lane-off-m {
+.tripmate-docsync-lane-off-m {
   background-image: repeating-linear-gradient(
     -45deg,
     var(--m-rowbr) 0 5px,
@@ -548,105 +548,105 @@ input[type="number"], input[type="time"], input[type="date"], input[type="dateti
 }
 
 /* Mobile-Drawer-Feel — Modal slidet von unten rein, wird unten am Screen angedockt */
-@keyframes trek-drawer-enter {
+@keyframes tripmate-drawer-enter {
   from { opacity: 0; transform: translateY(100%); }
   to   { opacity: 1; transform: translateY(0); }
 }
 @media (max-width: 639px) {
-  .trek-modal-enter {
-    animation: trek-drawer-enter 320ms cubic-bezier(0.32, 0.72, 0, 1);
+  .tripmate-modal-enter {
+    animation: tripmate-drawer-enter 320ms cubic-bezier(0.32, 0.72, 0, 1);
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     margin-top: auto !important;
     align-self: flex-end;
   }
 }
-.trek-backdrop-enter {
-  animation: trek-backdrop-enter 180ms cubic-bezier(0.23, 1, 0.32, 1);
+.tripmate-backdrop-enter {
+  animation: tripmate-backdrop-enter 180ms cubic-bezier(0.23, 1, 0.32, 1);
 }
-.trek-toast-enter {
-  animation: trek-toast-enter 260ms cubic-bezier(0.23, 1, 0.32, 1);
+.tripmate-toast-enter {
+  animation: tripmate-toast-enter 260ms cubic-bezier(0.23, 1, 0.32, 1);
   will-change: transform, opacity;
 }
 
 /* Roadtrip: die Zzz am Tageswechsel im Streckenstrang. Drei Buchstaben auf einer
    Grundlinie, jeder ein Drittel des Laufs nach dem vorigen, damit immer einer
    unterwegs ist. Rein dekorativ — das Wort daneben sagt schon, was das Band ist. */
-@keyframes trek-doze {
+@keyframes tripmate-doze {
   0%   { opacity: 0; transform: translate(0, 3px) scale(0.7); }
   22%  { opacity: 0.9; }
   100% { opacity: 0; transform: translate(6px, -10px) scale(1.15); }
 }
-.trek-doze > * {
-  animation: trek-doze 3s ease-out infinite;
+.tripmate-doze > * {
+  animation: tripmate-doze 3s ease-out infinite;
 }
-.trek-doze > *:nth-child(2) { animation-delay: 1s; }
-.trek-doze > *:nth-child(3) { animation-delay: 2s; }
+.tripmate-doze > *:nth-child(2) { animation-delay: 1s; }
+.tripmate-doze > *:nth-child(3) { animation-delay: 2s; }
 
 /* Roadtrip: der Block, den eine Nachtfahrt auf dem Folgetag hinterlaesst. Er faellt
    von oben in die Karte, weil er von der Karte darueber kommt — kurz genug, dass ein
    Neuberechnen der Ankunftszeiten nicht als Zappeln liest. */
-@keyframes trek-spill-in {
+@keyframes tripmate-spill-in {
   from { opacity: 0; transform: translateY(-6px) scale(0.985); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
-.trek-spill-in {
-  animation: trek-spill-in 320ms cubic-bezier(0.23, 1, 0.32, 1) both;
+.tripmate-spill-in {
+  animation: tripmate-spill-in 320ms cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
 /* Roadtrip: die Reserveleuchte am Band, an dem der Tank leerlaeuft. Das Gegenstueck
    zu den Zzz am Tageswechsel — dort schlaeft der Tag ein, hier geht die Lampe im
    Armaturenbrett an. Langsam an, kurz aus: eine Warnleuchte blinkt nicht hektisch,
    sie glimmt. */
-@keyframes trek-lowfuel {
+@keyframes tripmate-lowfuel {
   0%, 62%, 100% { opacity: 1; }
   74%           { opacity: 0.28; }
   86%           { opacity: 1; }
 }
-.trek-lowfuel {
-  animation: trek-lowfuel 2.6s ease-in-out infinite;
+.tripmate-lowfuel {
+  animation: tripmate-lowfuel 2.6s ease-in-out infinite;
 }
 
 /* Stagger-Helpers für Listen — Enter-Animation mit Offset */
-@keyframes trek-fade-up {
+@keyframes tripmate-fade-up {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.trek-stagger > * {
-  animation: trek-fade-up 280ms cubic-bezier(0.23, 1, 0.32, 1) both;
+.tripmate-stagger > * {
+  animation: tripmate-fade-up 280ms cubic-bezier(0.23, 1, 0.32, 1) both;
 }
-.trek-stagger > *:nth-child(1) { animation-delay: 0ms; }
-.trek-stagger > *:nth-child(2) { animation-delay: 40ms; }
-.trek-stagger > *:nth-child(3) { animation-delay: 80ms; }
-.trek-stagger > *:nth-child(4) { animation-delay: 120ms; }
-.trek-stagger > *:nth-child(5) { animation-delay: 160ms; }
-.trek-stagger > *:nth-child(6) { animation-delay: 200ms; }
-.trek-stagger > *:nth-child(7) { animation-delay: 240ms; }
-.trek-stagger > *:nth-child(8) { animation-delay: 280ms; }
-.trek-stagger > *:nth-child(n+9) { animation-delay: 320ms; }
+.tripmate-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.tripmate-stagger > *:nth-child(2) { animation-delay: 40ms; }
+.tripmate-stagger > *:nth-child(3) { animation-delay: 80ms; }
+.tripmate-stagger > *:nth-child(4) { animation-delay: 120ms; }
+.tripmate-stagger > *:nth-child(5) { animation-delay: 160ms; }
+.tripmate-stagger > *:nth-child(6) { animation-delay: 200ms; }
+.tripmate-stagger > *:nth-child(7) { animation-delay: 240ms; }
+.tripmate-stagger > *:nth-child(8) { animation-delay: 280ms; }
+.tripmate-stagger > *:nth-child(n+9) { animation-delay: 320ms; }
 
 /* Reduced motion — Emil's Accessibility-Regel: fewer and gentler, not zero */
 @media (prefers-reduced-motion: reduce) {
-  .trek-menu-enter, .trek-menu-enter-left, .trek-popover-enter,
-  .trek-modal-enter, .trek-toast-enter, .trek-stagger > *, .trek-spill-in {
-    animation: trek-backdrop-enter 120ms ease-out;
+  .tripmate-menu-enter, .tripmate-menu-enter-left, .tripmate-popover-enter,
+  .tripmate-modal-enter, .tripmate-toast-enter, .tripmate-stagger > *, .tripmate-spill-in {
+    animation: tripmate-backdrop-enter 120ms ease-out;
   }
   /* Die Reserveleuchte steht still statt zu glimmen — sie bleibt an, was die Aussage
      ohnehin ist. */
-  .trek-lowfuel {
+  .tripmate-lowfuel {
     animation: none;
   }
   /* Die Bahn bleibt sichtbar, sie laeuft nur nicht mehr. Die Aussage
      "hier ist gerade etwas unterwegs" traegt auch im Stillstand. */
-  .trek-docsync-lane-run {
+  .tripmate-docsync-lane-run {
     animation: none;
   }
-  .trek-skeleton {
+  .tripmate-skeleton {
     animation: none;
     background: var(--bg-tertiary);
   }
   /* Die Zzz stehen still statt zu treiben — der Tageswechsel bleibt lesbar. */
-  .trek-doze > * {
+  .tripmate-doze > * {
     animation: none;
     opacity: 0.6;
     transform: none;
@@ -1059,7 +1059,7 @@ html.dark[data-no-transparency] {
   --sidebar-bg: #131316;
   --tooltip-bg: #131316;
 }
-html[data-no-transparency] .trek-dash {
+html[data-no-transparency] .tripmate-dash {
   --glass-bg: var(--surface, var(--bg-card));
   --glass-border: var(--line, var(--border-primary));
   --glass-blur: none;
@@ -1067,10 +1067,10 @@ html[data-no-transparency] .trek-dash {
 }
 /* The boarding-pass hero ticket uses its own translucent gradient (not the glass
    tokens) — force it solid. */
-html[data-no-transparency] .trek-dash .hero-pass {
+html[data-no-transparency] .tripmate-dash .hero-pass {
   background: var(--surface, var(--bg-card)) !important;
 }
-html[data-no-transparency] .trek-dash .hero-pass::before { display: none !important; }
+html[data-no-transparency] .tripmate-dash .hero-pass::before { display: none !important; }
 html[data-no-transparency] *,
 html[data-no-transparency] *::before,
 html[data-no-transparency] *::after {
@@ -1088,8 +1088,8 @@ html[data-no-transparency] .atlas-tooltip::before { border-top-color: var(--bg-c
 html[data-no-transparency] .leaflet-control-zoom a { background: var(--bg-card) !important; }
 html[data-no-transparency] .map-tooltip,
 html[data-no-transparency] .leaflet-tooltip.map-tooltip { background: var(--bg-card) !important; }
-html[data-no-transparency] .trek-map-popup .mapboxgl-popup-content,
-html[data-no-transparency] .trek-map-popup .maplibregl-popup-content { background: var(--bg-card) !important; }
+html[data-no-transparency] .tripmate-map-popup .mapboxgl-popup-content,
+html[data-no-transparency] .tripmate-map-popup .maplibregl-popup-content { background: var(--bg-card) !important; }
 
 /* ── Compact density ──────────────────────────────────────────────
    Tightens the spacing scale; reach grows as components adopt the tokens. */
@@ -1109,7 +1109,7 @@ body {
   transition: background-color 0.2s, color 0.2s;
 }
 
-/* Subtext tier in Geist. The faint text token is TREK's caption/secondary tier;
+/* Subtext tier in Geist. The faint text token is Trip Mate's caption/secondary tier;
    a direct rule on the element beats the Poppins inherited from wrapper styles,
    giving the design's "Geist text · Poppins numbers" hierarchy. */
 .text-content-faint { font-family: var(--font-subtext); }
@@ -1250,7 +1250,7 @@ body {
 }
 
 /* Brand images: no save/copy/drag */
-img[alt="TREK"] {
+img[alt="Trip Mate"] {
   pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
@@ -1316,7 +1316,7 @@ img[alt="TREK"] {
 .dark .min-h-screen { background-color: var(--bg-primary) !important; }
 
 /* Modal-Hintergrund */
-.dark .trek-modal-backdrop { background: rgba(0,0,0,0.6); }
+.dark .tripmate-modal-backdrop { background: rgba(0,0,0,0.6); }
 
 /* ── Dark: Fallback für Komponenten die noch nicht auf CSS-Variablen umgestellt sind ── */
 .dark {
@@ -1349,7 +1349,7 @@ img[alt="TREK"] {
 }
 
 /* Modal-Hintergrund (eigener Namespace, sonst blenden Content-Blocker .modal-backdrop aus) */
-.trek-modal-backdrop {
+.tripmate-modal-backdrop {
   backdrop-filter: blur(4px);
 }
 
@@ -1560,8 +1560,8 @@ img[alt="TREK"] {
   }
 }
 
-/* ── TREK range slider — thin filled track + soft round thumb ─────────────── */
-.trek-range {
+/* ── Trip Mate range slider — thin filled track + soft round thumb ─────────────── */
+.tripmate-range {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
@@ -1571,7 +1571,7 @@ img[alt="TREK"] {
   outline: none;
   cursor: pointer;
 }
-.trek-range::-webkit-slider-thumb {
+.tripmate-range::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 18px;
   height: 18px;
@@ -1581,9 +1581,9 @@ img[alt="TREK"] {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
   transition: transform 0.12s ease;
 }
-.trek-range::-webkit-slider-thumb:hover { transform: scale(1.1); }
-.trek-range::-webkit-slider-thumb:active { transform: scale(1.18); }
-.trek-range::-moz-range-thumb {
+.tripmate-range::-webkit-slider-thumb:hover { transform: scale(1.1); }
+.tripmate-range::-webkit-slider-thumb:active { transform: scale(1.18); }
+.tripmate-range::-moz-range-thumb {
   width: 18px;
   height: 18px;
   border-radius: 50%;
@@ -1591,4 +1591,4 @@ img[alt="TREK"] {
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 }
-.trek-range::-moz-range-track { height: 5px; border-radius: 999px; background: transparent; }
+.tripmate-range::-moz-range-track { height: 5px; border-radius: 999px; background: transparent; }

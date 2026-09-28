@@ -83,7 +83,7 @@ export const mapsAutocompleteSuggestionSchema = z.object({
   /**
    * Which index this one row came from, when the answer is more than one index
    * interleaved. The list-level `source` cannot say it: the keystroke path asks
-   * the TREK index and the OpenStreetMap layer together, so a single name above
+   * the Trip Mate index and the OpenStreetMap layer together, so a single name above
    * the list marks half the rows wrong.
    *
    * Optional because Google and the Nominatim fallback each answer from one
@@ -168,7 +168,7 @@ export const placeDescriptionSourceSchema = z.enum([
   'osm',
   'wikivoyage',
   'wikipedia',
-  /** Quoted from the place's own site, via the TREK Places API. */
+  /** Quoted from the place's own site, via the Trip Mate Places API. */
   'website',
 ]);
 export type PlaceDescriptionSource = z.infer<typeof placeDescriptionSourceSchema>;

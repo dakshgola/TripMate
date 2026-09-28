@@ -1,18 +1,18 @@
 /**
- * The TREK plugin design kit (#plugins).
+ * The Trip Mate plugin design kit (#plugins).
  *
- * A plugin's UI runs in a sandboxed, opaque-origin iframe — it can't load TREK's
+ * A plugin's UI runs in a sandboxed, opaque-origin iframe — it can't load Trip Mate's
  * stylesheet, only postMessage. So instead of forcing every author to re-derive the
- * look, we ship it: a token-driven stylesheet (`TREK_UI_CSS`) plus a tiny bootstrap
- * (`TREK_THEME_JS`) that wires the frame to the host. Both are plain strings, meant
+ * look, we ship it: a token-driven stylesheet (`TRIPMATE_UI_CSS`) plus a tiny bootstrap
+ * (`TRIPMATE_THEME_JS`) that wires the frame to the host. Both are plain strings, meant
  * to be INLINED into the plugin's own `client/index.html` (the CSP forbids external
  * <link>/<script src> for an opaque frame). Authors opt in with a single
- * `<!-- trek:ui -->` marker; `dev`/`pack` expand it, and `create` seeds it.
+ * `<!-- tripmate:ui -->` marker; `dev`/`pack` expand it, and `create` seeds it.
  *
  * The kit carries its own default values, so a component looks right on first paint,
  * then the bootstrap overrides the live tokens the host sends (accent scheme, custom
  * accent, high-contrast, light/dark) so the plugin tracks the app exactly. The glassy
- * `.trek-dash` layer (the --glass, --r and --sh families) is scoped to the dashboard
+ * `.tripmate-dash` layer (the --glass, --r and --sh families) is scoped to the dashboard
  * in the host, so it can't be read over the bridge — those values are baked here
  * (they only change
  * with light/dark, keyed off `[data-theme="dark"]`, not with the accent).
@@ -22,10 +22,10 @@
  */
 
 /** Marker an author drops in `client/index.html`; `dev`/`pack` replace it with the kit. */
-export const TREK_UI_MARKER = '<!-- trek:ui -->';
+export const TRIPMATE_UI_MARKER = '<!-- tripmate:ui -->';
 
-/** Token-driven stylesheet. Inline as `<style>${TREK_UI_CSS}</style>`. */
-export const TREK_UI_CSS = `/* TREK plugin design kit — token-driven, matches the host in light + dark. */
+/** Token-driven stylesheet. Inline as `<style>${TRIPMATE_UI_CSS}</style>`. */
+export const TRIPMATE_UI_CSS = `/* Trip Mate plugin design kit — token-driven, matches the host in light + dark. */
 :root {
   color-scheme: light;
   /* Live tokens (the host overrides these per theme/accent via the bridge). */
@@ -41,7 +41,7 @@ export const TREK_UI_CSS = `/* TREK plugin design kit — token-driven, matches 
   --shadow-lg: 0 12px 32px rgba(0,0,0,.12);
   --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px; --radius-xl: 20px;
   --font-system: 'Poppins', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
-  /* Baked glass layer (mirrors the host's .trek-dash; not sent over the bridge). */
+  /* Baked glass layer (mirrors the host's .tripmate-dash; not sent over the bridge). */
   --glass-bg: linear-gradient(135deg, oklch(1 0 0 / .72) 0%, oklch(0.99 0.006 75 / .5) 100%);
   --glass-border: oklch(0.88 0.008 70 / .7);
   --glass-shadow: 0 1px 2px oklch(0.4 0.02 60 / .05), 0 12px 32px -14px oklch(0.3 0.02 60 / .2);
@@ -49,9 +49,9 @@ export const TREK_UI_CSS = `/* TREK plugin design kit — token-driven, matches 
   --glass-highlight: inset 0 1px 0 oklch(1 0 0 / .8);
   --glass-blur: blur(22px) saturate(1.7);
   --r-sm: 14px; --r-md: 18px; --r-lg: 22px; --r-xl: 28px;
-  /* The house easings: a punchy card curve and TREK's ease-out-quint. */
-  --trek-ease: cubic-bezier(.2,.7,.2,1);
-  --trek-ease-quint: cubic-bezier(.23,1,.32,1);
+  /* The house easings: a punchy card curve and Trip Mate's ease-out-quint. */
+  --tripmate-ease: cubic-bezier(.2,.7,.2,1);
+  --tripmate-ease-quint: cubic-bezier(.23,1,.32,1);
 }
 [data-theme="dark"] {
   color-scheme: dark;
@@ -72,9 +72,9 @@ export const TREK_UI_CSS = `/* TREK plugin design kit — token-driven, matches 
   --glass-highlight: inset 0 1px 0 oklch(1 0 0 / .09);
 }
 
-/* Base: a light reset + native type. The bootstrap adds \`trek-ui\` to <body>. */
+/* Base: a light reset + native type. The bootstrap adds \`tripmate-ui\` to <body>. */
 *, *::before, *::after { box-sizing: border-box; }
-body.trek-ui {
+body.tripmate-ui {
   margin: 0;
   font-family: var(--font-system);
   font-size: 14px;
@@ -84,17 +84,17 @@ body.trek-ui {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.trek-ui :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.tripmate-ui :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 
 /* Cards + panels ----------------------------------------------------------- */
-.trek-card {
+.tripmate-card {
   background: var(--bg-card);
   border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   padding: 16px;
 }
-.trek-glass {
+.tripmate-glass {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   border-radius: var(--r-xl);
@@ -104,73 +104,73 @@ body.trek-ui {
   padding: 24px 26px;
 }
 /* Add to a card/glass to make it lift on hover, like a native tool tile. */
-.trek-interactive {
-  transition: transform .3s var(--trek-ease), box-shadow .3s, border-color .3s;
+.tripmate-interactive {
+  transition: transform .3s var(--tripmate-ease), box-shadow .3s, border-color .3s;
   cursor: pointer;
 }
-.trek-glass.trek-interactive:hover {
+.tripmate-glass.tripmate-interactive:hover {
   transform: translateY(-2px);
   box-shadow: var(--glass-shadow-hover), var(--glass-highlight);
 }
-.trek-card.trek-interactive:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-.trek-interactive:active { transform: translateY(0); }
+.tripmate-card.tripmate-interactive:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.tripmate-interactive:active { transform: translateY(0); }
 
 /* Buttons ------------------------------------------------------------------ */
-.trek-btn {
+.tripmate-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   padding: 10px 16px; border-radius: 12px;
   font: inherit; font-size: 14px; font-weight: 500; line-height: 1;
   border: 1px solid transparent; cursor: pointer; text-decoration: none; white-space: nowrap;
-  transition: transform .08s var(--trek-ease-quint), background .15s, box-shadow .15s, border-color .15s, color .15s;
+  transition: transform .08s var(--tripmate-ease-quint), background .15s, box-shadow .15s, border-color .15s, color .15s;
 }
-.trek-btn:active { transform: scale(.97); }
-.trek-btn:disabled { opacity: .5; cursor: not-allowed; }
-.trek-btn--primary { background: var(--accent); color: var(--accent-text); box-shadow: var(--shadow-sm); }
-.trek-btn--primary:hover:not(:disabled) { background: var(--accent-hover); }
-.trek-btn--secondary { background: var(--bg-card); color: var(--text-primary); border-color: var(--border-primary); box-shadow: var(--shadow-sm); }
-.trek-btn--secondary:hover:not(:disabled) { background: var(--bg-hover); }
-.trek-btn--ghost { background: transparent; color: var(--text-secondary); }
-.trek-btn--ghost:hover:not(:disabled) { background: var(--bg-hover); color: var(--text-primary); }
-.trek-btn--danger { background: var(--danger); color: #fff; }
-.trek-btn--danger:hover:not(:disabled) { filter: brightness(1.05); }
+.tripmate-btn:active { transform: scale(.97); }
+.tripmate-btn:disabled { opacity: .5; cursor: not-allowed; }
+.tripmate-btn--primary { background: var(--accent); color: var(--accent-text); box-shadow: var(--shadow-sm); }
+.tripmate-btn--primary:hover:not(:disabled) { background: var(--accent-hover); }
+.tripmate-btn--secondary { background: var(--bg-card); color: var(--text-primary); border-color: var(--border-primary); box-shadow: var(--shadow-sm); }
+.tripmate-btn--secondary:hover:not(:disabled) { background: var(--bg-hover); }
+.tripmate-btn--ghost { background: transparent; color: var(--text-secondary); }
+.tripmate-btn--ghost:hover:not(:disabled) { background: var(--bg-hover); color: var(--text-primary); }
+.tripmate-btn--danger { background: var(--danger); color: #fff; }
+.tripmate-btn--danger:hover:not(:disabled) { filter: brightness(1.05); }
 
 /* Form controls ------------------------------------------------------------ */
-.trek-input, .trek-textarea, .trek-select {
+.tripmate-input, .tripmate-textarea, .tripmate-select {
   width: 100%; box-sizing: border-box;
   padding: 8px 14px; border-radius: 10px;
   border: 1px solid var(--border-primary); background: var(--bg-input); color: var(--text-primary);
   font: inherit; font-size: 13px; outline: none;
   transition: border-color .15s, box-shadow .15s, background .15s;
 }
-.trek-textarea { resize: vertical; min-height: 72px; }
-.trek-input::placeholder, .trek-textarea::placeholder { color: var(--text-faint); }
-.trek-input:focus, .trek-textarea:focus, .trek-select:focus {
+.tripmate-textarea { resize: vertical; min-height: 72px; }
+.tripmate-input::placeholder, .tripmate-textarea::placeholder { color: var(--text-faint); }
+.tripmate-input:focus, .tripmate-textarea:focus, .tripmate-select:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 22%, transparent);
 }
-.trek-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
+.tripmate-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
 
 /* Enhanced select — the kit upgrades a native <select> into this listbox so the
    dropdown matches the host (a native popup is drawn by the OS and can't be
    themed). The real <select> stays in the DOM as the value source. */
-.trek-select-wrap { position: relative; }
-.trek-select-native-hidden {
+.tripmate-select-wrap { position: relative; }
+.tripmate-select-native-hidden {
   position: absolute !important; width: 1px; height: 1px;
   padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); border: 0;
 }
-.trek-select-trigger {
+.tripmate-select-trigger {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
   text-align: start; cursor: pointer;
 }
-.trek-select-trigger:disabled { opacity: .5; cursor: not-allowed; }
-.trek-select-trigger[aria-expanded="true"] {
+.tripmate-select-trigger:disabled { opacity: .5; cursor: not-allowed; }
+.tripmate-select-trigger[aria-expanded="true"] {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 22%, transparent);
 }
-.trek-select-value { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.trek-select-caret { flex: none; display: inline-flex; color: var(--text-faint); transition: transform .15s; }
-.trek-select-trigger[aria-expanded="true"] .trek-select-caret { transform: rotate(180deg); }
-.trek-select-menu {
+.tripmate-select-value { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tripmate-select-caret { flex: none; display: inline-flex; color: var(--text-faint); transition: transform .15s; }
+.tripmate-select-trigger[aria-expanded="true"] .tripmate-select-caret { transform: rotate(180deg); }
+.tripmate-select-menu {
   position: absolute; left: 0; right: 0; top: 100%; z-index: 50;
   margin-top: 6px; padding: 4px;
   max-height: 260px; overflow-y: auto;
@@ -178,110 +178,110 @@ body.trek-ui {
   border: 1px solid var(--border-primary); border-radius: 10px;
   box-shadow: var(--shadow-md);
 }
-.trek-select-menu[data-placement="top"] { top: auto; bottom: 100%; margin-top: 0; margin-bottom: 6px; }
-.trek-select-option {
+.tripmate-select-menu[data-placement="top"] { top: auto; bottom: 100%; margin-top: 0; margin-bottom: 6px; }
+.tripmate-select-option {
   display: flex; align-items: center; gap: 8px;
   padding: 8px 10px; border-radius: 7px; cursor: pointer;
   font-size: 13px; white-space: nowrap;
 }
-.trek-select-option.trek-active { background: var(--bg-hover); }
-.trek-select-option[aria-selected="true"] { color: var(--accent); font-weight: 600; }
-.trek-select-option[aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
+.tripmate-select-option.tripmate-active { background: var(--bg-hover); }
+.tripmate-select-option[aria-selected="true"] { color: var(--accent); font-weight: 600; }
+.tripmate-select-option[aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
 
 /* Chips + badges ----------------------------------------------------------- */
-.trek-chip {
+.tripmate-chip {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 4px 10px; border-radius: 999px;
   font-size: 12px; font-weight: 600; white-space: nowrap;
   color: var(--text-secondary); background: var(--accent-subtle);
 }
-.trek-chip--accent  { color: var(--accent);  background: color-mix(in oklch, var(--accent) 12%, transparent); }
-.trek-chip--success { color: var(--success); background: var(--success-soft); }
-.trek-chip--danger  { color: var(--danger);  background: var(--danger-soft); }
-.trek-chip--warning { color: var(--warning); background: var(--warning-soft); }
-.trek-chip--info    { color: var(--info);    background: var(--info-soft); }
+.tripmate-chip--accent  { color: var(--accent);  background: color-mix(in oklch, var(--accent) 12%, transparent); }
+.tripmate-chip--success { color: var(--success); background: var(--success-soft); }
+.tripmate-chip--danger  { color: var(--danger);  background: var(--danger-soft); }
+.tripmate-chip--warning { color: var(--warning); background: var(--warning-soft); }
+.tripmate-chip--info    { color: var(--info);    background: var(--info-soft); }
 
 /* Rows + text helpers ------------------------------------------------------ */
-.trek-row {
+.tripmate-row {
   display: flex; align-items: center; gap: 12px;
   padding: 10px 12px; border-radius: 12px; cursor: pointer;
   transition: background .12s;
 }
-.trek-row:hover { background: var(--bg-hover); }
-.trek-title { font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: .14em; color: var(--text-muted); }
-.trek-muted { color: var(--text-muted); }
-.trek-faint { color: var(--text-faint); }
+.tripmate-row:hover { background: var(--bg-hover); }
+.tripmate-title { font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: .14em; color: var(--text-muted); }
+.tripmate-muted { color: var(--text-muted); }
+.tripmate-faint { color: var(--text-faint); }
 
 /* Layout helpers ----------------------------------------------------------- */
-.trek-stack { display: flex; flex-direction: column; gap: 12px; }
-.trek-cluster { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.tripmate-stack { display: flex; flex-direction: column; gap: 12px; }
+.tripmate-cluster { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
 
 /* Motion library — the host's animation vocabulary, mirrored 1:1 from
-   index.css so plugin UI moves exactly like TREK does. ---------------------- */
-@keyframes trek-menu-enter {
+   index.css so plugin UI moves exactly like Trip Mate does. ---------------------- */
+@keyframes tripmate-menu-enter {
   from { opacity: 0; transform: scale(0.95) translateY(-4px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
 }
-@keyframes trek-popover-enter {
+@keyframes tripmate-popover-enter {
   from { opacity: 0; transform: scale(0.96); }
   to   { opacity: 1; transform: scale(1); }
 }
-@keyframes trek-modal-enter {
+@keyframes tripmate-modal-enter {
   from { opacity: 0; transform: scale(0.97); }
   to   { opacity: 1; transform: scale(1); }
 }
-@keyframes trek-backdrop-enter {
+@keyframes tripmate-backdrop-enter {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
-@keyframes trek-toast-enter {
+@keyframes tripmate-toast-enter {
   from { opacity: 0; transform: translateY(8px) scale(0.96); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
-@keyframes trek-progress-fill {
+@keyframes tripmate-progress-fill {
   from { width: 0%; }
-  to   { width: var(--trek-progress-to, 0%); }
+  to   { width: var(--tripmate-progress-to, 0%); }
 }
-@keyframes trek-pie-reveal {
+@keyframes tripmate-pie-reveal {
   from { opacity: 0; transform: rotate(-90deg) scale(0.85); }
   to   { opacity: 1; transform: rotate(0deg) scale(1); }
 }
-@keyframes trek-bar-fill {
+@keyframes tripmate-bar-fill {
   from { transform: scaleX(0); }
   to   { transform: scaleX(1); }
 }
-@keyframes trek-page-enter {
+@keyframes tripmate-page-enter {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-@keyframes trek-shimmer {
+@keyframes tripmate-shimmer {
   from { background-position: -200% 0; }
   to   { background-position: 200% 0; }
 }
-@keyframes trek-drawer-enter {
+@keyframes tripmate-drawer-enter {
   from { opacity: 0; transform: translateY(100%); }
   to   { opacity: 1; transform: translateY(0); }
 }
-@keyframes trek-fade-up {
+@keyframes tripmate-fade-up {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.trek-menu-enter {
-  animation: trek-menu-enter 200ms var(--trek-ease-quint);
+.tripmate-menu-enter {
+  animation: tripmate-menu-enter 200ms var(--tripmate-ease-quint);
   transform-origin: top right; will-change: transform, opacity;
 }
-.trek-menu-enter-left {
-  animation: trek-menu-enter 200ms var(--trek-ease-quint);
+.tripmate-menu-enter-left {
+  animation: tripmate-menu-enter 200ms var(--tripmate-ease-quint);
   transform-origin: top left; will-change: transform, opacity;
 }
-.trek-popover-enter { animation: trek-popover-enter 180ms var(--trek-ease-quint); will-change: transform, opacity; }
-.trek-modal-enter { animation: trek-modal-enter 220ms var(--trek-ease-quint); will-change: transform, opacity; }
+.tripmate-popover-enter { animation: tripmate-popover-enter 180ms var(--tripmate-ease-quint); will-change: transform, opacity; }
+.tripmate-modal-enter { animation: tripmate-modal-enter 220ms var(--tripmate-ease-quint); will-change: transform, opacity; }
 @media (max-width: 639px) {
-  .trek-modal-enter { animation: trek-drawer-enter 320ms cubic-bezier(0.32, 0.72, 0, 1); }
+  .tripmate-modal-enter { animation: tripmate-drawer-enter 320ms cubic-bezier(0.32, 0.72, 0, 1); }
 }
 
 /* Mobile layer ------------------------------------------------------------- *
- * TREK 4 gives the phone its own design: a translucent, border-led surface over
+ * Trip Mate 4 gives the phone its own design: a translucent, border-led surface over
  * a gradient, no drop shadows, and touch feedback rather than hover. The host
  * hands the mobile palette (--m-*) down with the rest of the tokens whenever a
  * frame is mounted inside the mobile shell, so these rules only restate the
@@ -290,12 +290,12 @@ body.trek-ui {
  * Everything here is keyed on [data-form-factor="phone"], which the host sets
  * from the viewport it reports. On desktop not a single rule below applies. */
 
-[data-form-factor="phone"] .trek-ui,
-[data-form-factor="phone"] body.trek-ui { font-size: 15px; }
+[data-form-factor="phone"] .tripmate-ui,
+[data-form-factor="phone"] body.tripmate-ui { font-size: 15px; }
 
 /* The card is the workhorse. On the phone it is a translucent tile with a hairline
    border and no shadow — a drop shadow over the gradient reads as a sticker. */
-[data-form-factor="phone"] .trek-card {
+[data-form-factor="phone"] .tripmate-card {
   background: var(--m-card, var(--bg-card));
   border: 1px solid var(--m-cbr, var(--border-primary));
   border-radius: 16px;
@@ -304,7 +304,7 @@ body.trek-ui {
   -webkit-backdrop-filter: blur(30px) saturate(1.8);
   backdrop-filter: blur(30px) saturate(1.8);
 }
-[data-form-factor="phone"] .trek-glass {
+[data-form-factor="phone"] .tripmate-glass {
   background: var(--m-glass, var(--glass-bg));
   border-color: var(--m-gbr, var(--glass-border));
   border-radius: 20px;
@@ -314,163 +314,163 @@ body.trek-ui {
 
 /* Touch has no hover. The lift on hover never fires on a phone and the pressed
    state never existed, so a tap gave no feedback at all. */
-[data-form-factor="phone"] .trek-card.trek-interactive:hover,
-[data-form-factor="phone"] .trek-glass.trek-interactive:hover { transform: none; box-shadow: none; }
-[data-form-factor="phone"] .trek-interactive:active,
-[data-form-factor="phone"] .trek-btn:active,
-[data-form-factor="phone"] .trek-row:active { transform: scale(.985); opacity: .9; }
-[data-form-factor="phone"] .trek-btn:hover { filter: none; }
+[data-form-factor="phone"] .tripmate-card.tripmate-interactive:hover,
+[data-form-factor="phone"] .tripmate-glass.tripmate-interactive:hover { transform: none; box-shadow: none; }
+[data-form-factor="phone"] .tripmate-interactive:active,
+[data-form-factor="phone"] .tripmate-btn:active,
+[data-form-factor="phone"] .tripmate-row:active { transform: scale(.985); opacity: .9; }
+[data-form-factor="phone"] .tripmate-btn:hover { filter: none; }
 
 /* 44px is the smallest target that reliably hits on a phone. */
-[data-form-factor="phone"] .trek-btn { min-height: 44px; border-radius: 12px; }
-[data-form-factor="phone"] .trek-row { min-height: 48px; }
+[data-form-factor="phone"] .tripmate-btn { min-height: 44px; border-radius: 12px; }
+[data-form-factor="phone"] .tripmate-row { min-height: 48px; }
 
 /* An input below 16px makes iOS Safari zoom the page on focus, and the zoom does
    not come back. This is the single most common mobile bug in embedded UI. */
-[data-form-factor="phone"] .trek-input,
-[data-form-factor="phone"] .trek-select,
-[data-form-factor="phone"] .trek-textarea { font-size: 16px; min-height: 44px; border-radius: 12px; }
+[data-form-factor="phone"] .tripmate-input,
+[data-form-factor="phone"] .tripmate-select,
+[data-form-factor="phone"] .tripmate-textarea { font-size: 16px; min-height: 44px; border-radius: 12px; }
 
 /* Ink follows the mobile palette where it exists. */
-[data-form-factor="phone"] .trek-title { color: var(--m-ink, var(--text-primary)); }
-[data-form-factor="phone"] .trek-sub,
-[data-form-factor="phone"] .trek-muted { color: var(--m-muted, var(--text-muted)); }
+[data-form-factor="phone"] .tripmate-title { color: var(--m-ink, var(--text-primary)); }
+[data-form-factor="phone"] .tripmate-sub,
+[data-form-factor="phone"] .tripmate-muted { color: var(--m-muted, var(--text-muted)); }
 
 /* A filling surface owns its own scrolling: the host will not scroll for it, and
    a height report is discarded. Anchor the body and scroll the content. */
-[data-fill] .trek-ui, [data-fill] body.trek-ui { height: 100%; overflow: hidden; }
-[data-fill] .trek-scroll {
+[data-fill] .tripmate-ui, [data-fill] body.tripmate-ui { height: 100%; overflow: hidden; }
+[data-fill] .tripmate-scroll {
   height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
 }
 
 /* Building blocks the native mobile screens are made of, so a plugin does not
    have to reverse-engineer them from screenshots. */
-.trek-eyebrow {
+.tripmate-eyebrow {
   font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
   color: var(--m-faint, var(--text-faint));
 }
-.trek-countpill {
+.tripmate-countpill {
   display: inline-flex; align-items: center; justify-content: center;
   min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px;
   background: var(--m-ic, var(--bg-tertiary)); color: var(--m-muted, var(--text-muted));
   font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums;
 }
-.trek-sectionhead {
+.tripmate-sectionhead {
   display: flex; align-items: center; gap: 7px; width: 100%;
   margin: 15px 0 2px; padding: 0 2px; background: none; border: 0;
   font: inherit; text-align: left; cursor: pointer;
 }
-.trek-statusdot { width: 8px; height: 8px; border-radius: 999px; flex: none; background: var(--m-st-neutral, var(--text-faint)); }
-.trek-statusdot[data-status="confirmed"] { background: var(--m-st-confirmed, var(--success)); }
-.trek-statusdot[data-status="pending"] { background: var(--m-st-pending, var(--warning)); }
-.trek-statusdot[data-status="info"] { background: var(--m-st-info, var(--info)); }
-.trek-statusdot[data-status="danger"] { background: var(--m-st-danger, var(--danger)); }
-.trek-iconbtn {
+.tripmate-statusdot { width: 8px; height: 8px; border-radius: 999px; flex: none; background: var(--m-st-neutral, var(--text-faint)); }
+.tripmate-statusdot[data-status="confirmed"] { background: var(--m-st-confirmed, var(--success)); }
+.tripmate-statusdot[data-status="pending"] { background: var(--m-st-pending, var(--warning)); }
+.tripmate-statusdot[data-status="info"] { background: var(--m-st-info, var(--info)); }
+.tripmate-statusdot[data-status="danger"] { background: var(--m-st-danger, var(--danger)); }
+.tripmate-iconbtn {
   display: inline-grid; place-items: center; flex: none;
   width: 38px; height: 38px; border-radius: 999px; cursor: pointer;
   background: var(--m-ic, var(--bg-tertiary));
   border: 1px solid var(--m-gbr, var(--border-primary));
   color: var(--m-ink, var(--text-primary));
 }
-.trek-iconbtn:active { transform: scale(.94); }
-.trek-field { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.trek-field > .trek-field-label {
+.tripmate-iconbtn:active { transform: scale(.94); }
+.tripmate-field { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.tripmate-field > .tripmate-field-label {
   font-size: 9px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
   color: var(--m-faint, var(--text-faint));
 }
-.trek-field > .trek-field-value {
+.tripmate-field > .tripmate-field-value {
   font-size: 13px; font-weight: 600; color: var(--m-ink, var(--text-primary));
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-.trek-segmented {
+.tripmate-segmented {
   display: inline-flex; align-items: center; gap: 2px; padding: 3px; border-radius: 999px;
   background: var(--m-glass, var(--bg-tertiary));
   border: 1px solid var(--m-gbr, var(--border-primary));
 }
-.trek-segmented > button {
+.tripmate-segmented > button {
   border: 0; background: none; cursor: pointer; font: inherit;
   padding: 8px 16px; border-radius: 999px; white-space: nowrap;
   font-size: 13px; font-weight: 500; color: var(--m-ink, var(--text-primary));
 }
-.trek-segmented > button[aria-pressed="true"],
-.trek-segmented > button.on {
+.tripmate-segmented > button[aria-pressed="true"],
+.tripmate-segmented > button.on {
   background: var(--m-act, var(--accent)); color: var(--m-actfg, var(--accent-text)); font-weight: 600;
 }
 
-.trek-backdrop-enter { animation: trek-backdrop-enter 180ms var(--trek-ease-quint); }
-.trek-toast-enter { animation: trek-toast-enter 260ms var(--trek-ease-quint); will-change: transform, opacity; }
-.trek-pie-reveal {
-  animation: trek-pie-reveal 900ms var(--trek-ease-quint) both;
+.tripmate-backdrop-enter { animation: tripmate-backdrop-enter 180ms var(--tripmate-ease-quint); }
+.tripmate-toast-enter { animation: tripmate-toast-enter 260ms var(--tripmate-ease-quint); will-change: transform, opacity; }
+.tripmate-pie-reveal {
+  animation: tripmate-pie-reveal 900ms var(--tripmate-ease-quint) both;
   transform-origin: center; will-change: transform, opacity;
 }
-.trek-bar-fill {
-  animation: trek-bar-fill 700ms var(--trek-ease-quint) both;
+.tripmate-bar-fill {
+  animation: tripmate-bar-fill 700ms var(--tripmate-ease-quint) both;
   transform-origin: left center; will-change: transform;
 }
-.trek-page-enter { animation: trek-page-enter 220ms var(--trek-ease-quint) both; }
-.trek-skeleton {
+.tripmate-page-enter { animation: tripmate-page-enter 220ms var(--tripmate-ease-quint) both; }
+.tripmate-skeleton {
   background: linear-gradient(90deg, var(--bg-tertiary) 0%, var(--bg-hover) 50%, var(--bg-tertiary) 100%);
   background-size: 200% 100%;
-  animation: trek-shimmer 1.6s linear infinite;
+  animation: tripmate-shimmer 1.6s linear infinite;
   border-radius: 8px; color: transparent; user-select: none;
 }
-[data-theme="dark"] .trek-skeleton {
+[data-theme="dark"] .tripmate-skeleton {
   background: linear-gradient(90deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 100%);
   background-size: 200% 100%;
 }
-.trek-stagger > * { animation: trek-fade-up 280ms var(--trek-ease-quint) both; }
-.trek-stagger > *:nth-child(1) { animation-delay: 0ms; }
-.trek-stagger > *:nth-child(2) { animation-delay: 40ms; }
-.trek-stagger > *:nth-child(3) { animation-delay: 80ms; }
-.trek-stagger > *:nth-child(4) { animation-delay: 120ms; }
-.trek-stagger > *:nth-child(5) { animation-delay: 160ms; }
-.trek-stagger > *:nth-child(6) { animation-delay: 200ms; }
-.trek-stagger > *:nth-child(7) { animation-delay: 240ms; }
-.trek-stagger > *:nth-child(8) { animation-delay: 280ms; }
-.trek-stagger > *:nth-child(n+9) { animation-delay: 320ms; }
+.tripmate-stagger > * { animation: tripmate-fade-up 280ms var(--tripmate-ease-quint) both; }
+.tripmate-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.tripmate-stagger > *:nth-child(2) { animation-delay: 40ms; }
+.tripmate-stagger > *:nth-child(3) { animation-delay: 80ms; }
+.tripmate-stagger > *:nth-child(4) { animation-delay: 120ms; }
+.tripmate-stagger > *:nth-child(5) { animation-delay: 160ms; }
+.tripmate-stagger > *:nth-child(6) { animation-delay: 200ms; }
+.tripmate-stagger > *:nth-child(7) { animation-delay: 240ms; }
+.tripmate-stagger > *:nth-child(8) { animation-delay: 280ms; }
+.tripmate-stagger > *:nth-child(n+9) { animation-delay: 320ms; }
 
 /* Accessibility: mirror the host's own graceful-degrade rules. -------------- */
-[data-no-transparency] .trek-glass {
+[data-no-transparency] .tripmate-glass {
   background: var(--bg-card); border-color: var(--border-primary);
   box-shadow: var(--shadow-card);
   -webkit-backdrop-filter: none; backdrop-filter: none;
 }
-[data-reduce-motion] .trek-interactive,
-[data-reduce-motion] .trek-btn,
-[data-reduce-motion] .trek-row { transition: none; }
-[data-reduce-motion] .trek-interactive:hover,
-[data-reduce-motion] .trek-btn:active { transform: none; }
-[data-reduce-motion] .trek-menu-enter, [data-reduce-motion] .trek-menu-enter-left,
-[data-reduce-motion] .trek-popover-enter, [data-reduce-motion] .trek-modal-enter,
-[data-reduce-motion] .trek-toast-enter, [data-reduce-motion] .trek-stagger > *,
-[data-reduce-motion] .trek-page-enter {
-  animation: trek-backdrop-enter 120ms ease-out;
+[data-reduce-motion] .tripmate-interactive,
+[data-reduce-motion] .tripmate-btn,
+[data-reduce-motion] .tripmate-row { transition: none; }
+[data-reduce-motion] .tripmate-interactive:hover,
+[data-reduce-motion] .tripmate-btn:active { transform: none; }
+[data-reduce-motion] .tripmate-menu-enter, [data-reduce-motion] .tripmate-menu-enter-left,
+[data-reduce-motion] .tripmate-popover-enter, [data-reduce-motion] .tripmate-modal-enter,
+[data-reduce-motion] .tripmate-toast-enter, [data-reduce-motion] .tripmate-stagger > *,
+[data-reduce-motion] .tripmate-page-enter {
+  animation: tripmate-backdrop-enter 120ms ease-out;
 }
-[data-reduce-motion] .trek-pie-reveal, [data-reduce-motion] .trek-bar-fill {
-  animation: trek-backdrop-enter 120ms ease-out both;
+[data-reduce-motion] .tripmate-pie-reveal, [data-reduce-motion] .tripmate-bar-fill {
+  animation: tripmate-backdrop-enter 120ms ease-out both;
 }
-[data-reduce-motion] .trek-skeleton { animation: none; background: var(--bg-tertiary); }
-[data-reduce-motion] .trek-select-caret { transition: none; }
+[data-reduce-motion] .tripmate-skeleton { animation: none; background: var(--bg-tertiary); }
+[data-reduce-motion] .tripmate-select-caret { transition: none; }
 @media (prefers-reduced-motion: reduce) {
-  .trek-interactive, .trek-btn, .trek-row, .trek-input, .trek-textarea, .trek-select, .trek-select-caret { transition: none; }
-  .trek-interactive:hover, .trek-btn:active { transform: none; }
-  .trek-menu-enter, .trek-menu-enter-left, .trek-popover-enter,
-  .trek-modal-enter, .trek-toast-enter, .trek-stagger > *, .trek-page-enter {
-    animation: trek-backdrop-enter 120ms ease-out;
+  .tripmate-interactive, .tripmate-btn, .tripmate-row, .tripmate-input, .tripmate-textarea, .tripmate-select, .tripmate-select-caret { transition: none; }
+  .tripmate-interactive:hover, .tripmate-btn:active { transform: none; }
+  .tripmate-menu-enter, .tripmate-menu-enter-left, .tripmate-popover-enter,
+  .tripmate-modal-enter, .tripmate-toast-enter, .tripmate-stagger > *, .tripmate-page-enter {
+    animation: tripmate-backdrop-enter 120ms ease-out;
   }
-  .trek-pie-reveal, .trek-bar-fill { animation: trek-backdrop-enter 120ms ease-out both; }
-  .trek-skeleton { animation: none; background: var(--bg-tertiary); }
+  .tripmate-pie-reveal, .tripmate-bar-fill { animation: tripmate-backdrop-enter 120ms ease-out both; }
+  .tripmate-skeleton { animation: none; background: var(--bg-tertiary); }
 }`;
 
 /**
- * The bridge bootstrap. Inline as `<script>${TREK_THEME_JS}</script>` (typically via
- * the `<!-- trek:ui -->` marker). It: announces readiness; applies the host's theme
+ * The bridge bootstrap. Inline as `<script>${TRIPMATE_THEME_JS}</script>` (typically via
+ * the `<!-- tripmate:ui -->` marker). It: announces readiness; applies the host's theme
  * tokens, theme name and appearance flags to the document; auto-reports its height so
- * a widget/page self-sizes; and installs a small `window.trek` helper over the same
+ * a widget/page self-sizes; and installs a small `window.tripmate` helper over the same
  * bridge messages the host already understands — it adds no new capability.
  */
-export const TREK_THEME_JS = `(function () {
+export const TRIPMATE_THEME_JS = `(function () {
   'use strict';
   var docEl = document.documentElement;
   var ctxHandlers = [];
@@ -505,8 +505,8 @@ export const TREK_THEME_JS = `(function () {
     if (vp.surface) { docEl.setAttribute('data-surface', vp.surface); }
     setFlag('data-fill', vp.fill);
     var ins = vp.insets || {};
-    docEl.style.setProperty('--trek-inset-top', (ins.top || 0) + 'px');
-    docEl.style.setProperty('--trek-inset-bottom', (ins.bottom || 0) + 'px');
+    docEl.style.setProperty('--tripmate-inset-top', (ins.top || 0) + 'px');
+    docEl.style.setProperty('--tripmate-inset-bottom', (ins.bottom || 0) + 'px');
     var t = m.tokens || {};
     for (var k in t) {
       if (Object.prototype.hasOwnProperty.call(t, k) && t[k]) { docEl.style.setProperty(k, t[k]); }
@@ -516,12 +516,12 @@ export const TREK_THEME_JS = `(function () {
     setFlag('data-no-transparency', a.noTransparency);
     if (a.density) { docEl.setAttribute('data-density', a.density); }
     if (a.scheme) { docEl.setAttribute('data-scheme', a.scheme); }
-    if (document.body) { document.body.classList.add('trek-ui'); }
+    if (document.body) { document.body.classList.add('tripmate-ui'); }
   }
 
   function reportHeight() {
     var h = Math.ceil(document.documentElement.scrollHeight);
-    if (h > 0 && h !== lastH) { lastH = h; send({ type: 'trek:resize', height: h }); }
+    if (h > 0 && h !== lastH) { lastH = h; send({ type: 'tripmate:resize', height: h }); }
   }
 
   window.addEventListener('message', function (ev) {
@@ -530,36 +530,36 @@ export const TREK_THEME_JS = `(function () {
     if (ev.source !== window.parent) { return; }
     var m = ev.data;
     if (!m || typeof m !== 'object') { return; }
-    if (m.type === 'trek:context') {
+    if (m.type === 'tripmate:context') {
       lastCtx = m; api.context = m;
       applyContext(m);
       for (var i = 0; i < ctxHandlers.length; i++) { try { ctxHandlers[i](m); } catch (e) {} }
       reportHeight();
-    } else if (m.type === 'trek:response') {
+    } else if (m.type === 'tripmate:response') {
       var p = pending[m.requestId];
       if (p) { delete pending[m.requestId]; p.resolve(m.data); }
-    } else if (m.type === 'trek:error') {
+    } else if (m.type === 'tripmate:error') {
       var q = pending[m.requestId];
       if (q) { delete pending[m.requestId]; var err = new Error(m.message || 'invoke failed'); err.code = m.code; q.reject(err); }
-    } else if (m.type === 'trek:confirm:result') {
+    } else if (m.type === 'tripmate:confirm:result') {
       var c = pendingConfirms[m.requestId];
       if (c) { delete pendingConfirms[m.requestId]; c(!!m.confirmed); }
-    } else if (m.type === 'trek:geolocation:result') {
+    } else if (m.type === 'tripmate:geolocation:result') {
       var g = pendingGeo[m.requestId];
       if (g) {
         delete pendingGeo[m.requestId];
         if (m.error) { var gerr = new Error('geolocation: ' + m.error); gerr.code = m.error; g.reject(gerr); }
         else { g.resolve(m.position || m); }
       }
-    } else if (m.type === 'trek:geolocation:update') {
+    } else if (m.type === 'tripmate:geolocation:update') {
       for (var w = 0; w < geoWatchers.length; w++) { try { geoWatchers[w](m.position || null, m.error || null); } catch (e) {} }
-    } else if (m.type === 'trek:event') {
+    } else if (m.type === 'tripmate:event') {
       for (var j = 0; j < evtHandlers.length; j++) { try { evtHandlers[j](m.event, m.tripId); } catch (e) {} }
     }
   });
 
   // Native DOM helpers so a widget can build kit-styled UI with no bundler and no
-  // hand-written CSS — every element carries the same trek-* classes the kit ships.
+  // hand-written CSS — every element carries the same tripmate-* classes the kit ships.
   function mkEl(tag, props, children) {
     var node = document.createElement(tag);
     props = props || {};
@@ -585,11 +585,11 @@ export const TREK_THEME_JS = `(function () {
     el: mkEl,
     button: function (label, opts) {
       opts = opts || {};
-      return mkEl('button', { class: 'trek-btn' + (opts.variant ? ' trek-btn--' + opts.variant : ''), type: 'button', text: label, on: opts.onClick ? { click: opts.onClick } : null }, null);
+      return mkEl('button', { class: 'tripmate-btn' + (opts.variant ? ' tripmate-btn--' + opts.variant : ''), type: 'button', text: label, on: opts.onClick ? { click: opts.onClick } : null }, null);
     },
-    card: function (children) { return mkEl('div', { class: 'trek-card' }, children); },
-    chip: function (text, variant) { return mkEl('span', { class: 'trek-chip' + (variant ? ' trek-chip--' + variant : ''), text: text }, null); },
-    input: function (opts) { opts = opts || {}; return mkEl('input', { class: 'trek-input', type: opts.type || 'text', placeholder: opts.placeholder || '', value: opts.value || '' }, null); },
+    card: function (children) { return mkEl('div', { class: 'tripmate-card' }, children); },
+    chip: function (text, variant) { return mkEl('span', { class: 'tripmate-chip' + (variant ? ' tripmate-chip--' + variant : ''), text: text }, null); },
+    input: function (opts) { opts = opts || {}; return mkEl('input', { class: 'tripmate-input', type: opts.type || 'text', placeholder: opts.placeholder || '', value: opts.value || '' }, null); },
     mount: function (node, target) { (target || document.body).appendChild(node); return node; }
   };
 
@@ -598,28 +598,28 @@ export const TREK_THEME_JS = `(function () {
       var id = 's' + (++seq);
       return new Promise(function (resolve, reject) {
         pending[id] = { resolve: resolve, reject: reject };
-        if (!send({ type: 'trek:session:get', requestId: id, key: key, scope: opts && opts.scope })) { reject(unsendable(pending, id, 'SESSION_INVALID_VALUE', 'session value must be JSON-serialisable')); }
+        if (!send({ type: 'tripmate:session:get', requestId: id, key: key, scope: opts && opts.scope })) { reject(unsendable(pending, id, 'SESSION_INVALID_VALUE', 'session value must be JSON-serialisable')); }
       });
     },
     set: function (key, value, opts) {
       var id = 's' + (++seq);
       return new Promise(function (resolve, reject) {
         pending[id] = { resolve: resolve, reject: reject };
-        if (!send({ type: 'trek:session:set', requestId: id, key: key, value: value, scope: opts && opts.scope })) { reject(unsendable(pending, id, 'SESSION_INVALID_VALUE', 'session value must be JSON-serialisable')); }
+        if (!send({ type: 'tripmate:session:set', requestId: id, key: key, value: value, scope: opts && opts.scope })) { reject(unsendable(pending, id, 'SESSION_INVALID_VALUE', 'session value must be JSON-serialisable')); }
       });
     },
     remove: function (key, opts) {
       var id = 's' + (++seq);
       return new Promise(function (resolve, reject) {
         pending[id] = { resolve: resolve, reject: reject };
-        if (!send({ type: 'trek:session:remove', requestId: id, key: key, scope: opts && opts.scope })) { reject(unsendable(pending, id, 'SESSION_INVALID_VALUE', 'session value must be JSON-serialisable')); }
+        if (!send({ type: 'tripmate:session:remove', requestId: id, key: key, scope: opts && opts.scope })) { reject(unsendable(pending, id, 'SESSION_INVALID_VALUE', 'session value must be JSON-serialisable')); }
       });
     },
     clear: function (opts) {
       var id = 's' + (++seq);
       return new Promise(function (resolve, reject) {
         pending[id] = { resolve: resolve, reject: reject };
-        if (!send({ type: 'trek:session:clear', requestId: id, scope: opts && opts.scope })) { reject(unsendable(pending, id, 'SESSION_INVALID_VALUE', 'session value must be JSON-serialisable')); }
+        if (!send({ type: 'tripmate:session:clear', requestId: id, scope: opts && opts.scope })) { reject(unsendable(pending, id, 'SESSION_INVALID_VALUE', 'session value must be JSON-serialisable')); }
       });
     }
   };
@@ -628,17 +628,17 @@ export const TREK_THEME_JS = `(function () {
     context: null,
     ui: ui,
     session: session,
-    ready: function () { send({ type: 'trek:ready' }); },
-    requestContext: function () { send({ type: 'trek:context:request' }); },
+    ready: function () { send({ type: 'tripmate:ready' }); },
+    requestContext: function () { send({ type: 'tripmate:context:request' }); },
     onContext: function (cb) {
       ctxHandlers.push(cb);
       if (lastCtx) { try { cb(lastCtx); } catch (e) {} }
       return function () { var i = ctxHandlers.indexOf(cb); if (i >= 0) { ctxHandlers.splice(i, 1); } };
     },
-    notify: function (level, message, duration) { send({ type: 'trek:notify', level: level, message: message, duration: duration }); },
-    navigate: function (to) { send({ type: 'trek:navigate', to: to }); },
-    openExternal: function (url) { send({ type: 'trek:openExternal', url: url }); },
-    resize: function (px) { var h = px | 0; if (h > 0) { lastH = h; send({ type: 'trek:resize', height: h }); } },
+    notify: function (level, message, duration) { send({ type: 'tripmate:notify', level: level, message: message, duration: duration }); },
+    navigate: function (to) { send({ type: 'tripmate:navigate', to: to }); },
+    openExternal: function (url) { send({ type: 'tripmate:openExternal', url: url }); },
+    resize: function (px) { var h = px | 0; if (h > 0) { lastH = h; send({ type: 'tripmate:resize', height: h }); } },
     // Host-rendered native confirm dialog; resolves true/false. The host shows one
     // at a time — a second concurrent request resolves false immediately.
     confirm: function (opts) {
@@ -646,7 +646,7 @@ export const TREK_THEME_JS = `(function () {
       var id = 'c' + (++seq);
       return new Promise(function (resolve) {
         pendingConfirms[id] = resolve;
-        if (!send({ type: 'trek:confirm', requestId: id, title: opts.title, message: opts.message, confirmLabel: opts.confirmLabel, cancelLabel: opts.cancelLabel, danger: opts.danger })) { delete pendingConfirms[id]; resolve(false); }
+        if (!send({ type: 'tripmate:confirm', requestId: id, title: opts.title, message: opts.message, confirmLabel: opts.confirmLabel, cancelLabel: opts.cancelLabel, danger: opts.danger })) { delete pendingConfirms[id]; resolve(false); }
       });
     },
     // Core-event names for the trip in view ({ event, tripId } only, no payloads) —
@@ -660,7 +660,7 @@ export const TREK_THEME_JS = `(function () {
       var id = 'r' + (++seq);
       return new Promise(function (resolve, reject) {
         pending[id] = { resolve: resolve, reject: reject };
-        if (!send({ type: 'trek:invoke', requestId: id, sub: sub, method: opts.method, body: opts.body })) { reject(unsendable(pending, id, 'error', 'invoke body must be JSON-serialisable')); }
+        if (!send({ type: 'tripmate:invoke', requestId: id, sub: sub, method: opts.method, body: opts.body })) { reject(unsendable(pending, id, 'error', 'invoke body must be JSON-serialisable')); }
       });
     },
     // Host-brokered browser position (needs the geolocation:read grant; the
@@ -672,7 +672,7 @@ export const TREK_THEME_JS = `(function () {
         var id = 'g' + (++seq);
         return new Promise(function (resolve, reject) {
           pendingGeo[id] = { resolve: resolve, reject: reject };
-          send({ type: 'trek:geolocation', requestId: id, action: 'get' });
+          send({ type: 'tripmate:geolocation', requestId: id, action: 'get' });
         });
       },
       watch: function (cb) {
@@ -682,7 +682,7 @@ export const TREK_THEME_JS = `(function () {
           // The start ack resolves silently; a start error (e.g. forbidden) is
           // surfaced through the callback so watch() itself never throws.
           pendingGeo[id] = { resolve: function () {}, reject: function (e) { try { cb(null, e && e.code ? e.code : 'unavailable'); } catch (x) {} } };
-          send({ type: 'trek:geolocation', requestId: id, action: 'watch' });
+          send({ type: 'tripmate:geolocation', requestId: id, action: 'watch' });
         }
         return function () {
           var i = geoWatchers.indexOf(cb);
@@ -690,19 +690,19 @@ export const TREK_THEME_JS = `(function () {
           if (geoWatchers.length === 0) {
             var cid = 'g' + (++seq);
             pendingGeo[cid] = { resolve: function () {}, reject: function () {} };
-            send({ type: 'trek:geolocation', requestId: cid, action: 'clear' });
+            send({ type: 'tripmate:geolocation', requestId: cid, action: 'clear' });
           }
         };
       }
     }
   };
-  window.trek = api;
+  window.tripmate = api;
 
   // --- Native <select> -> host-styled listbox ---------------------------------
-  // A native select's popup is drawn by the OS and can't match TREK. Upgrade each
+  // A native select's popup is drawn by the OS and can't match Trip Mate. Upgrade each
   // one to a keyboard-accessible listbox that uses the kit tokens, while the real
   // <select> stays in the DOM as the value/form source (kept in sync both ways).
-  // Opt out per field with data-trek-native; multi/size selects are left alone.
+  // Opt out per field with data-tripmate-native; multi/size selects are left alone.
   function dispatch(el, type) {
     var ev;
     try { ev = new Event(type, { bubbles: true }); }
@@ -710,35 +710,35 @@ export const TREK_THEME_JS = `(function () {
     el.dispatchEvent(ev);
   }
   function enhanceSelect(sel) {
-    if (!sel || sel.__trekSelect || sel.hasAttribute('data-trek-native')) { return; }
+    if (!sel || sel.__trekSelect || sel.hasAttribute('data-tripmate-native')) { return; }
     if (sel.multiple || sel.size > 1 || !sel.parentNode) { return; }
     sel.__trekSelect = true;
 
     var wrap = document.createElement('div');
-    wrap.className = 'trek-select-wrap';
+    wrap.className = 'tripmate-select-wrap';
     sel.parentNode.insertBefore(wrap, sel);
     wrap.appendChild(sel);
-    sel.classList.add('trek-select-native-hidden');
+    sel.classList.add('tripmate-select-native-hidden');
     sel.setAttribute('tabindex', '-1');
     sel.setAttribute('aria-hidden', 'true');
 
     var trigger = document.createElement('button');
     trigger.type = 'button';
-    trigger.className = 'trek-select trek-select-trigger';
+    trigger.className = 'tripmate-select tripmate-select-trigger';
     trigger.setAttribute('aria-haspopup', 'listbox');
     trigger.setAttribute('aria-expanded', 'false');
     if (sel.disabled) { trigger.disabled = true; }
     var valueEl = document.createElement('span');
-    valueEl.className = 'trek-select-value';
+    valueEl.className = 'tripmate-select-value';
     var caret = document.createElement('span');
-    caret.className = 'trek-select-caret';
+    caret.className = 'tripmate-select-caret';
     caret.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
     trigger.appendChild(valueEl);
     trigger.appendChild(caret);
     wrap.appendChild(trigger);
 
     var menu = document.createElement('div');
-    menu.className = 'trek-select-menu';
+    menu.className = 'tripmate-select-menu';
     menu.setAttribute('role', 'listbox');
     menu.hidden = true;
     wrap.appendChild(menu);
@@ -754,7 +754,7 @@ export const TREK_THEME_JS = `(function () {
       for (var i = 0; i < sel.options.length; i++) {
         var o = sel.options[i];
         var item = document.createElement('div');
-        item.className = 'trek-select-option';
+        item.className = 'tripmate-select-option';
         item.setAttribute('role', 'option');
         item.setAttribute('data-idx', String(i));
         item.setAttribute('aria-selected', i === sel.selectedIndex ? 'true' : 'false');
@@ -766,7 +766,7 @@ export const TREK_THEME_JS = `(function () {
     function highlight(idx) {
       var opts = menu.children;
       for (var i = 0; i < opts.length; i++) {
-        opts[i].className = i === idx ? 'trek-select-option trek-active' : 'trek-select-option';
+        opts[i].className = i === idx ? 'tripmate-select-option tripmate-active' : 'tripmate-select-option';
       }
       if (idx >= 0 && opts[idx] && opts[idx].scrollIntoView) { opts[idx].scrollIntoView({ block: 'nearest' }); }
       activeIdx = idx;
@@ -849,7 +849,7 @@ export const TREK_THEME_JS = `(function () {
   }
 
   function boot() {
-    if (document.body) { document.body.classList.add('trek-ui'); }
+    if (document.body) { document.body.classList.add('tripmate-ui'); }
     enhanceAllSelects(document);
     if (typeof MutationObserver !== 'undefined' && document.body) {
       new MutationObserver(function (muts) {
@@ -874,13 +874,13 @@ export const TREK_THEME_JS = `(function () {
 })();`;
 
 /**
- * Replace the `<!-- trek:ui -->` marker in a plugin's HTML with the inlined kit
+ * Replace the `<!-- tripmate:ui -->` marker in a plugin's HTML with the inlined kit
  * (style + bootstrap). A no-op when the marker is absent, so it is safe to run over
  * any HTML. The source file on disk is never touched — the expansion happens at
  * dev-serve / pack time, so an author's `client/index.html` stays a one-line opt-in.
  */
 export function injectTrekUi(html: string): string {
-  if (!html.includes(TREK_UI_MARKER)) return html;
-  const block = `<style data-trek-ui>\n${TREK_UI_CSS}\n</style>\n<script data-trek-ui>\n${TREK_THEME_JS}\n</script>`;
-  return html.split(TREK_UI_MARKER).join(block);
+  if (!html.includes(TRIPMATE_UI_MARKER)) return html;
+  const block = `<style data-tripmate-ui>\n${TRIPMATE_UI_CSS}\n</style>\n<script data-tripmate-ui>\n${TRIPMATE_THEME_JS}\n</script>`;
+  return html.split(TRIPMATE_UI_MARKER).join(block);
 }

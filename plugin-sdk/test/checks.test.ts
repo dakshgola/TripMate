@@ -20,7 +20,7 @@ const GOOD_MANIFEST = {
   author: 'Jane Doe',
   description: 'Shows your next flight on the trip dashboard.',
   type: 'widget',
-  trek: '>=3.4.0 <4.0.0',
+  tripmate: '>=3.4.0 <4.0.0',
   icon: 'Plane',
   nativeModules: false,
   permissions: ['db:own'],
@@ -99,7 +99,7 @@ describe('manifest checks', () => {
     expect(failed(r, 'manifest.icon')).toBe(true);
   });
 
-  it('allows no icon at all (TREK falls back to Blocks) but says so', () => {
+  it('allows no icon at all (Trip Mate falls back to Blocks) but says so', () => {
     const m = { ...GOOD_MANIFEST };
     delete (m as Record<string, unknown>).icon;
     const r = runOffline(ctx({ manifest: m }));
@@ -113,17 +113,17 @@ describe('manifest checks', () => {
     expect(failed(r, 'manifest.entry-fields')).toBe(true);
   });
 
-  it('warns — but does not fail — on an unbounded trek range', () => {
-    const r = runOffline(ctx({ manifest: { ...GOOD_MANIFEST, trek: '*' } }));
-    expect(warned(r, 'manifest.trek-range')).toBe(true);
-    expect(failed(r, 'manifest.trek-range')).toBe(false);
+  it('warns — but does not fail — on an unbounded tripmate range', () => {
+    const r = runOffline(ctx({ manifest: { ...GOOD_MANIFEST, tripmate: '*' } }));
+    expect(warned(r, 'manifest.tripmate-range')).toBe(true);
+    expect(failed(r, 'manifest.tripmate-range')).toBe(false);
   });
 });
 
 /**
  * The egress trap.
  *
- * TREK builds the child's network allow-list and the iframe CSP from the `http:outbound:<host>`
+ * Trip Mate builds the child's network allow-list and the iframe CSP from the `http:outbound:<host>`
  * PERMISSIONS. It never reads the manifest's `egress[]` array — that is a declaration for the
  * consent screen. So a host in egress[] with no matching permission is silently unreachable at
  * runtime: the plugin installs, activates, consents, and every request to it is blocked. Nothing
@@ -196,7 +196,7 @@ describe('README checks', () => {
   it('fails when docs/screenshot.png does not exist, whatever the README links', () => {
     const r = runOffline(ctx({ exists: (rel) => rel === 'server/index.js' }));
     expect(failed(r, 'docs.screenshot')).toBe(true);
-    expect(r.errors.find((e) => e.id === 'docs.screenshot')?.next).toBe('trek-plugin shot');
+    expect(r.errors.find((e) => e.id === 'docs.screenshot')?.next).toBe('tripmate-plugin shot');
   });
 
   it('passes on docs/screenshot.png alone — README image links are not what CI checks', () => {
@@ -207,7 +207,7 @@ describe('README checks', () => {
 
 /**
  * `pack` must not be blocked by a gate that only matters at publish time — packing is how you
- * install a plugin into a local TREK to try it, and an unwritten README does not stop it running.
+ * install a plugin into a local Trip Mate to try it, and an unwritten README does not stop it running.
  */
 describe('what blocks what', () => {
   it('an undocumented plugin blocks publish but not the artifact', () => {
@@ -219,7 +219,7 @@ describe('what blocks what', () => {
   });
 
   it('a broken manifest blocks the artifact too — that plugin could never load', () => {
-    const broken = runOffline(ctx({ manifest: { ...GOOD_MANIFEST, trek: 'not-a-range' } }));
+    const broken = runOffline(ctx({ manifest: { ...GOOD_MANIFEST, tripmate: 'not-a-range' } }));
     expect(blocking(broken, 'artifact').ok).toBe(false);
   });
 
@@ -281,7 +281,7 @@ describe('README helpers mirror the registry exactly', () => {
 
   it('spots each template placeholder the registry spots', () => {
     expect(placeholders('Describe what your plugin does.')).toHaveLength(1);
-    expect(placeholders('see your-name/trek-plugin-x')).toHaveLength(1);
+    expect(placeholders('see your-name/tripmate-plugin-x')).toHaveLength(1);
     expect(placeholders('{{ TODO }}')).toHaveLength(1);
     expect(placeholders('a real README')).toEqual([]);
   });

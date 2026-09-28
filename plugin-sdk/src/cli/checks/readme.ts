@@ -1,7 +1,7 @@
 /**
  * The README quality gate, as pure functions of the markdown.
  *
- * These are a LINE-FOR-LINE port of TREK-Plugins' scripts/check-readme.mjs. They live apart
+ * These are a LINE-FOR-LINE port of Trip Mate-Plugins' scripts/check-readme.mjs. They live apart
  * from the checks that call them because the same gate runs twice, against two different
  * READMEs, and both must agree with CI:
  *
@@ -24,7 +24,7 @@ export const PLACEHOLDER_PATTERNS = [
   /\{\{[^}]*\}\}/,
   /\bREPLACE_ME\b/i,
   /\bDescribe (what|the)\b/i,
-  /\byour-name\/trek-plugin/i,
+  /\byour-name\/tripmate-plugin/i,
 ];
 
 export const MIN_PROSE_CHARS = 400;

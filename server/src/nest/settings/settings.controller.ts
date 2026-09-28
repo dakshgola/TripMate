@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpCode, HttpException, Post, Put, Req, UseGuards } from '@nestjs/common';
 import type { Request } from 'express';
-import { MASKED_SETTING_VALUE } from '@trek/shared';
+import { MASKED_SETTING_VALUE } from '@tripmate/shared';
 import type { User } from '../../types';
 import { SettingsService, isAdminOnlyEndpointSetting } from './settings.service';
 import { SettingUpsertDto, SettingsBulkDto } from './settings.dto';
@@ -16,7 +16,7 @@ import { isManagedLockedKey, splitManagedKeys } from '../common/managed';
 /**
  * /api/settings — per-user key/value preferences: get-all, single upsert
  * (no-op on the masked sentinel), and bulk upsert (500 on a write error). All
- * answer 200. Bodies validate against the @trek/shared settings schemas via
+ * answer 200. Bodies validate against the @tripmate/shared settings schemas via
  * the DTO classes in settings.dto.ts + the global ZodValidationPipe (400 with
  * the standard `{ error }` envelope on mismatch — this replaced the legacy
  * bespoke 'Key is required' / 'Settings object is required' checks).

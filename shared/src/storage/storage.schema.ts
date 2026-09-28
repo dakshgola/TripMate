@@ -30,7 +30,7 @@ export const STORAGE_CATEGORIES = [
   'avatars',
   'places',
   'photos-google',
-  'photos-trek',
+  'photos-tripmate',
   'backups',
 ] as const;
 export type StorageCategory = (typeof STORAGE_CATEGORIES)[number];

@@ -23,7 +23,7 @@ import type { CalendarService } from '../../../src/nest/calendar/calendar.servic
 import type { TripReadModelService } from '../../../src/nest/trip-read-model/trip-read-model.service';
 import { NotFoundError, ValidationError } from '../../../src/nest/trips/trips.service';
 import type { User } from '../../../src/types';
-import { MAX_TRIP_DAYS, activeTripResponseSchema, tripCreateRequestSchema, tripTransferOwnershipRequestSchema } from '@trek/shared';
+import { MAX_TRIP_DAYS, activeTripResponseSchema, tripCreateRequestSchema, tripTransferOwnershipRequestSchema } from '@tripmate/shared';
 
 const user = { id: 1, role: 'user', email: 'u@example.test' } as User;
 const req = { headers: {} } as Request;
@@ -356,7 +356,7 @@ describe('TripsController (parity with the legacy /api/trips route)', () => {
       isDemoEmail.mockReturnValueOnce(true);
       try {
         expect(await thrownAsync(() => tc(svc()).cover(user, '9', file))).toEqual({
-          status: 403, body: { error: 'Uploads are disabled in demo mode. Self-host TREK for full functionality.' },
+          status: 403, body: { error: 'Uploads are disabled in demo mode. Self-host Trip Mate for full functionality.' },
         });
       } finally {
         if (prev === undefined) delete process.env.DEMO_MODE;

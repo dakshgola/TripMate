@@ -23,7 +23,7 @@ function flight(over: Partial<AirtrailFlightRaw> = {}): AirtrailFlightRaw {
     to: airport({ id: 2, icao: 'EGLL', iata: 'LHR', name: 'London Heathrow', lat: 51.4706, lon: -0.4619, tz: 'Europe/London' }),
     date: '2021-09-01',
     datePrecision: 'day',
-    // Actual times (delayed) — TREK must IGNORE these and read the scheduled times.
+    // Actual times (delayed) — Trip Mate must IGNORE these and read the scheduled times.
     departure: '2021-09-01T23:42:00.000+00:00',
     arrival: '2021-09-02T07:42:00.000+00:00',
     departureScheduled: '2021-09-01T23:00:00.000+00:00', // 19:00 local at JFK (EDT, UTC-4)
@@ -177,18 +177,18 @@ describe('airtrailMapper.canonicalHash', () => {
   });
 
   it('tracks the scheduled time and ignores actual-time changes', () => {
-    // A scheduled-time change is what TREK imports, so it must re-sync...
+    // A scheduled-time change is what Trip Mate imports, so it must re-sync...
     expect(canonicalHash(flight())).not.toBe(
       canonicalHash(flight({ departureScheduled: '2021-09-01T22:00:00.000+00:00' })),
     );
-    // ...but a change to the actual time alone must not (TREK shows the scheduled one).
+    // ...but a change to the actual time alone must not (Trip Mate shows the scheduled one).
     expect(canonicalHash(flight())).toBe(
       canonicalHash(flight({ departure: '2021-09-01T20:00:00.000+00:00', arrival: '2021-09-02T05:00:00.000+00:00' })),
     );
   });
 
   it('#1336 tracks the primary departure when there is no scheduled time', () => {
-    // With no scheduled time, departure IS what TREK imports, so a change must re-sync.
+    // With no scheduled time, departure IS what Trip Mate imports, so a change must re-sync.
     const manual = flight({ departureScheduled: null, arrivalScheduled: null });
     expect(canonicalHash(manual)).not.toBe(
       canonicalHash(flight({ departureScheduled: null, arrivalScheduled: null, departure: '2021-09-01T20:00:00.000+00:00' })),
@@ -361,7 +361,7 @@ describe('airtrailMapper — AirTrail 3.12.0 passengers', () => {
 
   // The snapshot hash decides whether a pull re-imports a flight. Feeding it from
   // either shape under the same key keeps an unchanged old-shape flight hashing
-  // exactly as before, so upgrading TREK must not re-sync every flight.
+  // exactly as before, so upgrading Trip Mate must not re-sync every flight.
   it('leaves the hash of an unchanged old-shape flight alone', () => {
     // Pinned to what the pre-#1931 snapshot produced for this fixture. If this
     // ever has to be re-pinned, every existing AirTrail flight re-syncs once.

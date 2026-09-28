@@ -68,7 +68,7 @@ export function ContextMenu({ menu, onClose }: ContextMenuProps) {
   if (!menu) return null
 
   return createPortal(
-    <div ref={ref} className="trek-popover-enter" style={{
+    <div ref={ref} className="tripmate-popover-enter" style={{
       position: 'fixed', left: menu.x, top: menu.y, zIndex: 999999,
       background: 'var(--bg-card)', borderRadius: 10, padding: '4px',
       border: '1px solid var(--border-primary)',

@@ -41,8 +41,8 @@ function userRow(row: Record<string, unknown> | undefined): void {
 afterEach(() => vi.clearAllMocks());
 
 describe('extractToken', () => {
-  it('returns cookie value when trek_session cookie is set', () => {
-    expect(extractToken(makeReq({ cookies: { trek_session: 'cookie-token' } }))).toBe('cookie-token');
+  it('returns cookie value when tripmate_session cookie is set', () => {
+    expect(extractToken(makeReq({ cookies: { tripmate_session: 'cookie-token' } }))).toBe('cookie-token');
   });
 
   it('returns Bearer token from Authorization header when no cookie', () => {
@@ -51,7 +51,7 @@ describe('extractToken', () => {
 
   it('prefers cookie over Authorization header when both are present', () => {
     const req = makeReq({
-      cookies: { trek_session: 'cookie-token' },
+      cookies: { tripmate_session: 'cookie-token' },
       headers: { authorization: 'Bearer header-token' },
     });
     expect(extractToken(req)).toBe('cookie-token');

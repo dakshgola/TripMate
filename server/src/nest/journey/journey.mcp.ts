@@ -345,7 +345,7 @@ export class JourneyMcp {
       tags: z.array(z.string()).optional(),
       pros_cons: PROS_CONS.optional().describe('The verdict on the place: what was worth it and what was not'),
       visibility: ENTRY_VISIBILITY.optional().describe('Defaults to private; "shared" and "public" expose the entry through the journey share link'),
-      type: ENTRY_TYPE.optional().describe('Defaults to "entry"; "skeleton" is the stub TREK derives from a trip place and hides behind the hide-skeletons preference'),
+      type: ENTRY_TYPE.optional().describe('Defaults to "entry"; "skeleton" is the stub Trip Mate derives from a trip place and hides behind the hide-skeletons preference'),
       sort_order: z.number().int().min(0).optional(),
     },
     annotations: TOOL_ANNOTATIONS_NON_IDEMPOTENT,
@@ -643,7 +643,7 @@ export class JourneyMcp {
 
   @Resource({
     name: 'journeys',
-    uri: 'trek://journeys',
+    uri: 'tripmate://journeys',
     description: 'All journeys owned or contributed to by the current user',
     mimeType: 'application/json',
     when: journeyAddonOn,
@@ -655,7 +655,7 @@ export class JourneyMcp {
 
   @ResourceTemplate({
     name: 'journey-detail',
-    uriTemplate: 'trek://journeys/{journeyId}',
+    uriTemplate: 'tripmate://journeys/{journeyId}',
     description: 'Single journey with entries, contributors, and trip links',
     mimeType: 'application/json',
     when: journeyAddonOn,
@@ -671,7 +671,7 @@ export class JourneyMcp {
 
   @ResourceTemplate({
     name: 'journey-entries',
-    uriTemplate: 'trek://journeys/{journeyId}/entries',
+    uriTemplate: 'tripmate://journeys/{journeyId}/entries',
     description: 'All entries in a journey (date, text, mood, linked trip)',
     mimeType: 'application/json',
     when: journeyAddonOn,
@@ -686,7 +686,7 @@ export class JourneyMcp {
 
   @ResourceTemplate({
     name: 'journey-contributors',
-    uriTemplate: 'trek://journeys/{journeyId}/contributors',
+    uriTemplate: 'tripmate://journeys/{journeyId}/contributors',
     description: 'Contributors (owners and collaborators) of a journey',
     mimeType: 'application/json',
     when: journeyAddonOn,

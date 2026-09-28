@@ -28,7 +28,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -408,11 +408,11 @@ describe('Day-note tools — scope gating', () => {
 });
 
 // ---------------------------------------------------------------------------
-// trek://trips/{tripId}/days/{dayId}/notes resource (moved from the legacy
+// tripmate://trips/{tripId}/days/{dayId}/notes resource (moved from the legacy
 // registerResources to DayNotesMcp)
 // ---------------------------------------------------------------------------
 
-describe('Resource: trek://trips/{tripId}/days/{dayId}/notes', () => {
+describe('Resource: tripmate://trips/{tripId}/days/{dayId}/notes', () => {
   it('returns the day notes ordered by sort_order', async () => {
     const { user } = createUser(testDb);
     const trip = createTrip(testDb, user.id);
@@ -420,7 +420,7 @@ describe('Resource: trek://trips/{tripId}/days/{dayId}/notes', () => {
     createDayNote(testDb, day.id, trip.id, { text: 'Second', sort_order: 5 });
     createDayNote(testDb, day.id, trip.id, { text: 'First', sort_order: 1 });
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/days/${day.id}/notes` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/days/${day.id}/notes` });
       const notes = parseResourceResult(result) as { text: string }[];
       expect(notes).toHaveLength(2);
       expect(notes[0].text).toBe('First');
@@ -434,7 +434,7 @@ describe('Resource: trek://trips/{tripId}/days/{dayId}/notes', () => {
     const trip = createTrip(testDb, other.id);
     const day = createDay(testDb, trip.id);
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/days/${day.id}/notes` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/days/${day.id}/notes` });
       expect(parseResourceResult(result)).toEqual({ error: 'Trip not found or access denied' });
     });
   });
@@ -442,7 +442,7 @@ describe('Resource: trek://trips/{tripId}/days/{dayId}/notes', () => {
   it('returns the access-denied payload for a malformed id', async () => {
     const { user } = createUser(testDb);
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: 'trek://trips/1/days/not-a-number/notes' });
+      const result = await h.client.readResource({ uri: 'tripmate://trips/1/days/not-a-number/notes' });
       expect(parseResourceResult(result)).toEqual({ error: 'Trip not found or access denied' });
     });
   });
@@ -700,14 +700,14 @@ describe('Tool: delete_collab_note', () => {
 // registers via the nest-mcp registry inside registerTools (CollabMcp
 // @ResourceTemplate), which resources.test.ts's withTools: false harness
 // never attaches.
-describe('Resource: trek://trips/{tripId}/collab-notes', () => {
+describe('Resource: tripmate://trips/{tripId}/collab-notes', () => {
   it('returns collab notes with username', async () => {
     const { user } = createUser(testDb);
     const trip = createTrip(testDb, user.id);
     createCollabNote(testDb, trip.id, user.id, { title: 'Ideas' });
 
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/collab-notes` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/collab-notes` });
       const notes = parseResourceResult(result) as any[];
       expect(notes).toHaveLength(1);
       expect(notes[0].title).toBe('Ideas');
@@ -721,7 +721,7 @@ describe('Resource: trek://trips/{tripId}/collab-notes', () => {
     const trip = createTrip(testDb, other.id);
 
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/collab-notes` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/collab-notes` });
       const data = parseResourceResult(result) as any;
       expect(data.error).toBeTruthy();
     });

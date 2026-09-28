@@ -1,6 +1,6 @@
 // FE-UTIL-DAYADD-001 to FE-UTIL-DAYADD-003
 import { describe, it, expect } from 'vitest'
-import { addIsoDays, MAX_TRIP_DAYS } from '@trek/shared'
+import { addIsoDays, MAX_TRIP_DAYS } from '@tripmate/shared'
 import { datedDayOption } from './dayAdd'
 
 const t = (key: string, params?: Record<string, string | number>) =>

@@ -1,7 +1,7 @@
 import pathMod from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { Readable } from 'node:stream';
-import { journalPluginPhotoInputSchema } from '@trek/shared';
+import { journalPluginPhotoInputSchema } from '@tripmate/shared';
 import { PluginController, PluginMethod } from '../plugins/host/rpc-kit/decorators';
 import { PluginGuards } from '../plugins/host/plugin-guards.service';
 import { BadParams, ForbiddenResource } from '../plugins/host/rpc-errors';

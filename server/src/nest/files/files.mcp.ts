@@ -4,8 +4,8 @@ import {
   TOOL_ANNOTATIONS_DELETE, TOOL_ANNOTATIONS_READONLY, TOOL_ANNOTATIONS_WRITE,
   demoDenied, errorResult, ok,
 } from '../../nest-mcp';
-import { fileLinkRequestSchema, fileUpdateRequestSchema } from '@trek/shared';
-import type { FileLinkRequest, FileUpdateRequest } from '@trek/shared';
+import { fileLinkRequestSchema, fileUpdateRequestSchema } from '@tripmate/shared';
+import type { FileLinkRequest, FileUpdateRequest } from '@tripmate/shared';
 import { noAccess, permissionDenied } from '../../mcp/tools/_shared';
 import { AuthService } from '../auth/auth.service';
 import { McpToolGuardsService } from '../mcp-shared/mcp-tool-guards.service';
@@ -25,7 +25,7 @@ function isTextual(mimetype: string): boolean {
 /** The MCP wording for a refused content read; the plugin RPC has its own for the same reasons. */
 function contentRefusal(err: FileContentError): string {
   if (err.reason === 'too-large') {
-    return `File is too large to read here (over ${CONTENT_MAX_MB} MB). Ask the user to open it in TREK instead.`;
+    return `File is too large to read here (over ${CONTENT_MAX_MB} MB). Ask the user to open it in Trip Mate instead.`;
   }
   if (err.reason === 'not-accessible') return 'File contents are not available.';
   return 'File not found.';
@@ -71,7 +71,7 @@ export class FilesMcp {
 
   @Tool({
     name: 'read_trip_file',
-    description: `Read what is inside one uploaded document, e.g. a booking confirmation or a ticket. Text files come back as readable text, anything else base64-encoded, with "encoding" saying which. Files over ${CONTENT_MAX_MB} MB are refused outright, so point the user at the file in TREK rather than retrying. Reading contents is a separate permission from listing files, so this can be refused on a trip where list_trip_files works.`,
+    description: `Read what is inside one uploaded document, e.g. a booking confirmation or a ticket. Text files come back as readable text, anything else base64-encoded, with "encoding" saying which. Files over ${CONTENT_MAX_MB} MB are refused outright, so point the user at the file in Trip Mate rather than retrying. Reading contents is a separate permission from listing files, so this can be refused on a trip where list_trip_files works.`,
     inputSchema: {
       tripId: z.number().int().positive(),
       fileId: z.number().int().positive().describe('File ID from list_trip_files'),

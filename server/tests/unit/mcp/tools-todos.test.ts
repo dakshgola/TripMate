@@ -2,7 +2,7 @@
  * Unit tests for the todo MCP surface (TodoMcp, DI-discovered):
  * create_todo, update_todo, toggle_todo, delete_todo, reorder_todos,
  * list_todos, get_todo_category_assignees, set_todo_category_assignees,
- * plus the trek://trips/{tripId}/todos resource.
+ * plus the tripmate://trips/{tripId}/todos resource.
  *
  * All of it attaches via the nest-mcp registry inside registerTools, so every
  * harness here keeps withTools on (the resource is NOT registered by the
@@ -31,7 +31,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -495,7 +495,7 @@ describe('Todo tools — packing addon gating', () => {
         const names = (await h.client.listTools()).tools.map((t) => t.name);
         expect(names).not.toContain('list_todos');
         expect(names).not.toContain('create_todo');
-        await expect(h.client.readResource({ uri: `trek://trips/${trip.id}/todos` })).rejects.toThrow();
+        await expect(h.client.readResource({ uri: `tripmate://trips/${trip.id}/todos` })).rejects.toThrow();
       });
     } finally {
       testDb.prepare('UPDATE addons SET enabled = 1 WHERE id = ?').run(ADDON_IDS.PACKING);
@@ -504,17 +504,17 @@ describe('Todo tools — packing addon gating', () => {
 });
 
 // ---------------------------------------------------------------------------
-// trek://trips/{tripId}/todos resource (moved from the legacy registerResources)
+// tripmate://trips/{tripId}/todos resource (moved from the legacy registerResources)
 // ---------------------------------------------------------------------------
 
-describe('Resource: trek://trips/{tripId}/todos', () => {
+describe('Resource: tripmate://trips/{tripId}/todos', () => {
   it('returns the trip todos ordered by position', async () => {
     const { user } = createUser(testDb);
     const trip = createTrip(testDb, user.id);
     createTodoItem(testDb, trip.id, { name: 'First' });
     createTodoItem(testDb, trip.id, { name: 'Second' });
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/todos` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/todos` });
       const items = parseResourceResult(result) as any[];
       expect(items).toHaveLength(2);
       expect(items[0].name).toBe('First');
@@ -527,7 +527,7 @@ describe('Resource: trek://trips/{tripId}/todos', () => {
     const { user: other } = createUser(testDb);
     const trip = createTrip(testDb, other.id);
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/todos` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/todos` });
       expect(parseResourceResult(result)).toEqual({ error: 'Trip not found or access denied' });
     });
   });
@@ -535,7 +535,7 @@ describe('Resource: trek://trips/{tripId}/todos', () => {
   it('returns the access-denied payload for a malformed trip id', async () => {
     const { user } = createUser(testDb);
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: 'trek://trips/not-a-number/todos' });
+      const result = await h.client.readResource({ uri: 'tripmate://trips/not-a-number/todos' });
       expect(parseResourceResult(result)).toEqual({ error: 'Trip not found or access denied' });
     });
   });

@@ -14,7 +14,7 @@ import { probeNow } from '../sync/connectivity';
 import { isEffectivelyOffline } from '../sync/networkMode';
 import { dropAppShell, reloadHitsSameWorker } from './serviceWorkerShell';
 
-const RELOAD_MARKER = 'trek:chunk-reload';
+const RELOAD_MARKER = 'tripmate:chunk-reload';
 
 /** Vite's own message, plus what Chrome/Firefox/Safari say for a failed module fetch. */
 const CHUNK_ERROR_PATTERNS = [
@@ -36,7 +36,7 @@ export function isChunkLoadError(error: unknown): boolean {
  * The query parameter a recovery reload carries. public/shell-guard.js strips it
  * again before the app reads the URL.
  */
-export const FRESH_LOAD_PARAM = 'trek-reload';
+export const FRESH_LOAD_PARAM = 'tripmate-reload';
 
 /**
  * location.reload(), except that the page is asked for under a URL no cache has

@@ -1,6 +1,6 @@
 /**
  * The plugin network guard, mirrored from the host so `dev` blocks exactly what a
- * real TREK blocks.
+ * real Trip Mate blocks.
  *
  * In production the plugin child wraps fetch/net/dns/dgram and allows ONLY the hosts
  * granted as `http:outbound:<host>` permissions — with no such grant, all outbound is
@@ -32,7 +32,7 @@ import dgram from 'node:dgram';
  * Block outbound connections to loopback / private / link-local / ULA / carrier-
  * grade-NAT / cloud-metadata / multicast / reserved destinations. This is the
  * SSRF backstop: even a declared host that (re)resolves to one of these is
- * refused, so a plugin can't pivot to trek.db's host, the 169.254.169.254
+ * refused, so a plugin can't pivot to tripmate.db's host, the 169.254.169.254
  * metadata IP, the local docker network, or other internal services.
  */
 export function isBlockedIp(ip: string): boolean {
@@ -202,20 +202,20 @@ const DNS_METHODS = [
  * the mock host is pure fixtures — so the only caller that can trip this guard is
  * the plugin, which is the point.
  *
- * `TREK_PLUGIN_ALLOW_PRIVATE_EGRESS=on` permits private/loopback targets — the SAME
+ * `TRIPMATE_PLUGIN_ALLOW_PRIVATE_EGRESS=on` permits private/loopback targets — the SAME
  * variable production honours, so a plugin developed against a self-hosted sibling
  * service uses one lever in both places.
  */
 export function installEgressGuard(hosts: string[]): RestoreEgress {
   const allowed = makeHostAllow(hosts);
-  const blockPrivate = (process.env.TREK_PLUGIN_ALLOW_PRIVATE_EGRESS ?? '').toLowerCase() !== 'on';
+  const blockPrivate = (process.env.TRIPMATE_PLUGIN_ALLOW_PRIVATE_EGRESS ?? '').toLowerCase() !== 'on';
 
   // Name the fix in the error. Production can only say "not declared"; dev knows the
   // author is looking at the manifest right now, so it says what to add.
   const refuse = (host: string): Error =>
     new Error(
       `egress: ${host} is not in the plugin's declared hosts — ` +
-        `add "http:outbound:${host}" to permissions (and "${host}" to egress) in trek-plugin.json`,
+        `add "http:outbound:${host}" to permissions (and "${host}" to egress) in tripmate-plugin.json`,
     );
 
   const restores: RestoreEgress[] = [];

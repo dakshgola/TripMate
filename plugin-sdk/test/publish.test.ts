@@ -68,7 +68,7 @@ describe('publish — a released artifact is immutable', () => {
   afterEach(() => { fs.rmSync(tmp, { recursive: true, force: true }); });
 
   const run = (force?: boolean) => publishPlugin({
-    dir, repo: 'someone/trek-plugin-immutable-plug', tag: 'v1.0.0',
+    dir, repo: 'someone/tripmate-plugin-immutable-plug', tag: 'v1.0.0',
     now: '2026-01-01T00:00:00Z', skipPreflight: true, force, log: () => {},
   });
 
@@ -130,7 +130,7 @@ describe('publish — the local gates run before anything is cut', () => {
   afterEach(() => { fs.rmSync(tmp, { recursive: true, force: true }); });
 
   const run = () => publishPlugin({
-    dir, repo: 'someone/trek-plugin-gated-plug', tag: 'v1.0.0',
+    dir, repo: 'someone/tripmate-plugin-gated-plug', tag: 'v1.0.0',
     now: '2026-01-01T00:00:00Z', skipPreflight: true, log: () => {},
   });
 
@@ -158,7 +158,7 @@ describe('publish — the local gates run before anything is cut', () => {
 /**
  * The signing half of the same trap.
  *
- * TREK pins the author key on first install. A plugin that shipped SIGNED and then publishes
+ * Trip Mate pins the author key on first install. A plugin that shipped SIGNED and then publishes
  * UNSIGNED is refused on every instance that already has it (SIGNATURE_MISSING) — the update is
  * not merely rejected, it strands every existing user on the version they have.
  *
@@ -188,7 +188,7 @@ describe('publish — a failed run rolls back what it created', () => {
   afterEach(() => { fs.rmSync(tmp, { recursive: true, force: true }); });
 
   const run = (opts: { force?: boolean; keepRelease?: boolean } = {}) => publishPlugin({
-    dir, repo: 'someone/trek-plugin-rollback-plug', tag: 'v1.0.0',
+    dir, repo: 'someone/tripmate-plugin-rollback-plug', tag: 'v1.0.0',
     now: '2026-01-01T00:00:00Z', skipPreflight: true, log: () => {}, ...opts,
   });
 
@@ -239,7 +239,7 @@ describe('publish — a stale tag from a failed run is moved, not reused', () =>
   afterEach(() => { fs.rmSync(tmp, { recursive: true, force: true }); });
 
   const run = () => publishPlugin({
-    dir, repo: 'someone/trek-plugin-stale-plug', tag: 'v1.0.0',
+    dir, repo: 'someone/tripmate-plugin-stale-plug', tag: 'v1.0.0',
     now: '2026-01-01T00:00:00Z', skipPreflight: true, log: () => {},
   });
 
@@ -288,7 +288,7 @@ describe('publish — a signed plugin cannot quietly go unsigned', () => {
   };
 
   const run = (signKeyPath?: string) => publishPlugin({
-    dir, repo: 'someone/trek-plugin-signed-plug', tag: 'v2.0.0',
+    dir, repo: 'someone/tripmate-plugin-signed-plug', tag: 'v2.0.0',
     now: '2026-01-01T00:00:00Z', skipPreflight: true, signKeyPath,
     signing: publishedSigned, log: () => {},
   });

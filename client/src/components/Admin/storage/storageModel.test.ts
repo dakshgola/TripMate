@@ -6,7 +6,7 @@ import {
   type StorageBackend,
   type StorageCategory,
   type StorageConfig,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import {
   categoriesPointingAt,
   computeMigrationCandidates,
@@ -35,7 +35,7 @@ const STATE: StorageAdminState = {
       type: 's3',
       source: 'settings',
       options: {
-        endpoint: 'http://127.0.0.1:9000', bucket: 'trek', accessKeyId: 'ak',
+        endpoint: 'http://127.0.0.1:9000', bucket: 'tripmate', accessKeyId: 'ak',
         secretAccessKey: MASKED_SETTING_VALUE, region: 'us-east-1', keyPrefix: '', retries: 1, timeoutMs: 30000,
       },
       categories: ['covers'],
@@ -48,7 +48,7 @@ const STATE: StorageAdminState = {
     avatars: { backend: 'uploads-local', source: 'default' },
     places: { backend: 'place-photos-local', source: 'default' },
     'photos-google': { backend: 'place-photos-local', source: 'default' },
-    'photos-trek': { backend: 'uploads-local', source: 'default' },
+    'photos-tripmate': { backend: 'uploads-local', source: 'default' },
     backups: { backend: 'backups-local', source: 'default' },
   },
   health: { replicaFailures: [] },
@@ -281,7 +281,7 @@ describe('usageByBackend', () => {
     const sums = usageByBackend(state, mirroredDraft())!;
     // backups routes via the mirror → attributed to backups-local (the primary row).
     expect(sums['backups-local']).toEqual({ objects: 1, bytes: 10 });
-    // uploads-local serves 4 direct categories (files, journey, avatars, photos-trek —
+    // uploads-local serves 4 direct categories (files, journey, avatars, photos-tripmate —
     // this fixture's `places` and `photos-google` default to the env-sourced
     // place-photos-local backend, not uploads-local) + legacy photos.
     expect(sums['uploads-local']).toEqual({ objects: 4 + 5, bytes: 40 + 50 });

@@ -1,4 +1,4 @@
-import { schoolHolidayCatalogSchema, schoolHolidayRegionDetailSchema, type SchoolHolidayCountryRequest, type SchoolHolidayRegionRequest } from '@trek/shared'
+import { schoolHolidayCatalogSchema, schoolHolidayRegionDetailSchema, type SchoolHolidayCountryRequest, type SchoolHolidayRegionRequest } from '@tripmate/shared'
 import apiClient from './client'
 
 const base = '/school-holiday-catalog'

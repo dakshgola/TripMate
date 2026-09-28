@@ -320,7 +320,7 @@ export class AtlasMcp {
 
   @Resource({
     name: 'bucket-list',
-    uri: 'trek://bucket-list',
+    uri: 'tripmate://bucket-list',
     description: 'Your personal travel bucket list',
     mimeType: 'application/json',
     when: atlasAddonOn,
@@ -333,7 +333,7 @@ export class AtlasMcp {
 
   @Resource({
     name: 'visited-countries',
-    uri: 'trek://visited-countries',
+    uri: 'tripmate://visited-countries',
     description: 'Countries you have marked as visited in Atlas',
     mimeType: 'application/json',
     when: atlasAddonOn,
@@ -346,7 +346,7 @@ export class AtlasMcp {
 
   @Resource({
     name: 'atlas-stats',
-    uri: 'trek://atlas/stats',
+    uri: 'tripmate://atlas/stats',
     description: "User's atlas statistics — visited country counts and breakdown",
     mimeType: 'application/json',
     when: atlasAddonOn,
@@ -359,7 +359,7 @@ export class AtlasMcp {
 
   @Resource({
     name: 'atlas-regions',
-    uri: 'trek://atlas/regions',
+    uri: 'tripmate://atlas/regions',
     description: 'Visited regions grouped by country, as the Atlas map paints them',
     mimeType: 'application/json',
     when: atlasAddonOn,

@@ -2,7 +2,7 @@ import { createElement } from 'react'
 import { AlertTriangle, ArrowUpRight } from 'lucide-react'
 import { renderIconMarkup } from '../../utils/iconMarkup'
 import './hazardPopup.css'
-import type { RoadtripHazard } from '@trek/shared'
+import type { RoadtripHazard } from '@tripmate/shared'
 import type { Feature, Geometry } from 'geojson'
 
 export function hazardFeature(hazard: RoadtripHazard): Feature {
@@ -11,7 +11,7 @@ export function hazardFeature(hazard: RoadtripHazard): Feature {
 
 export function hazardPopup(hazard: RoadtripHazard, note: string, pointNote: string): HTMLDivElement {
   const box = document.createElement('div')
-  box.className = 'trek-hazard-content flex max-w-xs flex-col gap-3 text-content'
+  box.className = 'tripmate-hazard-content flex max-w-xs flex-col gap-3 text-content'
   box.style.fontSize = 'calc(12px * var(--fs-scale-caption, 1))'
   box.style.lineHeight = '1.45'
   const title = document.createElement('div')
@@ -36,7 +36,7 @@ export function hazardPopup(hazard: RoadtripHazard, note: string, pointNote: str
   source.href = hazard.url
   source.target = '_blank'
   source.rel = 'noopener noreferrer'
-  source.className = 'trek-hazard-source inline-flex items-center gap-1 rounded-md bg-surface-hover px-1.5 py-0.5 font-medium'
+  source.className = 'tripmate-hazard-source inline-flex items-center gap-1 rounded-md bg-surface-hover px-1.5 py-0.5 font-medium'
   const external = document.createElement('span')
   external.innerHTML = renderIconMarkup(createElement(ArrowUpRight, { size: 12 }))
   source.append(external)
@@ -55,9 +55,9 @@ export function hazardPopup(hazard: RoadtripHazard, note: string, pointNote: str
 
 function scoreBar(score: number): HTMLDivElement {
   const panel = document.createElement('div')
-  panel.className = 'trek-hazard-score'
+  panel.className = 'tripmate-hazard-score'
   const heading = document.createElement('div')
-  heading.className = 'trek-hazard-score-heading'
+  heading.className = 'tripmate-hazard-score-heading'
   const label = document.createElement('span')
   label.textContent = 'GDACS Score'
   const value = document.createElement('strong')
@@ -65,7 +65,7 @@ function scoreBar(score: number): HTMLDivElement {
   value.style.color = score < 1 ? 'var(--success)' : score < 2 ? 'var(--warning)' : 'var(--danger)'
   heading.append(label, value)
   const track = document.createElement('div')
-  track.className = 'trek-hazard-score-track'
+  track.className = 'tripmate-hazard-score-track'
   track.setAttribute('role', 'img')
   track.setAttribute('aria-label', 'GDACS Score ' + value.textContent)
   for (const color of ['success', 'warning', 'danger']) {
@@ -74,11 +74,11 @@ function scoreBar(score: number): HTMLDivElement {
     track.append(segment)
   }
   const marker = document.createElement('span')
-  marker.className = 'trek-hazard-score-marker'
+  marker.className = 'tripmate-hazard-score-marker'
   marker.style.left = Math.min(score / 3, 1) * 100 + '%'
   track.append(marker)
   const ticks = document.createElement('div')
-  ticks.className = 'trek-hazard-score-ticks'
+  ticks.className = 'tripmate-hazard-score-ticks'
   for (const tick of ['0', '1', '2', '3+']) {
     const number = document.createElement('span')
     number.textContent = tick

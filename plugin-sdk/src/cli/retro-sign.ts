@@ -1,7 +1,7 @@
 /**
  * Retro-signing: the missing half of "you can start signing late".
  *
- * Server-side, adding a key at v1.4.0 breaks nobody — TREK pins the key only when a signed
+ * Server-side, adding a key at v1.4.0 breaks nobody — Trip Mate pins the key only when a signed
  * version installs. But the REGISTRY refuses a mixed entry (key present, older versions
  * unsigned), and for good reason: once an instance pins your key, it refuses the unsigned
  * older versions, and "install latest compatible" can legitimately resolve an older host to
@@ -41,7 +41,7 @@ export async function retroSignVersions(
   const key = loadPrivateKey(keyPath);
   if (publicKeyBase64(key) !== entry.authorPublicKey) {
     throw new Error(
-      'this signing key differs from the entry\'s authorPublicKey — retro-signing older versions with it would produce signatures TREK rejects. Use the original key.',
+      'this signing key differs from the entry\'s authorPublicKey — retro-signing older versions with it would produce signatures Trip Mate rejects. Use the original key.',
     );
   }
 
@@ -64,7 +64,7 @@ export async function retroSignVersions(
  * human: a registry maintainer must apply the `allow-key-change` label to the PR, and every admin
  * who already installed the plugin must re-trust it (SIGNATURE_KEY_CHANGED, one instance at a
  * time). Callers own saying that out loud — this function just makes the entry internally
- * consistent, which unsigned-or-old-key versions would not be: TREK verifies whichever version it
+ * consistent, which unsigned-or-old-key versions would not be: Trip Mate verifies whichever version it
  * installs against `authorPublicKey`, so after a rotation EVERY version must carry a new-key
  * signature, not just the newest.
  */
@@ -108,7 +108,7 @@ async function signPinnedArtifacts(
   const failures: string[] = [];
   for (const v of versions) {
     try {
-      const r = await fetch(v.downloadUrl, { headers: { 'User-Agent': 'trek-plugin' } });
+      const r = await fetch(v.downloadUrl, { headers: { 'User-Agent': 'tripmate-plugin' } });
       if (!r.ok) { failures.push(`v${v.version}: HTTP ${r.status} fetching ${v.downloadUrl}`); continue; }
       const bytes = Buffer.from(await r.arrayBuffer());
       const hash = createHash('sha256').update(bytes).digest('hex');

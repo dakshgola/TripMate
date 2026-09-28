@@ -40,7 +40,7 @@ beforeAll(() => {
 
 const tmpDirs: string[] = [];
 function makeTmpDir(): string {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-jobs-'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-jobs-'));
   tmpDirs.push(dir);
   return dir;
 }
@@ -109,7 +109,7 @@ function makeMigrationWorld() {
 }
 
 /**
- * A registry with TREK_PLACE_PHOTO_DIR set, so 'photos-google' defaults to
+ * A registry with TRIPMATE_PLACE_PHOTO_DIR set, so 'photos-google' defaults to
  * the bare-key mode-A backend 'place-photos-local' (audit #8's source shape),
  * plus an unassigned 'dest-local' target that uses the normal prefixed
  * (mode-B) layout for every other backend.

@@ -19,7 +19,7 @@ import { createPluginContext, definePlugin, PLUGIN_API_VERSION, type ChildTransp
 import { isBlockedIp, makeHostAllow, classifyConnect, unwrapConnectArgs, dgramSendTarget, dgramConnectTarget } from './egress-policy';
 import type { Envelope, RpcError } from '../protocol/envelope';
 
-const pluginId = process.argv[2] || process.env.TREK_PLUGIN_ID || 'unknown';
+const pluginId = process.argv[2] || process.env.TRIPMATE_PLUGIN_ID || 'unknown';
 const pluginDir = process.argv[3] || '';
 
 let pluginConfig: Record<string, unknown> = {};
@@ -158,7 +158,7 @@ async function handleInvoke(req: { id: string; method: string; params: Record<st
       if (typeof def.scheduled === 'function') await def.scheduled({ name, payload }, invCtx);
       respond(true, { ok: true });
     } else if (req.method === 'invoke.deleteUserData') {
-      // A TREK account was erased. Userless (like a job) — the handler only learns
+      // A Trip Mate account was erased. Userless (like a job) — the handler only learns
       // the userId and erases its OWN per-user rows. Always ACK, even with no handler,
       // so the host can drop the durable erasure-queue row (nothing to erase == done).
       const userId = req.params.userId as number;
@@ -385,12 +385,12 @@ function installIpcGuard(): void {
  * Under the OS permission model the child also cannot spawn a fresh process or
  * load a native addon to escape these wrappers. A kernel/network-namespace
  * guarantee still belongs to the container runtime. Set
- * TREK_PLUGIN_ALLOW_PRIVATE_EGRESS=on to permit private/internal targets (e.g. a
+ * TRIPMATE_PLUGIN_ALLOW_PRIVATE_EGRESS=on to permit private/internal targets (e.g. a
  * self-hoster's sibling service) — default is the secure, block-private policy.
  */
 function installEgressGuard(egress: string[]): void {
   const allowed = makeHostAllow(egress);
-  const blockPrivate = (process.env.TREK_PLUGIN_ALLOW_PRIVATE_EGRESS ?? '').toLowerCase() !== 'on';
+  const blockPrivate = (process.env.TRIPMATE_PLUGIN_ALLOW_PRIVATE_EGRESS ?? '').toLowerCase() !== 'on';
 
   // The wrappers below are the ONLY egress choke point (the OS --permission model
   // does not restrict the network). Deny the low-level escape hatch a plugin could

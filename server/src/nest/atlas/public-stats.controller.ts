@@ -1,6 +1,6 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import type { Request } from 'express';
-import type { PublicApiStats } from '@trek/shared';
+import type { PublicApiStats } from '@tripmate/shared';
 import { AtlasService } from './atlas.service';
 import { ApiTokenGuard } from '../public-api/api-token.guard';
 import { enforcePublicApiRateLimit, requireScope, requireUserId } from '../public-api/public-api-request';

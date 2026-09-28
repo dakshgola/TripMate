@@ -1,7 +1,7 @@
 import { Body, Controller, Headers, HttpCode, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { createZodDto } from 'nestjs-zod';
 import type { Request } from 'express';
-import { googleRouteImportSchema, googleRoutePreviewRequestSchema } from '@trek/shared';
+import { googleRouteImportSchema, googleRoutePreviewRequestSchema } from '@tripmate/shared';
 import { ADDON_IDS } from '../../addons';
 import { AddonGuard } from '../addons/addon.guard';
 import { RequireAddon } from '../addons/require-addon.decorator';

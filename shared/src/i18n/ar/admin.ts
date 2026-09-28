@@ -108,47 +108,33 @@ const admin: TranslationStrings = {
   'admin.requireMfa': 'فرض المصادقة الثنائية (2FA)',
   'admin.requireMfaHint': 'يجب على المستخدمين الذين لا يملكون 2FA إكمال الإعداد في الإعدادات قبل استخدام التطبيق.',
   'admin.apiKeys': 'مفاتيح API',
-  'admin.apiKeysHint': 'من أين تأتي بيانات الأماكن. فهرس TREK لا يحتاج مفتاحًا؛ والمزوّدان أدناه اختياريان.',
+  'admin.apiKeysHint': 'من أين تأتي بيانات الأماكن. فهرس Trip Mate لا يحتاج مفتاحًا؛ والمزوّدان أدناه اختياريان.',
   'admin.trekApi.badgeDefault': 'الافتراضي الموصى به',
   'admin.googleCaveat.badge': 'غير مُستحسَن',
   'admin.googleCaveat.body':
-    'TREK مفتوح المصدر ولسنا محايدين هنا. بهذا الحجم لا توجد التقييمات وصور المحال العادية إلا لدى Google، وهذا هو الاحتكار. الحقل موجود لانعدام البديل، لا لأننا نوصي به. عندئذ يذهب كل استعلام إلى Google.',
+    'Trip Mate مفتوح المصدر ولسنا محايدين هنا. بهذا الحجم لا توجد التقييمات وصور المحال العادية إلا لدى Google، وهذا هو الاحتكار. الحقل موجود لانعدام البديل، لا لأننا نوصي به. عندئذ يذهب كل استعلام إلى Google.',
   'admin.trekApi.tagline':
-    'فهرس الأماكن الخاص بـ TREK. بحث بلا مفتاح من Google، بلا حصة، وبلا أن يُحصي أحد عمليات بحثك.',
-  'admin.trekApi.factPlaces':
-    '73.6 مليون مكان حول العالم',
-  'admin.trekApi.factNoKey':
-    'بلا مفتاح وبلا حصة',
-  'admin.trekApi.factOffline':
-    'حِزَم الدول تعمل دون اتصال',
-  'admin.trekApi.factPrivacy':
-    'لا تُسجَّل عمليات البحث أبدًا',
-  'admin.trekApi.more':
-    'ماذا يحتوي',
-  'admin.trekApi.fieldPhone':
-    'هاتف',
-  'admin.trekApi.fieldStableId':
-    'معرّف ثابت',
-  'admin.trekApi.includedNote':
-    'الأوصاف تأتي من موقع المكان نفسه، وساعات العمل من OpenStreetMap حيث تكون مُدخَلة.',
-  'admin.trekApi.notRatings':
-    'التقييمات',
-  'admin.trekApi.notPhotos':
-    'صور المحال العادية',
+    'فهرس الأماكن الخاص بـ Trip Mate. بحث بلا مفتاح من Google، بلا حصة، وبلا أن يُحصي أحد عمليات بحثك.',
+  'admin.trekApi.factPlaces': '73.6 مليون مكان حول العالم',
+  'admin.trekApi.factNoKey': 'بلا مفتاح وبلا حصة',
+  'admin.trekApi.factOffline': 'حِزَم الدول تعمل دون اتصال',
+  'admin.trekApi.factPrivacy': 'لا تُسجَّل عمليات البحث أبدًا',
+  'admin.trekApi.more': 'ماذا يحتوي',
+  'admin.trekApi.fieldPhone': 'هاتف',
+  'admin.trekApi.fieldStableId': 'معرّف ثابت',
+  'admin.trekApi.includedNote': 'الأوصاف تأتي من موقع المكان نفسه، وساعات العمل من OpenStreetMap حيث تكون مُدخَلة.',
+  'admin.trekApi.notRatings': 'التقييمات',
+  'admin.trekApi.notPhotos': 'صور المحال العادية',
   'admin.trekApi.notIncludedNote':
     'لا يوفّر أيًّا منهما أي مصدر مفتوح بأي ثمن. يبقى مفتاح Google هو السبيل الوحيد إليهما.',
-  'admin.trekApi.sourcesLabel':
-    'المصادر',
-  'admin.trekApi.sourcesNote':
-    'كل حقل في الاستجابة يذكر من أيٍّ منها جاء.',
-  'admin.trekApi.included':
-    'مشمول',
-  'admin.trekApi.notIncluded':
-    'غير مشمول',
+  'admin.trekApi.sourcesLabel': 'المصادر',
+  'admin.trekApi.sourcesNote': 'كل حقل في الاستجابة يذكر من أيٍّ منها جاء.',
+  'admin.trekApi.included': 'مشمول',
+  'admin.trekApi.notIncluded': 'غير مشمول',
   'admin.mapsKey': 'مفتاح Google Maps API',
   'admin.mapsKeyHint': 'مطلوب للبحث عن الأماكن. احصل عليه من console.cloud.google.com',
   'admin.mapsKeyHintLong':
-    'بدون مفتاح Google API يُستخدَم TREK API المُوصى به. ومع المفتاح يمكن إضافةً تحميل الصور والتقييمات وساعات العمل. أنشئ مفتاحًا على console.cloud.google.com.',
+    'بدون مفتاح Google API يُستخدَم Trip Mate API المُوصى به. ومع المفتاح يمكن إضافةً تحميل الصور والتقييمات وساعات العمل. أنشئ مفتاحًا على console.cloud.google.com.',
   'admin.recommended': 'مُوصى به',
   'admin.weatherKey': 'مفتاح OpenWeatherMap API',
   'admin.weatherKeyHint': 'لبيانات الطقس. مجاني من openweathermap.org',
@@ -159,12 +145,13 @@ const admin: TranslationStrings = {
     'للبحث عن الأماكن في البر الرئيسي للصين، حيث لا يمكن الوصول إلى Google وتكون بيانات OpenStreetMap شحيحة. يتطلب مفتاحًا من نوع «Web 服务» (خدمة ويب)، وليس مفتاح JS API. يمكن الحصول عليه من console.amap.com.',
   'admin.placesProvider.title': 'مزوّد البحث عن الأماكن',
   'admin.placesProvider.subtitle':
-    'يجيب فهرس TREK الخاص وOpenStreetMap عن كل بحث. هنا يُختار من يُسأل أيضاً عندما لا يجدان شيئاً: «تلقائي» يفضّل Google عند وجود مفتاح، ثم Amap.',
+    'يجيب فهرس Trip Mate الخاص وOpenStreetMap عن كل بحث. هنا يُختار من يُسأل أيضاً عندما لا يجدان شيئاً: «تلقائي» يفضّل Google عند وجود مفتاح، ثم Amap.',
   'admin.placesProvider.auto': 'تلقائي',
   'admin.placesProvider.google': 'Google Places',
   'admin.placesProvider.amap': 'Amap (高德地图)',
   'admin.placesProvider.openstreetmap': 'OpenStreetMap',
-  'admin.placesProvider.missingKey': 'لا يوجد مفتاح API للمزوّد المختار، لذا يجيب عن البحث عن الأماكن فهرس TREK وOpenStreetMap وحدهما.',
+  'admin.placesProvider.missingKey':
+    'لا يوجد مفتاح API للمزوّد المختار، لذا يجيب عن البحث عن الأماكن فهرس Trip Mate وOpenStreetMap وحدهما.',
   'admin.placesProvider.saved': 'تم حفظ مزوّد البحث عن الأماكن',
   'admin.validateKey': 'اختبار',
   'admin.keyValid': 'متصل',
@@ -196,17 +183,23 @@ const admin: TranslationStrings = {
   'admin.placesEnrich.subtitle':
     'يعرض صورًا ووصفًا أثناء إضافة مكان. تُستخدم ويكيبيديا وOpenStreetMap دائمًا، وتُضاف Google عند تفعيل صور الأماكن أو تفاصيل الأماكن.',
   'admin.placesGoogleOnly.title': 'البحث عبر Google فقط',
-  'admin.placesGoogleOnly.subtitle': 'كل بحث وكل اقتراح يذهب إلى Google Places. عند الإيقاف يجيب فهرس TREK وOpenStreetMap أولًا، ولا يُسأل Google إلا إذا لم يجدا شيئًا.',
-  'admin.placesGoogleOnly.missingKey': 'يتطلب مفتاح Google Maps API. من دونه يعمل البحث عبر فهرس TREK وOpenStreetMap مهما كان وضع هذا المفتاح.',
-  'admin.placesGoogleOnly.otherProvider': 'يتطلب Google كمزود للأماكن. عند اختيار Amap أو OpenStreetMap لا يذهب أي بحث إلى Google مهما كان وضع هذا المفتاح.',
+  'admin.placesGoogleOnly.subtitle':
+    'كل بحث وكل اقتراح يذهب إلى Google Places. عند الإيقاف يجيب فهرس Trip Mate وOpenStreetMap أولًا، ولا يُسأل Google إلا إذا لم يجدا شيئًا.',
+  'admin.placesGoogleOnly.missingKey':
+    'يتطلب مفتاح Google Maps API. من دونه يعمل البحث عبر فهرس Trip Mate وOpenStreetMap مهما كان وضع هذا المفتاح.',
+  'admin.placesGoogleOnly.otherProvider':
+    'يتطلب Google كمزود للأماكن. عند اختيار Amap أو OpenStreetMap لا يذهب أي بحث إلى Google مهما كان وضع هذا المفتاح.',
   'admin.transitProvider.title': 'مزود النقل العام',
   'admin.transitProvider.subtitle': 'الخدمة التي تجيب على بحث النقل العام.',
   'admin.transitProvider.transitous': 'Transitous (مجاني)',
   'admin.transitProvider.google': 'Google',
   'admin.transitProvider.transitousHint': 'تغذيات GTFS مجتمعية. مجانية وبدون مفتاح، وأفضل تغطية في أوروبا.',
-  'admin.transitProvider.googleHint': 'يستخدم مفتاح Google أعلاه للمناطق التي لا تتوفر لها بيانات في Transitous. يُحاسب على كل بحث — ويُستخدم Transitous ما دام لا يوجد مفتاح.',
-  'admin.transitProvider.noKeyWarning': 'تم اختيار Google، لكن لا يوجد مفتاح Google مُهيأ — لا يزال بحث النقل يستخدم Transitous. أضف مفتاحًا ضمن مفاتيح API أعلاه.',
-  'admin.transitProvider.personalKeyWarning': 'مفتاح Google الخاص بك وحده مضبوط، لذا يعود بحث النقل لبقية الأعضاء إلى Transitous. احفظ المفتاح أعلاه كمسؤول لتطبيقه على مستوى المثيل.',
+  'admin.transitProvider.googleHint':
+    'يستخدم مفتاح Google أعلاه للمناطق التي لا تتوفر لها بيانات في Transitous. يُحاسب على كل بحث — ويُستخدم Transitous ما دام لا يوجد مفتاح.',
+  'admin.transitProvider.noKeyWarning':
+    'تم اختيار Google، لكن لا يوجد مفتاح Google مُهيأ — لا يزال بحث النقل يستخدم Transitous. أضف مفتاحًا ضمن مفاتيح API أعلاه.',
+  'admin.transitProvider.personalKeyWarning':
+    'مفتاح Google الخاص بك وحده مضبوط، لذا يعود بحث النقل لبقية الأعضاء إلى Transitous. احفظ المفتاح أعلاه كمسؤول لتطبيقه على مستوى المثيل.',
   'admin.placeShadow.title': 'سجل البحث عن الأماكن',
   'admin.placeShadow.subtitle':
     'تسجيل نتيجة البحث التي جرى اختيارها، حتى يمكن لاحقًا قياس فهرس أماكن آخر على عمليات بحث حقيقية. لا يغادر أي شيء هذا الخادم، ويمكن للمشرف تصدير السجل أو حذفه في أي وقت.',
@@ -308,7 +301,7 @@ const admin: TranslationStrings = {
   'admin.plugins.subtitle': 'ثبّت وأدر إضافات الجهات الخارجية على خادمك.',
   'admin.plugins.disabledTitle': 'الإضافات الخارجية معطّلة',
   'admin.plugins.disabledBody':
-    'بيئة تشغيل الإضافات متوقفة (TREK_PLUGINS_ENABLED). لا يمكن تشغيل أي إضافة حتى يقوم مسؤول بتفعيلها في إعدادات الخادم.',
+    'بيئة تشغيل الإضافات متوقفة (TRIPMATE_PLUGINS_ENABLED). لا يمكن تشغيل أي إضافة حتى يقوم مسؤول بتفعيلها في إعدادات الخادم.',
   'admin.plugins.empty': 'لم يتم تثبيت أي إضافات بعد.',
   'admin.plugins.loadError': 'تعذّر تحميل الإضافات.',
   'admin.plugins.scaffoldNote':
@@ -331,7 +324,7 @@ const admin: TranslationStrings = {
   'admin.plugins.sourceRepo': 'مستودع المصدر',
   'admin.plugins.reportIssue': 'الإبلاغ عن مشكلة',
   'admin.plugins.homepage': 'الصفحة الرئيسية',
-  'admin.plugins.requiresTrek': 'يتطلب TREK {version}+',
+  'admin.plugins.requiresTrek': 'يتطلب Trip Mate {version}+',
   'admin.plugins.reviewedOn': 'تمت المراجعة {date}',
   'admin.plugins.perm.db:own': 'تخزين بياناتها الخاصة في قاعدة بيانات معزولة',
   'admin.plugins.perm.db:read:trips': 'قراءة الرحلات التي يمكن للمستخدم الحالي الوصول إليها',
@@ -394,7 +387,8 @@ const admin: TranslationStrings = {
   'admin.plugins.perm.hook:photo-provider': 'توفير الصور لميزة الذكريات',
   'admin.plugins.perm.hook:calendar-source': 'توفير الأحداث للتقويم',
   'admin.plugins.perm.hook:place-detail-provider': 'المساهمة بتفاصيل إضافية (مراجعات، تقييمات، روابط) لمكان ما',
-  'admin.plugins.perm.hook:search-provider': 'الإجابة على عمليات البحث عن الأماكن من فهرس خاص به، إلى جانب نتائج TREK',
+  'admin.plugins.perm.hook:search-provider':
+    'الإجابة على عمليات البحث عن الأماكن من فهرس خاص به، إلى جانب نتائج Trip Mate',
   'admin.plugins.perm.hook:trip-warning-provider': 'إظهار تحذيرات التحقق على الرحلة (تظهر في المخطط)',
   'admin.plugins.perm.hook:table-contributor': 'إضافة أعمدة وإجراءات إلى عروض الرحلة (الحجوزات، الأماكن، الأيام)',
   'admin.plugins.perm.hook:map-marker-provider': 'إضافة علامات إلى خريطة الرحلة (مثل عرض الحجوزات أو نقاط الاهتمام)',
@@ -410,7 +404,7 @@ const admin: TranslationStrings = {
   'admin.plugins.perm.mcp:tools':
     'نشر أدوات يمكن لمساعد ذكاء اصطناعي تشغيلها نيابة عنك (يعمل بالصلاحيات التي تمنحها للإضافة هنا، وليس بصلاحياته هو)',
   'admin.plugins.perm.geolocation:read':
-    'الاستعلام عن موقعك المباشر ما دامت إحدى واجهاته مفتوحة (يقرأه TREK بإذن الموقع الممنوح لهذا الموقع الإلكتروني، لا بإذن خاص بالإضافة)',
+    'الاستعلام عن موقعك المباشر ما دامت إحدى واجهاته مفتوحة (يقرأه Trip Mate بإذن الموقع الممنوح لهذا الموقع الإلكتروني، لا بإذن خاص بالإضافة)',
   'admin.plugins.perm.hook:pdf-section-provider': 'إضافة أقسام نصية إلى تصدير PDF للرحلة',
   'admin.plugins.perm.hook:atlas-layer-provider':
     'إبراز دول على خريطة أطلس العالمية (مثل قوائم الأمنيات أو تحذيرات السفر)',
@@ -436,26 +430,26 @@ const admin: TranslationStrings = {
   'admin.plugins.updateLater': 'إبقاؤه متوقفًا الآن',
   'admin.plugins.updateKeptOff': 'تم تثبيت التحديث — يبقى متوقفًا حتى توافق على الأذونات الجديدة',
   'admin.plugins.reviewedMeaning':
-    '"تمت مراجعتها" تعني أن أحد القائمين على TREK فحص هذه الإضافة بحثًا عن البرمجيات الخبيثة في كل إصدار — وليس من حيث الجودة أو ما إذا كانت تعمل. وهي ليست ضمانًا بأن الإضافة غير ضارة.',
+    '"تمت مراجعتها" تعني أن أحد القائمين على Trip Mate فحص هذه الإضافة بحثًا عن البرمجيات الخبيثة في كل إصدار — وليس من حيث الجودة أو ما إذا كانت تعمل. وهي ليست ضمانًا بأن الإضافة غير ضارة.',
   'admin.plugins.security.title': 'كيف يتم احتواء الإضافات — وحدود ذلك',
   'admin.plugins.security.isolationTitle': 'كل إضافة تعمل في بيئة معزولة',
   'admin.plugins.security.isolationBody':
-    'تعمل الإضافة كعملية معزولة خاصة بها لا يمكنها قراءة سوى ملفاتها الخاصة. لا يمكنها قراءة قاعدة بياناتك أو سر تسجيل دخولك أو مفتاح التشفير الخاص بك، ولا يمكنها تشغيل برامج أخرى، ولا يمكنها كتابة ملفات في أي مكان. تعمل واجهتها داخل إطار متصفح محكم لا يمكنه قراءة ملف تعريف ارتباط جلستك أو المساس بصفحة TREK المحيطة به.',
+    'تعمل الإضافة كعملية معزولة خاصة بها لا يمكنها قراءة سوى ملفاتها الخاصة. لا يمكنها قراءة قاعدة بياناتك أو سر تسجيل دخولك أو مفتاح التشفير الخاص بك، ولا يمكنها تشغيل برامج أخرى، ولا يمكنها كتابة ملفات في أي مكان. تعمل واجهتها داخل إطار متصفح محكم لا يمكنه قراءة ملف تعريف ارتباط جلستك أو المساس بصفحة Trip Mate المحيطة به.',
   'admin.plugins.security.permsTitle': 'ماذا تعني الأذونات',
   'admin.plugins.security.permsBody':
-    'الأذونات المعروضة قبل التثبيت هي حد صارم يفرضه TREK أثناء تشغيل الإضافة — فهي لا تستطيع فعليًا القيام بأي شيء ليس على القائمة. لكنها تخبرك بما يمكن للإضافة فعله، لا بما تفعله بالفعل. الإضافة المسموح لها بقراءة رحلاتك والوصول إلى خادم يمكنها إرسال رحلاتك إلى ذلك الخادم، لذا اقرأ الأذونات والمضيفات الصادرة، وليس الوصف فقط.',
+    'الأذونات المعروضة قبل التثبيت هي حد صارم يفرضه Trip Mate أثناء تشغيل الإضافة — فهي لا تستطيع فعليًا القيام بأي شيء ليس على القائمة. لكنها تخبرك بما يمكن للإضافة فعله، لا بما تفعله بالفعل. الإضافة المسموح لها بقراءة رحلاتك والوصول إلى خادم يمكنها إرسال رحلاتك إلى ذلك الخادم، لذا اقرأ الأذونات والمضيفات الصادرة، وليس الوصف فقط.',
   'admin.plugins.security.limitsTitle': 'ما لا يمكننا ضمانه',
   'admin.plugins.security.limitsBody':
-    'العزل هو حدّ برمجي قوي، لكنه ليس مطلقًا. تعمل الإضافة بالأذونات التي توافق عليها تمامًا، لذا يمكنها ضمن تلك الأذونات أن تتصرف بشكل مختلف عمّا يوحي به وصفها، ويمكنها إرسال البيانات التي تملكها بشكل مشروع إلى المضيفات التي أعلنتها. لا يقرأ TREK ولا يحكم على ما تفعله شيفرة الإضافة فعليًا.',
+    'العزل هو حدّ برمجي قوي، لكنه ليس مطلقًا. تعمل الإضافة بالأذونات التي توافق عليها تمامًا، لذا يمكنها ضمن تلك الأذونات أن تتصرف بشكل مختلف عمّا يوحي به وصفها، ويمكنها إرسال البيانات التي تملكها بشكل مشروع إلى المضيفات التي أعلنتها. لا يقرأ Trip Mate ولا يحكم على ما تفعله شيفرة الإضافة فعليًا.',
   'admin.plugins.security.worstTitle': 'أسوأ الحالات',
   'admin.plugins.security.worstBody':
     'الإضافة الضارة التي تُفعّلها يمكنها إساءة استخدام البيانات والاتصالات التي منحتها إياها — على سبيل المثال، تسريب الرحلات المسموح لها بقراءتها. لا يمكنها سرقة كلمات المرور، أو تزوير تسجيل دخول مسؤول، أو تنفيذ أوامر على خادمك، أو الوصول إلى بيانات لم تمنحها. يبقى الضرر ضمن ما وافقت عليه، وإيقاف الإضافة يوقفه.',
   'admin.plugins.security.reviewedTitle': 'ماذا تعني "تمت مراجعتها"',
   'admin.plugins.security.reviewedBody':
-    'الإضافة التي تمت مراجعتها فُحصت يدويًا بحثًا عن البرمجيات الخبيثة بواسطة أحد القائمين على TREK في كل إصدار — جرى فحصها بحثًا عن شيفرة ضارة، لا لمعرفة ما إذا كانت تعمل جيدًا. وهي ليست وعدًا بأن الإضافة غير ضارة.',
+    'الإضافة التي تمت مراجعتها فُحصت يدويًا بحثًا عن البرمجيات الخبيثة بواسطة أحد القائمين على Trip Mate في كل إصدار — جرى فحصها بحثًا عن شيفرة ضارة، لا لمعرفة ما إذا كانت تعمل جيدًا. وهي ليست وعدًا بأن الإضافة غير ضارة.',
   'admin.plugins.security.signedTitle': 'ماذا تعني "موقّعة"',
   'admin.plugins.security.signedBody':
-    'المجموع الاختباري الذي يتحقق منه TREK عند كل تثبيت يثبت أن الملفات هي بالضبط ما يضمنه السجل. أما التوقيع فيثبت شيئًا مختلفًا: أنها جاءت من المؤلف، موقّعة بمفتاح لا يملكه سواه. الإضافة الموقّعة تجمع الاثنين معًا. وغير الموقّعة ليست غير آمنة — إنها ببساطة تحمل ضمانًا واحدًا أقل، ومعظم الإضافات في السجل غير موقّعة اليوم.',
+    'المجموع الاختباري الذي يتحقق منه Trip Mate عند كل تثبيت يثبت أن الملفات هي بالضبط ما يضمنه السجل. أما التوقيع فيثبت شيئًا مختلفًا: أنها جاءت من المؤلف، موقّعة بمفتاح لا يملكه سواه. الإضافة الموقّعة تجمع الاثنين معًا. وغير الموقّعة ليست غير آمنة — إنها ببساطة تحمل ضمانًا واحدًا أقل، ومعظم الإضافات في السجل غير موقّعة اليوم.',
   'admin.plugins.signed': 'موقّعة',
   'admin.plugins.signedHint': 'جرى التحقق منها مقابل مفتاح توقيع المؤلف عند تثبيتها',
   'admin.plugins.unsigned': 'غير موقّعة',
@@ -470,20 +464,20 @@ const admin: TranslationStrings = {
   'admin.plugins.sig.invalidBody':
     'الملفات لا تطابق توقيع المؤلف. إنها ليست ما وقّعه المؤلف — فإما أنها تلفت، وإما أنه جرى العبث بها. لا يمكن تجاوز ذلك.',
   'admin.plugins.sig.missingBody':
-    'كانت هذه الإضافة موقّعة عند تثبيتها، لكن الإصدار الجديد لا يحمل أي توقيع. لن يقبل TREK هذا التراجع بصمت. لا يمكن تجاوز ذلك.',
+    'كانت هذه الإضافة موقّعة عند تثبيتها، لكن الإصدار الجديد لا يحمل أي توقيع. لن يقبل Trip Mate هذا التراجع بصمت. لا يمكن تجاوز ذلك.',
   'admin.plugins.sig.incompleteBody':
     'مدخل السجل موقّع نصف توقيع: يعلن عن مفتاح للمؤلف لكن الإصدار لا يحمل توقيعًا (أو العكس). هذا خطأ من جانب الإضافة. لا يمكن تجاوز ذلك.',
   'admin.plugins.sig.pinnedKey': 'المفتاح الذي ثُبّتت به',
   'admin.plugins.sig.newKey': 'المفتاح الذي تقدّمه الآن',
   'admin.plugins.sig.confirmOutOfBand':
-    'لا يستطيع TREK التمييز بين تبديل مشروع للمفتاح وبين استيلاء على الإضافة — يبدو الأمران متطابقين من هنا. تحقّق من المفتاح الجديد مع المؤلف عبر قناة تثق بها أصلًا قبل قبوله. وحين تفعل، يتم تحديث الإضافة ويُحفظ المفتاح الجديد.',
+    'لا يستطيع Trip Mate التمييز بين تبديل مشروع للمفتاح وبين استيلاء على الإضافة — يبدو الأمران متطابقين من هنا. تحقّق من المفتاح الجديد مع المؤلف عبر قناة تثق بها أصلًا قبل قبوله. وحين تفعل، يتم تحديث الإضافة ويُحفظ المفتاح الجديد.',
   'admin.plugins.sig.retrustConfirm': 'الوثوق بالمفتاح الجديد والتحديث',
   'admin.plugins.sig.cancel': 'عدم الوثوق به',
   'admin.plugins.sig.consentUnsigned':
     'لا شيء يربط هذا الإصدار بمؤلفه — الملفات تطابق السجل، لكنها لا تحمل توقيع المؤلف.',
   'admin.plugins.security.trustTitle': 'الخلاصة',
   'admin.plugins.security.trustBody':
-    'تثبيت إضافة يشبه تثبيت أي تطبيق من جهة خارجية: لا تُضِف سوى شيفرة من مطورين تثق بهم، وعند الشك، افحصها بنفسك أولًا. لا يتحمل TREK أي مسؤولية عن إضافات الجهات الخارجية.',
+    'تثبيت إضافة يشبه تثبيت أي تطبيق من جهة خارجية: لا تُضِف سوى شيفرة من مطورين تثق بهم، وعند الشك، افحصها بنفسك أولًا. لا يتحمل Trip Mate أي مسؤولية عن إضافات الجهات الخارجية.',
   'admin.plugins.runtimeOn': 'بيئة التشغيل مفعّلة',
   'admin.plugins.tabDiscover': 'اكتشاف',
   'admin.plugins.searchPlaceholder': 'ابحث عن الإضافات…',
@@ -499,15 +493,16 @@ const admin: TranslationStrings = {
   'admin.plugins.sortUpdates': 'التحديثات أولًا',
   'admin.plugins.sortDownloads': 'الأكثر تنزيلًا',
   'admin.plugins.updatesAvailable': '{count} تحديثات متاحة لإضافاتك.',
-  'admin.plugins.newerNeedsTrek': 'الإصدار v{version} متوفر — يتطلب TREK {range}',
+  'admin.plugins.newerNeedsTrek': 'الإصدار v{version} متوفر — يتطلب Trip Mate {range}',
   'admin.plugins.versionsTitle': 'الإصدارات',
   'admin.plugins.versionPickerTitle': 'تغيير الإصدار — {name}',
   'admin.plugins.versionSwitch': 'التبديل إلى {version}',
-  'admin.plugins.versionNeedsTrek': 'يتطلب TREK {range}',
+  'admin.plugins.versionNeedsTrek': 'يتطلب Trip Mate {range}',
   'admin.plugins.changeVersion': 'تغيير الإصدار…',
   'admin.plugins.noVersions': 'لم يتم العثور على إصدارات منشورة في السجل.',
   'admin.plugins.downgradeTitle': 'التراجع عن هذه الإضافة؟',
-  'admin.plugins.downgradeBody': 'التبديل من v{from} إلى v{to}: تبقى البيانات المكتوبة بواسطة الإصدار الأحدث في مكانها، وقد لا يفهمها الإصدار الأقدم.',
+  'admin.plugins.downgradeBody':
+    'التبديل من v{from} إلى v{to}: تبقى البيانات المكتوبة بواسطة الإصدار الأحدث في مكانها، وقد لا يفهمها الإصدار الأقدم.',
   'admin.plugins.downgradeConfirm': 'تراجع',
   'admin.plugins.updatesHeld': 'التحديثات متوقفة عند v{version}',
   'admin.plugins.resumeUpdates': 'استئناف التحديثات',
@@ -566,21 +561,21 @@ const admin: TranslationStrings = {
   'admin.plugins.dep.download': 'تنزيل',
   'admin.plugins.dep.update': 'تحديث',
   'admin.plugins.dep.resolveHint': 'ينزّل أحدث إصدار متوافق، بما في ذلك تبعياته الخاصة.',
-  'admin.plugins.dep.trekIncompatible': 'يتطلب TREK {range} — يعمل هذا الخادم بالإصدار {host}',
-  'admin.plugins.dep.trekUnknown': 'لا يحدد إصدارات TREK المدعومة',
+  'admin.plugins.dep.trekIncompatible': 'يتطلب Trip Mate {range} — يعمل هذا الخادم بالإصدار {host}',
+  'admin.plugins.dep.trekUnknown': 'لا يحدد إصدارات Trip Mate المدعومة',
   'admin.plugins.installCompatible': 'تثبيت {version}',
   'admin.plugins.installAnyway': 'التثبيت على أي حال',
   'admin.plugins.rangeBypass.pill': 'فحوصات الإصدار متوقفة',
   'admin.plugins.rangeBypass.pillHint':
-    'تم ضبط TREK_PLUGINS_IGNORE_TREK_RANGE — يمكن تثبيت الإضافات وتشغيلها خارج إصدارات TREK التي أعلنها مطوروها',
-  'admin.plugins.rangeBypass.title': 'خارج إصدارات TREK المدعومة',
-  'admin.plugins.rangeBypass.noticeTitle': 'تم التثبيت خارج إصدارات TREK المدعومة',
+    'تم ضبط TRIPMATE_PLUGINS_IGNORE_TREK_RANGE — يمكن تثبيت الإضافات وتشغيلها خارج إصدارات Trip Mate التي أعلنها مطوروها',
+  'admin.plugins.rangeBypass.title': 'خارج إصدارات Trip Mate المدعومة',
+  'admin.plugins.rangeBypass.noticeTitle': 'تم التثبيت خارج إصدارات Trip Mate المدعومة',
   'admin.plugins.rangeBypass.body':
-    'تعلن «{name}» دعم TREK {range}، بينما يعمل هذا الخادم بالإصدار {host}. يسمح TREK بذلك فقط لأن TREK_PLUGINS_IGNORE_TREK_RANGE مضبوط. لم يحدّث المطوّر نطاق إصدارات الإضافة لهذا الإصدار من TREK، لذا لا يوجد ضمان أنها ستعمل — وفي حالات نادرة قد تُتلف إضافة غير متوافقة بيانات TREK. تابع فقط إذا كنت تقبل هذه المخاطرة.',
+    'تعلن «{name}» دعم Trip Mate {range}، بينما يعمل هذا الخادم بالإصدار {host}. يسمح Trip Mate بذلك فقط لأن TRIPMATE_PLUGINS_IGNORE_TREK_RANGE مضبوط. لم يحدّث المطوّر نطاق إصدارات الإضافة لهذا الإصدار من Trip Mate، لذا لا يوجد ضمان أنها ستعمل — وفي حالات نادرة قد تُتلف إضافة غير متوافقة بيانات Trip Mate. تابع فقط إذا كنت تقبل هذه المخاطرة.',
   'admin.plugins.rangeBypass.bodyUnknown':
-    'لا تعلن «{name}» أي إصدارات TREK تدعمها؛ يعمل هذا الخادم بالإصدار {host}. يسمح TREK بذلك فقط لأن TREK_PLUGINS_IGNORE_TREK_RANGE مضبوط. لا شيء يدل على أن المطوّر اختبرها على هذا الإصدار من TREK، لذا لا يوجد ضمان أنها ستعمل — وفي حالات نادرة قد تُتلف إضافة غير متوافقة بيانات TREK. تابع فقط إذا كنت تقبل هذه المخاطرة.',
-  'admin.plugins.dep.trekBypassed': 'خارج نطاق TREK الخاص بها ({range}) — فحوصات الإصدار متوقفة',
-  'admin.plugins.dep.trekBypassedUnknown': 'لا تعلن أي نطاق TREK — فحوصات الإصدار متوقفة',
+    'لا تعلن «{name}» أي إصدارات Trip Mate تدعمها؛ يعمل هذا الخادم بالإصدار {host}. يسمح Trip Mate بذلك فقط لأن TRIPMATE_PLUGINS_IGNORE_TREK_RANGE مضبوط. لا شيء يدل على أن المطوّر اختبرها على هذا الإصدار من Trip Mate، لذا لا يوجد ضمان أنها ستعمل — وفي حالات نادرة قد تُتلف إضافة غير متوافقة بيانات Trip Mate. تابع فقط إذا كنت تقبل هذه المخاطرة.',
+  'admin.plugins.dep.trekBypassed': 'خارج نطاق Trip Mate الخاص بها ({range}) — فحوصات الإصدار متوقفة',
+  'admin.plugins.dep.trekBypassedUnknown': 'لا تعلن أي نطاق Trip Mate — فحوصات الإصدار متوقفة',
   'admin.plugins.incompatible': 'غير متوافق',
   'admin.plugins.accessTitle': 'ما الذي يمكنها الوصول إليه',
   'admin.plugins.connectsTitle': 'يتصل بـ',
@@ -592,7 +587,7 @@ const admin: TranslationStrings = {
   'admin.plugins.metaReviewed': 'تمت المراجعة',
   'admin.plugins.downloads': 'التنزيلات',
   'admin.addons.title': 'الإضافات',
-  'admin.addons.subtitle': 'فعّل أو عطّل الميزات لتخصيص تجربة TREK.',
+  'admin.addons.subtitle': 'فعّل أو عطّل الميزات لتخصيص تجربة Trip Mate.',
   'admin.addons.catalog.packing.name': 'القوائم',
   'admin.addons.catalog.packing.description': 'قوائم التعبئة والمهام لرحلاتك',
   'admin.addons.catalog.budget.name': 'التكاليف',
@@ -606,7 +601,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.collab.name': 'التعاون',
   'admin.addons.catalog.collab.description': 'ملاحظات واستطلاعات ومحادثة واقتراحات للتخطيط المشترك',
   'admin.addons.catalog.roadtrip.name': 'رحلة برية',
-  'admin.addons.catalog.roadtrip.description': 'خطّط رحلات القيادة مع محطات توقف، وتُحدَّث أوقات القيادة والوصول تلقائيًا',
+  'admin.addons.catalog.roadtrip.description':
+    'خطّط رحلات القيادة مع محطات توقف، وتُحدَّث أوقات القيادة والوصول تلقائيًا',
   'admin.addons.catalog.memories.name': 'صور (Immich)',
   'admin.addons.catalog.memories.description': 'شارك صور رحلتك عبر Immich',
   'admin.addons.catalog.mcp.description': 'بروتوكول سياق النموذج لتكامل مساعد الذكاء الاصطناعي',
@@ -620,7 +616,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.dawarich.description':
     'قراءة الزيارات والمسارات المسجَّلة من خادم Dawarich يربطه كل قارئ بنفسه',
   'admin.addons.catalog.llm_parsing.name': 'التحليل بالذكاء الاصطناعي',
-  'admin.addons.catalog.llm_parsing.description': 'يقرأ الحجوزات التي يعجز المحلل المدمج عن فهمها، بنموذج ذكاء اصطناعي تختاره',
+  'admin.addons.catalog.llm_parsing.description':
+    'يقرأ الحجوزات التي يعجز المحلل المدمج عن فهمها، بنموذج ذكاء اصطناعي تختاره',
   'admin.addons.enabled': 'مفعّل',
   'admin.addons.disabled': 'معطّل',
   'admin.addons.type.trip': 'رحلة',
@@ -636,7 +633,7 @@ const admin: TranslationStrings = {
   'admin.weather.title': 'بيانات الطقس',
   'admin.weather.badge': 'منذ 24 مارس 2026',
   'admin.weather.description':
-    'يستخدم TREK خدمة Open-Meteo كمصدر لبيانات الطقس. وهي خدمة مجانية ومفتوحة المصدر ولا تتطلب مفتاح API.',
+    'يستخدم Trip Mate خدمة Open-Meteo كمصدر لبيانات الطقس. وهي خدمة مجانية ومفتوحة المصدر ولا تتطلب مفتاح API.',
   'admin.weather.forecast': 'توقعات 16 يومًا',
   'admin.weather.forecastDesc': 'سابقًا 5 أيام (OpenWeatherMap)',
   'admin.weather.climate': 'بيانات المناخ التاريخية',
@@ -692,13 +689,13 @@ const admin: TranslationStrings = {
   'admin.github.loading': 'جارٍ التحميل...',
   'admin.github.error': 'فشل تحميل الإصدارات',
   'admin.github.by': 'بواسطة',
-  'admin.github.support': 'يساعدني في تطوير TREK',
+  'admin.github.support': 'يساعدني في تطوير Trip Mate',
   'admin.update.available': 'يتوفر تحديث',
-  'admin.update.text': 'TREK {version} متوفر. أنت تستخدم {current}.',
+  'admin.update.text': 'Trip Mate {version} متوفر. أنت تستخدم {current}.',
   'admin.update.button': 'عرض على GitHub',
   'admin.update.install': 'تثبيت التحديث',
   'admin.update.confirmTitle': 'تثبيت التحديث؟',
-  'admin.update.confirmText': 'سيتم تحديث TREK من {current} إلى {version}. سيُعاد تشغيل الخادم تلقائيًا بعد ذلك.',
+  'admin.update.confirmText': 'سيتم تحديث Trip Mate من {current} إلى {version}. سيُعاد تشغيل الخادم تلقائيًا بعد ذلك.',
   'admin.update.dataInfo':
     'جميع بياناتك (الرحلات، المستخدمون، مفاتيح API، المرفوعات، الإجازة، الأطلس، الميزانيات) ستبقى محفوظة.',
   'admin.update.warning': 'سيكون التطبيق غير متاح لفترة وجيزة أثناء إعادة التشغيل.',
@@ -709,9 +706,10 @@ const admin: TranslationStrings = {
   'admin.update.backupHint': 'نوصي بإنشاء نسخة احتياطية قبل التحديث.',
   'admin.update.backupLink': 'الذهاب إلى النسخ الاحتياطي',
   'admin.update.howTo': 'كيفية التحديث',
-  'admin.update.dockerText': 'يعمل TREK الخاص بك في Docker. للتحديث إلى {version}، نفّذ الأوامر التالية على الخادم:',
+  'admin.update.dockerText':
+    'يعمل Trip Mate الخاص بك في Docker. للتحديث إلى {version}، نفّذ الأوامر التالية على الخادم:',
   'admin.update.nonDockerText':
-    'لا يعمل TREK هذا في Docker. للتحديث إلى {version}، أعد تشغيل طريقة التثبيت أو التحديث التي استخدمتها — على سبيل المثال، في Proxmox Community Scripts نفّذ التحديث من وحدة تحكم LXC:',
+    'لا يعمل Trip Mate هذا في Docker. للتحديث إلى {version}، أعد تشغيل طريقة التثبيت أو التحديث التي استخدمتها — على سبيل المثال، في Proxmox Community Scripts نفّذ التحديث من وحدة تحكم LXC:',
   'admin.update.wikiLink': 'فتح دليل التحديث',
   'admin.update.reloadHint': 'يرجى إعادة تحميل الصفحة بعد بضع ثوانٍ.',
   'admin.tabs.permissions': 'الصلاحيات',
@@ -721,7 +719,7 @@ const admin: TranslationStrings = {
   'admin.notifications.webhookPanel.title': 'Webhook', // en-fallback
   'admin.notifications.inappPanel.title': 'In-App', // en-fallback
   'admin.notifications.adminNtfyPanel.serverPlaceholder': 'https://ntfy.sh', // en-fallback
-  'admin.notifications.adminNtfyPanel.topicPlaceholder': 'trek-admin-alerts', // en-fallback
+  'admin.notifications.adminNtfyPanel.topicPlaceholder': 'tripmate-admin-alerts', // en-fallback
   'admin.authMethods': 'Authentication Methods', // en-fallback
   'admin.passwordLogin': 'Password Login', // en-fallback
   'admin.passwordLoginHint': 'Allow users to sign in with email and password', // en-fallback
@@ -750,9 +748,10 @@ const admin: TranslationStrings = {
     'لا يوجد نطاق WebAuthn صالح لهذا التثبيت بعد. عيّن APP_URL أو Relying Party ID أدناه — تبقى مفاتيح المرور مخفية حتى ذلك الحين.',
   'admin.passkey.rpId': 'Relying Party ID (النطاق)',
   'admin.passkey.rpIdHint':
-    'النطاق المجرّد الذي تُربط به مفاتيح المرور، مثل trek.example.org. اتركه فارغًا لاشتقاقه من APP_URL. تغييره لاحقًا يُبطل مفاتيح المرور الموجودة.',
+    'النطاق المجرّد الذي تُربط به مفاتيح المرور، مثل tripmate.example.org. اتركه فارغًا لاشتقاقه من APP_URL. تغييره لاحقًا يُبطل مفاتيح المرور الموجودة.',
   'admin.passkey.origins': 'الأصول المسموح بها',
-  'admin.passkey.originsHint': 'أصول كاملة مفصولة بفواصل، مثل https://trek.example.org. اتركه فارغًا لاستخدام APP_URL.',
+  'admin.passkey.originsHint':
+    'أصول كاملة مفصولة بفواصل، مثل https://tripmate.example.org. اتركه فارغًا لاستخدام APP_URL.',
   'admin.passkey.reset': 'إعادة تعيين مفاتيح المرور',
   'admin.passkey.resetHint':
     'إزالة جميع مفاتيح المرور لهذا المستخدم (مثلًا عند فقدان جهاز). سيظل بإمكانه تسجيل الدخول بكلمة المرور.',

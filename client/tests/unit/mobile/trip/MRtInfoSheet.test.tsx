@@ -4,7 +4,7 @@ import type { MTripShellApi, TripPlanner } from '../../../../src/mobile/screens/
 import { useAuthStore } from '../../../../src/store/authStore'
 import { useSettingsStore } from '../../../../src/store/settingsStore'
 import { useRoadtripPreferencesStore } from '../../../../src/store/roadtripPreferencesStore'
-import type { RoadtripPreferences } from '@trek/shared'
+import type { RoadtripPreferences } from '@tripmate/shared'
 import { buildPlanner, buildShell } from '../../../helpers/mobileTrip'
 import { resetAllStores, seedStore } from '../../../helpers/store'
 import { fireEvent, render, screen } from '../../../helpers/render'
@@ -123,7 +123,7 @@ describe('MRtInfoSheet', () => {
     renderSheet({})
     expect(screen.getByText('-')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'No range set' })).toBeInTheDocument()
-    expect(screen.getByText('Type a range, or fill in the figures below and TREK works it out.')).toBeInTheDocument()
+    expect(screen.getByText('Type a range, or fill in the figures below and Trip Mate works it out.')).toBeInTheDocument()
   })
 
   it('FE-MOB-RTINFO-010: a half-set day window counts as no window at all', () => {

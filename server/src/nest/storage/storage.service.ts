@@ -200,7 +200,7 @@ export class StorageService {
     // The body opens BEFORE a single header is staged. getStream can still
     // fail after a successful stat — a delete that raced it, a backend blip —
     // and a caller that recovers on the SAME response object must find it
-    // pristine: trek-photo-cache.service.ts treats a pre-header
+    // pristine: tripmate-photo-cache.service.ts treats a pre-header
     // StorageNotFoundError as a cache miss and photo-resolver.service.ts then
     // re-serves through that very res. A 206 status and a Content-Range left
     // behind by an attempt that never produced a byte would corrupt that
@@ -328,7 +328,7 @@ export class StorageService {
    *
    * Content-Type precedence is three-way and load-bearing: an explicit
    * `opts.contentType` wins; else a type the CALLER already staged on the
-   * response survives — trek-photo-cache.service.ts sets the real type before
+   * response survives — tripmate-photo-cache.service.ts sets the real type before
    * calling because its objects are extension-less `.bin` blobs, and the local
    * res.sendFile branch has always preserved a pre-set type; else derive from
    * the key. Only the last case is new behaviour, and it exists because there

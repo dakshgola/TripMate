@@ -17,7 +17,7 @@ import {
 import { describeStorageDriver, type DriverHarness } from './storage-driver.contract';
 
 function makeTmpDir(): string {
-  return fs.mkdtempSync(path.join(os.tmpdir(), 'trek-mirror-'));
+  return fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-mirror-'));
 }
 
 function makeLocal(id: string): { driver: LocalDriver; root: string } {

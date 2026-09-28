@@ -1,4 +1,4 @@
-import { MAX_TRIP_DAYS, planDatedAppend } from '@trek/shared'
+import { MAX_TRIP_DAYS, planDatedAppend } from '@tripmate/shared'
 import type { Day, Trip } from '../types'
 
 type Translate = (key: string, params?: Record<string, string | number>) => string

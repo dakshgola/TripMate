@@ -202,7 +202,7 @@ describe('CollabNotes', () => {
     expect(screen.getByText('Delete note?')).toBeInTheDocument();
     expect(screen.getByText('Remove Me')).toBeInTheDocument();
     // The confirm button of the question itself, found by its role rather than a colour class.
-    const question = screen.getByText('Delete note?').closest('.trek-modal-enter') as HTMLElement;
+    const question = screen.getByText('Delete note?').closest('.tripmate-modal-enter') as HTMLElement;
     await user.click(within(question).getByRole('button', { name: 'Delete' }));
     await waitFor(() => expect(screen.queryByText('Remove Me')).not.toBeInTheDocument());
   });
@@ -746,7 +746,7 @@ describe('CollabNotes', () => {
       http.post('/api/trips/1/collab/notes', async ({ request }) => {
         postBody = await request.json() as Record<string, unknown>;
         return HttpResponse.json({
-          note: { id: 99, trip_id: 1, user_id: 1, author_username: 'testuser', author_avatar: null, title: 'URL Note', content: '', category: null, color: '#3b82f6', website: 'https://trek.app', files: [], attachments: [], created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
+          note: { id: 99, trip_id: 1, user_id: 1, author_username: 'testuser', author_avatar: null, title: 'URL Note', content: '', category: null, color: '#3b82f6', website: 'https://tripmate.app', files: [], attachments: [], created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
         });
       })
     );
@@ -756,9 +756,9 @@ describe('CollabNotes', () => {
     const titleInput = await screen.findByPlaceholderText('Note title');
     await user.type(titleInput, 'URL Note');
     const websiteInput = screen.getByPlaceholderText(/https:\/\//i);
-    await user.type(websiteInput, 'https://trek.app');
+    await user.type(websiteInput, 'https://tripmate.app');
     await user.click(screen.getByRole('button', { name: /^Create$/i }));
-    await waitFor(() => expect(postBody.website).toBe('https://trek.app'));
+    await waitFor(() => expect(postBody.website).toBe('https://tripmate.app'));
   });
 
   it('FE-COMP-NOTES-040: CategorySettingsModal color change updates color', async () => {
@@ -1075,13 +1075,13 @@ describe('CollabNotes', () => {
           notes: [{
             id: 1, trip_id: 1, user_id: 1, author_username: 'testuser', author_avatar: null,
             title: 'OG Image Note', content: '', category: null, color: '#3b82f6',
-            website: 'https://trek-app.example.com', files: [], attachments: [],
+            website: 'https://tripmate-app.example.com', files: [], attachments: [],
             created_at: '2025-06-01T10:00:00.000Z', updated_at: '2025-06-01T10:00:00.000Z',
           }],
         })
       ),
       http.get('/api/trips/1/collab/link-preview', () =>
-        HttpResponse.json({ title: 'Trek App', image: 'https://trek-app.example.com/og.jpg' })
+        HttpResponse.json({ title: 'Trek App', image: 'https://tripmate-app.example.com/og.jpg' })
       ),
     );
     render(<CollabNotes {...defaultProps} />);
@@ -1884,7 +1884,7 @@ describe('CollabNotes details', () => {
     await screen.findByText('Stubborn note');
 
     await user.click(screen.getByTitle('Delete'));
-    const dialog = (await screen.findByText('Delete note?')).closest('div.trek-modal-enter') as HTMLElement;
+    const dialog = (await screen.findByText('Delete note?')).closest('div.tripmate-modal-enter') as HTMLElement;
     await user.click(within(dialog).getByRole('button', { name: 'Delete' }));
 
     await waitFor(() => expect(addToast).toHaveBeenCalledWith('Error', 'error', undefined));

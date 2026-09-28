@@ -86,7 +86,7 @@ vi.mock('../../../src/utils/ssrfGuard', () => ({
   SsrfBlockedError: class extends Error {},
 }));
 
-import { DAWARICH_KEY_MASK, type DawarichCapabilities } from '@trek/shared';
+import { DAWARICH_KEY_MASK, type DawarichCapabilities } from '@tripmate/shared';
 import { createTables } from '../../../src/db/schema';
 import { runMigrations } from '../../../src/db/migrations';
 import { resetTestDb } from '../../helpers/test-db';

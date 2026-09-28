@@ -15,7 +15,7 @@
  * belong to the dialog around this modal, not to the picker.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import en from '@trek/shared/i18n/en'
+import en from '@tripmate/shared/i18n/en'
 import { render, screen, fireEvent, waitFor } from '../../../../tests/helpers/render'
 import type { DocSyncConnection, DocSyncScope } from './useDocSync'
 
@@ -84,7 +84,7 @@ function deferred<T>() {
   return { promise, resolve, reject }
 }
 
-function Harness({ suggestedName = 'trek-paris-42', providerName = 'Paperless' }: {
+function Harness({ suggestedName = 'tripmate-paris-42', providerName = 'Paperless' }: {
   suggestedName?: string
   providerName?: string
 }) {
@@ -273,10 +273,10 @@ describe('DocSyncScopeModal picking an existing folder', () => {
 
 describe('DocSyncScopeModal creating a folder', () => {
   it('FE-DOCSYNC-SCOPE-015: the trip name is already in the field, so creating is one click', async () => {
-    render(<Harness suggestedName="trek-paris-42" />)
+    render(<Harness suggestedName="tripmate-paris-42" />)
     await screen.findByText('Trips')
 
-    expect(nameField()).toHaveValue('trek-paris-42')
+    expect(nameField()).toHaveValue('tripmate-paris-42')
     expect(createButton()).toBeEnabled()
   })
 
@@ -338,7 +338,7 @@ describe('DocSyncScopeModal creating a folder', () => {
 
   it('FE-DOCSYNC-SCOPE-018: Enter in the name field creates the typed name, not the suggested one', async () => {
     createScope.mockResolvedValue(folder(9, 'Belege'))
-    render(<Harness suggestedName="trek-paris-42" />)
+    render(<Harness suggestedName="tripmate-paris-42" />)
     await screen.findByText('Trips')
 
     fireEvent.change(nameField(), { target: { value: '  Belege  ' } })

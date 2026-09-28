@@ -19,7 +19,7 @@ setup('seed the demo trip', async ({ page, playwright }) => {
     playwright.request.newContext({
       baseURL: 'http://localhost:5173',
       // MUST be explicit: newContext otherwise picks up the project's
-      // storageState, i.e. the admin's trek_session cookie — and the server
+      // storageState, i.e. the admin's tripmate_session cookie — and the server
       // reads the cookie BEFORE the Authorization header
       // (server/src/middleware/auth.ts:9), so every "member" write would be
       // recorded as the admin while still returning 200.

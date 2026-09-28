@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { planDayGrid, resolveDayGridRange } from '@trek/shared'
+import { planDayGrid, resolveDayGridRange } from '@tripmate/shared'
 import { useTranslation } from '../i18n'
 import { dayRepo } from '../repo/dayRepo'
 import { reservationRepo } from '../repo/reservationRepo'

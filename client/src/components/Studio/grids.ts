@@ -1,4 +1,4 @@
-import type { BookElement, BookPageSetup } from '@trek/shared'
+import type { BookElement, BookPageSetup } from '@tripmate/shared'
 
 /**
  * Photo grids — a set of frames placed together, in one gesture.

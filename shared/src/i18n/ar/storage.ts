@@ -12,13 +12,14 @@ const storage: TranslationStrings = {
   'storage.field.region': 'المنطقة',
   'storage.help.region': 'احتفظ بالقيمة الافتراضية ما لم يتطلب مزوّد الخدمة لديك منطقة معينة.',
   'storage.field.keyPrefix': 'بادئة المفتاح',
-  'storage.help.keyPrefix': 'بادئة اختيارية تُضاف إلى كل مفتاح كائن، مثل trek/prod.',
+  'storage.help.keyPrefix': 'بادئة اختيارية تُضاف إلى كل مفتاح كائن، مثل tripmate/prod.',
   'storage.field.retries': 'عدد المحاولات',
   'storage.field.timeoutMs': 'مهلة الانتظار (بالمللي ثانية)',
   'storage.field.primary': 'الواجهة الخلفية الأساسية',
   'storage.field.replicas': 'النسخ المتماثلة',
   'storage.title': 'التخزين',
-  'storage.description': 'المكان الذي يحفظ فيه TREK الملفات والصور والنسخ الاحتياطية المرفوعة. لا يتغيّر شيء حتى تحفظ.',
+  'storage.description':
+    'المكان الذي يحفظ فيه Trip Mate الملفات والصور والنسخ الاحتياطية المرفوعة. لا يتغيّر شيء حتى تحفظ.',
   'storage.loading': 'جارٍ التحميل…',
   'storage.saved': 'تم حفظ إعدادات التخزين',
   'storage.save': 'حفظ التغييرات',
@@ -64,7 +65,7 @@ const storage: TranslationStrings = {
   'storage.category.avatars': 'الصور الشخصية',
   'storage.category.places': 'صور الأماكن',
   'storage.category.photos-google': 'ذاكرة تخزين مؤقت لصور Google',
-  'storage.category.photos-trek': 'ذاكرة تخزين مؤقت لصور TREK',
+  'storage.category.photos-tripmate': 'ذاكرة تخزين مؤقت لصور Trip Mate',
   'storage.category.backups': 'النسخ الاحتياطية',
 
   // What each category stores — rendered under the label in the category map.
@@ -76,8 +77,8 @@ const storage: TranslationStrings = {
   'storage.categoryDesc.places': 'الصور المرفقة بالأماكن وأماكن المجموعات — سواء تم رفعها أو استيرادها.',
   'storage.categoryDesc.photos-google':
     'نسخ مخزّنة مؤقتًا من صور Google Places — يمكن إعادة جلبها، ويُمكن فقدانها بأمان.',
-  'storage.categoryDesc.photos-trek':
-    'صور مخزّنة مؤقتًا من خدمة صور TREK التي تستخدمها ميزة الصور (Memories) — يمكن إعادة جلبها، ويُمكن فقدانها بأمان.',
+  'storage.categoryDesc.photos-tripmate':
+    'صور مخزّنة مؤقتًا من خدمة صور Trip Mate التي تستخدمها ميزة الصور (Memories) — يمكن إعادة جلبها، ويُمكن فقدانها بأمان.',
   'storage.categoryDesc.backups': 'أرشيفات النسخ الاحتياطي للخادم التي تُنشئها لوحة النسخ الاحتياطي أو الجدولة.',
   'storage.health.title': 'الحالة',
   'storage.health.allClear': 'لم يتم تسجيل أي أعطال في النسخ المتماثلة.',

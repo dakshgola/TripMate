@@ -1,5 +1,5 @@
 /**
- * Emoji stripping at the render boundary — TREK renders plugin text with lucide icons,
+ * Emoji stripping at the render boundary — Trip Mate renders plugin text with lucide icons,
  * not emojis, so all natively-rendered plugin contributions + notifications are stripped.
  */
 import { describe, it, expect } from 'vitest';

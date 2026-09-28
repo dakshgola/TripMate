@@ -35,7 +35,7 @@ vi.mock('../../src/db/database', () => ({ db, closeDb: () => {}, reinitialize: (
 import { CategoriesModule } from '../../src/nest/categories/categories.module';
 import { DatabaseModule } from '../../src/nest/database/database.module';
 import { RealtimeModule } from '../../src/nest/realtime/realtime.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 function insertCategory(name: string, color = '#6366f1', icon = '📍', userId = 1): number {

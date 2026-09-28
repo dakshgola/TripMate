@@ -6,7 +6,7 @@ import JourneyDayScrubber from './JourneyDayScrubber'
 import { dayColorOf, journeyDays } from './journeyCard'
 import type { JourneyMapHandle } from './JourneyMap'
 import type { JourneyEntry } from '../../store/journeyStore'
-import type { JourneyTrack } from '@trek/shared'
+import type { JourneyTrack } from '@tripmate/shared'
 
 interface MapEntry {
   id: string

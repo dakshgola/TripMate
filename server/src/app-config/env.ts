@@ -48,7 +48,7 @@ export function validateEnvAtBoot(raw: RawEnv = process.env as RawEnv): void {
  * schema cannot express and the one worth refusing (fail closed, see
  * server/CLAUDE.md).
  *
- * Deliberately unreachable for a self-hoster: without TREK_MANAGED the list is
+ * Deliberately unreachable for a self-hoster: without TRIPMATE_MANAGED the list is
  * empty and nothing changes.
  */
 function managedPreconditions(raw: RawEnv): string[] {
@@ -61,7 +61,7 @@ function managedPreconditions(raw: RawEnv): string[] {
   // same zip. Provisioning sets this; forgetting it is silent otherwise.
   if (!raw.ENCRYPTION_KEY) {
     problems.push(
-      '  - ENCRYPTION_KEY is unset: required with TREK_MANAGED, because otherwise the ' +
+      '  - ENCRYPTION_KEY is unset: required with TRIPMATE_MANAGED, because otherwise the ' +
         'at-rest key lives in the data volume and is bundled into every backup download.',
     );
   }

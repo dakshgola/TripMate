@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react'
 import { describe, expect, it, vi } from 'vitest'
-import type { CollectionLink } from '@trek/shared'
+import type { CollectionLink } from '@tripmate/shared'
 import { fireEvent, render, screen } from '../../../helpers/render'
 import MCollLinksEditor from '../../../../src/mobile/screens/collections/MCollLinksEditor'
 import { useTranslation } from '../../../../src/i18n'

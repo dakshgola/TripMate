@@ -41,7 +41,7 @@
 import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { DawarichCapabilities } from '@trek/shared';
+import type { DawarichCapabilities } from '@tripmate/shared';
 import { render, screen, waitFor } from '../../../tests/helpers/render';
 import { server } from '../../../tests/helpers/msw/server';
 import { resetAllStores } from '../../../tests/helpers/store';
@@ -68,7 +68,7 @@ interface SavedBody {
   syncEnabled?: boolean;
 }
 
-/** A Dawarich that answers everything TREK knows how to ask for. */
+/** A Dawarich that answers everything Trip Mate knows how to ask for. */
 const CAPS_ALL: DawarichCapabilities = {
   visits: true,
   tracks: true,
@@ -227,7 +227,7 @@ describe('DawarichConnectionSection', () => {
     );
     renderSection();
 
-    // Losing our own settings is a TREK problem: the card must not claim the
+    // Losing our own settings is a Trip Mate problem: the card must not claim the
     // user's instance is unreachable, and must not stay locked in `loading`.
     await waitFor(() => expect(read).toHaveBeenCalled());
     await waitFor(() => expect(testButton()).toBeDisabled());
@@ -450,9 +450,9 @@ describe('DawarichConnectionSection', () => {
     // The block gets the detail, the toast stays one line: a self-hoster needs
     // to know it was the certificate and not the host being down.
     expect(
-      await screen.findByText('TREK could not reach that address. (self-signed certificate in chain)'),
+      await screen.findByText('Trip Mate could not reach that address. (self-signed certificate in chain)'),
     ).toBeInTheDocument();
-    expect(toast.error).toHaveBeenCalledWith('TREK could not reach that address.');
+    expect(toast.error).toHaveBeenCalledWith('Trip Mate could not reach that address.');
     expect(screen.getByText('Not connected')).toBeInTheDocument();
   });
 

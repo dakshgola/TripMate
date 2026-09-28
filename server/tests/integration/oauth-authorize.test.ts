@@ -1,6 +1,6 @@
 /**
  * HTTP-level tests for GET /oauth/authorize — the MCP SDK authorizationHandler
- * wrapping TREK's OAuthServerProvider. Written as byte-level parity oracles for
+ * wrapping Trip Mate's OAuthServerProvider. Written as byte-level parity oracles for
  * the MCP/OAuth mount migration: they must pass identically while the handler
  * is mounted pre-init AND after it moves behind the Nest container.
  *
@@ -33,7 +33,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../src/db/database', () => dbMock);
 vi.mock('../../src/config', () => ({
-    JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+    JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
     ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
     updateJwtSecret: () => {},
     SESSION_DURATION: '24h',
@@ -44,7 +44,7 @@ vi.mock('../../src/config', () => ({
 
 vi.mock('../../src/app-config', async (importOriginal) => {
     const actual = await importOriginal<typeof import('../../src/app-config')>();
-    return { ...actual, getMcpSafeUrl: () => 'https://trek.example.com' };
+    return { ...actual, getMcpSafeUrl: () => 'https://tripmate.example.com' };
 });
 
 vi.mock('../../src/websocket', () => ({ broadcast: vi.fn(), broadcastToUser: vi.fn() }));
@@ -123,7 +123,7 @@ describe('GET /oauth/authorize — SDK authorizationHandler over trekOAuthProvid
             state: 'st4te',
             code_challenge: challenge,
             code_challenge_method: 'S256',
-            resource: 'https://trek.example.com/mcp',
+            resource: 'https://tripmate.example.com/mcp',
         });
 
         expect(res.status).toBe(302);
@@ -134,9 +134,9 @@ describe('GET /oauth/authorize — SDK authorizationHandler over trekOAuthProvid
             code_challenge: challenge,
             code_challenge_method: 'S256',
             state: 'st4te',
-            resource: 'https://trek.example.com/mcp',
+            resource: 'https://tripmate.example.com/mcp',
         });
-        expect(res.headers.location).toBe(`https://trek.example.com/oauth/consent?${expected.toString()}`);
+        expect(res.headers.location).toBe(`https://tripmate.example.com/oauth/consent?${expected.toString()}`);
     });
 
     it('AUTHZ-002 — omitted resource defaults to the MCP endpoint and still reaches consent', async () => {
@@ -154,7 +154,7 @@ describe('GET /oauth/authorize — SDK authorizationHandler over trekOAuthProvid
 
         expect(res.status).toBe(302);
         const loc = new URL(res.headers.location);
-        expect(`${loc.origin}${loc.pathname}`).toBe('https://trek.example.com/oauth/consent');
+        expect(`${loc.origin}${loc.pathname}`).toBe('https://tripmate.example.com/oauth/consent');
         expect(loc.searchParams.get('client_id')).toBe(clientId);
         // No resource param was sent, so none is forwarded.
         expect(loc.searchParams.get('resource')).toBeNull();
@@ -177,7 +177,7 @@ describe('GET /oauth/authorize — SDK authorizationHandler over trekOAuthProvid
 
         expect(res.status).toBe(302);
         const loc = new URL(res.headers.location);
-        expect(`${loc.origin}${loc.pathname}`).toBe('https://trek.example.com/oauth/consent');
+        expect(`${loc.origin}${loc.pathname}`).toBe('https://tripmate.example.com/oauth/consent');
         // Forwarded unchanged: the %3A must survive to the token exchange.
         expect(loc.searchParams.get('redirect_uri')).toBe(redirectUri);
     });
@@ -201,7 +201,7 @@ describe('GET /oauth/authorize — SDK authorizationHandler over trekOAuthProvid
         const loc = new URL(res.headers.location);
         expect(`${loc.origin}${loc.pathname}`).toBe('https://client.example.com/cb');
         expect(loc.searchParams.get('error')).toBe('invalid_target');
-        expect(loc.searchParams.get('error_description')).toBe('Requested resource must be the TREK MCP endpoint');
+        expect(loc.searchParams.get('error_description')).toBe('Requested resource must be the Trip Mate MCP endpoint');
         expect(loc.searchParams.get('state')).toBe('xyz');
     });
 
@@ -275,7 +275,7 @@ describe('GET /oauth/authorize — SDK authorizationHandler over trekOAuthProvid
             scope: 'trips:read',
             code_challenge: challenge,
             code_challenge_method: 'S256',
-            resource: 'https://trek.example.com/mcp',
+            resource: 'https://tripmate.example.com/mcp',
         });
         expect(authz.status).toBe(302);
 
@@ -287,7 +287,7 @@ describe('GET /oauth/authorize — SDK authorizationHandler over trekOAuthProvid
             userId: user.id,
             redirectUri: 'https://client.example.com/cb',
             scopes: ['trips:read'],
-            resource: 'https://trek.example.com/mcp',
+            resource: 'https://tripmate.example.com/mcp',
             codeChallenge: challenge,
             codeChallengeMethod: 'S256',
         });
@@ -300,7 +300,7 @@ describe('GET /oauth/authorize — SDK authorizationHandler over trekOAuthProvid
             code,
             redirect_uri: 'https://client.example.com/cb',
             code_verifier: verifier,
-            resource: 'https://trek.example.com/mcp',
+            resource: 'https://tripmate.example.com/mcp',
         });
         expect(token.status).toBe(200);
         expect(token.body.access_token).toMatch(/^trekoa_/);

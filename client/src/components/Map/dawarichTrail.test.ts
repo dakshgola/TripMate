@@ -28,7 +28,7 @@
  *    which the panel has to render as nothing rather than as "0 km travelled".
  */
 import { describe, it, expect } from 'vitest'
-import type { DawarichTrack, DawarichTrackDay, DawarichTrackSegment } from '@trek/shared'
+import type { DawarichTrack, DawarichTrackDay, DawarichTrackSegment } from '@tripmate/shared'
 import {
   DAWARICH_DAY_COLORS,
   DAWARICH_TRAIL_CASING,
@@ -199,7 +199,7 @@ describe('trailGeoJson', () => {
       mode: null,
     })
     expect(feature.geometry.type).toBe('LineString')
-    // TREK stores [lat, lng]; GeoJSON wants [lng, lat]. Berlin sits at 52 N
+    // Trip Mate stores [lat, lng]; GeoJSON wants [lng, lat]. Berlin sits at 52 N
     // 13 E, so a missed flip lands the recording off the coast of Ghana.
     expect(feature.geometry.coordinates).toEqual([
       [13.405, 52.52],

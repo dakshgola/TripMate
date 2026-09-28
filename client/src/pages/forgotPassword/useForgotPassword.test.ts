@@ -53,13 +53,13 @@ describe('useForgotPassword', () => {
 
   it('FE-PAGE-FORGOT-005: submits the trimmed address and switches to the sent state', async () => {
     const { result } = renderHook(() => useForgotPassword());
-    act(() => result.current.setEmail('  maurice@trek.app  '));
+    act(() => result.current.setEmail('  maurice@tripmate.app  '));
 
     const event = submitEvent();
     await act(() => result.current.handleSubmit(event));
 
     expect(event.preventDefault).toHaveBeenCalled();
-    expect(authApi.forgotPassword).toHaveBeenCalledWith({ email: 'maurice@trek.app' });
+    expect(authApi.forgotPassword).toHaveBeenCalledWith({ email: 'maurice@tripmate.app' });
     expect(result.current.submitted).toBe(true);
     expect(result.current.isLoading).toBe(false);
   });
@@ -67,7 +67,7 @@ describe('useForgotPassword', () => {
   it('FE-PAGE-FORGOT-006: shows the same success state when the server rejects — no account enumeration', async () => {
     vi.mocked(authApi.forgotPassword).mockRejectedValue(new Error('no such user'));
     const { result } = renderHook(() => useForgotPassword());
-    act(() => result.current.setEmail('ghost@trek.app'));
+    act(() => result.current.setEmail('ghost@tripmate.app'));
 
     await act(() => result.current.handleSubmit(submitEvent()));
 
@@ -79,7 +79,7 @@ describe('useForgotPassword', () => {
     vi.mocked(authApi.forgotPassword).mockReturnValue(new Promise(res => { release = () => res({} as never); }) as never);
 
     const { result } = renderHook(() => useForgotPassword());
-    act(() => result.current.setEmail('maurice@trek.app'));
+    act(() => result.current.setEmail('maurice@tripmate.app'));
 
     let first: Promise<void>;
     act(() => { first = result.current.handleSubmit(submitEvent()) as Promise<void>; });

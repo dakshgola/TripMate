@@ -20,7 +20,7 @@ import {
   Sun,
   Wifi,
 } from 'lucide-react'
-import type { MapsPlaceEnrichmentResult, PlaceFact, PlaceHours, PlacePhotoCandidate, PlaceRating } from '@trek/shared'
+import type { MapsPlaceEnrichmentResult, PlaceFact, PlaceHours, PlacePhotoCandidate, PlaceRating } from '@tripmate/shared'
 import { mapsApi } from '../../api/client'
 import { resolveOpenNow, resolvePlaceTimeZone, placeWeekdayIndex } from './placeOpenState'
 import { convertHoursLine, isUnknownHoursLine, splitHoursLine } from './placeHoursFormat'

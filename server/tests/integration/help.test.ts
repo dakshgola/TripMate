@@ -1,7 +1,7 @@
 /**
  * Help integration tests — /api/help served from the bundled `wiki/` directory.
  *
- * These run against the real repo wiki (no TREK_WIKI_DIR override) on purpose: the
+ * These run against the real repo wiki (no TRIPMATE_WIKI_DIR override) on purpose: the
  * point is to prove the shipped docs are reachable through the HTTP layer, which is
  * what a broken path or a wiki missing from the image would silently cost us.
  */
@@ -19,7 +19,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../src/db/database', () => dbMock);
 vi.mock('../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
   SESSION_DURATION: '24h',

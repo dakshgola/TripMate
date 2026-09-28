@@ -19,7 +19,7 @@ import {
   type CollectionGpxProblem,
   type CollectionGpxReadResult,
   type CollectionLink,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import { coord, gpxBuilder } from '../places/gpx-export.helpers';
 
 /**
@@ -43,7 +43,7 @@ export type ExportedCollectionFile = Omit<CollectionFile, 'places'> & { places: 
 
 const GPX_NAMESPACE = 'http://www.topografix.com/GPX/1/1';
 /** The prefix this writer binds; the reader looks the namespace up instead. */
-const TREK = 'trek';
+const PREFIX_TRIPMATE = 'tripmate';
 /** OsmAnd writes its favourites with the address in its own namespace. */
 const OSMAND_NAMESPACES = ['https://osmand.net', 'http://osmand.net'];
 const HTTP_URL = /^https?:\/\//i;
@@ -76,7 +76,7 @@ function textOf(value: string | number | null | undefined): string | undefined {
  * `<desc>` is what other apps show under the name, so it gets the place's
  * description and, on a line of its own after it, the address: GPX has no
  * element for an address, and without it a waypoint in OsmAnd is a pin with a
- * name. The address also travels in the extension, which is what TREK reads
+ * name. The address also travels in the extension, which is what PREFIX_TRIPMATE reads
  * back; the reader strips this copy again (see `withoutAddress`).
  */
 function describe(place: CollectionFilePlace): string | undefined {
@@ -87,13 +87,13 @@ function placeExtensions(place: CollectionFilePlace): Record<string, unknown> | 
   const ext: Record<string, unknown> = {};
   for (const field of SCALAR_EXTENSIONS) {
     const value: unknown = place[field];
-    if (typeof value === 'string' || typeof value === 'number') ext[`${TREK}:${field}`] = textOf(value);
+    if (typeof value === 'string' || typeof value === 'number') ext[`${PREFIX_TRIPMATE}:${field}`] = textOf(value);
   }
   const labels = (place.labels ?? []).map(textOf).filter(Boolean);
-  if (labels.length) ext[`${TREK}:label`] = labels;
+  if (labels.length) ext[`${PREFIX_TRIPMATE}:label`] = labels;
   const links = (place.links ?? []).filter(link => HTTP_URL.test(link.url));
   if (links.length) {
-    ext[`${TREK}:link`] = links.map(link => ({ '@_href': xmlText(link.url), '#text': textOf(link.label) }));
+    ext[`${PREFIX_TRIPMATE}:link`] = links.map(link => ({ '@_href': xmlText(link.url), '#text': textOf(link.label) }));
   }
   return Object.keys(ext).length ? ext : undefined;
 }
@@ -115,10 +115,10 @@ function waypoint(place: CollectionFilePlace, lat: number, lng: number): Record<
 
 function metadata(file: ExportedCollectionFile): Record<string, unknown> {
   const ext: Record<string, unknown> = {};
-  if (file.color) ext[`${TREK}:color`] = textOf(file.color);
-  if (file.icon) ext[`${TREK}:icon`] = textOf(file.icon);
+  if (file.color) ext[`${PREFIX_TRIPMATE}:color`] = textOf(file.color);
+  if (file.icon) ext[`${PREFIX_TRIPMATE}:icon`] = textOf(file.icon);
   if (file.labels?.length) {
-    ext[`${TREK}:label`] = file.labels.map(label => ({
+    ext[`${PREFIX_TRIPMATE}:label`] = file.labels.map(label => ({
       ...(label.color ? { '@_color': xmlText(label.color) } : {}),
       '#text': xmlText(label.name),
     }));
@@ -152,9 +152,9 @@ export function collectionFileToGpx(file: ExportedCollectionFile): CollectionGpx
     '?xml': { '@_version': '1.0', '@_encoding': 'UTF-8' },
     gpx: {
       '@_version': '1.1',
-      '@_creator': 'TREK',
+      '@_creator': 'Trip Mate',
       '@_xmlns': GPX_NAMESPACE,
-      [`@_xmlns:${TREK}`]: COLLECTION_GPX_NAMESPACE,
+      [`@_xmlns:${PREFIX_TRIPMATE}`]: COLLECTION_GPX_NAMESPACE,
       '@_xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
       '@_xsi:schemaLocation': `${GPX_NAMESPACE} ${GPX_NAMESPACE}/gpx.xsd`,
       metadata: metadata(file),
@@ -299,7 +299,7 @@ function gpxLinks(el: XmlNode): CollectionLink[] {
 }
 
 /**
- * The description as the writer had it: when a TREK file put the address
+ * The description as the writer had it: when a Trip Mate file put the address
  * under it as a courtesy to other apps, the address comes back off.
  */
 function withoutAddress(desc: string | null, address: string | null): string | null {
@@ -311,7 +311,7 @@ function withoutAddress(desc: string | null, address: string | null): string | n
 
 /** The prefixes a document bound to the namespaces this reader understands. */
 interface Prefixes {
-  trek: string | null;
+  tripmate: string | null;
   osmand: string | null;
 }
 
@@ -331,7 +331,7 @@ function readPlace(value: unknown, fallbackName: string | null, prefixes: Prefix
   if (lat === null || lng === null || !name) return null;
 
   const ext = node(el.extensions);
-  const own = (field: string): unknown => (prefixes.trek ? ext[`${prefixes.trek}:${field}`] : undefined);
+  const own = (field: string): unknown => (prefixes.tripmate ? ext[`${prefixes.tripmate}:${field}`] : undefined);
   const address = text(own('address')) ?? (prefixes.osmand ? text(ext[`${prefixes.osmand}:address`]) : null);
   const desc = text(el.desc);
   const cmt = text(el.cmt);
@@ -344,9 +344,9 @@ function readPlace(value: unknown, fallbackName: string | null, prefixes: Prefix
     name: clip(name, collectionFilePlaceSchema.shape.name.maxLength),
     lat,
     lng,
-    description: prefixes.trek ? withoutAddress(desc, address) : desc,
+    description: prefixes.tripmate ? withoutAddress(desc, address) : desc,
     // Garmin writes the same text into both; once is enough.
-    notes: !prefixes.trek && cmt === desc ? null : cmt,
+    notes: !prefixes.tripmate && cmt === desc ? null : cmt,
     website: website?.url,
     // OsmAnd files its favourites into groups by <type>; Garmin has only <sym>.
     category: text(el.type) ?? text(el.sym),
@@ -418,7 +418,7 @@ export function gpxToCollectionFile(source: string, fileName?: string): Collecti
   if (rootValue === undefined) throw new CollectionGpxError('not-gpx', 'That is not a GPX file');
   const root = node(rootValue);
   const prefixes: Prefixes = {
-    trek: prefixFor(root, [COLLECTION_GPX_NAMESPACE]),
+    tripmate: prefixFor(root, [COLLECTION_GPX_NAMESPACE]),
     osmand: prefixFor(root, OSMAND_NAMESPACES),
   };
 
@@ -457,7 +457,7 @@ export function gpxToCollectionFile(source: string, fileName?: string): Collecti
 
   const meta = node(root.metadata);
   const metaExt = node(meta.extensions);
-  const own = (field: string): unknown => (prefixes.trek ? metaExt[`${prefixes.trek}:${field}`] : undefined);
+  const own = (field: string): unknown => (prefixes.tripmate ? metaExt[`${prefixes.tripmate}:${field}`] : undefined);
   const labels = asArray(own('label'))
     .map(label => fit(collectionFileLabelSchema, { name: text(label), color: attr(label, 'color') }, ['name']))
     .filter((label): label is CollectionFileLabel => label !== null)

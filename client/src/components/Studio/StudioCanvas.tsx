@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ChevronsDown, ChevronsUp, Copy, Lock, RotateCcw, RotateCw, Trash2, Unlock } from 'lucide-react'
-import type { BookElement, BookPageSetup, BookSpread } from '@trek/shared'
+import type { BookElement, BookPageSetup, BookSpread } from '@tripmate/shared'
 import { SpreadFold, SpreadView } from './SpreadView'
 import { PeerCursors } from './PeerCursors'
 import type { PeerCursor } from './useBookPresence'
@@ -182,7 +182,7 @@ export function StudioCanvas({
       onPointerUp={finish}
       onPointerCancel={finish}
       onDragOver={e => {
-        const fromPanel = e.dataTransfer.types.includes('application/x-trek-photo')
+        const fromPanel = e.dataTransfer.types.includes('application/x-tripmate-photo')
         // A file drag is only claimed when somebody is there to take it; for a
         // viewer the browser keeps its default and opens the picture itself.
         const fromDisk = !!onDropFiles && e.dataTransfer.types.includes('Files')
@@ -195,7 +195,7 @@ export function StudioCanvas({
       }}
       onDragLeave={() => { setDropTarget(null); setFileOver(false) }}
       onDrop={e => {
-        const raw = e.dataTransfer.getData('application/x-trek-photo')
+        const raw = e.dataTransfer.getData('application/x-tripmate-photo')
         const files = Array.from(e.dataTransfer.files ?? [])
         if (!raw && !(files.length && onDropFiles)) return
         e.preventDefault()

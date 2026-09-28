@@ -2,7 +2,7 @@ import { isEffectivelyOffline } from '../sync/networkMode'
 import axios, { AxiosInstance } from 'axios'
 import type { z } from 'zod'
 import type { Day, Place, Trip } from '../types'
-import type { TransitProvider } from '@trek/shared'
+import type { TransitProvider } from '@tripmate/shared'
 import { randomId } from '../utils/randomId'
 import {
   weatherResultSchema, type WeatherResult,
@@ -70,25 +70,25 @@ import {
   RoadtripViaCreateRequest,
   RoadtripViaReanchorRequest,
   RoadtripViaUpdateRequest,
-} from '@trek/shared'
+} from '@tripmate/shared'
 import { getSocketId } from './websocket'
 import { probeNow } from '../sync/connectivity'
 import { downloadBlob } from '../utils/fileDownload'
 
 /**
- * Validate a response payload against its @trek/shared Zod schema — but only in
+ * Validate a response payload against its @tripmate/shared Zod schema — but only in
  * dev, and never throwing. A drift between the server contract and the client's
  * expected shape is surfaced as a console warning during development; in
  * production (and on any mismatch) the data passes through untouched, so adding
  * validation can never break a working call. This is the typed-request helper
- * the FE adopts per domain as each backend module lands on @trek/shared.
+ * the FE adopts per domain as each backend module lands on @tripmate/shared.
  */
 const API_DEV = Boolean((import.meta as { env?: { DEV?: boolean } }).env?.DEV)
 export function parseInDev<S extends z.ZodTypeAny>(schema: S, data: unknown, label: string): z.infer<S> {
   if (API_DEV) {
     const result = schema.safeParse(data)
     if (!result.success) {
-      console.warn(`[api] ${label}: response did not match the @trek/shared schema`, result.error.issues)
+      console.warn(`[api] ${label}: response did not match the @tripmate/shared schema`, result.error.issues)
     }
   }
   return data as z.infer<S>
@@ -105,7 +105,7 @@ function checkInDev<T>(schema: z.ZodTypeAny, data: T, label: string): T {
   if (API_DEV) {
     const result = schema.safeParse(data)
     if (!result.success) {
-      console.warn(`[api] ${label}: response did not match the @trek/shared schema`, result.error.issues)
+      console.warn(`[api] ${label}: response did not match the @tripmate/shared schema`, result.error.issues)
     }
   }
   return data
@@ -227,7 +227,7 @@ apiClient.interceptors.response.use(
       // Pangolin header-auth extended compatibility mode: returns 401 with an
       // HTML body (a JS redirect page) instead of a 302.
       //
-      // A text/html 401 is NOT unambiguous on its own: several of TREK's own
+      // A text/html 401 is NOT unambiguous on its own: several of Trip Mate's own
       // routes answer with res.status(401).send('Authentication required'),
       // which Express labels text/html. Tearing the service worker down for one
       // of those would cost the user offline mode for a proxy wall that isn't
@@ -586,7 +586,7 @@ export const adminApi = {
   pluginActivate: (id: string, consent?: boolean) => apiClient.post(`/admin/plugins/${id}/activate`, consent ? { consent: true } : {}).then(r => r.data),
   pluginDeactivate: (id: string) => apiClient.post(`/admin/plugins/${id}/deactivate`).then(r => r.data),
   // `version` pins the exact version to install (the rollback path); omitted, the server
-  // resolves the newest TREK-compatible version itself.
+  // resolves the newest Trip Mate-compatible version itself.
   pluginUpdate: (id: string, version?: string) =>
     apiClient.post(`/admin/plugins/${id}/update`, version ? { version } : {}).then(r => r.data),
   // Release a per-plugin update hold (set by a deliberate non-latest install).
@@ -988,7 +988,7 @@ export const journeyApi = {
   // GPX tracks of the trips this journey's entries came from (#1260).
   listTracks: (id: number): Promise<JourneyTracksResponse> => apiClient.get(`/journeys/${id}/tracks`).then(r => r.data),
   // What the journey adds up to — distance, days, countries, the route (#1973).
-  // Read by TREK Studio, which freezes the answer into the book document.
+  // Read by Trip Mate Studio, which freezes the answer into the book document.
   stats: (id: number): Promise<JourneyStats> => apiClient.get(`/journeys/${id}/stats`).then(r => r.data),
 
   // The Studio book (#1973). `book` is null for a journey that has none yet —
@@ -1170,7 +1170,7 @@ async function withCachedPlaces<T>(
  * What plugins implementing `searchProvider` found for the same query (#2221).
  *
  * Its own request beside the core one rather than a branch inside it: the core search
- * is TREK's own indexes and must not wait on, or fail with, somebody's plugin. This
+ * is Trip Mate's own indexes and must not wait on, or fail with, somebody's plugin. This
  * answers with an empty list for every failure there is — no provider installed, one
  * that timed out, a 404 on an older server, the network gone — because a search that
  * breaks when an optional index is unwell is worse than one without it.
@@ -1384,7 +1384,7 @@ export const filesApi = {
  * How long the browser waits for a document-sync call that makes the server go
  * and ask the store.
  *
- * The shared 8 s on `apiClient` is right for TREK's own routes and wrong for
+ * The shared 8 s on `apiClient` is right for Trip Mate's own routes and wrong for
  * these, for the reason `dawarich.ts` gives: the server allows each request to
  * a store 15 s by itself (20 s for Papra), a connection test may probe more
  * than once, and binding or unbinding first registers or removes a webhook at
@@ -1434,7 +1434,7 @@ export const docsyncApi = {
     apiClient.post(`/trips/${tripId}/docsync/links/${linkId}/sync`, { full }, docsyncRun).then(r => r.data),
   items: (tripId: number | string, state?: string) =>
     apiClient.get(`/trips/${tripId}/docsync/items`, { params: state ? { state } : {} }).then(r => r.data),
-  resolve: (tripId: number | string, itemId: number, keep: 'trek' | 'provider' | 'both') =>
+  resolve: (tripId: number | string, itemId: number, keep: 'tripmate' | 'provider' | 'both') =>
     apiClient.post(`/trips/${tripId}/docsync/items/${itemId}/resolve`, { keep }, docsyncRun).then(r => r.data),
 }
 

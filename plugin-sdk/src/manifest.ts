@@ -1,6 +1,6 @@
 /**
- * Manifest validation (#plugins, M6). Identical rules to the TREK server's
- * loader, so `trek-plugin validate` locally == the registry CI gate. Returns a
+ * Manifest validation (#plugins, M6). Identical rules to the Trip Mate server's
+ * loader, so `tripmate-plugin validate` locally == the registry CI gate. Returns a
  * result (no throw) so the CLI can print every problem at once.
  */
 
@@ -37,7 +37,7 @@ export const SETTING_FIELD_KEYS = [
 ] as const;
 /**
  * The `default`s a manifest declares for one settings scope, keyed by field — the
- * host's effective value for any field nobody set. `trek-plugin dev` seeds `ctx.config`
+ * host's effective value for any field nobody set. `tripmate-plugin dev` seeds `ctx.config`
  * (instance) and `ctx.settings.get()` (user) from this so dev matches production.
  * Secrets are skipped even if present (the host never resolves a secret from a default).
  */
@@ -91,8 +91,8 @@ export interface PluginManifest {
   id: string;
   name: string;
   version: string;
-  /** The semver RANGE of TREK versions this plugin supports (">=4.0.0 <5.0.0"). */
-  trek: string;
+  /** The semver RANGE of Trip Mate versions this plugin supports (">=4.0.0 <5.0.0"). */
+  tripmate: string;
   type: 'integration' | 'page' | 'widget' | 'trip-page';
   apiVersion?: number;
   permissions?: string[];
@@ -133,8 +133,8 @@ const SEMVER_RE = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/;
 // Addon-id format (lowercase slug, underscores allowed e.g. `llm_parsing`).
 const ADDON_ID_RE = /^[a-z][a-z0-9_]{1,39}$/;
 // Mirror of the server's ADDON_IDS (server/src/addons.ts). Kept in sync so
-// `trek-plugin validate` can WARN on an addon id TREK doesn't know — never a hard
-// error (a plugin built for a newer TREK may reference an addon this SDK predates).
+// `tripmate-plugin validate` can WARN on an addon id Trip Mate doesn't know — never a hard
+// error (a plugin built for a newer Trip Mate may reference an addon this SDK predates).
 export const KNOWN_ADDONS = [
   'mcp', 'packing', 'budget', 'documents', 'vacay', 'atlas', 'collab', 'journey', 'airtrail', 'llm_parsing', 'collections',
 ];
@@ -178,7 +178,7 @@ function isKnownPermission(p: string): boolean {
 }
 
 /**
- * A semver range a plugin may declare in `trek`. Mirrors the server's isValidTrekRange.
+ * A semver range a plugin may declare in `tripmate`. Mirrors the server's isValidTrekRange.
  *
  * validRange() alone is not enough: ">=4.0.0 <3.0.0" is a valid range no version can ever
  * satisfy, so a plugin declaring it would be uninstallable everywhere with nothing to
@@ -194,7 +194,7 @@ export function isSatisfiableRange(r: unknown): r is string {
   }
 }
 
-/** A range that admits literally every TREK version, past and future ("*", "x", ">=0"). */
+/** A range that admits literally every Trip Mate version, past and future ("*", "x", ">=0"). */
 export function isUnboundedRange(r: string): boolean {
   return isSatisfiableRange(r) && validRange(r) === '*';
 }
@@ -213,13 +213,13 @@ export function validateManifest(raw: unknown): ValidationResult {
   if (typeof m.id === 'string' && RESERVED_IDS.has(m.id)) errors.push(`id "${m.id}" is reserved`);
   if (typeof m.version === 'string' && !SEMVER_RE.test(m.version)) errors.push(`version "${m.version}" is not semver`);
   if (typeof m.type === 'string' && !TYPES.includes(m.type)) errors.push(`type must be one of ${TYPES.join('/')}`);
-  // TREK refuses to install a plugin that doesn't say which TREK versions it runs on, so
+  // Trip Mate refuses to install a plugin that doesn't say which Trip Mate versions it runs on, so
   // an author must find that out here rather than from a rejected install.
-  if (!isSatisfiableRange(m.trek)) {
+  if (!isSatisfiableRange(m.tripmate)) {
     errors.push(
-      typeof m.trek === 'string' && m.trek
-        ? `"trek" is not a satisfiable semver range: "${m.trek}" (e.g. ">=4.0.0 <5.0.0")`
-        : 'missing "trek" — declare the TREK versions this plugin supports, e.g. ">=4.0.0 <5.0.0"',
+      typeof m.tripmate === 'string' && m.tripmate
+        ? `"tripmate" is not a satisfiable semver range: "${m.tripmate}" (e.g. ">=4.0.0 <5.0.0")`
+        : 'missing "tripmate" — declare the Trip Mate versions this plugin supports, e.g. ">=4.0.0 <5.0.0"',
     );
   }
   if (m.apiVersion !== undefined && typeof m.apiVersion !== 'number') errors.push('apiVersion must be a number');
@@ -337,7 +337,7 @@ export function validateManifest(raw: unknown): ValidationResult {
   }
   // MCP tools go into every user's assistant context, so the declaration is
   // checked here too rather than only at install: an author should hear about a
-  // malformed one from `trek-plugin validate`, not from a tool that never shows up.
+  // malformed one from `tripmate-plugin validate`, not from a tool that never shows up.
   const mcpTools = capabilities?.mcpTools;
   if (mcpTools !== undefined) {
     if (!permissions.includes('mcp:tools')) {
@@ -468,7 +468,7 @@ export function validateManifest(raw: unknown): ValidationResult {
     name: m.name as string,
     version: m.version as string,
     apiVersion: typeof m.apiVersion === 'number' ? m.apiVersion : 1,
-    trek: m.trek as string,
+    tripmate: m.tripmate as string,
     type: m.type as PluginManifest['type'],
     permissions,
     egress,

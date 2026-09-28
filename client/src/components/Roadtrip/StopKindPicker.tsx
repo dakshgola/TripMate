@@ -4,7 +4,7 @@ import { useTranslation } from '../../i18n/TranslationContext'
 import { Tooltip } from '../shared/Tooltip'
 import AnchoredPopover from './AnchoredPopover'
 import { STOP_KINDS } from './stopKinds'
-import type { RoadtripStopType } from '@trek/shared'
+import type { RoadtripStopType } from '@tripmate/shared'
 
 /**
  * Turning a place on the drive into a pause, and back.

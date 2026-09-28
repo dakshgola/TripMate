@@ -1,4 +1,4 @@
-import type { RoadtripDayBoundary } from '@trek/shared'
+import type { RoadtripDayBoundary } from '@tripmate/shared'
 import type { RoadtripStop } from './useRoadtripRoutes'
 import { lineMetres } from './corridor'
 

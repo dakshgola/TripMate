@@ -26,10 +26,11 @@ const settings: TranslationStrings = {
   'settings.mapTemplatePlaceholder.select': 'Виберіть шаблон...',
   'settings.mapDefaultHint': 'Залиште порожнім для OpenStreetMap (за замовчуванням)',
   'settings.routingBase': 'Власний сервер маршрутів',
-  'settings.routingBaseHint': 'Власний примірник OSRM. Порожньо — використовуються публічні сервери з обмеженням близько одного запиту на секунду: на день вистачає, для автоподорожі мало. Діє після перезапуску сервера.',
+  'settings.routingBaseHint':
+    'Власний примірник OSRM. Порожньо — використовуються публічні сервери з обмеженням близько одного запиту на секунду: на день вистачає, для автоподорожі мало. Діє після перезапуску сервера.',
   'settings.valhallaBase': 'Власний сервер Valhalla',
   'settings.valhallaBaseHint':
-    'За замовчуванням TREK використовує публічну Valhalla FOSSGIS для уникнення платних доріг, автомагістралей і поромів. Введіть тут URL власної Valhalla, щоб використовувати її замість публічної. Якщо налаштовано лише власний сервер маршрутизації, публічна Valhalla не використовується. Після введення власного URL перезапустіть сервер і оновіть сторінку.',
+    'За замовчуванням Trip Mate використовує публічну Valhalla FOSSGIS для уникнення платних доріг, автомагістралей і поромів. Введіть тут URL власної Valhalla, щоб використовувати її замість публічної. Якщо налаштовано лише власний сервер маршрутизації, публічна Valhalla не використовується. Після введення власного URL перезапустіть сервер і оновіть сторінку.',
   'settings.mapHint': 'URL-шаблон для тайлів карти',
   'settings.mapProvider': 'Провайдер карти',
   'settings.mapProviderHint': 'Застосовується до Trip Planner та Journey. Atlas завжди використовує Leaflet.',
@@ -45,7 +46,7 @@ const settings: TranslationStrings = {
     'Без ключа базові карти CARTO показують водяний знак. Безкоштовно та без облікового запису, на',
   'settings.mapCartoKeyLink': 'ключ API базових карт carto.com',
   'settings.mapCartoKeyMissing':
-    'Цей шаблон є базовою картою CARTO. Без ключа CARTO наносить "API KEY REQUIRED" на кожен тайл. Доки ключ не вказано, TREK показує базову карту за замовчуванням.',
+    'Цей шаблон є базовою картою CARTO. Без ключа CARTO наносить "API KEY REQUIRED" на кожен тайл. Доки ключ не вказано, Trip Mate показує базову карту за замовчуванням.',
   'settings.mapStyle': 'Стиль карти',
   'settings.mapStylePlaceholder': 'Виберіть стиль Mapbox',
   'settings.mapStyleHint': 'Preset або власний URL mapbox://styles/USER/ID',
@@ -192,13 +193,13 @@ const settings: TranslationStrings = {
   'settings.about.featureRequestHint': 'Запропонуйте нову функцію',
   'settings.about.wikiHint': 'Документація та керівництва',
   'settings.about.descriptionManaged':
-    'TREK helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
+    'Trip Mate helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
   'settings.about.sourceTitle': 'Source code',
-  'settings.about.sourceHint': 'TREK is open source, licensed AGPL-3.0',
+  'settings.about.sourceHint': 'Trip Mate is open source, licensed AGPL-3.0',
   'settings.about.supporters.badge': 'Щомісячні спонсори',
-  'settings.about.supporters.title': 'Спутники TREK',
+  'settings.about.supporters.title': 'Спутники Trip Mate',
   'settings.about.supporters.subtitle':
-    'Поки ти плануєш наступний маршрут, ці люди разом зі мною планують майбутнє TREK. Їхній щомісячний внесок йде безпосередньо в розробку та реальні витрачені години — щоб TREK залишався Open Source.',
+    'Поки ти плануєш наступний маршрут, ці люди разом зі мною планують майбутнє Trip Mate. Їхній щомісячний внесок йде безпосередньо в розробку та реальні витрачені години — щоб Trip Mate залишався Open Source.',
   'settings.about.supporters.since': 'спонсор з {date}',
   'settings.about.supporters.tierEmpty': 'Стань першим',
   'settings.about.supporter.tier.noReturnTicket': 'No Return Ticket',
@@ -207,7 +208,7 @@ const settings: TranslationStrings = {
   'settings.about.supporter.tier.budgetTraveller': 'Budget Traveller',
   'settings.about.supporter.tier.hostelBunkmate': 'Hostel Bunkmate',
   'settings.about.description':
-    'TREK — це self-hosted планувальник подорожей, який допомагає організувати поїздки від першої ідеї до останнього спогаду. Планування по днях, бюджет, списки речей, фото та багато іншого — все в одному місці, на вашому власному сервері.',
+    'Trip Mate — це self-hosted планувальник подорожей, який допомагає організувати поїздки від першої ідеї до останнього спогаду. Планування по днях, бюджет, списки речей, фото та багато іншого — все в одному місці, на вашому власному сервері.',
   'settings.about.madeWith': 'Зроблено з',
   'settings.about.madeBy': 'Морісом і зростаючою open-source спільнотою.',
   'settings.username': "Ім'я користувача",
@@ -289,7 +290,7 @@ const settings: TranslationStrings = {
   'settings.webhookUrl.testSuccess': 'Тестовий вебхук успішно надіслано',
   'settings.webhookUrl.testFailed': 'Помилка тестового вебхука',
   'settings.ntfyUrl.topicLabel': 'Тема Ntfy',
-  'settings.ntfyUrl.topicPlaceholder': 'my-trek-alerts',
+  'settings.ntfyUrl.topicPlaceholder': 'my-tripmate-alerts',
   'settings.ntfyUrl.serverLabel': 'URL сервера Ntfy (необов’язково)',
   'settings.ntfyUrl.serverPlaceholder': 'https://ntfy.sh',
   'settings.ntfyUrl.hint':
@@ -360,7 +361,7 @@ const settings: TranslationStrings = {
   'settings.airtrail.allowInsecureTlsHint': 'Вмикайте лише для довіреного екземпляра у вашій власній мережі.',
   'settings.airtrail.writeBack': 'Записувати зміни назад у AirTrail',
   'settings.airtrail.writeBackHint':
-    'Типово вимкнено: AirTrail є джерелом істини, а TREK лише читає з нього. Увімкніть, щоб надсилати зміни, зроблені в TREK, назад до AirTrail.',
+    'Типово вимкнено: AirTrail є джерелом істини, а Trip Mate лише читає з нього. Увімкніть, щоб надсилати зміни, зроблені в Trip Mate, назад до AirTrail.',
   'settings.airtrail.connected': 'Підключено',
   'settings.airtrail.notConnected': 'Не підключено',
   'settings.airtrail.toast.saved': 'Підключення AirTrail збережено',
@@ -473,7 +474,7 @@ const settings: TranslationStrings = {
   'settings.startPageDashboard': 'Панель',
   'settings.startPageActiveTrip': 'Активна поїздка',
   'settings.startPageHint':
-    'TREK одразу відкриває поїздку, яка триває зараз, інакше найближчу майбутню. Це та сама поїздка, яку виділяє панель.',
+    'Trip Mate одразу відкриває поїздку, яка триває зараз, інакше найближчу майбутню. Це та сама поїздка, яку виділяє панель.',
   'settings.startTripTab': 'Стартова вкладка',
   'settings.startTripTabHint':
     'Вкладка, з якою відкривається поїздка. Якщо вона належить до вимкненого доповнення, натомість відкриється план.',
@@ -511,7 +512,8 @@ const settings: TranslationStrings = {
   'settings.offline.notice.offline': 'Немає з’єднання. Під’єднайтеся, щоб зберегти подорожі офлайн.',
   'settings.offline.notice.signedOut': 'Сеанс завершився. Увійдіть знову, щоб синхронізувати.',
   'settings.offline.notice.failed': 'Не вдалося завершити завантаження. Перевірте з’єднання і спробуйте ще раз.',
-  'settings.offline.notice.loadFailed': 'Не вдалося прочитати офлайн-сховище цього пристрою. Зазвичай допомагає очищення кешу.',
+  'settings.offline.notice.loadFailed':
+    'Не вдалося прочитати офлайн-сховище цього пристрою. Зазвичай допомагає очищення кешу.',
   'settings.offline.clear': 'Очистити кеш',
   'settings.offline.clearConfirm':
     'Очистити всі офлайн-дані поїздок? Ви можете синхронізувати їх будь-коли в режимі онлайн.',
@@ -570,7 +572,8 @@ const settings: TranslationStrings = {
   'settings.apiScopes.bucket-list': 'Список бажань',
   'settings.apiScopes.stats': 'Підсумки',
   'settings.apiKeys.title': 'Ключі API',
-  'settings.apiKeys.description': 'Ключі для публічного API, щоб інші програми могли читати ваші подорожі. Лише читання: ключ нічого не змінить і не видалить.',
+  'settings.apiKeys.description':
+    'Ключі для публічного API, щоб інші програми могли читати ваші подорожі. Лише читання: ключ нічого не змінить і не видалить.',
   'settings.apiKeys.create': 'Створити ключ',
   'settings.apiKeys.empty': 'Ключів ще немає. Створіть один, щоб підключити іншу програму.',
   'settings.apiKeys.createdAt': 'створено',
@@ -585,7 +588,8 @@ const settings: TranslationStrings = {
   'settings.apiKeys.endpoint': 'Ендпоінт',
   'settings.apiKeys.neverUsed': 'не використовувався',
   'settings.apiKeys.loadFailed': 'Не вдалося завантажити ключі. Оновіть сторінку, щоб спробувати ще раз.',
-  'settings.apiKeys.limitReached': 'У вас {max} ключів, це максимум для одного облікового запису. Видаліть непотрібний ключ, щоб створити новий.',
+  'settings.apiKeys.limitReached':
+    'У вас {max} ключів, це максимум для одного облікового запису. Видаліть непотрібний ключ, щоб створити новий.',
   'settings.apiKeys.copyFailed': 'Не вдалося скопіювати. Виділіть текст і скопіюйте його вручну.',
   'settings.apiKeys.modal.createTitle': 'Створити ключ API',
   'settings.apiKeys.modal.name': 'Назва',

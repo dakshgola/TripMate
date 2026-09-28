@@ -1,5 +1,5 @@
 /**
- * trek-plugin submit — open the TREK-Plugins registry PR for you. Forks the
+ * tripmate-plugin submit — open the Trip Mate-Plugins registry PR for you. Forks the
  * registry (once), branches off the current upstream main, writes (or merges
  * into) registry/plugins/<id>.json, commits, pushes, and opens the PR — so the
  * last manual step of publishing (fork, paste JSON, open PR by hand) is gone.
@@ -13,7 +13,7 @@ import { execFileSync } from 'node:child_process';
 import { readJsonFile } from './json.js';
 import { needsRetroSign, retroSignVersions } from './retro-sign.js';
 
-const DEFAULT_REGISTRY = 'liketrek/TREK-Plugins';
+const DEFAULT_REGISTRY = 'liketrek/Trip Mate-Plugins';
 
 interface EntryLike {
   id: string; name?: string; authorPublicKey?: string;
@@ -33,12 +33,12 @@ function mergeOnto(existing: EntryLike, fresh: EntryLike, allowKeyChange = false
   const keyChanged = !!existing.authorPublicKey && !!fresh.authorPublicKey && existing.authorPublicKey !== fresh.authorPublicKey;
   if (keyChanged && !allowKeyChange) {
     throw new Error(
-      'the signing key differs from the one already published for this plugin — TREK would reject the update. Use the original key.\n' +
+      'the signing key differs from the one already published for this plugin — Trip Mate would reject the update. Use the original key.\n' +
       'If you MEAN to rotate the key, re-run with --allow-key-change (the PR then needs a maintainer\'s allow-key-change label, and every admin must re-trust the plugin).',
     );
   }
   if (existing.authorPublicKey && !fresh.authorPublicKey) {
-    throw new Error('this plugin was published signed — sign the update too (pass --sign) or TREK will refuse it.');
+    throw new Error('this plugin was published signed — sign the update too (pass --sign) or Trip Mate will refuse it.');
   }
   let older = existing.versions.filter((x) => x.version !== v.version);
   if (keyChanged) {
@@ -90,7 +90,7 @@ export async function submitEntry(entry: EntryLike, opts: {
     );
   }
 
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-submit-'));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-submit-'));
   try {
     // Clone the fork (pushable via gh auth), then base a branch on the CURRENT upstream main.
     let cloned = false;
@@ -152,7 +152,7 @@ export async function submitEntry(entry: EntryLike, opts: {
         : `${action === 'add' ? 'New plugin' : 'Plugin update'}: **${entry.name || entry.id}** \`${entry.id}\` ${entry.versions[0].version}.`,
       ...(rotated ? ['', ROTATION_BODY] : []),
       '',
-      'Generated with `trek-plugin submit`. CI validates the tag, artifact hash, manifest parity and README.',
+      'Generated with `tripmate-plugin submit`. CI validates the tag, artifact hash, manifest parity and README.',
     ].join('\n');
     const args = ['pr', 'create', '--repo', registry, '--head', `${login}:${branch}`, '--title', title, '--body', body];
     if (opts.draft) args.push('--draft');

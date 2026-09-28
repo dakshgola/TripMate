@@ -41,7 +41,7 @@ export function isBuildFilePath(pathname: string): boolean {
 
 /**
  * The production answer to a GET that nothing else matched: index.html for a page
- * of the app, a plain 404 in the TREK envelope for a build file that is not there.
+ * of the app, a plain 404 in the Trip Mate envelope for a build file that is not there.
  * Shared by both fallback forms (applyPlatformSpa and SpaFallbackFilter).
  */
 export function answerUnmatchedGet(req: Request, res: Response, message = 'Not Found'): void {

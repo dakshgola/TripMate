@@ -11,7 +11,7 @@ import { collectionsApi } from '../../../api/collections'
 import { entityGradient } from '../../../utils/gradients'
 import { CURRENCIES } from '../../../components/Budget/BudgetPanel.constants'
 import { formatTime, splitReservationDateTime } from '../../../utils/formatters'
-import { normalizeAppearance, MOBILE_DASH_TOKENS, type MobileDashToken, type Collection } from '@trek/shared'
+import { normalizeAppearance, MOBILE_DASH_TOKENS, type MobileDashToken, type Collection } from '@tripmate/shared'
 import { upcomingKey, type UpcomingReservation } from '../../../pages/dashboard/dashboardModel'
 
 const RES_ICON: Record<string, React.ReactElement> = {

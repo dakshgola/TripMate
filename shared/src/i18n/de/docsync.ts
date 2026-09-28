@@ -14,17 +14,18 @@ const docsync: TranslationStrings = {
   'docsync.newFolderPlaceholder': 'Name des neuen Ordners',
   'docsync.syncNow': 'Jetzt abgleichen',
   'docsync.unlink': 'Trennen',
-  'docsync.confirmUnlink': 'Die Dokumente bleiben in TREK und im Speicher. Nur die Verknüpfung dazwischen fällt weg.',
+  'docsync.confirmUnlink':
+    'Die Dokumente bleiben in Trip Mate und im Speicher. Nur die Verknüpfung dazwischen fällt weg.',
   'docsync.syncEnabled': 'Automatisch abgleichen',
   'docsync.deletePolicy': 'Wenn ein Dokument gelöscht wird',
   'docsync.deleteUnlink': 'Beide Kopien behalten',
   'docsync.deleteTrash': 'In den Papierkorb verschieben',
   'docsync.conflictPolicy': 'Wenn beide Seiten geändert wurden',
   'docsync.onConflict.manual': 'Mich fragen',
-  'docsync.onConflict.trek_wins': 'Die TREK-Kopie behalten',
+  'docsync.onConflict.trek_wins': 'Die Trip Mate-Kopie behalten',
   'docsync.onConflict.provider_wins': 'Die Kopie im Speicher behalten',
   'docsync.webhookHint':
-    'Trage diese URL bei deinem Anbieter ein, damit Änderungen sofort ankommen. Ohne sie fragt TREK in festen Abständen nach.',
+    'Trage diese URL bei deinem Anbieter ein, damit Änderungen sofort ankommen. Ohne sie fragt Trip Mate in festen Abständen nach.',
 
   // Felder des Verbindungsformulars. Die Keys spiegeln die Spalte `label` in
   // document_provider_fields, die ein Key-Suffix speichert und keinen Text.
@@ -48,7 +49,7 @@ const docsync: TranslationStrings = {
   'docsync.hintNextcloudAppPassword':
     'Einstellungen, Sicherheit, Neues App-Passwort erstellen. Niemals dein Kontopasswort.',
   'docsync.hintOpenCloudToken': 'Wird in OpenCloud unter App-Tokens angelegt.',
-  'docsync.hintBasePath': 'Wo TREK nach Reiseordnern sucht. Standard ist /TREK.',
+  'docsync.hintBasePath': 'Wo Trip Mate nach Reiseordnern sucht. Standard ist /Trip Mate.',
   'docsync.hintSynologyUrl': 'Mit Port angeben, zum Beispiel https://nas.example.com:5001',
   'docsync.hintSynologyUser': 'Am besten ein eigenes DSM-Konto, das nur auf diesen freigegebenen Ordner zugreift.',
   'docsync.hintSynologyOtp': 'Nur einmal nötig, wenn das Konto Zwei-Faktor-Authentifizierung nutzt.',
@@ -68,13 +69,13 @@ const docsync: TranslationStrings = {
   'docsync.state.too_large': 'Zu groß',
   'docsync.state.error': 'Fehler',
   'docsync.state.remote_missing': 'Beim Anbieter nicht vorhanden',
-  'docsync.state.local_deleted': 'In TREK gelöscht',
+  'docsync.state.local_deleted': 'In Trip Mate gelöscht',
   'docsync.state.scope_drift': 'Aus dem Ordner verschoben',
 
-  'docsync.conflict.resolve': "{count} klären",
+  'docsync.conflict.resolve': '{count} klären',
 
   'docsync.conflict.title': 'Beide Kopien wurden geändert',
-  'docsync.conflict.keepTrek': 'Die TREK-Version behalten',
+  'docsync.conflict.keepTrek': 'Die Trip Mate-Version behalten',
   'docsync.conflict.keepProvider': 'Die Version des Anbieters behalten',
   'docsync.conflict.keepBoth': 'Beide behalten',
 
@@ -87,7 +88,7 @@ const docsync: TranslationStrings = {
   'docsync.error.forbidden': 'Dieses Konto darf das nicht.',
   'docsync.error.not_found': 'Beim Anbieter nicht gefunden.',
   'docsync.error.scope_missing': 'Den verbundenen Ordner gibt es nicht mehr.',
-  'docsync.error.rate_limited': 'Der Anbieter bremst uns aus. TREK versucht es später noch einmal.',
+  'docsync.error.rate_limited': 'Der Anbieter bremst uns aus. Trip Mate versucht es später noch einmal.',
   'docsync.error.too_large': 'Die Datei ist größer, als der Anbieter annimmt.',
   'docsync.error.unsupported_type': 'Der Anbieter nimmt diesen Dateityp nicht an.',
   'docsync.error.quota_exceeded': 'Beim Anbieter ist kein Speicher mehr frei.',
@@ -108,8 +109,8 @@ const docsync: TranslationStrings = {
 
   'docsync.empty.title': 'Noch nichts verbunden',
   'docsync.empty.hintOwner':
-    'Wähle links einen Speicher. TREK behält von allem eine eigene Kopie, es geht also nichts verloren, wenn er wegfällt.',
-  'docsync.empty.hintMember': 'Das richtet der Besitzer der Reise ein. Die Dokumente bleiben so oder so in TREK.',
+    'Wähle links einen Speicher. Trip Mate behält von allem eine eigene Kopie, es geht also nichts verloren, wenn er wegfällt.',
+  'docsync.empty.hintMember': 'Das richtet der Besitzer der Reise ein. Die Dokumente bleiben so oder so in Trip Mate.',
 
   // Wie das jeweilige Produkt ablegt. Steht vor dem Verbinden da, weil der
   // nächste Schritt genau danach fragt.
@@ -120,7 +121,7 @@ const docsync: TranslationStrings = {
   'docsync.model.synologydrive': 'Legt in einem Ordner auf dem NAS ab',
 
   // ── Die Flussleiste ────────────────────────────────────────────────────────
-  'docsync.flow.trek': 'TREK',
+  'docsync.flow.tripmate': 'Trip Mate',
   'docsync.flow.toProvider': 'Raus zum Speicher',
   'docsync.flow.toTrek': 'Rein vom Speicher',
   'docsync.flow.documents': 'Dokumente',
@@ -150,19 +151,20 @@ const docsync: TranslationStrings = {
   'docsync.connect.okAs': 'Erreicht, angemeldet als {account}',
   'docsync.connect.insecureHint': 'Für eine Instanz im eigenen Netz mit selbstsigniertem Zertifikat.',
   'docsync.connect.about.paperless':
-    'TREK legt diese Reise unter einem eigenen Tag ab und rührt den Rest deines Archivs nicht an.',
+    'Trip Mate legt diese Reise unter einem eigenen Tag ab und rührt den Rest deines Archivs nicht an.',
   'docsync.connect.about.papra':
-    'Wähle die Organisation, zu der diese Reise gehört. TREK legt sie darin unter einem eigenen Tag ab.',
+    'Wähle die Organisation, zu der diese Reise gehört. Trip Mate legt sie darin unter einem eigenen Tag ab.',
   'docsync.connect.about.nextcloud':
     'Nimm ein App-Passwort, nicht dein Kontopasswort: Es übersteht Zwei-Faktor und lässt sich einzeln widerrufen.',
-  'docsync.connect.about.opencloud': 'TREK bekommt für diese Reise einen eigenen Space, getrennt von allem anderen.',
+  'docsync.connect.about.opencloud':
+    'Trip Mate bekommt für diese Reise einen eigenen Space, getrennt von allem anderen.',
   'docsync.connect.about.synologydrive':
     'Am besten ein DSM-Konto, das nur an den freigegebenen Ordner dieser Reise kommt.',
 
   // ── Den Ablageort wählen ───────────────────────────────────────────────────
   'docsync.scope.title': 'Wo soll diese Reise in {provider} liegen?',
   'docsync.scope.intro':
-    'Abgeglichen wird nur, was hier drin liegt. Alles andere in deinem Speicher bleibt außerhalb von TREK.',
+    'Abgeglichen wird nur, was hier drin liegt. Alles andere in deinem Speicher bleibt außerhalb von Trip Mate.',
   'docsync.scope.createTitle': 'Neu anlegen',
   'docsync.scope.createAction': 'Anlegen',
   'docsync.scope.pickTitle': 'Oder etwas Vorhandenes nehmen',
@@ -172,13 +174,14 @@ const docsync: TranslationStrings = {
   // ── Was jemand entscheiden muss ────────────────────────────────────────────
   'docsync.issues.title': 'Braucht einen Blick',
   'docsync.issues.conflict': 'An beiden Stellen geändert. Wähle, welche Fassung bleibt.',
-  'docsync.issues.remote_missing': 'Im Speicher nicht mehr da. Die Kopie in TREK ist noch hier.',
+  'docsync.issues.remote_missing': 'Im Speicher nicht mehr da. Die Kopie in Trip Mate ist noch hier.',
   'docsync.issues.rejected_type': 'Dieser Dateityp ist hier nicht erlaubt.',
   'docsync.issues.too_large': 'Größer als das Limit.',
   'docsync.issues.error': 'Die Übertragung ist nicht durchgegangen.',
 
   'docsync.error.unknown_provider': 'Dieser Anbieter steht auf dieser Instanz nicht zur Verfügung.',
-  'docsync.error.provider_disabled': 'Pausiert: Ein Administrator hat diesen Anbieter abgeschaltet. Der Abgleich läuft weiter, sobald er wieder eingeschaltet ist.',
+  'docsync.error.provider_disabled':
+    'Pausiert: Ein Administrator hat diesen Anbieter abgeschaltet. Der Abgleich läuft weiter, sobald er wieder eingeschaltet ist.',
   'docsync.binding.reconnect': 'Neu verbinden',
 };
 

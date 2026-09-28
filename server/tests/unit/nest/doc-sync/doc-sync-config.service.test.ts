@@ -51,7 +51,7 @@ vi.mock('../../../../src/utils/ssrfGuard', () => ({
   SsrfBlockedError: class extends Error {},
 }));
 
-import { DOCSYNC_SECRET_MASK, type DocsyncConnectionInput, type DocsyncLinkInput } from '@trek/shared';
+import { DOCSYNC_SECRET_MASK, type DocsyncConnectionInput, type DocsyncLinkInput } from '@tripmate/shared';
 import { createTables } from '../../../../src/db/schema';
 import { runMigrations } from '../../../../src/db/migrations';
 import { resetTestDb } from '../../../helpers/test-db';
@@ -275,7 +275,7 @@ describe('upsertConnection secrets', () => {
     const created = await svc.upsertConnection(TRIP, OWNER, {
       providerId: 'nextcloud',
       baseUrl: 'https://cloud.example.com',
-      credentials: { login_name: 'anna', app_password: 'app-pw', base_path: '/TREK' },
+      credentials: { login_name: 'anna', app_password: 'app-pw', base_path: '/Trip Mate' },
       allowInsecureTls: false,
     });
     expect(created.success).toBe(true);
@@ -287,7 +287,7 @@ describe('upsertConnection secrets', () => {
       allowInsecureTls: false,
     });
     const row = svc.listConnections(TRIP).find((c) => c.provider_id === 'nextcloud') as ConnectionRow;
-    expect(svc.toRef(row).settings).toMatchObject({ login_name: 'anna', base_path: '/TREK' });
+    expect(svc.toRef(row).settings).toMatchObject({ login_name: 'anna', base_path: '/Trip Mate' });
     expect(svc.toRef(row).secrets.app_password).toBe('app-pw');
   });
 });
@@ -473,7 +473,7 @@ describe('enabledProviderIds', () => {
 
 describe('recordProbe', () => {
   it('keeps what the last good probe learned when a later one fails', async () => {
-    // A token that expired overnight must not make TREK forget that this
+    // A token that expired overnight must not make Trip Mate forget that this
     // instance can accept uploads; the capabilities describe the provider, not
     // the state of the credential.
     const conn = await connect();
@@ -557,7 +557,7 @@ describe('toScopeRef', () => {
     const created = svc.createLink(
       TRIP,
       OWNER,
-      linkInput(conn.id, { scopeKey: 'fileid:437', remoteRootId: '437', remoteRootPath: '/TREK/japan' }),
+      linkInput(conn.id, { scopeKey: 'fileid:437', remoteRootId: '437', remoteRootPath: '/Trip Mate/japan' }),
     );
     expect(created.success).toBe(true);
     const row = created.success ? created.data : ({} as LinkRow);
@@ -568,7 +568,7 @@ describe('toScopeRef', () => {
       tripId: TRIP,
       scopeKey: 'fileid:437',
       remoteRootId: '437',
-      remoteRootPath: '/TREK/japan',
+      remoteRootPath: '/Trip Mate/japan',
       cursor: 'etag-9',
     });
   });
@@ -610,12 +610,12 @@ describe('createLink', () => {
     const result = svc.createLink(
       TRIP,
       OWNER,
-      linkInput(conn.id, { remoteRootId: '17', remoteRootPath: '/TREK/japan', remoteLabel: 'Japan 2026' }),
+      linkInput(conn.id, { remoteRootId: '17', remoteRootPath: '/Trip Mate/japan', remoteLabel: 'Japan 2026' }),
     );
     expect(result.success && result.data).toMatchObject({
       remote_scope_key: 'tag:1',
       remote_root_id: '17',
-      remote_root_path: '/TREK/japan',
+      remote_root_path: '/Trip Mate/japan',
       remote_label: 'Japan 2026',
     });
   });
@@ -639,7 +639,7 @@ describe('createLink', () => {
 
     const secret = svc.webhookSecret(first);
     expect(secret).toBeTruthy();
-    const view = svc.publicLink(first, 'https://trek.example.com');
+    const view = svc.publicLink(first, 'https://tripmate.example.com');
     expect(view.webhookSecret).toBe(DOCSYNC_SECRET_MASK);
     expect(JSON.stringify(view)).not.toContain(secret);
   });
@@ -707,7 +707,7 @@ describe('markOrphanedLinks', () => {
   });
 
   it('counts the trip owner as being on the trip, although no membership row says so', async () => {
-    // TREK's owner has no trip_members row; reading membership without the
+    // Trip Mate's owner has no trip_members row; reading membership without the
     // owner would orphan every binding the trip admin created, which is most
     // of them.
     const mine = await bind(OWNER, 'paperless');

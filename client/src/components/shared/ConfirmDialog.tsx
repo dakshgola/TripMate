@@ -61,7 +61,7 @@ export default function ConfirmDialog({
       // Backdrop only — Escape (above) and the Cancel button below are the
       // keyboard routes out of the dialog.
       role="presentation"
-      className="fixed inset-0 z-[10000] flex items-center justify-center px-4 trek-backdrop-enter bg-[rgba(15,23,42,0.5)]"
+      className="fixed inset-0 z-[10000] flex items-center justify-center px-4 tripmate-backdrop-enter bg-[rgba(15,23,42,0.5)]"
       style={{ paddingBottom: 'var(--bottom-nav-h)' }}
       onClick={onClose}
     >
@@ -69,7 +69,7 @@ export default function ConfirmDialog({
           own, and the two buttons below it always stay in reach. */}
       <div
         role="presentation"
-        className={`trek-modal-enter flex max-h-[calc(100dvh-2rem-var(--bottom-nav-h,0px))] flex-col rounded-2xl shadow-2xl w-full ${children ? 'max-w-md' : 'max-w-sm'} p-6 bg-surface-card`}
+        className={`tripmate-modal-enter flex max-h-[calc(100dvh-2rem-var(--bottom-nav-h,0px))] flex-col rounded-2xl shadow-2xl w-full ${children ? 'max-w-md' : 'max-w-sm'} p-6 bg-surface-card`}
         onClick={e => e.stopPropagation()}
       >
         <div className="flex min-h-0 items-start gap-4 overflow-y-auto overscroll-contain">

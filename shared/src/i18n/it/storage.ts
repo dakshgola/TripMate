@@ -13,13 +13,13 @@ const storage: TranslationStrings = {
   'storage.help.region':
     'Mantieni il valore predefinito a meno che il tuo provider non richieda una regione specifica.',
   'storage.field.keyPrefix': 'Prefisso chiave',
-  'storage.help.keyPrefix': 'Prefisso facoltativo aggiunto a ogni chiave oggetto, es. trek/prod.',
+  'storage.help.keyPrefix': 'Prefisso facoltativo aggiunto a ogni chiave oggetto, es. tripmate/prod.',
   'storage.field.retries': 'Tentativi',
   'storage.field.timeoutMs': 'Timeout (ms)',
   'storage.field.primary': 'Backend primario',
   'storage.field.replicas': 'Repliche',
   'storage.title': 'Archiviazione',
-  'storage.description': 'Dove TREK conserva i file caricati, le foto e i backup. Nulla cambia finché non salvi.',
+  'storage.description': 'Dove Trip Mate conserva i file caricati, le foto e i backup. Nulla cambia finché non salvi.',
   'storage.loading': 'Caricamento…',
   'storage.saved': 'Configurazione di archiviazione salvata',
   'storage.save': 'Salva modifiche',
@@ -67,7 +67,7 @@ const storage: TranslationStrings = {
   'storage.category.avatars': 'Foto profilo',
   'storage.category.places': 'Immagini dei luoghi',
   'storage.category.photos-google': 'Cache foto di Google',
-  'storage.category.photos-trek': 'Cache foto TREK',
+  'storage.category.photos-tripmate': 'Cache foto Trip Mate',
   'storage.category.backups': 'Backup',
 
   // What each category stores — rendered under the label in the category map.
@@ -79,8 +79,8 @@ const storage: TranslationStrings = {
   'storage.categoryDesc.places': 'Immagini allegate ai luoghi e ai luoghi delle raccolte — caricate o importate.',
   'storage.categoryDesc.photos-google':
     'Copie in cache delle foto di Google Places — recuperabili di nuovo, perderle è sicuro.',
-  'storage.categoryDesc.photos-trek':
-    'Foto in cache dal servizio foto TREK usato da Foto (Memories) — recuperabili di nuovo, perderle è sicuro.',
+  'storage.categoryDesc.photos-tripmate':
+    'Foto in cache dal servizio foto Trip Mate usato da Foto (Memories) — recuperabili di nuovo, perderle è sicuro.',
   'storage.categoryDesc.backups': 'Archivi di backup del server creati dal pannello Backup o dalla pianificazione.',
   'storage.health.title': 'Stato',
   'storage.health.allClear': 'Nessun errore di replica registrato.',
@@ -138,6 +138,7 @@ const storage: TranslationStrings = {
   'storage.migrate.cancel': 'Annulla spostamento',
   'storage.migrate.promptCancel': 'Annulla',
   'storage.migrate.queued': 'In coda: {categories}',
-  'storage.migrate.queueDropped': 'Impossibile avviare lo spostamento successivo — la coda rimanente è stata svuotata: {categories}',
+  'storage.migrate.queueDropped':
+    'Impossibile avviare lo spostamento successivo — la coda rimanente è stata svuotata: {categories}',
 };
 export default storage;

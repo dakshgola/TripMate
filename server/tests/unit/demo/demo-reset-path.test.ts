@@ -3,7 +3,7 @@
  *
  * demo-reset closes the live connection, copies the baseline over the database
  * file and reopens. It used to compute that file itself as data/travel.db, which
- * is wrong the moment TREK_DB_FILE moves the database elsewhere: the baseline
+ * is wrong the moment TRIPMATE_DB_FILE moves the database elsewhere: the baseline
  * lands on an unrelated file and the real database is never reset. The path has
  * to come from the connection that database.ts actually opened, so what these
  * cases assert is which file each copy names.
@@ -23,7 +23,7 @@ import path from 'node:path';
 const Module = require('node:module');
 
 const BASELINE = path.resolve(__dirname, '..', '..', '..', 'data', 'travel-baseline.db');
-const LIVE_DB = path.join(path.sep, 'srv', 'trek', 'custom-name.db');
+const LIVE_DB = path.join(path.sep, 'srv', 'tripmate', 'custom-name.db');
 
 const dbStub = {
   name: LIVE_DB,

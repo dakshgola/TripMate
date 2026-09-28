@@ -17,7 +17,7 @@ import { getDayOrder } from '../../utils/dayOrder'
 import { TRANSPORT_TYPES, timedSlot } from '../../utils/dayMerge'
 import { isOvernightCategory } from '../../components/Roadtrip/stopKinds'
 import { parsedItemToDraft, isTransportItem, isUnplaceableItem, type BookingReviewDraft } from '../../components/Planner/parsedItemToDraft'
-import type { BookingImportPreviewItem } from '@trek/shared'
+import type { BookingImportPreviewItem } from '@tripmate/shared'
 import { accommodationRepo } from '../../repo/accommodationRepo'
 import { offlineDb, getImportFiles, deleteImportFiles } from '../../db/offlineDb'
 import { isEffectivelyOffline } from '../../sync/networkMode'
@@ -31,7 +31,7 @@ import { useAutomaticDayPoints } from '../../components/Roadtrip/useAutomaticDay
 import { useDayBoundaries } from '../../components/Roadtrip/useDayBoundaries'
 import type { DayBoundaryControls } from '../../components/Map/dayBoundaryDrag'
 import { dayWindow, roadtripInsertion } from '../../components/Roadtrip/dayWindow'
-import { carrierReservationIds, isStoredStop, viasLeaving, type CarrierTerminal } from '@trek/shared/roadtrip'
+import { carrierReservationIds, isStoredStop, viasLeaving, type CarrierTerminal } from '@tripmate/shared/roadtrip'
 import { useTripRouteOverview } from '../../components/Map/useTripRouteOverview'
 import { useDawarichTrail } from '../../components/Map/useDawarichTrail'
 import { collapsedDayDates } from '../../components/Map/dawarichTrail'
@@ -57,7 +57,7 @@ import type { ManualStopTarget, ServiceStopMode } from '../../components/Roadtri
 import type { RoadtripStopDraft } from '../../components/Roadtrip/RoadtripStopPopup'
 import type { StayDraft } from '../../components/Roadtrip/RoadtripStayModal'
 import { inspectorStay } from '../../components/Roadtrip/stayReading'
-import { MAX_TRIP_DAYS, type RoadtripStopType } from '@trek/shared'
+import { MAX_TRIP_DAYS, type RoadtripStopType } from '@tripmate/shared'
 import { usePlaceSelection } from '../../hooks/usePlaceSelection'
 import { usePlannerHistory } from '../../hooks/usePlannerHistory'
 import { useAirtrailConnection } from '../../hooks/useAirtrailConnection'
@@ -449,7 +449,7 @@ export function useTripPlanner() {
   // Per-trip route visibility. `null` = the user has never said anything, which
   // is what lets the mobile map switch it on by default; an explicit false has to
   // survive every later map entry, and it used to be clobbered on each one (#2003).
-  const routeStorageKey = tripId ? `trek:day-route:${tripId}` : null
+  const routeStorageKey = tripId ? `tripmate:day-route:${tripId}` : null
   const [routeChoice, setRouteChoice] = useState<boolean | null>(() => {
     if (typeof window === 'undefined' || !routeStorageKey) return null
     const raw = window.localStorage.getItem(routeStorageKey)
@@ -563,7 +563,7 @@ export function useTripPlanner() {
     healthApi.features().then(f => setBookingImportAvailable(f.bookingImport || f.aiParsing)).catch(() => {})
   }, [])
 
-  const connectionsStorageKey = tripId ? `trek:visible-connections:${tripId}` : null
+  const connectionsStorageKey = tripId ? `tripmate:visible-connections:${tripId}` : null
   // Per-trip route-visibility preference — null means "never touched", which
   // falls back to the account-wide map_always_show_routes default (see
   // connectionsVisibility.ts). That fallback is purely computed, never
@@ -1435,7 +1435,7 @@ export function useTripPlanner() {
    * How long the traveller stays at one stop.
    *
    * Writes `places.duration_minutes`, which the schedule has read since it was written
-   * and which nothing in TREK has ever been able to set — the road trip is the only place
+   * and which nothing in Trip Mate has ever been able to set — the road trip is the only place
    * the value means anything, so it is the only place that edits it.
    *
    * Zero rather than null to clear: the update statement folds a null into "leave it
@@ -1925,7 +1925,7 @@ export function useTripPlanner() {
    * add the place under Days, drag it onto the right day, come back and mark it a
    * charging stop.
    *
-   * So this opens the form the rest of TREK adds places with, on nothing at all: no
+   * So this opens the form the rest of Trip Mate adds places with, on nothing at all: no
    * place, no coordinates, no day. The traveller finds the charger in the form's own
    * typed-ahead search, which is the whole reason to use it, and where the stop belongs
    * is worked out at the save, from what the save carries.
@@ -2277,7 +2277,7 @@ export function useTripPlanner() {
         const routedDay = roadtripRoutes.days.find(day => day.stops.some(stop => stop.assignmentId === visitId))
         const arrivalTime = routedDay?.schedule.entries[routedDay.stops.findIndex(stop => stop.assignmentId === visitId)]?.arrival ?? null
         setStopDraft({
-          poi: { osm_id: place.osm_id ?? '', name: place.name, lat: place.lat, lng: place.lng, category, poi_type: category, address: place.address ?? null, website: place.website ?? null, phone: place.phone ?? null, opening_hours: null, cuisine: null, source: 'trek', offRouteKm: 0, alongKm: 0 },
+          poi: { osm_id: place.osm_id ?? '', name: place.name, lat: place.lat, lng: place.lng, category, poi_type: category, address: place.address ?? null, website: place.website ?? null, phone: place.phone ?? null, opening_hours: null, cuisine: null, source: 'tripmate', offRouteKm: 0, alongKm: 0 },
           arrivalTime, dayId, dayNumber: days.find(day => day.id === dayId)?.day_number ?? 0, position: visit.order_index ?? 0,
           editing: { placeId: place.id, stopType: place.stop_type ?? (stay ? 'hotel' : null), dwellMinutes: place.duration_minutes ?? 30, accommodationId: stay?.id, checkIn: stay?.check_in ?? '', checkOut: stay?.check_out ?? '' },
           ...(isOvernightCategory(category) ? { overnight: { ...overnightOptions(dayId), ...(stay ? { defaultEndDayId: stay.end_day_id } : {}) } } : {}),

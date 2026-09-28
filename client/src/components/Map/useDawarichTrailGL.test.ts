@@ -17,7 +17,7 @@
  *    on the current style; passing an unknown id to `addLayer` is a throw, not
  *    a no-op, and the layer it names belongs to a different overlay that may
  *    not have mounted yet.
- *  - **the `trek-` prefix on every id**, which is what `applySatellite` looks
+ *  - **the `tripmate-` prefix on every id**, which is what `applySatellite` looks
  *    for when it decides where to slot the satellite tile. A layer called
  *    `dawarich-trail` would end up underneath the satellite image and simply
  *    not be there for the people most likely to want it.
@@ -41,13 +41,13 @@
 import { describe, it, expect, vi } from 'vitest'
 import { renderHook } from '@testing-library/react'
 import type { Map as MapboxMap } from 'mapbox-gl'
-import type { DawarichTrack, DawarichTrackDay } from '@trek/shared'
+import type { DawarichTrack, DawarichTrackDay } from '@tripmate/shared'
 import { DAWARICH_DAY_COLORS, DAWARICH_TRAIL_CASING } from './dawarichTrail'
 import { useDawarichTrailGL } from './useDawarichTrailGL'
 
-const SOURCE = 'trek-dawarich-trail'
-const CASING_LAYER = 'trek-dawarich-trail-casing'
-const LINE_LAYER = 'trek-dawarich-trail-line'
+const SOURCE = 'tripmate-dawarich-trail'
+const CASING_LAYER = 'tripmate-dawarich-trail-casing'
+const LINE_LAYER = 'tripmate-dawarich-trail-line'
 
 interface FakeSource {
   data: unknown
@@ -173,7 +173,7 @@ describe('useDawarichTrailGL', () => {
     expect(gl.spies.addSource).toHaveBeenCalledTimes(1)
   })
 
-  it('FE-DAWARICH-TRAILUI-021: builds the source and both layers under TREK-prefixed ids, anchored below the planned route', () => {
+  it('FE-DAWARICH-TRAILUI-021: builds the source and both layers under Trip Mate-prefixed ids, anchored below the planned route', () => {
     const gl = fakeGlMap({ styleLayers: ['trip-route-casing'] })
     mount({ map: gl.map, ready: true, track: track([DAY_ONE]), before: 'trip-route-casing' })
 
@@ -259,7 +259,7 @@ describe('useDawarichTrailGL', () => {
     mount({ map: gl.map, ready: true, track: track([DAY_ONE, DAY_TWO]) })
     const features = gl.drawn()?.features ?? []
     expect(features).toHaveLength(2)
-    // TREK stores [lat, lng] everywhere; GeoJSON wants the other order, and the
+    // Trip Mate stores [lat, lng] everywhere; GeoJSON wants the other order, and the
     // overlay is the single place that flips it. Getting this backwards puts
     // Vienna in the Indian Ocean.
     expect(features[0].geometry.coordinates).toEqual([[16.37, 48.2], [16.38, 48.21]])

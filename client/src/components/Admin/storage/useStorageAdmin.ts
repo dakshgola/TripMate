@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { StorageAdminState, StorageBackend, StorageConfig, StorageConfigPut, StorageTestResponse } from '@trek/shared'
+import type { StorageAdminState, StorageBackend, StorageConfig, StorageConfigPut, StorageTestResponse } from '@tripmate/shared'
 import { adminApi } from '../../../api/client'
 import { getApiErrorMessage, type ApiError } from '../../../types'
 import { settingsDocumentOf } from './storageModel'

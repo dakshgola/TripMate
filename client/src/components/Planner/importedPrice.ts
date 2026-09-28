@@ -1,4 +1,4 @@
-import { typeToCostCategory } from '@trek/shared'
+import { typeToCostCategory } from '@tripmate/shared'
 
 /**
  * The linked cost an imported booking's parsed price becomes, or null when it has none.

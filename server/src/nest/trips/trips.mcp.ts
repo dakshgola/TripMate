@@ -14,7 +14,7 @@ import { TripReadModelService } from '../trip-read-model/trip-read-model.service
 import { ADDON_IDS } from '../../addons';
 import { noAccess, permissionDenied } from '../../mcp/tools/_shared';
 import { canRead, canReadTrips, canDeleteTrips } from '../../mcp/scopes';
-import { MAX_TRIP_DAYS } from '@trek/shared';
+import { MAX_TRIP_DAYS } from '@tripmate/shared';
 import { TripsService, NotFoundError, ValidationError } from './trips.service';
 import { TodoService } from '../todo/todo.service';
 import { CollabService } from '../collab/collab.service';
@@ -48,8 +48,8 @@ function jsonContent(uri: string, data: unknown) {
 /**
  * Trip MCP surface — ported 1:1 from the legacy registrars: ten tools from
  * src/mcp/tools/trips.ts (the three share-link tools moved to
- * src/nest/share/share.mcp.ts), the trek://trips, trek://trips/{tripId} and
- * trek://trips/{tripId}/members resources from src/mcp/resources.ts, and the
+ * src/nest/share/share.mcp.ts), the tripmate://trips, tripmate://trips/{tripId} and
+ * tripmate://trips/{tripId}/members resources from src/mcp/resources.ts, and the
  * trip-summary prompt from src/mcp/tools/prompts.ts (identical names,
  * descriptions, schemas, annotations, error/payload shapes and broadcasts).
  *
@@ -342,7 +342,7 @@ export class TripsMcp {
 
   @Tool({
     name: 'add_trip_member',
-    description: 'Add a user to a trip by their username or email address. Needs the member_manage permission, which by default only the trip owner holds. Use create_trip_guest instead for a companion who has no TREK account.',
+    description: 'Add a user to a trip by their username or email address. Needs the member_manage permission, which by default only the trip owner holds. Use create_trip_guest instead for a companion who has no Trip Mate account.',
     inputSchema: {
       tripId: z.number().int().positive(),
       identifier: z.string().min(1).describe('Username or email of the user to add'),
@@ -426,7 +426,7 @@ export class TripsMcp {
 
   @Tool({
     name: 'create_trip_guest',
-    description: 'Add a travelling companion who has no TREK account to a trip. Use this when the person cannot be found by username or email. A guest can be assigned to budget splits, packing items, to-dos and day participants like any member, but never signs in and is never emailed. Only the trip owner can do this.',
+    description: 'Add a travelling companion who has no Trip Mate account to a trip. Use this when the person cannot be found by username or email. A guest can be assigned to budget splits, packing items, to-dos and day participants like any member, but never signs in and is never emailed. Only the trip owner can do this.',
     inputSchema: {
       tripId: z.number().int().positive(),
       name: z.string().min(1).max(50).describe('Display name of the guest, e.g. "Anna"'),
@@ -545,7 +545,7 @@ export class TripsMcp {
 
   @Resource({
     name: 'trips',
-    uri: 'trek://trips',
+    uri: 'tripmate://trips',
     description: 'All trips the user owns or is a member of',
     mimeType: 'application/json',
     access: (ctx) => canReadTrips(ctx.scopes),
@@ -557,7 +557,7 @@ export class TripsMcp {
 
   @ResourceTemplate({
     name: 'trip',
-    uriTemplate: 'trek://trips/{tripId}',
+    uriTemplate: 'tripmate://trips/{tripId}',
     description: 'A single trip with metadata and member count',
     mimeType: 'application/json',
     access: (ctx) => canReadTrips(ctx.scopes),
@@ -571,7 +571,7 @@ export class TripsMcp {
 
   @ResourceTemplate({
     name: 'trip-members',
-    uriTemplate: 'trek://trips/{tripId}/members',
+    uriTemplate: 'tripmate://trips/{tripId}/members',
     description: 'Owner and collaborators of a trip',
     mimeType: 'application/json',
     access: (ctx) => canReadTrips(ctx.scopes),

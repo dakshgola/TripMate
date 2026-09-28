@@ -35,7 +35,7 @@ function makeDriver(api: S3Api, opts: Partial<S3DriverOptions> = {}): S3Driver {
     id: 's3-test',
     endpoint: 'http://127.0.0.1:9000',
     region: 'us-east-1',
-    bucket: 'trek',
+    bucket: 'tripmate',
     keyPrefix: '',
     accessKeyId: 'ak',
     secretAccessKey: 'sk',
@@ -60,8 +60,8 @@ function awsError(statusCode: number | undefined, code?: string): Error {
 describe('S3Driver construction', () => {
   it('normalizes the key prefix to "" or "segments/" form', async () => {
     const api = makeMockApi({ HeadObject: vi.fn().mockResolvedValue({ ContentLength: 1, LastModified: new Date(1000) }) });
-    await makeDriver(api, { keyPrefix: '/trek/prod/' }).stat('a/x.bin');
-    expect(api.HeadObject).toHaveBeenCalledWith(expect.objectContaining({ Key: 'trek/prod/a/x.bin' }));
+    await makeDriver(api, { keyPrefix: '/tripmate/prod/' }).stat('a/x.bin');
+    expect(api.HeadObject).toHaveBeenCalledWith(expect.objectContaining({ Key: 'tripmate/prod/a/x.bin' }));
   });
   it('rejects an invalid key prefix at construction', () => {
     expect(() => makeDriver(makeMockApi(), { keyPrefix: '../evil' })).toThrow(StorageInvalidKeyError);
@@ -69,7 +69,7 @@ describe('S3Driver construction', () => {
   it('makes no client call at construction (boot must not touch the network)', () => {
     const factory = vi.fn();
     void new S3Driver({
-      id: 's3-test', endpoint: 'http://127.0.0.1:9000', region: 'us-east-1', bucket: 'trek',
+      id: 's3-test', endpoint: 'http://127.0.0.1:9000', region: 'us-east-1', bucket: 'tripmate',
       keyPrefix: '', accessKeyId: 'ak', secretAccessKey: 'sk', retries: 1, timeoutMs: 200,
       clientFactory: factory,
     });
@@ -247,31 +247,31 @@ describe('S3Driver list', () => {
   it('paginates with the iterator, strips the keyPrefix, and requests the combined prefix', async () => {
     const api = makeMockApi({
       ListObjectsV2: pages(
-        [{ Key: 'trek/prod/a/one.bin', Size: 2, LastModified: new Date(1000) }],
-        [{ Key: 'trek/prod/a/sub/two.bin', Size: 3, LastModified: new Date(2000) }],
+        [{ Key: 'tripmate/prod/a/one.bin', Size: 2, LastModified: new Date(1000) }],
+        [{ Key: 'tripmate/prod/a/sub/two.bin', Size: 3, LastModified: new Date(2000) }],
       ),
     });
     const out = [];
-    for await (const stat of makeDriver(api, { keyPrefix: 'trek/prod' }).list('a/')) out.push(stat);
+    for await (const stat of makeDriver(api, { keyPrefix: 'tripmate/prod' }).list('a/')) out.push(stat);
     expect(out).toEqual([
       { key: 'a/one.bin', size: 2, mtimeMs: 1000 },
       { key: 'a/sub/two.bin', size: 3, mtimeMs: 2000 },
     ]);
     expect(api.ListObjectsV2).toHaveBeenCalledWith(
-      expect.objectContaining({ Prefix: 'trek/prod/a/', paginate: 'iterator' }),
+      expect.objectContaining({ Prefix: 'tripmate/prod/a/', paginate: 'iterator' }),
     );
   });
   it('skips keys with dot-segments and keys outside the keyPrefix (out-of-band writes)', async () => {
     const api = makeMockApi({
       ListObjectsV2: pages([
-        { Key: 'trek/prod/a/ok.bin', Size: 1, LastModified: new Date(0) },
-        { Key: 'trek/prod/.tmp/junk', Size: 1, LastModified: new Date(0) },
-        { Key: 'trek/prod/a/.hidden', Size: 1, LastModified: new Date(0) },
+        { Key: 'tripmate/prod/a/ok.bin', Size: 1, LastModified: new Date(0) },
+        { Key: 'tripmate/prod/.tmp/junk', Size: 1, LastModified: new Date(0) },
+        { Key: 'tripmate/prod/a/.hidden', Size: 1, LastModified: new Date(0) },
         { Key: 'elsewhere/x.bin', Size: 1, LastModified: new Date(0) },
       ]),
     });
     const out = [];
-    for await (const stat of makeDriver(api, { keyPrefix: 'trek/prod' }).list('')) out.push(stat);
+    for await (const stat of makeDriver(api, { keyPrefix: 'tripmate/prod' }).list('')) out.push(stat);
     expect(out.map((s) => s.key)).toEqual(['a/ok.bin']);
   });
   it('yields nothing for an empty result and validates the prefix first', async () => {
@@ -443,7 +443,7 @@ describe('S3Driver put — bounded peek routing', () => {
 
 describe('S3Driver put — LocalTempFile ownership', () => {
   async function makeTmp(bytes: number): Promise<string> {
-    const dir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'trek-s3-'));
+    const dir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'tripmate-s3-'));
     const p = path.join(dir, 'src.bin');
     await fs.promises.writeFile(p, Buffer.alloc(bytes, 1));
     return p;

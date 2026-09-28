@@ -9,7 +9,7 @@ import { getApiErrorMessage } from '../../types'
 import { useToast } from '../../components/shared/Toast'
 import { managedAdminTabs } from '../../managed'
 import type { AdminUser, AdminStats, OidcConfig, UpdateInfo } from './adminModel'
-import type { TransitProvider, TransitKeySource } from '@trek/shared'
+import type { TransitProvider, TransitKeySource } from '@tripmate/shared'
 
 /**
  * Every tab id AdminPage can render a panel for, whatever this install offers.

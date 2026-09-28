@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { chronoOrder, type RoadtripVia, type TrekWsPayload, type TrekWsTripEventName } from '@trek/shared';
-import { isEmptyReanchoring, reanchorByStopOrder, type AnchoredVia } from '@trek/shared/roadtrip';
+import { chronoOrder, type RoadtripVia, type TrekWsPayload, type TrekWsTripEventName } from '@tripmate/shared';
+import { isEmptyReanchoring, reanchorByStopOrder, type AnchoredVia } from '@tripmate/shared/roadtrip';
 import { RealtimeService } from '../realtime/realtime.service';
 import { DatabaseService, type TripAccess } from '../database/database.service';
 import { PermissionsService } from '../permissions/permissions.service';

@@ -1,4 +1,4 @@
-import { TRACK_COLOR_FALLBACK } from '@trek/shared'
+import { TRACK_COLOR_FALLBACK } from '@tripmate/shared'
 import type { Place } from '../../types'
 
 /**

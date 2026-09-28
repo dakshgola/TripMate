@@ -25,7 +25,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -284,7 +284,7 @@ describe('Tool: get_help_page', () => {
 
   it('serves a demo account, the way the public REST route does', async () => {
     process.env.DEMO_MODE = 'true';
-    const { user } = createUser(testDb, { email: 'demo@trek.app' });
+    const { user } = createUser(testDb, { email: 'demo@tripmate.app' });
     await withHarness(user.id, async (h) => {
       const result = await h.client.callTool({
         name: 'get_help_page',
@@ -402,7 +402,7 @@ describe('Tool: list_addons', () => {
 
   it('serves a demo account, the way the authenticated REST route does', async () => {
     process.env.DEMO_MODE = 'true';
-    const { user } = createUser(testDb, { email: 'demo@trek.app' });
+    const { user } = createUser(testDb, { email: 'demo@tripmate.app' });
     await withHarness(user.id, async (h) => {
       const result = await h.client.callTool({ name: 'list_addons', arguments: {} });
       expect(result.isError).toBeFalsy();

@@ -1,12 +1,13 @@
-import { z } from 'zod';
 import { idSchema } from '../common/primitives.schema';
+
+import { z } from 'zod';
 
 /**
  * Dawarich integration contracts (#2279, #214).
  *
  * Dawarich (github.com/Freika/dawarich) is a self-hosted location-history
  * tracker. The split of duties is deliberate and settled: **Dawarich records,
- * TREK plans and interprets.** TREK never starts a location tracker of its own,
+ * Trip Mate plans and interprets.** Trip Mate never starts a location tracker of its own,
  * never writes into Dawarich, and never keeps a copy of the raw GPS archive —
  * the track overlay is fetched for the window being looked at and thrown away
  * again.
@@ -27,7 +28,7 @@ import { idSchema } from '../common/primitives.schema';
 export const DAWARICH_KEY_MASK = '••••••••';
 
 export const dawarichSettingsSchema = z.object({
-  /** Instance origin, e.g. https://dawarich.example.com — TREK appends /api/v1 itself. */
+  /** Instance origin, e.g. https://dawarich.example.com — Trip Mate appends /api/v1 itself. */
   url: z.string().trim().max(2048),
   /** API key. Omitted, blank or the mask keeps the stored key unchanged. */
   apiKey: z.string().max(512).optional(),
@@ -49,7 +50,7 @@ export type DawarichSettings = z.infer<typeof dawarichSettingsSchema>;
  * This exists because three things were discussed with Dawarich's maintainer
  * and none of them had shipped as of 1.14.4: an `updated_at` on a visit, a
  * status filter on the visits endpoint, and an ISO-3166 country code on the
- * visit's place. TREK works without all three — change detection falls back to
+ * visit's place. Trip Mate works without all three — change detection falls back to
  * a content hash, status filtering happens here, and the country is derived
  * from the coordinates — and picks the better path up automatically if a later
  * Dawarich version starts sending them. A missing capability is never a reason
@@ -145,7 +146,7 @@ export const DAWARICH_VISIT_STATUSES = ['suggested', 'confirmed'] as const;
 export const dawarichVisitStatusSchema = z.enum(DAWARICH_VISIT_STATUSES);
 export type DawarichVisitStatus = z.infer<typeof dawarichVisitStatusSchema>;
 
-/** Where a suggestion stands in TREK. Independent of what Dawarich thinks of it. */
+/** Where a suggestion stands in Trip Mate. Independent of what Dawarich thinks of it. */
 export const DAWARICH_SUGGESTION_STATES = ['new', 'accepted', 'dismissed'] as const;
 export const dawarichSuggestionStateSchema = z.enum(DAWARICH_SUGGESTION_STATES);
 export type DawarichSuggestionState = z.infer<typeof dawarichSuggestionStateSchema>;
@@ -156,12 +157,12 @@ export const dawarichSuggestionTargetSchema = z.enum(DAWARICH_SUGGESTION_TARGETS
 export type DawarichSuggestionTarget = z.infer<typeof dawarichSuggestionTargetSchema>;
 
 /**
- * One recorded stay, as TREK holds it for review.
+ * One recorded stay, as Trip Mate holds it for review.
  *
  * `source_changed` and `source_missing` are the honest answer to a question the
  * API cannot answer directly: Dawarich sends no `updated_at`, and deleting a
  * visit removes it from the list rather than marking it. So a changed visit is
- * detected by comparing a hash of the fields TREK shows, and a removed one by
+ * detected by comparing a hash of the fields Trip Mate shows, and a removed one by
  * noticing it was absent from a full re-read of the same window. Neither ever
  * rewrites something the user already accepted and possibly edited — they raise
  * a flag and leave the decision where it belongs.
@@ -249,10 +250,19 @@ export const dawarichAcceptSchema = z.object({
   lat: z.number().min(-90).max(90).optional(),
   lng: z.number().min(-180).max(180).optional(),
   /** `YYYY-MM-DD`. Falls back to the suggestion's resolved local date. */
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  date: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/)
+    .optional(),
   /** `HH:MM`. Falls back to the recorded arrival and departure. */
-  time: z.string().regex(/^\d{2}:\d{2}$/).optional(),
-  endTime: z.string().regex(/^\d{2}:\d{2}$/).optional(),
+  time: z
+    .string()
+    .regex(/^\d{2}:\d{2}$/)
+    .optional(),
+  endTime: z
+    .string()
+    .regex(/^\d{2}:\d{2}$/)
+    .optional(),
 });
 export type DawarichAccept = z.infer<typeof dawarichAcceptSchema>;
 
@@ -275,12 +285,12 @@ export type DawarichSuggestionStateBody = z.infer<typeof dawarichSuggestionState
 
 /**
  * How a segment was travelled, as Dawarich classified it. Passed through rather
- * than mapped onto TREK's own transport modes: the two vocabularies do not line
- * up (Dawarich has `stationary`, TREK has `ferry`), and inventing a mapping
+ * than mapped onto Trip Mate's own transport modes: the two vocabularies do not line
+ * up (Dawarich has `stationary`, Trip Mate has `ferry`), and inventing a mapping
  * would put a confident wrong label on a recorded fact.
  */
 export const dawarichTrackSegmentSchema = z.object({
-  /** `[lat, lng]` pairs, matching how TREK stores every other track. */
+  /** `[lat, lng]` pairs, matching how Trip Mate stores every other track. */
   points: z.array(z.tuple([z.number(), z.number()])),
   /** Dawarich's `dominant_mode`, or null on an instance too old to report one. */
   mode: z.string().nullable(),
@@ -300,7 +310,7 @@ export type DawarichTrackDay = z.infer<typeof dawarichTrackDaySchema>;
 
 /**
  * The recorded route for a window, as fetched — not as stored. Nothing here is
- * written to TREK's database; the next request asks Dawarich again.
+ * written to Trip Mate's database; the next request asks Dawarich again.
  */
 export const dawarichTrackSchema = z.object({
   days: z.array(dawarichTrackDaySchema),
@@ -415,8 +425,8 @@ export type DawarichBucketConfirm = z.infer<typeof dawarichBucketConfirmSchema>;
 /**
  * What counts as being somewhere.
  *
- * These are TREK's numbers, not Dawarich's: Dawarich decides where a visit was,
- * TREK decides whether that is enough to call a wish fulfilled. Kept next to the
+ * These are Trip Mate's numbers, not Dawarich's: Dawarich decides where a visit was,
+ * Trip Mate decides whether that is enough to call a wish fulfilled. Kept next to the
  * contract so the server, the tests and the help text cannot disagree.
  */
 export const DAWARICH_BUCKET_MATCH_RADIUS_M = 250;

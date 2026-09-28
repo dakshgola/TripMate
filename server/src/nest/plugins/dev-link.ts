@@ -11,7 +11,7 @@
  * touches that gate — but the two properties above are why loading unsigned local
  * code must be gated behind an explicit flag on top of the admin + kill-switch gates.
  *
- * Enable ONLY by setting `TREK_PLUGINS_DEV_LINK` to an explicit truthy value
+ * Enable ONLY by setting `TRIPMATE_PLUGINS_DEV_LINK` to an explicit truthy value
  * (1/true/on/yes). Off (absent/any other value) by default, so it can never be
  * silently on in a shared or production deployment.
  */

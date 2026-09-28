@@ -8,7 +8,7 @@ import {
   type StorageBackfillStatus,
   type StorageCategory,
   type StorageMigrationStatus,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import { contentTypeFor } from './content-type';
 import { MirrorDriver } from './drivers/mirror.driver';
 import { GLOBAL_TEMP_DIR } from './storage-paths';

@@ -1,4 +1,4 @@
-import type { PlaceShadowPickRequest } from '@trek/shared'
+import type { PlaceShadowPickRequest } from '@tripmate/shared'
 import { apiClient } from './client'
 import { useAuthStore } from '../store/authStore'
 

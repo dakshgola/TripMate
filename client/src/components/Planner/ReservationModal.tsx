@@ -24,7 +24,7 @@ import { TravelerPicker } from './TravelerPicker'
 import type { TripMember } from '../Budget/BudgetPanelMemberChips'
 import type { BookingExpenseRequest } from './BookingCostsSection.types'
 import type { BookingReviewDraft } from './parsedItemToDraft'
-import { typeToCostCategory } from '@trek/shared'
+import { typeToCostCategory } from '@tripmate/shared'
 import { stayPlaces } from '../../utils/stayPlaces'
 
 const TYPE_OPTIONS = [

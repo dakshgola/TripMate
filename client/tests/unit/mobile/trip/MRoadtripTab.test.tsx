@@ -6,7 +6,7 @@ import { useTripStore } from '../../../../src/store/tripStore'
 import MRoadtripTab from '../../../../src/mobile/screens/trip/roadtrip/MRoadtripTab'
 import type { MTripShellApi, TripPlanner } from '../../../../src/mobile/screens/trip/MTripShell'
 import type { Day, Place, Reservation } from '../../../../src/types'
-import type { CarrierTerminal, RoadtripDay, RoadtripRoutes, RoadtripStop, RouteSegment } from '@trek/shared/roadtrip'
+import type { CarrierTerminal, RoadtripDay, RoadtripRoutes, RoadtripStop, RouteSegment } from '@tripmate/shared/roadtrip'
 import type { LegAlternatives } from '../../../../src/components/Roadtrip/useRouteAlternatives'
 import { openLeg } from '../../../helpers/legAlternatives'
 

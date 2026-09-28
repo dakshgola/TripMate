@@ -113,7 +113,7 @@ describe('isPlaceDuplicate / trackInsertedInDedupSet', () => {
   it('recognises a renamed place by its provider id', () => {
     const dedup = emptyDedup();
     trackInsertedInDedupSet({ name: 'Trattoria da Enzo', lat: 41.88, lng: 12.47, google_ftid: '0x1:0x2' }, dedup);
-    // The user renamed it in TREK; the list still calls it what Google calls it.
+    // The user renamed it in Trip Mate; the list still calls it what Google calls it.
     dedup.names.delete('trattoria da enzo');
     dedup.names.add('dinner tuesday');
     expect(isPlaceDuplicate({ name: 'Trattoria da Enzo', lat: 41.88, lng: 12.47, google_ftid: '0x1:0x2' }, dedup)).toBe(true);

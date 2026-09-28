@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { XMLValidator } from 'fast-xml-parser';
-import { TRACK_COLORS, placeMatchStrategies, type PlaceMatchCandidate } from '@trek/shared';
-import type { TrekWsPayload, TrekWsTripEventName } from '@trek/shared';
+import { TRACK_COLORS, placeMatchStrategies, type PlaceMatchCandidate } from '@tripmate/shared';
+import type { TrekWsPayload, TrekWsTripEventName } from '@tripmate/shared';
 import { RealtimeService } from '../realtime/realtime.service';
 import { DatabaseService, type TripAccess } from '../database/database.service';
 import type { PlaceWithTags } from '../database/database.service';
@@ -598,7 +598,7 @@ export class PlacesService {
   }
 
   /**
-   * Walks the shared match strategies (`@trek/shared`, place-match.ts) against
+   * Walks the shared match strategies (`@tripmate/shared`, place-match.ts) against
    * the trip's rows, in order, first hit wins. The strategy list is the rule —
    * notably it offers coordinates only for an unnamed candidate, so this can no
    * longer disagree with `isPlaceDuplicate` about the restaurant and the bar at
@@ -1222,7 +1222,7 @@ export class PlacesService {
       }
       if (!wp.name) continue;
       try {
-        // Through geocodeQuery, which asks the TREK index first and only falls
+        // Through geocodeQuery, which asks the Trip Mate index first and only falls
         // through to Nominatim for what it does not know — and does so on the
         // BACKGROUND lane. That matters here more than anywhere: this loop runs
         // up to thirty times in one request, each Nominatim call taking the next
@@ -1426,7 +1426,7 @@ export class PlacesService {
 
     // Asked for a Google identity rather than for the best answer: the whole
     // point here is the `google_place_id` that `pickEnrichmentMatch` selects on,
-    // and the TREK index and OpenStreetMap have none to give. Without this the
+    // and the Trip Mate index and OpenStreetMap have none to give. Without this the
     // search returns index records, every candidate is discarded for a missing
     // id, and the import quietly stays unenriched on an instance with a key.
     const { places: results } = await this.maps.searchPlaces(

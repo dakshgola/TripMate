@@ -1,9 +1,9 @@
 # Trip Doctor
 
-> A hooks-only example plugin that enriches TREK's own planner — no UI of its own.
+> A hooks-only example plugin that enriches Trip Mate's own planner — no UI of its own.
 
 Trip Doctor is the companion example for the **provider hooks** and **entity
-metadata** added in #1429. It shows how a plugin can contribute *data* that TREK
+metadata** added in #1429. It shows how a plugin can contribute *data* that Trip Mate
 renders natively, instead of shipping its own iframe widget.
 
 ## What it does
@@ -33,8 +33,8 @@ long is dropped without affecting the planner.
 ## Run it
 
 ```bash
-npx @trek/plugin-sdk dev      # hot-reload against a local TREK
-npx @trek/plugin-sdk pack     # build a signed .trekplugin bundle
+npx @tripmate/plugin-sdk dev      # hot-reload against a local Trip Mate
+npx @tripmate/plugin-sdk pack     # build a signed .trekplugin bundle
 ```
 
 See the [Plugin Cookbook](https://github.com/liketrek/TREK/wiki/Plugin-Cookbook)

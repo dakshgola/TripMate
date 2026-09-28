@@ -11,7 +11,7 @@ import { CustomDatePicker } from '../../../components/shared/CustomDateTimePicke
 import CustomSelect from '../../../components/shared/CustomSelect'
 import { currenciesWith, SYMBOLS } from '../../../components/Budget/BudgetPanel.constants'
 import type { DashboardTrip } from '../../../pages/dashboard/dashboardModel'
-import { MAX_TRIP_DAYS, tripSpanDays, type Trip, type TripCreateRequest } from '@trek/shared'
+import { MAX_TRIP_DAYS, tripSpanDays, type Trip, type TripCreateRequest } from '@tripmate/shared'
 import MSheet from '../../components/MSheet'
 import MIconBtn from '../../components/MIconBtn'
 import MListRow from '../../components/MListRow'

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Country silhouettes for TREK Studio, built from the boundaries the server
+ * Country silhouettes for Trip Mate Studio, built from the boundaries the server
  * already bundles for Atlas.
  *
  *   node scripts/build-country-shapes.mjs

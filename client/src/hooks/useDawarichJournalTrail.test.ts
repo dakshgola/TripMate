@@ -45,7 +45,7 @@
  */
 import { act, renderHook, waitFor } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import type { DawarichTrack, DawarichTrackDay } from '@trek/shared'
+import type { DawarichTrack, DawarichTrackDay } from '@tripmate/shared'
 
 const { windowTrack, offline } = vi.hoisted(() => ({ windowTrack: vi.fn(), offline: vi.fn() }))
 vi.mock('../repo/dawarichRepo', () => ({ dawarichRepo: { windowTrack } }))

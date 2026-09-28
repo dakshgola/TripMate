@@ -4,7 +4,7 @@ import MDancingTrek, { type TrekScene } from '../../mobile/components/MDancingTr
 
 /**
  * Trip-open splash for desktop â€” the same little journey the mobile splash
- * plays: the TREK mascot packs, hits the road, cruises in and drops the
+ * plays: the Trip Mate mascot packs, hits the road, cruises in and drops the
  * destination pin while the trip loads. It now takes over the viewport as a
  * calm, Apple-style scene: a slowly drifting pastel gradient wash (soft
  * pink/lavender/periwinkle, toned right down) whose tiles pan and whose hue
@@ -143,7 +143,7 @@ const SPLASH_CSS = `
 }
 .dark .m-splash-content { --m-bg: #1b1a22; }
 
-@keyframes m-trek-beat {
+@keyframes m-tripmate-beat {
   from { opacity: 0; transform: translateX(20px); }
   to   { opacity: 1; transform: translateX(0); }
 }
@@ -175,7 +175,7 @@ export default function TripLoadingSplash({ title }: { title?: string }) {
     <div
       className="m-splash-root fixed inset-0 z-[100] flex items-center justify-center overflow-hidden"
       role="status"
-      aria-label={title || 'TREK'}
+      aria-label={title || 'Trip Mate'}
     >
       {/* Slowly drifting glass gradient â€” painted behind the card so the frost
           blurs it. */}
@@ -188,12 +188,12 @@ export default function TripLoadingSplash({ title }: { title?: string }) {
         <div className="m-splash-content flex flex-col items-center justify-center">
           {/* Fixed stage so the travelling mascot never nudges the layout. */}
           <div className="mb-6 flex h-[150px] w-[160px] items-center justify-center overflow-hidden">
-            <div key={step.scene} style={reduceMotion ? undefined : { animation: 'm-trek-beat 460ms cubic-bezier(.34,1.56,.64,1) both' }}>
+            <div key={step.scene} style={reduceMotion ? undefined : { animation: 'm-tripmate-beat 460ms cubic-bezier(.34,1.56,.64,1) both' }}>
               <MDancingTrek scene={step.scene} mood="happy" size={128} />
             </div>
           </div>
 
-          <div className="mb-2 text-[1.25rem] font-bold tracking-[-0.3px] text-content">{title || 'TREK'}</div>
+          <div className="mb-2 text-[1.25rem] font-bold tracking-[-0.3px] text-content">{title || 'Trip Mate'}</div>
 
           <div className="mb-8 flex h-4 items-center justify-center">
             <span key={step.key} className="text-[0.75rem] font-medium uppercase tracking-[2px] text-content-faint">

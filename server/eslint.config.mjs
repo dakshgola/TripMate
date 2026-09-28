@@ -152,7 +152,7 @@ export default tseslint.config(
                 '!../../protocol/envelope',
                 // Anything outside the plugin subtree, and the rest of the app.
                 '../../../**',
-                '@trek/**',
+                '@tripmate/**',
                 'node:*',
               ],
               message:

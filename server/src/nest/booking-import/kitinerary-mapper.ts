@@ -1,4 +1,4 @@
-import { normalizeLocalDateTime, splitLocalDateTime } from '@trek/shared';
+import { normalizeLocalDateTime, splitLocalDateTime } from '@tripmate/shared';
 import { findByIata } from '../airports/airports.data';
 import type {
   KiReservation, KiFlight, KiTrainTrip, KiBusTrip, KiBoatTrip,

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { dayColor } from './dayColors'
 import { stageMapData, stagePlaceIds, stagePoints } from './stageMap'
-import type { AccessSpur, RoadtripDay, RoadtripRoutes, RoadtripStop } from '@trek/shared/roadtrip'
+import type { AccessSpur, RoadtripDay, RoadtripRoutes, RoadtripStop } from '@tripmate/shared/roadtrip'
 
 // FE-RTSTAGE-001 to FE-RTSTAGE-021
 

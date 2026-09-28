@@ -77,10 +77,10 @@ const oauth: TranslationStrings = {
   'oauth.authorize.loading': 'Loading…', // en-fallback
   'oauth.authorize.errorTitle': 'Authorization Error', // en-fallback
   'oauth.authorize.loginTitle': 'Sign in to continue', // en-fallback
-  'oauth.authorize.loginDescription': '{client} wants access to your TREK account. Please sign in first.', // en-fallback
-  'oauth.authorize.loginButton': 'Sign in to TREK', // en-fallback
+  'oauth.authorize.loginDescription': '{client} wants access to your Trip Mate account. Please sign in first.', // en-fallback
+  'oauth.authorize.loginButton': 'Sign in to Trip Mate', // en-fallback
   'oauth.authorize.requestLabel': 'Authorization Request', // en-fallback
-  'oauth.authorize.requestDescription': 'This application is requesting access to your TREK account.', // en-fallback
+  'oauth.authorize.requestDescription': 'This application is requesting access to your Trip Mate account.', // en-fallback
   'oauth.authorize.trustNote': 'Only grant access to applications you trust. Your data stays on your server.', // en-fallback
   'oauth.authorize.selectScope': 'Select at least one scope', // en-fallback
   'oauth.authorize.approveOneScope': 'Approve ({count} scope)', // en-fallback
@@ -106,6 +106,7 @@ const oauth: TranslationStrings = {
   'oauth.scope.settings:write.description': '更改單位、時間格式、語言、預設貨幣和起始頁。絕不涉及已儲存的 API 金鑰',
   'oauth.scope.group.plugins': '外掛',
   'oauth.scope.plugins:use.label': '執行外掛工具',
-  'oauth.scope.plugins:use.description': '允許此用戶端呼叫由管理員安裝並核准的外掛所發布的工具。每個外掛都以其已獲授予的權限運作，而非以此權杖的權限範圍運作',
+  'oauth.scope.plugins:use.description':
+    '允許此用戶端呼叫由管理員安裝並核准的外掛所發布的工具。每個外掛都以其已獲授予的權限運作，而非以此權杖的權限範圍運作',
 };
 export default oauth;

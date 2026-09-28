@@ -25,7 +25,7 @@ const MENU_WIDTH = 300
 /**
  * Export in the list hero: a menu of the two formats a list can leave in (#2301).
  *
- * The TREK file carries everything and is for another TREK; GPX carries the
+ * The Trip Mate file carries everything and is for another Trip Mate; GPX carries the
  * places as waypoints and is for every other map app. Choosing is the whole
  * interaction, so it is a menu rather than a dialog.
  *
@@ -46,7 +46,7 @@ export default function CollectionExportMenu({ onExport, exporting, t }: Collect
 
   const options: FormatOption[] = [
     {
-      format: 'trek', icon: FileJson, label: t('collections.file.formatTrek'),
+      format: 'tripmate', icon: FileJson, label: t('collections.file.formatTrek'),
       extension: COLLECTION_FILE_EXTENSION, hint: t('collections.file.formatTrekHint'),
     },
     {
@@ -132,7 +132,7 @@ export default function CollectionExportMenu({ onExport, exporting, t }: Collect
           role="menu"
           aria-label={t('collections.file.exportTitle')}
           onKeyDown={onMenuKeyDown}
-          className="trek-popover-enter fixed z-[var(--z-toast)] p-1.5 rounded-xl border border-edge bg-surface-card shadow-dropdown"
+          className="tripmate-popover-enter fixed z-[var(--z-toast)] p-1.5 rounded-xl border border-edge bg-surface-card shadow-dropdown"
           style={{
             ...(anchored?.flipped ? { bottom: anchored.bottom } : { top: anchored?.top ?? 0 }),
             right,

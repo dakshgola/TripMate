@@ -15,7 +15,7 @@ import path from 'node:path';
  * code fences are stripped before it is measured, so a big table will not carry you).
  */
 export function makePublishable(dir: string): void {
-  const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'trek-plugin.json'), 'utf8')) as {
+  const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'tripmate-plugin.json'), 'utf8')) as {
     name?: string;
     permissions?: unknown;
   };
@@ -33,7 +33,7 @@ export function makePublishable(dir: string): void {
     `# ${manifest.name ?? 'Plugin'}\n\n` +
       '![screenshot](./docs/screenshot.png)\n\n' +
       '## What it does\n\n' +
-      'This plugin adds a genuinely useful capability to TREK, and this paragraph exists to clear the four hundred\n' +
+      'This plugin adds a genuinely useful capability to Trip Mate, and this paragraph exists to clear the four hundred\n' +
       'character floor the registry puts on real prose. It explains, in ordinary sentences, what a traveller gets\n' +
       'out of installing it and why they might want to. The registry strips headings, tables, links and code fences\n' +
       'before it measures, so padding the file out with a permissions table will not help; it has to be words.\n\n' +

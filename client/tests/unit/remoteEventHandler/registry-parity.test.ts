@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { TREK_WS_EVENT_NAMES, TREK_WS_TRIP_EVENT_NAMES } from '@trek/shared';
+import { TRIPMATE_WS_EVENT_NAMES, TRIPMATE_WS_TRIP_EVENT_NAMES } from '@tripmate/shared';
 import { DEXIE_WRITERS, STATE_APPLIERS } from '../../../src/store/slices/remoteEventHandler';
 import { HANDLED_OUTSIDE_TRIP_STORE, IGNORED_WS_EVENTS } from '../../../src/api/wsEventPolicy';
 import { useTripStore } from '../../../src/store/tripStore';
@@ -27,7 +27,7 @@ beforeEach(() => {
 
 describe('remoteEventHandler > registry parity', () => {
   it('FE-WSEVT-REGISTRY-001: every registry event is handled or explicitly ignored', () => {
-    const unclassified = TREK_WS_EVENT_NAMES.filter(
+    const unclassified = TRIPMATE_WS_EVENT_NAMES.filter(
       name => !handledInStore.has(name) && !handledElsewhere.has(name) && !ignored.has(name),
     );
     expect(
@@ -39,7 +39,7 @@ describe('remoteEventHandler > registry parity', () => {
   });
 
   it('FE-WSEVT-REGISTRY-002: the three buckets are disjoint (exactly one decision per event)', () => {
-    const doubleClassified = TREK_WS_EVENT_NAMES.filter(name => {
+    const doubleClassified = TRIPMATE_WS_EVENT_NAMES.filter(name => {
       const buckets =
         Number(handledInStore.has(name)) + Number(handledElsewhere.has(name)) + Number(ignored.has(name));
       return buckets > 1;
@@ -51,7 +51,7 @@ describe('remoteEventHandler > registry parity', () => {
   });
 
   it('FE-WSEVT-REGISTRY-003: no stale names — every classified event still exists in the registry', () => {
-    const registry = new Set<string>(TREK_WS_EVENT_NAMES);
+    const registry = new Set<string>(TRIPMATE_WS_EVENT_NAMES);
     const stale = [...handledInStore, ...handledElsewhere, ...ignored].filter(
       name => !registry.has(name),
     );
@@ -59,7 +59,7 @@ describe('remoteEventHandler > registry parity', () => {
   });
 
   it('FE-WSEVT-REGISTRY-004: the tripStore lookups only handle trip-scoped events', () => {
-    const tripScoped = new Set<string>(TREK_WS_TRIP_EVENT_NAMES);
+    const tripScoped = new Set<string>(TRIPMATE_WS_TRIP_EVENT_NAMES);
     const misScoped = [...handledInStore].filter(name => !tripScoped.has(name));
     expect(misScoped, `User-scoped event(s) in the tripStore lookups: ${misScoped.join(', ')}`).toEqual([]);
   });

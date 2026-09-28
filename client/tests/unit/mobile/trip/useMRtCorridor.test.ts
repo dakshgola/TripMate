@@ -5,7 +5,7 @@ import { useMRtCorridor } from '../../../../src/mobile/screens/trip/roadtrip/use
 import type { MTripShellApi, TripPlanner } from '../../../../src/mobile/screens/trip/MTripShell'
 import type { RoadtripCorridor } from '../../../../src/components/Roadtrip/useRoadtripCorridor'
 import type { Day } from '../../../../src/types'
-import type { RoadtripDay, RoadtripRoutes } from '@trek/shared/roadtrip'
+import type { RoadtripDay, RoadtripRoutes } from '@tripmate/shared/roadtrip'
 
 // FE-MOB-RTCOR-001 to FE-MOB-RTCOR-012
 

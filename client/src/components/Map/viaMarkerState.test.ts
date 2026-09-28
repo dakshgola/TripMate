@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 import { useStableVias } from './viaMarkerState'
-import type { RoadtripVia } from '@trek/shared'
+import type { RoadtripVia } from '@tripmate/shared'
 
 /**
  * The list both map renderers rebuild their via handles from.

@@ -1,6 +1,6 @@
 import { HttpException } from '@nestjs/common';
 import type { Request } from 'express';
-import { PUBLIC_API_SCOPES, type PublicApiScope } from '@trek/shared';
+import { PUBLIC_API_SCOPES, type PublicApiScope } from '@tripmate/shared';
 import type { RateLimitService } from '../common/rate-limit.service';
 
 /**

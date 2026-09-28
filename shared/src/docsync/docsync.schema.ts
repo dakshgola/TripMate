@@ -10,16 +10,16 @@ import { z } from 'zod';
  * Three deliberate decisions shape every schema below.
  *
  * **The connection belongs to the trip, not to the person.** Every other
- * integration in TREK is per user (`users.immich_*`, `dawarich_connections`,
+ * integration in Trip Mate is per user (`users.immich_*`, `dawarich_connections`,
  * even `trip_album_links` carries a `user_id`), and photos are shared only
  * through an opt-in `shared` flag. That model cannot satisfy "everyone on the
  * trip sees the same documents": it would make a document's visibility depend
  * on whose credentials fetched it. So a trip is bound to exactly one
  * connection, the server talks to the provider under that one identity, and
- * who may see what is decided by TREK's own trip membership, never by the
- * provider. The provider never learns that TREK has members.
+ * who may see what is decided by Trip Mate's own trip membership, never by the
+ * provider. The provider never learns that Trip Mate has members.
  *
- * **TREK keeps the bytes.** A synced document is an ordinary `trip_files` row,
+ * **Trip Mate keeps the bytes.** A synced document is an ordinary `trip_files` row,
  * so download, trash, offline cache, PDF export and backup keep working
  * untouched, and a provider outage does not blank out a trip that starts
  * tomorrow. The provider is a partner, not a disk.
@@ -82,7 +82,7 @@ export const docsyncConnectionTestSchema = docsyncConnectionInputSchema;
  * A scope key is opaque to everything except its own adapter. It is normalised,
  * never empty, and carries its own kind so a stored binding stays readable
  * after a restore: `tag:12`, `org:org_x/tag:tag_y`, `fileid:437`,
- * `drive:storage-users-1$89ad…`, `path:/trek/japan-2026`.
+ * `drive:storage-users-1$89ad…`, `path:/tripmate/japan-2026`.
  *
  * It is NOT null-able, and that is load-bearing: SQLite compares NULLs as
  * distinct, so a unique index over nullable anchor columns would happily accept
@@ -198,7 +198,7 @@ export const docsyncLinkStateSchema = z.enum([
 
 /**
  * Per-document state. `rejected_type` and `too_large` are visible states rather
- * than silent skips: a Paperless that refuses .gpx and a TREK that refuses .svg
+ * than silent skips: a Paperless that refuses .gpx and a Trip Mate that refuses .svg
  * both drop files on the floor otherwise, and the person who uploaded them has
  * no way to find out.
  */
@@ -246,7 +246,7 @@ export type DocsyncErrorCode = z.infer<typeof docsyncErrorCodeSchema>;
 
 export const docsyncResolveConflictSchema = z.object({
   /** Which side becomes the agreed state. */
-  keep: z.enum(['trek', 'provider', 'both']),
+  keep: z.enum(['tripmate', 'provider', 'both']),
 });
 
 /** Manual "sync now", so a user never has to wait out the poll interval. */

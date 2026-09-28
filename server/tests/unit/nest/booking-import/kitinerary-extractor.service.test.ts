@@ -6,7 +6,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
  * It had no test at all, which matters more than the line count suggests: this
  * one boolean is what the client reads to decide whether to offer booking import
  * at all, and every branch that resolves it is a filesystem lookup that behaves
- * differently on the three platforms TREK ships to.
+ * differently on the three platforms Trip Mate ships to.
  */
 const { existsSync, readdirSync, readEnv, execFileSync, execFile, logDebug } = vi.hoisted(() => ({
   logDebug: vi.fn(),

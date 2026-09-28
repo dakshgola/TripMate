@@ -3,7 +3,7 @@ import type mapboxgl from 'mapbox-gl'
 import { useSettingsStore } from '../../store/settingsStore'
 import { isStandardFamily, supportsCustom3d, wantsTerrain, addCustom3dBuildings, addTerrainAndSky } from '../Map/mapboxSetup'
 import { MAPBOX_DEFAULT_STYLE, styleForActiveProvider, basemapLanguage, type GlMapProvider } from '../Map/glProviders'
-import type { JourneyTrack } from '@trek/shared'
+import type { JourneyTrack } from '@tripmate/shared'
 import { SHOT_INDEX_ATTR, ensureJourneyPopupStyle, formatMarkerDate, journeyPopupHtml } from './journeyMapPopup'
 
 export interface JourneyMapGLHandle {
@@ -111,7 +111,7 @@ function markerHtml(dayColor: string, dayLabel: number, highlighted: boolean): H
   const wrap = document.createElement('div')
   wrap.style.cssText = `width:${MARKER_W}px;height:${MARKER_H}px;cursor:pointer;`
   const inner = document.createElement('div')
-  inner.className = 'trek-journey-marker-inner'
+  inner.className = 'tripmate-journey-marker-inner'
   inner.style.cssText = `width:100%;height:100%;transform:scale(${scale});transform-origin:bottom center;transition:transform 0.2s ease;filter:${shadow};`
   inner.innerHTML = `<svg width="${MARKER_W}" height="${MARKER_H}" viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M14 34C14 34 26 22.36 26 13C26 6.37 20.63 1 14 1C7.37 1 2 6.37 2 13C2 22.36 14 34 14 34Z" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>
@@ -190,7 +190,7 @@ function JourneyMapGL(
       popupRef.current.setOffset(offset)
       const el = popupRef.current.getElement()
       if (el) {
-        el.classList.toggle('trek-dark', !!darkRef.current)
+        el.classList.toggle('tripmate-dark', !!darkRef.current)
         el.classList.toggle('is-interactive', interactive)
       }
     } else {
@@ -200,7 +200,7 @@ function JourneyMapGL(
         closeOnMove: false,
         anchor: 'bottom',
         offset,
-        className: `trek-journey-popup${darkRef.current ? ' trek-dark' : ''}${interactive ? ' is-interactive' : ''}`,
+        className: `tripmate-journey-popup${darkRef.current ? ' tripmate-dark' : ''}${interactive ? ' is-interactive' : ''}`,
         maxWidth: '280px',
       })
         .setLngLat([item.lng, item.lat])
@@ -231,12 +231,12 @@ function JourneyMapGL(
     const marker = markersRef.current.get(id)
     if (!item || !marker) return
     const el = marker.getElement()
-    const currentInner = el.querySelector('.trek-journey-marker-inner') as HTMLDivElement | null
+    const currentInner = el.querySelector('.tripmate-journey-marker-inner') as HTMLDivElement | null
     if (!currentInner) return
     // Only swap the inner element's styles/HTML. Touching `el.style.cssText`
     // would wipe mapbox's positional transform and make the marker flicker.
     const next = markerHtml(item.dayColor, item.dayLabel, highlighted)
-    const nextInner = next.querySelector('.trek-journey-marker-inner') as HTMLDivElement
+    const nextInner = next.querySelector('.tripmate-journey-marker-inner') as HTMLDivElement
     currentInner.style.cssText = nextInner.style.cssText
     currentInner.innerHTML = nextInner.innerHTML
     el.style.zIndex = highlighted ? '1000' : '0'

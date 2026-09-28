@@ -76,7 +76,7 @@ describe('PackingController (parity with the legacy /api/trips/:tripId/packing r
     // The missing-name 400 moved from a bespoke controller check into the
     // ZodValidationPipe (packingCreateItemRequestSchema) — direct method calls
     // bypass parameter pipes, so that path is covered by the e2e suite and
-    // the schema spec in @trek/shared.
+    // the schema spec in @tripmate/shared.
 
     it('creates an item (owned by the creator) and broadcasts a Common item to the room', () => {
       // Common item (is_private falsy) → viewersOf null → whole-room broadcast.
@@ -175,7 +175,7 @@ describe('PackingController (parity with the legacy /api/trips/:tripId/packing r
 
     // The non-array 400 moved into the ZodValidationPipe (packingImportRequestSchema
     // requires an array) — direct method calls bypass parameter pipes, so that
-    // path is covered by the e2e suite and the schema spec in @trek/shared.
+    // path is covered by the e2e suite and the schema spec in @tripmate/shared.
 
 
     it('imports (owned by the importer) and broadcasts per item', () => {
@@ -307,7 +307,7 @@ describe('PackingController (parity with the legacy /api/trips/:tripId/packing r
     // The invalid-visibility 400 moved into the ZodValidationPipe
     // (packingSetSharingRequestSchema requires the enum) — direct method calls
     // bypass parameter pipes, so that path is covered by the e2e suite and the
-    // schema spec in @trek/shared.
+    // schema spec in @tripmate/shared.
     it('PUT /:id/sharing 404 missing, 403 non-owner, else drops + re-emits', () => {
       expect(thrown(() => new PackingController(makeService({ setItemSharing: vi.fn().mockReturnValue(null) } as Partial<PackingService>)).setSharing(user, '5', '9', { visibility: 'personal' }))).toEqual({ status: 404, body: { error: 'Item not found' } });
       expect(thrown(() => new PackingController(makeService({ setItemSharing: vi.fn().mockReturnValue({ forbidden: true }) } as Partial<PackingService>)).setSharing(user, '5', '9', { visibility: 'personal' }))).toEqual({ status: 403, body: { error: 'Only the owner can change sharing' } });
@@ -450,7 +450,7 @@ describe('PackingController (parity with the legacy /api/trips/:tripId/packing r
 
     // The non-array coercion is gone: packingBagMembersRequestSchema requires
     // user_ids to be an array, so the pipe 400s a malformed body before the
-    // handler runs (covered by the schema spec in @trek/shared).
+    // handler runs (covered by the schema spec in @tripmate/shared).
   });
 
   describe('templates', () => {
@@ -511,7 +511,7 @@ describe('PackingController (parity with the legacy /api/trips/:tripId/packing r
     // The missing-name 400 moved into the ZodValidationPipe
     // (packingSaveTemplateRequestSchema requires a non-empty name) — direct
     // method calls bypass parameter pipes, so that path is covered by the e2e
-    // suite and the schema spec in @trek/shared.
+    // suite and the schema spec in @tripmate/shared.
 
     it('403 when a non-admin tries to save a template', () => {
       const saveAsTemplate = vi.fn();

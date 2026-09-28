@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { ChargingInfo } from '@trek/shared';
+import type { ChargingInfo } from '@tripmate/shared';
 
 const evse = z.object({
   uid: z.string(), evse_id: z.string().optional(), status: z.string(), last_updated: z.string(),

@@ -56,13 +56,13 @@ describe('MTripLoadingSplash', () => {
 
     expect(screen.getByText('Japan 2026')).toBeInTheDocument()
     expect(screen.getByText('Packing your bags...')).toBeInTheDocument()
-    expect(container.querySelector('.trek--packing')).toBeTruthy()
+    expect(container.querySelector('.tripmate--packing')).toBeTruthy()
   })
 
-  it('FE-MOB-SPLASH-002: falls back to the TREK wordmark when the trip has no title', () => {
+  it('FE-MOB-SPLASH-002: falls back to the Trip Mate wordmark when the trip has no title', () => {
     render(<MTripLoadingSplash title="" />)
 
-    expect(screen.getByText('TREK')).toBeInTheDocument()
+    expect(screen.getByText('Trip Mate')).toBeInTheDocument()
   })
 
   it('FE-MOB-SPLASH-003: walks the four beats in order, one every 1400ms', () => {
@@ -70,15 +70,15 @@ describe('MTripLoadingSplash', () => {
 
     tick(STEP_MS)
     expect(screen.getByText('Hitting the road...')).toBeInTheDocument()
-    expect(container.querySelector('.trek--transport')).toBeTruthy()
+    expect(container.querySelector('.tripmate--transport')).toBeTruthy()
 
     tick(STEP_MS)
     expect(screen.getByText('Loading place photos...')).toBeInTheDocument()
-    expect(container.querySelector('.trek--dashboard')).toBeTruthy()
+    expect(container.querySelector('.tripmate--dashboard')).toBeTruthy()
 
     tick(STEP_MS)
     expect(screen.getByText('Almost there...')).toBeInTheDocument()
-    expect(container.querySelector('.trek--collections')).toBeTruthy()
+    expect(container.querySelector('.tripmate--collections')).toBeTruthy()
   })
 
   it('FE-MOB-SPLASH-004: wraps back to the first beat after the last one', () => {
@@ -110,8 +110,8 @@ describe('MTripLoadingSplash', () => {
   it('FE-MOB-SPLASH-007: animates the mascot stage between beats', () => {
     const { container } = render(<MTripLoadingSplash title="Japan 2026" />)
 
-    const stage = container.querySelector('.trek--packing')?.parentElement
-    expect(stage).toHaveStyle({ animation: 'm-trek-beat 460ms cubic-bezier(.34,1.56,.64,1) both' })
+    const stage = container.querySelector('.tripmate--packing')?.parentElement
+    expect(stage).toHaveStyle({ animation: 'm-tripmate-beat 460ms cubic-bezier(.34,1.56,.64,1) both' })
   })
 
   it('FE-MOB-SPLASH-008: reduced motion parks on the photo beat and never advances', () => {
@@ -131,7 +131,7 @@ describe('MTripLoadingSplash', () => {
     stubReducedMotion(true)
     const { container } = render(<MTripLoadingSplash title="Japan 2026" />)
 
-    const stage = container.querySelector('.trek--dashboard')?.parentElement
+    const stage = container.querySelector('.tripmate--dashboard')?.parentElement
     expect(stage?.getAttribute('style')).toBeNull()
   })
 

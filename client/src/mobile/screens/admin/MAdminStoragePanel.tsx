@@ -10,7 +10,7 @@ import {
   type StorageCategory,
   type StorageConfig,
   type StorageMigrationStatus,
-} from '@trek/shared'
+} from '@tripmate/shared'
 import { useTranslation } from '../../../i18n'
 import { useToast } from '../../../components/shared/Toast'
 import { formatBytes } from '../../../utils/formatBytes'

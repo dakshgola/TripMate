@@ -12,14 +12,14 @@ const storage: TranslationStrings = {
   'storage.field.region': 'Περιοχή',
   'storage.help.region': 'Διατήρησε την προεπιλογή εκτός αν ο πάροχός σου απαιτεί συγκεκριμένη περιοχή.',
   'storage.field.keyPrefix': 'Πρόθεμα κλειδιού',
-  'storage.help.keyPrefix': 'Προαιρετικό πρόθεμα που προστίθεται σε κάθε κλειδί αντικειμένου, π.χ. trek/prod.',
+  'storage.help.keyPrefix': 'Προαιρετικό πρόθεμα που προστίθεται σε κάθε κλειδί αντικειμένου, π.χ. tripmate/prod.',
   'storage.field.retries': 'Επαναλήψεις',
   'storage.field.timeoutMs': 'Χρονικό όριο (ms)',
   'storage.field.primary': 'Κύριο backend',
   'storage.field.replicas': 'Αντίγραφα',
   'storage.title': 'Αποθήκευση',
   'storage.description':
-    'Πού διατηρεί το TREK τα αρχεία, τις φωτογραφίες και τα αντίγραφα ασφαλείας που ανεβάζεις. Τίποτα δεν αλλάζει μέχρι να αποθηκεύσεις.',
+    'Πού διατηρεί το Trip Mate τα αρχεία, τις φωτογραφίες και τα αντίγραφα ασφαλείας που ανεβάζεις. Τίποτα δεν αλλάζει μέχρι να αποθηκεύσεις.',
   'storage.loading': 'Φόρτωση…',
   'storage.saved': 'Η ρύθμιση αποθήκευσης αποθηκεύτηκε',
   'storage.save': 'Αποθήκευση αλλαγών',
@@ -67,7 +67,7 @@ const storage: TranslationStrings = {
   'storage.category.avatars': 'Φωτογραφίες προφίλ',
   'storage.category.places': 'Εικόνες τοποθεσιών',
   'storage.category.photos-google': 'Κρυφή μνήμη φωτογραφιών Google',
-  'storage.category.photos-trek': 'Κρυφή μνήμη φωτογραφιών TREK',
+  'storage.category.photos-tripmate': 'Κρυφή μνήμη φωτογραφιών Trip Mate',
   'storage.category.backups': 'Αντίγραφα ασφαλείας',
 
   // What each category stores — rendered under the label in the category map.
@@ -81,8 +81,8 @@ const storage: TranslationStrings = {
     'Εικόνες που επισυνάπτονται σε τοποθεσίες και τοποθεσίες συλλογών — μεταφορτωμένες ή εισαγόμενες.',
   'storage.categoryDesc.photos-google':
     'Αποθηκευμένα αντίγραφα φωτογραφιών από το Google Places — ανακτήσιμα ξανά, η απώλειά τους είναι ασφαλής.',
-  'storage.categoryDesc.photos-trek':
-    'Φωτογραφίες σε κρυφή μνήμη από την υπηρεσία φωτογραφιών TREK που χρησιμοποιείται από τις Φωτογραφίες (Memories) — ανακτήσιμες ξανά, η απώλειά τους είναι ασφαλής.',
+  'storage.categoryDesc.photos-tripmate':
+    'Φωτογραφίες σε κρυφή μνήμη από την υπηρεσία φωτογραφιών Trip Mate που χρησιμοποιείται από τις Φωτογραφίες (Memories) — ανακτήσιμες ξανά, η απώλειά τους είναι ασφαλής.',
   'storage.categoryDesc.backups':
     'Αρχεία αντιγράφων ασφαλείας του διακομιστή που δημιουργούνται από τον πίνακα Αντιγράφων Ασφαλείας ή το πρόγραμμα.',
   'storage.health.title': 'Κατάσταση',
@@ -140,6 +140,7 @@ const storage: TranslationStrings = {
   'storage.migrate.cancel': 'Ακύρωση μετακίνησης',
   'storage.migrate.promptCancel': 'Ακύρωση',
   'storage.migrate.queued': 'Σε αναμονή: {categories}',
-  'storage.migrate.queueDropped': 'Δεν ήταν δυνατή η έναρξη της επόμενης μετακίνησης — η υπόλοιπη ουρά διαγράφηκε: {categories}',
+  'storage.migrate.queueDropped':
+    'Δεν ήταν δυνατή η έναρξη της επόμενης μετακίνησης — η υπόλοιπη ουρά διαγράφηκε: {categories}',
 };
 export default storage;

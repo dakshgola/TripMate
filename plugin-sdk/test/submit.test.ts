@@ -74,9 +74,9 @@ describe('submit — fork sync and retro-signing', () => {
   it('fast-forwards the fork from the registry before branching', async () => {
     await submitEntry(freshEntry(), {});
     const sync = calls.find((c) => c.bin === 'gh' && c.args[0] === 'repo' && c.args[1] === 'sync');
-    expect(sync?.args).toContain('someone/TREK-Plugins');
+    expect(sync?.args).toContain('someone/Trip Mate-Plugins');
     expect(sync?.args).toContain('--source');
-    expect(sync?.args).toContain('liketrek/TREK-Plugins');
+    expect(sync?.args).toContain('liketrek/Trip Mate-Plugins');
   });
 
   it('a diverged fork warns but does not stop the submit', async () => {

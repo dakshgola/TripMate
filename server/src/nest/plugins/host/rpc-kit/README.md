@@ -1,6 +1,6 @@
 # rpc-kit — the plugin RPC decorator layer
 
-Conceptually this is `trek-plugin-host`: `@PluginController`, `@PluginMethod`,
+Conceptually this is `tripmate-plugin-host`: `@PluginController`, `@PluginMethod`,
 `@PluginOpenMethod` and `@PluginHook`, plus the registry that binds them into the
 per-plugin dispatch map. It lives inside `server/` rather than in its own workspace,
 and this file records why, and what extracting it later would cost.

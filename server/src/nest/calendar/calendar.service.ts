@@ -6,9 +6,9 @@ import { addDays } from '../days/days.service';
 import { resolveTimeZone } from '../common/timezoneService';
 import { NotFoundError } from '../common/domain-errors';
 
-/** The VCALENDAR preamble every TREK calendar starts with, single-trip or merged. */
+/** The VCALENDAR preamble every Trip Mate calendar starts with, single-trip or merged. */
 export const CALENDAR_HEADER =
-  'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//TREK//Travel Planner//EN\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\n';
+  'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Trip Mate//Travel Planner//EN\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\n';
 
 /** One trip's calendar in parts, so callers can merge several without re-parsing text. */
 export interface TripCalendar {
@@ -112,7 +112,7 @@ function buildVTimezone(zone: string, yyyymmdd: string): string {
   );
 }
 /**
- * Everything TREK knows how to say in iCalendar. Moved out of TripsService
+ * Everything Trip Mate knows how to say in iCalendar. Moved out of TripsService
  * unchanged: same statements, same escaping, same folding, same VTIMEZONE
  * fallback, so the emitted bytes are identical for both consumers (the one-time
  * download on the trip route and the subscribable feeds).
@@ -179,7 +179,7 @@ export class CalendarService {
       .replaceAll(/\r/g, '');
     const fmtDate = (d: string) => d.replaceAll('-', '');
     const now = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-    const uid = (id: number, type: string) => `trek-${type}-${id}@trek`;
+    const uid = (id: number, type: string) => `tripmate-${type}-${id}@tripmate`;
 
     // Format datetime: handles full ISO "2026-03-30T09:00" and time-only "10:00"
     // iCal requires exactly YYYYMMDDTHHMMSS format
@@ -207,7 +207,7 @@ export class CalendarService {
     const usedZones = new Map<string, string>();
 
     // Emit a DTSTART/DTEND line, attaching TZID when the event's zone is known so
-    // subscribers see the time in TREK's zone. Falls back to a floating local time
+    // subscribers see the time in Trip Mate's zone. Falls back to a floating local time
     // (unchanged behavior) when no zone resolves or the value is not a date-time.
     const dtLine = (
       prop: 'DTSTART' | 'DTEND',
@@ -736,9 +736,9 @@ export class CalendarService {
 
     // \w + space/tab, not \s: JS \s admits U+3000 and friends — codepoints
     // Node's header validation refuses, so they 500'd the export (#2165).
-    const safeFilename = (trip.title || 'trek-trip').replace(/["\r\n]/g, '').replace(/[^\w \t.-]/g, '_');
+    const safeFilename = (trip.title || 'tripmate-trip').replace(/["\r\n]/g, '').replace(/[^\w \t.-]/g, '_');
     return {
-      calName: esc(trip.title || 'TREK Trip'),
+      calName: esc(trip.title || 'Trip Mate Trip'),
       filename: `${safeFilename}.ics`,
       timezones,
       events,

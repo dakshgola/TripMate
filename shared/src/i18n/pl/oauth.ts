@@ -80,10 +80,10 @@ const oauth: TranslationStrings = {
   'oauth.authorize.loading': 'Loading…', // en-fallback
   'oauth.authorize.errorTitle': 'Authorization Error', // en-fallback
   'oauth.authorize.loginTitle': 'Sign in to continue', // en-fallback
-  'oauth.authorize.loginDescription': '{client} wants access to your TREK account. Please sign in first.', // en-fallback
-  'oauth.authorize.loginButton': 'Sign in to TREK', // en-fallback
+  'oauth.authorize.loginDescription': '{client} wants access to your Trip Mate account. Please sign in first.', // en-fallback
+  'oauth.authorize.loginButton': 'Sign in to Trip Mate', // en-fallback
   'oauth.authorize.requestLabel': 'Authorization Request', // en-fallback
-  'oauth.authorize.requestDescription': 'This application is requesting access to your TREK account.', // en-fallback
+  'oauth.authorize.requestDescription': 'This application is requesting access to your Trip Mate account.', // en-fallback
   'oauth.authorize.trustNote': 'Only grant access to applications you trust. Your data stays on your server.', // en-fallback
   'oauth.authorize.selectScope': 'Select at least one scope', // en-fallback
   'oauth.authorize.approveOneScope': 'Approve ({count} scope)', // en-fallback
@@ -98,17 +98,23 @@ const oauth: TranslationStrings = {
   'oauth.scope.group.files': 'Pliki',
   'oauth.scope.group.settings': 'Ustawienia',
   'oauth.scope.files:read.label': 'Przeglądanie plików podróży',
-  'oauth.scope.files:read.description': 'Wyświetlanie dokumentów podróży: nazw, rozmiarów, kto je przesłał i z czym są powiązane',
+  'oauth.scope.files:read.description':
+    'Wyświetlanie dokumentów podróży: nazw, rozmiarów, kto je przesłał i z czym są powiązane',
   'oauth.scope.files:write.label': 'Zarządzanie plikami podróży',
-  'oauth.scope.files:write.description': 'Zmiana nazw i opisów plików, wiązanie ich z rezerwacjami i miejscami, oznaczanie i przenoszenie do kosza',
+  'oauth.scope.files:write.description':
+    'Zmiana nazw i opisów plików, wiązanie ich z rezerwacjami i miejscami, oznaczanie i przenoszenie do kosza',
   'oauth.scope.files:content.label': 'Odczyt zawartości plików',
-  'oauth.scope.files:content.description': 'Odczyt zawartości przesłanego dokumentu, na przykład PDF-u rezerwacji lub biletu',
+  'oauth.scope.files:content.description':
+    'Odczyt zawartości przesłanego dokumentu, na przykład PDF-u rezerwacji lub biletu',
   'oauth.scope.settings:read.label': 'Przeglądanie preferencji',
-  'oauth.scope.settings:read.description': 'Odczyt jednostek, formatu czasu, języka, waluty domyślnej i strony startowej',
+  'oauth.scope.settings:read.description':
+    'Odczyt jednostek, formatu czasu, języka, waluty domyślnej i strony startowej',
   'oauth.scope.settings:write.label': 'Zmiana preferencji',
-  'oauth.scope.settings:write.description': 'Zmiana jednostek, formatu czasu, języka, waluty domyślnej i strony startowej. Nigdy zapisanych kluczy API',
+  'oauth.scope.settings:write.description':
+    'Zmiana jednostek, formatu czasu, języka, waluty domyślnej i strony startowej. Nigdy zapisanych kluczy API',
   'oauth.scope.group.plugins': 'Wtyczki',
   'oauth.scope.plugins:use.label': 'Uruchamianie narzędzi wtyczek',
-  'oauth.scope.plugins:use.description': 'Pozwala temu klientowi wywoływać narzędzia udostępniane przez wtyczki zainstalowane i zatwierdzone przez administratora. Każda wtyczka działa z uprawnieniami, które już otrzymała, a nie z zakresami tego tokenu',
+  'oauth.scope.plugins:use.description':
+    'Pozwala temu klientowi wywoływać narzędzia udostępniane przez wtyczki zainstalowane i zatwierdzone przez administratora. Każda wtyczka działa z uprawnieniami, które już otrzymała, a nie z zakresami tego tokenu',
 };
 export default oauth;

@@ -156,7 +156,8 @@ const collection: TranslationStrings = {
   'collections.file.targetExisting': 'Adicionar a uma lista',
   'collections.file.targetExistingHint': 'A uma que você já tem',
   'collections.file.searchLists': 'Buscar listas',
-  'collections.file.intoHint': 'Os lugares que a lista já tem continuam como estão, assim como o nome e a cor. As etiquetas do arquivo são adicionadas.',
+  'collections.file.intoHint':
+    'Os lugares que a lista já tem continuam como estão, assim como o nome e a cor. As etiquetas do arquivo são adicionadas.',
   'collections.file.confirmInto': 'Adicionar à lista',
   'collections.file.doneInto': '{count} lugares adicionados a {name}',
   'collections.file.doneIntoDuplicates': '{count} adicionados a {name}, {duplicates} já estavam lá',
@@ -169,9 +170,9 @@ const collection: TranslationStrings = {
   'collections.file.doneSkipped': '{count} lugares importados, {skipped} ignorados',
   'collections.file.errorTooLarge': 'Esse arquivo é grande demais para ser uma lista.',
   'collections.file.errorUnreadable': 'Não foi possível ler esse arquivo.',
-  'collections.file.errorNotACollection': 'Esse não é um arquivo de lista do TREK.',
-  'collections.file.formatTrek': 'Lista do TREK',
-  'collections.file.formatTrekHint': 'Para outro TREK, com etiquetas e status',
+  'collections.file.errorNotACollection': 'Esse não é um arquivo de lista do Trip Mate.',
+  'collections.file.formatTrek': 'Lista do Trip Mate',
+  'collections.file.formatTrekHint': 'Para outro Trip Mate, com etiquetas e status',
   'collections.file.formatGpxHint': 'Pontos de referência para OsmAnd, Organic Maps, Garmin e outros apps de mapa',
   'collections.file.gpxOmitted': '{count} lugares não têm coordenadas e ficaram fora do arquivo GPX',
   'collections.file.gpxNothing':

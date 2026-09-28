@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
-import type { CollectionLabel, CollectionPlace } from '@trek/shared'
+import type { CollectionLabel, CollectionPlace } from '@tripmate/shared'
 import { fireEvent, render, screen, waitFor } from '../../../helpers/render'
 import MCollPlaceSheet from '../../../../src/mobile/screens/collections/MCollPlaceSheet'
 import { mapsApi } from '../../../../src/api/client'

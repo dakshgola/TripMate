@@ -112,7 +112,7 @@ export class AuthController {
     // Carry the session's remember choice into the re-issued token/cookie so a
     // "remember me" login survives a password change (#1927). Bearer callers
     // have no cookie → undefined → the historical default duration.
-    const remember = decodeSessionClaims((req.cookies as Record<string, string> | undefined)?.trek_session)?.remember;
+    const remember = decodeSessionClaims((req.cookies as Record<string, string> | undefined)?.tripmate_session)?.remember;
     const result = this.auth.changePassword(user.id, user.email, body, remember);
     if (result.error) {
       throw new HttpException({ error: result.error }, result.status!);

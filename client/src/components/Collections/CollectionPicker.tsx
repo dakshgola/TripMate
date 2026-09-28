@@ -3,7 +3,7 @@ import { Search, Bookmark, Loader2, ChevronDown, Check, Layers } from 'lucide-re
 import PlaceAvatar from '../shared/PlaceAvatar'
 import { collectionsApi } from '../../api/collections'
 import { STATUS_META, STATUS_ORDER } from '../../pages/collections/collectionsModel'
-import type { CollectionPlace, CollectionStatus } from '@trek/shared'
+import type { CollectionPlace, CollectionStatus } from '@tripmate/shared'
 import type { TranslationFn } from '../../types'
 import EmptyState from '../shared/EmptyState'
 
@@ -55,7 +55,7 @@ async function loadSavedPlaces(ids: number[]): Promise<CollectionPlace[]> {
 }
 
 /**
- * Compact click-away dropdown (Tailwind, this panel lives outside .trek-dash).
+ * Compact click-away dropdown (Tailwind, this panel lives outside .tripmate-dash).
  *
  * The panel is positioned against the FILTER ROW rather than against this
  * button, so it opens across the full width of the row instead of the half its

@@ -66,11 +66,11 @@ export async function dropAppShell(): Promise<void> {
 const REVISION_PARAM = '__WB_REVISION__'
 // A build file asked for under this parameter gets past the precache, whose route
 // only knows the plain URL, and past any cache in between that keeps files by URL.
-const REPAIR_PARAM = 'trek-repair'
+const REPAIR_PARAM = 'tripmate-repair'
 const REPAIR_TIMEOUT_MS = 15_000
 // The entries the precache held when it was last found sound, so that an
 // unchanged precache is not looked through again on every launch.
-const CHECKED_KEY = 'trek:precache-checked'
+const CHECKED_KEY = 'tripmate:precache-checked'
 // What the precache keeps besides index.html (globPatterns in vite.config.js,
 // plus the web manifest). None of these may ever be a page.
 const BUILD_FILE = /\.(?:js|css|svg|png|woff2?|ttf|webmanifest)$/i

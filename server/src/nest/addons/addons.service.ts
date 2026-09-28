@@ -6,7 +6,7 @@ import { getPhotoProviderConfig } from '../memories/memories.helpers';
 import { readTransitProvider, writeTransitProvider } from '../transit/transit-provider';
 import { resolveApiKey, type ApiKeySource } from '../settings/instance-api-keys';
 import { readEnv } from '../../app-config';
-import type { TransitProvider } from '@trek/shared';
+import type { TransitProvider } from '@tripmate/shared';
 
 /**
  * Thin wrapper around the enabled-addons + photo-provider read that the legacy

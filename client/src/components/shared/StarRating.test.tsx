@@ -1,6 +1,6 @@
 // FE-W4STAR-001 to FE-W4STAR-014
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import type { PlaceRatingVote } from '@trek/shared'
+import type { PlaceRatingVote } from '@tripmate/shared'
 import { render, screen, fireEvent, within } from '../../../tests/helpers/render'
 import { useAuthStore } from '../../store/authStore'
 import PlaceRating, { Stars } from './StarRating'

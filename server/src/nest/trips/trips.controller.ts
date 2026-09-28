@@ -23,7 +23,7 @@ import { RuntimeEnvService } from '../app-config/runtime-env.service';
 import type { Request, Response } from 'express';
 import type { Options } from 'multer';
 import path from 'path';
-import { MAX_TRIP_DAYS, type ActiveTripResponse } from '@trek/shared';
+import { MAX_TRIP_DAYS, type ActiveTripResponse } from '@tripmate/shared';
 import { StorageService } from '../storage/storage.service';
 import type { User } from '../../types';
 import { TripsService } from './trips.service';
@@ -75,7 +75,7 @@ export class TripsController {
   }
 
   /**
-   * Where "open TREK straight in my trip" lands. Declared above @Get(':id') —
+   * Where "open Trip Mate straight in my trip" lands. Declared above @Get(':id') —
    * a literal segment below it would never be reached.
    */
   @Get('active')

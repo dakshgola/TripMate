@@ -24,7 +24,7 @@ Node >= 18, `"type": "module"`; the dual build emits ESM to `dist/` and CJS to `
 
 ## The load-bearing principle: mirrored host code + parity tests
 
-The SDK's promise is that local results equal host/registry results: `dev` enforces what a real TREK enforces, and `validate` passes iff the TREK-Plugins registry CI passes. A drift in the lenient direction is the worst bug in this package — a **false green** lets an author cut an effectively immutable GitHub release (the registry pins its sha256) that the registry then rejects.
+The SDK's promise is that local results equal host/registry results: `dev` enforces what a real Trip Mate enforces, and `validate` passes iff the Trip Mate-Plugins registry CI passes. A drift in the lenient direction is the worst bug in this package — a **false green** lets an author cut an effectively immutable GitHub release (the registry pins its sha256) that the registry then rejects.
 
 Because the package ships standalone it cannot import server code, so several files are deliberate **copies** of host sources, each guarded by a parity test that reads the original directly. Those tests skip outside the monorepo but run in this checkout — keep the pairs in sync when touching either side:
 
@@ -32,8 +32,8 @@ Because the package ships standalone it cannot import server code, so several fi
 |---|---|---|
 | `src/generated/host-facts.ts` (permissions, RPC methods, hooks, event catalog) | `server/src/nest/plugins/protocol/envelope.ts` via `server/scripts/gen-plugin-facts.ts` — **machine-written, never hand-edit** | server `check:plugin-facts` CI gate |
 | `src/egress-policy.ts` (pure helpers, kept **byte-identical**) | `server/src/nest/plugins/runtime/egress-policy.ts` | `test/permissions-parity.test.ts` |
-| `src/manifest.ts` (validation rules incl. the `trek` version range, `KNOWN_ADDONS`) | `server/src/nest/plugins/install/` + `server/src/addons.ts` | kept in sync by hand |
-| `src/cli/checks/*` (registry gates) | TREK-Plugins registry repo (`scripts/validate-entry.mjs`, `check-readme.mjs`) | `test/checks-parity.test.ts` (runs the registry's real script; `TREK_PLUGINS_REPO` points at a checkout) |
+| `src/manifest.ts` (validation rules incl. the `tripmate` version range, `KNOWN_ADDONS`) | `server/src/nest/plugins/install/` + `server/src/addons.ts` | kept in sync by hand |
+| `src/cli/checks/*` (registry gates) | Trip Mate-Plugins registry repo (`scripts/validate-entry.mjs`, `check-readme.mjs`) | `test/checks-parity.test.ts` (runs the registry's real script; `TRIPMATE_PLUGINS_REPO` points at a checkout) |
 | `src/zip.ts` (ZIP writer) | server `safe-extract.ts` reader | format frozen against the reader |
 
 **Direction: single-source the contract.** The hand-kept copies are the residual risk, and the parity tests' skip-outside-the-monorepo guards mean the published SDK's own CI can green-light drift in them — keep moving copies into the generated/parity-tested set, never away from it. Changing an egress rule, manifest rule or registry gate means touching **every** copy in one change; parity gates fail closed; version/compat checks fail **closed** on unknown host versions.
@@ -42,11 +42,11 @@ A subtlety documented in `src/permissions.ts`: ctx methods fail loudly at call t
 
 ## Architecture
 
-- **`src/index.ts`** — the plugin API surface: all types, `definePlugin`, `PLUGIN_API_VERSION` (bump on any breaking API change). Pure and dependency-free; it mirrors exactly what TREK's plugin runtime injects. Runtime deps for the whole package are only `@clack/prompts`, `semver`, `update-notifier` — keep it that way (Playwright for `shot` is the author's devDependency; the ZIP writer is in-tree).
+- **`src/index.ts`** — the plugin API surface: all types, `definePlugin`, `PLUGIN_API_VERSION` (bump on any breaking API change). Pure and dependency-free; it mirrors exactly what Trip Mate's plugin runtime injects. Runtime deps for the whole package are only `@clack/prompts`, `semver`, `update-notifier` — keep it that way (Playwright for `shot` is the author's devDependency; the ZIP writer is in-tree).
 - **Two package exports**: `.` (the SDK) and `./testing` (`src/mock-host.ts`) — a mock `PluginContext` enforcing the same permission model against fixtures.
 - **`src/cli/`** — interactive TTY sessions get prompts; non-TTY stays flag-driven. Machine output (`entry` JSON, `pack --json`, PR URLs) goes to stdout, notices to stderr.
 - **`src/cli/checks/`** — one check registry, two depths: `runOffline` (synchronous on purpose, so packing can validate before zipping) and `runAll` (adds the GitHub-dependent gates used by `preflight`/`publish`).
-- **`src/ui/kit.ts`** — the design kit as plain strings, inlined where the `<!-- trek:ui -->` marker sits in a plugin's `client/index.html` (the opaque-origin iframe CSP forbids external link/script). Not a security boundary.
+- **`src/ui/kit.ts`** — the design kit as plain strings, inlined where the `<!-- tripmate:ui -->` marker sits in a plugin's `client/index.html` (the opaque-origin iframe CSP forbids external link/script). Not a security boundary.
 - **`src/lucide-icon-names.ts`** — generated snapshot; an unknown icon is a validate **warning**, never an error.
 - **`test/helpers.ts`** — `makePublishable(dir)` turns a fresh scaffold into a registry-passing plugin; the scaffold deliberately fails publish gates, so tests choose "fresh" vs "publishable" explicitly.
 

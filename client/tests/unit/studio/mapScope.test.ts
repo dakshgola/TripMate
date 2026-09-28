@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import type { BookElement, JourneyStats } from '@trek/shared'
+import type { BookElement, JourneyStats } from '@tripmate/shared'
 import { isStale, refreshPatch, routeFor } from '../../../src/components/Studio/travelRefresh'
 
 /**

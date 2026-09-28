@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { NOTE_COLORS, type TrekWsPayload, type TrekWsTripEventName } from '@trek/shared';
+import { NOTE_COLORS, type TrekWsPayload, type TrekWsTripEventName } from '@tripmate/shared';
 import { RealtimeService } from '../realtime/realtime.service';
 import { PermissionsService } from '../permissions/permissions.service';
 import type { DayNote, User } from '../../types';

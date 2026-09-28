@@ -1,4 +1,4 @@
-import { hexColorSchema } from '@trek/shared'
+import { hexColorSchema } from '@tripmate/shared'
 
 /**
  * Allow-list a colour before it goes into a hand-built HTML string.

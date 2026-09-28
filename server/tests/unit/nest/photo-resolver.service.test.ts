@@ -34,12 +34,12 @@ vi.mock('../../../src/nest/common/crypto/apiKeyCrypto', () => ({
 import { createTables } from '../../../src/db/schema';
 import { runMigrations } from '../../../src/db/migrations';
 import { DatabaseService } from '../../../src/nest/database/database.service';
-import { TrekPhotosRepository } from '../../../src/nest/photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../../../src/nest/photos/tripmate-photos.repository';
 import { PhotoResolverService } from '../../../src/nest/memories/photo-resolver.service';
 import type { ImmichService } from '../../../src/nest/memories/immich.service';
 import type { SynologyService } from '../../../src/nest/memories/synology.service';
 import type { ThumbnailService } from '../../../src/nest/memories/thumbnail.service';
-import type { TrekPhotoCacheService } from '../../../src/nest/memories/trek-photo-cache.service';
+import type { TrekPhotoCacheService } from '../../../src/nest/memories/tripmate-photo-cache.service';
 import { PhotoProviderRegistry } from '../../../src/nest/memories/photo-provider.registry';
 import { ImmichPhotoProvider } from '../../../src/nest/memories/providers/immich.provider';
 import { SynologyPhotoProvider } from '../../../src/nest/memories/providers/synology.provider';

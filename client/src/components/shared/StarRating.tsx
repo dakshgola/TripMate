@@ -4,7 +4,7 @@ import { Star } from 'lucide-react'
 import { avatarSrc } from '../../utils/avatarSrc'
 import { useAuthStore } from '../../store/authStore'
 import { useTranslation } from '../../i18n'
-import type { PlaceRatingVote } from '@trek/shared'
+import type { PlaceRatingVote } from '@tripmate/shared'
 
 const STAR_FILL = '#facc15'
 

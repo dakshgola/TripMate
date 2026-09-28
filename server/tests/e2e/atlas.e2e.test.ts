@@ -39,7 +39,7 @@ import { runMigrations } from '../../src/db/migrations';
 import { createUser, createTrip } from '../helpers/factories';
 import { AtlasModule } from '../../src/nest/atlas/atlas.module';
 import { DatabaseModule } from '../../src/nest/database/database.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 describe('Atlas e2e (real auth guard + real service + temp SQLite)', () => {

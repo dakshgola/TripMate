@@ -1,7 +1,7 @@
 {
   "name": "trek-plugin-sdk",
   "version": "1.7.1",
-  "description": "SDK for building TREK plugins: types, definePlugin, a mock host, manifest validation, and the create-trek-plugin / trek-plugin CLIs.",
+  "description": "SDK for building Trip Mate plugins: types, definePlugin, a mock host, manifest validation, and the create-tripmate-plugin / tripmate-plugin CLIs.",
   "type": "module",
   "license": "MIT",
   "author": "mauriceboe",
@@ -56,8 +56,8 @@
   },
   "bin": {
     "trek-plugin-sdk": "./dist/cli/trek-plugin.js",
-    "trek-plugin": "./dist/cli/trek-plugin.js",
-    "create-trek-plugin": "./dist/cli/create.js"
+    "tripmate-plugin": "./dist/cli/tripmate-plugin.js",
+    "create-tripmate-plugin": "./dist/cli/create.js"
   },
   "files": [
     "dist"
@@ -83,7 +83,7 @@
     "vitest": "^4.1.9"
   },
   "keywords": [
-    "trek",
+    "tripmate",
     "plugin",
     "sdk"
   ]

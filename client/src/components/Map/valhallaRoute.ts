@@ -41,14 +41,14 @@ const FOSSGIS_VALHALLA = 'https://valhalla1.openstreetmap.de'
 /**
  * How far Valhalla may look for a road under a point, in metres.
  *
- * Zero is its default and it is the wrong default for TREK's data, which is full of
+ * Zero is its default and it is the wrong default for Trip Mate's data, which is full of
  * museums, viewpoints and restaurants that sit inside a pedestrian zone. Measured on
  * Vienna's Stephansdom: without a radius the whole route answers error 442, with 50 it
  * routes, and 200 changed nothing further. So 50 buys the fix and nothing beyond it.
  */
 const SNAP_RADIUS_M = 50
 
-/** TREK's profile names against Valhalla's costing models. */
+/** Trip Mate's profile names against Valhalla's costing models. */
 const COSTING: Record<'driving' | 'walking' | 'cycling', string> = {
   driving: 'auto',
   walking: 'pedestrian',
@@ -308,7 +308,7 @@ async function postRoute(base: string, body: Record<string, unknown>, signal?: A
       method: 'POST',
       // A browser cannot set User-Agent, so this is the whole of what FOSSGIS asks a
       // client to identify itself with. It costs a preflight, which is answered.
-      headers: { 'Content-Type': 'application/json', 'X-Client-Id': 'trek' },
+      headers: { 'Content-Type': 'application/json', 'X-Client-Id': 'tripmate' },
       body: JSON.stringify(body),
       signal,
     })

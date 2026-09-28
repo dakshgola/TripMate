@@ -1,7 +1,7 @@
 /**
  * Unit tests for the categories MCP surface (CategoriesMcp, DI-discovered):
  * the list_categories tool, the create/update/delete_category admin tools and
- * the trek://categories resource.
+ * the tripmate://categories resource.
  *
  * They all attach via the nest-mcp registry inside registerTools, so every
  * harness here keeps withTools on (the resource is NOT registered by the legacy
@@ -28,7 +28,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -87,7 +87,7 @@ const categoriesMcp = new CategoriesMcp(
 );
 
 async function withWriteHarness(userId: number, fn: (client: Client) => Promise<void>) {
-  const server = new McpServer({ name: 'trek-test', version: '1.0.0' });
+  const server = new McpServer({ name: 'tripmate-test', version: '1.0.0' });
   createTestRegistry([categoriesMcp], { accessPolicy: trekMcpAccessPolicy, validateAccess: trekMcpValidateAccess })
     .attach(server, { userId, scopes: null, isStaticToken: false });
   const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
@@ -180,7 +180,7 @@ describe('Tool: create_category', () => {
 
   it('blocks demo user', async () => {
     process.env.DEMO_MODE = 'true';
-    const { user } = createAdmin(testDb, { email: 'demo@trek.app' });
+    const { user } = createAdmin(testDb, { email: 'demo@tripmate.app' });
     await withWriteHarness(user.id, async (client) => {
       const result = await client.callTool({ name: 'create_category', arguments: { name: 'Demo made this' } });
       expect(result.isError).toBe(true);
@@ -251,7 +251,7 @@ describe('Tool: update_category', () => {
 
   it('blocks demo user', async () => {
     process.env.DEMO_MODE = 'true';
-    const { user } = createAdmin(testDb, { email: 'demo@trek.app' });
+    const { user } = createAdmin(testDb, { email: 'demo@tripmate.app' });
     const id = insertCategory('Demo untouchable', '#ea580c', '🙅');
     await withWriteHarness(user.id, async (client) => {
       const result = await client.callTool({ name: 'update_category', arguments: { categoryId: id, name: 'Changed' } });
@@ -309,7 +309,7 @@ describe('Tool: delete_category', () => {
 
   it('blocks demo user', async () => {
     process.env.DEMO_MODE = 'true';
-    const { user } = createAdmin(testDb, { email: 'demo@trek.app' });
+    const { user } = createAdmin(testDb, { email: 'demo@tripmate.app' });
     const id = insertCategory('Demo survivor', '#0891b2', '🛟');
     await withWriteHarness(user.id, async (client) => {
       const result = await client.callTool({ name: 'delete_category', arguments: { categoryId: id } });
@@ -369,14 +369,14 @@ describe('Category tools: scope gating', () => {
 });
 
 // ---------------------------------------------------------------------------
-// trek://categories resource (first production @Resource)
+// tripmate://categories resource (first production @Resource)
 // ---------------------------------------------------------------------------
 
-describe('Resource: trek://categories', () => {
+describe('Resource: tripmate://categories', () => {
   it('returns all categories', async () => {
     const { user } = createUser(testDb);
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: 'trek://categories' });
+      const result = await h.client.readResource({ uri: 'tripmate://categories' });
       const categories = parseResourceResult(result) as any[];
       expect(categories.length).toBeGreaterThan(0);
       expect(categories[0]).toHaveProperty('id');
@@ -389,7 +389,7 @@ describe('Resource: trek://categories', () => {
   it('stays readable under restricted non-places scopes (legacy ungated behavior)', async () => {
     const { user } = createUser(testDb);
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: 'trek://categories' });
+      const result = await h.client.readResource({ uri: 'tripmate://categories' });
       const categories = parseResourceResult(result) as any[];
       expect(Array.isArray(categories)).toBe(true);
       expect(categories.length).toBeGreaterThan(0);

@@ -103,7 +103,7 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          # 22 matches the TREK server runtime (same choice as the plugin-sdk
+          # 22 matches the Trip Mate server runtime (same choice as the plugin-sdk
           # jobs and publish-plugin-sdk.yml).
           node-version: 22
           cache: npm
@@ -297,12 +297,12 @@ jobs:
       - name: Run the S3 driver contract suite
         # No --coverage: the src/nest/storage/** 94/84/97/94 pin must keep
         # holding from hermetic tests alone. The suite's beforeAll creates
-        # the trek-test bucket idempotently — no separate bucket-init step.
+        # the tripmate-test bucket idempotently — no separate bucket-init step.
         env:
-          TREK_TEST_S3_ENDPOINT: http://127.0.0.1:9000
-          TREK_TEST_S3_BUCKET: trek-test
-          TREK_TEST_S3_ACCESS_KEY_ID: trekci
-          TREK_TEST_S3_SECRET_ACCESS_KEY: trekci-secret
+          TRIPMATE_TEST_S3_ENDPOINT: http://127.0.0.1:9000
+          TRIPMATE_TEST_S3_BUCKET: tripmate-test
+          TRIPMATE_TEST_S3_ACCESS_KEY_ID: trekci
+          TRIPMATE_TEST_S3_SECRET_ACCESS_KEY: trekci-secret
         run: cd server && npx vitest run tests/unit/nest/storage/s3.driver.contract.test.ts
 
   server-coverage:
@@ -415,7 +415,7 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          # 22 matches the TREK server runtime and has node:sqlite, which the
+          # 22 matches the Trip Mate server runtime and has node:sqlite, which the
           # dev-server tests exercise (same choice as publish-plugin-sdk.yml).
           node-version: 22
 

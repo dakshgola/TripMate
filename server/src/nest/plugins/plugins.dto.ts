@@ -10,11 +10,11 @@ import {
   pluginUninstallRequestSchema,
   pluginUpdateRequestSchema,
   pluginUserSettingsUpdateRequestSchema,
-} from '@trek/shared';
+} from '@tripmate/shared';
 
 /**
  * Nest DTO classes for the plugin surfaces — thin wrappers over the shared
- * contracts in @trek/shared (plugins.schema.ts), which carry the schemas, the
+ * contracts in @tripmate/shared (plugins.schema.ts), which carry the schemas, the
  * inferred types both sides import, and the journey-contract doctrine notes
  * (#1842) explaining why each body stays loose. Nothing here may add or remove
  * validation: the schema of record lives in shared.

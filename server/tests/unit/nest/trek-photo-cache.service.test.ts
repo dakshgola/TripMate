@@ -7,7 +7,7 @@
  * stampede guard in particular is the reason the in-flight map is module-scoped
  * rather than an instance field.
  *
- * Slice 4: the cache addresses storage as ('photos-trek', '<key>.bin') over a
+ * Slice 4: the cache addresses storage as ('photos-tripmate', '<key>.bin') over a
  * stub-registry fixture rooted in a throwaway dir — the real uploads tree is
  * never touched.
  */
@@ -29,13 +29,13 @@ import path from 'node:path';
 import { createTables } from '../../../src/db/schema';
 import { runMigrations } from '../../../src/db/migrations';
 import { DatabaseService } from '../../../src/nest/database/database.service';
-import { TrekPhotoCacheService, CACHE_TTL } from '../../../src/nest/memories/trek-photo-cache.service';
+import { TrekPhotoCacheService, CACHE_TTL } from '../../../src/nest/memories/tripmate-photo-cache.service';
 import { StorageNotFoundError } from '../../../src/nest/storage/storage.types';
 import { makeStorageFixture } from '../../helpers/storage-fixture';
 
-const fx = makeStorageFixture('photos/trek/');
+const fx = makeStorageFixture('photos/tripmate/');
 const svc = new TrekPhotoCacheService(new DatabaseService(testDb), fx.storage);
-const CACHE_DIR = path.join(fx.root, 'photos/trek');
+const CACHE_DIR = path.join(fx.root, 'photos/tripmate');
 const binPath = (key: string) => path.join(CACHE_DIR, `${key}.bin`);
 let counter = 0;
 
@@ -124,7 +124,7 @@ describe('serveFresh', () => {
     expect(await svc.serveFresh(res as never, key)).toBe(true);
     expect(res.set).toHaveBeenCalledWith('Content-Type', 'image/webp');
     expect(res.set).toHaveBeenCalledWith('Cache-Control', 'public, max-age=3600');
-    expect(send).toHaveBeenCalledWith('photos-trek', `${key}.bin`, res);
+    expect(send).toHaveBeenCalledWith('photos-tripmate', `${key}.bin`, res);
     send.mockRestore();
   });
 
@@ -141,7 +141,7 @@ describe('serveFresh', () => {
     const key = freshKey('race');
     await svc.put(key, Buffer.from('bytes'), 'image/webp');
     const send = vi.spyOn(fx.storage, 'sendToResponse')
-      .mockRejectedValueOnce(new StorageNotFoundError(`photos/trek/${key}.bin`));
+      .mockRejectedValueOnce(new StorageNotFoundError(`photos/tripmate/${key}.bin`));
     const res = { set: vi.fn(), headersSent: false };
 
     expect(await svc.serveFresh(res as never, key)).toBe(false);

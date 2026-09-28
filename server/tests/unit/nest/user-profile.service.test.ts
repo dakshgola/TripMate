@@ -243,7 +243,7 @@ describe('validateKeys', () => {
     testDb.prepare('UPDATE users SET maps_api_key = ? WHERE id = ?').run('test-key', user.id);
 
     const prevAppUrl = process.env.APP_URL;
-    process.env.APP_URL = 'https://trek.example.com';
+    process.env.APP_URL = 'https://tripmate.example.com';
     const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValueOnce({
       status: 200,
       statusText: 'OK',
@@ -252,7 +252,7 @@ describe('validateKeys', () => {
 
     await profile.validateKeys(user.id);
     const headers = (fetchSpy.mock.calls[0]?.[1]?.headers ?? {}) as Record<string, string>;
-    expect(headers.Referer).toBe('https://trek.example.com');
+    expect(headers.Referer).toBe('https://tripmate.example.com');
 
     fetchSpy.mockRestore();
     if (prevAppUrl === undefined) delete process.env.APP_URL;
@@ -464,8 +464,8 @@ describe('changedKeys', () => {
   });
 
   it('AUTH-DB-110: a managed install reports no change for the names it refuses to write', () => {
-    const prev = process.env.TREK_MANAGED;
-    process.env.TREK_MANAGED = 'true';
+    const prev = process.env.TRIPMATE_MANAGED;
+    process.env.TRIPMATE_MANAGED = 'true';
     try {
       const { user } = createAdmin(testDb);
       const result = profile.updateApiKeys(user.id, { maps_api_key: 'operator-owns-this' });
@@ -475,8 +475,8 @@ describe('changedKeys', () => {
       expect(profile.updateMapsKey(user.id, 'operator-owns-this').changedKeys).toEqual([]);
       expect(profile.updateSettings(user.id, { maps_api_key: 'operator-owns-this' }).changedKeys).toEqual([]);
     } finally {
-      if (prev === undefined) delete process.env.TREK_MANAGED;
-      else process.env.TREK_MANAGED = prev;
+      if (prev === undefined) delete process.env.TRIPMATE_MANAGED;
+      else process.env.TRIPMATE_MANAGED = prev;
     }
   });
 });

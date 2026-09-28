@@ -14,7 +14,7 @@ import {
   roadtripGpxImportSchema,
   type RoadtripGpxImport,
   type RoadtripStopType,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import { z } from 'zod';
 import { AuthService } from '../auth/auth.service';
 import { AssignmentsService } from '../assignments/assignments.service';
@@ -32,7 +32,7 @@ function parseId(value: string | string[]): number | null {
 
 /**
  * Places MCP surface — ported 1:1 from the legacy registrar
- * src/mcp/tools/places.ts (ten tools) plus the trek://trips/{tripId}/places
+ * src/mcp/tools/places.ts (ten tools) plus the tripmate://trips/{tripId}/places
  * resource from src/mcp/resources.ts: identical names, descriptions, input
  * schemas, annotations, error/payload shapes and safeBroadcast events. The
  * registration-time `canWrite/canRead(scopes, 'places')` gates became the
@@ -301,12 +301,12 @@ export class PlacesMcp {
 
   @Tool({
     name: 'search_place',
-    description: 'Search for a real-world place by name or address. Returns results with osm_id (and google_place_id/google_ftid if configured). Use these IDs when calling create_place so the app can display opening hours, ratings, and map links. Pass locationBias whenever the trip has a destination: a bare name like "Central Station" or "Museum of Modern Art" otherwise resolves wherever the provider guesses, which is regularly the wrong continent. Searches the TREK index and OpenStreetMap, or Google Places alone with provider "google" and whenever the admin switch "Search with Google only" is on: if the instance has a plugin providing its own search index, call search_places_via_plugins as well, and note that ratings can only come from there.',
+    description: 'Search for a real-world place by name or address. Returns results with osm_id (and google_place_id/google_ftid if configured). Use these IDs when calling create_place so the app can display opening hours, ratings, and map links. Pass locationBias whenever the trip has a destination: a bare name like "Central Station" or "Museum of Modern Art" otherwise resolves wherever the provider guesses, which is regularly the wrong continent. Searches the Trip Mate index and OpenStreetMap, or Google Places alone with provider "google" and whenever the admin switch "Search with Google only" is on: if the instance has a plugin providing its own search index, call search_places_via_plugins as well, and note that ratings can only come from there.',
     inputSchema: {
       query: z.string().min(1).max(500).describe('Place name or address to search for'),
       locationBias: mapsSearchRequestSchema.shape.locationBias.describe('Centre the search on a coordinate: { lat, lng, radius? } with radius in metres (default 50000). Only the Google provider honours it; the OpenStreetMap fallback ignores it'),
       lang: z.string().max(35).optional().describe('BCP 47 language for the result names, e.g. "de" or "ja". Defaults to English'),
-      provider: mapsSearchRequestSchema.shape.provider.describe('"google" sends this one search to Google Places alone instead of the TREK index and OpenStreetMap, the same as the "search Google instead" link under the results in the app. Ignored unless Google holds the keyed slot: an instance without a Google key, or one whose admin picked Amap or OpenStreetMap as the places provider, answers from the TREK index and OpenStreetMap as usual'),
+      provider: mapsSearchRequestSchema.shape.provider.describe('"google" sends this one search to Google Places alone instead of the Trip Mate index and OpenStreetMap, the same as the "search Google instead" link under the results in the app. Ignored unless Google holds the keyed slot: an instance without a Google key, or one whose admin picked Amap or OpenStreetMap as the places provider, answers from the Trip Mate index and OpenStreetMap as usual'),
     },
     annotations: TOOL_ANNOTATIONS_READONLY,
     access: { group: 'places', mode: 'read' },
@@ -496,7 +496,7 @@ export class PlacesMcp {
 
   @ResourceTemplate({
     name: 'trip-places',
-    uriTemplate: 'trek://trips/{tripId}/places',
+    uriTemplate: 'tripmate://trips/{tripId}/places',
     description: 'All places/POIs in a trip, optionally filtered by assignment status (e.g. ?assignment=unassigned)',
     mimeType: 'application/json',
     access: { group: 'places', mode: 'read' },

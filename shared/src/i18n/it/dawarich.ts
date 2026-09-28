@@ -4,17 +4,16 @@ const dawarich: TranslationStrings = {
   // ── Connection ─────────────────────────────────────────────────────────────
   'dawarich.title': 'Dawarich',
   'dawarich.intro':
-    'Collega la tua istanza Dawarich per vedere dove sei stato davvero. TREK la legge e propone voci di diario, luoghi e paesi — nulla viene aggiunto finché non lo confermi e nulla viene riscritto su Dawarich.',
+    'Collega la tua istanza Dawarich per vedere dove sei stato davvero. Trip Mate la legge e propone voci di diario, luoghi e paesi — nulla viene aggiunto finché non lo confermi e nulla viene riscritto su Dawarich.',
   'dawarich.url': 'Indirizzo dell’istanza',
   'dawarich.apiKey': 'Chiave API',
   'dawarich.apiKeyPlaceholder': 'Incolla la tua chiave API di Dawarich',
   'dawarich.apiKeyHint':
     'La trovi in Dawarich sotto Account → Chiave API. Viene salvata cifrata e non viene più mostrata.',
   'dawarich.allowInsecureTls': 'Consenti certificato autofirmato',
-  'dawarich.allowInsecureTlsHint':
-    'Serve solo se la tua istanza usa un certificato di cui il tuo server non si fida.',
+  'dawarich.allowInsecureTlsHint': 'Serve solo se la tua istanza usa un certificato di cui il tuo server non si fida.',
   'dawarich.syncEnabled': 'Cerca automaticamente nuove soste',
-  'dawarich.syncEnabledHint': 'Se disattivato, TREK legge Dawarich solo quando glielo chiedi.',
+  'dawarich.syncEnabledHint': 'Se disattivato, Trip Mate legge Dawarich solo quando glielo chiedi.',
   'dawarich.test.button': 'Prova la connessione',
   'dawarich.test.success': 'Connesso. {count} soste trovate negli ultimi 30 giorni.',
   'dawarich.test.failed': 'Impossibile raggiungere Dawarich.',
@@ -47,19 +46,20 @@ const dawarich: TranslationStrings = {
   'dawarich.capability.missing': 'Questa versione di Dawarich non offre: {features}.',
 
   // ── Failure reasons, as sentences the reader can act on ────────────────────
-  'dawarich.error.unreachable': 'TREK non è riuscito a raggiungere quell’indirizzo.',
+  'dawarich.error.unreachable': 'Trip Mate non è riuscito a raggiungere quell’indirizzo.',
   'dawarich.error.unauthorized': 'Dawarich ha rifiutato la chiave API.',
   'dawarich.error.forbidden': 'Quella chiave API non è autorizzata a leggere questi dati.',
   'dawarich.error.not_found': 'Questa versione di Dawarich non ha quell’endpoint.',
-  'dawarich.error.rate_limited': 'Dawarich ha chiesto a TREK di rallentare. Riprova tra poco.',
+  'dawarich.error.rate_limited': 'Dawarich ha chiesto a Trip Mate di rallentare. Riprova tra poco.',
   'dawarich.error.server_error': 'Dawarich ha risposto con un errore.',
   'dawarich.error.invalid_response': 'Quell’indirizzo ha risposto con qualcosa che non è Dawarich.',
-  'dawarich.error.too_large': 'Dawarich ha inviato più dati di quanti TREK ne legga in una volta.',
+  'dawarich.error.too_large': 'Dawarich ha inviato più dati di quanti Trip Mate ne legga in una volta.',
   'dawarich.error.not_connected': 'Nessuna istanza Dawarich è ancora collegata.',
   'dawarich.error.addon_disabled': 'Il componente aggiuntivo Dawarich è disattivato su questa istanza.',
-  'dawarich.error.offline': 'Serve una connessione: TREK al momento è offline.',
-  'dawarich.error.invalid_url': 'TREK non può usare questo indirizzo.',
-  'dawarich.warning.private_ip': 'Questo indirizzo punta a un IP privato ({ip}). Verifica che sia voluto: il server potrebbe richiedere ALLOW_INTERNAL_NETWORK=true per raggiungerlo.',
+  'dawarich.error.offline': 'Serve una connessione: Trip Mate al momento è offline.',
+  'dawarich.error.invalid_url': 'Trip Mate non può usare questo indirizzo.',
+  'dawarich.warning.private_ip':
+    'Questo indirizzo punta a un IP privato ({ip}). Verifica che sia voluto: il server potrebbe richiedere ALLOW_INTERNAL_NETWORK=true per raggiungerlo.',
   'dawarich.error.unknown': 'Qualcosa è andato storto nella comunicazione con Dawarich.',
 
   // ── The recorded route on the map ──────────────────────────────────────────
@@ -83,8 +83,7 @@ const dawarich: TranslationStrings = {
   'dawarich.suggestions.title': 'Da Dawarich',
   'dawarich.suggestions.pending': '{count} in attesa di te',
   'dawarich.suggestions.loading': 'Lettura di Dawarich…',
-  'dawarich.suggestions.notConnected':
-    'Collega Dawarich nelle Impostazioni per vedere qui le tue soste.',
+  'dawarich.suggestions.notConnected': 'Collega Dawarich nelle Impostazioni per vedere qui le tue soste.',
   'dawarich.suggestions.unavailable': 'Impossibile leggere Dawarich.',
   'dawarich.suggestions.allHandled': 'Tutto ciò che è registrato qui è già stato gestito.',
   'dawarich.suggestions.asJournal': 'Scrivi una voce di diario',
@@ -99,9 +98,9 @@ const dawarich: TranslationStrings = {
   'dawarich.suggestions.acceptedAs.journal': 'Nel diario',
   'dawarich.suggestions.acceptedAs.bucket_list': 'Desiderio spuntato',
   'dawarich.suggestions.sourceChanged':
-    'Questa sosta è cambiata in Dawarich da quando l’hai usata. Quello che hai scritto in TREK resta intatto.',
+    'Questa sosta è cambiata in Dawarich da quando l’hai usata. Quello che hai scritto in Trip Mate resta intatto.',
   'dawarich.suggestions.sourceMissing':
-    'Questa sosta non esiste più in Dawarich. Quello che hai scritto in TREK resta intatto.',
+    'Questa sosta non esiste più in Dawarich. Quello che hai scritto in Trip Mate resta intatto.',
   'dawarich.sourceStatus.suggested': 'Rilevata, non confermata',
   'dawarich.confidence.high': 'Rilevamento sicuro',
   'dawarich.confidence.medium': 'Rilevamento abbastanza sicuro',
@@ -146,8 +145,7 @@ const dawarich: TranslationStrings = {
   'dawarich.bucket.confirm': 'Spunta {count}',
   'dawarich.bucket.confirmed': '{count} desideri spuntati',
   'dawarich.bucket.skipped': '{count} voci non hanno coordinate e non sono state controllate.',
-  'dawarich.bucket.truncated':
-    'Sono state controllate solo le prime voci. Esegui di nuovo il controllo per le altre.',
+  'dawarich.bucket.truncated': 'Sono state controllate solo le prime voci. Esegui di nuovo il controllo per le altre.',
   'dawarich.bucket.visitedFrom': 'Spuntato dalle tue registrazioni Dawarich',
   'dawarich.bucket.clearVisit': 'Annulla',
 
@@ -157,12 +155,12 @@ const dawarich: TranslationStrings = {
     'I paesi in cui, secondo le tue registrazioni, sei stato. Conferma quelli che vuoi nel tuo Atlante — nulla viene aggiunto da solo e ciò che hai segnato a mano resta tuo.',
   'dawarich.atlas.load': 'Cerca i paesi',
   'dawarich.atlas.loading': 'Lettura delle tue registrazioni…',
-  'dawarich.atlas.empty': 'Le tue registrazioni non mostrano paesi che TREK non abbia già.',
+  'dawarich.atlas.empty': 'Le tue registrazioni non mostrano paesi che Trip Mate non abbia già.',
   'dawarich.atlas.cities': '{count} città',
   'dawarich.atlas.citiesOne': '1 città',
   'dawarich.atlas.accept': 'Aggiungi {count} paesi',
   'dawarich.atlas.accepted': '{count} paesi aggiunti',
-  'dawarich.atlas.unresolved': 'TREK non è riuscito ad abbinare questi a un paese: {names}.',
+  'dawarich.atlas.unresolved': 'Trip Mate non è riuscito ad abbinare questi a un paese: {names}.',
   'dawarich.atlas.source': 'Da Dawarich',
   'dawarich.atlas.range': 'Esaminato dal {from} al {to}',
 

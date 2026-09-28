@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 /**
- * The TREK mascot — an empty-state character that IS the TREK mark: the logo is
+ * The Trip Mate mascot — an empty-state character that IS the Trip Mate mark: the logo is
  * the whole body, no arms, no legs. Two eyes give it life; a soft idle keeps it
  * breathing and blinking, and a ground shadow anchors it. Monochrome
  * (currentColor, theme-driven) and it holds a single pose under reduced motion.
@@ -13,9 +13,9 @@ import { useState } from 'react'
  *    sensible default mood (notifications → sleepy, search → confused) that an
  *    explicit `mood` overrides.
  *
- * Body motion (`.trek-bounce--<scene>`) and each prop animate independently, so
+ * Body motion (`.tripmate-bounce--<scene>`) and each prop animate independently, so
  * the mascot can react to a prop without the prop moving with it. Choreography
- * lives in mobile.css (.trek-*). Poking (tap) remounts the svg to replay the
+ * lives in mobile.css (.tripmate-*). Poking (tap) remounts the svg to replay the
  * entrance pop-in as a bounce.
  */
 export type TrekScene =
@@ -73,16 +73,16 @@ export default function MDancingTrek({
       viewBox="0 0 88 96"
       fill="none"
       aria-hidden="true"
-      className={`trek trek--${scene} cursor-pointer text-m-ink ${className}`}
+      className={`tripmate tripmate--${scene} cursor-pointer text-m-ink ${className}`}
     >
-      <ellipse className="trek-shadow" cx="44" cy={shadowCy} rx="19" ry="3.4" fill="currentColor" />
-      <g className="trek-root">
+      <ellipse className="tripmate-shadow" cx="44" cy={shadowCy} rx="19" ry="3.4" fill="currentColor" />
+      <g className="tripmate-root">
         {/* scene prop behind / under the body — animates on its own */}
         <SceneBack scene={scene} />
 
-        {/* body = the TREK mark, with its own per-scene bounce (hop, nod, …) */}
-        <g className={`trek-bounce trek-bounce--${scene}`}>
-          <g className="trek-body">
+        {/* body = the Trip Mate mark, with its own per-scene bounce (hop, nod, …) */}
+        <g className={`tripmate-bounce tripmate-bounce--${scene}`}>
+          <g className="tripmate-body">
             <g transform="translate(20.5 21.7) scale(0.0313)">
               <path fill="currentColor" d={MARK} />
             </g>
@@ -141,8 +141,8 @@ function Eyes({ mood }: { mood: TrekMood }) {
   if (mood === 'confused') {
     // one eye open, one a raised squint — reads puzzled
     return (
-      <g className="trek-eyes">
-        <circle className="trek-eye" cx="36" cy="33" r="2.3" />
+      <g className="tripmate-eyes">
+        <circle className="tripmate-eye" cx="36" cy="33" r="2.3" />
         <circle cx="36.4" cy="33.3" r="1" fill="currentColor" />
         <path d="M42.7 32.6 Q45 31.4 47.3 32.6" fill="none" stroke="var(--m-bg)" strokeWidth="1.8" strokeLinecap="round" />
       </g>
@@ -150,10 +150,10 @@ function Eyes({ mood }: { mood: TrekMood }) {
   }
   // default — open eyes that blink and glance around
   return (
-    <g className="trek-eyes">
-      <circle className="trek-eye" cx="36" cy="33" r="2.3" />
-      <circle className="trek-eye" cx="45" cy="33" r="2.3" />
-      <g className="trek-pupils">
+    <g className="tripmate-eyes">
+      <circle className="tripmate-eye" cx="36" cy="33" r="2.3" />
+      <circle className="tripmate-eye" cx="45" cy="33" r="2.3" />
+      <g className="tripmate-pupils">
         <circle cx="36.4" cy="33.3" r="1" fill="currentColor" />
         <circle cx="45.4" cy="33.3" r="1" fill="currentColor" />
       </g>
@@ -171,13 +171,13 @@ function SceneBack({ scene }: { scene: TrekScene }) {
     case 'transport':
       // skateboard under the body — deck + two wheels spinning in place
       return (
-        <g className="trek-board">
+        <g className="tripmate-board">
           <rect x="24" y="72" width="40" height="4" rx="2" fill="currentColor" />
-          <g className="trek-wheel">
+          <g className="tripmate-wheel">
             <circle cx="32" cy="79" r="3.1" fill="currentColor" />
             <circle cx="32" cy="79" r="1.1" fill="var(--m-bg)" />
           </g>
-          <g className="trek-wheel">
+          <g className="tripmate-wheel">
             <circle cx="56" cy="79" r="3.1" fill="currentColor" />
             <circle cx="56" cy="79" r="1.1" fill="var(--m-bg)" />
           </g>
@@ -186,10 +186,10 @@ function SceneBack({ scene }: { scene: TrekScene }) {
     case 'guide':
       // tall staff with a big pennant fluttering near the top
       return (
-        <g className="trek-guide">
+        <g className="tripmate-guide">
           <rect x="70.4" y="26" width="2.6" height="56" rx="1.3" fill="currentColor" />
           <circle cx="71.7" cy="26" r="2.1" fill="currentColor" />
-          <g className="trek-flag">
+          <g className="tripmate-flag">
             <path d="M73 25 L90 30.5 L73 40 Z" fill="currentColor" />
           </g>
         </g>
@@ -198,17 +198,17 @@ function SceneBack({ scene }: { scene: TrekScene }) {
       // rolling suitcase parked beside the body — rocks on its wheels,
       // handle telescoping up and down
       return (
-        <g className="trek-suitcase">
-          <g className="trek-handle">
+        <g className="tripmate-suitcase">
+          <g className="tripmate-handle">
             <path d="M69 55 Q73 47.5 77 55" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
           </g>
           <rect x="62" y="54" width="21" height="18" rx="3" fill="currentColor" />
           <rect x="62" y="60" width="21" height="2.2" fill="var(--m-bg)" />
           <rect x="70.5" y="56.4" width="4" height="2.2" rx="1" fill="var(--m-bg)" />
-          <g className="trek-wheel">
+          <g className="tripmate-wheel">
             <circle cx="66" cy="73.4" r="2" fill="currentColor" />
           </g>
-          <g className="trek-wheel">
+          <g className="tripmate-wheel">
             <circle cx="79" cy="73.4" r="2" fill="currentColor" />
           </g>
         </g>
@@ -218,10 +218,10 @@ function SceneBack({ scene }: { scene: TrekScene }) {
       // carries a surface-coloured under-stroke so it reads as passing through
       // the upper one rather than lying flat on top of it.
       return (
-        <g className="trek-chain">
+        <g className="tripmate-chain">
           <g transform="rotate(-36 73 56)">
             <rect x="58" y="49" width="20" height="13" rx="6.5" fill="none" stroke="currentColor" strokeWidth="3" />
-            <g className="trek-link">
+            <g className="tripmate-link">
               <rect x="68" y="49" width="20" height="13" rx="6.5" fill="none" stroke="var(--m-bg)" strokeWidth="5.6" />
               <rect x="68" y="49" width="20" height="13" rx="6.5" fill="none" stroke="currentColor" strokeWidth="3" />
             </g>
@@ -231,16 +231,16 @@ function SceneBack({ scene }: { scene: TrekScene }) {
     case 'polls':
       // vote bars gently rising and settling like live tallies
       return (
-        <g className="trek-polls">
-          <rect className="trek-bar" x="66" y="60" width="5" height="12" rx="1.5" fill="currentColor" />
-          <rect className="trek-bar trek-d2" x="73" y="52" width="5" height="20" rx="1.5" fill="currentColor" />
-          <rect className="trek-bar trek-d3" x="80" y="56" width="5" height="16" rx="1.5" fill="currentColor" />
+        <g className="tripmate-polls">
+          <rect className="tripmate-bar" x="66" y="60" width="5" height="12" rx="1.5" fill="currentColor" />
+          <rect className="tripmate-bar tripmate-d2" x="73" y="52" width="5" height="20" rx="1.5" fill="currentColor" />
+          <rect className="tripmate-bar tripmate-d3" x="80" y="56" width="5" height="16" rx="1.5" fill="currentColor" />
         </g>
       )
     case 'collections':
       // a map pin dropping in and bouncing beside the body
       return (
-        <g className="trek-pin">
+        <g className="tripmate-pin">
           <path d="M73 48 C 78 48 81.5 51.6 81.5 56.4 C 81.5 61.6 76 66 73 70 C 70 66 64.5 61.6 64.5 56.4 C 64.5 51.6 68 48 73 48 Z" fill="currentColor" />
           <circle cx="73" cy="56.2" r="2.9" fill="var(--m-bg)" />
         </g>
@@ -248,20 +248,20 @@ function SceneBack({ scene }: { scene: TrekScene }) {
     case 'atlas':
       // a globe beside the body, meridians drifting
       return (
-        <g className="trek-globe-wrap">
+        <g className="tripmate-globe-wrap">
           <circle cx="73" cy="60" r="11" fill="currentColor" />
           <path d="M63 57 H83 M64.5 64.5 H81.5" stroke="var(--m-bg)" strokeWidth="1.2" strokeLinecap="round" />
-          <ellipse className="trek-globe" cx="73" cy="60" rx="4.6" ry="11" fill="none" stroke="var(--m-bg)" strokeWidth="1.2" />
+          <ellipse className="tripmate-globe" cx="73" cy="60" rx="4.6" ry="11" fill="none" stroke="var(--m-bg)" strokeWidth="1.2" />
         </g>
       )
     case 'costs':
       // a stack of coins beside the body, top one bouncing on
       return (
-        <g className="trek-coins">
+        <g className="tripmate-coins">
           <ellipse cx="74" cy="70" rx="9" ry="3.2" fill="currentColor" />
           <ellipse cx="74" cy="66" rx="9" ry="3.2" fill="currentColor" />
           <ellipse cx="74" cy="66" rx="9" ry="3.2" fill="none" stroke="var(--m-bg)" strokeWidth="1" />
-          <g className="trek-coin">
+          <g className="tripmate-coin">
             <ellipse cx="74" cy="61.5" rx="9" ry="3.2" fill="currentColor" />
             <rect x="72.7" y="58.6" width="2.6" height="5.8" rx="1.3" fill="var(--m-bg)" />
           </g>
@@ -270,12 +270,12 @@ function SceneBack({ scene }: { scene: TrekScene }) {
     case 'chat':
       // a speech bubble beside the body with three typing dots pulsing in turn
       return (
-        <g className="trek-chat">
+        <g className="tripmate-chat">
           <rect x="60" y="44" width="26" height="15" rx="5.5" fill="currentColor" />
           <path d="M67 58 L63.5 64 L72 58.5 Z" fill="currentColor" />
-          <circle className="trek-dot" cx="67" cy="51.5" r="1.9" fill="var(--m-bg)" />
-          <circle className="trek-dot trek-d2" cx="73" cy="51.5" r="1.9" fill="var(--m-bg)" />
-          <circle className="trek-dot trek-d3" cx="79" cy="51.5" r="1.9" fill="var(--m-bg)" />
+          <circle className="tripmate-dot" cx="67" cy="51.5" r="1.9" fill="var(--m-bg)" />
+          <circle className="tripmate-dot tripmate-d2" cx="73" cy="51.5" r="1.9" fill="var(--m-bg)" />
+          <circle className="tripmate-dot tripmate-d3" cx="79" cy="51.5" r="1.9" fill="var(--m-bg)" />
         </g>
       )
     default:
@@ -289,14 +289,14 @@ function SceneFront({ scene }: { scene: TrekScene }) {
     case 'bookings':
     case 'files':
       return (
-        <g className="trek-ticket">
+        <g className="tripmate-ticket">
           <g transform="rotate(7 70 54)">
             <rect x="60" y="41" width="20" height="26" rx="2.6" fill="currentColor" />
             <circle cx="70.5" cy="46.5" r="1.5" fill="var(--m-bg)" />
             <rect x="64" y="51" width="12" height="2.6" rx="1.3" fill="var(--m-bg)" />
-            <rect className="trek-write" x="64" y="56.5" width="12" height="1.7" rx="0.85" fill="var(--m-bg)" />
-            <rect className="trek-write trek-d2" x="64" y="60" width="12" height="1.7" rx="0.85" fill="var(--m-bg)" />
-            <rect className="trek-write trek-d3" x="64" y="63.5" width="7" height="1.7" rx="0.85" fill="var(--m-bg)" />
+            <rect className="tripmate-write" x="64" y="56.5" width="12" height="1.7" rx="0.85" fill="var(--m-bg)" />
+            <rect className="tripmate-write tripmate-d2" x="64" y="60" width="12" height="1.7" rx="0.85" fill="var(--m-bg)" />
+            <rect className="tripmate-write tripmate-d3" x="64" y="63.5" width="7" height="1.7" rx="0.85" fill="var(--m-bg)" />
           </g>
         </g>
       )
@@ -304,14 +304,14 @@ function SceneFront({ scene }: { scene: TrekScene }) {
       // a paper note (surface colour) with ink lines being written and a
       // scribbling pencil — pencil is ink (light in dark theme, dark in light)
       return (
-        <g className="trek-note">
+        <g className="tripmate-note">
           <g transform="rotate(5 70 55)">
             <rect x="60" y="44" width="20" height="24" rx="2.5" fill="var(--m-bg)" stroke="currentColor" strokeWidth="1.4" />
-            <rect className="trek-write" x="63.5" y="50" width="13" height="1.7" rx="0.85" fill="currentColor" />
-            <rect className="trek-write trek-d2" x="63.5" y="54.5" width="13" height="1.7" rx="0.85" fill="currentColor" />
-            <rect className="trek-write trek-d3" x="63.5" y="59" width="8" height="1.7" rx="0.85" fill="currentColor" />
+            <rect className="tripmate-write" x="63.5" y="50" width="13" height="1.7" rx="0.85" fill="currentColor" />
+            <rect className="tripmate-write tripmate-d2" x="63.5" y="54.5" width="13" height="1.7" rx="0.85" fill="currentColor" />
+            <rect className="tripmate-write tripmate-d3" x="63.5" y="59" width="8" height="1.7" rx="0.85" fill="currentColor" />
           </g>
-          <g className="trek-pencil">
+          <g className="tripmate-pencil">
             {/* body + tip modelled vertically as one piece, then leaned together
                 so the point always stays attached to the shaft */}
             <g transform="rotate(34 74.5 52)">
@@ -324,12 +324,12 @@ function SceneFront({ scene }: { scene: TrekScene }) {
     case 'journey':
       // an open book with a fluttering page and a ribbon bookmark
       return (
-        <g className="trek-journal">
+        <g className="tripmate-journal">
           <path d="M58 53 Q71 49.5 71 52 L71 69 Q71 66.5 58 70 Z" fill="currentColor" />
           <path d="M84 53 Q71 49.5 71 52 L71 69 Q71 66.5 84 70 Z" fill="currentColor" />
           <path d="M60.5 56 Q66 54 70 55.5 M60.5 60 Q66 58 70 59.5 M60.5 64 Q66 62 70 63.5" stroke="var(--m-bg)" strokeWidth="1" fill="none" strokeLinecap="round" />
           <path d="M76 55.4 Q80 54 83 55.6 M76 59.4 Q80 58 83 59.6" stroke="var(--m-bg)" strokeWidth="1" fill="none" strokeLinecap="round" />
-          <g className="trek-page">
+          <g className="tripmate-page">
             <path d="M71 52 Q78 50.5 82 52 L82 68.5 Q78 67 71 68.5 Z" fill="currentColor" />
             <path d="M74 55.4 Q78 54.2 81 55.6 M74 59.4 Q78 58.2 81 59.6" stroke="var(--m-bg)" strokeWidth="1" fill="none" strokeLinecap="round" />
           </g>
@@ -339,7 +339,7 @@ function SceneFront({ scene }: { scene: TrekScene }) {
     case 'dashboard':
       // a little paper plane looping around, ready for a first trip
       return (
-        <g className="trek-plane">
+        <g className="tripmate-plane">
           <path d="M64 53 L87 58 L70 68 L71 60 Z" fill="currentColor" />
           <path d="M87 58 L71 60 L70 68" stroke="var(--m-bg)" strokeWidth="0.9" fill="none" strokeLinejoin="round" />
         </g>
@@ -347,16 +347,16 @@ function SceneFront({ scene }: { scene: TrekScene }) {
     case 'notifications':
       // all caught up — a stack of Zzz drifting up while the mascot dozes
       return (
-        <g className="trek-zzz" fill="currentColor">
-          <path className="trek-z trek-z1" d="M63 50 h5 l-5 6 h5" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" strokeLinecap="round" />
-          <path className="trek-z trek-z2" d="M69 42 h6 l-6 7 h6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" strokeLinecap="round" />
-          <path className="trek-z trek-z3" d="M76 32 h7 l-7 8 h7" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" strokeLinecap="round" />
+        <g className="tripmate-zzz" fill="currentColor">
+          <path className="tripmate-z tripmate-z1" d="M63 50 h5 l-5 6 h5" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" strokeLinecap="round" />
+          <path className="tripmate-z tripmate-z2" d="M69 42 h6 l-6 7 h6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" strokeLinecap="round" />
+          <path className="tripmate-z tripmate-z3" d="M76 32 h7 l-7 8 h7" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" strokeLinecap="round" />
         </g>
       )
     case 'search':
       // a magnifying glass scanning back and forth
       return (
-        <g className="trek-magnifier">
+        <g className="tripmate-magnifier">
           <circle cx="72" cy="56" r="8" fill="none" stroke="currentColor" strokeWidth="2.4" />
           <circle cx="72" cy="56" r="5.4" fill="var(--m-bg)" />
           <rect x="77" y="62.5" width="3" height="10" rx="1.5" fill="currentColor" transform="rotate(-45 78.5 67.5)" />
@@ -365,7 +365,7 @@ function SceneFront({ scene }: { scene: TrekScene }) {
     case 'tasks':
       // a clipboard checklist with a checkmark ticking on
       return (
-        <g className="trek-tasks">
+        <g className="tripmate-tasks">
           <g transform="rotate(4 71 55)">
             <rect x="60" y="43" width="22" height="25" rx="2.6" fill="currentColor" />
             <rect x="67" y="41" width="8" height="3.4" rx="1.7" fill="currentColor" />
@@ -375,7 +375,7 @@ function SceneFront({ scene }: { scene: TrekScene }) {
             <rect x="69.5" y="56.2" width="9" height="1.7" rx="0.85" fill="var(--m-bg)" />
             <rect x="63.5" y="61.6" width="4" height="4" rx="1" fill="var(--m-bg)" />
             <rect x="69.5" y="62.8" width="6" height="1.7" rx="0.85" fill="var(--m-bg)" />
-            <path className="trek-check" d="M64 50.5 l1.3 1.4 l2.2 -2.7" fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+            <path className="tripmate-check" d="M64 50.5 l1.3 1.4 l2.2 -2.7" fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
           </g>
         </g>
       )

@@ -86,47 +86,35 @@ const admin: TranslationStrings = {
   'admin.requireMfa': 'Vyžadovat dvoufázové ověření (2FA)',
   'admin.requireMfaHint': 'Uživatelé bez 2FA musí dokončit nastavení v Nastavení před použitím aplikace.',
   'admin.apiKeys': 'API klíče',
-  'admin.apiKeysHint': 'Odkud pocházejí data míst. Index TREK nepotřebuje klíč; dva poskytovatelé níže jsou volitelní.',
+  'admin.apiKeysHint':
+    'Odkud pocházejí data míst. Index Trip Mate nepotřebuje klíč; dva poskytovatelé níže jsou volitelní.',
   'admin.trekApi.badgeDefault': 'Doporučený výchozí zdroj',
   'admin.googleCaveat.badge': 'Nedoporučeno',
   'admin.googleCaveat.body':
-    'TREK je otevřený software a nejsme v tom neutrální. V tomto měřítku existují hodnocení a fotografie běžných podniků jen u Googlu, a to je monopol. Pole tu je z nedostatku alternativy, ne proto, že bychom je doporučovali. Každý dotaz pak jde do Googlu.',
+    'Trip Mate je otevřený software a nejsme v tom neutrální. V tomto měřítku existují hodnocení a fotografie běžných podniků jen u Googlu, a to je monopol. Pole tu je z nedostatku alternativy, ne proto, že bychom je doporučovali. Každý dotaz pak jde do Googlu.',
   'admin.trekApi.tagline':
     'Vlastní rejstřík míst TREKu. Hledání bez klíče od Googlu, bez kvóty a bez toho, aby někdo počítal vaše dotazy.',
-  'admin.trekApi.factPlaces':
-    '73,6 milionu míst po celém světě',
-  'admin.trekApi.factNoKey':
-    'Bez klíče, bez kvóty',
-  'admin.trekApi.factOffline':
-    'Balíčky zemí fungují offline',
-  'admin.trekApi.factPrivacy':
-    'Dotazy se nikdy nezaznamenávají',
-  'admin.trekApi.more':
-    'Co v tom je',
-  'admin.trekApi.fieldPhone':
-    'Telefon',
-  'admin.trekApi.fieldStableId':
-    'Stálý identifikátor',
+  'admin.trekApi.factPlaces': '73,6 milionu míst po celém světě',
+  'admin.trekApi.factNoKey': 'Bez klíče, bez kvóty',
+  'admin.trekApi.factOffline': 'Balíčky zemí fungují offline',
+  'admin.trekApi.factPrivacy': 'Dotazy se nikdy nezaznamenávají',
+  'admin.trekApi.more': 'Co v tom je',
+  'admin.trekApi.fieldPhone': 'Telefon',
+  'admin.trekApi.fieldStableId': 'Stálý identifikátor',
   'admin.trekApi.includedNote':
     'Popisy pocházejí z webu samotného místa, otevírací doba z OpenStreetMap tam, kde je vyplněná.',
-  'admin.trekApi.notRatings':
-    'Hodnocení',
-  'admin.trekApi.notPhotos':
-    'Fotografie běžných podniků',
+  'admin.trekApi.notRatings': 'Hodnocení',
+  'admin.trekApi.notPhotos': 'Fotografie běžných podniků',
   'admin.trekApi.notIncludedNote':
     'Ani jedno nemá žádný otevřený zdroj, za žádnou cenu. K těmto dvěma zůstává klíč od Googlu jedinou cestou.',
-  'admin.trekApi.sourcesLabel':
-    'Zdroje',
-  'admin.trekApi.sourcesNote':
-    'Každé pole v odpovědi uvádí, ze kterého z nich pochází.',
-  'admin.trekApi.included':
-    'Obsahuje',
-  'admin.trekApi.notIncluded':
-    'Neobsahuje',
+  'admin.trekApi.sourcesLabel': 'Zdroje',
+  'admin.trekApi.sourcesNote': 'Každé pole v odpovědi uvádí, ze kterého z nich pochází.',
+  'admin.trekApi.included': 'Obsahuje',
+  'admin.trekApi.notIncluded': 'Neobsahuje',
   'admin.mapsKey': 'Google Maps API klíč',
   'admin.mapsKeyHint': 'Povinné pro hledání míst. Získáte na console.cloud.google.com',
   'admin.mapsKeyHintLong':
-    'Bez klíče Google API se používá doporučené API TREK. S klíčem lze navíc načíst fotografie, hodnocení a otevírací dobu. Klíč vytvoříte na console.cloud.google.com.',
+    'Bez klíče Google API se používá doporučené API Trip Mate. S klíčem lze navíc načíst fotografie, hodnocení a otevírací dobu. Klíč vytvoříte na console.cloud.google.com.',
   'admin.recommended': 'Doporučeno',
   'admin.weatherKey': 'OpenWeatherMap API klíč',
   'admin.weatherKeyHint': 'Pro data o počasí. Zdarma na openweathermap.org',
@@ -142,7 +130,8 @@ const admin: TranslationStrings = {
   'admin.placesProvider.google': 'Google Places',
   'admin.placesProvider.amap': 'Amap (高德地图)',
   'admin.placesProvider.openstreetmap': 'OpenStreetMap',
-  'admin.placesProvider.missingKey': 'Zvolený poskytovatel nemá nastavený API klíč, na hledání míst tak odpovídá jen index TREKu a OpenStreetMap.',
+  'admin.placesProvider.missingKey':
+    'Zvolený poskytovatel nemá nastavený API klíč, na hledání míst tak odpovídá jen index TREKu a OpenStreetMap.',
   'admin.placesProvider.saved': 'Poskytovatel hledání míst uložen',
   'admin.validateKey': 'Testovat',
   'admin.keyValid': 'Připojeno',
@@ -176,17 +165,23 @@ const admin: TranslationStrings = {
   'admin.placesEnrich.subtitle':
     'Zobrazí obrázky a popis při přidávání místa. Wikipedie a OpenStreetMap se používají vždy; Google se přidá, když jsou zapnuté Fotky míst nebo Detaily míst.',
   'admin.placesGoogleOnly.title': 'Hledat pouze přes Google',
-  'admin.placesGoogleOnly.subtitle': 'Každé hledání a každý návrh jde do Google Places. Vypnuto: nejprve odpovídá index TREK a OpenStreetMap, Google se ptáme jen tehdy, když nic nenajdou.',
-  'admin.placesGoogleOnly.missingKey': 'Vyžaduje klíč Google Maps API. Bez něj hledání běží přes index TREK a OpenStreetMap bez ohledu na tento přepínač.',
-  'admin.placesGoogleOnly.otherProvider': 'Vyžaduje Google jako poskytovatele míst. Při zvoleném Amapu nebo OpenStreetMap nejde na Google žádné hledání, ať je tento přepínač nastaven jakkoli.',
+  'admin.placesGoogleOnly.subtitle':
+    'Každé hledání a každý návrh jde do Google Places. Vypnuto: nejprve odpovídá index Trip Mate a OpenStreetMap, Google se ptáme jen tehdy, když nic nenajdou.',
+  'admin.placesGoogleOnly.missingKey':
+    'Vyžaduje klíč Google Maps API. Bez něj hledání běží přes index Trip Mate a OpenStreetMap bez ohledu na tento přepínač.',
+  'admin.placesGoogleOnly.otherProvider':
+    'Vyžaduje Google jako poskytovatele míst. Při zvoleném Amapu nebo OpenStreetMap nejde na Google žádné hledání, ať je tento přepínač nastaven jakkoli.',
   'admin.transitProvider.title': 'Poskytovatel veřejné dopravy',
   'admin.transitProvider.subtitle': 'Která služba odpovídá na vyhledávání veřejné dopravy.',
   'admin.transitProvider.transitous': 'Transitous (zdarma)',
   'admin.transitProvider.google': 'Google',
   'admin.transitProvider.transitousHint': 'Komunitní GTFS zdroje. Zdarma a bez klíče, s nejlepším pokrytím v Evropě.',
-  'admin.transitProvider.googleHint': 'Použije výše uvedený klíč Google pro regiony, pro které Transitous nemá data. Účtuje se za každé hledání – dokud není klíč nastaven, používá se Transitous.',
-  'admin.transitProvider.noKeyWarning': 'Je vybrán Google, ale není nastaven žádný klíč Google – vyhledávání dopravy stále používá Transitous. Přidejte klíč v sekci API klíče výše.',
-  'admin.transitProvider.personalKeyWarning': 'Je nastaven jen váš vlastní klíč Google, takže ostatním členům se vyhledávání stále vrací k Transitous. Uložte klíč výše jako správce, aby platil pro celou instanci.',
+  'admin.transitProvider.googleHint':
+    'Použije výše uvedený klíč Google pro regiony, pro které Transitous nemá data. Účtuje se za každé hledání – dokud není klíč nastaven, používá se Transitous.',
+  'admin.transitProvider.noKeyWarning':
+    'Je vybrán Google, ale není nastaven žádný klíč Google – vyhledávání dopravy stále používá Transitous. Přidejte klíč v sekci API klíče výše.',
+  'admin.transitProvider.personalKeyWarning':
+    'Je nastaven jen váš vlastní klíč Google, takže ostatním členům se vyhledávání stále vrací k Transitous. Uložte klíč výše jako správce, aby platil pro celou instanci.',
   'admin.placeShadow.title': 'Záznam vyhledávání míst',
   'admin.placeShadow.subtitle':
     'Zaznamenávat, který výsledek vyhledávání byl vybrán, aby bylo možné později porovnat jiný index míst na skutečných dotazech. Nic neopouští tuto instanci a správce může záznam kdykoli exportovat nebo smazat.',
@@ -289,7 +284,7 @@ const admin: TranslationStrings = {
   'admin.plugins.subtitle': 'Instalujte a spravujte pluginy třetích stran na své instanci.',
   'admin.plugins.disabledTitle': 'Pluginy jsou zakázány',
   'admin.plugins.disabledBody':
-    'Běhové prostředí pluginů je vypnuté (TREK_PLUGINS_ENABLED). Dokud jej administrátor nepovolí v konfiguraci serveru, nemůže běžet žádný plugin.',
+    'Běhové prostředí pluginů je vypnuté (TRIPMATE_PLUGINS_ENABLED). Dokud jej administrátor nepovolí v konfiguraci serveru, nemůže běžet žádný plugin.',
   'admin.plugins.empty': 'Zatím nejsou nainstalovány žádné pluginy.',
   'admin.plugins.loadError': 'Nepodařilo se načíst pluginy.',
   'admin.plugins.scaffoldNote':
@@ -312,7 +307,7 @@ const admin: TranslationStrings = {
   'admin.plugins.sourceRepo': 'Zdrojový repozitář',
   'admin.plugins.reportIssue': 'Nahlásit problém',
   'admin.plugins.homepage': 'Domovská stránka',
-  'admin.plugins.requiresTrek': 'Vyžaduje TREK {version}+',
+  'admin.plugins.requiresTrek': 'Vyžaduje Trip Mate {version}+',
   'admin.plugins.reviewedOn': 'Zkontrolováno {date}',
   'admin.plugins.perm.db:own': 'Ukládat vlastní data v izolované databázi',
   'admin.plugins.perm.db:read:trips': 'Číst cesty, ke kterým má aktuální uživatel přístup',
@@ -380,7 +375,8 @@ const admin: TranslationStrings = {
   'admin.plugins.perm.hook:photo-provider': 'Poskytovat fotky do sekce Fotky',
   'admin.plugins.perm.hook:calendar-source': 'Poskytovat události do kalendáře',
   'admin.plugins.perm.hook:place-detail-provider': 'Přidávat další podrobnosti (recenze, hodnocení, odkazy) k místu',
-  'admin.plugins.perm.hook:search-provider': 'Odpovídat na vyhledávání míst z vlastního indexu, vedle výsledků TREK',
+  'admin.plugins.perm.hook:search-provider':
+    'Odpovídat na vyhledávání míst z vlastního indexu, vedle výsledků Trip Mate',
   'admin.plugins.perm.hook:trip-warning-provider': 'Vyvolávat ověřovací upozornění u cesty (zobrazená v plánovači)',
   'admin.plugins.perm.hook:table-contributor': 'Přidávat sloupce a akce do zobrazení cesty (rezervace, místa, dny)',
   'admin.plugins.perm.hook:map-marker-provider': 'Přidávat značky na mapu cesty (např. zobrazit rezervace nebo POI)',
@@ -397,7 +393,7 @@ const admin: TranslationStrings = {
   'admin.plugins.perm.mcp:tools':
     'Zveřejňovat nástroje, které může AI asistent spustit vaším jménem (jedná s oprávněními, která zde pluginu udělíte, ne se svými)',
   'admin.plugins.perm.geolocation:read':
-    'Zjišťovat vaši aktuální polohu, dokud je otevřené některé z jeho zobrazení (TREK ji čte pod oprávněním k poloze pro tento web, ne pod vlastním oprávněním doplňku)',
+    'Zjišťovat vaši aktuální polohu, dokud je otevřené některé z jeho zobrazení (Trip Mate ji čte pod oprávněním k poloze pro tento web, ne pod vlastním oprávněním doplňku)',
   'admin.plugins.perm.hook:pdf-section-provider': 'Připojovat textové sekce k PDF exportu cesty',
   'admin.plugins.perm.hook:atlas-layer-provider':
     'Zvýrazňovat země na mapě světa v Atlasu (např. seznamy přání nebo cestovní upozornění)',
@@ -423,26 +419,26 @@ const admin: TranslationStrings = {
   'admin.plugins.updateLater': 'Zatím ponechat vypnuté',
   'admin.plugins.updateKeptOff': 'Aktualizace nainstalována — zůstává vypnutá, dokud neschválíte nová oprávnění',
   'admin.plugins.reviewedMeaning':
-    '„Zkontrolováno“ znamená, že správce TREK prověřil tento plugin na škodlivý kód u každé verze — nikoli jeho kvalitu ani to, zda funguje. Není to záruka, že je plugin neškodný.',
+    '„Zkontrolováno“ znamená, že správce Trip Mate prověřil tento plugin na škodlivý kód u každé verze — nikoli jeho kvalitu ani to, zda funguje. Není to záruka, že je plugin neškodný.',
   'admin.plugins.security.title': 'Jak jsou pluginy izolovány — a kde jsou hranice',
   'admin.plugins.security.isolationTitle': 'Každý plugin běží v izolaci',
   'admin.plugins.security.isolationBody':
-    'Plugin běží jako vlastní uzamčený proces, který může číst pouze své vlastní soubory. Nemůže číst vaši databázi, váš přihlašovací tajný klíč ani váš šifrovací klíč, nemůže spouštět jiné programy a nemůže nikam zapisovat soubory. Jeho rozhraní běží v uzavřeném rámci prohlížeče, který nemůže číst vaši session cookie ani zasahovat do okolní stránky TREK.',
+    'Plugin běží jako vlastní uzamčený proces, který může číst pouze své vlastní soubory. Nemůže číst vaši databázi, váš přihlašovací tajný klíč ani váš šifrovací klíč, nemůže spouštět jiné programy a nemůže nikam zapisovat soubory. Jeho rozhraní běží v uzavřeném rámci prohlížeče, který nemůže číst vaši session cookie ani zasahovat do okolní stránky Trip Mate.',
   'admin.plugins.security.permsTitle': 'Co oprávnění znamenají',
   'admin.plugins.security.permsBody':
-    'Oprávnění zobrazená před instalací jsou pevný limit, který TREK vynucuje po celou dobu běhu pluginu — plugin doslova nemůže udělat nic, co není na seznamu. Říkají vám ale, co plugin může dělat, nikoli co skutečně dělá. Plugin, který smí číst vaše cesty a spojit se se serverem, může vaše cesty tomuto serveru odeslat, proto si přečtěte oprávnění i odchozí hostitele, nejen popis.',
+    'Oprávnění zobrazená před instalací jsou pevný limit, který Trip Mate vynucuje po celou dobu běhu pluginu — plugin doslova nemůže udělat nic, co není na seznamu. Říkají vám ale, co plugin může dělat, nikoli co skutečně dělá. Plugin, který smí číst vaše cesty a spojit se se serverem, může vaše cesty tomuto serveru odeslat, proto si přečtěte oprávnění i odchozí hostitele, nejen popis.',
   'admin.plugins.security.limitsTitle': 'Co nemůžeme slíbit',
   'admin.plugins.security.limitsBody':
-    'Izolace je silná softwarová hranice, nikoli absolutní. Plugin jedná přesně s těmi právy, která schválíte, takže v jejich rámci se může chovat jinak, než naznačuje jeho popis, a může odeslat data, která oprávněně drží, hostitelům, které deklaroval. TREK nečte ani neposuzuje, co kód pluginu ve skutečnosti dělá.',
+    'Izolace je silná softwarová hranice, nikoli absolutní. Plugin jedná přesně s těmi právy, která schválíte, takže v jejich rámci se může chovat jinak, než naznačuje jeho popis, a může odeslat data, která oprávněně drží, hostitelům, které deklaroval. Trip Mate nečte ani neposuzuje, co kód pluginu ve skutečnosti dělá.',
   'admin.plugins.security.worstTitle': 'Nejhorší případ',
   'admin.plugins.security.worstBody':
     'Škodlivý plugin, který zapnete, může zneužít data a připojení, jež jste mu udělili — například vynést cesty, které smí číst. Nemůže krást hesla, padělat přihlášení administrátora, spouštět příkazy na vašem serveru ani se dostat k datům, která jste neudělili. Škoda zůstává v rámci toho, co jste schválili, a vypnutí pluginu ji zastaví.',
   'admin.plugins.security.reviewedTitle': 'Co znamená „Zkontrolováno“',
   'admin.plugins.security.reviewedBody':
-    'Zkontrolovaný plugin ručně prověřil správce TREK na škodlivý kód u každé verze — kontroloval nepřátelský kód, nikoli to, zda dobře funguje. Není to slib, že je plugin neškodný.',
+    'Zkontrolovaný plugin ručně prověřil správce Trip Mate na škodlivý kód u každé verze — kontroloval nepřátelský kód, nikoli to, zda dobře funguje. Není to slib, že je plugin neškodný.',
   'admin.plugins.security.signedTitle': 'Co znamená „Podepsáno“',
   'admin.plugins.security.signedBody':
-    'Kontrolní součet, který TREK ověřuje při každé instalaci, dokazuje, že soubory jsou přesně tím, za co se registr zaručuje. Podpis dokazuje něco jiného: že pocházejí od autora a jsou podepsané klíčem, který drží jen on. Podepsaný plugin má obojí. Nepodepsaný není nebezpečný — nese jen o jednu záruku méně a většina pluginů v registru dnes podepsaná není.',
+    'Kontrolní součet, který Trip Mate ověřuje při každé instalaci, dokazuje, že soubory jsou přesně tím, za co se registr zaručuje. Podpis dokazuje něco jiného: že pocházejí od autora a jsou podepsané klíčem, který drží jen on. Podepsaný plugin má obojí. Nepodepsaný není nebezpečný — nese jen o jednu záruku méně a většina pluginů v registru dnes podepsaná není.',
   'admin.plugins.signed': 'Podepsáno',
   'admin.plugins.signedHint': 'Při instalaci ověřeno proti podpisovému klíči autora',
   'admin.plugins.unsigned': 'Nepodepsáno',
@@ -457,20 +453,20 @@ const admin: TranslationStrings = {
   'admin.plugins.sig.invalidBody':
     'Soubory neodpovídají podpisu autora. Nejsou tím, co autor podepsal — buď se poškodily, nebo do nich někdo zasáhl. Toto nelze obejít.',
   'admin.plugins.sig.missingBody':
-    'Tento plugin byl při instalaci podepsaný, ale nová verze žádný podpis nepřináší. TREK takové zhoršení tiše nepřijme. Toto nelze obejít.',
+    'Tento plugin byl při instalaci podepsaný, ale nová verze žádný podpis nepřináší. Trip Mate takové zhoršení tiše nepřijme. Toto nelze obejít.',
   'admin.plugins.sig.incompleteBody':
     'Záznam v registru je podepsaný jen napůl: uvádí klíč autora, ale verze nenese žádný podpis (nebo naopak). To je chyba na straně pluginu. Toto nelze obejít.',
   'admin.plugins.sig.pinnedKey': 'Klíč, se kterým byl nainstalován',
   'admin.plugins.sig.newKey': 'Klíč, který nabízí nyní',
   'admin.plugins.sig.confirmOutOfBand':
-    'TREK nedokáže odlišit legitimní výměnu klíče od převzetí pluginu — odsud vypadají obě stejně. Než nový klíč přijmete, ověřte si ho u autora kanálem, kterému už důvěřujete. Jakmile to uděláte, plugin se aktualizuje a nový klíč si TREK zapamatuje.',
+    'Trip Mate nedokáže odlišit legitimní výměnu klíče od převzetí pluginu — odsud vypadají obě stejně. Než nový klíč přijmete, ověřte si ho u autora kanálem, kterému už důvěřujete. Jakmile to uděláte, plugin se aktualizuje a nový klíč si Trip Mate zapamatuje.',
   'admin.plugins.sig.retrustConfirm': 'Důvěřovat novému klíči a aktualizovat',
   'admin.plugins.sig.cancel': 'Nedůvěřovat',
   'admin.plugins.sig.consentUnsigned':
     'Tuto verzi nic nespojuje s jejím autorem — soubory odpovídají registru, ale nenesou podpis autora.',
   'admin.plugins.security.trustTitle': 'Závěrem',
   'admin.plugins.security.trustBody':
-    'Instalace pluginu je jako instalace jakékoli aplikace třetí strany: přidávejte pouze kód od autorů, kterým důvěřujete, a v případě pochybností si jej nejprve sami prohlédněte. TREK nenese žádnou odpovědnost za pluginy třetích stran.',
+    'Instalace pluginu je jako instalace jakékoli aplikace třetí strany: přidávejte pouze kód od autorů, kterým důvěřujete, a v případě pochybností si jej nejprve sami prohlédněte. Trip Mate nenese žádnou odpovědnost za pluginy třetích stran.',
   'admin.plugins.runtimeOn': 'Běhové prostředí běží',
   'admin.plugins.tabDiscover': 'Objevit',
   'admin.plugins.searchPlaceholder': 'Hledat pluginy…',
@@ -486,15 +482,16 @@ const admin: TranslationStrings = {
   'admin.plugins.sortUpdates': 'Nejdřív aktualizace',
   'admin.plugins.sortDownloads': 'Nejstahovanější',
   'admin.plugins.updatesAvailable': 'Pro vaše pluginy je k dispozici {count} aktualizací.',
-  'admin.plugins.newerNeedsTrek': 'v{version} k dispozici — vyžaduje TREK {range}',
+  'admin.plugins.newerNeedsTrek': 'v{version} k dispozici — vyžaduje Trip Mate {range}',
   'admin.plugins.versionsTitle': 'Verze',
   'admin.plugins.versionPickerTitle': 'Změnit verzi — {name}',
   'admin.plugins.versionSwitch': 'Přepnout na {version}',
-  'admin.plugins.versionNeedsTrek': 'vyžaduje TREK {range}',
+  'admin.plugins.versionNeedsTrek': 'vyžaduje Trip Mate {range}',
   'admin.plugins.changeVersion': 'Změnit verzi…',
   'admin.plugins.noVersions': 'V registru nebyly nalezeny žádné publikované verze.',
   'admin.plugins.downgradeTitle': 'Vrátit tento plugin na starší verzi?',
-  'admin.plugins.downgradeBody': 'Přechod z v{from} na v{to}: data zapsaná novější verzí zůstanou na místě a starší verze jim nemusí rozumět.',
+  'admin.plugins.downgradeBody':
+    'Přechod z v{from} na v{to}: data zapsaná novější verzí zůstanou na místě a starší verze jim nemusí rozumět.',
   'admin.plugins.downgradeConfirm': 'Vrátit zpět',
   'admin.plugins.updatesHeld': 'Aktualizace pozastaveny na v{version}',
   'admin.plugins.resumeUpdates': 'Obnovit aktualizace',
@@ -553,19 +550,19 @@ const admin: TranslationStrings = {
   'admin.plugins.dep.download': 'Stáhnout',
   'admin.plugins.dep.update': 'Aktualizovat',
   'admin.plugins.dep.resolveHint': 'Stáhne nejnovější kompatibilní verzi včetně jejích vlastních závislostí.',
-  'admin.plugins.dep.trekIncompatible': 'Vyžaduje TREK {range} — tento server běží na {host}',
-  'admin.plugins.dep.trekUnknown': 'Neuvádí, které verze TREK podporuje',
+  'admin.plugins.dep.trekIncompatible': 'Vyžaduje Trip Mate {range} — tento server běží na {host}',
+  'admin.plugins.dep.trekUnknown': 'Neuvádí, které verze Trip Mate podporuje',
   'admin.plugins.installCompatible': 'Nainstalovat {version}',
   'admin.plugins.installAnyway': 'Přesto nainstalovat',
   'admin.plugins.rangeBypass.pill': 'Kontroly verzí vypnuty',
   'admin.plugins.rangeBypass.pillHint':
-    'Je nastaveno TREK_PLUGINS_IGNORE_TREK_RANGE — pluginy se mohou instalovat a spouštět mimo verze TREKu, které jejich autoři deklarovali',
+    'Je nastaveno TRIPMATE_PLUGINS_IGNORE_TREK_RANGE — pluginy se mohou instalovat a spouštět mimo verze TREKu, které jejich autoři deklarovali',
   'admin.plugins.rangeBypass.title': 'Mimo podporované verze TREKu',
   'admin.plugins.rangeBypass.noticeTitle': 'Nainstalováno mimo podporované verze TREKu',
   'admin.plugins.rangeBypass.body':
-    '„{name}“ deklaruje podporu TREKu {range} a tento server běží na {host}. TREK ho propouští jen proto, že je nastaveno TREK_PLUGINS_IGNORE_TREK_RANGE. Autor neaktualizoval rozsah verzí pluginu pro tento TREK, takže není zaručeno, že bude fungovat — a ve vzácných případech může nekompatibilní plugin poškodit data TREKu. Pokračujte jen tehdy, pokud toto riziko přijímáte.',
+    '„{name}“ deklaruje podporu TREKu {range} a tento server běží na {host}. Trip Mate ho propouští jen proto, že je nastaveno TRIPMATE_PLUGINS_IGNORE_TREK_RANGE. Autor neaktualizoval rozsah verzí pluginu pro tento Trip Mate, takže není zaručeno, že bude fungovat — a ve vzácných případech může nekompatibilní plugin poškodit data TREKu. Pokračujte jen tehdy, pokud toto riziko přijímáte.',
   'admin.plugins.rangeBypass.bodyUnknown':
-    '„{name}“ neuvádí, které verze TREKu podporuje; tento server běží na {host}. TREK ho propouští jen proto, že je nastaveno TREK_PLUGINS_IGNORE_TREK_RANGE. Nic nenasvědčuje tomu, že ho autor na tomto TREKu testoval, takže není zaručeno, že bude fungovat — a ve vzácných případech může nekompatibilní plugin poškodit data TREKu. Pokračujte jen tehdy, pokud toto riziko přijímáte.',
+    '„{name}“ neuvádí, které verze TREKu podporuje; tento server běží na {host}. Trip Mate ho propouští jen proto, že je nastaveno TRIPMATE_PLUGINS_IGNORE_TREK_RANGE. Nic nenasvědčuje tomu, že ho autor na tomto TREKu testoval, takže není zaručeno, že bude fungovat — a ve vzácných případech může nekompatibilní plugin poškodit data TREKu. Pokračujte jen tehdy, pokud toto riziko přijímáte.',
   'admin.plugins.dep.trekBypassed': 'Mimo svůj rozsah TREKu ({range}) — kontroly verzí vypnuty',
   'admin.plugins.dep.trekBypassedUnknown': 'Neuvádí žádný rozsah TREKu — kontroly verzí vypnuty',
   'admin.plugins.incompatible': 'Nekompatibilní',
@@ -579,7 +576,7 @@ const admin: TranslationStrings = {
   'admin.plugins.metaReviewed': 'Zkontrolováno',
   'admin.plugins.downloads': 'Stažení',
   'admin.addons.title': 'Doplňky',
-  'admin.addons.subtitle': 'Zapněte nebo vypněte funkce a přizpůsobte si TREK.',
+  'admin.addons.subtitle': 'Zapněte nebo vypněte funkce a přizpůsobte si Trip Mate.',
   'admin.addons.catalog.memories.name': 'Fotky (Immich)',
   'admin.addons.catalog.memories.description': 'Sdílejte cestovní fotky přes vaši instanci Immich',
   'admin.addons.catalog.packing.name': 'Seznamy',
@@ -602,9 +599,11 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.dawarich.description':
     'Načtěte návštěvy a zaznamenané trasy z instance Dawarich, kterou si každý čtenář připojí sám',
   'admin.addons.catalog.llm_parsing.name': 'Analýza pomocí AI',
-  'admin.addons.catalog.llm_parsing.description': 'Přečte rezervace, které vestavěný analyzátor nezvládne, pomocí zvoleného modelu AI',
+  'admin.addons.catalog.llm_parsing.description':
+    'Přečte rezervace, které vestavěný analyzátor nezvládne, pomocí zvoleného modelu AI',
   'admin.addons.catalog.roadtrip.name': 'Cesta autem',
-  'admin.addons.catalog.roadtrip.description': 'Plánujte jízdy se zastávkami – doby jízdy a časy příjezdu se přepočítají samy',
+  'admin.addons.catalog.roadtrip.description':
+    'Plánujte jízdy se zastávkami – doby jízdy a časy příjezdu se přepočítají samy',
   'admin.addons.enabled': 'Povoleno',
   'admin.addons.disabled': 'Zakázáno',
   'admin.addons.type.trip': 'Cesta',
@@ -671,11 +670,11 @@ const admin: TranslationStrings = {
   'admin.github.loading': 'Načítání...',
   'admin.github.error': 'Nepodařilo se načíst verze',
   'admin.github.by': 'od',
-  'admin.github.support': 'Pomáhá udržovat vývoj TREK',
+  'admin.github.support': 'Pomáhá udržovat vývoj Trip Mate',
   'admin.weather.title': 'Data o počasí',
   'admin.weather.badge': 'Od 24. března 2026',
   'admin.weather.description':
-    'TREK používá Open-Meteo jako zdroj dat. Je to bezplatná open-source služba – není vyžadován API klíč.',
+    'Trip Mate používá Open-Meteo jako zdroj dat. Je to bezplatná open-source služba – není vyžadován API klíč.',
   'admin.weather.forecast': 'Předpověď na 16 dní',
   'admin.weather.forecastDesc': 'Dříve 5 dní (OpenWeatherMap)',
   'admin.weather.climate': 'Historická klimatická data',
@@ -684,12 +683,12 @@ const admin: TranslationStrings = {
   'admin.weather.requestsDesc': 'Zdarma, bez nutnosti klíče',
   'admin.weather.locationHint': 'Počasí se určuje podle prvního místa se souřadnicemi v daném dni.',
   'admin.update.available': 'Dostupná aktualizace',
-  'admin.update.text': 'TREK {version} je k dispozici. Aktuálně používáte verzi {current}.',
+  'admin.update.text': 'Trip Mate {version} je k dispozici. Aktuálně používáte verzi {current}.',
   'admin.update.button': 'Zobrazit na GitHubu',
   'admin.update.install': 'Instalovat aktualizaci',
   'admin.update.confirmTitle': 'Instalovat aktualizaci?',
   'admin.update.confirmText':
-    'TREK bude aktualizován z verze {current} na {version}. Server se poté automaticky restartuje.',
+    'Trip Mate bude aktualizován z verze {current} na {version}. Server se poté automaticky restartuje.',
   'admin.update.dataInfo': 'Všechna vaše data (cesty, uživatelé, API klíče, soubory) budou zachována.',
   'admin.update.warning': 'Aplikace bude během restartu krátce nedostupná.',
   'admin.update.confirm': 'Aktualizovat nyní',
@@ -700,9 +699,9 @@ const admin: TranslationStrings = {
   'admin.update.backupLink': 'Přejít na zálohování',
   'admin.update.howTo': 'Jak aktualizovat',
   'admin.update.dockerText':
-    'Váš TREK běží v Dockeru. Pro aktualizaci na verzi {version} spusťte na svém serveru tyto příkazy:',
+    'Váš Trip Mate běží v Dockeru. Pro aktualizaci na verzi {version} spusťte na svém serveru tyto příkazy:',
   'admin.update.nonDockerText':
-    'Tato instance TREK neběží v Dockeru. Pro aktualizaci na verzi {version} znovu spusťte instalační nebo aktualizační metodu, kterou jste použili — například u Proxmox Community Scripts spusťte aktualizaci z konzole LXC:',
+    'Tato instance Trip Mate neběží v Dockeru. Pro aktualizaci na verzi {version} znovu spusťte instalační nebo aktualizační metodu, kterou jste použili — například u Proxmox Community Scripts spusťte aktualizaci z konzole LXC:',
   'admin.update.wikiLink': 'Otevřít průvodce aktualizací',
   'admin.update.reloadHint': 'Prosím obnovte stránku za několik sekund.',
   'admin.tabs.permissions': 'Oprávnění',
@@ -731,7 +730,7 @@ const admin: TranslationStrings = {
     'Slouží také jako výchozí server pro ntfy notifikace uživatelů. Ponechte prázdné pro použití ntfy.sh. Uživatelé si to mohou změnit ve vlastním nastavení.',
   'admin.notifications.adminNtfyPanel.serverPlaceholder': 'https://ntfy.sh',
   'admin.notifications.adminNtfyPanel.topicLabel': 'Admin téma',
-  'admin.notifications.adminNtfyPanel.topicPlaceholder': 'trek-admin-alerts',
+  'admin.notifications.adminNtfyPanel.topicPlaceholder': 'tripmate-admin-alerts',
   'admin.notifications.adminNtfyPanel.tokenLabel': 'Přístupový token (volitelné)',
   'admin.notifications.adminNtfyPanel.tokenCleared': 'Přístupový token admina byl vymazán',
   'admin.notifications.adminNtfyPanel.saved': 'Nastavení admin Ntfy uloženo',
@@ -750,7 +749,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.journey.name': 'Cestovní deník',
   'admin.addons.catalog.journey.description': 'Sledování cest a cestovní deník s odbaveními, fotkami a denními příběhy',
   'admin.addons.catalog.collections.name': 'Sbírky',
-  'admin.addons.catalog.collections.description': 'Sbírejte místa ze všech cest do pojmenovaných seznamů a znovu je používejte',
+  'admin.addons.catalog.collections.description':
+    'Sbírejte místa ze všech cest do pojmenovaných seznamů a znovu je používejte',
   'admin.passkey.title': 'Přihlášení přístupovým klíčem',
   'admin.passkey.cardHint':
     'Umožněte uživatelům přihlašovat se pomocí přístupových klíčů (WebAuthn). Ve výchozím nastavení vypnuto.',
@@ -761,10 +761,10 @@ const admin: TranslationStrings = {
     'Pro toto nasazení zatím nelze určit žádnou doménu WebAuthn. Nastavte níže APP_URL nebo Relying Party ID — do té doby zůstanou přístupové klíče skryté.',
   'admin.passkey.rpId': 'Relying Party ID (doména)',
   'admin.passkey.rpIdHint':
-    'Holá doména, ke které jsou přístupové klíče vázány, např. trek.example.org. Ponechte prázdné, aby se odvodila z APP_URL. Pozdější změna zneplatní stávající přístupové klíče.',
+    'Holá doména, ke které jsou přístupové klíče vázány, např. tripmate.example.org. Ponechte prázdné, aby se odvodila z APP_URL. Pozdější změna zneplatní stávající přístupové klíče.',
   'admin.passkey.origins': 'Povolené origins',
   'admin.passkey.originsHint':
-    'Úplné origins oddělené čárkou, např. https://trek.example.org. Ponechte prázdné pro použití APP_URL.',
+    'Úplné origins oddělené čárkou, např. https://tripmate.example.org. Ponechte prázdné pro použití APP_URL.',
   'admin.passkey.reset': 'Resetovat přístupové klíče',
   'admin.passkey.resetHint':
     'Odebere všechny přístupové klíče tohoto uživatele (např. při ztrátě zařízení). Stále se může přihlásit svým heslem.',

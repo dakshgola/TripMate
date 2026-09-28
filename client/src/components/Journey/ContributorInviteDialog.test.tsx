@@ -13,7 +13,7 @@ const toastSpy = vi.fn((_message: string, _type?: ToastKind, _duration?: number)
 
 const users = [
   { id: 1, username: 'maurice', email: 'maurice@example.com' },
-  { id: 2, username: 'julien', email: 'julien@trek.dev' },
+  { id: 2, username: 'julien', email: 'julien@tripmate.dev' },
   { id: 3, username: 'anna', email: 'anna@example.com' },
 ]
 
@@ -47,7 +47,7 @@ describe('ContributorInviteDialog', () => {
     mountDialog()
 
     expect(await screen.findByText('maurice')).toBeInTheDocument()
-    expect(screen.getByText('julien@trek.dev')).toBeInTheDocument()
+    expect(screen.getByText('julien@tripmate.dev')).toBeInTheDocument()
     expect(screen.getByText('anna')).toBeInTheDocument()
   })
 
@@ -75,7 +75,7 @@ describe('ContributorInviteDialog', () => {
     mountDialog()
     await screen.findByText('maurice')
 
-    await user.type(screen.getByPlaceholderText('Username or email...'), 'trek.dev')
+    await user.type(screen.getByPlaceholderText('Username or email...'), 'tripmate.dev')
 
     expect(screen.getByText('julien')).toBeInTheDocument()
     expect(screen.queryByText('anna')).not.toBeInTheDocument()

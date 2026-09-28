@@ -12,13 +12,14 @@ const storage: TranslationStrings = {
   'storage.field.region': 'Regió',
   'storage.help.region': 'Mantén el valor predeterminat llevat que el teu proveïdor requereixi una regió específica.',
   'storage.field.keyPrefix': 'Prefix de clau',
-  'storage.help.keyPrefix': "Prefix opcional afegit a cada clau d'objecte, p. ex. trek/prod.",
+  'storage.help.keyPrefix': "Prefix opcional afegit a cada clau d'objecte, p. ex. tripmate/prod.",
   'storage.field.retries': 'Reintents',
   'storage.field.timeoutMs': "Temps d'espera (ms)",
   'storage.field.primary': 'Backend principal',
   'storage.field.replicas': 'Rèpliques',
   'storage.title': 'Emmagatzematge',
-  'storage.description': 'On TREK desa els fitxers, fotos i còpies de seguretat pujats. Res no canvia fins que desis.',
+  'storage.description':
+    'On Trip Mate desa els fitxers, fotos i còpies de seguretat pujats. Res no canvia fins que desis.',
   'storage.loading': 'Carregant…',
   'storage.saved': "Configuració d'emmagatzematge desada",
   'storage.save': 'Desar els canvis',
@@ -66,7 +67,7 @@ const storage: TranslationStrings = {
   'storage.category.avatars': 'Fotos de perfil',
   'storage.category.places': 'Imatges de llocs',
   'storage.category.photos-google': 'Memòria cau de fotos de Google',
-  'storage.category.photos-trek': 'Memòria cau de fotos de TREK',
+  'storage.category.photos-tripmate': 'Memòria cau de fotos de Trip Mate',
   'storage.category.backups': 'Còpies de seguretat',
 
   // What each category stores — rendered under the label in the category map.
@@ -79,8 +80,8 @@ const storage: TranslationStrings = {
   'storage.categoryDesc.places': 'Imatges adjuntes a llocs i llocs de col·leccions — pujades o importades.',
   'storage.categoryDesc.photos-google':
     'Còpies en memòria cau de fotos de Google Places — es poden tornar a obtenir, es poden perdre sense problemes.',
-  'storage.categoryDesc.photos-trek':
-    'Fotos en memòria cau del servei de fotos de TREK utilitzat per les Fotos (Memòries) — es poden tornar a obtenir, es poden perdre sense problemes.',
+  'storage.categoryDesc.photos-tripmate':
+    'Fotos en memòria cau del servei de fotos de Trip Mate utilitzat per les Fotos (Memòries) — es poden tornar a obtenir, es poden perdre sense problemes.',
   'storage.categoryDesc.backups':
     'Arxius de còpia de seguretat del servidor creats pel panell de còpia de seguretat o la planificació.',
   'storage.health.title': 'Estat',
@@ -137,6 +138,7 @@ const storage: TranslationStrings = {
   'storage.migrate.cancel': 'Cancel·la el trasllat',
   'storage.migrate.promptCancel': 'Cancel·la',
   'storage.migrate.queued': 'En cua: {categories}',
-  'storage.migrate.queueDropped': "No s'ha pogut iniciar el trasllat següent — s'ha buidat la cua restant: {categories}",
+  'storage.migrate.queueDropped':
+    "No s'ha pogut iniciar el trasllat següent — s'ha buidat la cua restant: {categories}",
 };
 export default storage;

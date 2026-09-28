@@ -1,5 +1,5 @@
-import { EMAIL_I18N as I18N, EVENT_TEXTS } from '@trek/shared/i18n/externalNotifications';
-import type { EventText, PasswordResetStrings } from '@trek/shared/i18n/externalNotifications';
+import { EMAIL_I18N as I18N, EVENT_TEXTS } from '@tripmate/shared/i18n/externalNotifications';
+import type { EventText, PasswordResetStrings } from '@tripmate/shared/i18n/externalNotifications';
 import { getAppUrl } from '../../../app-config';
 import type { NotifEventType } from '../notification-events';
 import { EMAIL_LOGO_CID } from './email-logo';
@@ -53,8 +53,8 @@ export function buildEmailHtml(
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width: 480px; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.06);">
         <!-- Header -->
         <tr><td style="background: linear-gradient(135deg, #000000 0%, #1a1a2e 100%); padding: 32px 32px 28px; text-align: center;">
-          <img src="cid:${EMAIL_LOGO_CID}" alt="TREK" width="48" height="48" style="border-radius: 14px; margin-bottom: 14px; display: block; margin-left: auto; margin-right: auto;" />
-          <div style="color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;">TREK</div>
+          <img src="cid:${EMAIL_LOGO_CID}" alt="Trip Mate" width="48" height="48" style="border-radius: 14px; margin-bottom: 14px; display: block; margin-left: auto; margin-right: auto;" />
+          <div style="color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;">Trip Mate</div>
           <div style="color: rgba(255,255,255,0.4); font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px;">Travel Resource &amp; Exploration Kit</div>
         </td></tr>
         <!-- Content -->

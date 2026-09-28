@@ -27,7 +27,7 @@ import type { NetworkCheck, CheckContext, RegistryEntry, RegistryEntryVersion } 
 import { pass, fail, skip } from './types.js';
 import { REQUIRED_SECTIONS, MIN_PROSE_CHARS, missingSections, placeholders, proseLength, undocumentedPermissions } from './readme.js';
 
-export const DEFAULT_REGISTRY = 'liketrek/TREK-Plugins';
+export const DEFAULT_REGISTRY = 'liketrek/Trip Mate-Plugins';
 
 const NATIVE_RE = /(^|\/)[^/]+\.node$|(^|\/)binding\.gyp$|(^|\/)prebuilds?\//i;
 
@@ -42,7 +42,7 @@ function ghToken(): string | undefined {
 }
 
 function ghHeaders(): Record<string, string> {
-  const h: Record<string, string> = { 'User-Agent': 'trek-plugin-preflight', Accept: 'application/vnd.github+json' };
+  const h: Record<string, string> = { 'User-Agent': 'tripmate-plugin-preflight', Accept: 'application/vnd.github+json' };
   const t = ghToken();
   if (t) h.Authorization = `Bearer ${t}`;
   return h;
@@ -57,7 +57,7 @@ function targetVersions(c: CheckContext): RegistryEntryVersion[] {
   return c.allVersions ? vs : vs.slice(0, 1);
 }
 
-const PLAIN_HEADERS: Record<string, string> = { 'User-Agent': 'trek-plugin-preflight' };
+const PLAIN_HEADERS: Record<string, string> = { 'User-Agent': 'tripmate-plugin-preflight' };
 
 async function fetchText(url: string, headers: Record<string, string> = PLAIN_HEADERS): Promise<string | null> {
   try {
@@ -120,16 +120,16 @@ const manifestAtCommit: NetworkCheck = {
     if (!c.entry) return skip();
     const problems: string[] = [];
     for (const v of targetVersions(c)) {
-      const text = await fetchText(rawUrl(c.entry.repo, v.commitSha, 'trek-plugin.json'));
+      const text = await fetchText(rawUrl(c.entry.repo, v.commitSha, 'tripmate-plugin.json'));
       if (text === null) {
-        problems.push(`• ${v.version}: trek-plugin.json not found at ${v.commitSha.slice(0, 8)} — did you push your code?`);
+        problems.push(`• ${v.version}: tripmate-plugin.json not found at ${v.commitSha.slice(0, 8)} — did you push your code?`);
         continue;
       }
       let m: Record<string, unknown>;
       try {
         m = JSON.parse(text) as Record<string, unknown>;
       } catch (e) {
-        problems.push(`• ${v.version}: trek-plugin.json at ${v.commitSha.slice(0, 8)} is not valid JSON: ${(e as Error).message}`);
+        problems.push(`• ${v.version}: tripmate-plugin.json at ${v.commitSha.slice(0, 8)} is not valid JSON: ${(e as Error).message}`);
         continue;
       }
       const p = (msg: string) => problems.push(`• ${v.version}: ${msg}`);
@@ -139,7 +139,7 @@ const manifestAtCommit: NetworkCheck = {
       const mApi = typeof m.apiVersion === 'number' ? m.apiVersion : 1;
       if (mApi !== v.apiVersion) p(`manifest apiVersion ${mApi} != entry ${v.apiVersion}`);
       if (m.nativeModules === true) p('manifest declares nativeModules:true (forbidden in v1)');
-      if (typeof m.trek === 'string' && m.trek.trim() !== v.trek) p(`manifest trek "${m.trek.trim()}" != entry trek "${v.trek}"`);
+      if (typeof m.tripmate === 'string' && m.tripmate.trim() !== v.tripmate) p(`manifest tripmate "${m.tripmate.trim()}" != entry tripmate "${v.tripmate}"`);
       if ((m.operatorEgress === true) !== (v.operatorEgress === true)) {
         p(`manifest operatorEgress ${m.operatorEgress === true} != entry ${v.operatorEgress === true}`);
       }
@@ -171,7 +171,7 @@ const artifactMatches: NetworkCheck = {
     for (const v of targetVersions(c)) {
       let bytes: Buffer;
       try {
-        const r = await fetch(v.downloadUrl, { redirect: 'follow', headers: { 'User-Agent': 'trek-plugin-preflight' } });
+        const r = await fetch(v.downloadUrl, { redirect: 'follow', headers: { 'User-Agent': 'tripmate-plugin-preflight' } });
         if (!r.ok) {
           problems.push(`• ${v.version}: artifact download failed (${r.status}) ${v.downloadUrl}`);
           continue;
@@ -193,7 +193,7 @@ const artifactMatches: NetworkCheck = {
       }
 
       // The signature proves the bytes came from the AUTHOR's key; the sha256 only proves they
-      // are what the registry vouches for. TREK verifies this again at install and aborts on a
+      // are what the registry vouches for. Trip Mate verifies this again at install and aborts on a
       // mismatch, so a bad signature merged here is an entry nobody can install.
       if (v.signature && c.entry.authorPublicKey) {
         try {
@@ -252,14 +252,14 @@ const readmeAtCommit: NetworkCheck = {
     // catches. README image links are irrelevant to this gate; don't scan them.
     try {
       const r = await fetch(rawUrl(c.entry.repo, v.commitSha, 'docs/screenshot.png'), {
-        headers: { 'User-Agent': 'trek-plugin-preflight', Range: 'bytes=0-2047' },
+        headers: { 'User-Agent': 'tripmate-plugin-preflight', Range: 'bytes=0-2047' },
       });
       const ct = r.headers.get('content-type') || '';
       if (!r.ok || !ct.startsWith('image/')) {
         problems.push(
           `• docs/screenshot.png does not resolve to an image at ${v.commitSha.slice(0, 8)} ` +
             `(got ${r.status} ${ct || 'no content-type'}) — this exact file is the store cover; ` +
-            'run `trek-plugin shot`, commit it, and re-tag',
+            'run `tripmate-plugin shot`, commit it, and re-tag',
         );
       }
     } catch {
@@ -269,7 +269,7 @@ const readmeAtCommit: NetworkCheck = {
     }
 
     // Permission parity, against the manifest AT THE COMMIT (not the tree — they can differ).
-    const manifestText = await fetchText(rawUrl(c.entry.repo, v.commitSha, 'trek-plugin.json'));
+    const manifestText = await fetchText(rawUrl(c.entry.repo, v.commitSha, 'tripmate-plugin.json'));
     if (manifestText) {
       try {
         const m = JSON.parse(manifestText) as { permissions?: unknown };
@@ -344,7 +344,7 @@ const signingDowngrade: NetworkCheck = {
     }
     if (!published.authorPublicKey) return pass('previously published unsigned');
 
-    // TREK pins the author key on FIRST INSTALL (trust on first use). Once a plugin has shipped
+    // Trip Mate pins the author key on FIRST INSTALL (trust on first use). Once a plugin has shipped
     // signed, an unsigned update — or one signed with a different key — is REFUSED on every
     // instance that already has it. Merging that would not just fail; it would strand every
     // existing user on the version they have.
@@ -353,21 +353,21 @@ const signingDowngrade: NetworkCheck = {
     if (!c.entry.authorPublicKey) {
       problems.push(
         '• this plugin was published SIGNED, but this entry has no authorPublicKey.\n' +
-          '  TREK refuses an unsigned update to a signed plugin — it would break the update for every existing install.\n' +
-          '  Sign it: pass --sign (your key should be at ~/.trek-plugin/signing.key).',
+          '  Trip Mate refuses an unsigned update to a signed plugin — it would break the update for every existing install.\n' +
+          '  Sign it: pass --sign (your key should be at ~/.tripmate-plugin/signing.key).',
       );
     } else if (keyChanged && !c.allowKeyChange) {
       problems.push(
-        '• this entry changes authorPublicKey. TREK refuses a key rotation until an admin re-trusts the plugin.\n' +
+        '• this entry changes authorPublicKey. Trip Mate refuses a key rotation until an admin re-trusts the plugin.\n' +
           '  Sign with your ORIGINAL key — or, if the rotation is deliberate, re-run with --allow-key-change\n' +
           '  and ask a maintainer for the allow-key-change label.',
       );
     } else {
-      // Every version must stay signed, not just the newest — TREK verifies whichever version it
+      // Every version must stay signed, not just the newest — Trip Mate verifies whichever version it
       // installs, so an unsigned older block is a landmine for a pinned install. Under a declared
       // rotation this bites twice over: every version must be RE-signed with the new key.
       for (const v of c.entry.versions) {
-        if (!v.signature) problems.push(`• ${v.version} has no signature, but this is a signed plugin — TREK will refuse to install it`);
+        if (!v.signature) problems.push(`• ${v.version} has no signature, but this is a signed plugin — Trip Mate will refuse to install it`);
       }
     }
     if (problems.length) return fail(`${problems.length} problem(s)`, problems.join('\n'));

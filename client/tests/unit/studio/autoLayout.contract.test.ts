@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import type { BookPageSetup, JourneyStats } from '@trek/shared'
-import { bookDocumentSchema, bookPageSetupSchema } from '@trek/shared'
+import type { BookPageSetup, JourneyStats } from '@tripmate/shared'
+import { bookDocumentSchema, bookPageSetupSchema } from '@tripmate/shared'
 import { buildBook, emptyBook, type AutoEntry, type AutoInput } from '../../../src/components/Studio/autoLayout'
 
 /**

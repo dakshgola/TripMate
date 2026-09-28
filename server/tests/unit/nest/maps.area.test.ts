@@ -10,8 +10,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 const { mockArea } = vi.hoisted(() => ({
   mockArea: vi.fn(async (): Promise<unknown> => ({ results: [], truncated: false, count: 0 })),
 }));
-vi.mock('../../../src/nest/maps/trek-places.client', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('../../../src/nest/maps/trek-places.client')>()),
+vi.mock('../../../src/nest/maps/tripmate-places.client', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../../../src/nest/maps/tripmate-places.client')>()),
   trekPlacesArea: mockArea,
 }));
 
@@ -38,19 +38,19 @@ const PLACE = {
   hours: null,
 };
 
-const ORIGINAL_TREK_PLACES = process.env.TREK_PLACES_ENABLED;
+const ORIGINAL_TREK_PLACES = process.env.TRIPMATE_PLACES_ENABLED;
 
 afterEach(() => {
-  if (ORIGINAL_TREK_PLACES === undefined) delete process.env.TREK_PLACES_ENABLED;
-  else process.env.TREK_PLACES_ENABLED = ORIGINAL_TREK_PLACES;
+  if (ORIGINAL_TREK_PLACES === undefined) delete process.env.TRIPMATE_PLACES_ENABLED;
+  else process.env.TRIPMATE_PLACES_ENABLED = ORIGINAL_TREK_PLACES;
 });
 
 // The index is an operator switch, not an admin row, so switching it off means
 // moving the env rather than stubbing a settings lookup. The service reads the
 // flag per call, which is why the restore above belongs in afterEach.
 function make(enabled = true) {
-  if (enabled) delete process.env.TREK_PLACES_ENABLED;
-  else process.env.TREK_PLACES_ENABLED = 'false';
+  if (enabled) delete process.env.TRIPMATE_PLACES_ENABLED;
+  else process.env.TRIPMATE_PLACES_ENABLED = 'false';
   const database = { get: vi.fn(() => undefined) } as unknown as DatabaseService;
   return new MapsService(database, {} as PlacePhotoCacheService);
 }
@@ -68,7 +68,7 @@ describe('MapsService.placesInArea', () => {
     expect(out?.results[0]).toMatchObject({
       osm_id: 'gers:abc-123',
       name: "L'Osteria",
-      source: 'trek-places',
+      source: 'tripmate-places',
     });
   });
 

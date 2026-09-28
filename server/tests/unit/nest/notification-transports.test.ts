@@ -158,10 +158,10 @@ describe('buildWebhookBody', () => {
     expect(body.embeds[0].footer.text).toContain('Tokyo Adventure');
   });
 
-  it('Discord embed footer defaults to TREK when no trip name', () => {
+  it('Discord embed footer defaults to Trip Mate when no trip name', () => {
     const noTrip = { ...payload, tripName: undefined };
     const body = JSON.parse(buildWebhookBody('https://discord.com/api/webhooks/123/abc', noTrip));
-    expect(body.embeds[0].footer.text).toBe('TREK');
+    expect(body.embeds[0].footer.text).toBe('Trip Mate');
   });
 
   it('discordapp.com URL is also detected as Discord', () => {
@@ -194,7 +194,7 @@ describe('buildWebhookBody', () => {
     expect(body).toHaveProperty('title', payload.title);
     expect(body).toHaveProperty('body', payload.body);
     expect(body).toHaveProperty('timestamp');
-    expect(body).toHaveProperty('source', 'TREK');
+    expect(body).toHaveProperty('source', 'Trip Mate');
   });
 });
 
@@ -218,19 +218,19 @@ describe('buildEmailHtml', () => {
 
   it('uses English i18n strings for lang=en', () => {
     const html = buildEmailHtml('Subject', 'Body', 'en');
-    expect(html).toContain('notifications enabled in TREK');
+    expect(html).toContain('notifications enabled in Trip Mate');
   });
 
   it('uses German i18n strings for lang=de', () => {
     const html = buildEmailHtml('Subject', 'Body', 'de');
-    expect(html).toContain('TREK aktiviert');
+    expect(html).toContain('Trip Mate aktiviert');
   });
 
   it('falls back to English i18n for unknown language', () => {
     const en = buildEmailHtml('Subject', 'Body', 'en');
     const unknown = buildEmailHtml('Subject', 'Body', 'xx');
     // Both should have the same footer text
-    expect(unknown).toContain('notifications enabled in TREK');
+    expect(unknown).toContain('notifications enabled in Trip Mate');
   });
 
   it('points the header logo at an inline part by Content-ID, not at a data: URI (#2507)', () => {
@@ -238,7 +238,7 @@ describe('buildEmailHtml', () => {
     // Gmail strips data: URIs and Outlook blocks them, which left a broken image
     // in the header of every mail.
     expect(html).not.toContain('data:');
-    expect(html).toMatch(/<img src="cid:[^"]+" alt="TREK" width="48" height="48"/);
+    expect(html).toMatch(/<img src="cid:[^"]+" alt="Trip Mate" width="48" height="48"/);
   });
 });
 
@@ -460,7 +460,7 @@ describe('resolveAdminNtfyUrl', () => {
 // ── sendNtfy ─────────────────────────────────────────────────────────────────
 
 describe('sendNtfy', () => {
-  const ntfyUrl = 'https://ntfy.sh/trek-test';
+  const ntfyUrl = 'https://ntfy.sh/tripmate-test';
   const payload = { event: 'trip_invite', title: 'Test Title', body: 'Test body' };
 
   beforeEach(() => {
@@ -511,10 +511,10 @@ describe('sendNtfy', () => {
     const mockFetch = globalThis.fetch as unknown as ReturnType<typeof vi.fn>;
     mockFetch.mockResolvedValueOnce({ ok: true, text: async () => '' } as never);
 
-    await sendNtfy(ntfyUrl, null, { ...payload, link: 'https://trek.example.com/trips/5' });
+    await sendNtfy(ntfyUrl, null, { ...payload, link: 'https://tripmate.example.com/trips/5' });
 
     const [, calledOpts] = mockFetch.mock.calls[0];
-    expect(calledOpts.headers['Click']).toBe('https://trek.example.com/trips/5');
+    expect(calledOpts.headers['Click']).toBe('https://tripmate.example.com/trips/5');
   });
 
   it('NTFY-005 — SSRF guard blocks private URL and returns false', async () => {

@@ -14,7 +14,7 @@
  * call, which is what keeps the runtime env-mutation semantics the test suite
  * depends on. Zod validation runs once at boot (env.schema.ts), never here.
  */
-import { SUPPORTED_LANGUAGE_CODES } from '@trek/shared';
+import { SUPPORTED_LANGUAGE_CODES } from '@tripmate/shared';
 import {
   csvList,
   csvListFiltered,
@@ -79,7 +79,7 @@ export function deriveHttp(raw: RawEnv) {
     hstsIncludeSubdomains: parseBool(raw.HSTS_INCLUDE_SUBDOMAINS) === true,
     /** COOKIE_SECURE is tri-state: an explicit falsy value disables secure cookies; anything else means auto-detect. */
     cookieSecureDisabled: parseBool(raw.COOKIE_SECURE) === false,
-    apiDocsEnabled: parseBool(raw.TREK_API_DOCS_ENABLED) === true,
+    apiDocsEnabled: parseBool(raw.TRIPMATE_API_DOCS_ENABLED) === true,
   };
 }
 
@@ -120,7 +120,7 @@ export function deriveSession(raw: RawEnv) {
  */
 export function deriveManaged(raw: RawEnv) {
   return {
-    enabled: parseBool(raw.TREK_MANAGED) === true,
+    enabled: parseBool(raw.TRIPMATE_MANAGED) === true,
   };
 }
 
@@ -136,15 +136,15 @@ export function deriveMaps(raw: RawEnv) {
   return {
     placesApiBase: raw.PLACES_API_BASE || undefined,
     /**
-     * Base URL of the TREK Places API. Unset means the public instance; an
+     * Base URL of the Trip Mate Places API. Unset means the public instance; an
      * operator who runs their own copy of the index points at it here, and one
      * who wants nothing to leave their network points at their own machine.
      */
-    trekPlacesUrl: raw.TREK_PLACES_URL || undefined,
+    trekPlacesUrl: raw.TRIPMATE_PLACES_URL || undefined,
     /**
      * Whether the index answers at all. On unless an operator says otherwise,
      * because it is the path we want people on and an upgrade must not quietly
-     * drop back to Nominatim, whose usage policy forbids what TREK was doing
+     * drop back to Nominatim, whose usage policy forbids what Trip Mate was doing
      * with it.
      *
      * Deliberately an environment variable and not an admin switch: it decides
@@ -158,7 +158,7 @@ export function deriveMaps(raw: RawEnv) {
      * family at boot, and a path that skips validation must not quietly drop
      * the install back to Nominatim.
      */
-    trekPlacesEnabled: parseBool(raw.TREK_PLACES_ENABLED) !== false,
+    trekPlacesEnabled: parseBool(raw.TRIPMATE_PLACES_ENABLED) !== false,
     placesApiKey: raw.PLACES_API_KEY || undefined,
     /** The same two knobs for Amap (高德), which an install in China uses instead. */
     amapApiBase: raw.AMAP_API_BASE || undefined,
@@ -180,7 +180,7 @@ export function deriveDemo(raw: RawEnv) {
   return {
     enabled: parseBool(raw.DEMO_MODE) === true,
     adminUser: raw.DEMO_ADMIN_USER || 'admin',
-    /** Raw on purpose: demo-seed defaults to admin@trek.app, demo-reset to admin@nomad.app. */
+    /** Raw on purpose: demo-seed defaults to admin@tripmate.app, demo-reset to admin@nomad.app. */
     adminEmailRaw: raw.DEMO_ADMIN_EMAIL,
     adminPass: raw.DEMO_ADMIN_PASS || 'admin12345',
     /** False means the admin account is being created with the published default. */
@@ -232,32 +232,32 @@ export function deriveMcp(raw: RawEnv) {
 export function derivePlugins(raw: RawEnv) {
   return {
     /** Kill-switch is default-on: only an explicit falsy value disables (plugins/kill-switch.ts). */
-    enabled: parseBool(raw.TREK_PLUGINS_ENABLED) !== false,
-    devLink: parseBool(raw.TREK_PLUGINS_DEV_LINK) === true,
+    enabled: parseBool(raw.TRIPMATE_PLUGINS_ENABLED) !== false,
+    devLink: parseBool(raw.TRIPMATE_PLUGINS_DEV_LINK) === true,
     /**
-     * Range bypass is default-OFF: only an explicit truthy value turns the TREK-version
+     * Range bypass is default-OFF: only an explicit truthy value turns the Trip Mate-version
      * gates into warnings (plugins/install/host-compat.ts). Never inferred from any
      * other switch — an admin has to ask for "install it anyway" by name.
      */
-    ignoreTrekRange: parseBool(raw.TREK_PLUGINS_IGNORE_TREK_RANGE) === true,
-    dir: raw.TREK_PLUGINS_DIR,
-    dataDir: raw.TREK_PLUGINS_DATA_DIR,
+    ignoreTrekRange: parseBool(raw.TRIPMATE_PLUGINS_IGNORE_TREK_RANGE) === true,
+    dir: raw.TRIPMATE_PLUGINS_DIR,
+    dataDir: raw.TRIPMATE_PLUGINS_DATA_DIR,
     /** Permission jail is default-on: only an explicit falsy value turns it off. */
-    permissionsOff: parseBool(raw.TREK_PLUGIN_PERMISSIONS) === false,
+    permissionsOff: parseBool(raw.TRIPMATE_PLUGIN_PERMISSIONS) === false,
     registryUrl:
-      raw.TREK_PLUGIN_REGISTRY_URL || 'https://raw.githubusercontent.com/liketrek/TREK-Plugins/main/dist/index.json',
+      raw.TRIPMATE_PLUGIN_REGISTRY_URL || 'https://raw.githubusercontent.com/liketrek/Trip Mate-Plugins/main/dist/index.json',
     /**
      * The child process and plugin-sdk keep their literal `=== 'on'` check (they
      * are exempt from this layer); the supervisor normalizes this boolean to the
      * literal 'on' when building the child's scrubbed env.
      */
-    allowPrivateEgress: parseBool(raw.TREK_PLUGIN_ALLOW_PRIVATE_EGRESS) === true,
-    rpcBurst: numberOr(raw.TREK_PLUGIN_RPC_BURST, 60),
-    rpcPerSec: numberOr(raw.TREK_PLUGIN_RPC_PER_SEC, 20),
-    rpcInflight: numberOr(raw.TREK_PLUGIN_RPC_INFLIGHT, 16),
-    logBurst: numberOr(raw.TREK_PLUGIN_LOG_BURST, 50),
-    logPerSec: numberOr(raw.TREK_PLUGIN_LOG_PER_SEC, 10),
-    maxRssMb: numberOr(raw.TREK_PLUGIN_MAX_RSS_MB, 300),
+    allowPrivateEgress: parseBool(raw.TRIPMATE_PLUGIN_ALLOW_PRIVATE_EGRESS) === true,
+    rpcBurst: numberOr(raw.TRIPMATE_PLUGIN_RPC_BURST, 60),
+    rpcPerSec: numberOr(raw.TRIPMATE_PLUGIN_RPC_PER_SEC, 20),
+    rpcInflight: numberOr(raw.TRIPMATE_PLUGIN_RPC_INFLIGHT, 16),
+    logBurst: numberOr(raw.TRIPMATE_PLUGIN_LOG_BURST, 50),
+    logPerSec: numberOr(raw.TRIPMATE_PLUGIN_LOG_PER_SEC, 10),
+    maxRssMb: numberOr(raw.TRIPMATE_PLUGIN_MAX_RSS_MB, 300),
   };
 }
 
@@ -308,9 +308,9 @@ export function deriveBackup(raw: RawEnv) {
 }
 
 export function deriveDb(raw: RawEnv) {
-  const durability = resolveDurability(raw.TREK_DB_JOURNAL_MODE, raw.TREK_DB_SYNCHRONOUS);
+  const durability = resolveDurability(raw.TRIPMATE_DB_JOURNAL_MODE, raw.TRIPMATE_DB_SYNCHRONOUS);
   return {
-    trekDbFile: raw.TREK_DB_FILE,
+    trekDbFile: raw.TRIPMATE_DB_FILE,
     /** Resolved journal_mode — WAL unless the operator asked for something else (network storage needs DELETE/TRUNCATE). */
     journalMode: durability.journalMode,
     /** Resolved synchronous level — NORMAL under WAL (what SQLite already does), FULL under a rollback journal. */
@@ -322,8 +322,8 @@ export function deriveDb(raw: RawEnv) {
 
 export function derivePaths(raw: RawEnv) {
   return {
-    wikiDir: raw.TREK_WIKI_DIR,
-    placePhotoDir: raw.TREK_PLACE_PHOTO_DIR,
+    wikiDir: raw.TRIPMATE_WIKI_DIR,
+    placePhotoDir: raw.TRIPMATE_PLACE_PHOTO_DIR,
   };
 }
 

@@ -1,8 +1,8 @@
 import {
-  TREK_WS_EVENTS,
-  TREK_WS_EVENT_NAMES,
-  TREK_WS_TRIP_EVENT_NAMES,
-  TREK_WS_USER_EVENT_NAMES,
+  TRIPMATE_WS_EVENTS,
+  TRIPMATE_WS_EVENT_NAMES,
+  TRIPMATE_WS_TRIP_EVENT_NAMES,
+  TRIPMATE_WS_USER_EVENT_NAMES,
   type TrekWsEventName,
 } from './events.schema';
 
@@ -144,36 +144,36 @@ const DRIFT_VARIANTS: Partial<Record<TrekWsEventName, Record<string, unknown>[]>
   'journey:book:cursor': [{ journeyId: 7, socketId: 3, userId: 2, spreadIndex: 4, x: null, y: null }],
 };
 
-describe('@trek/shared realtime event registry', () => {
+describe('@tripmate/shared realtime event registry', () => {
   it('WSEVT-REG-001: pins the authoritative inventory counts (74 trip + 32 user = 106)', () => {
     // 67th to 69th trip event: the three collab:link:* a shared link emits.
     // 70th and 71st: the road trip's vias and tracks, which used to be written silently.
     // 74th: docsync:changed, so a sync run that moved documents refreshes the
     // panel without every member polling for it.
-    expect(TREK_WS_TRIP_EVENT_NAMES).toHaveLength(74);
-    expect(TREK_WS_USER_EVENT_NAMES).toHaveLength(32);
-    expect(TREK_WS_EVENT_NAMES).toHaveLength(106);
+    expect(TRIPMATE_WS_TRIP_EVENT_NAMES).toHaveLength(74);
+    expect(TRIPMATE_WS_USER_EVENT_NAMES).toHaveLength(32);
+    expect(TRIPMATE_WS_EVENT_NAMES).toHaveLength(106);
   });
 
   it('WSEVT-REG-002: every name is domain:action shaped and outside the reserved plugin: namespace', () => {
-    for (const name of TREK_WS_EVENT_NAMES) {
+    for (const name of TRIPMATE_WS_EVENT_NAMES) {
       expect(name).toMatch(/^[a-zA-Z]+(:[a-zA-Z-]+)+$/);
       expect(name.startsWith('plugin:')).toBe(false);
     }
   });
 
   it('WSEVT-REG-003: trip/user scopes partition the registry', () => {
-    const union = new Set<string>([...TREK_WS_TRIP_EVENT_NAMES, ...TREK_WS_USER_EVENT_NAMES]);
-    expect(union.size).toBe(TREK_WS_EVENT_NAMES.length);
+    const union = new Set<string>([...TRIPMATE_WS_TRIP_EVENT_NAMES, ...TRIPMATE_WS_USER_EVENT_NAMES]);
+    expect(union.size).toBe(TRIPMATE_WS_EVENT_NAMES.length);
   });
 
   it('WSEVT-REG-004: the fixture map covers every registry event (completeness guard)', () => {
-    expect(Object.keys(FIXTURES).sort()).toEqual([...TREK_WS_EVENT_NAMES].sort());
+    expect(Object.keys(FIXTURES).sort()).toEqual([...TRIPMATE_WS_EVENT_NAMES].sort());
   });
 
   it('WSEVT-REG-005: every event schema parses its representative server payload', () => {
-    for (const name of TREK_WS_EVENT_NAMES) {
-      const result = TREK_WS_EVENTS[name].payload.safeParse(FIXTURES[name]);
+    for (const name of TRIPMATE_WS_EVENT_NAMES) {
+      const result = TRIPMATE_WS_EVENTS[name].payload.safeParse(FIXTURES[name]);
       expect(result.success, `${name} rejected its fixture: ${JSON.stringify(FIXTURES[name])}`).toBe(true);
     }
   });
@@ -181,14 +181,14 @@ describe('@trek/shared realtime event registry', () => {
   it('WSEVT-REG-006: drift unions accept every shape the server emits today', () => {
     for (const [name, variants] of Object.entries(DRIFT_VARIANTS)) {
       for (const variant of variants ?? []) {
-        const result = TREK_WS_EVENTS[name as TrekWsEventName].payload.safeParse(variant);
+        const result = TRIPMATE_WS_EVENTS[name as TrekWsEventName].payload.safeParse(variant);
         expect(result.success, `${name} rejected drift variant ${JSON.stringify(variant)}`).toBe(true);
       }
     }
   });
 
   it('WSEVT-REG-007: payload schemas tolerate the MCP _source marker (strip, not reject)', () => {
-    const result = TREK_WS_EVENTS['place:created'].payload.safeParse({
+    const result = TRIPMATE_WS_EVENTS['place:created'].payload.safeParse({
       place: { id: 3 },
       _source: 'mcp',
     });

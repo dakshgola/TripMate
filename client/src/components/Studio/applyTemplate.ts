@@ -1,5 +1,5 @@
-import type { BookElement, BookPageSetup, BookSpread, JourneyStats } from '@trek/shared'
-import { MAX_TEXT_LENGTH } from '@trek/shared'
+import type { BookElement, BookPageSetup, BookSpread, JourneyStats } from '@tripmate/shared'
+import { MAX_TEXT_LENGTH } from '@tripmate/shared'
 import type { SpreadTemplate } from './bookTemplates.data'
 import { formatBookCoords, formatBookDate } from './entryText'
 import { coordValue } from './resolveBindings'

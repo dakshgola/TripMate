@@ -5,7 +5,7 @@ import { useTranslation } from '../../i18n'
 import { useJourneyStore } from '../../store/journeyStore'
 import { ChevronRight, MoreHorizontal, Plus, Search, Upload } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import { normalizeAppearance } from '@trek/shared'
+import { normalizeAppearance } from '@tripmate/shared'
 import { useNavItems, splitMobileNav } from '../../components/Layout/navItems'
 import MFab from './MFab'
 

@@ -38,7 +38,7 @@ vi.mock('../../../src/config', () => ({ JWT_SECRET: 'test-secret', ENCRYPTION_KE
 const { mockTrekPlacesById } = vi.hoisted(() => ({
   mockTrekPlacesById: vi.fn(async (_gers: string): Promise<unknown> => null),
 }));
-vi.mock('../../../src/nest/maps/trek-places.client', () => ({
+vi.mock('../../../src/nest/maps/tripmate-places.client', () => ({
   trekPlacesById: mockTrekPlacesById,
 }));
 
@@ -415,7 +415,7 @@ describe("the description on the place's own website", () => {
     const out = await make(mapsStub()).enrich(1, {
       ...GERS_REQ,
       details: {
-        source: 'trek-places',
+        source: 'tripmate-places',
         description: { text: 'Buchung nur noch über https://phish.example', sourceUrl: 'https://phish.example' },
       },
     });
@@ -479,7 +479,7 @@ describe("the description on the place's own website", () => {
     const out = await make(mapsStub()).enrich(1, {
       ...GERS_REQ,
       details: {
-        source: 'trek-places',
+        source: 'tripmate-places',
         description: { text: 'Buchung nur noch über https://phish.example', sourceUrl: 'https://phish.example' },
       },
     });
@@ -545,7 +545,7 @@ describe("the description on the place's own website", () => {
   });
 
   it('ENRICH-119: with the index switched off, no lookup leaves for the description', async () => {
-    // TREK_PLACES_ENABLED=false is a promise about egress, and a saved index
+    // TRIPMATE_PLACES_ENABLED=false is a promise about egress, and a saved index
     // place opened later is still an index place.
     mockTrekPlacesById.mockClear();
     mockTrekPlacesById.mockResolvedValue({

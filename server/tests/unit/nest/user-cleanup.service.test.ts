@@ -79,7 +79,7 @@ beforeEach(() => {
   for (const t of ['plugin_user_erasure_queue', 'plugin_user_config', 'plugins']) {
     testDb.prepare(`DELETE FROM ${t}`).run();
   }
-  dataRootRef.value = path.join(os.tmpdir(), 'trek-user-cleanup-absent');
+  dataRootRef.value = path.join(os.tmpdir(), 'tripmate-user-cleanup-absent');
 });
 
 afterAll(() => {
@@ -125,7 +125,7 @@ describe('erasePluginUserData', () => {
 
   it('USER-CLEANUP-004: enqueues every orphan data dir — an uninstall keeps no permissions row', () => {
     const { user } = createUser(testDb);
-    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-plugins-data-'));
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-plugins-data-'));
     dataRootRef.value = root;
     fs.mkdirSync(path.join(root, 'uninstalled-but-retained'));
     fs.writeFileSync(path.join(root, 'stray-file'), ''); // not a directory → ignored

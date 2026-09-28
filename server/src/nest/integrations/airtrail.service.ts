@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { AirtrailFlight } from '@trek/shared';
+import type { AirtrailFlight } from '@tripmate/shared';
 import { DatabaseService } from '../database/database.service';
 import { AuditService } from '../audit/audit.service';
 import { maybe_encrypt_api_key, decrypt_api_key } from '../common/crypto/apiKeyCrypto';
@@ -45,7 +45,7 @@ export class AirtrailService {
     );
   }
 
-  /** Has this user opted in to TREK writing their flight edits back to AirTrail? (#1240) */
+  /** Has this user opted in to Trip Mate writing their flight edits back to AirTrail? (#1240) */
   isAirtrailWriteEnabled(userId: number): boolean {
     const row = this.db.get<{ airtrail_write_enabled?: number | null }>(
       'SELECT airtrail_write_enabled FROM users WHERE id = ?',

@@ -25,10 +25,11 @@ const settings: TranslationStrings = {
   'settings.mapTemplatePlaceholder.select': '选择模板...',
   'settings.mapDefaultHint': '留空则使用 OpenStreetMap（默认）',
   'settings.routingBase': '自建路径规划服务',
-  'settings.routingBaseHint': '你自己的 OSRM 实例。留空则使用公共服务器，约每秒一个请求 — 单日够用，长途自驾则吃紧。需重启服务器后生效。',
+  'settings.routingBaseHint':
+    '你自己的 OSRM 实例。留空则使用公共服务器，约每秒一个请求 — 单日够用，长途自驾则吃紧。需重启服务器后生效。',
   'settings.valhallaBase': '自建 Valhalla 实例',
   'settings.valhallaBaseHint':
-    'TREK 默认使用 FOSSGIS 的公共 Valhalla 来避开收费道路、高速公路和渡轮。若要改用自己的 Valhalla，请在此输入网址。如果只配置了自己的路线规划服务器，就不会使用公共 Valhalla。输入自己的网址后，请重启服务器并重新加载页面。',
+    'Trip Mate 默认使用 FOSSGIS 的公共 Valhalla 来避开收费道路、高速公路和渡轮。若要改用自己的 Valhalla，请在此输入网址。如果只配置了自己的路线规划服务器，就不会使用公共 Valhalla。输入自己的网址后，请重启服务器并重新加载页面。',
   'settings.mapHint': '地图瓦片 URL 模板',
   'settings.mapProvider': '地图提供商',
   'settings.mapProviderHint': '影响行程规划器和旅程地图。足迹始终使用 Leaflet。',
@@ -42,7 +43,8 @@ const settings: TranslationStrings = {
   'settings.mapCartoKey': 'CARTO API 密钥',
   'settings.mapCartoKeyHint': '没有密钥时 CARTO 底图会显示水印。免费且无需账户，来自',
   'settings.mapCartoKeyLink': 'carto.com 底图 API 密钥',
-  'settings.mapCartoKeyMissing': '此模板是 CARTO 底图。没有密钥时，CARTO 会在每个瓦片上打上 "API KEY REQUIRED"。 在输入密钥之前，TREK 会显示默认底图。',
+  'settings.mapCartoKeyMissing':
+    '此模板是 CARTO 底图。没有密钥时，CARTO 会在每个瓦片上打上 "API KEY REQUIRED"。 在输入密钥之前，Trip Mate 会显示默认底图。',
   'settings.mapStyle': '地图样式',
   'settings.mapStylePlaceholder': '选择 Mapbox 样式',
   'settings.mapStyleHint': '预设或您自己的 mapbox://styles/USER/ID URL',
@@ -186,13 +188,13 @@ const settings: TranslationStrings = {
   'settings.about.featureRequestHint': '建议一个新功能',
   'settings.about.wikiHint': '文档和指南',
   'settings.about.descriptionManaged':
-    'TREK helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
+    'Trip Mate helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
   'settings.about.sourceTitle': 'Source code',
-  'settings.about.sourceHint': 'TREK is open source, licensed AGPL-3.0',
+  'settings.about.sourceHint': 'Trip Mate is open source, licensed AGPL-3.0',
   'settings.about.supporters.badge': '月度支持者',
-  'settings.about.supporters.title': '与 TREK 同行的伙伴',
+  'settings.about.supporters.title': '与 Trip Mate 同行的伙伴',
   'settings.about.supporters.subtitle':
-    '当你在规划下一段路线时，这些人也在一起规划 TREK 的未来。他们每月的支持直接用于开发与真实投入的时间——让 TREK 保持开源。',
+    '当你在规划下一段路线时，这些人也在一起规划 Trip Mate 的未来。他们每月的支持直接用于开发与真实投入的时间——让 Trip Mate 保持开源。',
   'settings.about.supporters.since': '{date} 起的支持者',
   'settings.about.supporters.tierEmpty': '成为第一个',
   'settings.about.supporter.tier.noReturnTicket': 'No Return Ticket',
@@ -201,7 +203,7 @@ const settings: TranslationStrings = {
   'settings.about.supporter.tier.budgetTraveller': 'Budget Traveller',
   'settings.about.supporter.tier.hostelBunkmate': 'Hostel Bunkmate',
   'settings.about.description':
-    'TREK 是一个自托管的旅行规划工具，帮助你从最初的想法到最后的回忆，全程组织你的旅行。日程规划、预算、行李清单、照片等——一切尽在一处，在你自己的服务器上。',
+    'Trip Mate 是一个自托管的旅行规划工具，帮助你从最初的想法到最后的回忆，全程组织你的旅行。日程规划、预算、行李清单、照片等——一切尽在一处，在你自己的服务器上。',
   'settings.about.madeWith': '用',
   'settings.about.madeBy': '由 Maurice 和不断壮大的开源社区打造。',
   'settings.username': '用户名',
@@ -276,7 +278,7 @@ const settings: TranslationStrings = {
   'settings.webhookUrl.testSuccess': '测试 Webhook 发送成功',
   'settings.webhookUrl.testFailed': '测试 Webhook 失败',
   'settings.ntfyUrl.topicLabel': 'Ntfy 主题',
-  'settings.ntfyUrl.topicPlaceholder': 'my-trek-alerts',
+  'settings.ntfyUrl.topicPlaceholder': 'my-tripmate-alerts',
   'settings.ntfyUrl.serverLabel': 'Ntfy 服务器 URL（可选）',
   'settings.ntfyUrl.serverPlaceholder': 'https://ntfy.sh',
   'settings.ntfyUrl.hint': '输入您的 Ntfy 主题以接收推送通知。将服务器留空以使用管理员配置的默认值。',
@@ -335,7 +337,7 @@ const settings: TranslationStrings = {
   'settings.airtrail.allowInsecureTlsHint': '仅对您自己网络中受信任的实例启用。',
   'settings.airtrail.writeBack': '将更改写回 AirTrail',
   'settings.airtrail.writeBackHint':
-    '默认关闭：AirTrail 是数据来源，TREK 仅从中读取。开启后会将在 TREK 中所做的修改写回 AirTrail。',
+    '默认关闭：AirTrail 是数据来源，Trip Mate 仅从中读取。开启后会将在 Trip Mate 中所做的修改写回 AirTrail。',
   'settings.airtrail.connected': '已连接',
   'settings.airtrail.notConnected': '未连接',
   'settings.airtrail.toast.saved': 'AirTrail 连接已保存',
@@ -441,7 +443,7 @@ const settings: TranslationStrings = {
   'settings.startPageDashboard': '仪表盘',
   'settings.startPageActiveTrip': '进行中的旅行',
   'settings.startPageHint':
-    'TREK 会直接打开正在进行的旅行，没有则打开最近要开始的那次。与仪表盘突出显示的是同一次旅行。',
+    'Trip Mate 会直接打开正在进行的旅行，没有则打开最近要开始的那次。与仪表盘突出显示的是同一次旅行。',
   'settings.startTripTab': '启动标签页',
   'settings.startTripTabHint': '旅行打开时所在的标签页。如果该标签页属于已关闭的插件，则改为打开计划视图。',
 

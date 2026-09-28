@@ -43,7 +43,7 @@ import { CollectionsModule } from '../../src/nest/collections/collections.module
 import { DatabaseModule } from '../../src/nest/database/database.module';
 import { RealtimeModule } from '../../src/nest/realtime/realtime.module';
 import { AddonsService } from '../../src/nest/addons/addons.service';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 describe('Collections e2e (real auth guard + real service + temp SQLite)', () => {
@@ -139,7 +139,7 @@ describe('Collections e2e (real auth guard + real service + temp SQLite)', () =>
     expect(placed.reservation_status).toBe('none'); // itinerary defaults
   });
 
-  // #2483: a place from the TREK index can carry its website without a scheme,
+  // #2483: a place from the Trip Mate index can carry its website without a scheme,
   // and the save dialog has no website field to correct it in.
   it('COLLECTIONS-E2E-089: saving a place whose website has no scheme stores it as https', async () => {
     const col = (await request(server).post('/api/addons/collections').set('Cookie', sessionCookie(ownerId)).send({ name: 'Bretagne' })).body;
@@ -441,7 +441,7 @@ describe('Collections e2e (real auth guard + real service + temp SQLite)', () =>
       .send({ collection_id: col.id, name: 'Pinned', lat: 41.9, lng: 12.48, status: 'want' });
 
     const file = {
-      format: 'trek.collection', version: 1, name: 'From a friend', color: '#ef4444',
+      format: 'tripmate.collection', version: 1, name: 'From a friend', color: '#ef4444',
       places: [{ name: 'Pinned', lat: 41.9, lng: 12.48 }, { name: 'New one' }],
     };
     const added = await request(server).post(`/api/addons/collections/${col.id}/import`).set(as(ownerId)).send({ file });
@@ -456,7 +456,7 @@ describe('Collections e2e (real auth guard + real service + temp SQLite)', () =>
 
   it('COLLECTIONS-E2E-084: a list the caller may only read, or cannot see at all, takes no file', async () => {
     const col = (await request(server).post('/api/addons/collections').set('Cookie', sessionCookie(ownerId)).send({ name: 'Mine' })).body;
-    const file = { format: 'trek.collection', version: 1, name: 'Theirs', places: [{ name: 'Belém' }] };
+    const file = { format: 'tripmate.collection', version: 1, name: 'Theirs', places: [{ name: 'Belém' }] };
 
     expect((await request(server).post(`/api/addons/collections/${col.id}/import`).set('Cookie', sessionCookie(otherId)).send({ file })).status).toBe(404);
     expect((await request(server).post(`/api/addons/collections/${col.id}/import`).send({ file })).status).toBe(401);

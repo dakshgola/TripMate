@@ -25,10 +25,11 @@ const settings: TranslationStrings = {
   'settings.mapTemplatePlaceholder.select': 'Sablon kiválasztása...',
   'settings.mapDefaultHint': 'Hagyd üresen az OpenStreetMap használatához (alapértelmezett)',
   'settings.routingBase': 'Saját útvonaltervező',
-  'settings.routingBaseHint': 'Saját OSRM-példány. Üresen hagyva a nyilvános kiszolgálókat használja, amelyek másodpercenként körülbelül egy kérést engednek — egy napra elég, egy autós útra kevés. A kiszolgáló újraindítása után lép életbe.',
+  'settings.routingBaseHint':
+    'Saját OSRM-példány. Üresen hagyva a nyilvános kiszolgálókat használja, amelyek másodpercenként körülbelül egy kérést engednek — egy napra elég, egy autós útra kevés. A kiszolgáló újraindítása után lép életbe.',
   'settings.valhallaBase': 'Saját Valhalla-példány',
   'settings.valhallaBaseHint':
-    'A TREK alapértelmezés szerint a FOSSGIS nyilvános Valhalláját használja a fizetős utak, autópályák és kompok elkerüléséhez. Itt megadhatja saját Valhallája URL-jét, hogy azt használja helyette. Ha csak saját útvonaltervező van beállítva, a nyilvános Valhalla nem használatos. Saját URL megadása után indítsa újra a szervert, és töltse újra az oldalt.',
+    'A Trip Mate alapértelmezés szerint a FOSSGIS nyilvános Valhalláját használja a fizetős utak, autópályák és kompok elkerüléséhez. Itt megadhatja saját Valhallája URL-jét, hogy azt használja helyette. Ha csak saját útvonaltervező van beállítva, a nyilvános Valhalla nem használatos. Saját URL megadása után indítsa újra a szervert, és töltse újra az oldalt.',
   'settings.mapHint': 'URL sablon a térképcsempékhez',
   'settings.mapProvider': 'Térkép szolgáltató',
   'settings.mapProviderHint': 'A Trip Planner és Journey térképekre érvényes. Az Atlas mindig Leafletet használ.',
@@ -44,7 +45,7 @@ const settings: TranslationStrings = {
     'A CARTO alaptérképek kulcs nélkül vízjelet jelenítenek meg. Ingyenes, fiók nélkül, innen:',
   'settings.mapCartoKeyLink': 'carto.com alaptérkép API-kulcs',
   'settings.mapCartoKeyMissing':
-    'Ez a sablon CARTO alaptérkép. Kulcs nélkül a CARTO minden csempére ráírja: "API KEY REQUIRED". Amíg nincs kulcs megadva, a TREK az alapértelmezett alaptérképet mutatja.',
+    'Ez a sablon CARTO alaptérkép. Kulcs nélkül a CARTO minden csempére ráírja: "API KEY REQUIRED". Amíg nincs kulcs megadva, a Trip Mate az alapértelmezett alaptérképet mutatja.',
   'settings.mapStyle': 'Térkép stílus',
   'settings.mapStylePlaceholder': 'Válassz Mapbox stílust',
   'settings.mapStyleHint': 'Preset vagy saját mapbox://styles/USER/ID URL',
@@ -198,13 +199,13 @@ const settings: TranslationStrings = {
   'settings.about.featureRequestHint': 'Javasolj egy új funkciót',
   'settings.about.wikiHint': 'Dokumentáció és útmutatók',
   'settings.about.descriptionManaged':
-    'TREK helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
+    'Trip Mate helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
   'settings.about.sourceTitle': 'Source code',
-  'settings.about.sourceHint': 'TREK is open source, licensed AGPL-3.0',
+  'settings.about.sourceHint': 'Trip Mate is open source, licensed AGPL-3.0',
   'settings.about.supporters.badge': 'Havi támogatók',
-  'settings.about.supporters.title': 'Útitársak a TREK mellett',
+  'settings.about.supporters.title': 'Útitársak a Trip Mate mellett',
   'settings.about.supporters.subtitle':
-    'Miközben te a következő útvonaladat tervezed, ők a TREK jövőjét tervezik velem együtt. Havi hozzájárulásuk közvetlenül fejlesztésre és valódi órákra fordítódik — hogy a TREK Open Source maradhasson.',
+    'Miközben te a következő útvonaladat tervezed, ők a Trip Mate jövőjét tervezik velem együtt. Havi hozzájárulásuk közvetlenül fejlesztésre és valódi órákra fordítódik — hogy a Trip Mate Open Source maradhasson.',
   'settings.about.supporters.since': 'támogató {date} óta',
   'settings.about.supporters.tierEmpty': 'Légy az első',
   'settings.about.supporter.tier.noReturnTicket': 'No Return Ticket',
@@ -213,7 +214,7 @@ const settings: TranslationStrings = {
   'settings.about.supporter.tier.budgetTraveller': 'Budget Traveller',
   'settings.about.supporter.tier.hostelBunkmate': 'Hostel Bunkmate',
   'settings.about.description':
-    'A TREK egy saját szerveren üzemeltetett útitervező, amely segít az utazásaid megszervezésében az első ötlettől az utolsó emlékig. Napi tervezés, költségvetés, csomagolási listák, fotók és még sok más — minden egy helyen, a saját szervereden.',
+    'A Trip Mate egy saját szerveren üzemeltetett útitervező, amely segít az utazásaid megszervezésében az első ötlettől az utolsó emlékig. Napi tervezés, költségvetés, csomagolási listák, fotók és még sok más — minden egy helyen, a saját szervereden.',
   'settings.about.madeWith': 'Készítve',
   'settings.about.madeBy': 'Maurice és egy növekvő nyílt forráskódú közösség által.',
   'settings.username': 'Felhasználónév',
@@ -296,7 +297,7 @@ const settings: TranslationStrings = {
   'settings.webhookUrl.testSuccess': 'Teszt webhook sikeresen elküldve',
   'settings.webhookUrl.testFailed': 'Teszt webhook sikertelen',
   'settings.ntfyUrl.topicLabel': 'Ntfy téma',
-  'settings.ntfyUrl.topicPlaceholder': 'my-trek-alerts',
+  'settings.ntfyUrl.topicPlaceholder': 'my-tripmate-alerts',
   'settings.ntfyUrl.serverLabel': 'Ntfy szerver URL (opcionális)',
   'settings.ntfyUrl.serverPlaceholder': 'https://ntfy.sh',
   'settings.ntfyUrl.hint':
@@ -361,7 +362,7 @@ const settings: TranslationStrings = {
   'settings.airtrail.allowInsecureTlsHint': 'Csak megbízható, saját hálózaton futó példány esetén engedélyezd.',
   'settings.airtrail.writeBack': 'Módosítások visszaírása az AirTrailbe',
   'settings.airtrail.writeBackHint':
-    'Alapértelmezés szerint kikapcsolva: az AirTrail a hiteles forrás, és a TREK csak olvas belőle. Kapcsold be, hogy a TREK-ben végzett módosításokat visszaküldje az AirTrailbe.',
+    'Alapértelmezés szerint kikapcsolva: az AirTrail a hiteles forrás, és a Trip Mate csak olvas belőle. Kapcsold be, hogy a Trip Mate-ben végzett módosításokat visszaküldje az AirTrailbe.',
   'settings.airtrail.connected': 'Csatlakoztatva',
   'settings.airtrail.notConnected': 'Nincs csatlakoztatva',
   'settings.airtrail.toast.saved': 'AirTrail-kapcsolat mentve',
@@ -473,7 +474,7 @@ const settings: TranslationStrings = {
   'settings.startPageDashboard': 'Irányítópult',
   'settings.startPageActiveTrip': 'Aktív utazás',
   'settings.startPageHint':
-    'A TREK egyből a most zajló utazást nyitja meg, vagy a következőt, amelyik indul. Ugyanaz az utazás, amelyet az irányítópult is kiemel.',
+    'A Trip Mate egyből a most zajló utazást nyitja meg, vagy a következőt, amelyik indul. Ugyanaz az utazás, amelyet az irányítópult is kiemel.',
   'settings.startTripTab': 'Kezdő fül',
   'settings.startTripTabHint':
     'Az a fül, amellyel az utazás megnyílik. Ha kikapcsolt bővítményhez tartozik, helyette a terv nézet nyílik meg.',
@@ -506,12 +507,14 @@ const settings: TranslationStrings = {
   'settings.offline.storage.tripOff': 'Nincs tárolva',
   'settings.offline.storage.tripFinished': 'Befejezve. Csak akkor mentjük, ha bekapcsolod.',
   'settings.offline.notice.stored': '{count} utazás mentve ezen az eszközön',
-  'settings.offline.notice.nothing': 'Nincs mit menteni. Kapcsold be azokat az utazásokat, amelyeket meg szeretnél tartani.',
+  'settings.offline.notice.nothing':
+    'Nincs mit menteni. Kapcsold be azokat az utazásokat, amelyeket meg szeretnél tartani.',
   'settings.offline.notice.busy': 'Már fut egy szinkronizálás. Próbáld újra egy pillanat múlva.',
   'settings.offline.notice.offline': 'Nincs kapcsolat. Csatlakozz, hogy offline menthesd az utazásokat.',
   'settings.offline.notice.signedOut': 'A munkamenet lejárt. Jelentkezz be újra a szinkronizáláshoz.',
   'settings.offline.notice.failed': 'A letöltés nem fejeződött be. Ellenőrizd a kapcsolatot, és próbáld újra.',
-  'settings.offline.notice.loadFailed': 'Nem sikerült olvasni az eszköz offline tárhelyét. Általában segít a gyorsítótár törlése.',
+  'settings.offline.notice.loadFailed':
+    'Nem sikerült olvasni az eszköz offline tárhelyét. Általában segít a gyorsítótár törlése.',
   'settings.offline.clear': 'Gyorsítótár törlése',
   'settings.offline.clearConfirm':
     'Törlöd az összes offline utazási adatot? Online állapotban bármikor újraszinkronizálhatsz.',
@@ -571,7 +574,8 @@ const settings: TranslationStrings = {
   'settings.apiScopes.bucket-list': 'Kívánságlista',
   'settings.apiScopes.stats': 'Összesítések',
   'settings.apiKeys.title': 'API-kulcsok',
-  'settings.apiKeys.description': 'Kulcsok a nyilvános API-hoz, hogy más szoftverek olvashassák az utazásaidat. Csak olvasható: a kulcs semmit nem módosít és nem töröl.',
+  'settings.apiKeys.description':
+    'Kulcsok a nyilvános API-hoz, hogy más szoftverek olvashassák az utazásaidat. Csak olvasható: a kulcs semmit nem módosít és nem töröl.',
   'settings.apiKeys.create': 'Kulcs létrehozása',
   'settings.apiKeys.empty': 'Még nincs kulcs. Hozz létre egyet más szoftver csatlakoztatásához.',
   'settings.apiKeys.createdAt': 'létrehozva',
@@ -582,11 +586,13 @@ const settings: TranslationStrings = {
   'settings.apiKeys.deleteFailed': 'A kulcsot nem sikerült törölni',
   'settings.apiKeys.createFailed': 'A kulcsot nem sikerült létrehozni',
   'settings.apiKeys.copy': 'Másolás',
-  'settings.apiKeys.docsHint': 'Küldd a kulcsot "Authorization: Bearer ..." vagy "X-API-Key: ..." fejlécként a /api/v1 címre.',
+  'settings.apiKeys.docsHint':
+    'Küldd a kulcsot "Authorization: Bearer ..." vagy "X-API-Key: ..." fejlécként a /api/v1 címre.',
   'settings.apiKeys.endpoint': 'Végpont',
   'settings.apiKeys.neverUsed': 'még nem használt',
   'settings.apiKeys.loadFailed': 'Nem sikerült betölteni a kulcsaidat. Töltsd újra az oldalt, és próbáld újra.',
-  'settings.apiKeys.limitReached': '{max} kulcsod van, ennél több egy fiókhoz nem tartozhat. Törölj egy már nem használt kulcsot, hogy újat hozhass létre.',
+  'settings.apiKeys.limitReached':
+    '{max} kulcsod van, ennél több egy fiókhoz nem tartozhat. Törölj egy már nem használt kulcsot, hogy újat hozhass létre.',
   'settings.apiKeys.copyFailed': 'A másolás nem sikerült. Jelöld ki a szöveget, és másold ki kézzel.',
   'settings.apiKeys.modal.createTitle': 'API-kulcs létrehozása',
   'settings.apiKeys.modal.name': 'Név',

@@ -80,10 +80,10 @@ const oauth: TranslationStrings = {
   'oauth.authorize.loading': 'Loading…', // en-fallback
   'oauth.authorize.errorTitle': 'Authorization Error', // en-fallback
   'oauth.authorize.loginTitle': 'Sign in to continue', // en-fallback
-  'oauth.authorize.loginDescription': '{client} wants access to your TREK account. Please sign in first.', // en-fallback
-  'oauth.authorize.loginButton': 'Sign in to TREK', // en-fallback
+  'oauth.authorize.loginDescription': '{client} wants access to your Trip Mate account. Please sign in first.', // en-fallback
+  'oauth.authorize.loginButton': 'Sign in to Trip Mate', // en-fallback
   'oauth.authorize.requestLabel': 'Authorization Request', // en-fallback
-  'oauth.authorize.requestDescription': 'This application is requesting access to your TREK account.', // en-fallback
+  'oauth.authorize.requestDescription': 'This application is requesting access to your Trip Mate account.', // en-fallback
   'oauth.authorize.trustNote': 'Only grant access to applications you trust. Your data stays on your server.', // en-fallback
   'oauth.authorize.selectScope': 'Select at least one scope', // en-fallback
   'oauth.authorize.approveOneScope': 'Approve ({count} scope)', // en-fallback
@@ -98,17 +98,23 @@ const oauth: TranslationStrings = {
   'oauth.scope.group.files': 'Файлы',
   'oauth.scope.group.settings': 'Настройки',
   'oauth.scope.files:read.label': 'Просмотр файлов поездки',
-  'oauth.scope.files:read.description': 'Список документов поездки: названия, размеры, кто их загрузил и с чем они связаны',
+  'oauth.scope.files:read.description':
+    'Список документов поездки: названия, размеры, кто их загрузил и с чем они связаны',
   'oauth.scope.files:write.label': 'Управление файлами поездки',
-  'oauth.scope.files:write.description': 'Переименование и описание файлов, привязка к бронированиям и местам, отметка и удаление в корзину',
+  'oauth.scope.files:write.description':
+    'Переименование и описание файлов, привязка к бронированиям и местам, отметка и удаление в корзину',
   'oauth.scope.files:content.label': 'Чтение содержимого файлов',
-  'oauth.scope.files:content.description': 'Чтение содержимого загруженного документа, например PDF бронирования или билета',
+  'oauth.scope.files:content.description':
+    'Чтение содержимого загруженного документа, например PDF бронирования или билета',
   'oauth.scope.settings:read.label': 'Просмотр ваших настроек',
-  'oauth.scope.settings:read.description': 'Чтение единиц измерения, формата времени, языка, валюты по умолчанию и стартовой страницы',
+  'oauth.scope.settings:read.description':
+    'Чтение единиц измерения, формата времени, языка, валюты по умолчанию и стартовой страницы',
   'oauth.scope.settings:write.label': 'Изменение ваших настроек',
-  'oauth.scope.settings:write.description': 'Изменение единиц измерения, формата времени, языка, валюты по умолчанию и стартовой страницы. Никогда сохранённых ключей API',
+  'oauth.scope.settings:write.description':
+    'Изменение единиц измерения, формата времени, языка, валюты по умолчанию и стартовой страницы. Никогда сохранённых ключей API',
   'oauth.scope.group.plugins': 'Плагины',
   'oauth.scope.plugins:use.label': 'Запуск инструментов плагинов',
-  'oauth.scope.plugins:use.description': 'Позволяет этому клиенту вызывать инструменты, которые предоставляют плагины, установленные и одобренные администратором. Каждый плагин действует с уже выданными ему правами, а не с областями доступа этого токена',
+  'oauth.scope.plugins:use.description':
+    'Позволяет этому клиенту вызывать инструменты, которые предоставляют плагины, установленные и одобренные администратором. Каждый плагин действует с уже выданными ему правами, а не с областями доступа этого токена',
 };
 export default oauth;

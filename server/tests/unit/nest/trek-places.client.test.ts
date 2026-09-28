@@ -1,6 +1,6 @@
 /**
- * The TREK Places client: what it sends, what it refuses, and how it maps an
- * answer onto the record shape the rest of TREK already reads.
+ * The Trip Mate Places client: what it sends, what it refuses, and how it maps an
+ * answer onto the record shape the rest of Trip Mate already reads.
  *
  * fetch is stubbed rather than hit: the point is the contract, and a unit test
  * that depends on a live service tells you about the service.
@@ -46,7 +46,7 @@ import {
   trekPlacesSearch,
   resetTrekPlacesBreaker,
   type TrekPlace,
-} from '../../../src/nest/maps/trek-places.client';
+} from '../../../src/nest/maps/tripmate-places.client';
 
 const PLACE: TrekPlace = {
   gers: 'abc-123',
@@ -168,10 +168,10 @@ describe('trekPlacesSearch', () => {
     stubFetch({ query: 'x', results: [] });
     await trekPlacesSearch('x');
     const headers = calls[0].init?.headers as Record<string, string>;
-    const token = headers['X-TREK-Instance'];
+    const token = headers['X-Trip Mate-Instance'];
     // Stable, opaque, and derived from the instance URL rather than a user or
     // an install id: it exists so one caller cannot exhaust everyone's limit.
-    expect(token).toMatch(/^trek-[a-z0-9]+$/);
+    expect(token).toMatch(/^tripmate-[a-z0-9]+$/);
     expect(token).not.toContain('example.org');
   });
 
@@ -179,7 +179,7 @@ describe('trekPlacesSearch', () => {
     const token = async () => {
       stubFetch({ query: 'x', results: [] });
       await trekPlacesSearch('x');
-      return (calls[0].init?.headers as Record<string, string>)['X-TREK-Instance'];
+      return (calls[0].init?.headers as Record<string, string>)['X-Trip Mate-Instance'];
     };
     const configured = await token();
     // Derived from the URL, not generated: a token that changed per call would
@@ -187,7 +187,7 @@ describe('trekPlacesSearch', () => {
     expect(await token()).toBe(configured);
     env.app.appUrl = '';
     const unconfigured = await token();
-    expect(unconfigured).toMatch(/^trek-[a-z0-9]+$/);
+    expect(unconfigured).toMatch(/^tripmate-[a-z0-9]+$/);
     // Two instances the far side must be able to tell apart for its rate limit.
     expect(unconfigured).not.toBe(configured);
   });
@@ -201,7 +201,7 @@ describe('trekPlacesSearch', () => {
     const token = async () => {
       stubFetch({ query: 'x', results: [] });
       await trekPlacesSearch('x');
-      return (calls[0].init?.headers as Record<string, string>)['X-TREK-Instance'];
+      return (calls[0].init?.headers as Record<string, string>)['X-Trip Mate-Instance'];
     };
 
     env.app.appUrl = '';
@@ -256,7 +256,7 @@ describe('reading the body', () => {
   it('refuses a body past the megabyte cap instead of buffering it', async () => {
     // The first chunk is under the cap, the second takes it over.
     stubStreamingFetch([BIG, BIG]);
-    await expect(trekPlacesSearch('x')).rejects.toThrow('TREK Places API response too large');
+    await expect(trekPlacesSearch('x')).rejects.toThrow('Trip Mate Places API response too large');
   });
 
   it('drops the connection instead of draining the rest of an oversized body', async () => {
@@ -264,7 +264,7 @@ describe('reading the body', () => {
     // which is the case that has a connection left to drop. Cancelling a stream
     // that already ended is a no-op and would assert nothing.
     stubStreamingFetch([BIG, BIG, BIG]);
-    await expect(trekPlacesSearch('x')).rejects.toThrow('TREK Places API response too large');
+    await expect(trekPlacesSearch('x')).rejects.toThrow('Trip Mate Places API response too large');
     expect(streamCancelled).toBe(true);
   });
 
@@ -290,7 +290,7 @@ describe('reading the body', () => {
     // Not unbounded — a hostile or broken upstream must not be able to hand the
     // instance an endless body just because the path is the bulk one.
     stubStreamingFetch(Array.from({ length: 8 }, () => BIG));
-    await expect(trekPlacesArea(BOX, 1)).rejects.toThrow('TREK Places API response too large');
+    await expect(trekPlacesArea(BOX, 1)).rejects.toThrow('Trip Mate Places API response too large');
     expect(streamCancelled).toBe(true);
   });
 });
@@ -442,7 +442,7 @@ describe('trekPlacesById', () => {
 
 describe('the switch', () => {
   it('lets nothing leave once the operator turned the index off, a lookup by id included', async () => {
-    // TREK_PLACES_ENABLED=false is a promise about egress. The service checks
+    // TRIPMATE_PLACES_ENABLED=false is a promise about egress. The service checks
     // it before each call it makes; this is the one place every request passes,
     // so a caller that did not is stopped here rather than at the firewall.
     env.maps.trekPlacesEnabled = false;
@@ -571,7 +571,7 @@ describe('toPlaceRecord', () => {
       lat: 54.0879,
       website: 'https://losteria.net/',
       phone: '+49381',
-      source: 'trek-places',
+      source: 'tripmate-places',
     });
   });
 
@@ -603,7 +603,7 @@ describe('toPlaceRecord', () => {
   });
 
   // #2483: Overture keeps a website the way the operator typed it.
-  it('TREK-PLACES-2483-01: a website without a scheme gains https, one that is no website becomes null', () => {
+  it('Trip Mate-PLACES-2483-01: a website without a scheme gains https, one that is no website becomes null', () => {
     const withSite = (website: string | null) => toPlaceRecord({ ...PLACE, contact: { ...PLACE.contact, website } }).website;
     expect(withSite('fr.wikipedia.org/wiki/Chapelle_Sainte-Barbe_du_Faouët')).toBe(
       'https://fr.wikipedia.org/wiki/Chapelle_Sainte-Barbe_du_Faouët',

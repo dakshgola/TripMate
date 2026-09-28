@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { AirtrailImportResult } from '@trek/shared';
+import type { AirtrailImportResult } from '@tripmate/shared';
 import { DatabaseService } from '../database/database.service';
 import { RealtimeService } from '../realtime/realtime.service';
 import { ReservationsService } from '../reservations/reservations.service';

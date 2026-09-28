@@ -6,7 +6,7 @@ Single-container Docker run — suitable for testing or simple personal installs
 
 ```bash
 docker run -d \
-  --name trek \
+  --name tripmate \
   -p 3000:3000 \
   -v ./data:/app/data \
   -v ./uploads:/app/uploads \
@@ -29,7 +29,7 @@ Pass additional `-e` flags for timezone and CORS/email link support:
 
 ```bash
   -e TZ=Europe/Berlin \
-  -e ALLOWED_ORIGINS=https://trek.example.com \
+  -e ALLOWED_ORIGINS=https://tripmate.example.com \
 ```
 
 See [Environment-Variables](Environment-Variables) for the full list.
@@ -48,7 +48,7 @@ Replace `mauriceboe/trek:latest` in the run command with your chosen tag to pin 
 
 | Volume | Container path | What lives there |
 |---|---|---|
-| `./data` | `/app/data` | `travel.db` (SQLite database), `logs/trek.log`, `.jwt_secret`, `.encryption_key` |
+| `./data` | `/app/data` | `travel.db` (SQLite database), `logs/tripmate.log`, `.jwt_secret`, `.encryption_key` |
 | `./uploads` | `/app/uploads` | Uploaded files (photos, documents, covers, avatars) |
 
 Both volumes must survive container replacement — they are your persistent state. Never remove them before pulling a new image.
@@ -59,7 +59,7 @@ The run command above uses bind mounts (`./data`, `./uploads`). You can use Dock
 
 ```bash
 docker run -d \
-  --name trek \
+  --name tripmate \
   -p 3000:3000 \
   -v trek_data:/app/data \
   -v trek_uploads:/app/uploads \
@@ -87,8 +87,8 @@ curl -s http://localhost:3000/api/health
 ## Verify the Container Is Running
 
 ```bash
-docker ps --filter name=trek
-docker logs trek
+docker ps --filter name=tripmate
+docker logs tripmate
 ```
 
 ## Limitations of `docker run`
@@ -97,7 +97,7 @@ A bare `docker run` command has no built-in secret management and is harder to r
 
 ## Next Steps
 
-- [Reverse-Proxy](Reverse-Proxy) — HTTPS is required for PWA install and the `trek_session` cookie `secure` flag
+- [Reverse-Proxy](Reverse-Proxy) — HTTPS is required for PWA install and the `tripmate_session` cookie `secure` flag
 - [Install-Docker-Compose](Install-Docker-Compose) — recommended for production
 - [Environment-Variables](Environment-Variables) — full list of configurable variables
 - [Updating](Updating) — how to pull a new image without losing data

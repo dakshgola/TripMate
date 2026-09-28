@@ -2,7 +2,7 @@ import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
 
 /**
- * Server-side createZodDto wrappers over the @trek/shared tag contracts.
+ * Server-side createZodDto wrappers over the @tripmate/shared tag contracts.
  *
  * Neither uses the shared schema as written. `createTagRequestSchema` declares
  * `name: z.string().min(1)`, and the pipe reports a rejection as

@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { manualSchoolRegionId } from '@trek/shared';
+import { manualSchoolRegionId } from '@tripmate/shared';
 import { RealtimeService } from '../realtime/realtime.service';
 import { DatabaseService } from '../database/database.service';
 import { NotificationsService } from '../notifications/notifications.service';

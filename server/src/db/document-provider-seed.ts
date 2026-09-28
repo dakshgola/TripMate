@@ -99,7 +99,7 @@ const FIELDS: ProviderFieldRow[] = [
   { provider_id: 'nextcloud', field_key: 'base_url', label: 'providerUrl', input_type: 'url', placeholder: 'https://cloud.example.com', hint: null, required: 1, secret: 0, sort_order: 0 },
   { provider_id: 'nextcloud', field_key: 'login_name', label: 'providerUsername', input_type: 'text', placeholder: 'username', hint: 'hintNextcloudLogin', required: 1, secret: 0, sort_order: 1 },
   { provider_id: 'nextcloud', field_key: 'app_password', label: 'providerAppPassword', input_type: 'password', placeholder: 'app password', hint: 'hintNextcloudAppPassword', required: 1, secret: 1, sort_order: 2 },
-  { provider_id: 'nextcloud', field_key: 'base_path', label: 'providerBasePath', input_type: 'text', placeholder: '/TREK', hint: 'hintBasePath', required: 0, secret: 0, sort_order: 3 },
+  { provider_id: 'nextcloud', field_key: 'base_path', label: 'providerBasePath', input_type: 'text', placeholder: '/Trip Mate', hint: 'hintBasePath', required: 0, secret: 0, sort_order: 3 },
   { provider_id: 'nextcloud', field_key: 'allow_insecure_tls', label: 'allowInsecureTls', input_type: 'checkbox', placeholder: null, hint: null, required: 0, secret: 0, sort_order: 4 },
 
   // OpenCloud: auth-app token, spaces instead of folders.
@@ -114,7 +114,7 @@ const FIELDS: ProviderFieldRow[] = [
   { provider_id: 'synologydrive', field_key: 'username', label: 'providerUsername', input_type: 'text', placeholder: 'username', hint: 'hintSynologyUser', required: 1, secret: 0, sort_order: 1 },
   { provider_id: 'synologydrive', field_key: 'password', label: 'providerPassword', input_type: 'password', placeholder: 'password', hint: null, required: 1, secret: 1, sort_order: 2 },
   { provider_id: 'synologydrive', field_key: 'otp_code', label: 'providerOTP', input_type: 'text', placeholder: '123456', hint: 'hintSynologyOtp', required: 0, secret: 1, sort_order: 3 },
-  { provider_id: 'synologydrive', field_key: 'base_path', label: 'providerBasePath', input_type: 'text', placeholder: '/trek', hint: 'hintBasePath', required: 0, secret: 0, sort_order: 4 },
+  { provider_id: 'synologydrive', field_key: 'base_path', label: 'providerBasePath', input_type: 'text', placeholder: '/tripmate', hint: 'hintBasePath', required: 0, secret: 0, sort_order: 4 },
   { provider_id: 'synologydrive', field_key: 'allow_insecure_tls', label: 'allowInsecureTls', input_type: 'checkbox', placeholder: null, hint: null, required: 0, secret: 0, sort_order: 5 },
 ];
 

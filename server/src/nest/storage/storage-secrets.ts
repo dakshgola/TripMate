@@ -4,7 +4,7 @@ import {
   type StorageBackend,
   type StorageBackendTypeId,
   type StorageConfig,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import { decrypt_api_key, maybe_encrypt_api_key } from '../common/crypto/apiKeyCrypto';
 import { StorageBackendError } from './storage.types';
 

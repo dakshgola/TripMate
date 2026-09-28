@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { render } from '@testing-library/react'
-import type { BookElement, BookSpread } from '@trek/shared'
-import { bookPageSetupSchema } from '@trek/shared'
+import type { BookElement, BookSpread } from '@tripmate/shared'
+import { bookPageSetupSchema } from '@tripmate/shared'
 import { SpreadView } from '../../../src/components/Studio/SpreadView'
 import { tileView } from '../../../src/components/Studio/mapTiles'
 

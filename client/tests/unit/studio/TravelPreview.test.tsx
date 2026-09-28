@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import type { BookElement } from '@trek/shared'
+import type { BookElement } from '@tripmate/shared'
 import { render } from '../../helpers/render'
 import { TravelPreview } from '../../../src/components/Studio/TravelPreview'
 

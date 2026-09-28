@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { bookPageSetupSchema, bookSpreadSchema } from '@trek/shared'
+import { bookPageSetupSchema, bookSpreadSchema } from '@tripmate/shared'
 import { fireEvent, render } from '../../helpers/render'
 import { StudioCanvas } from '../../../src/components/Studio/StudioCanvas'
 import { useStudioStore } from '../../../src/store/studioStore'
@@ -90,7 +90,7 @@ describe('a file dropped on the sheet', () => {
     const stage = mount(onDropFiles)
 
     fireEvent.drop(stage, {
-      dataTransfer: { ...transfer([file()], ['application/x-trek-photo']), getData: () => '42' },
+      dataTransfer: { ...transfer([file()], ['application/x-tripmate-photo']), getData: () => '42' },
     })
 
     expect(onDropFiles).not.toHaveBeenCalled()

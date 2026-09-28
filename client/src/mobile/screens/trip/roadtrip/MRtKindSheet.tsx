@@ -5,7 +5,7 @@ import type { MTripSheetsProps } from '../MTripShell'
 import { useTranslation } from '../../../../i18n'
 import { STOP_KINDS } from '../../../../components/Roadtrip/stopKinds'
 import { FormSheetHeader } from '../sheets/PlSheetChrome'
-import type { RoadtripStopType } from '@trek/shared'
+import type { RoadtripStopType } from '@tripmate/shared'
 
 /** What the chain hands over when a stop's disc is tapped. */
 interface RtKindSheetPayload {

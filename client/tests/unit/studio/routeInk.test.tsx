@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import type { BookElement } from '@trek/shared'
-import { bookElementSchema } from '@trek/shared'
+import type { BookElement } from '@tripmate/shared'
+import { bookElementSchema } from '@tripmate/shared'
 import { render } from '../../helpers/render'
 import { TravelElementView } from '../../../src/components/Studio/TravelElements'
 

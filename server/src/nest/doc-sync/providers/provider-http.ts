@@ -1,5 +1,5 @@
 import { pipeline, Readable, Transform } from 'node:stream';
-import type { DocsyncErrorCode } from '@trek/shared';
+import type { DocsyncErrorCode } from '@tripmate/shared';
 import { safeFetch, SsrfBlockedError } from '../../../utils/ssrfGuard';
 import { discardBody } from '../../../utils/cappedFetch';
 

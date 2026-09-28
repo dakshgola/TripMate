@@ -138,7 +138,7 @@ export default function MSettingsMcp() {
   const mcpEndpoint = `${window.location.origin}/mcp`
   const jsonConfigOAuth = `{
   "mcpServers": {
-    "trek": {
+    "tripmate": {
       "command": "npx",
       "args": [
         "mcp-remote",
@@ -151,7 +151,7 @@ export default function MSettingsMcp() {
 }`
   const jsonConfigToken = `{
   "mcpServers": {
-    "trek": {
+    "tripmate": {
       "command": "npx",
       "args": [
         "mcp-remote",

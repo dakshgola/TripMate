@@ -73,7 +73,7 @@ import { PermissionsService } from '../../src/nest/permissions/permissions.servi
 let checkPermission: MockInstance;
 
 import { AssignmentsModule } from '../../src/nest/assignments/assignments.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 describe('Assignments e2e (real auth guard + temp SQLite)', () => {

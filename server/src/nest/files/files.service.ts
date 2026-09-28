@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import path from 'path';
 import type { Readable } from 'node:stream';
 import type { Request } from 'express';
-import type { TrekWsPayload, TrekWsTripEventName } from '@trek/shared';
+import type { TrekWsPayload, TrekWsTripEventName } from '@tripmate/shared';
 import { RealtimeService } from '../realtime/realtime.service';
 import { PermissionsService } from '../permissions/permissions.service';
 import { avatarUrl } from '../common/avatarUrl';
@@ -99,7 +99,7 @@ export class FilesService {
   // ---------------------------------------------------------------------------
 
   authenticateDownload(req: Request): { userId: number } | { error: string; status: number } {
-    const cookieToken = (req as { cookies?: Record<string, string> }).cookies?.trek_session;
+    const cookieToken = (req as { cookies?: Record<string, string> }).cookies?.tripmate_session;
     const authHeader = req.headers['authorization'];
     const bearerToken = authHeader ? (authHeader.split(' ')[1] || undefined) : undefined;
     const queryToken = req.query.token as string | undefined;

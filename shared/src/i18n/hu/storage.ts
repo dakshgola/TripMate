@@ -12,14 +12,14 @@ const storage: TranslationStrings = {
   'storage.field.region': 'Régió',
   'storage.help.region': 'Hagyd az alapértelmezettet, hacsak a szolgáltatód nem igényel konkrét régiót.',
   'storage.field.keyPrefix': 'Kulcs-előtag',
-  'storage.help.keyPrefix': 'Opcionális előtag, amely minden objektumkulcs elé kerül, pl. trek/prod.',
+  'storage.help.keyPrefix': 'Opcionális előtag, amely minden objektumkulcs elé kerül, pl. tripmate/prod.',
   'storage.field.retries': 'Újrapróbálkozások',
   'storage.field.timeoutMs': 'Időtúllépés (ms)',
   'storage.field.primary': 'Elsődleges backend',
   'storage.field.replicas': 'Replikák',
   'storage.title': 'Tárhely',
   'storage.description':
-    'Itt tárolja a TREK a feltöltött fájlokat, fotókat és biztonsági mentéseket. Semmi sem változik, amíg nem mentesz.',
+    'Itt tárolja a Trip Mate a feltöltött fájlokat, fotókat és biztonsági mentéseket. Semmi sem változik, amíg nem mentesz.',
   'storage.loading': 'Betöltés…',
   'storage.saved': 'A tárhely-konfiguráció mentve',
   'storage.save': 'Módosítások mentése',
@@ -67,7 +67,7 @@ const storage: TranslationStrings = {
   'storage.category.avatars': 'Profilképek',
   'storage.category.places': 'Helyképek',
   'storage.category.photos-google': 'Google fotó gyorsítótár',
-  'storage.category.photos-trek': 'TREK fotó gyorsítótár',
+  'storage.category.photos-tripmate': 'Trip Mate fotó gyorsítótár',
   'storage.category.backups': 'Biztonsági mentések',
 
   // What each category stores — rendered under the label in the category map.
@@ -79,8 +79,8 @@ const storage: TranslationStrings = {
   'storage.categoryDesc.places': 'Helyekhez és gyűjteményhelyekhez csatolt képek — feltöltve vagy importálva.',
   'storage.categoryDesc.photos-google':
     'A Google Places fotóinak gyorsítótárazott másolatai — újra lekérhetők, biztonságosan elveszíthetők.',
-  'storage.categoryDesc.photos-trek':
-    'A Fotók (Memories) funkció által használt TREK fotószolgáltatás gyorsítótárazott fotói — újra lekérhetők, biztonságosan elveszíthetők.',
+  'storage.categoryDesc.photos-tripmate':
+    'A Fotók (Memories) funkció által használt Trip Mate fotószolgáltatás gyorsítótárazott fotói — újra lekérhetők, biztonságosan elveszíthetők.',
   'storage.categoryDesc.backups':
     'A Biztonsági mentés panel vagy az ütemezés által létrehozott szerver-mentési archívumok.',
   'storage.health.title': 'Állapot',
@@ -138,6 +138,7 @@ const storage: TranslationStrings = {
   'storage.migrate.cancel': 'Áthelyezés megszakítása',
   'storage.migrate.promptCancel': 'Mégse',
   'storage.migrate.queued': 'Várólistán: {categories}',
-  'storage.migrate.queueDropped': 'A következő áthelyezés nem indítható el — a hátralévő várólista törlésre került: {categories}',
+  'storage.migrate.queueDropped':
+    'A következő áthelyezés nem indítható el — a hátralévő várólista törlésre került: {categories}',
 };
 export default storage;

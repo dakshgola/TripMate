@@ -4,7 +4,7 @@ import {
   PUBLIC_API_SCOPES,
   type PublicApiGrant,
   type PublicApiScope,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import { DatabaseService } from '../database/database.service';
 import { EphemeralTokenService } from '../auth/ephemeral-token.service';
 // Import from sessionManager directly, NOT the ../../mcp barrel: the barrel pulls

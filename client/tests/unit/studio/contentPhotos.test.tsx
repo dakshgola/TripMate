@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import type { BookDocument, BookPageSetup } from '@trek/shared'
-import { bookPageSetupSchema, normalizeBookDocument } from '@trek/shared'
+import type { BookDocument, BookPageSetup } from '@tripmate/shared'
+import { bookPageSetupSchema, normalizeBookDocument } from '@tripmate/shared'
 import { fireEvent, render, screen, waitFor, within } from '../../helpers/render'
 import { StudioSidebar, type JourneySource } from '../../../src/components/Studio/StudioSidebar'
 import type { StudioUploader } from '../../../src/components/Studio/studioUpload'

@@ -1,6 +1,6 @@
-// Shared types for the TREK travel planner.
+// Shared types for the Trip Mate travel planner.
 //
-// Domain entity/response types are now sourced from @trek/shared — the single
+// Domain entity/response types are now sourced from @tripmate/shared — the single
 // source of truth shared with the server. The Zod schemas there are built to
 // match the REAL server response shapes (see shared/src/<domain>/*.schema.ts,
 // each documented against the producing service). Re-exported here so the rest
@@ -29,7 +29,7 @@ import type {
   Tag,
   Category,
   AppearanceConfig,
-} from '@trek/shared'
+} from '@tripmate/shared'
 
 export type {
   Trip,
@@ -117,7 +117,7 @@ export interface Settings {
   routing_base_url?: string
   /**
    * Base URL of the Valhalla asked for the avoidance questions OSRM cannot answer.
-   * Undefined means the public FOSSGIS instance TREK ships with; empty means an
+   * Undefined means the public FOSSGIS instance Trip Mate ships with; empty means an
    * operator turned the second engine off and "other ways" goes back to OSRM alone.
    */
   valhalla_base_url?: string
@@ -218,7 +218,7 @@ export interface Settings {
   dashboard_fx_from?: string
   dashboard_fx_to?: string
   dashboard_timezones?: string[]
-  /** Where opening TREK lands: the dashboard, or straight in the active trip. */
+  /** Where opening Trip Mate lands: the dashboard, or straight in the active trip. */
   start_page?: 'dashboard' | 'active_trip'
   /** Which planner tab 'active_trip' opens on — a TripTabId (constants/tripTabs). */
   start_trip_tab?: string
@@ -401,11 +401,11 @@ export interface AppConfig {
 export type TranslationFn = (key: string, params?: Record<string, string | number | null>) => string
 
 // WebSocket event type — `type` is derived from the shared WS event registry
-// (TREK_WS_EVENTS): a registered name, the reserved plugin namespace, or (via
+// (TRIPMATE_WS_EVENTS): a registered name, the reserved plugin namespace, or (via
 // the `string & {}` widening) a transport control frame the registry
 // deliberately excludes (welcome/joined/left/error). Payload fields stay
 // index-typed at this boundary; per-event payload contracts live in
-// TrekWsPayload<E> from @trek/shared.
+// TrekWsPayload<E> from @tripmate/shared.
 export interface WebSocketEvent {
   type: TrekWsEventName | TrekWsPluginEventName | (string & {})
   [key: string]: unknown

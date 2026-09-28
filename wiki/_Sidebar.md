@@ -31,7 +31,7 @@
 - [[Trip Members and Sharing|Trip-Members-and-Sharing]]
 - [[Trip Planner Overview|Trip-Planner-Overview]]
 - [[Places and Search|Places-and-Search]]
-- [[TREK Places API|TREK-Places-API]]
+- [[Trip Mate Places API|Trip Mate-Places-API]]
 - [[Day Plans and Notes|Day-Plans-and-Notes]]
 - [[Map Features|Map-Features]]
 - [[Route Optimization|Route-Optimization]]

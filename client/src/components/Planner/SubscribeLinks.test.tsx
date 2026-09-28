@@ -2,8 +2,8 @@
 import { render, screen, fireEvent, waitFor, within, act } from '../../../tests/helpers/render';
 import { SubscribeLinks } from './SubscribeLinks';
 
-const HTTPS = 'https://trek.example/api/trips/7/feed/abc.ics';
-const WEBCAL = 'webcal://trek.example/api/trips/7/feed/abc.ics';
+const HTTPS = 'https://tripmate.example/api/trips/7/feed/abc.ics';
+const WEBCAL = 'webcal://tripmate.example/api/trips/7/feed/abc.ics';
 
 function stubClipboard(writeText: (t: string) => Promise<void>) {
   Object.defineProperty(navigator, 'clipboard', { configurable: true, writable: true, value: { writeText } });

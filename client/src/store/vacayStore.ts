@@ -1,4 +1,4 @@
-import { manualSchoolRegionId } from '@trek/shared'
+import { manualSchoolRegionId } from '@tripmate/shared'
 import { create } from 'zustand'
 import apiClient from '../api/client'
 import { useAuthStore } from './authStore'
@@ -14,7 +14,7 @@ import type {
   VacayAddYearRequest, VacayToggleEntryRequest, VacayCompanyHolidayRequest,
   VacayUpdateStatsRequest, VacayShareRequest, VacayShareUpdateRequest,
   VacayYearSettingsRequest,
-} from '@trek/shared'
+} from '@tripmate/shared'
 
 const ax = apiClient
 

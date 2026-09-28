@@ -1,8 +1,8 @@
 # Plugin Development
 
 Build a plugin with the `trek-plugin-sdk` package. A plugin is a directory with a
-manifest (`trek-plugin.json`), a built server entry, and — for page/widget
-plugins — a static client bundle. TREK runs your server code in an **isolated
+manifest (`tripmate-plugin.json`), a built server entry, and — for page/widget
+plugins — a static client bundle. Trip Mate runs your server code in an **isolated
 child process** and reaches it only over RPC; the browser part runs in a
 **sandboxed, opaque-origin iframe**. There is no other way in or out.
 
@@ -12,9 +12,9 @@ Two resources sit alongside this page:
 
 - **[Plugin-Skill](https://github.com/liketrek/Plugin-Skill)** — an agent skill
   that teaches Claude Code and other SKILL.md-compatible coding agents how to
-  build, test and publish a TREK plugin. It covers the same ground as this page,
+  build, test and publish a Trip Mate plugin. It covers the same ground as this page,
   but the agent reads it instead of you. Add it to the repo you build your plugin
-  in and it loads automatically whenever the task touches TREK plugins.
+  in and it loads automatically whenever the task touches Trip Mate plugins.
 - **[TREK-Plugins](https://github.com/liketrek/TREK-Plugins)** — the community
   registry. It is a static index with no server and no account: you list a plugin
   by opening a pull request that adds one JSON file. Your plugin's code stays in
@@ -22,7 +22,7 @@ Two resources sit alongside this page:
   [Plugin-Publishing](Plugin-Publishing) for the submission flow and the CI gates.
 
 Neither is required. You can build, install and run a plugin without touching
-either — the registry only matters when you want other people's TREK instances
+either — the registry only matters when you want other people's Trip Mate instances
 to find it.
 
 ## Scaffold
@@ -41,24 +41,24 @@ This emits:
 
 ```
 my-plugin/
-  trek-plugin.json      # manifest — including `icon`, and a widget's `slot`
+  tripmate-plugin.json      # manifest — including `icon`, and a widget's `slot`
   package.json          # CommonJS marker + the SDK as a devDependency
   server/index.js       # your plugin code (built, plain JS)
   client/index.html     # native UI via the design kit (page / widget / trip-page only)
   README.md             # fill this in — the registry requires four sections and a screenshot
-  docs/                 # where docs/screenshot.png goes; `trek-plugin shot` writes it
+  docs/                 # where docs/screenshot.png goes; `tripmate-plugin shot` writes it
   .gitattributes        # LF everywhere, so the packed artifact's sha256 is reproducible
 ```
 
-The scaffold declares `"trek": ">=4.0.0 <5.0.0"` — the host surface it is written
-against is the TREK 4 surface, and claiming an older floor would let the plugin
+The scaffold declares `"tripmate": ">=4.0.0 <5.0.0"` — the host surface it is written
+against is the Trip Mate 4 surface, and claiming an older floor would let the plugin
 install on a host where parts of it are missing. Picking `oauth:client` in the wizard
 also scaffolds the five instance-scope settings the OAuth broker reads (see
 [Host-brokered OAuth](#host-brokered-oauth-ctxoauth)).
 
 What you get **runs and packs immediately**, but it does **not** pass `validate` yet:
 the README is still a template and there is no screenshot. That is deliberate — those
-are yours to write — and `trek-plugin status` says exactly what is missing.
+are yours to write — and `tripmate-plugin status` says exactly what is missing.
 
 ## Run it locally with hot reload
 
@@ -70,16 +70,16 @@ npx trek-plugin-sdk dev        # http://localhost:4317
 injects `require('trek-plugin-sdk')` from the CLI itself, exactly like TREK
 injects it in production. It loads your `server/index.js` through the same
 `definePlugin` contract the host uses and gives you a **real request loop
-without a full TREK**: a dashboard
+without a full Trip Mate**: a dashboard
 listing your routes, the routes served under `/api/<path>`, your page/widget UI
 at `/ui`, a **themed host preview at `/preview`** (a real sandboxed frame with a
-theme/accent/appearance toggle, `trek.invoke()` proxied to your routes), and a reload
+theme/accent/appearance toggle, `tripmate.invoke()` proxied to your routes), and a reload
 on every save. The injected `ctx` is the **full surface** — every capability (`costs`, `packing`,
 `files`, `notify`, `ai`, `settings`, `scheduler`, `meta`, `oauth`, `weather`, `rates`,
 `journal`, `db.tx`, …), not just routes + `db:own` — and **enforces exactly the
 permissions your manifest grants**: an ungranted call throws `PERMISSION_DENIED`, so
 you catch a missing grant here rather than after install. `db:own` is backed by a real
-SQLite file (`.trek-dev/db.sqlite`) when the runtime has `node:sqlite`; every other
+SQLite file (`.tripmate-dev/db.sqlite`) when the runtime has `node:sqlite`; every other
 capability is served from your fixtures with the same rules as production.
 
 - Hit a route as an unauthenticated request with `?_anon=1` (an `auth: true`
@@ -99,18 +99,18 @@ capability is served from your fixtures with the same rules as production.
 
 `dev` above is fast but its host data is **synthetic** (fixtures / a scratch
 `db:own`). When you need your plugin to run against **real** trips, places,
-reservations, costs and real membership/permissions, link it into a running TREK
+reservations, costs and real membership/permissions, link it into a running Trip Mate
 instance instead of packing + uploading it every time.
 
-On the **server** (a local `trek-dev` or a dev instance — **never production**), set:
+On the **server** (a local `tripmate-dev` or a dev instance — **never production**), set:
 
 ```bash
-TREK_PLUGINS_DEV_LINK=1
+TRIPMATE_PLUGINS_DEV_LINK=1
 ```
 
 With the flag set, the **Admin → Plugins** tab shows a **“Link a local plugin”**
 field. Paste the absolute path to your **built** plugin directory (the one holding
-`trek-plugin.json` + `server/index.js` — build first, the loader runs the compiled
+`tripmate-plugin.json` + `server/index.js` — build first, the loader runs the compiled
 artifact, not TS source) and hit **Link**. The plugin is symlinked into the plugins
 volume and registered INACTIVE, and shows a **Dev-link** badge in the list.
 
@@ -127,12 +127,12 @@ membership-gated data, the acting user resolved host-side, no impersonation — 
 origin never touches the security gate.
 
 **Hot-reload:** rebuild your plugin (e.g. `tsc --watch` emitting `server/index.js`)
-and TREK re-forks it automatically (a file-watch on the linked dir). To force it,
+and Trip Mate re-forks it automatically (a file-watch on the linked dir). To force it,
 `POST /api/admin/plugins/:id/reload`, or just hit **Restart** in the admin UI —
 both re-fork the child, picking up the new code (a rebuilt manifest that widened
 permissions still requires explicit re-consent).
 
-> Dev-link is gated behind `TREK_PLUGINS_DEV_LINK` on top of admin + the plugin
+> Dev-link is gated behind `TRIPMATE_PLUGINS_DEV_LINK` on top of admin + the plugin
 > kill-switch, and is **off by default**. It loads unsigned local code that mutates
 > live between restarts, and under `npm run dev` the OS permission jail is off — so
 > only ever enable it on a machine you control, pointed at a dev instance.
@@ -147,7 +147,7 @@ permissions still requires explicit re-consent).
 - **widget** — adds a card to the dashboard (`sidebar` slot), a hero-bar overlay
   (`hero` slot), a panel inside the trip planner's **place-detail** view
   (`place-detail` slot — the frame also receives the open `placeId` in
-  `trek:context`, so it can show place-specific info like reviews or ratings), a
+  `tripmate:context`, so it can show place-specific info like reviews or ratings), a
   panel inside the **day-detail** view (`day-detail` slot — receives the open `dayId`;
   the home for per-day content like outfit planning, live flight status or logistics),
   or a panel at the foot of a booking card in the **reservation-detail** view
@@ -156,7 +156,7 @@ permissions still requires explicit re-consent).
   transport and booking cards). Set the slot in `capabilities.widget.slot`.
 - **trip-page** — adds a tab **inside every trip planner**, so your UI lives in the
   trip alongside Plan / Transports / Files. The frame is the same sandboxed iframe as
-  a `page`, but it receives the current `tripId` in `trek:context` (so you can scope
+  a `page`, but it receives the current `tripId` in `tripmate:context` (so you can scope
   data to the open trip) and it has no dashboard nav entry. The tab shows on desktop
   and mobile. Via `capabilities.tripPage` the plugin can also **take over core tabs**:
   `replaces: ['transports', 'buchungen', …]` hides the named tabs while the plugin is
@@ -170,7 +170,7 @@ permissions still requires explicit re-consent).
 `trek-plugin-sdk` is **injected at runtime** — the host makes
 `require('trek-plugin-sdk')` resolve inside the child, so **do not vendor it**
 into your artifact. Add it as a **devDependency** only, so you get types,
-`createMockHost` for tests, and the `trek-plugin` CLI:
+`createMockHost` for tests, and the `tripmate-plugin` CLI:
 
 ```bash
 npm i -D trek-plugin-sdk
@@ -179,7 +179,7 @@ npm i -D trek-plugin-sdk
 ## Writing the server
 
 Your `server/index.js` exports a `definePlugin(...)` object. Everything reaches
-TREK through the `ctx` argument.
+Trip Mate through the `ctx` argument.
 
 ```js
 const { definePlugin } = require('trek-plugin-sdk')
@@ -209,7 +209,7 @@ module.exports = definePlugin({
     }},
   ],
 
-  // Scheduled jobs — TREK owns the cron and calls your handler on the schedule.
+  // Scheduled jobs — Trip Mate owns the cron and calls your handler on the schedule.
   // Requires the `jobs:run` permission (opt-in: scheduled work runs with NO user,
   // so its trip reads are refused — a job can only use ctx.db and declared egress).
   // An invalid cron expression is skipped; jobs stop when the plugin is deactivated.
@@ -239,7 +239,7 @@ module.exports = definePlugin({
 
 The routes and job ids you declare here are the **authoritative** ones: the host
 reads them off your loaded definition (a route's array index is its internal id).
-The scaffold writes no `routes` block into `trek-plugin.json`, and the manifest
+The scaffold writes no `routes` block into `tripmate-plugin.json`, and the manifest
 parser would ignore one if you added it.
 
 ### The `ctx` object
@@ -313,7 +313,7 @@ cannot read another user's trips by passing an id.
 the acting user can **access** the trip AND holds the app's edit permission for that
 entity (`place_edit` / `day_edit` / `trip_edit`), exactly like the web UI. They run
 through the same services and broadcast the same events, so open sessions update
-live. Input is validated against TREK's own schemas (a bad payload is `BAD_PARAMS`),
+live. Input is validated against Trip Mate's own schemas (a bad payload is `BAD_PARAMS`),
 and every write is recorded in the tamper-evident capability audit log against the
 acting user. A plugin can only change what its user could change by hand.
 
@@ -325,7 +325,7 @@ across every trip the acting user can access. `create/update/delete(tripId, …)
 trip's budget items — gated exactly like a normal budget write (the same model the planner
 write scopes `db:write:places`/`days`/`itinerary`/`trips` use): the acting user needs the
 **`budget_edit`** permission on that trip, the input is
-validated against TREK's budget schema, and a successful create broadcasts the same
+validated against Trip Mate's budget schema, and a successful create broadcasts the same
 `budget:created` event the app emits. **Every `ctx.costs.*` call also requires the Costs
 (budget) addon to be enabled** — if the admin has turned it off, the call is refused with
 `RESOURCE_FORBIDDEN`.
@@ -341,7 +341,7 @@ gets `{}`) and only an explicit, credential-free **allowlist** — the common pr
 signature + event headers (`stripe-signature`, `x-hub-signature-256`,
 `svix-signature`, `x-gitlab-event`, `content-type`, `user-agent`, …). **`Cookie`,
 `Authorization`, `X-Socket-Id` and every session/forwarded-auth header are stripped**
-and never reach your code, so a forwarded header can't leak a TREK session.
+and never reach your code, so a forwarded header can't leak a Trip Mate session.
 
 **`req.rawBodyBase64` is webhook-only in the same way** — the exact request bytes,
 base64-encoded, on `auth: false` routes, and absent on an authenticated route, which
@@ -351,7 +351,7 @@ bytes against a secret you hold in `ctx.config` (admin-set instance setting) or
 `JSON.stringify` won't reproduce the key order, whitespace and unicode escaping the
 sender signed, so the HMAC won't match.
 
-The snippet below handles two things, and yours has to as well. TREK only keeps the
+The snippet below handles two things, and yours has to as well. Trip Mate only keeps the
 raw bytes when a body parser ran, i.e. for `application/json` and
 `application/x-www-form-urlencoded` — a webhook posted as `text/plain` or a GET
 callback with no body arrives with `rawBodyBase64: null`, so **fail closed** instead
@@ -377,20 +377,20 @@ stores blobs in `ctx.db` runs into, so build against them.
 
 | Area | Limit |
 |---|---|
-| every `ctx.*` call | burst 60, sustained 20/s, 16 in-flight per plugin; a throttled call is refused with `HOST_ERROR: rate limit exceeded — slow down ctx.* calls`. Tunable with `TREK_PLUGIN_RPC_BURST` / `TREK_PLUGIN_RPC_PER_SEC` / `TREK_PLUGIN_RPC_INFLIGHT` (see [Environment-Variables](Environment-Variables#plugins)) |
+| every `ctx.*` call | burst 60, sustained 20/s, 16 in-flight per plugin; a throttled call is refused with `HOST_ERROR: rate limit exceeded — slow down ctx.* calls`. Tunable with `TRIPMATE_PLUGIN_RPC_BURST` / `TRIPMATE_PLUGIN_RPC_PER_SEC` / `TRIPMATE_PLUGIN_RPC_INFLIGHT` (see [Environment-Variables](Environment-Variables#plugins)) |
 | `ctx.db` | 256 MB per plugin, one result set capped at 100,000 rows |
 | event subscriptions | 200 events buffered per plugin while it restarts, dropped unreplayed after 15 minutes |
-| the plugin process | 300 MB RSS (`TREK_PLUGIN_MAX_RSS_MB`) — the child is killed past it; auto-disabled with status `error` after 5 crashes inside a 5-minute window |
+| the plugin process | 300 MB RSS (`TRIPMATE_PLUGIN_MAX_RSS_MB`) — the child is killed past it; auto-disabled with status `error` after 5 crashes inside a 5-minute window |
 
 The daily `ctx.ai` / `ctx.notify` budgets and the `ctx.meta` quotas are in
-[Testing without a running TREK](#testing-without-a-running-trek), because the mock
+[Testing without a running Trip Mate](#testing-without-a-running-tripmate), because the mock
 host enforces those too.
 
 ## Writing the client (page / widget)
 
 The iframe is served same-origin from `/plugin-frame/<id>/…` but sandboxed
 **without `allow-same-origin`**, so it runs at an **opaque origin**: it can't read
-cookies or the parent DOM. It talks to TREK only via `postMessage` (target origin
+cookies or the parent DOM. It talks to Trip Mate only via `postMessage` (target origin
 must be `'*'` — an opaque frame has no nameable origin).
 
 Your whole `client/` directory is served (and shipped by `pack`) — not just
@@ -402,32 +402,32 @@ done. That includes React/Vue/Svelte builds — no more inlining the bundle into
 
 ### The design kit (recommended)
 
-Because the frame can't load TREK's stylesheet, we ship it. Drop **one line** in your
+Because the frame can't load Trip Mate's stylesheet, we ship it. Drop **one line** in your
 `client/index.html` `<head>`:
 
 ```html
-<!-- trek:ui -->
+<!-- tripmate:ui -->
 ```
 
-`dev` and `pack` expand that marker into the inlined **TREK design kit** — a
-token-driven stylesheet plus a `window.trek` bridge. It costs nothing to keep the
+`dev` and `pack` expand that marker into the inlined **Trip Mate design kit** — a
+token-driven stylesheet plus a `window.tripmate` bridge. It costs nothing to keep the
 source a one-liner, and a rebuild always ships the current kit. The kit:
 
 - gives you native components — **glass panels, cards, buttons, inputs, chips, list
   rows, hover** — that swap correctly between light and dark;
 - follows the user's live **accent scheme, custom accent and high-contrast** (it
-  applies the tokens TREK sends);
+  applies the tokens Trip Mate sends);
 - mirrors the host's **appearance flags** (reduced-motion, no-transparency, density);
-- **auto-reports your height** (widgets/pages self-size — no manual `trek:resize`);
-- installs `window.trek` so you never hand-roll `postMessage`.
+- **auto-reports your height** (widgets/pages self-size — no manual `tripmate:resize`);
+- installs `window.tripmate` so you never hand-roll `postMessage`.
 
-`window.trek` also carries **`trek.ui`** — tiny DOM builders that emit kit-styled
+`window.tripmate` also carries **`tripmate.ui`** — tiny DOM builders that emit kit-styled
 elements, so you can build UI with no bundler and no CSS:
 
 ```js
-const { ui } = trek
+const { ui } = tripmate
 ui.mount(ui.card([
-  ui.el('div', { class: 'trek-title', text: 'Nearby' }),
+  ui.el('div', { class: 'tripmate-title', text: 'Nearby' }),
   ui.button('Refresh', { variant: 'primary', onClick: refresh }),
   ui.chip('open now', 'success'),
 ]))
@@ -442,77 +442,77 @@ The scaffold seeds a working example. A minimal client:
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- trek:ui -->
+  <!-- tripmate:ui -->
 </head>
 <body>
-  <div class="trek-glass trek-stack" style="margin:16px">
-    <div class="trek-title">Your plugin</div>
-    <p class="trek-muted" id="hello">…</p>
-    <button class="trek-btn trek-btn--primary" id="go">Say hello</button>
+  <div class="tripmate-glass tripmate-stack" style="margin:16px">
+    <div class="tripmate-title">Your plugin</div>
+    <p class="tripmate-muted" id="hello">…</p>
+    <button class="tripmate-btn tripmate-btn--primary" id="go">Say hello</button>
   </div>
   <script>
-    trek.onContext((ctx) => { document.getElementById('hello').textContent = 'theme: ' + ctx.theme })
+    tripmate.onContext((ctx) => { document.getElementById('hello').textContent = 'theme: ' + ctx.theme })
     document.getElementById('go').addEventListener('click', async () => {
-      try { const data = await trek.invoke('/hello'); document.getElementById('hello').textContent = 'Hello ' + data.hello }
-      catch (e) { trek.notify('error', e.message) }
+      try { const data = await tripmate.invoke('/hello'); document.getElementById('hello').textContent = 'Hello ' + data.hello }
+      catch (e) { tripmate.notify('error', e.message) }
     })
   </script>
 </body>
 </html>
 ```
 
-**Component classes** (the bootstrap adds `trek-ui` to `<body>`):
+**Component classes** (the bootstrap adds `tripmate-ui` to `<body>`):
 
 | Class | What |
 |---|---|
-| `.trek-glass` | the signature frosted-glass surface |
-| `.trek-card` | a solid card |
-| `.trek-interactive` | add to a glass/card for the native hover-lift |
-| `.trek-btn` + `--primary` / `--secondary` / `--ghost` / `--danger` | buttons |
-| `.trek-input` / `.trek-textarea` / `.trek-select` / `.trek-label` | form controls |
-| `.trek-chip` + `--accent` / `--success` / `--danger` / `--warning` / `--info` | chips / badges |
-| `.trek-row` | a hover-highlight list row |
-| `.trek-title` / `.trek-muted` / `.trek-faint` | text helpers |
-| `.trek-stack` / `.trek-cluster` | vertical / horizontal flex with gap |
-| `.trek-menu-enter` / `.trek-menu-enter-left` | dropdown enter (scales from its trigger corner) |
-| `.trek-popover-enter` / `.trek-modal-enter` / `.trek-backdrop-enter` / `.trek-toast-enter` | the host's enter animations (`trek-modal-enter` becomes a bottom drawer below 640px) |
-| `.trek-page-enter` | subtle fade-up on mount |
-| `.trek-stagger` | children fade up with a 40ms cascade |
-| `.trek-skeleton` | shimmer loading placeholder |
-| `.trek-pie-reveal` / `.trek-bar-fill` | chart reveal animations (plus the `trek-progress-fill` keyframe, driven by `--trek-progress-to`) |
+| `.tripmate-glass` | the signature frosted-glass surface |
+| `.tripmate-card` | a solid card |
+| `.tripmate-interactive` | add to a glass/card for the native hover-lift |
+| `.tripmate-btn` + `--primary` / `--secondary` / `--ghost` / `--danger` | buttons |
+| `.tripmate-input` / `.tripmate-textarea` / `.tripmate-select` / `.tripmate-label` | form controls |
+| `.tripmate-chip` + `--accent` / `--success` / `--danger` / `--warning` / `--info` | chips / badges |
+| `.tripmate-row` | a hover-highlight list row |
+| `.tripmate-title` / `.tripmate-muted` / `.tripmate-faint` | text helpers |
+| `.tripmate-stack` / `.tripmate-cluster` | vertical / horizontal flex with gap |
+| `.tripmate-menu-enter` / `.tripmate-menu-enter-left` | dropdown enter (scales from its trigger corner) |
+| `.tripmate-popover-enter` / `.tripmate-modal-enter` / `.tripmate-backdrop-enter` / `.tripmate-toast-enter` | the host's enter animations (`tripmate-modal-enter` becomes a bottom drawer below 640px) |
+| `.tripmate-page-enter` | subtle fade-up on mount |
+| `.tripmate-stagger` | children fade up with a 40ms cascade |
+| `.tripmate-skeleton` | shimmer loading placeholder |
+| `.tripmate-pie-reveal` / `.tripmate-bar-fill` | chart reveal animations (plus the `tripmate-progress-fill` keyframe, driven by `--tripmate-progress-to`) |
 
 All animations honour reduced motion: under `[data-reduce-motion]` or
 `prefers-reduced-motion` they degrade to a gentle 120ms fade, and the skeleton
 stops shimmering.
 
 **Selects are auto-upgraded.** With the kit inlined, every native `<select>` becomes
-a host-styled, keyboard-accessible dropdown that matches TREK — the OS-drawn popup
+a host-styled, keyboard-accessible dropdown that matches Trip Mate — the OS-drawn popup
 can't be themed, so the kit replaces it while keeping the real `<select>` as the
 value/form source (it still fires `change`). Write a plain `<select>` and it just
-works. Add `data-trek-native` to a field to keep the browser default; `multiple` and
+works. Add `data-tripmate-native` to a field to keep the browser default; `multiple` and
 `size` selects are always left native.
 
-**The `window.trek` bridge:**
+**The `window.tripmate` bridge:**
 
 | Call | Does |
 |---|---|
-| `trek.onContext(cb)` | run `cb(context)` now (if already received) and on every update; returns an unsubscribe fn |
-| `trek.context` | the last context (or `null`) |
-| `trek.invoke(sub, { method, body })` | call your own route; returns a `Promise` (rejects with an `Error`, `.code` = HTTP status) |
-| `trek.session.get(key, options?)`, `.set(key, value, options?)`, `.remove(key, options?)`, `.clear(options?)` | Host-managed JSON session state for this browser tab. `scope: 'plugin'` is the default; `scope: 'trip'` additionally partitions it by the trip in view and rejects with `NO_TRIP_CONTEXT` outside a trip. Missing `get()` values are `undefined`. Each plugin or individual trip scope is limited to 32 keys, 64 characters/key, and 1 KiB/value. Do not use it to store secrets. |
-| `trek.notify(level, message, duration?)` | toast (`info`/`success`/`warning`/`error`); optional duration in ms (clamped 1.5–15s) |
-| `trek.confirm({ title?, message, confirmLabel?, cancelLabel?, danger? })` | host-rendered native confirm dialog; resolves `true`/`false` (one at a time — a second concurrent request resolves `false`) |
-| `trek.navigate(to)` | in-app navigation (relative paths only) |
-| `trek.openExternal(url)` | open an `http(s)` URL in a new tab (the sandbox itself can't) |
-| `trek.onEvent(cb)` | `cb(event, tripId)` for core events on the trip in view — names only, no payloads; refetch via `invoke()`; returns an unsubscribe fn |
-| `trek.resize(px)` | override the auto height (ignored on full pages — see `trek:resize` below) |
-| `trek.geolocation.get()` | one browser position as `{ lat, lng, accuracy, heading, speed, timestamp }` — **needs the `geolocation:read` permission**; rejects with `.code` `forbidden`/`denied`/`timeout`/`unavailable`/`unsupported`. The HOST reads the position (the sandbox never gains the API) and the browser's own site prompt still applies |
-| `trek.geolocation.watch(cb)` | stream positions — `cb(position, error)`; returns an unsubscribe fn. The host keeps ONE GPS watch per frame and force-stops it when the frame closes |
-| `trek.ready()` / `trek.requestContext()` | re-handshake / re-request the context |
+| `tripmate.onContext(cb)` | run `cb(context)` now (if already received) and on every update; returns an unsubscribe fn |
+| `tripmate.context` | the last context (or `null`) |
+| `tripmate.invoke(sub, { method, body })` | call your own route; returns a `Promise` (rejects with an `Error`, `.code` = HTTP status) |
+| `tripmate.session.get(key, options?)`, `.set(key, value, options?)`, `.remove(key, options?)`, `.clear(options?)` | Host-managed JSON session state for this browser tab. `scope: 'plugin'` is the default; `scope: 'trip'` additionally partitions it by the trip in view and rejects with `NO_TRIP_CONTEXT` outside a trip. Missing `get()` values are `undefined`. Each plugin or individual trip scope is limited to 32 keys, 64 characters/key, and 1 KiB/value. Do not use it to store secrets. |
+| `tripmate.notify(level, message, duration?)` | toast (`info`/`success`/`warning`/`error`); optional duration in ms (clamped 1.5–15s) |
+| `tripmate.confirm({ title?, message, confirmLabel?, cancelLabel?, danger? })` | host-rendered native confirm dialog; resolves `true`/`false` (one at a time — a second concurrent request resolves `false`) |
+| `tripmate.navigate(to)` | in-app navigation (relative paths only) |
+| `tripmate.openExternal(url)` | open an `http(s)` URL in a new tab (the sandbox itself can't) |
+| `tripmate.onEvent(cb)` | `cb(event, tripId)` for core events on the trip in view — names only, no payloads; refetch via `invoke()`; returns an unsubscribe fn |
+| `tripmate.resize(px)` | override the auto height (ignored on full pages — see `tripmate:resize` below) |
+| `tripmate.geolocation.get()` | one browser position as `{ lat, lng, accuracy, heading, speed, timestamp }` — **needs the `geolocation:read` permission**; rejects with `.code` `forbidden`/`denied`/`timeout`/`unavailable`/`unsupported`. The HOST reads the position (the sandbox never gains the API) and the browser's own site prompt still applies |
+| `tripmate.geolocation.watch(cb)` | stream positions — `cb(position, error)`; returns an unsubscribe fn. The host keeps ONE GPS watch per frame and force-stops it when the frame closes |
+| `tripmate.ready()` / `tripmate.requestContext()` | re-handshake / re-request the context |
 
 **Preview it:** `npx trek-plugin-sdk dev`, then open **`/preview`** — it renders your UI
 in a real sandboxed frame with a theme/accent/appearance toggle and proxies
-`trek.invoke()` to your routes.
+`tripmate.invoke()` to your routes.
 
 ### The raw bridge (without the kit)
 
@@ -520,53 +520,53 @@ If you'd rather not use the kit, talk to the frame yourself. Announce readiness 
 handle messages:
 
 ```js
-window.parent.postMessage({ type: 'trek:ready' }, '*') // TREK replies with trek:context
+window.parent.postMessage({ type: 'tripmate:ready' }, '*') // Trip Mate replies with tripmate:context
 window.addEventListener('message', (e) => {
   if (e.source !== window.parent) return          // opaque frame: trust the parent window
   const m = e.data
-  if (m.type === 'trek:context') { /* m.theme, m.tokens, m.appearance, … (below) */ }
-  if (m.type === 'trek:response') { /* m.requestId, m.data */ }
-  if (m.type === 'trek:error')    { /* m.requestId, m.code, m.message */ }
+  if (m.type === 'tripmate:context') { /* m.theme, m.tokens, m.appearance, … (below) */ }
+  if (m.type === 'tripmate:response') { /* m.requestId, m.data */ }
+  if (m.type === 'tripmate:error')    { /* m.requestId, m.code, m.message */ }
 })
-window.parent.postMessage({ type: 'trek:invoke', requestId: '1', sub: '/status', method: 'GET' }, '*')
+window.parent.postMessage({ type: 'tripmate:invoke', requestId: '1', sub: '/status', method: 'GET' }, '*')
 ```
 
-**Messages you send to TREK:**
+**Messages you send to Trip Mate:**
 
 | Message | Payload | Effect |
 |---|---|---|
-| `trek:ready` | — | TREK replies with `trek:context` |
-| `trek:context:request` | — | re-request the context |
-| `trek:navigate` | `{ to }` | in-app navigation (relative paths only) |
-| `trek:notify` | `{ level, message, duration? }` | toast; `level` = `info`/`success`/`warning`/`error`; `duration` in ms, clamped 1500–15000 |
-| `trek:resize` | `{ height }` | set the iframe height (capped at 2000px); **ignored for full pages** (`page` / `trip-page`), which always fill their host container |
-| `trek:invoke` | `{ requestId, sub, method, body }` | call your own route; resolves as `trek:response` or `trek:error` |
-| `trek:confirm` | `{ requestId, title?, message?, confirmLabel?, cancelLabel?, danger? }` | host-rendered ConfirmDialog; answered as `trek:confirm:result` |
-| `trek:openExternal` | `{ url }` | open an `http(s)` URL in a new `noopener` tab; anything else is dropped |
-| `trek:geolocation` | `{ requestId, action?: 'get'\|'watch'\|'clear' }` | host-brokered browser position (needs `geolocation:read`); answered as `trek:geolocation:result`, watch updates stream as `trek:geolocation:update` |
-| `trek:session:get` | `{ requestId, key, scope?: 'plugin'\|'trip' }` | read tab-scoped state; answered as `trek:response` with `data` (`undefined` when unset) |
-| `trek:session:set` | `{ requestId, key, value, scope? }` | store a JSON-serialisable value; answered as `trek:response` |
-| `trek:session:remove` | `{ requestId, key, scope? }` | drop one key; answered as `trek:response` |
-| `trek:session:clear` | `{ requestId, scope? }` | drop every key in that scope; answered as `trek:response` |
+| `tripmate:ready` | — | Trip Mate replies with `tripmate:context` |
+| `tripmate:context:request` | — | re-request the context |
+| `tripmate:navigate` | `{ to }` | in-app navigation (relative paths only) |
+| `tripmate:notify` | `{ level, message, duration? }` | toast; `level` = `info`/`success`/`warning`/`error`; `duration` in ms, clamped 1500–15000 |
+| `tripmate:resize` | `{ height }` | set the iframe height (capped at 2000px); **ignored for full pages** (`page` / `trip-page`), which always fill their host container |
+| `tripmate:invoke` | `{ requestId, sub, method, body }` | call your own route; resolves as `tripmate:response` or `tripmate:error` |
+| `tripmate:confirm` | `{ requestId, title?, message?, confirmLabel?, cancelLabel?, danger? }` | host-rendered ConfirmDialog; answered as `tripmate:confirm:result` |
+| `tripmate:openExternal` | `{ url }` | open an `http(s)` URL in a new `noopener` tab; anything else is dropped |
+| `tripmate:geolocation` | `{ requestId, action?: 'get'\|'watch'\|'clear' }` | host-brokered browser position (needs `geolocation:read`); answered as `tripmate:geolocation:result`, watch updates stream as `tripmate:geolocation:update` |
+| `tripmate:session:get` | `{ requestId, key, scope?: 'plugin'\|'trip' }` | read tab-scoped state; answered as `tripmate:response` with `data` (`undefined` when unset) |
+| `tripmate:session:set` | `{ requestId, key, value, scope? }` | store a JSON-serialisable value; answered as `tripmate:response` |
+| `tripmate:session:remove` | `{ requestId, key, scope? }` | drop one key; answered as `tripmate:response` |
+| `tripmate:session:clear` | `{ requestId, scope? }` | drop every key in that scope; answered as `tripmate:response` |
 
-The session messages are rejected as `trek:error` with `code` set to `NO_TRIP_CONTEXT`
+The session messages are rejected as `tripmate:error` with `code` set to `NO_TRIP_CONTEXT`
 (trip scope outside a trip), `SESSION_INVALID_KEY` (empty or over 64 characters),
 `SESSION_INVALID_VALUE` (not JSON-serialisable), `SESSION_VALUE_TOO_LARGE` (over 1 KiB
 serialised), `SESSION_KEY_LIMIT` (over 32 keys in that scope) or `SESSION_STORAGE_ERROR`
 (the browser refused the write). The storage key itself is host-owned and includes the
 signed-in user and your plugin id, so scopes never collide.
 
-**Messages TREK sends you:**
+**Messages Trip Mate sends you:**
 
 | Message | Payload |
 |---|---|
-| `trek:context` | `{ tripId, placeId, dayId, reservationId, userId, theme, locale, dir, hostOrigin, user, formats, tokens, appearance }` (see below) — re-sent whenever the theme, appearance, **locale or formats** change |
-| `trek:response` | `{ requestId, data }` — a successful `trek:invoke` or `trek:session:*` |
-| `trek:error` | `{ requestId, code, message }` — a failed request; for `trek:invoke` `code` is the HTTP status or `"error"`, for `trek:session:*` one of the `SESSION_*` / `NO_TRIP_CONTEXT` codes above |
-| `trek:confirm:result` | `{ requestId, confirmed }` — the user's answer to your `trek:confirm` |
-| `trek:event` | `{ event, tripId }` — a core event fired on the trip in view; **names only, never payloads** — refetch what you need via `trek:invoke` |
-| `trek:geolocation:result` | `{ requestId, position? \| watching? \| cleared? \| error? }` — the answer to a `trek:geolocation` request (`error` ∈ `forbidden`/`denied`/`timeout`/`unavailable`/`unsupported`) |
-| `trek:geolocation:update` | `{ position? , error? }` — a streamed watch fix (`position` = `{ lat, lng, accuracy, heading, speed, timestamp }`) |
+| `tripmate:context` | `{ tripId, placeId, dayId, reservationId, userId, theme, locale, dir, hostOrigin, user, formats, tokens, appearance }` (see below) — re-sent whenever the theme, appearance, **locale or formats** change |
+| `tripmate:response` | `{ requestId, data }` — a successful `tripmate:invoke` or `tripmate:session:*` |
+| `tripmate:error` | `{ requestId, code, message }` — a failed request; for `tripmate:invoke` `code` is the HTTP status or `"error"`, for `tripmate:session:*` one of the `SESSION_*` / `NO_TRIP_CONTEXT` codes above |
+| `tripmate:confirm:result` | `{ requestId, confirmed }` — the user's answer to your `tripmate:confirm` |
+| `tripmate:event` | `{ event, tripId }` — a core event fired on the trip in view; **names only, never payloads** — refetch what you need via `tripmate:invoke` |
+| `tripmate:geolocation:result` | `{ requestId, position? \| watching? \| cleared? \| error? }` — the answer to a `tripmate:geolocation` request (`error` ∈ `forbidden`/`denied`/`timeout`/`unavailable`/`unsupported`) |
+| `tripmate:geolocation:update` | `{ position? , error? }` — a streamed watch fix (`position` = `{ lat, lng, accuracy, heading, speed, timestamp }`) |
 
 The frame's CSP is locked down per plugin: `default-src 'none'`, own inline
 scripts/styles + the plugin's **own** `/plugin-frame/<id>/` files only (no other
@@ -590,11 +590,11 @@ after a click or tap; popups stay blocked.
 | `locale` | e.g. `'en'` |
 | `hostOrigin` | the app origin |
 | `user` | `{ name, avatar, isAdmin } \| null` — **never** an email; role only as a boolean |
-| `formats` | `{ locale, currency, timeFormat, distanceUnit, temperatureUnit, timezone, blurBookingCodes }` — `blurBookingCodes` mirrors the user's "blur booking codes" preference so your UI can hide confirmation numbers until they're revealed. It is a **display hint, not redaction**: the codes still reach your plugin in full over `trek:invoke`. |
-| `tokens` | TREK's resolved CSS design tokens for the current theme (see below) |
+| `formats` | `{ locale, currency, timeFormat, distanceUnit, temperatureUnit, timezone, blurBookingCodes }` — `blurBookingCodes` mirrors the user's "blur booking codes" preference so your UI can hide confirmation numbers until they're revealed. It is a **display hint, not redaction**: the codes still reach your plugin in full over `tripmate:invoke`. |
+| `tokens` | Trip Mate's resolved CSS design tokens for the current theme (see below) |
 | `appearance` | `{ scheme, density: 'comfortable'\|'compact', reducedMotion, noTransparency }` |
 
-### Matching the TREK look by hand (`m.tokens`)
+### Matching the Trip Mate look by hand (`m.tokens`)
 
 `tokens` is the global palette resolved for the **current** theme — surfaces
 (`--bg-card`, `--bg-hover`, …), text (`--text-primary`/`-secondary`/`-muted`/`-faint`),
@@ -614,7 +614,7 @@ function applyContext(m) {
   document.documentElement.toggleAttribute('data-reduce-motion', !!a.reducedMotion)
   document.documentElement.toggleAttribute('data-no-transparency', !!a.noTransparency)
 }
-// in your trek:context handler: applyContext(m)
+// in your tripmate:context handler: applyContext(m)
 ```
 
 `tokens`/`appearance` are non-secret display values only, re-sent on every theme or
@@ -623,13 +623,13 @@ dashboard uses — `--glass-*`, `--r-*`, `--sh-*` — aren't in `tokens`; the de
 bakes those, since they only change with light/dark, not the accent.) Honour
 `appearance.reducedMotion` / `noTransparency`, and the frame also inherits the OS
 `prefers-reduced-motion`. Dashboard widgets are wrapped in the native glassy tool card
-and auto-size to the height you report via `trek:resize`, so render flush and
+and auto-size to the height you report via `tripmate:resize`, so render flush and
 transparent — the design kit reports your height for you.
 
 ## On a phone
 
-TREK 4 gives the phone its own design, and your plugin is mounted inside it. Two things
-follow from that, and both arrive in `trek:context` under `viewport`:
+Trip Mate 4 gives the phone its own design, and your plugin is mounted inside it. Two things
+follow from that, and both arrive in `tripmate:context` under `viewport`:
 
 ```js
 m.viewport = {
@@ -651,7 +651,7 @@ m.viewport = {
 | `detail-slot` | reports height | A narrow column inside a place/day/reservation panel. |
 | `action-frame` | fills | The modal a table action opens. |
 
-This matters because the contract differs: on a **filling** surface your `trek:resize`
+This matters because the contract differs: on a **filling** surface your `tripmate:resize`
 height is deliberately ignored, so give your document `height: 100%` and put the
 scrolling on an inner element. On a **reporting** surface let the content decide the
 height and never set `100%`, or the host reserves a screenful for two lines of text.
@@ -698,13 +698,13 @@ which it does from `viewport`. If you style everything yourself, they are on you
 
 ### Seeing it
 
-`trek-plugin dev` previews at a desktop size. Until that grows a phone width, resize the
+`tripmate-plugin dev` previews at a desktop size. Until that grows a phone width, resize the
 browser window and use your browser's device emulation — the frame is a real browsing
 context, so media queries inside it measure the frame, and they work.
 
 ## Settings
 
-Declare settings in the manifest; TREK renders the form (you write no settings
+Declare settings in the manifest; Trip Mate renders the form (you write no settings
 UI). `scope: "instance"` settings are set once by the admin — under
 **Admin → Plugins → ⋯ → Instance settings**, where only the fields your manifest declares
 are stored and saving re-spawns a running plugin — and arrive resolved in `ctx.config`.
@@ -723,7 +723,7 @@ Two attributes do more than decorate the form:
   form. A default satisfies `required`. It is refused on a `secret` (the manifest
   is public), must be a boolean on a `checkbox`, and must be one of the `options`
   when those are declared; the host drops a default that breaks these rules at
-  install, `trek-plugin validate` errors on it first.
+  install, `tripmate-plugin validate` errors on it first.
 - **`required`** is enforced on both ends: the form refuses Save while the field is
   blank (naming it), and the host answers `400 { error: 'Missing required setting
   "<key>"' }` if a save reaches it anyway. A `checkbox` is exempt. A required
@@ -731,17 +731,17 @@ Two attributes do more than decorate the form:
   that user at all.
 
 Any attribute outside `key, label, input_type, placeholder, hint, required, secret,
-scope, options, oauth, default` is silently dropped at install; `trek-plugin
+scope, options, oauth, default` is silently dropped at install; `tripmate-plugin
 validate` warns on one (`manifest.settings-known-keys`).
 
 ### A custom settings page (`capabilities.settingsUi`)
 
 When declared fields aren't enough — a picker with previews, anything visual —
 set `"capabilities": { "settingsUi": true }` and ship a `client/settings.html`.
-TREK frames it as a card on the user's **Settings → Plugins** page, in the same
+Trip Mate frames it as a card on the user's **Settings → Plugins** page, in the same
 opaque-origin sandbox and postMessage bridge as your widget: it can only reach
-your own declared routes (`trek:invoke`), receives `trek:context`, and should
-report its height via `trek:resize`. Persist whatever it edits through one of
+your own declared routes (`tripmate:invoke`), receives `tripmate:context`, and should
+report its height via `tripmate:resize`. Persist whatever it edits through one of
 your own routes (e.g. into your `db:own` database keyed by `req.user.id`) — the
 settings page has no special storage powers. Hosts older than this capability
 simply ignore the flag, so declaring it never breaks an install.
@@ -750,7 +750,7 @@ simply ignore the flag, so declaring it never breaks an install.
 
 A plugin can act as an OAuth *client* of a third-party service **without ever handling the secrets**. The **host** runs the entire flow — authorize → callback → token exchange → refresh — with PKCE (S256) and a `state` check, and holds the tokens. The plugin only triggers "connect" and reads a **short-lived access token** at runtime.
 
-**Setup.** Declare the provider as `scope: "instance"` settings the admin fills in: `oauth_authorize_url`, `oauth_token_url`, `oauth_scopes` (optional), plus `oauth_client_id` and the `secret: true` `oauth_client_secret`. (A settings field may also carry an `oauth: { initPath, callbackPath }` block.) `trek-plugin create` scaffolds all five for you when you pick the `oauth:client` permission.
+**Setup.** Declare the provider as `scope: "instance"` settings the admin fills in: `oauth_authorize_url`, `oauth_token_url`, `oauth_scopes` (optional), plus `oauth_client_id` and the `secret: true` `oauth_client_secret`. (A settings field may also carry an `oauth: { initPath, callbackPath }` block.) `tripmate-plugin create` scaffolds all five for you when you pick the `oauth:client` permission.
 
 **Connecting.** A user connects under **Settings → Plugins → Connect**, which sends them to the provider's authorize page. The callback returns to `…/api/plugin-oauth/<id>/callback`; the host verifies the `state` (single-use, 10-minute TTL, bound to that user — CSRF defence), exchanges the code and stores the tokens **per user, encrypted at rest**.
 
@@ -772,7 +772,7 @@ if (!token) return { status: 401, body: 'connect this plugin first' }
 Grant `hook:user-data` and implement either handler to honour data-subject rights. Both are **userless** — the plugin only receives the `userId` and acts on its **own** `ctx.db`:
 
 ```js
-// trek-plugin.json: "permissions": ["db:own", "hook:user-data"]
+// tripmate-plugin.json: "permissions": ["db:own", "hook:user-data"]
 module.exports = definePlugin({
   async deleteUserData({ userId }, ctx) {           // erasure
     await ctx.db.exec('DELETE FROM my_prefs WHERE user_id = ?', userId)
@@ -796,7 +796,7 @@ the plugin definition and grant the matching `hook:*` permission:
 module.exports = definePlugin({
   hooks: {
     placeDetailProvider: {
-      // Return extra rows TREK renders natively on a place. Runs with the current
+      // Return extra rows Trip Mate renders natively on a place. Runs with the current
       // user bound, on a short timeout — a slow/failing call is skipped, never fatal.
       async getDetails(placeId, ctx) {
         return [{ label: 'Crowd', value: 'Quiet now' }, { label: 'Guide', url: 'https://…' }]
@@ -809,12 +809,12 @@ module.exports = definePlugin({
 | Hook | Permission | Status |
 |---|---|---|
 | `placeDetailProvider.getDetails(placeId, ctx)` → `{ label, value?, url? }[]` | `hook:place-detail-provider` | **live** — shown in the place-detail panel; also `GET /api/place-details/:placeId` |
-| `searchProvider.search(request, ctx)` → `SearchResultPlace[]` | `hook:search-provider` | **live** — answers place searches from an index TREK does not ship, drawn into the app's own search list beside the core results (#2221). `request` is `{query, limit, lang?, near?, category?, bounds?}`; each place is `{id?, name, lat, lng, address?, rating?, website?, phone?, category?, description?}`. `rating` is the field open data cannot answer — OpenStreetMap carries none — so it is what makes "the best rated one around here" answerable at all; it is clamped to 0..5. Coordinates are range-checked, strings capped, `website` must be http/https, and ids are namespaced to `plugin:<yourId>:<id>` so they can never collide with an OSM one. Called for an explicit search, **not** per keystroke. The Road trip search along the route calls it too, once per kind the person picked, with `category` (`fuel`, `charging`, `rest_area`, `campsite`, `restaurant`, `sights` or `hotel`) and `bounds` (`{south, west, north, east}`, with `near` at its centre); `query` is then a fixed English phrase for that kind such as `fuel station` or `EV charging station`. The host drops every hit outside `bounds`, and a hit whose own `category` names a different one of those seven kinds; the rest count as the requested kind. Both fields are absent on ordinary searches. Also `GET /api/plugin-search`, and to a connected assistant as the `search_places_via_plugins` MCP tool; the corridor search is `POST /api/roadtrip/search-area` and the `search_roadtrip_corridor` MCP tool |
+| `searchProvider.search(request, ctx)` → `SearchResultPlace[]` | `hook:search-provider` | **live** — answers place searches from an index Trip Mate does not ship, drawn into the app's own search list beside the core results (#2221). `request` is `{query, limit, lang?, near?, category?, bounds?}`; each place is `{id?, name, lat, lng, address?, rating?, website?, phone?, category?, description?}`. `rating` is the field open data cannot answer — OpenStreetMap carries none — so it is what makes "the best rated one around here" answerable at all; it is clamped to 0..5. Coordinates are range-checked, strings capped, `website` must be http/https, and ids are namespaced to `plugin:<yourId>:<id>` so they can never collide with an OSM one. Called for an explicit search, **not** per keystroke. The Road trip search along the route calls it too, once per kind the person picked, with `category` (`fuel`, `charging`, `rest_area`, `campsite`, `restaurant`, `sights` or `hotel`) and `bounds` (`{south, west, north, east}`, with `near` at its centre); `query` is then a fixed English phrase for that kind such as `fuel station` or `EV charging station`. The host drops every hit outside `bounds`, and a hit whose own `category` names a different one of those seven kinds; the rest count as the requested kind. Both fields are absent on ordinary searches. Also `GET /api/plugin-search`, and to a connected assistant as the `search_places_via_plugins` MCP tool; the corridor search is `POST /api/roadtrip/search-area` and the `search_roadtrip_corridor` MCP tool |
 | `warningProvider.getWarnings(tripId, ctx)` → `{ level, message, dayId?, placeId? }[]` | `hook:trip-warning-provider` | **live** — validation warnings shown as a non-blocking banner in the trip planner; also `GET /api/trip-warnings/:tripId`, and to a connected assistant as the `get_trip_warnings` MCP tool (≤20 warnings per provider, message ≤300 chars) — that path needs only the trips read scope, not `plugins:use` |
 | `tableContributor.getContributions(view, tripId, ctx)` → `TableContribution[]` | `hook:table-contributor` | **live** — host-rendered **columns/actions** keyed by `entityId` in the reservations, transports, places, day, costs, packing, files and todos views. A `column` is `{kind:'column', entityId, id, label, value?, url?, icon?, tone?}` (url is http/https/mailto only); an `action` is `{kind:'action', entityId, id, label, icon?, target}` where `target` opens your sandboxed frame (`{kind:'frame', sub}`) or calls a route (`{kind:'route', method, sub}`). All fields are bounded + normalized host-side; also `GET /api/view-contributions/:view/:tripId` |
 | `mapMarkerProvider.getMarkers(tripId, ctx)` → `MapMarkerContribution[]` | `hook:map-marker-provider` | **live** — bounded markers overlaid on the trip map (#587). Each is `{id, lat, lng, label?, popupText?, url?, icon?, tone?}`; coordinates are range-checked (−90..90 / −180..180), text length-capped, url http/https/mailto-only, count capped (≤200/plugin). Declarative only — plugin JS never runs on the map canvas. Also `GET /api/map-markers/:tripId` |
-| `mapLayerProvider.getLayers(tripId, ctx)` → `MapLayerContribution[]` | `hook:map-layer-provider` | **live** — bounded vector overlays on the trip map: a computed route, a reachable-range corridor, a zone. Each layer is `{id, name?, features}` with features `{type: 'polyline'\|'polygon'\|'circle', points?/center?+radiusM?, tone?, width?, dash?, opacity?, fill?, label?}`. Styling stays in the tone palette; width (1–8), opacity (0.05–1) and radius (≤2000 km) are clamped, `dash` is an enum. Budgets per plugin: ≤4 layers, ≤150 features, ≤8000 vertices, ≤2000 vertices/shape — an oversized or partly-invalid shape is dropped whole, never truncated. Declarative only; drawn beneath TREK's own day route on both the Leaflet and GL renderers. Also `GET /api/map-layers/:tripId` |
-| `routeProvider.getRoute(request, ctx)` → `RouteProviderResult` | `hook:route-provider` | **live** — routes a day's stops under one of the plugin's declared `capabilities.routeProfiles` (an EV profile with charging stops, a scenic profile…). `request` is `{tripId, dayId, profile, waypoints}` (2–30 located stops in visit order); the result is `{coordinates, distance, duration, legs, viaPoints?}` and is validated **whole**: ≤10000 vertices, `legs` must be exactly `waypoints−1` entries (each `{distance, duration, note?}` — `note` ≤120 chars shows on the sidebar connector), ≤40 via points (`{lat, lng, label?, tone?, dwellSeconds?}` drawn as stops on the route line). A malformed result is discarded and the planner falls back to straight lines. **Targeted, not a fan-out**: TREK calls exactly the provider whose profile the user picked in the route toggle, with a 20 s timeout (room to call an external solver through your declared egress). `POST /api/plugin-routes/:pluginId/:profileId` |
+| `mapLayerProvider.getLayers(tripId, ctx)` → `MapLayerContribution[]` | `hook:map-layer-provider` | **live** — bounded vector overlays on the trip map: a computed route, a reachable-range corridor, a zone. Each layer is `{id, name?, features}` with features `{type: 'polyline'\|'polygon'\|'circle', points?/center?+radiusM?, tone?, width?, dash?, opacity?, fill?, label?}`. Styling stays in the tone palette; width (1–8), opacity (0.05–1) and radius (≤2000 km) are clamped, `dash` is an enum. Budgets per plugin: ≤4 layers, ≤150 features, ≤8000 vertices, ≤2000 vertices/shape — an oversized or partly-invalid shape is dropped whole, never truncated. Declarative only; drawn beneath Trip Mate's own day route on both the Leaflet and GL renderers. Also `GET /api/map-layers/:tripId` |
+| `routeProvider.getRoute(request, ctx)` → `RouteProviderResult` | `hook:route-provider` | **live** — routes a day's stops under one of the plugin's declared `capabilities.routeProfiles` (an EV profile with charging stops, a scenic profile…). `request` is `{tripId, dayId, profile, waypoints}` (2–30 located stops in visit order); the result is `{coordinates, distance, duration, legs, viaPoints?}` and is validated **whole**: ≤10000 vertices, `legs` must be exactly `waypoints−1` entries (each `{distance, duration, note?}` — `note` ≤120 chars shows on the sidebar connector), ≤40 via points (`{lat, lng, label?, tone?, dwellSeconds?}` drawn as stops on the route line). A malformed result is discarded and the planner falls back to straight lines. **Targeted, not a fan-out**: Trip Mate calls exactly the provider whose profile the user picked in the route toggle, with a 20 s timeout (room to call an external solver through your declared egress). `POST /api/plugin-routes/:pluginId/:profileId` |
 | `dayScheduleProvider.getSchedule(tripId, ctx)` → `DayScheduleContribution[]` | `hook:day-schedule-provider` | **live** — time contributions rendered into the day plan on desktop and mobile: "35 min charging at this stop", "45 min security before this flight". Each is `{id, dayId, assignmentId?/reservationId?/position?, minutes?, label, tone?}` — anchored under a place/booking row or at a day's start/end (default end). `dayId` must belong to the trip (checked server-side), `minutes` (1–1440) is shown on the row **and folded into the day's route-footer total**, `label` ≤120 chars, ≤60 items/plugin. Also `GET /api/day-schedule/:tripId` |
 | `dayTintProvider.getDayTints(tripId, ctx)` → `DayTintContribution[]` | `hook:day-tint-provider` | **live** — colours painted into a day card in the Plan sidebar (and into that day's mobile chip), so a trip split into legs shows its leg membership while you scroll. Each is `{dayId, tone?, color?, badgeTone?, badgeColor?, headerTone?, headerColor?, activityTone?, activityColor?, label?}`. The card has **three separately tintable regions** — the day-number badge (also the mobile chip), the header row, and the expanded activity list — so a plugin can mark the leg boldly on the badge while leaving the dense activity list plain; `tone` / `color` are the shorthands that fill every region you do not name, and an unnamed region renders exactly as it does with no plugin. Paint a region with a palette tone or with your own `#rrggbb` (nothing else is accepted — the value lands inside a CSS colour); a colour beats a tone within a region, and anything a region names beats the shorthand. You choose the hue, the host chooses the weight: it sets the alpha per theme **and** per region and clamps a colour's lightness into a band that reads in both themes, so the tint stays subtle in light and dark, no contribution can make a day unreadable, and a tinted header hovers to a deeper mix of its own colour. `dayId` must belong to the trip (checked server-side), `label` ≤ 60 chars becomes the day's tooltip, raw array sliced at 2000. **A day takes at most one contribution, resolved whole**: within your own list the first entry for a day wins, and across plugins the first granted provider wins — so a day never flickers between colours, and a losing plugin cannot fill in the winner's untinted regions. Bounded by the trip's day count rather than a fixed item cap, which is why this is not `dayScheduleProvider` (≤60 items would tint only the first 60 days of a long trip). Also `GET /api/day-tints/:tripId` |
 | `pdfSectionProvider.getSections(tripId, ctx)` → `PdfSection[]` | `hook:pdf-section-provider` | **live** — text-only sections appended to the trip PDF export. Each is `{title, paragraphs?, table?}`; the host escapes and lays everything out itself (no markup ever reaches the document), caps counts (≤5 sections/plugin, ≤20 paragraphs, ≤8 headers, ≤50 rows) + lengths (title 120, paragraph 2000, header 60, cell 200) and clips rows to the header width. Also `GET /api/pdf-sections/:tripId` |
@@ -824,7 +824,7 @@ module.exports = definePlugin({
 | `photoProvider.search(query, {page, limit}, ctx)` / `.getById(id, ctx)` | `hook:photo-provider` | **live** — plugin photo sources aggregated at `GET /api/plugin-photos/search` (+ `/sources`, `/item`) for the picker. Each `{id, title?, thumbnailUrl, fullUrl, takenAt?}`; thumbnail/full URLs must be http/https, per-source count capped, a failing source skipped |
 | `calendarSource.getName(ctx)` / `.getEvents(userId, start, end, ctx)` | `hook:calendar-source` | **live** — plugin calendar events aggregated for the signed-in user at `GET /api/plugin-calendar?start=&end=`. Each `{id, title, start, end, allDay}` (ISO dates); count capped, a failing source skipped |
 | `notificationChannel.send(msg, config, ctx)` / `.test(config, ctx)` | `hook:notification-channel` | **live** — registers a new notification channel. **Userless** (see below). See [Notification channels](#notification-channels) |
-| `mcpToolProvider.callTool({name, args}, ctx)` + `tools: string[]` | `mcp:tools` | **live** — publishes MCP tools on TREK's own MCP server, advertised to connected assistants as `plugin_<id>_<name>`. Runs **as the requesting MCP user** (route-like ctx). Declared in `capabilities.mcpTools`; only the intersection of the manifest declaration and the `tools` array is advertised. See [MCP tools](#mcp-tools) |
+| `mcpToolProvider.callTool({name, args}, ctx)` + `tools: string[]` | `mcp:tools` | **live** — publishes MCP tools on Trip Mate's own MCP server, advertised to connected assistants as `plugin_<id>_<name>`. Runs **as the requesting MCP user** (route-like ctx). Declared in `capabilities.mcpTools`; only the intersection of the manifest declaration and the `tools` array is advertised. See [MCP tools](#mcp-tools) |
 
 Each hook method receives its args plus the per-invocation `ctx`, so any `ctx.trips.*`
 read it makes is membership-checked against the current user (like a route handler) —
@@ -832,19 +832,19 @@ with **one exception**, the notification channel, which has no acting user at al
 
 Every string a hook returns is **emoji-stripped at the render boundary** — badges, columns,
 warnings, PDF sections, map-marker labels, calendar and photo titles, notifications — so
-plugin text stays inside TREK's own icon language; use the declarative `icon` field (a
+plugin text stays inside Trip Mate's own icon language; use the declarative `icon` field (a
 lucide name) instead. Your plugin's own sandboxed frame is untouched: that markup is yours
 to design.
 
 ## Notification channels
 
-`hook:notification-channel` lets your plugin become a delivery channel alongside TREK's
+`hook:notification-channel` lets your plugin become a delivery channel alongside Trip Mate's
 built-in email / webhook / ntfy — Gotify, Pushover, Telegram, whatever takes a message.
 
 Scaffold one with:
 
 ```bash
-npx create-trek-plugin my-gotify --type integration --template notification-channel
+npx create-tripmate-plugin my-gotify --type integration --template notification-channel
 ```
 
 ```js
@@ -900,11 +900,11 @@ Notes:
   the channel carries all ten deliverable events: `trip_invite`, `booking_change`,
   `trip_reminder`, `todo_due`, `vacay_invite`, `collection_invite`, `photos_shared`,
   `collab_message`, `packing_tagged`, `plugin_notification`. The SDK exports the same list
-  as `CHANNEL_EVENTS`, and both `trek-plugin validate` and the installer refuse anything
+  as `CHANNEL_EVENTS`, and both `tripmate-plugin validate` and the installer refuse anything
   outside it with `capabilities.notificationChannel.events: "x" is not a plugin-deliverable
   event`.
 
-  The four events TREK sends that a plugin channel never carries are the admin-scoped
+  The four events Trip Mate sends that a plugin channel never carries are the admin-scoped
   `version_available` and `replica_failure` (those go over the admin's own credentials),
   the in-app-only `synology_session_cleared`, and `vacay_share`. Don't read the set off the
   table in [Notifications](Notifications) — that one lists what a user can toggle, not what
@@ -916,15 +916,15 @@ Notes:
   you need `http:outbound:<host>` per host (see below).
 - **For a self-hosted target, set `operatorEgress`** — see the next section. Your manifest can't
   name the operator's Gotify; the admin does it after install.
-- **Reaching a service on your own LAN** (a Gotify next to TREK) additionally needs
-  `TREK_PLUGIN_ALLOW_PRIVATE_EGRESS=on` on the TREK process — plugins may not reach private
+- **Reaching a service on your own LAN** (a Gotify next to Trip Mate) additionally needs
+  `TRIPMATE_PLUGIN_ALLOW_PRIVATE_EGRESS=on` on the Trip Mate process — plugins may not reach private
   addresses by default. It relaxes the policy for *every* installed plugin, so enable it only
   if you trust them all.
 
 ## MCP tools
 
-A plugin can publish tools on **TREK's own MCP server**, so an assistant a user has
-connected to TREK (Claude, or any MCP client) can call into the plugin. Three parts,
+A plugin can publish tools on **Trip Mate's own MCP server**, so an assistant a user has
+connected to Trip Mate (Claude, or any MCP client) can call into the plugin. Three parts,
 all required — miss one and nothing is advertised:
 
 1. **`capabilities.mcpTools`** in the manifest — the declaration the admin consents
@@ -933,7 +933,7 @@ all required — miss one and nothing is advertised:
    `description` required, `inputSchema` an optional JSON Schema whose root `type`
    (if present) is `"object"`.
 2. **The `mcp:tools` permission** — the one hook grant not named `hook:*`.
-   Declaring the capability without it fails `trek-plugin validate` *and* install.
+   Declaring the capability without it fails `tripmate-plugin validate` *and* install.
 3. **`hooks.mcpToolProvider`** on the definition:
 
 ```js
@@ -993,7 +993,7 @@ Semantics worth knowing before you ship one:
   the next initialize. A dev-link **Reload** does *not* invalidate — reconnect
   your MCP client yourself after changing `tools`.
 
-Admin → Plugins shows the tools a plugin will advertise. `trek-plugin dev` warns at
+Admin → Plugins shows the tools a plugin will advertise. `tripmate-plugin dev` warns at
 load about a `mcpToolProvider` without the `mcp:tools` grant and 403s
 `/__dev/fire/hook/mcpToolProvider/callTool`, like any other hook.
 
@@ -1048,13 +1048,13 @@ Notes:
   route, nor an `"instance"` key from the settings page.
 - Max 8 actions **across both scopes**, with keys unique across them too; label capped at 60
   chars (a blank one falls back to the key), hint at 200. A `scope` that is anything but
-  `"user"` or `"instance"` fails install and `trek-plugin validate` with
+  `"user"` or `"instance"` fails install and `tripmate-plugin validate` with
   `action "<key>".scope must be "user" or "instance"`.
 - An instance action needs a **running** plugin: the button is disabled until the plugin is
   active, the dialog saves an edited form before firing it, and the host answers
   `404 { error: 'Plugin is not active' }` if the child is gone anyway.
-- **Hosts older than TREK 4.2.0 ignore `scope`** and render the button on every user's
-  settings tab, so a plugin using `scope: "instance"` should set a manifest `trek` floor of
+- **Hosts older than Trip Mate 4.2.0 ignore `scope`** and render the button on every user's
+  settings tab, so a plugin using `scope: "instance"` should set a manifest `tripmate` floor of
   `>=4.2.0`.
 
 ## Operator-supplied egress hosts (`operatorEgress`)
@@ -1123,7 +1123,7 @@ place/day/reservation/accommodation/assignment/trip, `db:read:costs` for budget,
 file). Without that grant you get exactly the id hint, as before:
 
 ```js
-// trek-plugin.json: "permissions": ["events:subscribe", "db:read:trips"]
+// tripmate-plugin.json: "permissions": ["events:subscribe", "db:read:trips"]
 module.exports = definePlugin({
   events: [
     { on: 'reservation:created', async handler({ event, tripId, entityId, snapshot }, ctx) {
@@ -1170,7 +1170,7 @@ plugin to activate. If one is off, enabling the plugin is refused and the admin 
 names the addon to turn on. Turning a required addon **off** while the plugin is
 running **auto-disables the plugin** (and anything that depends on it) — a plugin
 never runs against a disabled addon. Ids are validated for shape only, so a plugin may
-name an addon a given TREK build doesn't have; it just stays un-activatable there.
+name an addon a given Trip Mate build doesn't have; it just stays un-activatable there.
 
 ### `pluginDependencies`
 
@@ -1270,7 +1270,7 @@ module.exports = definePlugin({
   user** — but unlike them they **do** receive the emitter's payload. Delivery is
   fire-and-forget on a short timeout; a slow subscriber never blocks the emitter.
 
-## Testing without a running TREK
+## Testing without a running Trip Mate
 
 `createMockHost` gives you a `ctx` that enforces the **same** permission model, so
 a test can prove your plugin degrades gracefully when a grant is missing:
@@ -1377,7 +1377,7 @@ both scopes get the acting-user ctx, exactly as the host gives both the clicker'
 - **No native modules** (`.node`, `binding.gyp`, `prebuilds/`) — rejected at pack
   and install time.
 - **Don't vendor `trek-plugin-sdk`** — it's injected at runtime (devDependency
-  only). Vendor any *other* runtime deps: TREK never runs `npm install` on a plugin.
+  only). Vendor any *other* runtime deps: Trip Mate never runs `npm install` on a plugin.
 - **Ship built JS** in `server/index.js` and pre-built static files in `client/`.
   `.ts` and `.map` files are stripped by `pack`.
 - Declare every outbound host in `egress[]` whenever you use `http:outbound` — **and
@@ -1387,7 +1387,7 @@ both scopes get the acting-user ctx, exactly as the host gives both the clicker'
   listed in `egress[]` with no matching permission installs, activates, consents — and
   is then silently unreachable. `validate` errors on this.
 
-## Manifest reference (`trek-plugin.json`)
+## Manifest reference (`tripmate-plugin.json`)
 
 | Field | Type | Notes |
 |---|---|---|
@@ -1396,7 +1396,7 @@ both scopes get the acting-user ctx, exactly as the host gives both the clicker'
 | `version` | string, **required** | semver (`1.2.3`, optional pre-release). |
 | `apiVersion` | number | plugin API version (currently `1`; `PLUGIN_API_VERSION`). Defaults to `1`; must be a positive integer, and a version newer than the host supports is refused at install and won't activate (`API_VERSION_INCOMPATIBLE`). |
 | `type` | string, **required** | `integration` \| `page` \| `widget` \| `trip-page`. |
-| `trek` | string, **required** | the TREK versions this plugin supports, as a semver **range**: `">=4.0.0 <5.0.0"` (what the scaffold writes). Must be *satisfiable* (`">=4.0.0 <3.0.0"` parses but nothing can satisfy it — rejected). **Enforced at install and at activation** (see below); it is copied verbatim onto the registry entry, which is the entry's only compatibility field. Keep it **bounded** — an unbounded range claims support for TREK versions that do not exist yet. |
+| `tripmate` | string, **required** | the Trip Mate versions this plugin supports, as a semver **range**: `">=4.0.0 <5.0.0"` (what the scaffold writes). Must be *satisfiable* (`">=4.0.0 <3.0.0"` parses but nothing can satisfy it — rejected). **Enforced at install and at activation** (see below); it is copied verbatim onto the registry entry, which is the entry's only compatibility field. Keep it **bounded** — an unbounded range claims support for Trip Mate versions that do not exist yet. |
 | `author` | string | shown in the store. |
 | `description` | string | one-line summary for the store. |
 | `icon` | string | lucide-react icon name (default `Blocks`); used for the page nav entry. |
@@ -1408,7 +1408,7 @@ both scopes get the acting-user ctx, exactly as the host gives both the clicker'
 | `egress` | string[] | allowed outbound hosts; required (non-empty, no bare `*`) when any `http:outbound` permission is present — **unless** `operatorEgress` is `true`, in which case it may be empty/omitted and the admin supplies the hosts. |
 | `capabilities.widget` | object | `{ title, slot, defaultSize }` — `slot` is `sidebar` (default), `hero`, `place-detail`, `day-detail`, or `reservation-detail`. |
 | `capabilities.tripPage` | object | `{ replaces?, position? }` for `trip-page` plugins — `replaces` names core planner tabs to hide while active (`transports`, `buchungen`, `listen`, `finanzplan`, `dateien`, `collab`; never `plan`), `position` is the tab's 0-based index in the bar (0–50; omitted = appended). |
-| `actions` | array | Buttons on the plugin's settings form — `{ key, label, hint?, danger?, scope? }` (max 8 across both scopes, keys unique across them). Implement each as `actions[key](ctx)` on the definition. `scope` is `user` (default — renders under **Settings → Plugins**) or `instance` (renders in **Admin → Plugins → ⋯ → Instance settings**, needs `trek` ≥ 4.2.0). Either way the action is **initiated by the person who clicked it** and runs as them, so `ctx.settings.get()` returns *that* user's value. See [Settings-page actions](#settings-page-actions). |
+| `actions` | array | Buttons on the plugin's settings form — `{ key, label, hint?, danger?, scope? }` (max 8 across both scopes, keys unique across them). Implement each as `actions[key](ctx)` on the definition. `scope` is `user` (default — renders under **Settings → Plugins**) or `instance` (renders in **Admin → Plugins → ⋯ → Instance settings**, needs `tripmate` ≥ 4.2.0). Either way the action is **initiated by the person who clicked it** and runs as them, so `ctx.settings.get()` returns *that* user's value. See [Settings-page actions](#settings-page-actions). |
 | `operatorEgress` | boolean | The plugin talks to a **self-hosted** service whose hostname only the operator knows. The admin adds the real hosts after install (Admin → Plugins → Allowed hosts) and the runtime unions them into the egress allow-list. Requires an `http:outbound` permission, and is the only way to declare one with an empty `egress[]`. See [Operator-supplied egress hosts](#operator-supplied-egress-hosts-operatoregress). |
 | `capabilities.notificationChannel` | object | `{ title?, events? }` for a plugin implementing the `notificationChannel` hook — `title` names the column in the notification preferences matrix (default: the plugin's `name`), `events` **narrows** which events the channel carries (default: all ten plugin-deliverable events; `events` may only narrow that set). Requires the `hook:notification-channel` permission. See [Notification channels](#notification-channels). |
 | `capabilities.routeProfiles` | array | up to 3 `{ id, label, icon? }` entries for a plugin implementing the `routeProvider` hook — each becomes a selectable mode in the planner's route toggle (next to Driving/Walking). `id` is lowercase `[a-z][a-z0-9-]` (max 24 chars) and is what `getRoute` receives as `request.profile`; `label` (≤40 chars) is shown to the user. Requires the `hook:route-provider` permission. |
@@ -1419,33 +1419,33 @@ both scopes get the acting-user ctx, exactly as the host gives both the clicker'
 | `pluginDependencies` | `{ id, version }[]` | other plugins (semver range) that must be installed + version-satisfied to activate. |
 | `settings` | array | setting fields (below). |
 
-#### TREK version compatibility (`trek`)
+#### Trip Mate version compatibility (`tripmate`)
 
-The `trek` range is a **hard contract**, enforced in both directions:
+The `tripmate` range is a **hard contract**, enforced in both directions:
 
-- **Install** is refused when the running TREK falls outside it — on every path:
+- **Install** is refused when the running Trip Mate falls outside it — on every path:
   registry install, an explicitly pinned version, an update, a sideloaded archive,
   and a dev-link. A manifest with no range (or an unsatisfiable one) cannot be
   installed at all.
 - **Activation** re-checks it, which is the half install cannot cover: a plugin
   legitimately installed on 3.3 is still on disk after an upgrade to 4.0, and if it
   declared `<4.0.0` it now refuses to start. It stays installed and listed,
-  switched off, with the reason shown (`TREK_VERSION_INCOMPATIBLE`; a plugin that
-  declares no range at all reports `TREK_VERSION_UNKNOWN`).
+  switched off, with the reason shown (`TRIPMATE_VERSION_INCOMPATIBLE`; a plugin that
+  declares no range at all reports `TRIPMATE_VERSION_UNKNOWN`).
 - **One operator escape hatch, loudly.** The range is the author's own statement
   that the plugin does not work there, so there is no per-install override in the
   UI. An operator who is stuck on a plugin whose author has not yet updated its
-  range can set `TREK_PLUGINS_IGNORE_TREK_RANGE=1` on the server: every gate above
+  range can set `TRIPMATE_PLUGINS_IGNORE_TREK_RANGE=1` on the server: every gate above
   then warns instead of refusing (a missing range is tolerated too), "install
   latest" takes the newest published version, each bypass is logged, the response
   carries a `trekRangeBypassed` marker, and the admin sees a warning dialog plus a
   persistent chip on the row. Nothing guarantees the plugin works there, and a
-  mismatched plugin can in rare cases corrupt TREK data — so ship the range bump
+  mismatched plugin can in rare cases corrupt Trip Mate data — so ship the range bump
   rather than telling your users to flip the switch. The plugin-API version gate
   (`apiVersion`) is never bypassed.
 
-Two behaviours follow. "Install latest" resolves to the newest version *this* TREK
-can run rather than the newest published, so shipping a 2.0.0 that needs TREK 4
+Two behaviours follow. "Install latest" resolves to the newest version *this* Trip Mate
+can run rather than the newest published, so shipping a 2.0.0 that needs Trip Mate 4
 doesn't strand 3.x users. And an **update** that would move a working plugin out of
 compatibility is refused rather than performed.
 
@@ -1457,7 +1457,7 @@ guard optional `ctx.*` namespaces.
 **Permissions** — the commonly-used core subset below; the **full list of 65**
 (all read/write scopes, the notify/ai/oauth brokers, every provider hook, `mcp:tools`)
 lives in **[[Plugin Permissions|Plugin-Permissions]]**. Unknown values are rejected at
-install (and by `trek-plugin validate` and registry CI, which check against the same list).
+install (and by `tripmate-plugin validate` and registry CI, which check against the same list).
 
 | Permission | Grants |
 |---|---|
@@ -1480,7 +1480,7 @@ install (and by `trek-plugin validate` and registry CI, which check against the 
 | `ws:broadcast:trip` | `ctx.ws.broadcastToTrip` |
 | `ws:broadcast:user` | `ctx.ws.broadcastToUser` |
 | `http:outbound` or `http:outbound:<host>` | outbound HTTP to `egress[]` hosts |
-| `hook:place-detail-provider` | `hooks.placeDetailProvider` — extra place rows TREK renders (see [Provider hooks](#provider-hooks)) |
+| `hook:place-detail-provider` | `hooks.placeDetailProvider` — extra place rows Trip Mate renders (see [Provider hooks](#provider-hooks)) |
 | `hook:search-provider` | `hooks.searchProvider` — answers place searches from your own index (see [Provider hooks](#provider-hooks)) |
 | `hook:trip-warning-provider` | `hooks.warningProvider` — validation warnings in the planner (see [Provider hooks](#provider-hooks)) |
 | `hook:table-contributor` | `hooks.tableContributor` — host-rendered columns/actions in the reservations, transports, places, day, costs, packing, files and todos views (see [Provider hooks](#provider-hooks)) |
@@ -1495,7 +1495,7 @@ install (and by `trek-plugin validate` and registry CI, which check against the 
 | `hook:user-data` | `deleteUserData` / `exportUserData` handlers — honour GDPR erasure (durable, retried) and data-export for a deleted/requesting user (userless; own db only) |
 | `hook:photo-provider` | `hooks.photoProvider` — a photo source for Memories, aggregated at `GET /api/plugin-photos/search` (see [Provider hooks](#provider-hooks)) |
 | `hook:calendar-source` | `hooks.calendarSource` — calendar events for the signed-in user, aggregated at `GET /api/plugin-calendar` (see [Provider hooks](#provider-hooks)) |
-| `mcp:tools` | `hooks.mcpToolProvider` — publish MCP tools on TREK's MCP server, declared in `capabilities.mcpTools`; runs as the requesting MCP user (see [MCP tools](#mcp-tools)) |
+| `mcp:tools` | `hooks.mcpToolProvider` — publish MCP tools on Trip Mate's MCP server, declared in `capabilities.mcpTools`; runs as the requesting MCP user (see [MCP tools](#mcp-tools)) |
 
 > There is **no `ws:broadcast:*`** — use `ws:broadcast:trip` and/or
 > `ws:broadcast:user` explicitly.
@@ -1516,59 +1516,59 @@ install (and by `trek-plugin validate` and registry CI, which check against the 
 
 **Page nav:** the host builds a page plugin's nav entry from the top-level `name`
 and `icon` — there is no `capabilities.nav`, so there is nothing else to set.
-`icon` must be a real lucide name: TREK resolves it at render time and silently
+`icon` must be a real lucide name: Trip Mate resolves it at render time and silently
 falls back to `Blocks`, which makes a typo invisible locally, so `validate`
 rejects one.
 
 See [[Plugin Permissions|Plugin-Permissions]] for the full permission model.
 
-## The `trek-plugin` CLI
+## The `tripmate-plugin` CLI
 
 Run `npx trek-plugin-sdk` **with no command** in a terminal and you get an
 interactive menu — create / dev / status / shot / publish, with validate, pack,
 signing and the registry-entry commands under **Advanced…** It picks which command to
 run and asks which plugin directory to run it against; that command then prompts for
 whatever else it needs. Pass a command explicitly to skip the menu (and for scripts and
-CI). `trek-plugin help <command>` — or `trek-plugin <command> --help` — prints a full
+CI). `tripmate-plugin help <command>` — or `tripmate-plugin <command> --help` — prints a full
 page for any command.
 
 **The path is four commands**, and the others are steps one of them already does
 (with two exceptions that undo or repair: `unrelease` and `rotate-key`):
 
 ```bash
-trek-plugin create [name] [--type integration|page|widget|trip-page]
-trek-plugin dev [dir] [--port 4317]
-trek-plugin status [dir]
-trek-plugin publish [dir] --repo owner/name --tag vX.Y.Z [--sign]
+tripmate-plugin create [name] [--type integration|page|widget|trip-page]
+tripmate-plugin dev [dir] [--port 4317]
+tripmate-plugin status [dir]
+tripmate-plugin publish [dir] --repo owner/name --tag vX.Y.Z [--sign]
 ```
 
 `status` is the one to reach for when you are not sure what to do next. It runs every
-gate the TREK-Plugins registry enforces that can be answered **without a network** —
+gate the Trip Mate-Plugins registry enforces that can be answered **without a network** —
 which is nearly all of them — and prints the whole journey as a checklist grouped by
 stage (Manifest, Code, Docs, Release, Repo), with the one command to run next. It never
 exits non-zero: it is for orientation, not for gating.
 
 ```bash
 # The gate. The SAME checks as `status`, but it exits 1. This is the form for CI.
-trek-plugin validate [dir]
+tripmate-plugin validate [dir]
 
 # Build plugin.zip in the installer's exact layout. Prints sha256 + byte size,
 # refuses native binaries, enforces the same size limits (25MB/file, 50MB total).
-# Ships trek-plugin.json, README.md, LICENSE(.md), package.json + server/ + client/.
+# Ships tripmate-plugin.json, README.md, LICENSE(.md), package.json + server/ + client/.
 # docs/ is intentionally NOT shipped — the store fetches docs/screenshot.png from
 # your repo. It refuses a plugin that could not LOAD, but deliberately does not
 # enforce the publish gates (an unwritten README, a missing screenshot) — packing is
 # how you sideload a plugin to try it locally.
-trek-plugin pack [dir] [--out plugin.zip] [--json]
+tripmate-plugin pack [dir] [--out plugin.zip] [--json]
 
 # Boot the dev server, render the plugin in the themed /preview frame, and write a
 # 1600x900 docs/screenshot.png. Needs Playwright (not an SDK dependency — it ships a
 # browser): npm i -D playwright && npx playwright install chromium
-trek-plugin shot [dir] [--port 4317] [--out docs/screenshot.png] [--dark] [--no-serve]
+tripmate-plugin shot [dir] [--port 4317] [--out docs/screenshot.png] [--dark] [--no-serve]
 
 # Ed25519 signing. keygen once; `publish --sign` is the usual way to use the key.
-trek-plugin keygen [--key file]
-trek-plugin sign [zip] [--key file]
+tripmate-plugin keygen [--key file]
+tripmate-plugin sign [zip] [--key file]
 
 # Move a published plugin to a NEW signing key WITHOUT shipping a version (lost or
 # compromised key, planned rotation): fetches your published entry, re-signs every
@@ -1577,32 +1577,32 @@ trek-plugin sign [zip] [--key file]
 # rotation. The PR needs a maintainer's `allow-key-change` label, and every admin who
 # has the plugin must re-trust the new key. To rotate WHILE shipping a version, use
 # `publish --sign --allow-key-change` instead.
-trek-plugin rotate-key [dir] [--id plugin-id] [--key file] [--out entry.json] [--draft]
+tripmate-plugin rotate-key [dir] [--id plugin-id] [--key file] [--out entry.json] [--draft]
 
 # Emit the ready-to-PR registry entry: commitSha (resolved from the git tag),
-# downloadUrl, sha256, size, and the manifest's `trek` range verbatim — plus
+# downloadUrl, sha256, size, and the manifest's `tripmate` range verbatim — plus
 # requiredAddons and pluginDependencies, which the registry parity-checks against the
 # manifest. --merge prepends a new version onto an existing entry (the update case,
 # kept newest-first).
-trek-plugin entry --repo owner/name --tag vX.Y.Z [--zip plugin.zip] [--merge entry.json] [--out file]
+tripmate-plugin entry --repo owner/name --tag vX.Y.Z [--zip plugin.zip] [--merge entry.json] [--out file]
 
 # The registry checks that genuinely need the network: the tag resolves to the commit
 # the entry pins, the released artifact downloads and hashes to the pinned sha256, the
 # id is not bound to another GitHub owner, and an update does not drop or rotate a
 # signing key you already published under (`--allow-key-change` declares a deliberate
 # rotation, turning that refusal into a pass). `publish` runs this for you.
-trek-plugin preflight [dir] --repo owner/name --tag vX.Y.Z [--entry file.json] [--all] [--allow-key-change]
+tripmate-plugin preflight [dir] --repo owner/name --tag vX.Y.Z [--entry file.json] [--all] [--allow-key-change]
 
 # Pack -> cut the GitHub release -> print the entry, without opening the registry PR.
-trek-plugin release [dir] --repo owner/name --tag vX.Y.Z [--sign] [--merge entry.json]
+tripmate-plugin release [dir] --repo owner/name --tag vX.Y.Z [--sign] [--merge entry.json]
 
 # Fork the registry, write registry/plugins/<id>.json, open the PR. Needs `gh`.
-trek-plugin submit [dir] --repo owner/name --tag vX.Y.Z [--registry o/n] [--draft]
+tripmate-plugin submit [dir] --repo owner/name --tag vX.Y.Z [--registry o/n] [--draft]
 
 # Delete a stranded release + remote tag + local tag in one go. Checks the published
 # registry index first and REFUSES a version that is actually published (immutable);
 # --yes consents when the index can't be reached.
-trek-plugin unrelease vX.Y.Z [dir] --repo owner/name [--yes]
+tripmate-plugin unrelease vX.Y.Z [dir] --repo owner/name [--yes]
 ```
 
 `publish` chains those last steps in the order that matters: **check → pack → release →
@@ -1623,7 +1623,7 @@ opts out). See [[Publishing a Plugin|Plugin-Publishing]].
   TOFU-pinned on first install) and each version a `signature` over the artifact
   bytes. Unsigned plugins install on sha256 alone; a plugin that was signed can't
   later go unsigned, and a key *rotation* is a deliberate act the SDK drives —
-  `trek-plugin rotate-key`, or `publish --sign --allow-key-change` — that still
+  `tripmate-plugin rotate-key`, or `publish --sign --allow-key-change` — that still
   needs a registry maintainer's `allow-key-change` label plus an explicit admin
   re-trust on every instance.
 

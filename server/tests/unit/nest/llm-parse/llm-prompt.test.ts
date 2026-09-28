@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { buildSystemPrompt, KI_RESERVATION_JSON_SCHEMA } from '../../../../src/nest/llm-parse/llm-prompt';
-import { KI_RESERVATION_TYPES } from '@trek/shared';
+import { KI_RESERVATION_TYPES } from '@tripmate/shared';
 
 /** The slice of JSON Schema these assertions read. */
 interface SchemaNode {

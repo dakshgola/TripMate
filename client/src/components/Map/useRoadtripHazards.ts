@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import type { RoadtripHazards } from '@trek/shared'
+import type { RoadtripHazards } from '@tripmate/shared'
 import { useRoadtripSettings } from '../../hooks/useRoadtripSettings'
 import { roadtripHazardsRepo } from '../../repo/roadtripHazardsRepo'
 import { isEffectivelyOffline, onNetworkModeChange } from '../../sync/networkMode'

@@ -1,5 +1,5 @@
 import { AlertTriangle, Check, CloudOff, Eye, RefreshCw } from 'lucide-react'
-import type { BookRecord } from '@trek/shared'
+import type { BookRecord } from '@tripmate/shared'
 import type { SaveState } from './useBookStore'
 
 /**

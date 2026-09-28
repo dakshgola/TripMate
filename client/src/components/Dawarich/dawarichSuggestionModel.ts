@@ -1,4 +1,4 @@
-import type { DawarichSuggestion } from '@trek/shared'
+import type { DawarichSuggestion } from '@tripmate/shared'
 import { dayColor } from '../Map/dawarichTrail'
 import { formatClockTime } from '../../utils/formatters'
 

@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
 import type { AtlasController } from '../../src/mobile/screens/atlas/atlasController';
-import type { VisitStatus } from '@trek/shared';
+import type { VisitStatus } from '@tripmate/shared';
 import type { AtlasData, BucketItem, CountryDetail } from '../../src/pages/atlas/atlasModel';
 
 /**

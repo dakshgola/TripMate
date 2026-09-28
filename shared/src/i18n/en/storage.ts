@@ -2,7 +2,7 @@ import type { TranslationStrings } from '../types';
 
 const storage: TranslationStrings = {
   // Field labels/help — these keys are pinned by STORAGE_BACKEND_TYPES in
-  // @trek/shared (labelKey/helpKey); renaming one breaks the admin form.
+  // @tripmate/shared (labelKey/helpKey); renaming one breaks the admin form.
   'storage.field.root': 'Root directory',
   'storage.help.root': 'Absolute path on the server where this backend stores its objects.',
   'storage.field.endpoint': 'Endpoint URL',
@@ -14,7 +14,7 @@ const storage: TranslationStrings = {
   'storage.field.region': 'Region',
   'storage.help.region': 'Keep the default unless your provider requires a specific region.',
   'storage.field.keyPrefix': 'Key prefix',
-  'storage.help.keyPrefix': 'Optional prefix added to every object key, e.g. trek/prod.',
+  'storage.help.keyPrefix': 'Optional prefix added to every object key, e.g. tripmate/prod.',
   'storage.field.retries': 'Retries',
   'storage.field.timeoutMs': 'Timeout (ms)',
   'storage.field.primary': 'Primary backend',
@@ -22,7 +22,7 @@ const storage: TranslationStrings = {
 
   // Panel chrome
   'storage.title': 'Storage',
-  'storage.description': 'Where TREK keeps uploaded files, photos and backups. Nothing changes until you save.',
+  'storage.description': 'Where Trip Mate keeps uploaded files, photos and backups. Nothing changes until you save.',
   'storage.loading': 'Loading…',
   'storage.saved': 'Storage configuration saved',
   'storage.save': 'Save changes',
@@ -79,7 +79,7 @@ const storage: TranslationStrings = {
   'storage.category.avatars': 'Profile pictures',
   'storage.category.places': 'Place images',
   'storage.category.photos-google': 'Google photo cache',
-  'storage.category.photos-trek': 'TREK photo cache',
+  'storage.category.photos-tripmate': 'Trip Mate photo cache',
   'storage.category.backups': 'Backups',
 
   // What each category stores — rendered under the label in the category map.
@@ -90,8 +90,8 @@ const storage: TranslationStrings = {
   'storage.categoryDesc.avatars': 'User account profile pictures.',
   'storage.categoryDesc.places': 'Images attached to places and collection places — uploaded or imported.',
   'storage.categoryDesc.photos-google': 'Cached copies of Google Places photos — re-fetchable, safe to lose.',
-  'storage.categoryDesc.photos-trek':
-    'Cached photos from the TREK photo service used by Memories — re-fetchable, safe to lose.',
+  'storage.categoryDesc.photos-tripmate':
+    'Cached photos from the Trip Mate photo service used by Memories — re-fetchable, safe to lose.',
   'storage.categoryDesc.backups': 'Server backup archives created by the Backup panel or schedule.',
 
   // Health strip

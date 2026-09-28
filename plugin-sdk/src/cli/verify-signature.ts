@@ -1,8 +1,8 @@
 /**
- * Author-signature verification for `trek-plugin preflight`.
+ * Author-signature verification for `tripmate-plugin preflight`.
  *
- * This is a port of TREK's installer-side verifier (server/src/nest/plugins/install/
- * verify-signature.ts), and of the registry's port of it (TREK-Plugins'
+ * This is a port of Trip Mate's installer-side verifier (server/src/nest/plugins/install/
+ * verify-signature.ts), and of the registry's port of it (Trip Mate-Plugins'
  * scripts/lib/verify-signature.mjs). All three MUST accept exactly the same inputs.
  *
  * The point of preflight is to tell an author what the registry's CI would say before
@@ -85,7 +85,7 @@ export function verifyAuthorSignature(bytes: Buffer, signatureB64: string, publi
  * Structural check that needs no artifact (and so no network): a key and a signature must
  * be both-present or both-absent, and each must parse.
  *
- * TREK refuses to install a half-signed entry ("incomplete signature: an author key and a
+ * Trip Mate refuses to install a half-signed entry ("incomplete signature: an author key and a
  * version signature must both be present"), so such an entry is dead on arrival. Mirrors
  * the registry's checkSignatureShape. Returns a list of problems (empty === fine).
  */
@@ -104,7 +104,7 @@ export function checkSignatureShape(entry: { authorPublicKey?: string; versions?
 
   for (const v of versions) {
     if (v.signature && !key) {
-      problems.push(`${v.version}: has a signature but the entry has no authorPublicKey — TREK refuses to install a half-signed entry`);
+      problems.push(`${v.version}: has a signature but the entry has no authorPublicKey — Trip Mate refuses to install a half-signed entry`);
     }
     if (v.signature) {
       try {
@@ -115,7 +115,7 @@ export function checkSignatureShape(entry: { authorPublicKey?: string; versions?
     }
   }
 
-  // A key with no signed version at all is a publishing mistake: TREK pins the key on
+  // A key with no signed version at all is a publishing mistake: Trip Mate pins the key on
   // first install and then requires every later version to be signed by it.
   if (key && versions.length && !versions.some((v) => v.signature)) {
     problems.push('authorPublicKey is set but no version carries a signature — either sign the release or drop the key');

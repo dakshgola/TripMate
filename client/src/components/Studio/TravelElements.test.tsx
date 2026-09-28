@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { bookMapElementSchema } from '@trek/shared'
+import { bookMapElementSchema } from '@tripmate/shared'
 import { TravelElementView } from './TravelElements'
 import { COUNTRY_SHAPES, countryParts } from './countryShapes'
 

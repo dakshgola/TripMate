@@ -8,7 +8,7 @@ import { useSettingsStore } from '../../../../src/store/settingsStore';
 import { useAddonStore } from '../../../../src/store/addonStore';
 import { usePluginStore } from '../../../../src/store/pluginStore';
 import { ToastContainer } from '../../../../src/components/shared/Toast';
-import { DEFAULT_APPEARANCE, type AppearanceConfig } from '@trek/shared';
+import { DEFAULT_APPEARANCE, type AppearanceConfig } from '@tripmate/shared';
 import type { Settings } from '../../../../src/types';
 import MSettingsAppearance from '../../../../src/mobile/screens/settings/MSettingsAppearance';
 

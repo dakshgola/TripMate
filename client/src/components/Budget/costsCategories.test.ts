@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { COST_CATEGORIES, typeToCostCategory } from '@trek/shared'
+import { COST_CATEGORIES, typeToCostCategory } from '@tripmate/shared'
 import { COST_CAT_META, COST_CATEGORY_LIST, catMeta } from './costsCategories'
 
 describe('COST_CAT_META', () => {

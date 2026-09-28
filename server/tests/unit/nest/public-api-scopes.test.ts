@@ -66,7 +66,7 @@ import {
   mcpTokenCreateRequestSchema,
   type PublicApiGrant,
   type PublicApiScope,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import { createTables } from '../../../src/db/schema';
 import { runMigrations } from '../../../src/db/migrations';
 import { resetTestDb } from '../../helpers/test-db';
@@ -227,7 +227,7 @@ describe('ApiTokenGuard — the grant it leaves behind', () => {
     expect(ctx.req.user).toBe(USER);
     expect(ctx.req.apiToken).toBe(grant);
     // The grant belongs to the credential, not to the person: nothing of it may
-    // end up on `user`, which every other auth path in TREK also reads.
+    // end up on `user`, which every other auth path in Trip Mate also reads.
     expect(USER).not.toHaveProperty('scopes');
     expect(USER).not.toHaveProperty('scope_mode');
   });

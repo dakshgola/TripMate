@@ -115,7 +115,7 @@ function makeFile(tripId: number, userId: number, overrides: Partial<{ filename:
 
 function req(parts: { cookie?: string; bearer?: string; token?: string }): Request {
   return {
-    cookies: parts.cookie ? { trek_session: parts.cookie } : {},
+    cookies: parts.cookie ? { tripmate_session: parts.cookie } : {},
     headers: parts.bearer ? { authorization: `Bearer ${parts.bearer}` } : {},
     query: parts.token ? { token: parts.token } : {},
   } as unknown as Request;

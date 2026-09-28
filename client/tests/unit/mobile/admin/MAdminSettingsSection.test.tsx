@@ -157,12 +157,12 @@ describe('MAdminSettingsSection', () => {
   it('FE-MOB-ASET-008: the WebAuthn fields render their values and save through the hook', async () => {
     const user = userEvent.setup();
     const admin = renderSettings({
-      webauthnRpId: 'trek.example.org',
-      webauthnOrigins: 'https://trek.example.org',
+      webauthnRpId: 'tripmate.example.org',
+      webauthnOrigins: 'https://tripmate.example.org',
     });
 
-    expect(screen.getByPlaceholderText('trek.example.org')).toHaveValue('trek.example.org');
-    expect(screen.getByPlaceholderText('https://trek.example.org')).toHaveValue('https://trek.example.org');
+    expect(screen.getByPlaceholderText('tripmate.example.org')).toHaveValue('tripmate.example.org');
+    expect(screen.getByPlaceholderText('https://tripmate.example.org')).toHaveValue('https://tripmate.example.org');
 
     await user.click(screen.getAllByRole('button', { name: 'Save' })[0]);
     expect(admin.handleSaveWebauthn).toHaveBeenCalled();
@@ -172,10 +172,10 @@ describe('MAdminSettingsSection', () => {
     const user = userEvent.setup();
     const admin = renderSettings();
 
-    await user.type(screen.getByPlaceholderText('trek.example.org'), 'a');
+    await user.type(screen.getByPlaceholderText('tripmate.example.org'), 'a');
     expect(admin.setWebauthnRpId).toHaveBeenCalledWith('a');
 
-    await user.type(screen.getByPlaceholderText('https://trek.example.org'), 'b');
+    await user.type(screen.getByPlaceholderText('https://tripmate.example.org'), 'b');
     expect(admin.setWebauthnOrigins).toHaveBeenCalledWith('b');
   });
 
@@ -274,7 +274,7 @@ describe('MAdminSettingsSection', () => {
     expect(screen.queryByLabelText('Google Maps API Key')).not.toBeInTheDocument();
     expect(screen.queryByLabelText(/Amap/)).not.toBeInTheDocument();
     expect(screen.queryByLabelText('Unsplash API Key')).not.toBeInTheDocument();
-    // The native select became TREK's own picker: a button carrying the choice.
+    // The native select became Trip Mate's own picker: a button carrying the choice.
     expect(screen.getByRole('button', { name: 'Automatic' })).toBeInTheDocument();
   });
 
@@ -283,11 +283,11 @@ describe('MAdminSettingsSection', () => {
     // failing. Which of the two is true is app-config's answer: the key fields
     // are empty on a managed install and on a key set by the environment.
     const { unmount } = render(<Harness admin={buildAdminHook({ placesProvider: 'amap', hasAmapKey: false })} />);
-    expect(screen.getByText(/TREK index and OpenStreetMap alone/i)).toBeInTheDocument();
+    expect(screen.getByText(/Trip Mate index and OpenStreetMap alone/i)).toBeInTheDocument();
     unmount();
 
     renderSettings({ managed: true, placesProvider: 'google', mapsKey: '', hasMapsKey: true });
-    expect(screen.queryByText(/TREK index and OpenStreetMap alone/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Trip Mate index and OpenStreetMap alone/i)).not.toBeInTheDocument();
   });
 
   it('FE-MOB-ASET-017: the Google Places toggles persist optimistically', async () => {
@@ -398,7 +398,7 @@ describe('MAdminSettingsSection', () => {
     const admin = renderSettings({
       oidcConfig: {
         issuer: 'https://idp.example.org',
-        client_id: 'trek',
+        client_id: 'tripmate',
         client_secret: '',
         client_secret_set: true,
         display_name: 'Authentik',
@@ -408,7 +408,7 @@ describe('MAdminSettingsSection', () => {
 
     expect(screen.getByDisplayValue('Authentik')).toBeInTheDocument();
     expect(screen.getByDisplayValue('https://idp.example.org')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('trek')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('tripmate')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('••••••••')).toBeInTheDocument();
 
     await user.click(screen.getAllByRole('button', { name: 'Save' })[3]);
@@ -416,7 +416,7 @@ describe('MAdminSettingsSection', () => {
     await waitFor(() => expect(admin.toast.success).toHaveBeenCalledWith('OIDC configuration saved'));
     expect(sent).toEqual({
       issuer: 'https://idp.example.org',
-      client_id: 'trek',
+      client_id: 'tripmate',
       display_name: 'Authentik',
       discovery_url: 'https://idp.example.org/.well-known/openid-configuration',
     });
@@ -435,7 +435,7 @@ describe('MAdminSettingsSection', () => {
     const admin = renderSettings({
       oidcConfig: {
         issuer: 'https://idp.example.org',
-        client_id: 'trek',
+        client_id: 'tripmate',
         client_secret: 's3cr3t',
         client_secret_set: false,
         display_name: 'Authentik',
@@ -457,21 +457,21 @@ describe('MAdminSettingsSection', () => {
     await user.type(screen.getByPlaceholderText('https://accounts.google.com'), 'https://idp');
     await user.type(
       screen.getByPlaceholderText(
-        'https://auth.example.com/application/o/trek/.well-known/openid-configuration',
+        'https://auth.example.com/application/o/tripmate/.well-known/openid-configuration',
       ),
       'https://idp/disco',
     );
-    await user.type(unlabelledInput('text'), 'trek');
+    await user.type(unlabelledInput('text'), 'tripmate');
     await user.type(unlabelledInput('password'), 's3cr3t');
 
     expect(screen.getByPlaceholderText('z.B. Google, Authentik, Keycloak')).toHaveValue('Authentik');
     expect(screen.getByPlaceholderText('https://accounts.google.com')).toHaveValue('https://idp');
     expect(
       screen.getByPlaceholderText(
-        'https://auth.example.com/application/o/trek/.well-known/openid-configuration',
+        'https://auth.example.com/application/o/tripmate/.well-known/openid-configuration',
       ),
     ).toHaveValue('https://idp/disco');
-    expect(unlabelledInput('text')).toHaveValue('trek');
+    expect(unlabelledInput('text')).toHaveValue('tripmate');
     expect(unlabelledInput('password')).toHaveValue('s3cr3t');
   });
 

@@ -7,7 +7,7 @@ import request from 'supertest';
 import type { Server } from 'http';
 import { Test } from '@nestjs/testing';
 import { ConfigModule } from '../../src/nest/config/config.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { DEFAULT_LANGUAGE } from '../../src/config';
 
 describe('Public config e2e (no auth guard)', () => {

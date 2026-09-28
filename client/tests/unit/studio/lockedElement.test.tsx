@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import type { BookDocument, BookElement } from '@trek/shared'
-import { bookPageSetupSchema } from '@trek/shared'
+import type { BookDocument, BookElement } from '@tripmate/shared'
+import { bookPageSetupSchema } from '@tripmate/shared'
 import { fireEvent, render } from '../../helpers/render'
 import { StudioCanvas } from '../../../src/components/Studio/StudioCanvas'
 import { useStudioStore } from '../../../src/store/studioStore'

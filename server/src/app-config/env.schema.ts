@@ -1,5 +1,5 @@
 /**
- * The single Zod catalog of TREK's environment surface, validated ONCE at boot
+ * The single Zod catalog of Trip Mate's environment surface, validated ONCE at boot
  * (see env.ts / boot-validate.ts) — never per-request and never inside
  * buildApp(), so the test harness (which boots dozens of apps per run with a
  * minimal env) is unaffected.
@@ -10,7 +10,7 @@
  * reject them).
  */
 import { z } from 'zod';
-import { SUPPORTED_LANGUAGE_CODES } from '@trek/shared';
+import { SUPPORTED_LANGUAGE_CODES } from '@tripmate/shared';
 import { parseDurationMs, parseLinkLocalAllowList } from './parsers';
 
 /** Present-but-malformed fails; unset/blank always passes (defaults apply). */
@@ -124,7 +124,7 @@ export const envSchema = z.object({
   // boot rather than degrading into a timeout of zero.
   LLM_TIMEOUT_MS: integer(1, 2_147_483_647, 'must be a whole number of milliseconds between 1 and 2147483647'),
   KITINERARY_EXTRACTOR_PATH: anyString,
-  // The OS search path. Not configuration anybody sets for TREK — it is here so
+  // The OS search path. Not configuration anybody sets for Trip Mate — it is here so
   // the kitinerary probe can resolve its binary to an absolute path itself
   // instead of handing an unqualified name to exec, which would re-resolve
   // through whatever PATH held at that moment.
@@ -132,25 +132,25 @@ export const envSchema = z.object({
   Path: anyString,
 
   // Data / paths
-  TREK_DB_FILE: anyString,
+  TRIPMATE_DB_FILE: anyString,
   // The two SQLite pragmas are deliberately unvalidated: a typo here must fall
   // back and warn rather than abort boot, because reset-admin.js — the way out
   // of a locked-out instance — reads the same variables and is not covered by
   // this schema at all. Resolution lives in parsers.resolveDurability().
-  TREK_DB_JOURNAL_MODE: anyString,
-  TREK_DB_SYNCHRONOUS: anyString,
-  TREK_WIKI_DIR: anyString,
-  TREK_PLACE_PHOTO_DIR: anyString,
+  TRIPMATE_DB_JOURNAL_MODE: anyString,
+  TRIPMATE_DB_SYNCHRONOUS: anyString,
+  TRIPMATE_WIKI_DIR: anyString,
+  TRIPMATE_PLACE_PHOTO_DIR: anyString,
   BACKUP_UPLOAD_LIMIT_MB: positiveNumber,
   BACKUP_MAX_DECOMPRESSED_MB: positiveNumber,
 
   // Admin / demo
   ADMIN_EMAIL: anyString,
   ADMIN_PASSWORD: anyString,
-  TREK_MANAGED: boolStr,
+  TRIPMATE_MANAGED: boolStr,
   PLACES_API_BASE: url,
-  TREK_PLACES_URL: url,
-  TREK_PLACES_ENABLED: boolStr,
+  TRIPMATE_PLACES_URL: url,
+  TRIPMATE_PLACES_ENABLED: boolStr,
   PLACES_API_KEY: anyString,
   AMAP_API_BASE: url,
   AMAP_API_KEY: anyString,
@@ -163,19 +163,19 @@ export const envSchema = z.object({
   DEMO_ADMIN_PASS: anyString,
 
   // API docs / plugins
-  TREK_API_DOCS_ENABLED: boolStr,
-  TREK_PLUGINS_ENABLED: boolStr,
-  TREK_PLUGINS_DEV_LINK: boolStr,
-  TREK_PLUGINS_IGNORE_TREK_RANGE: boolStr,
-  TREK_PLUGINS_DIR: anyString,
-  TREK_PLUGINS_DATA_DIR: anyString,
-  TREK_PLUGIN_PERMISSIONS: boolStr,
-  TREK_PLUGIN_ALLOW_PRIVATE_EGRESS: boolStr,
-  TREK_PLUGIN_REGISTRY_URL: url,
-  TREK_PLUGIN_RPC_BURST: positiveNumber,
-  TREK_PLUGIN_RPC_PER_SEC: positiveNumber,
-  TREK_PLUGIN_RPC_INFLIGHT: positiveNumber,
-  TREK_PLUGIN_LOG_BURST: positiveNumber,
-  TREK_PLUGIN_LOG_PER_SEC: positiveNumber,
-  TREK_PLUGIN_MAX_RSS_MB: positiveNumber,
+  TRIPMATE_API_DOCS_ENABLED: boolStr,
+  TRIPMATE_PLUGINS_ENABLED: boolStr,
+  TRIPMATE_PLUGINS_DEV_LINK: boolStr,
+  TRIPMATE_PLUGINS_IGNORE_TREK_RANGE: boolStr,
+  TRIPMATE_PLUGINS_DIR: anyString,
+  TRIPMATE_PLUGINS_DATA_DIR: anyString,
+  TRIPMATE_PLUGIN_PERMISSIONS: boolStr,
+  TRIPMATE_PLUGIN_ALLOW_PRIVATE_EGRESS: boolStr,
+  TRIPMATE_PLUGIN_REGISTRY_URL: url,
+  TRIPMATE_PLUGIN_RPC_BURST: positiveNumber,
+  TRIPMATE_PLUGIN_RPC_PER_SEC: positiveNumber,
+  TRIPMATE_PLUGIN_RPC_INFLIGHT: positiveNumber,
+  TRIPMATE_PLUGIN_LOG_BURST: positiveNumber,
+  TRIPMATE_PLUGIN_LOG_PER_SEC: positiveNumber,
+  TRIPMATE_PLUGIN_MAX_RSS_MB: positiveNumber,
 });

@@ -18,7 +18,7 @@
  *     input a refactor gets wrong.
  */
 import { describe, it, expect } from 'vitest'
-import type { DawarichAtlasCountry, DawarichBucketMatch } from '@trek/shared'
+import type { DawarichAtlasCountry, DawarichBucketMatch } from '@tripmate/shared'
 import {
   cityLine,
   countryLabel,

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { BOOK_FONTS_IDS, bookTextElementSchema } from '@trek/shared'
+import { BOOK_FONTS_IDS, bookTextElementSchema } from '@tripmate/shared'
 import {
   BOOK_FONTS, BOOK_FONT_ORDER, fontStack, hasWeight, nearestWeight,
 } from '../../../src/components/Studio/bookFonts'

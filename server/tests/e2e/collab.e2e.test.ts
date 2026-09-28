@@ -74,7 +74,7 @@ let checkPermission: MockInstance;
 
 import { CollabModule } from '../../src/nest/collab/collab.module';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { RateLimitService } from '../../src/nest/common/rate-limit.service';
 
 describe('Collab e2e (real auth guard + temp SQLite)', () => {

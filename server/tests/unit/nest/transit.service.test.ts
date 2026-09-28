@@ -18,9 +18,9 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 vi.mock('../../../src/app-config', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../../src/app-config')>();
-  return { ...actual, getAppUrl: () => 'https://trek.example.com' };
+  return { ...actual, getAppUrl: () => 'https://tripmate.example.com' };
 });
-vi.mock('../../../src/nest/maps/maps.helpers', () => ({ buildUserAgent: () => 'TREK-Test-UA' }));
+vi.mock('../../../src/nest/maps/maps.helpers', () => ({ buildUserAgent: () => 'Trip Mate-Test-UA' }));
 
 const fetchMock = vi.fn();
 // No `transit_provider` row means Transitous, so every case below keeps
@@ -60,7 +60,7 @@ describe('geocode', () => {
     expect(r.results).toEqual([{ name: 'Alexanderplatz', lat: 52.52, lng: 13.41, type: 'STOP', area: 'Berlin' }]);
     const [url, init] = fetchMock.mock.calls[0];
     expect(String(url)).toContain('/api/v1/geocode?');
-    expect(init.headers['User-Agent']).toBe('TREK-Test-UA');
+    expect(init.headers['User-Agent']).toBe('Trip Mate-Test-UA');
   });
 
   it('TRANSIT-SVC-003: ignores an invalid near bias instead of forwarding it', async () => {

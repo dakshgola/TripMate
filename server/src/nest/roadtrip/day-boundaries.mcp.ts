@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { MAX_TRIP_DAYS, roadtripDayBoundarySchema, type RoadtripDayBoundary } from '@trek/shared';
+import { MAX_TRIP_DAYS, roadtripDayBoundarySchema, type RoadtripDayBoundary } from '@tripmate/shared';
 import { McpController, Tool, TOOL_ANNOTATIONS_READONLY, TOOL_ANNOTATIONS_WRITE, ok, type McpContext } from '../../nest-mcp';
 import { demoDenied, noAccess, permissionDenied } from '../../mcp/tools/_shared';
 import { DatabaseService } from '../database/database.service';

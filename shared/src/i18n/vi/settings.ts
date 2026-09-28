@@ -25,10 +25,11 @@ const settings: TranslationStrings = {
   'settings.mapTemplatePlaceholder.select': 'Chọn mẫu...',
   'settings.mapDefaultHint': 'Để trống cho OpenStreetMap (mặc định)',
   'settings.routingBase': 'Máy chủ định tuyến riêng',
-  'settings.routingBaseHint': 'Máy chủ OSRM của riêng bạn. Để trống sẽ dùng máy chủ công cộng, cho phép khoảng một yêu cầu mỗi giây — đủ cho một ngày, chật cho chuyến đi dài. Có hiệu lực sau khi khởi động lại máy chủ.',
+  'settings.routingBaseHint':
+    'Máy chủ OSRM của riêng bạn. Để trống sẽ dùng máy chủ công cộng, cho phép khoảng một yêu cầu mỗi giây — đủ cho một ngày, chật cho chuyến đi dài. Có hiệu lực sau khi khởi động lại máy chủ.',
   'settings.valhallaBase': 'Máy chủ Valhalla riêng',
   'settings.valhallaBaseHint':
-    'Theo mặc định, TREK dùng Valhalla công cộng của FOSSGIS để tránh đường thu phí, đường cao tốc và phà. Nhập URL Valhalla riêng tại đây để dùng thay thế. Nếu chỉ cấu hình máy chủ định tuyến riêng, Valhalla công cộng sẽ không được dùng. Sau khi nhập URL riêng, hãy khởi động lại máy chủ và tải lại trang.',
+    'Theo mặc định, Trip Mate dùng Valhalla công cộng của FOSSGIS để tránh đường thu phí, đường cao tốc và phà. Nhập URL Valhalla riêng tại đây để dùng thay thế. Nếu chỉ cấu hình máy chủ định tuyến riêng, Valhalla công cộng sẽ không được dùng. Sau khi nhập URL riêng, hãy khởi động lại máy chủ và tải lại trang.',
   'settings.mapHint': 'Mẫu URL cho ô bản đồ',
   'settings.mapProvider': 'Nhà cung cấp bản đồ',
   'settings.mapProviderHint':
@@ -44,7 +45,7 @@ const settings: TranslationStrings = {
   'settings.mapCartoKeyHint': 'Bản đồ nền CARTO hiển thị hình mờ nếu không có khóa. Miễn phí, không cần tài khoản, từ',
   'settings.mapCartoKeyLink': 'khóa API bản đồ nền carto.com',
   'settings.mapCartoKeyMissing':
-    'Mẫu này là bản đồ nền CARTO. Không có khóa, CARTO in "API KEY REQUIRED" lên mọi ô bản đồ. Cho đến khi bạn nhập khóa, TREK hiển thị bản đồ nền mặc định.',
+    'Mẫu này là bản đồ nền CARTO. Không có khóa, CARTO in "API KEY REQUIRED" lên mọi ô bản đồ. Cho đến khi bạn nhập khóa, Trip Mate hiển thị bản đồ nền mặc định.',
   'settings.mapStyle': 'Kiểu bản đồ',
   'settings.mapStylePlaceholder': 'Chọn kiểu Mapbox',
   'settings.mapStyleHint': 'Đặt trước hoặc của riêng bạn mapbox://styles/USER/ID URL',
@@ -241,13 +242,13 @@ const settings: TranslationStrings = {
   'settings.about.featureRequestHint': 'Đề xuất tính năng mới',
   'settings.about.wikiHint': 'Tài liệu & hướng dẫn',
   'settings.about.descriptionManaged':
-    'TREK helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
+    'Trip Mate helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
   'settings.about.sourceTitle': 'Source code',
-  'settings.about.sourceHint': 'TREK is open source, licensed AGPL-3.0',
+  'settings.about.sourceHint': 'Trip Mate is open source, licensed AGPL-3.0',
   'settings.about.supporters.badge': 'Người ủng hộ hàng tháng',
-  'settings.about.supporters.title': 'Bạn đồng hành cho TREK',
+  'settings.about.supporters.title': 'Bạn đồng hành cho Trip Mate',
   'settings.about.supporters.subtitle':
-    'Trong khi bạn đang lên kế hoạch cho lộ trình tiếp theo của mình, những người này đang giúp lập kế hoạch cho tương lai của TREK. Đóng góp hàng tháng của họ được đổ thẳng vào hoạt động phát triển và số giờ thực tế được sử dụng — vì vậy TREK vẫn là Nguồn mở.',
+    'Trong khi bạn đang lên kế hoạch cho lộ trình tiếp theo của mình, những người này đang giúp lập kế hoạch cho tương lai của Trip Mate. Đóng góp hàng tháng của họ được đổ thẳng vào hoạt động phát triển và số giờ thực tế được sử dụng — vì vậy Trip Mate vẫn là Nguồn mở.',
   'settings.about.supporters.since': 'ủng hộ kể từ {date}',
   'settings.about.supporters.tierEmpty': 'Hãy là người đầu tiên',
   'settings.about.supporter.tier.noReturnTicket': 'Không có vé khứ hồi',
@@ -256,7 +257,7 @@ const settings: TranslationStrings = {
   'settings.about.supporter.tier.budgetTraveller': 'Khách du lịch tiết kiệm',
   'settings.about.supporter.tier.hostelBunkmate': 'Nhà nghỉ bạn cùng phòng',
   'settings.about.description':
-    'TREK là công cụ lập kế hoạch du lịch tự lưu trữ giúp bạn tổ chức các chuyến đi của mình từ ý tưởng đầu tiên đến kỷ niệm cuối cùng. Lập kế hoạch trong ngày, ngân sách, danh sách đóng gói, ảnh và nhiều nội dung khác — tất cả đều ở cùng một nơi, trên máy chủ của riêng bạn.',
+    'Trip Mate là công cụ lập kế hoạch du lịch tự lưu trữ giúp bạn tổ chức các chuyến đi của mình từ ý tưởng đầu tiên đến kỷ niệm cuối cùng. Lập kế hoạch trong ngày, ngân sách, danh sách đóng gói, ảnh và nhiều nội dung khác — tất cả đều ở cùng một nơi, trên máy chủ của riêng bạn.',
   'settings.about.madeWith': 'Được làm bằng',
   'settings.about.madeBy': 'của Maurice và cộng đồng nguồn mở đang phát triển.',
   'settings.username': 'Tên người dùng',
@@ -362,7 +363,7 @@ const settings: TranslationStrings = {
   'settings.airtrail.allowInsecureTlsHint': 'Chỉ kích hoạt cho một phiên bản đáng tin cậy trên mạng của riêng bạn.',
   'settings.airtrail.writeBack': 'Viết các thay đổi trở lại AirTrail',
   'settings.airtrail.writeBackHint':
-    'Tắt theo mặc định: AirTrail là nguồn sự thật và TREK chỉ đọc từ đó. Bật để đẩy các chỉnh sửa được thực hiện trong TREK trở lại AirTrail.',
+    'Tắt theo mặc định: AirTrail là nguồn sự thật và Trip Mate chỉ đọc từ đó. Bật để đẩy các chỉnh sửa được thực hiện trong Trip Mate trở lại AirTrail.',
   'settings.airtrail.connected': 'Đã kết nối',
   'settings.airtrail.notConnected': 'Không được kết nối',
   'settings.airtrail.toast.saved': 'AirTrail đã lưu kết nối',
@@ -474,7 +475,7 @@ const settings: TranslationStrings = {
   'settings.startPageDashboard': 'Bảng điều khiển',
   'settings.startPageActiveTrip': 'Chuyến đi đang diễn ra',
   'settings.startPageHint':
-    'TREK mở thẳng chuyến đi đang diễn ra, nếu không thì chuyến gần nhất sắp tới. Đó cũng là chuyến mà bảng điều khiển làm nổi bật.',
+    'Trip Mate mở thẳng chuyến đi đang diễn ra, nếu không thì chuyến gần nhất sắp tới. Đó cũng là chuyến mà bảng điều khiển làm nổi bật.',
   'settings.startTripTab': 'Tab khởi động',
   'settings.startTripTabHint':
     'Tab mà chuyến đi mở ra. Nếu tab đó thuộc tiện ích đã tắt, chế độ xem kế hoạch sẽ mở thay thế.',
@@ -512,7 +513,8 @@ const settings: TranslationStrings = {
   'settings.offline.notice.offline': 'Không có kết nối. Hãy kết nối để lưu chuyến đi ngoại tuyến.',
   'settings.offline.notice.signedOut': 'Phiên của bạn đã kết thúc. Hãy đăng nhập lại để đồng bộ.',
   'settings.offline.notice.failed': 'Không thể hoàn tất việc tải xuống. Hãy kiểm tra kết nối và thử lại.',
-  'settings.offline.notice.loadFailed': 'Không đọc được bộ nhớ ngoại tuyến của thiết bị này. Xóa bộ nhớ đệm thường khắc phục được.',
+  'settings.offline.notice.loadFailed':
+    'Không đọc được bộ nhớ ngoại tuyến của thiết bị này. Xóa bộ nhớ đệm thường khắc phục được.',
   'settings.offline.clear': 'Xóa bộ nhớ đệm',
   'settings.offline.clearConfirm':
     'Xóa tất cả dữ liệu chuyến đi ngoại tuyến? Bạn có thể đồng bộ lại bất cứ lúc nào khi trực tuyến.',
@@ -571,7 +573,8 @@ const settings: TranslationStrings = {
   'settings.apiScopes.bucket-list': 'Danh sách mong muốn',
   'settings.apiScopes.stats': 'Tổng hợp',
   'settings.apiKeys.title': 'Khóa API',
-  'settings.apiKeys.description': 'Khóa cho API công khai, để phần mềm khác có thể đọc các chuyến đi của bạn. Chỉ đọc: khóa không thể thay đổi hay xóa bất cứ thứ gì.',
+  'settings.apiKeys.description':
+    'Khóa cho API công khai, để phần mềm khác có thể đọc các chuyến đi của bạn. Chỉ đọc: khóa không thể thay đổi hay xóa bất cứ thứ gì.',
   'settings.apiKeys.create': 'Tạo khóa',
   'settings.apiKeys.empty': 'Chưa có khóa nào. Tạo một khóa để kết nối phần mềm khác.',
   'settings.apiKeys.createdAt': 'đã tạo',
@@ -586,7 +589,8 @@ const settings: TranslationStrings = {
   'settings.apiKeys.endpoint': 'Điểm cuối',
   'settings.apiKeys.neverUsed': 'chưa từng dùng',
   'settings.apiKeys.loadFailed': 'Không thể tải các khóa của bạn. Hãy tải lại trang để thử lại.',
-  'settings.apiKeys.limitReached': 'Bạn đã có {max} khóa, mức tối đa cho một tài khoản. Hãy xóa một khóa không còn dùng để tạo khóa mới.',
+  'settings.apiKeys.limitReached':
+    'Bạn đã có {max} khóa, mức tối đa cho một tài khoản. Hãy xóa một khóa không còn dùng để tạo khóa mới.',
   'settings.apiKeys.copyFailed': 'Không thể sao chép. Hãy chọn đoạn văn bản và sao chép thủ công.',
   'settings.apiKeys.modal.createTitle': 'Tạo khóa API',
   'settings.apiKeys.modal.name': 'Tên',
@@ -595,7 +599,8 @@ const settings: TranslationStrings = {
   'settings.apiKeys.modal.creating': 'Đang tạo...',
   'settings.apiKeys.modal.create': 'Tạo',
   'settings.apiKeys.modal.createdTitle': 'Đã tạo khóa API',
-  'settings.apiKeys.modal.createdWarning': 'Hãy sao chép khóa ngay. Khóa chỉ hiện một lần và không thể lấy lại sau này.',
+  'settings.apiKeys.modal.createdWarning':
+    'Hãy sao chép khóa ngay. Khóa chỉ hiện một lần và không thể lấy lại sau này.',
   'settings.apiKeys.modal.done': 'Xong',
 };
 

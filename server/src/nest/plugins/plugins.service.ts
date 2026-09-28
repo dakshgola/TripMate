@@ -13,7 +13,7 @@ import { parseDependencies, disabledRequiredAddons, resolveDependencyState, type
 import { bypassedRange, hostSatisfies, hostVersion, trekRangeBypassed } from './install/host-compat';
 import type { TrekRangeBypass } from './install/host-compat';
 import type { PluginDependency } from './install/manifest';
-import type { PluginSettingsField } from '@trek/shared';
+import type { PluginSettingsField } from '@tripmate/shared';
 
 const SECRET_MASK = '••••••••';
 
@@ -30,7 +30,7 @@ export class MissingRequiredSettingError extends Error {
 /**
  * Read side of the plugin system (#plugins), M0 scaffold. Lists installed
  * plugins from the `plugins` registry table and reports whether the runtime is
- * enabled (TREK_PLUGINS_ENABLED). No execution here — the isolated runtime,
+ * enabled (TRIPMATE_PLUGINS_ENABLED). No execution here — the isolated runtime,
  * install pipeline and registry fetch land in later milestones.
  */
 
@@ -87,13 +87,13 @@ export interface PluginListItem {
   dependencies: PluginDependencies;
   /** Whether this plugin can currently activate, and why not if it can't. */
   dependencyStatus: PluginDependencyStatus;
-  /** The TREK range the plugin declares it supports; null if it declared none. */
+  /** The Trip Mate range the plugin declares it supports; null if it declared none. */
   trekRange: string | null;
-  /** The running TREK, so the UI can say "needs X, you have Y" without doing semver. */
+  /** The running Trip Mate, so the UI can say "needs X, you have Y" without doing semver. */
   hostVersion: string;
   /**
    * Non-null when the plugin is outside its declared range (or declared none) and only
-   * TREK_PLUGINS_IGNORE_TREK_RANGE lets it activate. The card shows it as a warning
+   * TRIPMATE_PLUGINS_IGNORE_TREK_RANGE lets it activate. The card shows it as a warning
    * rather than a blocker: the admin chose this, but must keep seeing what they chose.
    */
   trekRangeBypassed: TrekRangeBypass | null;

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { WeatherResult } from '@trek/shared'
+import type { WeatherResult } from '@tripmate/shared'
 import { weatherApi } from '../../../../src/api/client'
 import MDaySheet from '../../../../src/mobile/screens/trip/sheets/MDaySheet'
 import type { MTripShellApi, TripPlanner } from '../../../../src/mobile/screens/trip/MTripShell'

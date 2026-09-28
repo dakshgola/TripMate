@@ -7,7 +7,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { http, HttpResponse, type JsonBodyType } from 'msw'
 import { server } from '../../tests/helpers/msw/server'
 import { collectionsApi } from './collections'
-import type { Collection, CollectionLabel, CollectionPlace } from '@trek/shared'
+import type { Collection, CollectionLabel, CollectionPlace } from '@tripmate/shared'
 
 const BASE = '/api/addons/collections'
 
@@ -353,7 +353,7 @@ describe('collectionsApi', () => {
   })
 
   it('FE-API-COLLECTIONS-034: readGpx() posts the document and its file name', async () => {
-    const file = { format: 'trek.collection', version: 1, name: 'Tokyo', places: [] }
+    const file = { format: 'tripmate.collection', version: 1, name: 'Tokyo', places: [] }
     server.use(http.post(`${BASE}/gpx/read`, record({ file, skipped: 0, track_points: 12 })))
 
     const res = await collectionsApi.readGpx({ gpx: '<gpx/>', file_name: 'tokyo.gpx' })

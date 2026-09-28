@@ -2,7 +2,7 @@ import { tripsApi } from '../api/client'
 import { offlineDb, upsertTrip } from '../db/offlineDb'
 import { onlineThenCache } from './withOfflineFallback'
 import type { Trip } from '../types'
-import type { ActiveTripResponse } from '@trek/shared'
+import type { ActiveTripResponse } from '@tripmate/shared'
 
 /**
  * Offline stand-in for GET /trips/active. Mirrors the server's ranking

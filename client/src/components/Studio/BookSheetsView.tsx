@@ -1,4 +1,4 @@
-import type { BookDocument } from '@trek/shared'
+import type { BookDocument } from '@tripmate/shared'
 import { SpreadView } from './SpreadView'
 import { MARK_LENGTH, MARK_WEIGHT, sheetBox, sheetsFor, type Sheet, type SheetMode, foliosOf } from './bookSheets'
 

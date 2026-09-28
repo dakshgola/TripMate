@@ -54,7 +54,7 @@ import type {
 } from '../../../src/nest/integrations/dawarich.client';
 import type { DawarichService } from '../../../src/nest/integrations/dawarich.service';
 import type { DatabaseService } from '../../../src/nest/database/database.service';
-import type { DawarichCapabilities } from '@trek/shared';
+import type { DawarichCapabilities } from '@tripmate/shared';
 
 // ── Fixtures ─────────────────────────────────────────────────────────────────
 

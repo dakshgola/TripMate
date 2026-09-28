@@ -1,7 +1,7 @@
 /**
  * The test this whole rework rests on.
  *
- * The SDK's checks are a PORT of the TREK-Plugins registry's gates (scripts/validate-entry.mjs
+ * The SDK's checks are a PORT of the Trip Mate-Plugins registry's gates (scripts/validate-entry.mjs
  * and scripts/check-readme.mjs). A port drifts. And when it drifts in the lenient direction the
  * result is not a missing feature — it is a FALSE GREEN: an author runs `validate`, sees a pass,
  * cuts an immutable GitHub release, and the registry rejects it. That is the exact failure this
@@ -15,7 +15,7 @@
  *      SDK built, and must agree that it is valid.
  *
  * The registry lives in a separate repo, so these skip when it is not checked out — a plugin-sdk
- * CI run without it still passes. Point TREK_PLUGINS_REPO at it to run them anywhere.
+ * CI run without it still passes. Point TRIPMATE_PLUGINS_REPO at it to run them anywhere.
  */
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import fs from 'node:fs';
@@ -32,12 +32,12 @@ import { makePublishable } from './helpers.js';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REGISTRY =
-  process.env.TREK_PLUGINS_REPO ?? path.resolve(HERE, '..', '..', '..', 'TREK-Plugins');
+  process.env.TRIPMATE_PLUGINS_REPO ?? path.resolve(HERE, '..', '..', '..', 'Trip Mate-Plugins');
 const haveRegistry = fs.existsSync(path.join(REGISTRY, 'scripts', 'validate-entry.mjs'));
 
 const describeIfRegistry = haveRegistry ? describe : describe.skip;
 
-describeIfRegistry('parity with the TREK-Plugins registry gates', () => {
+describeIfRegistry('parity with the Trip Mate-Plugins registry gates', () => {
   let tmp: string;
   let dir: string;
 
@@ -108,7 +108,7 @@ describeIfRegistry('parity with the TREK-Plugins registry gates', () => {
     packPluginDir(pluginDir, zip);
     return buildEntry({
       dir: pluginDir,
-      repo: 'someone/trek-plugin-parity-plug',
+      repo: 'someone/tripmate-plugin-parity-plug',
       tag: 'v1.0.0',
       zipPath: zip,
       // No git tag exists in a temp dir, so pin the commit by hand — the network checks that
@@ -136,7 +136,7 @@ describeIfRegistry('parity with the TREK-Plugins registry gates', () => {
    * release was cut and its bytes pinned. This test is the reason that cannot happen again.
    */
   it('an entry for a plugin with requiredAddons still passes the registry validator', () => {
-    const manifestPath = path.join(dir, 'trek-plugin.json');
+    const manifestPath = path.join(dir, 'tripmate-plugin.json');
     const m = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
     m.requiredAddons = ['budget', 'packing'];
     m.pluginDependencies = [{ id: 'some-other-plugin', version: '>=1.0.0 <2.0.0' }];
@@ -165,7 +165,7 @@ describeIfRegistry('parity with the TREK-Plugins registry gates', () => {
     { field: 'tags', value: ['Flight Tracking'], match: /tag/i },
     { field: 'homepage', value: 'not-a-url', match: /homepage/i },
   ])('rejects a bad $field, exactly as the registry schema does', ({ field, value, match }) => {
-    const manifestPath = path.join(dir, 'trek-plugin.json');
+    const manifestPath = path.join(dir, 'tripmate-plugin.json');
     const m = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
     m[field] = value;
     fs.writeFileSync(manifestPath, JSON.stringify(m, null, 2));
@@ -186,7 +186,7 @@ describeIfRegistry('parity with the TREK-Plugins registry gates', () => {
    * CI once the artifact was immutable. Assert that we now catch it BEFORE the registry does.
    */
   it('rejects an over-long description that the registry schema would also reject', () => {
-    const manifestPath = path.join(dir, 'trek-plugin.json');
+    const manifestPath = path.join(dir, 'tripmate-plugin.json');
     const m = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
     m.description = 'x'.repeat(201);
     fs.writeFileSync(manifestPath, JSON.stringify(m, null, 2));

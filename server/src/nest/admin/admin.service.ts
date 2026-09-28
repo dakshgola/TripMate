@@ -404,7 +404,7 @@ export class AdminService {
   private async fetchGithub(url: string): Promise<unknown | null> {
     try {
       const resp = await fetch(url, {
-        headers: { Accept: 'application/vnd.github.v3+json', 'User-Agent': 'TREK-Server' },
+        headers: { Accept: 'application/vnd.github.v3+json', 'User-Agent': 'Trip Mate-Server' },
         signal: AbortSignal.timeout(GITHUB_TIMEOUT_MS),
       });
       if (!resp.ok) return null;
@@ -426,7 +426,7 @@ export class AdminService {
     const per = Math.min(Math.max(Number.parseInt(perPage, 10) || 10, 1), 100);
     const pg = Math.max(Number.parseInt(page, 10) || 1, 1);
     const qs = new URLSearchParams({ per_page: String(per), page: String(pg) });
-    const data = await this.fetchGithub(`https://api.github.com/repos/liketrek/TREK/releases?${qs}`);
+    const data = await this.fetchGithub(`https://api.github.com/repos/liketrek/Trip Mate/releases?${qs}`);
     return Array.isArray(data) ? data : [];
   }
 
@@ -469,7 +469,7 @@ export class AdminService {
     let result: VersionInfo;
     if (isPrerelease) {
       // Fetch release list and find the newest prerelease
-      const data = await this.fetchGithub('https://api.github.com/repos/liketrek/TREK/releases?per_page=100') as
+      const data = await this.fetchGithub('https://api.github.com/repos/liketrek/Trip Mate/releases?per_page=100') as
         | Array<{ tag_name?: string; html_url?: string; prerelease?: boolean }>
         | null;
       if (!data) return fail();
@@ -489,7 +489,7 @@ export class AdminService {
         is_prerelease: true,
       };
     } else {
-      const data = await this.fetchGithub('https://api.github.com/repos/liketrek/TREK/releases/latest') as
+      const data = await this.fetchGithub('https://api.github.com/repos/liketrek/Trip Mate/releases/latest') as
         | { tag_name?: string; html_url?: string }
         | null;
       if (!data) return fail();
@@ -601,7 +601,7 @@ export class AdminService {
     // Document providers are the Documents addon's shelf rows, the same way
     // photo providers are Journey's. Hidden on a managed instance for the same
     // reason: Paperless, Papra, Nextcloud, OpenCloud and a Synology NAS are all
-    // servers the admin runs at home, and a hosted TREK has no route to one.
+    // servers the admin runs at home, and a hosted Trip Mate has no route to one.
     //
     // They carry no `config` routes, unlike photo providers: the credentials do
     // not belong to a user here but to a trip, so they are entered in the trip

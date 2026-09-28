@@ -1,17 +1,17 @@
 /**
- * Client for the TREK Places API.
+ * Client for the Trip Mate Places API.
  *
  * The index behind it is Overture Places, built monthly and served from a
- * server the project runs. It replaces the two things TREK used to do badly:
+ * server the project runs. It replaces the two things Trip Mate used to do badly:
  * searching through Nominatim, which its own usage policy forbids for
  * autocomplete, and paying Google for a text search whose terms then forbid
  * storing what comes back.
  *
  * Everything here is read-only, unauthenticated and cacheable. There is no key
  * to configure and no quota to exhaust, so the failure modes are the network
- * and the service being down, both of which fall back to what TREK did before.
+ * and the service being down, both of which fall back to what Trip Mate did before.
  */
-import { normalizePlaceWebsite } from '@trek/shared';
+import { normalizePlaceWebsite } from '@tripmate/shared';
 import { readEnv, getAppUrl } from '../../app-config';
 
 /** The public instance. An operator may point at their own copy instead. */
@@ -102,7 +102,7 @@ function instanceToken(): string {
   for (let i = 0; i < url.length; i++) {
     hash = ((hash << 5) - hash + url.charCodeAt(i)) | 0;
   }
-  return `trek-${(hash >>> 0).toString(36)}`;
+  return `tripmate-${(hash >>> 0).toString(36)}`;
 }
 
 /**
@@ -141,7 +141,7 @@ let breakerOpenUntil = 0;
 function countsAgainstReachability(err: unknown): boolean {
   const status = (err as { status?: number } | null)?.status;
   if (typeof status === 'number') return status >= 500 || status === 429;
-  return !(err instanceof Error && err.message === 'TREK Places API response too large');
+  return !(err instanceof Error && err.message === 'Trip Mate Places API response too large');
 }
 
 /** Test seam: the breaker is process state, so a suite has to be able to clear it. */
@@ -160,12 +160,12 @@ async function getJson<T>(
   params: Record<string, string | number | undefined>,
   opts: { maxBytes?: number; timeoutMs?: number } = {},
 ): Promise<T> {
-  // TREK_PLACES_ENABLED=false is the operator's word that nothing leaves for
+  // TRIPMATE_PLACES_ENABLED=false is the operator's word that nothing leaves for
   // the index. Every caller checks it before asking, and this is the one place
   // every request passes, so a caller that did not is still stopped here. Ahead
   // of the breaker: a refusal says nothing about reachability.
   if (!readEnv().maps.trekPlacesEnabled) {
-    throw new Error('TREK Places API is switched off on this instance');
+    throw new Error('Trip Mate Places API is switched off on this instance');
   }
 
   const url = new URL(trekPlacesBaseUrl() + path);
@@ -174,7 +174,7 @@ async function getJson<T>(
   }
 
   if (Date.now() < breakerOpenUntil) {
-    throw new Error('TREK Places API unreachable, not retrying yet');
+    throw new Error('Trip Mate Places API unreachable, not retrying yet');
   }
 
   const controller = new AbortController();
@@ -184,11 +184,11 @@ async function getJson<T>(
       signal: controller.signal,
       headers: {
         Accept: 'application/json',
-        'X-TREK-Instance': instanceToken(),
+        'X-Trip Mate-Instance': instanceToken(),
       },
     });
     if (!res.ok) {
-      const err = new Error(`TREK Places API ${res.status}`) as Error & { status: number };
+      const err = new Error(`Trip Mate Places API ${res.status}`) as Error & { status: number };
       err.status = res.status;
       throw err;
     }
@@ -230,7 +230,7 @@ async function readCapped(res: Response, max: number): Promise<string> {
     size += value.byteLength;
     if (size > max) {
       await reader.cancel();
-      throw new Error('TREK Places API response too large');
+      throw new Error('Trip Mate Places API response too large');
     }
     chunks.push(value);
   }
@@ -404,7 +404,7 @@ export async function trekPlacesById(gers: string): Promise<TrekPlace | null> {
 }
 
 /**
- * Map a TREK place onto the record shape the client already reads.
+ * Map a Trip Mate place onto the record shape the client already reads.
  *
  * Deliberately the same shape Nominatim and Google produce, so nothing on the
  * client had to learn a third format. `osm_id` carries the GERS id prefixed
@@ -443,6 +443,6 @@ export function toPlaceRecord(p: TrekPlace): Record<string, unknown> {
     // place cost two full round trips to the index. Left as the service shaped
     // it — the reader validates the URL before it becomes a link.
     description: p.description ?? null,
-    source: 'trek-places',
+    source: 'tripmate-places',
   };
 }

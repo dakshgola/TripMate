@@ -41,7 +41,7 @@ export default function TripWarningsBanner({ tripId, onOpenPluginTab }: { tripId
 
   // The navbar renders in the same commit as the planner, so the slot exists by
   // the time effects run; it is display:none'd with the navbar below md.
-  useEffect(() => { setNavSlot(document.getElementById('trek-nav-center-slot')) }, [])
+  useEffect(() => { setNavSlot(document.getElementById('tripmate-nav-center-slot')) }, [])
   useEffect(() => {
     const mq = window.matchMedia?.('(min-width: 768px)')
     if (!mq) return

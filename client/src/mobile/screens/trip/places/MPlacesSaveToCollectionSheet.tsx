@@ -6,7 +6,7 @@ import { useTranslation } from '../../../../i18n'
 import { useToast } from '../../../../components/shared/Toast'
 import { collectionsApi } from '../../../../api/collections'
 import { getApiErrorMessage } from '../../../../utils/apiError'
-import type { Collection } from '@trek/shared'
+import type { Collection } from '@tripmate/shared'
 
 interface MPlacesSaveToCollectionSheetProps {
   open: boolean

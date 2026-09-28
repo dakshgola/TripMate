@@ -12,8 +12,8 @@ import { RoadtripPlanService } from '../../../src/nest/roadtrip/roadtrip-plan.se
 import { RoadtripPlanningMcp } from '../../../src/nest/roadtrip/roadtrip-planning.mcp';
 import { createDay, createDayAccommodation, createDayAssignment, createPlace, createTrip, createUser } from '../../helpers/factories';
 import { resetTestDb } from '../../helpers/test-db';
-import type { RoadtripPreferences } from '@trek/shared';
-import { bookendAssignmentId, type RoadtripStop } from '@trek/shared/roadtrip';
+import type { RoadtripPreferences } from '@tripmate/shared';
+import { bookendAssignmentId, type RoadtripStop } from '@tripmate/shared/roadtrip';
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 

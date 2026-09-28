@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import { Injectable, Logger, type OnModuleInit } from '@nestjs/common';
-import { STORAGE_BACKEND_TYPES, storageConfigSchema } from '@trek/shared';
+import { STORAGE_BACKEND_TYPES, storageConfigSchema } from '@tripmate/shared';
 import { DatabaseService } from '../database/database.service';
 import { RuntimeEnvService } from '../app-config/runtime-env.service';
 import { decrypt_api_key } from '../common/crypto/apiKeyCrypto';
@@ -86,7 +86,7 @@ const REPLICA_FAILURE_RING_SIZE = 50;
  * to existing paths and no data migration is required. `backups` is bare-key
  * (the backend root IS the backups dir — spec rev 3.1), and `photos-google`
  * flips to bare keys when it resolves to `place-photos-local` (the relocated
- * TREK_PLACE_PHOTO_DIR layout, place-photo-cache.service.ts).
+ * TRIPMATE_PLACE_PHOTO_DIR layout, place-photo-cache.service.ts).
  *
  * Exported for tests/unit/uploads-dirs.test.ts, which pins the Dockerfile's
  * `mkdir -p /app/uploads/...` list to these prefixes.
@@ -99,7 +99,7 @@ export const CATEGORY_PREFIXES: Record<ServedCategory, string> = {
   places: 'places/',
   photos: 'photos/',
   'photos-google': 'photos/google/',
-  'photos-trek': 'photos/trek/',
+  'photos-tripmate': 'photos/tripmate/',
   backups: '',
 };
 

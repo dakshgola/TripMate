@@ -1,7 +1,7 @@
 import React from 'react'
 import { avatarSrc } from '../../utils/avatarSrc'
 import { Share2, Users, Link2, Pencil } from 'lucide-react'
-import type { CollectionMember, CollectionLink } from '@trek/shared'
+import type { CollectionMember, CollectionLink } from '@tripmate/shared'
 import type { TranslationFn } from '../../types'
 import CollectionExportMenu from './CollectionExportMenu'
 import type { CollectionExportFormat } from './collectionFile'

@@ -78,13 +78,13 @@ describe('AppConfigModule', () => {
   // clobber it); CI has none, so the regression is always covered there.
   const envPath = path.resolve(process.cwd(), '.env');
   it.skipIf(fs.existsSync(envPath))('never reads a .env file (dotenv stays index.ts-only)', async () => {
-    fs.writeFileSync(envPath, 'TREK_TEST_ENVFILE_MARKER=leaked\n');
+    fs.writeFileSync(envPath, 'TRIPMATE_TEST_ENVFILE_MARKER=leaked\n');
     try {
       const moduleRef = await Test.createTestingModule({ imports: [AppConfigModule] }).compile();
       try {
         const config = moduleRef.get(ConfigService);
-        expect(config.get('TREK_TEST_ENVFILE_MARKER')).toBeUndefined();
-        expect(process.env.TREK_TEST_ENVFILE_MARKER).toBeUndefined();
+        expect(config.get('TRIPMATE_TEST_ENVFILE_MARKER')).toBeUndefined();
+        expect(process.env.TRIPMATE_TEST_ENVFILE_MARKER).toBeUndefined();
       } finally {
         await moduleRef.close();
       }

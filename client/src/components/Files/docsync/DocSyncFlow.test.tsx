@@ -10,7 +10,7 @@
  * nothing, and a dialog that lets you build one has lied about what it does.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import en from '@trek/shared/i18n/en'
+import en from '@tripmate/shared/i18n/en'
 import { render, screen, fireEvent } from '../../../../tests/helpers/render'
 import DocSyncFlow, { type FlowHoldings, type SyncDirection } from './DocSyncFlow'
 
@@ -59,7 +59,7 @@ describe('DocSyncFlow ends', () => {
 
     expect(screen.getByText('12')).toBeInTheDocument()
     expect(screen.getByText('7')).toBeInTheDocument()
-    expect(screen.getByText(S['docsync.flow.trek'])).toBeInTheDocument()
+    expect(screen.getByText(S['docsync.flow.tripmate'])).toBeInTheDocument()
     expect(screen.getByText('Paperless')).toBeInTheDocument()
   })
 
@@ -178,8 +178,8 @@ describe('DocSyncFlow lane state', () => {
     // The hatch is the whole of "this road is not driven on", there is no
     // other handle for it, so the class is the behaviour here.
     const { rerender } = renderFlow({ direction: 'both' })
-    expect(laneOut()).not.toHaveClass('trek-docsync-lane-off')
-    expect(laneIn()).not.toHaveClass('trek-docsync-lane-off')
+    expect(laneOut()).not.toHaveClass('tripmate-docsync-lane-off')
+    expect(laneIn()).not.toHaveClass('tripmate-docsync-lane-off')
 
     rerender(
       <DocSyncFlow
@@ -190,8 +190,8 @@ describe('DocSyncFlow lane state', () => {
         onChange={onChange}
       />,
     )
-    expect(laneOut()).not.toHaveClass('trek-docsync-lane-off')
-    expect(laneIn()).toHaveClass('trek-docsync-lane-off')
+    expect(laneOut()).not.toHaveClass('tripmate-docsync-lane-off')
+    expect(laneIn()).toHaveClass('tripmate-docsync-lane-off')
   })
 
   it('FE-DOCSYNC-FLOW-013: the hint tells an editor the lanes are tappable, a reader only what happens', () => {

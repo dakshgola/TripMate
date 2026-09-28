@@ -40,7 +40,7 @@ beforeEach(() => {
 
 describe('MapsController (parity with the legacy /api/maps route)', () => {
   // Body validation (required query/input/url, locationBias shapes, input
-  // length) moved to the @trek/shared maps schemas enforced by the global
+  // length) moved to the @tripmate/shared maps schemas enforced by the global
   // ZodValidationPipe — the pipe's uniform envelope replaced the legacy
   // bespoke 400 strings, and the 400-status contract is pinned by the
   // integration/e2e suites. These unit cases cover the handler bodies only.
@@ -246,7 +246,7 @@ describe('MapsController (parity with the legacy /api/maps route)', () => {
     });
 
     // A place without a photo is an empty result, not a 404 — one 404 per photo-less
-    // place gets the user banned by any 404-rate IPS in front of TREK (#1727).
+    // place gets the user banned by any 404-rate IPS in front of Trip Mate (#1727).
     it('passes a photo-less place through as a 200 with photoUrl null', async () => {
       const photo = vi.fn().mockResolvedValue({ photoUrl: null, attribution: null });
       const res = await makeController({ photosDisabled: () => false, photo }).placePhoto(user, 'node:123', '1', '2');

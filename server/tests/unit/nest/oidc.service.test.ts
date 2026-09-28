@@ -40,7 +40,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   SESSION_DURATION_SECONDS: 86400,
   SESSION_DURATION_REMEMBER_SECONDS: 2592000,
@@ -300,13 +300,13 @@ describe('resolveOidcRole', () => {
   });
 
   it('OIDC-SVC-011: returns admin when groups array contains OIDC_ADMIN_VALUE', () => {
-    process.env.OIDC_ADMIN_VALUE = 'trek-admins';
-    expect(svc.resolveOidcRole({ sub: 'x', groups: ['trek-users', 'trek-admins'] }, false)).toBe('admin');
+    process.env.OIDC_ADMIN_VALUE = 'tripmate-admins';
+    expect(svc.resolveOidcRole({ sub: 'x', groups: ['tripmate-users', 'tripmate-admins'] }, false)).toBe('admin');
   });
 
   it('OIDC-SVC-012: returns user when groups array does not contain OIDC_ADMIN_VALUE', () => {
-    process.env.OIDC_ADMIN_VALUE = 'trek-admins';
-    expect(svc.resolveOidcRole({ sub: 'x', groups: ['trek-users'] }, false)).toBe('user');
+    process.env.OIDC_ADMIN_VALUE = 'tripmate-admins';
+    expect(svc.resolveOidcRole({ sub: 'x', groups: ['tripmate-users'] }, false)).toBe('user');
   });
 
   it('OIDC-SVC-013: uses custom OIDC_ADMIN_CLAIM when set', () => {
@@ -811,7 +811,7 @@ describe('findOrCreateUser role mapping', () => {
   const storedRole = (id: number) => (testDb.prepare('SELECT role FROM users WHERE id = ?').get(id) as { role: string }).role;
 
   it('OIDC-SVC-063: an admin keeps the role when the configured claim is absent from the payload', () => {
-    process.env.OIDC_ADMIN_VALUE = 'trek-admins';
+    process.env.OIDC_ADMIN_VALUE = 'tripmate-admins';
     process.env.OIDC_ADMIN_CLAIM = 'entitlements';
     // A second admin row, so the #1274 last-admin guard cannot be what saves them.
     createUser(testDb, { email: 'bootstrap@example.com', role: 'admin' });
@@ -833,7 +833,7 @@ describe('findOrCreateUser role mapping', () => {
   });
 
   it('OIDC-SVC-064: an absent claim does not promote a plain user either', () => {
-    process.env.OIDC_ADMIN_VALUE = 'trek-admins';
+    process.env.OIDC_ADMIN_VALUE = 'tripmate-admins';
     process.env.OIDC_ADMIN_CLAIM = 'entitlements';
     const user = ssoUser('plain@example.com', 'sub-keep-user', 'user');
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
@@ -853,12 +853,12 @@ describe('findOrCreateUser role mapping', () => {
   });
 
   it('OIDC-SVC-065: a custom claim that does arrive still promotes, and reports the change', () => {
-    process.env.OIDC_ADMIN_VALUE = 'trek-admins';
+    process.env.OIDC_ADMIN_VALUE = 'tripmate-admins';
     process.env.OIDC_ADMIN_CLAIM = 'entitlements';
     const user = ssoUser('promote@example.com', 'sub-promote', 'user');
 
     const result = svc.findOrCreateUser(
-      { sub: 'sub-promote', email: 'promote@example.com', entitlements: ['trek-users', 'trek-admins'] },
+      { sub: 'sub-promote', email: 'promote@example.com', entitlements: ['tripmate-users', 'tripmate-admins'] },
       MOCK_CONFIG
     ) as RoleResult;
 
@@ -867,13 +867,13 @@ describe('findOrCreateUser role mapping', () => {
   });
 
   it('OIDC-SVC-066: a claim that arrives without the admin value still demotes', () => {
-    process.env.OIDC_ADMIN_VALUE = 'trek-admins';
+    process.env.OIDC_ADMIN_VALUE = 'tripmate-admins';
     process.env.OIDC_ADMIN_CLAIM = 'entitlements';
     createUser(testDb, { email: 'bootstrap2@example.com', role: 'admin' });
     const user = ssoUser('demote@example.com', 'sub-demote', 'admin');
 
     const result = svc.findOrCreateUser(
-      { sub: 'sub-demote', email: 'demote@example.com', entitlements: ['trek-users'] },
+      { sub: 'sub-demote', email: 'demote@example.com', entitlements: ['tripmate-users'] },
       MOCK_CONFIG
     ) as RoleResult;
 
@@ -882,14 +882,14 @@ describe('findOrCreateUser role mapping', () => {
   });
 
   it('OIDC-SVC-067: the only admin is still kept when the claim arrives without the admin value (#1274)', () => {
-    process.env.OIDC_ADMIN_VALUE = 'trek-admins';
+    process.env.OIDC_ADMIN_VALUE = 'tripmate-admins';
     process.env.OIDC_ADMIN_CLAIM = 'entitlements';
     const user = ssoUser('lonely@example.com', 'sub-lonely', 'admin');
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
     try {
       const result = svc.findOrCreateUser(
-        { sub: 'sub-lonely', email: 'lonely@example.com', entitlements: ['trek-users'] },
+        { sub: 'sub-lonely', email: 'lonely@example.com', entitlements: ['tripmate-users'] },
         MOCK_CONFIG
       ) as RoleResult;
 
@@ -902,7 +902,7 @@ describe('findOrCreateUser role mapping', () => {
   });
 
   it('OIDC-SVC-068: for a plain user the absent-claim warning names the claim and the keys that arrived, never their values, and fires once', () => {
-    process.env.OIDC_ADMIN_VALUE = 'trek-admins';
+    process.env.OIDC_ADMIN_VALUE = 'tripmate-admins';
     process.env.OIDC_ADMIN_CLAIM = 'trek_roles';
     ssoUser('warned@example.com', 'sub-warned', 'user');
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
@@ -929,7 +929,7 @@ describe('findOrCreateUser role mapping', () => {
   });
 
   it('OIDC-SVC-069: a new account is registered with the default role when the claim is absent', () => {
-    process.env.OIDC_ADMIN_VALUE = 'trek-admins';
+    process.env.OIDC_ADMIN_VALUE = 'tripmate-admins';
     process.env.OIDC_ADMIN_CLAIM = 'reg_entitlements';
     createUser(testDb, { email: 'someone@example.com' }); // not the first user any more
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
@@ -949,12 +949,12 @@ describe('findOrCreateUser role mapping', () => {
   });
 
   it('OIDC-SVC-070: a claim that already agrees with the stored role reports no change', () => {
-    process.env.OIDC_ADMIN_VALUE = 'trek-admins';
+    process.env.OIDC_ADMIN_VALUE = 'tripmate-admins';
     process.env.OIDC_ADMIN_CLAIM = 'entitlements';
     const user = ssoUser('steady@example.com', 'sub-steady', 'admin');
 
     const result = svc.findOrCreateUser(
-      { sub: 'sub-steady', email: 'steady@example.com', entitlements: ['trek-admins'] },
+      { sub: 'sub-steady', email: 'steady@example.com', entitlements: ['tripmate-admins'] },
       MOCK_CONFIG
     ) as RoleResult;
 
@@ -969,14 +969,14 @@ describe('findOrCreateUser role mapping', () => {
     delete process.env.OIDC_ADMIN_VALUE;
     expect(svc.resolveOidcRoleDetailed(info, false)).toMatchObject({ role: 'user', claimMissing: false, claimKey: 'entitlements' });
 
-    process.env.OIDC_ADMIN_VALUE = 'trek-admins';
+    process.env.OIDC_ADMIN_VALUE = 'tripmate-admins';
     expect(svc.resolveOidcRoleDetailed(info, true)).toMatchObject({ role: 'admin', claimMissing: false });
     expect(svc.resolveOidcRoleDetailed(info, false)).toMatchObject({ role: 'user', claimMissing: true, seenKeys: ['sub', 'groups'] });
-    expect(svc.resolveOidcRoleDetailed({ ...info, entitlements: ['trek-admins'] }, false)).toMatchObject({ role: 'admin', claimMissing: false });
+    expect(svc.resolveOidcRoleDetailed({ ...info, entitlements: ['tripmate-admins'] }, false)).toMatchObject({ role: 'admin', claimMissing: false });
   });
 
   it('OIDC-SVC-072: a stored admin whose claim never arrives is warned about on every login, by id, with the admin panel as the way out', () => {
-    process.env.OIDC_ADMIN_VALUE = 'trek-admins';
+    process.env.OIDC_ADMIN_VALUE = 'tripmate-admins';
     process.env.OIDC_ADMIN_CLAIM = 'kept_admin_roles';
     createUser(testDb, { email: 'bootstrap3@example.com', role: 'admin' });
     const user = ssoUser('kept@example.com', 'sub-kept-admin', 'admin');
@@ -1005,7 +1005,7 @@ describe('findOrCreateUser role mapping', () => {
   });
 
   it('OIDC-SVC-073: warning about a stored admin does not use up the once-per-claim warning for everybody else', () => {
-    process.env.OIDC_ADMIN_VALUE = 'trek-admins';
+    process.env.OIDC_ADMIN_VALUE = 'tripmate-admins';
     process.env.OIDC_ADMIN_CLAIM = 'shared_roles';
     createUser(testDb, { email: 'bootstrap4@example.com', role: 'admin' });
     ssoUser('shared-admin@example.com', 'sub-shared-admin', 'admin');
@@ -1111,8 +1111,8 @@ describe('getUserInfo', () => {
 describe('verifyIdToken', () => {
   const { privateKey, publicKey } = generateKeyPairSync('rsa', { modulusLength: 2048 });
   const jwk = publicKey.export({ format: 'jwk' }) as Record<string, unknown>;
-  const ISSUER = 'https://auth.example.com/application/o/trek';
-  const CLIENT_ID = 'trek-client';
+  const ISSUER = 'https://auth.example.com/application/o/tripmate';
+  const CLIENT_ID = 'tripmate-client';
   const JWKS_URI = 'https://auth.example.com/.well-known/jwks.json';
 
   function mockJwks() {

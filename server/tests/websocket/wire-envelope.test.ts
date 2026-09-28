@@ -6,7 +6,7 @@
  *
  * The reason they exist: the plan is to move this transport onto a Nest gateway
  * (@nestjs/websockets). Nest's stock WsAdapter dispatches on `message.event` and
- * answers `{ event, data }`, while TREK speaks a flat `{ type, tripId, ...payload }`
+ * answers `{ event, data }`, while Trip Mate speaks a flat `{ type, tripId, ...payload }`
  * of its own. Swapping the adapter in without a custom serialiser would leave every
  * `join` silently unhandled: no `welcome.socketId` to echo back as X-Socket-Id, so
  * every client would receive its own writes back and drag-and-drop would jump.
@@ -40,7 +40,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../src/db/database', () => dbMock);
 vi.mock('../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
   SESSION_DURATION: '24h',

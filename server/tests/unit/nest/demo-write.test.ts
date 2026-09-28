@@ -30,7 +30,7 @@ describe('isDemoWriteBlocked', () => {
     process.env.DEMO_MODE = 'true';
     vi.mocked(isDemoEmail).mockReturnValue(true);
 
-    expect(isDemoWriteBlocked(env, 'demo@trek.app')).toBe(true);
+    expect(isDemoWriteBlocked(env, 'demo@tripmate.app')).toBe(true);
   });
 
   it('DEMO-WRITE-002: lets a normal account through even while demo mode is on', () => {
@@ -43,20 +43,20 @@ describe('isDemoWriteBlocked', () => {
   it('DEMO-WRITE-003: lets the demo account through when the instance is not in demo mode', () => {
     vi.mocked(isDemoEmail).mockReturnValue(true);
 
-    expect(isDemoWriteBlocked(env, 'demo@trek.app')).toBe(false);
+    expect(isDemoWriteBlocked(env, 'demo@tripmate.app')).toBe(false);
   });
 
   it('DEMO-WRITE-004: reads the env live, so a toggle takes effect without a restart', () => {
     vi.mocked(isDemoEmail).mockReturnValue(true);
-    expect(isDemoWriteBlocked(env, 'demo@trek.app')).toBe(false);
+    expect(isDemoWriteBlocked(env, 'demo@tripmate.app')).toBe(false);
 
     process.env.DEMO_MODE = 'true';
-    expect(isDemoWriteBlocked(env, 'demo@trek.app')).toBe(true);
+    expect(isDemoWriteBlocked(env, 'demo@tripmate.app')).toBe(true);
   });
 
   it('DEMO-WRITE-005: the 403 body is the one the six endpoints have always sent', () => {
     expect(DEMO_WRITE_ERROR).toEqual({
-      error: 'Uploads are disabled in demo mode. Self-host TREK for full functionality.',
+      error: 'Uploads are disabled in demo mode. Self-host Trip Mate for full functionality.',
     });
   });
 });

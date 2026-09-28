@@ -27,7 +27,7 @@ function alternativeLabelIcon(label: string, note: string, background: string, a
     className: '',
     // `font-family` spelled out: a divIcon sits inside `.leaflet-container`, whose own
     // stylesheet sets Helvetica/Arial on everything in it. Without this the label is the
-    // one piece of TREK chrome on the map that is not in the app's typeface.
+    // one piece of Trip Mate chrome on the map that is not in the app's typeface.
     html: `<span style="display:inline-flex;flex-direction:column;align-items:flex-start;white-space:nowrap;background:${background};color:${ALT_LABEL_TEXT};border-radius:11px;padding:6px 11px;font-family:var(--font-system);font-size:13px;font-weight:600;line-height:1.25;box-shadow:0 2px 10px rgba(0,0,0,.35);cursor:pointer;transition:none;${outline}"><span>${escapeHtml(label)}</span>${second}</span>`,
     iconSize: [0, 0],
     iconAnchor: [0, 0],
@@ -46,7 +46,7 @@ import { PluginMapLayers } from './MapPluginLayers'
 import { useTransportRoutes } from '../../hooks/useTransportRoutes'
 import { visibleRouteReservations } from '../../utils/reservationRoutes'
 import { safeHexColor } from '../../utils/safeColor'
-import { escapeHtml } from '@trek/shared'
+import { escapeHtml } from '@tripmate/shared'
 import type { Day, Reservation, RouteVia } from '../../types'
 import type { MapHoverInfo } from './mapHover'
 import { nightPauseMarker, NIGHT_PAUSE_MIN_ZOOM } from './nightPauseMarker'
@@ -498,7 +498,7 @@ interface MapClickHandlerProps {
   onClick: ((e: L.LeafletMouseEvent) => void) | null
 }
 
-const TRACK_CASING_PANE = 'trek-track-casing'
+const TRACK_CASING_PANE = 'tripmate-track-casing'
 
 /**
  * Pane that holds the white casing under GPX tracks (#776). Leaflet stacks paths
@@ -1108,7 +1108,7 @@ export const MapView = memo(function MapView({
       // it. Only the datum: keying on the whole tile URL would throw the view and
       // the cluster group away on every template or API-key edit.
       key={isGcjBasemap ? 'gcj02' : 'wgs84'}
-      id="trek-map"
+      id="tripmate-map"
       center={initialView.center}
       zoom={initialView.zoom}
       zoomControl={false}

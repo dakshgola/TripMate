@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for your interest in contributing to TREK! Here are the guidelines for submitting pull requests.
+Thanks for your interest in contributing to Trip Mate! Here are the guidelines for submitting pull requests.
 
 ## Before You Start
 
@@ -55,7 +55,7 @@ See the [[Development Environment|Development-environment]] page for the full se
 | Layer | Technology                                                                                |
 |---|-------------------------------------------------------------------------------------------|
 | Frontend | React 19, TypeScript, Zustand 5, Leaflet, Tailwind CSS 3.4, Vite 8 (Rolldown)             |
-| Backend | NestJS 11 (Express 4 adapter), TypeScript, better-sqlite3, Zod (@trek/shared)             |
+| Backend | NestJS 11 (Express 4 adapter), TypeScript, better-sqlite3, Zod (@tripmate/shared)             |
 | Real-time | WebSocket (ws)                                                                            |
 | Database | SQLite with WAL mode                                                                      |
 | Auth | JWT (HS256), bcrypt, TOTP MFA, OIDC                                                       |

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards, BadRequestException } from '@nestjs/common';
 import { createZodDto } from 'nestjs-zod';
-import { schoolHolidayCountryRequestSchema, schoolHolidayRegionRequestSchema } from '@trek/shared';
+import { schoolHolidayCountryRequestSchema, schoolHolidayRegionRequestSchema } from '@tripmate/shared';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AdminGuard } from '../auth/admin.guard';
 import { SchoolHolidaysService } from './school-holidays.service';

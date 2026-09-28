@@ -8,7 +8,7 @@ import { MirrorDriver, type ReplicaFailure } from '../../../../src/nest/storage/
 
 const tmpDirs: string[] = [];
 function makeTmpDir(): string {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-backfill-'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-backfill-'));
   tmpDirs.push(dir);
   return dir;
 }

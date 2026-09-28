@@ -49,7 +49,7 @@ function jsonContent(uri: string, data: unknown) {
 
 /**
  * Collab MCP surface — ported 1:1 from the legacy registrars: the twelve tools
- * from src/mcp/tools/collab.ts and the trek://trips/{tripId}/collab-notes,
+ * from src/mcp/tools/collab.ts and the tripmate://trips/{tripId}/collab-notes,
  * …/collab/polls and …/collab/messages resources from src/mcp/resources.ts
  * (identical names, descriptions, schemas, annotations, error/payload shapes
  * and broadcasts). The registration-time gates map to the composite `when`
@@ -351,7 +351,7 @@ export class CollabMcp {
 
   @ResourceTemplate({
     name: 'trip-collab-notes',
-    uriTemplate: 'trek://trips/{tripId}/collab-notes',
+    uriTemplate: 'tripmate://trips/{tripId}/collab-notes',
     description: 'Shared collaborative notes for a trip',
     mimeType: 'application/json',
     when: collabNotesOn,
@@ -366,7 +366,7 @@ export class CollabMcp {
 
   @ResourceTemplate({
     name: 'trip-collab-polls',
-    uriTemplate: 'trek://trips/{tripId}/collab/polls',
+    uriTemplate: 'tripmate://trips/{tripId}/collab/polls',
     description: 'All polls for a trip with vote counts per option',
     mimeType: 'application/json',
     when: collabPollsOn,
@@ -381,7 +381,7 @@ export class CollabMcp {
 
   @ResourceTemplate({
     name: 'trip-collab-messages',
-    uriTemplate: 'trek://trips/{tripId}/collab/messages',
+    uriTemplate: 'tripmate://trips/{tripId}/collab/messages',
     description: 'Most recent 100 chat messages for a trip',
     mimeType: 'application/json',
     when: collabChatOn,

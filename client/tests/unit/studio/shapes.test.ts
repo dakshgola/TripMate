@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { BOOK_SHAPES } from '@trek/shared'
+import { BOOK_SHAPES } from '@tripmate/shared'
 import {
   FRAME_SHAPES, HOLED_SHAPES, SHAPE_GROUPS, SHAPE_PATHS, scalePath, unitPath,
 } from '../../../src/components/Studio/shapes'

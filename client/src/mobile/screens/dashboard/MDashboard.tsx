@@ -25,7 +25,7 @@ import MSheet from '../../components/MSheet'
 import MUserMenu from './MUserMenu'
 import { useMobileDashOrder, useMobileDashVisibility, MobileDashWidget } from './MDashWidgets'
 import MNewTripSheet from './MNewTripSheet'
-import type { MobileDashToken } from '@trek/shared'
+import type { MobileDashToken } from '@tripmate/shared'
 
 // Localized short date for the pills; the year only shows when it isn't the
 // current one (same rule as the desktop cards).
@@ -225,7 +225,7 @@ export default function MDashboard(): React.ReactElement {
           type="button"
           // The page itself is the scroller since #1809, no inner container to walk up to.
           onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }}
-          aria-label="TREK"
+          aria-label="Trip Mate"
           className="flex flex-none items-center gap-[7px]"
         >
           <span className="flex h-[38px] w-[38px] items-center justify-center rounded-[11px] bg-[#101013]">{/* theme-lint-disable — brand tile stays black in both themes */}
@@ -461,7 +461,7 @@ function CoverBadge({ label, offset }: { label: string; offset: 8 | 12 }): React
 
 // Plugin-contributed chips on a trip card (tripCardProvider hook). Server-bounded
 // primitives only — same trust model as the desktop TripCardBadges, restyled for
-// the mobile cards since the desktop CSS is scoped to .trek-dash.
+// the mobile cards since the desktop CSS is scoped to .tripmate-dash.
 const BADGE_TONE: Record<TripCardBadge['tone'], string> = {
   default: 'text-m-ink',
   success: 'text-[color:var(--m-st-confirmed)]',

@@ -13,7 +13,7 @@ import { pluginsEnabled } from './kill-switch';
 import { devLinkEnabled } from './dev-link';
 import { PluginActivateDto, PluginConfigDto, PluginEgressHostsDto, PluginInstallDto, PluginLinkDto, PluginRetrustDto, PluginUninstallDto, PluginUpdateDto } from './plugins.dto';
 import { ManagedForbidden, isManagedBlocked, MANAGED_FORBIDDEN_ERROR } from '../common/managed';
-import type { PluginActionResult, PluginInstanceConfigResponse, PluginInstanceConfigUpdated } from '@trek/shared';
+import type { PluginActionResult, PluginInstanceConfigResponse, PluginInstanceConfigUpdated } from '@tripmate/shared';
 import { RuntimeEnvService } from '../app-config/runtime-env.service';
 // Straight from sessionManager, not the src/mcp barrel: that one evaluates
 // readEnv().mcp at module scope and installs the sweep interval, which a domain
@@ -116,26 +116,26 @@ export class PluginsController {
     try {
       return await this.runtime.sideload(file.buffer);
     } catch (e) {
-      throw registryFailure(e, 'upload failed'); // carries TREK_VERSION_INCOMPATIBLE
+      throw registryFailure(e, 'upload failed'); // carries TRIPMATE_VERSION_INCOMPATIBLE
     }
   }
 
   /**
    * DEV-ONLY: register a plugin from a LOCAL built directory and hot-reload it
-   * against real data. Gated by TREK_PLUGINS_DEV_LINK on top of admin + kill-switch.
+   * against real data. Gated by TRIPMATE_PLUGINS_DEV_LINK on top of admin + kill-switch.
    */
   @ManagedForbidden('a linked directory skips the signature check the registry install performs')
   @Post('link')
   @HttpCode(200)
   async link(@Body() body: PluginLinkDto) {
     if (!pluginsEnabled()) throw new HttpException({ error: 'Plugins are disabled by server configuration' }, 503);
-    if (!devLinkEnabled()) throw new HttpException({ error: 'Dev-link is disabled (set TREK_PLUGINS_DEV_LINK=1)' }, 403);
+    if (!devLinkEnabled()) throw new HttpException({ error: 'Dev-link is disabled (set TRIPMATE_PLUGINS_DEV_LINK=1)' }, 403);
     const dir = body?.path?.trim();
     if (!dir) throw new HttpException({ error: 'path is required' }, 400);
     try {
       return await this.runtime.link(dir);
     } catch (e) {
-      throw registryFailure(e, 'link failed'); // carries TREK_VERSION_INCOMPATIBLE
+      throw registryFailure(e, 'link failed'); // carries TRIPMATE_VERSION_INCOMPATIBLE
     }
   }
 
@@ -284,7 +284,7 @@ export class PluginsController {
   @HttpCode(200)
   async reload(@Param('id') id: string) {
     if (!pluginsEnabled()) throw new HttpException({ error: 'Plugins are disabled by server configuration' }, 503);
-    if (!devLinkEnabled()) throw new HttpException({ error: 'Dev-link is disabled (set TREK_PLUGINS_DEV_LINK=1)' }, 403);
+    if (!devLinkEnabled()) throw new HttpException({ error: 'Dev-link is disabled (set TRIPMATE_PLUGINS_DEV_LINK=1)' }, 403);
     try {
       await this.runtime.reload(id);
     } catch (e) {
@@ -307,7 +307,7 @@ export class PluginsController {
     if (!pluginsEnabled()) throw new HttpException({ error: 'Plugins are disabled by server configuration' }, 503);
     try {
       // An explicit version is the rollback path: install exactly what the admin picked
-      // (the TREK-compat gate still refuses in selectVersion). Absent, the runtime
+      // (the Trip Mate-compat gate still refuses in selectVersion). Absent, the runtime
       // resolves the newest compatible version itself.
       const res = await this.runtime.update(id, { version: body?.version });
       // A deliberate non-latest pick holds future updates; landing on the newest

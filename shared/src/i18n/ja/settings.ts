@@ -25,10 +25,11 @@ const settings: TranslationStrings = {
   'settings.mapTemplatePlaceholder.select': 'テンプレートを選択…',
   'settings.mapDefaultHint': '空欄の場合は OpenStreetMap（既定）を使用',
   'settings.routingBase': '自前のルーティングサーバー',
-  'settings.routingBaseHint': '自前の OSRM インスタンス。空欄なら公開サーバーを使いますが、毎秒 1 リクエスト程度の制限があり、1 日分には足りてもロードトリップには足りません。サーバー再起動後に反映されます。',
+  'settings.routingBaseHint':
+    '自前の OSRM インスタンス。空欄なら公開サーバーを使いますが、毎秒 1 リクエスト程度の制限があり、1 日分には足りてもロードトリップには足りません。サーバー再起動後に反映されます。',
   'settings.valhallaBase': '自前の Valhalla インスタンス',
   'settings.valhallaBaseHint':
-    'TREKは、有料道路、高速道路、フェリーを避けるために、標準でFOSSGISの公開Valhallaを使用します。独自のValhallaを代わりに使う場合は、ここにURLを入力してください。独自のルーティングサーバーのみが設定されている場合、公開Valhallaは使用されません。独自のURLを入力した後は、サーバーを再起動し、ページを再読み込みしてください。',
+    'Trip Mateは、有料道路、高速道路、フェリーを避けるために、標準でFOSSGISの公開Valhallaを使用します。独自のValhallaを代わりに使う場合は、ここにURLを入力してください。独自のルーティングサーバーのみが設定されている場合、公開Valhallaは使用されません。独自のURLを入力した後は、サーバーを再起動し、ページを再読み込みしてください。',
   'settings.mapHint': '地図タイルのURLテンプレート',
   'settings.mapProvider': '地図プロバイダー',
   'settings.mapProviderHint': '旅程プランナーと日記地図に影響します。Atlas は常に Leaflet を使用します。',
@@ -43,7 +44,7 @@ const settings: TranslationStrings = {
   'settings.mapCartoKeyHint': 'キーがないと CARTO のベースマップに透かしが入ります。無料でアカウントも不要、取得先:',
   'settings.mapCartoKeyLink': 'carto.com ベースマップ API キー',
   'settings.mapCartoKeyMissing':
-    'このテンプレートは CARTO のベースマップです。キーがないと CARTO はすべてのタイルに "API KEY REQUIRED" を焼き込みます。 キーを入力するまで、TREK は既定のベースマップを表示します。',
+    'このテンプレートは CARTO のベースマップです。キーがないと CARTO はすべてのタイルに "API KEY REQUIRED" を焼き込みます。 キーを入力するまで、Trip Mate は既定のベースマップを表示します。',
   'settings.mapStyle': '地図スタイル',
   'settings.mapStylePlaceholder': 'Mapboxスタイルを選択',
   'settings.mapStyleHint': 'プリセットまたは mapbox://styles/USER/ID のURL',
@@ -120,7 +121,7 @@ const settings: TranslationStrings = {
   'settings.webhookUrl.testSuccess': 'テストWebhookを送信しました',
   'settings.webhookUrl.testFailed': 'テストWebhookに失敗しました',
   'settings.ntfyUrl.topicLabel': 'Ntfy トピック',
-  'settings.ntfyUrl.topicPlaceholder': 'my-trek-alerts',
+  'settings.ntfyUrl.topicPlaceholder': 'my-tripmate-alerts',
   'settings.ntfyUrl.serverLabel': 'Ntfy サーバーURL（任意）',
   'settings.ntfyUrl.serverPlaceholder': 'https://ntfy.sh',
   'settings.ntfyUrl.hint': 'ntfyトピックを入力してください。サーバー未入力時は管理者設定の既定値を使用します。',
@@ -214,12 +215,12 @@ const settings: TranslationStrings = {
   'settings.about.featureRequestHint': '新機能を提案',
   'settings.about.wikiHint': 'ドキュメント・ガイド',
   'settings.about.descriptionManaged':
-    'TREK helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
+    'Trip Mate helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
   'settings.about.sourceTitle': 'Source code',
-  'settings.about.sourceHint': 'TREK is open source, licensed AGPL-3.0',
+  'settings.about.sourceHint': 'Trip Mate is open source, licensed AGPL-3.0',
   'settings.about.supporters.badge': '月額サポーター',
-  'settings.about.supporters.title': 'TREKの旅仲間',
-  'settings.about.supporters.subtitle': '皆さんの支援がTREKの未来を支えています。',
+  'settings.about.supporters.title': 'Trip Mateの旅仲間',
+  'settings.about.supporters.subtitle': '皆さんの支援がTrip Mateの未来を支えています。',
   'settings.about.supporters.since': '{date}からサポート',
   'settings.about.supporters.tierEmpty': '最初の一人に',
   'settings.about.supporter.tier.noReturnTicket': '片道切符',
@@ -227,7 +228,7 @@ const settings: TranslationStrings = {
   'settings.about.supporter.tier.businessClassDreamer': 'ビジネスクラスの夢',
   'settings.about.supporter.tier.budgetTraveller': '節約トラベラー',
   'settings.about.supporter.tier.hostelBunkmate': 'ホステル仲間',
-  'settings.about.description': 'TREKはセルフホスト型の旅行プランナーです。',
+  'settings.about.description': 'Trip Mateはセルフホスト型の旅行プランナーです。',
   'settings.about.madeWith': 'Made with',
   'settings.about.madeBy': 'by Maurice とオープンソースコミュニティ。',
   'settings.username': 'ユーザー名',
@@ -335,7 +336,7 @@ const settings: TranslationStrings = {
     '自分のネットワーク内の信頼できるインスタンスの場合にのみ有効にしてください。',
   'settings.airtrail.writeBack': '変更を AirTrail に書き戻す',
   'settings.airtrail.writeBackHint':
-    '既定ではオフ: AirTrail が信頼できる情報源で、TREK は読み取りのみを行います。TREK で行った編集を AirTrail に書き戻すにはオンにします。',
+    '既定ではオフ: AirTrail が信頼できる情報源で、Trip Mate は読み取りのみを行います。Trip Mate で行った編集を AirTrail に書き戻すにはオンにします。',
   'settings.airtrail.connected': '接続済み',
   'settings.airtrail.notConnected': '未接続',
   'settings.airtrail.toast.saved': 'AirTrail の接続を保存しました',
@@ -446,7 +447,7 @@ const settings: TranslationStrings = {
   'settings.startPageDashboard': 'ダッシュボード',
   'settings.startPageActiveTrip': '進行中の旅行',
   'settings.startPageHint':
-    'TREK を開くと、進行中の旅行、なければ次に始まる旅行が直接開きます。ダッシュボードで大きく表示される旅行と同じです。',
+    'Trip Mate を開くと、進行中の旅行、なければ次に始まる旅行が直接開きます。ダッシュボードで大きく表示される旅行と同じです。',
   'settings.startTripTab': '起動時のタブ',
   'settings.startTripTabHint': '旅行を開くタブです。無効にしたアドオンのタブの場合は、代わりに計画が開きます。',
 
@@ -482,7 +483,8 @@ const settings: TranslationStrings = {
   'settings.offline.notice.offline': '接続されていません。オフライン用に保存するには接続してください。',
   'settings.offline.notice.signedOut': 'セッションが終了しました。同期するには再度ログインしてください。',
   'settings.offline.notice.failed': 'ダウンロードを完了できませんでした。接続を確認してもう一度お試しください。',
-  'settings.offline.notice.loadFailed': 'この端末のオフラインストレージを読み取れませんでした。キャッシュを削除すると解決することが多いです。',
+  'settings.offline.notice.loadFailed':
+    'この端末のオフラインストレージを読み取れませんでした。キャッシュを削除すると解決することが多いです。',
   'settings.offline.clear': 'キャッシュを消去',
   'settings.offline.clearConfirm': 'すべてのオフライン旅行データを消去しますか？オンライン時にいつでも再同期できます。',
   'settings.offline.stats.trips': 'キャッシュ済みの旅行',
@@ -540,7 +542,8 @@ const settings: TranslationStrings = {
   'settings.apiScopes.bucket-list': 'ウィッシュリスト',
   'settings.apiScopes.stats': '合計',
   'settings.apiKeys.title': 'API キー',
-  'settings.apiKeys.description': '公開 API 用のキーです。ほかのソフトウェアが旅程を読み取れるようになります。読み取り専用で、変更や削除はできません。',
+  'settings.apiKeys.description':
+    '公開 API 用のキーです。ほかのソフトウェアが旅程を読み取れるようになります。読み取り専用で、変更や削除はできません。',
   'settings.apiKeys.create': 'キーを作成',
   'settings.apiKeys.empty': 'キーはまだありません。ほかのソフトウェアと連携するには作成してください。',
   'settings.apiKeys.createdAt': '作成日',
@@ -551,11 +554,13 @@ const settings: TranslationStrings = {
   'settings.apiKeys.deleteFailed': 'キーを削除できませんでした',
   'settings.apiKeys.createFailed': 'キーを作成できませんでした',
   'settings.apiKeys.copy': 'コピー',
-  'settings.apiKeys.docsHint': 'キーは "Authorization: Bearer ..." または "X-API-Key: ..." として /api/v1 に送信してください。',
+  'settings.apiKeys.docsHint':
+    'キーは "Authorization: Bearer ..." または "X-API-Key: ..." として /api/v1 に送信してください。',
   'settings.apiKeys.endpoint': 'エンドポイント',
   'settings.apiKeys.neverUsed': '未使用',
   'settings.apiKeys.loadFailed': 'キーを読み込めませんでした。ページを再読み込みしてもう一度お試しください。',
-  'settings.apiKeys.limitReached': 'キーは {max} 個あり、1 アカウントの上限に達しています。新しく作成するには、使わなくなったキーを削除してください。',
+  'settings.apiKeys.limitReached':
+    'キーは {max} 個あり、1 アカウントの上限に達しています。新しく作成するには、使わなくなったキーを削除してください。',
   'settings.apiKeys.copyFailed': 'コピーできませんでした。テキストを選択して手動でコピーしてください。',
   'settings.apiKeys.modal.createTitle': 'API キーを作成',
   'settings.apiKeys.modal.name': '名前',
@@ -564,7 +569,8 @@ const settings: TranslationStrings = {
   'settings.apiKeys.modal.creating': '作成中...',
   'settings.apiKeys.modal.create': '作成',
   'settings.apiKeys.modal.createdTitle': 'API キーを作成しました',
-  'settings.apiKeys.modal.createdWarning': '今すぐキーをコピーしてください。表示は一度きりで、あとから取得はできません。',
+  'settings.apiKeys.modal.createdWarning':
+    '今すぐキーをコピーしてください。表示は一度きりで、あとから取得はできません。',
   'settings.apiKeys.modal.done': '完了',
 };
 

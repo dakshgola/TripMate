@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { isOutsideChina, normalizePlaceWebsite } from '@trek/shared';
+import { isOutsideChina, normalizePlaceWebsite } from '@tripmate/shared';
 import type {
   MapsSearchResult,
   MapsAutocompleteResult,
@@ -7,7 +7,7 @@ import type {
   MapsPlacePhotoResult,
   MapsReverseResult,
   MapsResolveUrlResult,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import { Jimp } from 'jimp';
 import { readEnv, getAppUrl } from '../../app-config';
 import { safeFetchFollow, SsrfBlockedError } from '../../utils/ssrfGuard';
@@ -37,7 +37,7 @@ import {
   toPlaceRecord,
   POI_CATEGORY_TO_TREK,
   type TrekPlace,
-} from './trek-places.client';
+} from './tripmate-places.client';
 import {
   UA,
   SEARCH_TEXT_FIELD_MASK,
@@ -562,7 +562,7 @@ interface PoiSearchResult {
    * OpenStreetMap under more than one licence, so stamping its rows as OSM is a
    * wrong attribution rather than a rounding of one.
    */
-  source: 'openstreetmap' | 'trek-places';
+  source: 'openstreetmap' | 'tripmate-places';
   truncated: boolean;
   // True when the requested viewport was too large and got shrunk to a centred
   // window before querying — the results then cover the middle of the view only.
@@ -729,9 +729,9 @@ export class MapsService {
   /**
    * Whether the index answers on this instance.
    *
-   * On unless TREK_PLACES_ENABLED says otherwise, because the index is the path
+   * On unless TRIPMATE_PLACES_ENABLED says otherwise, because the index is the path
    * we want people on and an upgrade must not quietly drop back to Nominatim,
-   * whose usage policy forbids what TREK was doing with it.
+   * whose usage policy forbids what Trip Mate was doing with it.
    *
    * An environment variable rather than an admin switch on purpose. This decides
    * whether a search leaves the instance at all, which is a property of the
@@ -745,7 +745,7 @@ export class MapsService {
   /**
    * The places in a trip's area, for the offline cache.
    *
-   * The one call TREK makes that is not driven by something a user just typed.
+   * The one call Trip Mate makes that is not driven by something a user just typed.
    * It runs when a trip is prepared for offline use, alongside the map tiles,
    * and it is the reason searching a trip works on a plane: without it the
    * offline instance has the trip's own places and nothing else, so "find a
@@ -764,7 +764,7 @@ export class MapsService {
       const area = await trekPlacesArea(bbox, limit);
       return { results: area.results.map(toPlaceRecord), truncated: area.truncated };
     } catch (err) {
-      console.warn('TREK Places area lookup failed:', (err as Error).message);
+      console.warn('Trip Mate Places area lookup failed:', (err as Error).message);
       return null;
     }
   }
@@ -998,9 +998,9 @@ export class MapsService {
               // The index has no cuisine field, so this null is the truth
               // rather than a field being dropped on the way through.
               cuisine: null,
-              source: 'trek-places' as const,
+              source: 'tripmate-places' as const,
             })),
-            source: 'trek-places' as const,
+            source: 'tripmate-places' as const,
             truncated: found.length >= cap,
             // A wide viewport is narrowed here too, and the caller is told so
             // for the same reason the Overpass path tells it.
@@ -1008,7 +1008,7 @@ export class MapsService {
           };
         }
       } catch (err: unknown) {
-        console.warn('TREK Places nearby failed, falling back:', (err as Error).message);
+        console.warn('Trip Mate Places nearby failed, falling back:', (err as Error).message);
       }
     }
     return this.searchOverpassPois(category, bbox, lang, limit);
@@ -1168,7 +1168,7 @@ export class MapsService {
           return { lat: hit.lat, lng: hit.lng };
         }
       } catch (err: unknown) {
-        console.warn('TREK Places geocode failed, falling back:', (err as Error).message);
+        console.warn('Trip Mate Places geocode failed, falling back:', (err as Error).message);
       }
     }
     const hit = (await this.searchNominatim(query, undefined, 'background'))[0];
@@ -1382,7 +1382,7 @@ export class MapsService {
     if (!oType) return null;
     // The id is the one thing written into the query, and the query is a
     // language. An OSM element id is a number and nothing else; anything with
-    // more in it is a statement of its own, sent under TREK's shared user agent.
+    // more in it is a statement of its own, sent under Trip Mate's shared user agent.
     if (!/^\d+$/.test(osmId)) return null;
     const query = `[out:json][timeout:5];${oType}(${osmId});out tags;`;
     try {
@@ -2081,7 +2081,7 @@ export class MapsService {
     const keyed = this.keyedProvider(userId);
     const { key: apiKey, source: keySource } = keyed?.id === 'google' ? keyed : { key: null, source: null };
 
-    // The TREK index answers first, whether or not a Google key exists. It is
+    // The Trip Mate index answers first, whether or not a Google key exists. It is
     // the only source here that may be stored, works offline as a country
     // package, and costs the caller nothing; a key buys ratings and photos on
     // top of it, not a better search.
@@ -2127,7 +2127,7 @@ export class MapsService {
           lng: locationBias?.lng,
           limit: 10,
         }).then(indexHitsOnly).catch((err: unknown) => {
-          console.warn('TREK Places search failed, falling back:', (err as Error).message);
+          console.warn('Trip Mate Places search failed, falling back:', (err as Error).message);
           return [] as TrekPlace[];
         }),
         this.searchNominatim(query, lang, 'interactive', locationBias).catch((err: unknown) => {
@@ -2145,7 +2145,7 @@ export class MapsService {
         // scored against, so a list that is entirely OpenStreetMap must not be
         // recorded as though the index had a hand in it.
         const source = found.length > 0
-          ? (osm.length > 0 ? 'trek-places+openstreetmap' : 'trek-places')
+          ? (osm.length > 0 ? 'tripmate-places+openstreetmap' : 'tripmate-places')
           : 'openstreetmap';
         return { places, source };
       }
@@ -2242,7 +2242,7 @@ export class MapsService {
 
     // This is the path that mattered most. Nominatim's usage policy names
     // autocomplete as unacceptable use in its own words, regardless of rate,
-    // and the whole TREK fleet shares one User-Agent there: one abusive install
+    // and the whole Trip Mate fleet shares one User-Agent there: one abusive install
     // could get every instance blocked at once. The index removes that.
     //
     // Same contract as search: never throws upward, falls through to what this
@@ -2289,7 +2289,7 @@ export class MapsService {
                     // translated label than an empty line.
                     secondaryText: p.local_name && p.local_name !== p.name ? p.local_name : '',
                     // Per row, because this list is two indexes interleaved.
-                    // The name above the list says `trek-places`, which is true
+                    // The name above the list says `tripmate-places`, which is true
                     // of the call and false of half the rows in it — the layer
                     // is OpenStreetMap, and a reader deciding whether to trust
                     // a suggestion is asking exactly that.
@@ -2304,16 +2304,16 @@ export class MapsService {
                     placeId: `gers:${p.gers}`,
                     mainText: p.name,
                     secondaryText: [p.address?.locality, p.address?.country].filter(Boolean).join(', '),
-                    source: 'trek-places',
+                    source: 'tripmate-places',
                     lat: p.lat,
                     lng: p.lng,
                   },
             ),
-            source: 'trek-places',
+            source: 'tripmate-places',
           };
         }
       } catch (err: unknown) {
-        console.warn('TREK Places autocomplete failed, falling back:', (err as Error).message);
+        console.warn('Trip Mate Places autocomplete failed, falling back:', (err as Error).message);
       }
     }
 
@@ -2408,7 +2408,7 @@ export class MapsService {
     lang?: string,
     sessionToken?: string,
   ): Promise<{ place: Record<string, unknown> | null }> {
-    // A place picked out of the TREK index. Checked BEFORE the generic
+    // A place picked out of the Trip Mate index. Checked BEFORE the generic
     // colon branch below, which would otherwise read "gers" as an OSM type
     // and ask Overpass for an element that does not exist.
     if (placeId.startsWith('gers:')) {
@@ -2473,7 +2473,7 @@ export class MapsService {
           website: record.website ?? osmDetails.website ?? null,
           phone: record.phone ?? osmDetails.phone ?? null,
           osm_id: placeId,
-          source: 'trek-places',
+          source: 'tripmate-places',
         },
       };
     }

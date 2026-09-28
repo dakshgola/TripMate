@@ -56,7 +56,7 @@ import { runMigrations } from '../../src/db/migrations';
 import { ShareModule } from '../../src/nest/share/share.module';
 import { PlacePhotoCacheService } from '../../src/nest/place-photos/place-photo-cache.service';
 import { DatabaseModule } from '../../src/nest/database/database.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 describe('Share-link e2e (real auth guard + real SQL over temp SQLite)', () => {
@@ -168,7 +168,7 @@ describe('Share-link e2e (real auth guard + real SQL over temp SQLite)', () => {
   describe('public place-photo proxy (/api/shared/:token/place-photo/:placeId/bytes)', () => {
     // The controller streams (category 'photos-google', name) through the real
     // storage facade, so the fixture has to live in the real photos-google root.
-    const photoName = 'trek-share-photo.e2e.jpg';
+    const photoName = 'tripmate-share-photo.e2e.jpg';
     const photoFile = path.join(__dirname, '../../uploads/photos/google', photoName);
     const photoBytes = Buffer.from([0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10]); // JPEG-ish header
 

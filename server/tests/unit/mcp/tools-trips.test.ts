@@ -1,7 +1,7 @@
 /**
  * Unit tests for the trip MCP surface (TripsMcp, DI-discovered): create_trip,
  * update_trip, delete_trip, list_trips, get_trip_summary tools, the
- * trek://trips / trek://trips/{tripId} resources (moved here from
+ * tripmate://trips / tripmate://trips/{tripId} resources (moved here from
  * resources.test.ts with the DI port — the withTools harness attaches the
  * nest-mcp registry that now registers them), the fire-once deprecation
  * notice riding the attach ctx, and the scope gating (declarative
@@ -30,7 +30,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -43,7 +43,7 @@ import { runMigrations } from '../../../src/db/migrations';
 import { resetTestDb } from '../../helpers/test-db';
 import { createUser, createTrip, createDay, createPlace, addTripMember, createBudgetItem, createPackingItem, createReservation, createDayNote, createCollabNote, createDayAssignment, createDayAccommodation } from '../../helpers/factories';
 import { createMcpHarness, parseToolResult, parseResourceResult, type McpHarness } from '../../helpers/mcp-harness';
-import { MAX_TRIP_DAYS } from '@trek/shared';
+import { MAX_TRIP_DAYS } from '@tripmate/shared';
 
 beforeAll(() => {
   createTables(testDb);
@@ -810,7 +810,7 @@ describe('Tool: get_trip_summary', () => {
 // withTools harness attaches now registers them)
 // ---------------------------------------------------------------------------
 
-describe('Resource: trek://trips', () => {
+describe('Resource: tripmate://trips', () => {
   it('returns all trips the user owns or is a member of', async () => {
     const { user } = createUser(testDb);
     const { user: other } = createUser(testDb);
@@ -821,7 +821,7 @@ describe('Resource: trek://trips', () => {
     createTrip(testDb, other.id, { title: 'Other Trip' });
 
     await withHarness(user.id, async (harness) => {
-      const result = await harness.client.readResource({ uri: 'trek://trips' });
+      const result = await harness.client.readResource({ uri: 'tripmate://trips' });
       const trips = parseResourceResult(result) as any[];
       expect(trips).toHaveLength(2);
       const titles = trips.map((t) => t.title);
@@ -838,7 +838,7 @@ describe('Resource: trek://trips', () => {
     testDb.prepare('UPDATE trips SET is_archived = 1 WHERE id = ?').run(archived.id);
 
     await withHarness(user.id, async (harness) => {
-      const result = await harness.client.readResource({ uri: 'trek://trips' });
+      const result = await harness.client.readResource({ uri: 'tripmate://trips' });
       const trips = parseResourceResult(result) as any[];
       expect(trips).toHaveLength(1);
       expect(trips[0].title).toBe('Active Trip');
@@ -848,20 +848,20 @@ describe('Resource: trek://trips', () => {
   it('returns empty array when user has no trips', async () => {
     const { user } = createUser(testDb);
     await withHarness(user.id, async (harness) => {
-      const result = await harness.client.readResource({ uri: 'trek://trips' });
+      const result = await harness.client.readResource({ uri: 'tripmate://trips' });
       const trips = parseResourceResult(result) as any[];
       expect(trips).toEqual([]);
     });
   });
 });
 
-describe('Resource: trek://trips/{tripId}', () => {
+describe('Resource: tripmate://trips/{tripId}', () => {
   it('returns trip data for an accessible trip', async () => {
     const { user } = createUser(testDb);
     const trip = createTrip(testDb, user.id, { title: 'Paris Trip' });
 
     await withHarness(user.id, async (harness) => {
-      const result = await harness.client.readResource({ uri: `trek://trips/${trip.id}` });
+      const result = await harness.client.readResource({ uri: `tripmate://trips/${trip.id}` });
       const data = parseResourceResult(result) as any;
       expect(data.title).toBe('Paris Trip');
       expect(data.id).toBe(trip.id);
@@ -874,7 +874,7 @@ describe('Resource: trek://trips/{tripId}', () => {
     const otherTrip = createTrip(testDb, other.id, { title: 'Private' });
 
     await withHarness(user.id, async (harness) => {
-      const result = await harness.client.readResource({ uri: `trek://trips/${otherTrip.id}` });
+      const result = await harness.client.readResource({ uri: `tripmate://trips/${otherTrip.id}` });
       const data = parseResourceResult(result) as any;
       expect(data.error).toBeTruthy();
     });
@@ -883,14 +883,14 @@ describe('Resource: trek://trips/{tripId}', () => {
   it('returns access denied for non-existent ID', async () => {
     const { user } = createUser(testDb);
     await withHarness(user.id, async (harness) => {
-      const result = await harness.client.readResource({ uri: 'trek://trips/99999' });
+      const result = await harness.client.readResource({ uri: 'tripmate://trips/99999' });
       const data = parseResourceResult(result) as any;
       expect(data.error).toBeTruthy();
     });
   });
 });
 
-describe('Resource: trek://trips/{tripId}/members', () => {
+describe('Resource: tripmate://trips/{tripId}/members', () => {
   it('returns owner and collaborators', async () => {
     const { user } = createUser(testDb);
     const { user: member } = createUser(testDb);
@@ -898,7 +898,7 @@ describe('Resource: trek://trips/{tripId}/members', () => {
     addTripMember(testDb, trip.id, member.id);
 
     await withHarness(user.id, async (harness) => {
-      const result = await harness.client.readResource({ uri: `trek://trips/${trip.id}/members` });
+      const result = await harness.client.readResource({ uri: `tripmate://trips/${trip.id}/members` });
       const data = parseResourceResult(result) as any;
       expect(data.owner).toBeTruthy();
       expect(data.owner.id).toBe(user.id);
@@ -913,7 +913,7 @@ describe('Resource: trek://trips/{tripId}/members', () => {
     const trip = createTrip(testDb, other.id);
 
     await withHarness(user.id, async (harness) => {
-      const result = await harness.client.readResource({ uri: `trek://trips/${trip.id}/members` });
+      const result = await harness.client.readResource({ uri: `tripmate://trips/${trip.id}/members` });
       const data = parseResourceResult(result) as any;
       expect(data.error).toBeTruthy();
     });

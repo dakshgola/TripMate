@@ -1,5 +1,5 @@
 /**
- * Unit tests for the TREK access-group boot gate in
+ * Unit tests for the Trip Mate access-group boot gate in
  * server/src/mcp/nest-mcp-policy.ts. Pure functions + a bare registry — no DB.
  *
  * The compile-time half of the group typing (McpAccessGroup === ScopeGroup)

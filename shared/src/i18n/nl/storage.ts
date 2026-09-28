@@ -12,14 +12,14 @@ const storage: TranslationStrings = {
   'storage.field.region': 'Regio',
   'storage.help.region': 'Laat de standaard staan tenzij je provider een specifieke regio vereist.',
   'storage.field.keyPrefix': 'Sleutelvoorvoegsel',
-  'storage.help.keyPrefix': 'Optioneel voorvoegsel toegevoegd aan elke objectsleutel, bijv. trek/prod.',
+  'storage.help.keyPrefix': 'Optioneel voorvoegsel toegevoegd aan elke objectsleutel, bijv. tripmate/prod.',
   'storage.field.retries': 'Nieuwe pogingen',
   'storage.field.timeoutMs': 'Time-out (ms)',
   'storage.field.primary': 'Primaire backend',
   'storage.field.replicas': "Replica's",
   'storage.title': 'Opslag',
   'storage.description':
-    "Waar TREK geüploade bestanden, foto's en back-ups bewaart. Er verandert niets totdat je opslaat.",
+    "Waar Trip Mate geüploade bestanden, foto's en back-ups bewaart. Er verandert niets totdat je opslaat.",
   'storage.loading': 'Laden…',
   'storage.saved': 'Opslagconfiguratie opgeslagen',
   'storage.save': 'Wijzigingen opslaan',
@@ -67,7 +67,7 @@ const storage: TranslationStrings = {
   'storage.category.avatars': "Profielfoto's",
   'storage.category.places': 'Locatieafbeeldingen',
   'storage.category.photos-google': 'Google-fotocache',
-  'storage.category.photos-trek': 'TREK-fotocache',
+  'storage.category.photos-tripmate': 'Trip Mate-fotocache',
   'storage.category.backups': 'Back-ups',
 
   // What each category stores — rendered under the label in the category map.
@@ -80,8 +80,8 @@ const storage: TranslationStrings = {
   'storage.categoryDesc.places': 'Afbeeldingen gekoppeld aan locaties en collectielocaties — geüpload of geïmporteerd.',
   'storage.categoryDesc.photos-google':
     "Gecachte kopieën van Google Places-foto's — opnieuw op te halen, veilig om te verliezen.",
-  'storage.categoryDesc.photos-trek':
-    "Gecachte foto's van de TREK-fotoservice die wordt gebruikt door Foto's (Memories) — opnieuw op te halen, veilig om te verliezen.",
+  'storage.categoryDesc.photos-tripmate':
+    "Gecachte foto's van de Trip Mate-fotoservice die wordt gebruikt door Foto's (Memories) — opnieuw op te halen, veilig om te verliezen.",
   'storage.categoryDesc.backups': 'Serverback-uparchieven aangemaakt door het back-uppaneel of de planning.',
   'storage.health.title': 'Status',
   'storage.health.allClear': 'Geen replicafouten geregistreerd.',
@@ -137,6 +137,7 @@ const storage: TranslationStrings = {
   'storage.migrate.cancel': 'Verplaatsen annuleren',
   'storage.migrate.promptCancel': 'Annuleren',
   'storage.migrate.queued': 'In wachtrij: {categories}',
-  'storage.migrate.queueDropped': 'Kon de volgende verplaatsing niet starten — de resterende wachtrij is gewist: {categories}',
+  'storage.migrate.queueDropped':
+    'Kon de volgende verplaatsing niet starten — de resterende wachtrij is gewist: {categories}',
 };
 export default storage;

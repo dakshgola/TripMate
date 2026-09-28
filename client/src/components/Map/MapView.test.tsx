@@ -889,12 +889,12 @@ describe('MapView track casing pane (#776)', () => {
       id: 1, lat: 48, lng: 2, route_geometry: '[[48.0,2.0],[49.0,3.0]]', route_color: '#059669',
     })]} />)
 
-    expect(mapMock.createPane).toHaveBeenCalledWith('trek-track-casing')
-    expect(mapMock.panes.get('trek-track-casing')!.style.zIndex).toBe('398')
+    expect(mapMock.createPane).toHaveBeenCalledWith('tripmate-track-casing')
+    expect(mapMock.panes.get('tripmate-track-casing')!.style.zIndex).toBe('398')
 
     const casing = screen.getAllByTestId('polyline')
       .find(el => JSON.parse(el.getAttribute('data-path-options') || '{}').weight === 6.5)
-    expect(casing!.getAttribute('data-pane')).toBe('trek-track-casing')
+    expect(casing!.getAttribute('data-pane')).toBe('tripmate-track-casing')
   })
 
   it('FE-COMP-MAPVIEW-072: a renderer without pane support still draws every track', () => {

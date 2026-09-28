@@ -1,4 +1,4 @@
-import type { RouteUsageEntry, RouteUsageSummaryResult } from '@trek/shared'
+import type { RouteUsageEntry, RouteUsageSummaryResult } from '@tripmate/shared'
 import { apiClient } from './client'
 
 /**

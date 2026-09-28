@@ -5,7 +5,7 @@ import { RoadtripPreferencesService } from './roadtrip-preferences.service';
 import { RoadtripRouterService } from './roadtrip-router.service';
 import { RoadtripService } from './roadtrip.service';
 import { Injectable, HttpException } from '@nestjs/common';
-import { type RoadtripPreferences } from '@trek/shared';
+import { type RoadtripPreferences } from '@tripmate/shared';
 import {
   assembleRoadtrip,
   carrierLegsFor,
@@ -34,7 +34,7 @@ import {
   type SnappedWaypoint,
   type RouteAvoidClass,
   standsAsDay,
-} from '@trek/shared/roadtrip';
+} from '@tripmate/shared/roadtrip';
 
 interface StoredDay {
   id: number;

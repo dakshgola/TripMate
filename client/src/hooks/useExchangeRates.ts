@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import type { BudgetFallbackFx } from '@trek/shared'
+import type { BudgetFallbackFx } from '@tripmate/shared'
 import { currencyDecimals } from '../utils/formatters'
 
 /**

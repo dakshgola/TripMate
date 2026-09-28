@@ -37,7 +37,7 @@ const onListen = () => {
   const resolvedAppUrl = getMcpSafeUrl();
   const banner = [
     '──────────────────────────────────────',
-    '  TREK API started',
+    '  Trip Mate API started',
     `  Version         ${APP_VERSION}`,
     ...(HOST ? [`  Host:           ${HOST}`] : []),
     `  Container Port: ${PORT}`,
@@ -46,7 +46,7 @@ const onListen = () => {
     `  Timezone:       ${tz}`,
     `  Origins:        ${origins}`,
     `  Log level:      ${LOG_LVL}`,
-    `  Log file:       /app/data/logs/trek.log`,
+    `  Log file:       /app/data/logs/tripmate.log`,
     `  PID:            ${process.pid}`,
     `  User:           uid=${process.getuid?.()} gid=${process.getgid?.()}`,
     '──────────────────────────────────────',

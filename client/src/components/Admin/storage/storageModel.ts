@@ -5,7 +5,7 @@ import {
   type StorageCategory,
   type StorageConfig,
   type StorageConfigPut,
-} from '@trek/shared'
+} from '@tripmate/shared'
 
 /** One entry of the effective world (GET state), as the panels render it. */
 export type StateBackend = StorageAdminState['backends'][number]

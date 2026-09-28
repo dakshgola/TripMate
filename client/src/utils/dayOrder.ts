@@ -1,4 +1,4 @@
-import { getDayBookendHotels, getDayOrder, hotelIsTheStop, isDayInAccommodationRange } from '@trek/shared'
+import { getDayBookendHotels, getDayOrder, hotelIsTheStop, isDayInAccommodationRange } from '@tripmate/shared'
 import type { Day, Accommodation, RouteAnchors } from '../types'
 import { parseTimeToMinutes } from './dayMerge'
 import { haversineKm, withinDayTripRange } from './geo'
@@ -13,7 +13,7 @@ import { haversineKm, withinDayTripRange } from './geo'
  */
 export type CarrierEdge = 'departure' | 'arrival' | null
 
-// Which stay a day wakes up in and which one it sleeps in is read in @trek/shared, so every
+// Which stay a day wakes up in and which one it sleeps in is read in @tripmate/shared, so every
 // reader of a day's nights makes the same choice. Days keeps importing it from here.
 export { getDayBookendHotels, getDayOrder, isDayInAccommodationRange }
 

@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import { Injectable } from '@nestjs/common';
-import type { StorageAdminState, StorageBackend, StorageConfigPut, StorageTestResponse, StorageUsage } from '@trek/shared';
+import type { StorageAdminState, StorageBackend, StorageConfigPut, StorageTestResponse, StorageUsage } from '@tripmate/shared';
 import { DatabaseService } from '../database/database.service';
 import {
   BACKENDS_KEY,

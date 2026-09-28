@@ -45,7 +45,7 @@ afterEach(() => {
 });
 
 describe('toWikiLang', () => {
-  it('MAPS-157: maps TREK\'s "br" to Portuguese, not Breton', () => {
+  it('MAPS-157: maps Trip Mate\'s "br" to Portuguese, not Breton', () => {
     // br.wikipedia.org EXISTS and answers 200 — it is the Breton Wikipedia.
     // Passing the raw code through fails silently, in Breton.
     expect(toWikiLang('br')).toBe('pt');
@@ -94,7 +94,7 @@ describe('namesOverlap', () => {
   });
 
   it('MAPS-162b: will not match on a single short word', () => {
-    // An article, and TREK speaks 23 languages — a stopword list for all of
+    // An article, and Trip Mate speaks 23 languages — a stopword list for all of
     // them is its own problem, so weight decides instead.
     expect(namesOverlap('Der Kiosk', 'Der Bahnhof')).toBe(false);
     // Two short words together are evidence enough.

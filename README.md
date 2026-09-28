@@ -1,9 +1,9 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/logo-trek-light.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="docs/logo-trek-dark.svg" />
-  <img src="docs/logo-trek-dark.svg" alt="TREK" height="96" />
+  <source media="(prefers-color-scheme: dark)" srcset="docs/logo-tripmate-light.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="docs/logo-tripmate-dark.svg" />
+  <img src="docs/logo-tripmate-dark.svg" alt="Trip Mate" height="96" />
 </picture>
 
 <br />
@@ -23,7 +23,7 @@ A self-hosted, real-time collaborative travel planner — with maps, budgets, pa
 &nbsp;
 <a href="https://sonarcloud.io/project/overview?id=liketrek_TREK"><img alt="Sonar Quality Gate" src="https://img.shields.io/sonar/quality_gate/liketrek_TREK?server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge" /></a>
 &nbsp;
-<img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/liketrek/TREK/test.yml?branch=main&style=for-the-badge">
+<img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/liketrek/Trip Mate/test.yml?branch=main&style=for-the-badge">
 &nbsp;
 <a href="https://discord.gg/NhZBDSd4qW"><img alt="Discord" src="https://img.shields.io/badge/Discord-join-5865F2?style=for-the-badge" /></a>
 &nbsp;
@@ -126,9 +126,9 @@ Most of what follows is an addon an admin switches on or off. Lists, Costs, Docu
 
 #### 🧩 Plugins
 
-- **Third-party plugins**: install from the TREK registry or sideload a zip, switch on per instance, with their own pages under `/plugins/<id>`
+- **Third-party plugins**: install from the Trip Mate registry or sideload a zip, switch on per instance, with their own pages under `/plugins/<id>`
 - **Sandboxed**: one child process per plugin, 63 grantable permissions, an admin-edited outbound host allowlist, memory and RPC caps, and daily caps on AI and notification calls
-- **Trust**: registry downloads are pinned by sha256 and checked against the author's minisign key. A sideloaded zip is marked unverified, and `TREK_PLUGINS_ENABLED=false` turns the whole system off
+- **Trust**: registry downloads are pinned by sha256 and checked against the author's minisign key. A sideloaded zip is marked unverified, and `TRIPMATE_PLUGINS_ENABLED=false` turns the whole system off
 - **Extension points**: map markers and layers, place details, day schedules, PDF sections, Atlas layers, journal rows, trip warnings, calendar sources, route profiles and notification channels. Plugin pages run in an opaque-origin iframe
 - **SDK**: [`trek-plugin-sdk`](https://www.npmjs.com/package/trek-plugin-sdk) on npm, with a manifest validator, a mock host, and a dev-link mode that runs a local build against real data
 
@@ -209,7 +209,7 @@ ENCRYPTION_KEY=$(openssl rand -hex 32) docker run -d -p 3000:3000 \
   -v ./data:/app/data -v ./uploads:/app/uploads mauriceboe/trek
 ```
 
-Open `http://localhost:3000`. On first boot TREK seeds an admin account — if you set `ADMIN_EMAIL`/`ADMIN_PASSWORD` those are used, otherwise the credentials are printed to the container log (`docker logs trek`).
+Open `http://localhost:3000`. On first boot Trip Mate seeds an admin account — if you set `ADMIN_EMAIL`/`ADMIN_PASSWORD` those are used, otherwise the credentials are printed to the container log (`docker logs tripmate`).
 
 <div align="center">
 
@@ -256,9 +256,9 @@ for the full walkthrough.
 <h2 id="helm-kubernetes">Helm (Kubernetes)</h2>
 
 ```bash
-helm repo add trek https://chart.liketrek.com
+helm repo add tripmate https://chart.liketrek.com
 helm repo update
-helm install trek trek/trek
+helm install tripmate tripmate/tripmate
 ```
 
 See [`charts/README.md`](https://github.com/liketrek/TREK/blob/main/charts/README.md) for values.
@@ -267,13 +267,13 @@ See [`charts/README.md`](https://github.com/liketrek/TREK/blob/main/charts/READM
 
 <h2 id="install-as-app-pwa">Install as App (PWA)</h2>
 
-TREK works as a Progressive Web App — no App Store needed.
+Trip Mate works as a Progressive Web App — no App Store needed.
 
-1. Open TREK in the browser (HTTPS required)
+1. Open Trip Mate in the browser (HTTPS required)
 2. **iOS**: Share ▸ *Add to Home Screen*
 3. **Android**: Menu ▸ *Install app* (or *Add to Home Screen*)
 
-TREK then launches fullscreen with its own icon, just like a native app.
+Trip Mate then launches fullscreen with its own icon, just like a native app.
 
 <br />
 
@@ -286,7 +286,7 @@ Docker run, Helm, Portainer, Unraid and Proxmox, plus the encryption-key note.
 
 <h2 id="reverse-proxy">Reverse Proxy</h2>
 
-For production, put TREK behind a TLS-terminating reverse proxy. TREK uses WebSockets for real-time sync, so the proxy **must** support WebSocket upgrades on `/ws`.
+For production, put Trip Mate behind a TLS-terminating reverse proxy. Trip Mate uses WebSockets for real-time sync, so the proxy **must** support WebSocket upgrades on `/ws`.
 
 If you use the MCP addon, the proxy must also pass the `Mcp-Session-Id` header through in both directions on `/mcp` — Nginx and Caddy do this by default, but a proxy that strips it makes every tool call open a new session instead of reusing one. See the [Reverse Proxy wiki page](https://github.com/liketrek/TREK/wiki/Reverse-Proxy) for details.
 
@@ -296,13 +296,13 @@ If you use the MCP addon, the proxy must also pass the `Mcp-Session-Id` header t
 ```nginx
 server {
     listen 80;
-    server_name trek.yourdomain.com;
+    server_name tripmate.yourdomain.com;
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name trek.yourdomain.com;
+    server_name tripmate.yourdomain.com;
 
     ssl_certificate     /etc/ssl/fullchain.pem;
     ssl_certificate_key /etc/ssl/privkey.pem;
@@ -349,7 +349,7 @@ server {
 <summary>Caddy</summary>
 
 ```caddy
-trek.yourdomain.com {
+tripmate.yourdomain.com {
     reverse_proxy localhost:3000
 }
 ```
@@ -369,9 +369,9 @@ Every variable, its default and what it does: see
 
 <a href="https://www.star-history.com/?repos=liketrek%2FTREK&type=date&legend=bottom-right">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=liketrek/TREK&type=date&theme=dark&legend=bottom-right&sealed_token=tW9agibKugOyPk0yPURgSdnizM7K72zbJENGD9iyk24ZcwYHtCUn-hk9jh1gdacO0O7xJ3Io7LaNrwYD3mChzcpzZIqDC8_HevYG1qnT0XNTmN6Ez4UZrQ" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=liketrek/TREK&type=date&legend=bottom-right&sealed_token=tW9agibKugOyPk0yPURgSdnizM7K72zbJENGD9iyk24ZcwYHtCUn-hk9jh1gdacO0O7xJ3Io7LaNrwYD3mChzcpzZIqDC8_HevYG1qnT0XNTmN6Ez4UZrQ" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=liketrek/TREK&type=date&legend=bottom-right&sealed_token=tW9agibKugOyPk0yPURgSdnizM7K72zbJENGD9iyk24ZcwYHtCUn-hk9jh1gdacO0O7xJ3Io7LaNrwYD3mChzcpzZIqDC8_HevYG1qnT0XNTmN6Ez4UZrQ" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=liketrek/Trip Mate&type=date&theme=dark&legend=bottom-right&sealed_token=tW9agibKugOyPk0yPURgSdnizM7K72zbJENGD9iyk24ZcwYHtCUn-hk9jh1gdacO0O7xJ3Io7LaNrwYD3mChzcpzZIqDC8_HevYG1qnT0XNTmN6Ez4UZrQ" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=liketrek/Trip Mate&type=date&legend=bottom-right&sealed_token=tW9agibKugOyPk0yPURgSdnizM7K72zbJENGD9iyk24ZcwYHtCUn-hk9jh1gdacO0O7xJ3Io7LaNrwYD3mChzcpzZIqDC8_HevYG1qnT0XNTmN6Ez4UZrQ" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=liketrek/Trip Mate&type=date&legend=bottom-right&sealed_token=tW9agibKugOyPk0yPURgSdnizM7K72zbJENGD9iyk24ZcwYHtCUn-hk9jh1gdacO0O7xJ3Io7LaNrwYD3mChzcpzZIqDC8_HevYG1qnT0XNTmN6Ez4UZrQ" />
  </picture>
 </a>
 
@@ -386,4 +386,4 @@ for full third-party attributions.
 
 ## License
 
-TREK is [AGPL v3](LICENSE). Self-host freely for personal or internal company use. If you modify and offer TREK as a network service to third parties, your modifications must be open-sourced under the same licence.
+Trip Mate is [AGPL v3](LICENSE). Self-host freely for personal or internal company use. If you modify and offer Trip Mate as a network service to third parties, your modifications must be open-sourced under the same licence.

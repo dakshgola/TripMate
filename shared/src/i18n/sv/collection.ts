@@ -155,7 +155,8 @@ const collection: TranslationStrings = {
   'collections.file.targetExisting': 'Lägg till i en lista',
   'collections.file.targetExistingHint': 'I en du redan har',
   'collections.file.searchLists': 'Sök listor',
-  'collections.file.intoHint': 'Platser som listan redan har lämnas som de är, liksom namn och färg. Etiketter från filen läggs till.',
+  'collections.file.intoHint':
+    'Platser som listan redan har lämnas som de är, liksom namn och färg. Etiketter från filen läggs till.',
   'collections.file.confirmInto': 'Lägg till i listan',
   'collections.file.doneInto': '{count} platser tillagda i {name}',
   'collections.file.doneIntoDuplicates': '{count} tillagda i {name}, {duplicates} fanns redan',
@@ -168,9 +169,9 @@ const collection: TranslationStrings = {
   'collections.file.doneSkipped': '{count} platser importerade, {skipped} överhoppade',
   'collections.file.errorTooLarge': 'Filen är för stor för att vara en lista.',
   'collections.file.errorUnreadable': 'Filen gick inte att läsa.',
-  'collections.file.errorNotACollection': 'Det här är ingen TREK-listfil.',
-  'collections.file.formatTrek': 'TREK-lista',
-  'collections.file.formatTrekHint': 'För en annan TREK, med etiketter och status',
+  'collections.file.errorNotACollection': 'Det här är ingen Trip Mate-listfil.',
+  'collections.file.formatTrek': 'Trip Mate-lista',
+  'collections.file.formatTrekHint': 'För en annan Trip Mate, med etiketter och status',
   'collections.file.formatGpxHint': 'Vägpunkter för OsmAnd, Organic Maps, Garmin och andra kartappar',
   'collections.file.gpxOmitted': '{count} platser utan koordinater kom inte med i GPX-filen',
   'collections.file.gpxNothing':

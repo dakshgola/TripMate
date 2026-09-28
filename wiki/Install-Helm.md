@@ -1,33 +1,33 @@
 # Install: Helm
 
-Deploy TREK on Kubernetes using the official Helm chart.
+Deploy Trip Mate on Kubernetes using the official Helm chart.
 
 ## Add the Chart Repository
 
 ```bash
-helm repo add trek https://chart.liketrek.com
+helm repo add tripmate https://chart.liketrek.com
 helm repo update
 ```
 
-> **Note:** `chart.liketrek.com` is a custom domain (CNAME) for the GitHub Pages site at `https://liketrek.github.io/TREK` — both serve the same chart repository. Using the custom domain keeps your setup working even if the GitHub repository moves again.
+> **Note:** `chart.liketrek.com` is a custom domain (CNAME) for the GitHub Pages site at `https://liketrek.github.io/Trip Mate` — both serve the same chart repository. Using the custom domain keeps your setup working even if the GitHub repository moves again.
 
-> **⚠️ Repository moved:** The chart is no longer served at `https://mauriceboe.github.io/TREK` (the project moved from a personal repo to the `liketrek` organization). If you added the repo from the old URL, switch to the new one:
+> **⚠️ Repository moved:** The chart is no longer served at `https://mauriceboe.github.io/Trip Mate` (the project moved from a personal repo to the `liketrek` organization). If you added the repo from the old URL, switch to the new one:
 >
 > ```bash
-> helm repo remove trek
-> helm repo add trek https://chart.liketrek.com
+> helm repo remove tripmate
+> helm repo add tripmate https://chart.liketrek.com
 > helm repo update
 > ```
 >
-> Existing releases keep working — only the repo URL changes; future `helm repo update` / `helm upgrade` runs require the new URL. (`https://liketrek.github.io/TREK` also works — it redirects to `chart.liketrek.com`.)
+> Existing releases keep working — only the repo URL changes; future `helm repo update` / `helm upgrade` runs require the new URL. (`https://liketrek.github.io/Trip Mate` also works — it redirects to `chart.liketrek.com`.)
 
 ## Basic Install
 
 ```bash
-helm install trek trek/trek
+helm install tripmate tripmate/tripmate
 ```
 
-This deploys TREK with default values: a `ClusterIP` service on port 3000, 1 Gi PVCs for data and uploads, and no ingress.
+This deploys Trip Mate with default values: a `ClusterIP` service on port 3000, 1 Gi PVCs for data and uploads, and no ingress.
 
 ## Encryption Key
 
@@ -36,7 +36,7 @@ This deploys TREK with default values: a `ClusterIP` service on port 3000, 1 Gi 
 **Option 1 — Let the chart generate a random key (recommended for new installs):**
 
 ```bash
-helm install trek trek/trek --set generateEncryptionKey=true
+helm install tripmate tripmate/tripmate --set generateEncryptionKey=true
 ```
 
 The chart generates a 32-character alphanumeric key at install time and preserves it across upgrades. Note that this differs from the 64-character hex key produced by `openssl rand -hex 32` — both formats are accepted by the server.
@@ -44,18 +44,18 @@ The chart generates a 32-character alphanumeric key at install time and preserve
 **Option 2 — Set an explicit key:**
 
 ```bash
-helm install trek trek/trek \
+helm install tripmate tripmate/tripmate \
   --set secretEnv.ENCRYPTION_KEY=$(openssl rand -hex 32)
 ```
 
 **Option 3 — Use an existing Kubernetes Secret:**
 
 ```bash
-kubectl create secret generic trek-secrets \
+kubectl create secret generic tripmate-secrets \
   --from-literal=ENCRYPTION_KEY=$(openssl rand -hex 32)
 
-helm install trek trek/trek \
-  --set existingSecret=trek-secrets
+helm install tripmate tripmate/tripmate \
+  --set existingSecret=tripmate-secrets
 ```
 
 If `existingSecret` uses a different key name than `ENCRYPTION_KEY`, specify it with `--set existingSecretKey=MY_KEY_NAME`.
@@ -68,10 +68,10 @@ If `existingSecret` uses a different key name than `ENCRYPTION_KEY`, specify it 
 
 ## Admin Account
 
-`ADMIN_EMAIL` and `ADMIN_PASSWORD` are set via `secretEnv`. They are only used on first boot when no users exist yet. **Both must be set together** — if either is missing, the server ignores both values and instead creates the admin account with email `admin@trek.local` and a random password, which is printed to the server log.
+`ADMIN_EMAIL` and `ADMIN_PASSWORD` are set via `secretEnv`. They are only used on first boot when no users exist yet. **Both must be set together** — if either is missing, the server ignores both values and instead creates the admin account with email `admin@tripmate.local` and a random password, which is printed to the server log.
 
 ```bash
-helm install trek trek/trek \
+helm install tripmate tripmate/tripmate \
   --set secretEnv.ADMIN_EMAIL=admin@example.com \
   --set secretEnv.ADMIN_PASSWORD=<your-secure-password>
 ```
@@ -109,9 +109,9 @@ env:
   PORT: 3000
   # TZ: "Europe/Berlin"          # timezone for logs, reminders, cron jobs
   # LOG_LEVEL: "info"            # "info" = concise, "debug" = verbose
-  # TREK_WIKI_DIR: "/app/wiki"   # where /help reads its docs from; leave unset (the image ships them)
-  # ALLOWED_ORIGINS: "https://trek.example.com"
-  # APP_URL: "https://trek.example.com"
+  # TRIPMATE_WIKI_DIR: "/app/wiki"   # where /help reads its docs from; leave unset (the image ships them)
+  # ALLOWED_ORIGINS: "https://tripmate.example.com"
+  # APP_URL: "https://tripmate.example.com"
   # FORCE_HTTPS: "false"         # enable HTTPS redirect + HSTS; set TRUST_PROXY for correct client IPs
   # TRUST_PROXY: "1"             # proxy hops for X-Forwarded-For/Proto; defaults to 1 in production
   # COOKIE_SECURE: "true"        # auto-derived; set "false" only for local HTTP testing
@@ -119,7 +119,7 @@ env:
   # DEMO_MODE: "false"           # enable demo mode (hourly data resets)
   # MCP_RATE_LIMIT: "300"        # max MCP requests per user per minute
   # OIDC_ISSUER: "https://auth.example.com"
-  # OIDC_CLIENT_ID: "trek"
+  # OIDC_CLIENT_ID: "tripmate"
   # OIDC_DISPLAY_NAME: "SSO"
   # OIDC_ONLY: "false"           # force SSO-only mode; disables password login
   # OIDC_ADMIN_CLAIM: ""         # OIDC claim used to identify admin users
@@ -175,7 +175,7 @@ resources:
 Liveness and readiness probes are configurable under `probes`. The defaults hit `/api/health` on port 3000 and match what the chart shipped before, so an existing install renders the same manifest.
 
 ```bash
-helm install trek trek/trek   --set probes.liveness.initialDelaySeconds=60   --set probes.readiness.periodSeconds=20
+helm install tripmate tripmate/tripmate   --set probes.liveness.initialDelaySeconds=60   --set probes.readiness.periodSeconds=20
 ```
 
 Raise `initialDelaySeconds` on slow storage or after a large migration, where the first start can outlast the default and leave the pod restarting in a loop. Overrides are merged over the defaults, so setting one key keeps the rest. To switch a probe to `exec` or `tcpSocket`, clear the shipped handler in the same override (`--set probes.liveness.httpGet=null`), otherwise Kubernetes rejects the pod with "may not specify more than 1 handler type". Set `probes.liveness=null` to drop a probe entirely.
@@ -192,16 +192,16 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "86400"  # required for WebSockets
     nginx.ingress.kubernetes.io/proxy-body-size: "500m"       # required for backup restore
   hosts:
-    - host: trek.example.com
+    - host: tripmate.example.com
       paths:
         - /
   tls:
-    - secretName: trek-tls
+    - secretName: tripmate-tls
       hosts:
-        - trek.example.com
+        - tripmate.example.com
 ```
 
-> **Important:** TREK uses WebSockets on `/ws`. Your ingress controller must support WebSocket upgrades. Set `proxy-read-timeout` to at least `86400` and `proxy-body-size` to at least `500m` for backup restores.
+> **Important:** Trip Mate uses WebSockets on `/ws`. Your ingress controller must support WebSocket upgrades. Set `proxy-read-timeout` to at least `86400` and `proxy-body-size` to at least `500m` for backup restores.
 
 > **Note:** Keep `env.ALLOWED_ORIGINS` in sync with `ingress.hosts` — the chart does not synchronize these automatically.
 
@@ -211,7 +211,7 @@ ingress:
 
 ```bash
 helm repo update
-helm upgrade trek trek/trek
+helm upgrade tripmate tripmate/tripmate
 ```
 
 ## Full Values Reference

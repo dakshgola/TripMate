@@ -82,7 +82,7 @@ export type AtlasLocateResponse = z.infer<typeof atlasLocateResponseSchema>;
 export const visitStatusSchema = z.enum(['visited', 'planned', 'idea']);
 export type VisitStatus = z.infer<typeof visitStatusSchema>;
 
-/** Today as 'YYYY-MM-DD' in UTC — the comparison base the rest of TREK uses. */
+/** Today as 'YYYY-MM-DD' in UTC — the comparison base the rest of Trip Mate uses. */
 export function todayUtc(): string {
   return new Date().toISOString().slice(0, 10);
 }

@@ -5,7 +5,7 @@
  * answer: does a token actually only reach its owner's trips? Two users, two trips,
  * and every path that could leak one into the other is exercised — the list, the
  * detail route, and a trip shared by membership (which must be visible, because
- * that is TREK's access model, not an exception to it).
+ * that is Trip Mate's access model, not an exception to it).
  */
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import request from 'supertest';
@@ -85,7 +85,7 @@ import { ApiTokenGuard } from '../../src/nest/public-api/api-token.guard';
 import { TokensModule } from '../../src/nest/tokens/tokens.module';
 import { PublicStatsController } from '../../src/nest/atlas/public-stats.controller';
 import { AtlasService } from '../../src/nest/atlas/atlas.service';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 
 /** Mints a token the way TokenService does, so the guard's hash lookup is real. */
 function seedToken(userId: number, raw: string, kind: 'api' | 'mcp' = 'api'): string {

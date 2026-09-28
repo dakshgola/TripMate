@@ -1,6 +1,6 @@
 /**
  * Unit tests for the DI-discovered DaysMcp: the update_day and reorder_days
- * tools, create_day's mid-trip insert and dated append, and the trek://trips/{tripId}/days
+ * tools, create_day's mid-trip insert and dated append, and the tripmate://trips/{tripId}/days
  * resource (moved from resources.test.ts when the legacy registrar was ported).
  * create_day's plain append is covered in tools-days-accommodations.test.ts.
  */
@@ -27,7 +27,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -660,10 +660,10 @@ describe('Tool: reorder_days', () => {
 });
 
 // ---------------------------------------------------------------------------
-// trek://trips/{tripId}/days resource (moved from resources.test.ts)
+// tripmate://trips/{tripId}/days resource (moved from resources.test.ts)
 // ---------------------------------------------------------------------------
 
-describe('Resource: trek://trips/{tripId}/days', () => {
+describe('Resource: tripmate://trips/{tripId}/days', () => {
   it('returns days with assignments in order', async () => {
     const { user } = createUser(testDb);
     const trip = createTrip(testDb, user.id);
@@ -674,7 +674,7 @@ describe('Resource: trek://trips/{tripId}/days', () => {
     void day2;
 
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/days` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/days` });
       const days = parseResourceResult(result) as any[];
       expect(days).toHaveLength(2);
       expect(days[0].day_number).toBe(1);
@@ -690,7 +690,7 @@ describe('Resource: trek://trips/{tripId}/days', () => {
     const trip = createTrip(testDb, other.id);
 
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/days` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/days` });
       const data = parseResourceResult(result) as any;
       expect(data.error).toBeTruthy();
     });

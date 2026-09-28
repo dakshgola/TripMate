@@ -3,10 +3,10 @@ import { googleHoldsSlot, offersGoogleRetry, placesGoogleOnlyHint, selectGoogleH
 
 describe('offersGoogleRetry', () => {
   it('FE-PLACESOURCE-001: offers Google for a list the index or OpenStreetMap answered, only where Google answers', () => {
-    expect(offersGoogleRetry('trek-places+openstreetmap', true)).toBe(true)
+    expect(offersGoogleRetry('tripmate-places+openstreetmap', true)).toBe(true)
     expect(offersGoogleRetry('openstreetmap', true)).toBe(true)
-    expect(offersGoogleRetry('trek-places+plugin', true)).toBe(true)
-    expect(offersGoogleRetry('trek-places+openstreetmap', false)).toBe(false)
+    expect(offersGoogleRetry('tripmate-places+plugin', true)).toBe(true)
+    expect(offersGoogleRetry('tripmate-places+openstreetmap', false)).toBe(false)
   })
 
   it('FE-PLACESOURCE-002: a list Google produced, the offline cache and no list at all have nowhere further to go', () => {
@@ -51,7 +51,7 @@ describe('placesGoogleOnlyHint', () => {
 describe('sourceLabelFor', () => {
   it('FE-PLACESOURCE-003: a row names its own index, else the list it came from', () => {
     const t = (k: string) => k
-    expect(sourceLabelFor({ source: 'openstreetmap' }, 'trek-places+openstreetmap', t)).toBe('OpenStreetMap')
+    expect(sourceLabelFor({ source: 'openstreetmap' }, 'tripmate-places+openstreetmap', t)).toBe('OpenStreetMap')
     expect(sourceLabelFor({}, 'google', t)).toBe('Google')
     expect(sourceLabelFor({}, 'amap', t)).toBe('places.source.amap')
   })

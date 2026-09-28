@@ -30,7 +30,7 @@ vi.mock('../../src/db/database', () => ({ db, closeDb: () => {}, reinitialize: (
 import { TransitModule } from '../../src/nest/transit/transit.module';
 import { DatabaseModule } from '../../src/nest/database/database.module';
 import { RealtimeModule } from '../../src/nest/realtime/realtime.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { clearGoogleTransitCache } from '../../src/nest/transit/google-transit.provider';
 
 const ADMIN = 1;

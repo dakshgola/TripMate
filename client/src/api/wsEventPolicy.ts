@@ -1,8 +1,8 @@
-import type { TrekWsEventName } from '@trek/shared'
+import type { TrekWsEventName } from '@tripmate/shared'
 
 /**
  * Client-side handling policy for every event in the shared WS registry
- * (`TREK_WS_EVENTS` in @trek/shared). Together with the tripStore lookups
+ * (`TRIPMATE_WS_EVENTS` in @tripmate/shared). Together with the tripStore lookups
  * (DEXIE_WRITERS / STATE_APPLIERS in store/slices/remoteEventHandler.ts),
  * these lists partition the registry exactly — the registry-parity test
  * fails if a registry event is missing from all of them, or listed twice.

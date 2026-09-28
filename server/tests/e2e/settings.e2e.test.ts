@@ -29,7 +29,7 @@ const { db } = vi.hoisted(() => {
 vi.mock('../../src/db/database', () => ({ db, closeDb: () => {}, reinitialize: () => {} }));
 
 import { SettingsModule } from '../../src/nest/settings/settings.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 describe('Settings e2e (real auth guard + temp SQLite)', () => {
@@ -115,7 +115,7 @@ describe('Settings e2e (real auth guard + temp SQLite)', () => {
   it('POST /bulk skips masked-sentinel values (a stored secret survives)', async () => {
     db.prepare("INSERT INTO settings (user_id, key, value) VALUES (1, 'ntfy_token', 'tok-real')").run();
     const res = await request(server).post('/api/settings/bulk').set('Cookie', sessionCookie(1))
-      .send({ settings: { ntfy_topic: 'trek', ntfy_token: '••••••••' } });
+      .send({ settings: { ntfy_topic: 'tripmate', ntfy_token: '••••••••' } });
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ success: true, updated: 1 });
     expect(db.prepare("SELECT value FROM settings WHERE user_id = 1 AND key = 'ntfy_token'").get()).toEqual({ value: 'tok-real' });

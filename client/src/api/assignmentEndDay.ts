@@ -1,4 +1,4 @@
-import { assignmentSchema, type AssignmentEndDayRequest } from '@trek/shared'
+import { assignmentSchema, type AssignmentEndDayRequest } from '@tripmate/shared'
 import { apiClient } from './client'
 
 export async function saveAssignmentEndDay(tripId: number | string, id: number, body: AssignmentEndDayRequest) {

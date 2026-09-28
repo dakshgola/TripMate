@@ -1,5 +1,5 @@
 import { formatClock, parseClock } from './roadtripModel'
-import type { RoadtripDay } from '@trek/shared/roadtrip'
+import type { RoadtripDay } from '@tripmate/shared/roadtrip'
 
 export function stopArrival(day: RoadtripDay, index: number, alongKm: number): string | null {
   if (index === 0) return day.schedule.entries[0]?.arrival ?? null

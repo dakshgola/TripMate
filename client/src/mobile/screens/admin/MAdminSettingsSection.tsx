@@ -172,7 +172,7 @@ export default function MAdminSettingsSection({ admin, t }: MAdminSettingsSectio
               type="text"
               value={webauthnRpId}
               onChange={(e) => setWebauthnRpId(e.target.value)}
-              placeholder="trek.example.org"
+              placeholder="tripmate.example.org"
             />
           </MAdminField>
           <MAdminField label={t('admin.passkey.origins')} hint={t('admin.passkey.originsHint')}>
@@ -180,7 +180,7 @@ export default function MAdminSettingsSection({ admin, t }: MAdminSettingsSectio
               type="text"
               value={webauthnOrigins}
               onChange={(e) => setWebauthnOrigins(e.target.value)}
-              placeholder="https://trek.example.org"
+              placeholder="https://tripmate.example.org"
             />
           </MAdminField>
           <MAdminButton busy={savingWebauthn} onClick={handleSaveWebauthn}>
@@ -392,7 +392,7 @@ export default function MAdminSettingsSection({ admin, t }: MAdminSettingsSectio
           <MAdminField label={t('admin.placesProvider.title')} hint={t('admin.placesProvider.subtitle')}>
             {/* The app's own picker rather than a bare <select>: a native one is
                 drawn by the operating system and was the one control on this page
-                that did not belong to TREK. Same sheet the settings selects use. */}
+                that did not belong to Trip Mate. Same sheet the settings selects use. */}
             <button
               type="button"
               disabled={savingPlacesProvider}
@@ -482,7 +482,7 @@ export default function MAdminSettingsSection({ admin, t }: MAdminSettingsSectio
               type="url"
               value={oidcConfig.discovery_url}
               onChange={(e) => setOidcConfig((c) => ({ ...c, discovery_url: e.target.value }))}
-              placeholder="https://auth.example.com/application/o/trek/.well-known/openid-configuration"
+              placeholder="https://auth.example.com/application/o/tripmate/.well-known/openid-configuration"
             />
           </MAdminField>
           <MAdminField label="Client ID">

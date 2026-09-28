@@ -12,7 +12,7 @@ import {
   type RoutedLeg,
   type RouteAvoidClass,
   type SnappedWaypoint,
-} from '@trek/shared/roadtrip';
+} from '@tripmate/shared/roadtrip';
 
 import { z } from 'zod';
 
@@ -128,7 +128,7 @@ export class RoadtripRouterService {
       this.nextRequest = Date.now() + 1100;
       const response = await safeFetchAdminConfigured(url, {
         signal: AbortSignal.timeout(20000),
-        headers: { 'User-Agent': 'TREK Roadtrip', 'Content-Type': 'application/json', 'X-Client-Id': 'trek' },
+        headers: { 'User-Agent': 'Trip Mate Roadtrip', 'Content-Type': 'application/json', 'X-Client-Id': 'tripmate' },
         ...(body ? { method: 'POST', body: JSON.stringify(body) } : {}),
       });
       if (!response.ok) {

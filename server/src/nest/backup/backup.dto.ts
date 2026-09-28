@@ -1,8 +1,8 @@
 import { createZodDto } from 'nestjs-zod';
-import { autoBackupSettingsRequestSchema } from '@trek/shared';
+import { autoBackupSettingsRequestSchema } from '@tripmate/shared';
 
 /**
- * Server-side createZodDto wrapper over the @trek/shared backup contract.
+ * Server-side createZodDto wrapper over the @tripmate/shared backup contract.
  *
  * The schema is a passthrough that pins only the well-known toggles: the body is
  * normalised server-side by parseAutoBackupBody, which coerces strings and

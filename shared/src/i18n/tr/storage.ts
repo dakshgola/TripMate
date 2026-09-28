@@ -11,14 +11,14 @@ const storage: TranslationStrings = {
   'storage.field.region': 'Bölge',
   'storage.help.region': 'Sağlayıcınız belirli bir bölge gerektirmedikçe varsayılanı koruyun.',
   'storage.field.keyPrefix': 'Anahtar öneki',
-  'storage.help.keyPrefix': 'Her nesne anahtarına eklenen isteğe bağlı önek, örn. trek/prod.',
+  'storage.help.keyPrefix': 'Her nesne anahtarına eklenen isteğe bağlı önek, örn. tripmate/prod.',
   'storage.field.retries': 'Yeniden deneme',
   'storage.field.timeoutMs': 'Zaman aşımı (ms)',
   'storage.field.primary': 'Birincil arka uç',
   'storage.field.replicas': 'Kopyalar',
   'storage.title': 'Depolama',
   'storage.description':
-    "TREK'in yüklenen dosyaları, fotoğrafları ve yedekleri sakladığı yer. Kaydedene kadar hiçbir şey değişmez.",
+    "Trip Mate'in yüklenen dosyaları, fotoğrafları ve yedekleri sakladığı yer. Kaydedene kadar hiçbir şey değişmez.",
   'storage.loading': 'Yükleniyor…',
   'storage.saved': 'Depolama yapılandırması kaydedildi',
   'storage.save': 'Değişiklikleri kaydet',
@@ -65,7 +65,7 @@ const storage: TranslationStrings = {
   'storage.category.avatars': 'Profil fotoğrafları',
   'storage.category.places': 'Yer görselleri',
   'storage.category.photos-google': 'Google fotoğraf önbelleği',
-  'storage.category.photos-trek': 'TREK fotoğraf önbelleği',
+  'storage.category.photos-tripmate': 'Trip Mate fotoğraf önbelleği',
   'storage.category.backups': 'Yedekler',
 
   // What each category stores — rendered under the label in the category map.
@@ -78,8 +78,8 @@ const storage: TranslationStrings = {
   'storage.categoryDesc.places': 'Yerlere ve koleksiyon yerlerine eklenen görseller — yüklenmiş veya içe aktarılmış.',
   'storage.categoryDesc.photos-google':
     'Google Places fotoğraflarının önbelleğe alınmış kopyaları — yeniden alınabilir, kaybı güvenlidir.',
-  'storage.categoryDesc.photos-trek':
-    'Fotoğraflar (Memories) özelliği tarafından kullanılan TREK fotoğraf hizmetinden önbelleğe alınmış fotoğraflar — yeniden alınabilir, kaybı güvenlidir.',
+  'storage.categoryDesc.photos-tripmate':
+    'Fotoğraflar (Memories) özelliği tarafından kullanılan Trip Mate fotoğraf hizmetinden önbelleğe alınmış fotoğraflar — yeniden alınabilir, kaybı güvenlidir.',
   'storage.categoryDesc.backups': 'Yedekleme panelinin veya zamanlamanın oluşturduğu sunucu yedek arşivleri.',
   'storage.health.title': 'Sağlık',
   'storage.health.allClear': 'Kaydedilmiş kopya hatası yok.',

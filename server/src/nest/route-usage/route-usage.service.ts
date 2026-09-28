@@ -5,7 +5,7 @@ import type {
   RouteUsageReportRequest,
   RouteUsageSummaryResult,
   RouteUsageSurface,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import { DatabaseService } from '../database/database.service';
 
 /** Days a counted day survives. Aggregates are tiny, so this is a year and a bit. */

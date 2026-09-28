@@ -23,7 +23,7 @@ import {
 
 const tmpDirs: string[] = [];
 function makeTmpDir(): string {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-facade-'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-facade-'));
   tmpDirs.push(dir);
   return dir;
 }
@@ -341,7 +341,7 @@ function makeRes(req: ReqInit = {}): MockRes {
       return res;
     },
     // Node's getHeader is case-insensitive; the serving path uses it to see
-    // whether the CALLER already staged a Content-Type (trek-photo-cache
+    // whether the CALLER already staged a Content-Type (tripmate-photo-cache
     // does, for its extension-less `.bin` objects), so the mock must be too
     // — a case-sensitive lookup here would hide a real precedence bug.
     getHeader: (key: string): string | undefined => {
@@ -660,21 +660,21 @@ describe('StorageService sendToResponse — remote serving parity', () => {
     it('defaults Content-Type from the key extension', async () => {
       const fx = makeServingFixture();
       const mock = makeRes();
-      await fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res);
+      await fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res);
       expect(mock.headers['Content-Type']).toBe('image/jpeg');
     });
 
     it('falls back to application/octet-stream for an unknown extension', async () => {
       const fx = makeServingFixture();
       const mock = makeRes();
-      await fx.storage.sendToResponse('photos-trek', 'blob.weird', mock.res);
+      await fx.storage.sendToResponse('photos-tripmate', 'blob.weird', mock.res);
       expect(mock.headers['Content-Type']).toBe('application/octet-stream');
     });
 
     it('lets an explicit opts.contentType win over the derived one', async () => {
       const fx = makeServingFixture();
       const mock = makeRes();
-      await fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res, {
+      await fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res, {
         contentType: 'image/webp',
         disposition: 'attachment; filename="p.webp"',
       });
@@ -683,7 +683,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
     });
 
     it('keeps a Content-Type the caller staged on the response itself', async () => {
-      // trek-photo-cache.service.ts's exact shape: its objects are
+      // tripmate-photo-cache.service.ts's exact shape: its objects are
       // extension-less `.bin` blobs whose real type lives in a meta table, so
       // it res.set()s the type and passes no opts. Deriving over that would
       // ship every S3-backed cached thumbnail as application/octet-stream.
@@ -692,7 +692,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
       mock.res.set('Content-Type', 'image/webp');
       mock.res.set('Cache-Control', 'public, max-age=3600');
 
-      await fx.storage.sendToResponse('photos-trek', 'cached.bin', mock.res);
+      await fx.storage.sendToResponse('photos-tripmate', 'cached.bin', mock.res);
 
       expect(mock.headers['Content-Type']).toBe('image/webp');
       expect(mock.headers['Cache-Control']).toBe('public, max-age=3600');
@@ -704,7 +704,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
       const mock = makeRes();
       mock.res.set('Content-Type', 'image/webp');
 
-      await fx.storage.sendToResponse('photos-trek', 'cached.bin', mock.res, { contentType: 'image/avif' });
+      await fx.storage.sendToResponse('photos-tripmate', 'cached.bin', mock.res, { contentType: 'image/avif' });
 
       expect(mock.headers['Content-Type']).toBe('image/avif');
     });
@@ -714,7 +714,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
     it('emits the driver ETag, Last-Modified and Accept-Ranges', async () => {
       const fx = makeServingFixture({ etag: '"s3tag"' });
       const mock = makeRes();
-      await fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res);
+      await fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res);
       expect(mock.headers['ETag']).toBe('"s3tag"');
       expect(mock.headers['Last-Modified']).toBe(LAST_MODIFIED);
       expect(mock.headers['Accept-Ranges']).toBe('bytes');
@@ -725,7 +725,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
     it('derives a weak size-mtime ETag when the driver has none', async () => {
       const fx = makeServingFixture();
       const mock = makeRes();
-      await fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res);
+      await fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res);
       expect(mock.headers['ETag']).toBe(`W/"a-${MTIME.toString(16)}"`);
     });
 
@@ -734,7 +734,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
       // header would be "fresh forever" to any revalidating client.
       const fx = makeServingFixture({ mtimeMs: 0 });
       const mock = makeRes();
-      await fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res);
+      await fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res);
       expect(mock.headers['ETag']).toBeUndefined();
       expect(mock.headers['Last-Modified']).toBeUndefined();
       expect(await mock.body()).toBe(BODY); // still served, just uncached
@@ -746,7 +746,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
       const fx = makeServingFixture({ etag: '"s3tag"' });
       const mock = makeRes({ headers: { 'if-none-match': '"s3tag"' } });
 
-      await fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res);
+      await fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res);
 
       expect(mock.res.statusCode).toBe(304);
       expect(mock.headers['ETag']).toBe('"s3tag"');
@@ -762,7 +762,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
       const fx = makeServingFixture();
       const mock = makeRes({ headers: { 'if-modified-since': LAST_MODIFIED } });
 
-      await fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res);
+      await fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res);
 
       expect(mock.res.statusCode).toBe(304);
       expect(fx.getStreamCalls).toEqual([]);
@@ -772,7 +772,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
       const fx = makeServingFixture({ etag: '"s3tag"' });
       const mock = makeRes({ headers: { 'if-none-match': '"old"' } });
 
-      await fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res);
+      await fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res);
 
       expect(mock.res.statusCode).toBe(200);
       expect(await mock.body()).toBe(BODY);
@@ -784,7 +784,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
       const fx = makeServingFixture({ etag: '"s3tag"' });
       const mock = makeRes({ headers: { range: 'bytes=2-5' } });
 
-      await fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res);
+      await fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res);
 
       expect(mock.res.statusCode).toBe(206);
       expect(mock.headers['Content-Range']).toBe('bytes 2-5/10');
@@ -798,7 +798,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
       const fx = makeServingFixture();
       const mock = makeRes({ headers: { range: 'bytes=7-' } });
 
-      await fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res);
+      await fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res);
 
       expect(mock.headers['Content-Range']).toBe('bytes 7-9/10');
       expect(fx.getStreamCalls[0].range).toEqual({ start: 7, end: 9 });
@@ -809,7 +809,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
       const fx = makeServingFixture();
       const mock = makeRes({ headers: { range: 'bytes=8-9999' } });
 
-      await fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res);
+      await fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res);
 
       expect(mock.headers['Content-Range']).toBe('bytes 8-9/10');
       expect(fx.getStreamCalls[0].range).toEqual({ start: 8, end: 9 });
@@ -819,7 +819,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
       const fx = makeServingFixture();
       const mock = makeRes({ headers: { range: 'bytes=-3' } });
 
-      await fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res);
+      await fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res);
 
       expect(mock.res.statusCode).toBe(206);
       expect(mock.headers['Content-Range']).toBe('bytes 7-9/10');
@@ -831,7 +831,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
       const fx = makeServingFixture();
       const mock = makeRes({ headers: { range: 'bytes=50-60' } });
 
-      await fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res);
+      await fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res);
 
       expect(mock.res.statusCode).toBe(416);
       expect(mock.headers['Content-Range']).toBe('bytes */10');
@@ -844,7 +844,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
         const fx = makeServingFixture();
         const mock = makeRes({ headers: { range } });
 
-        await fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res);
+        await fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res);
 
         expect(mock.res.statusCode).toBe(200);
         expect(mock.headers['Content-Range']).toBeUndefined();
@@ -857,12 +857,12 @@ describe('StorageService sendToResponse — remote serving parity', () => {
     it('honours a strong If-Range match and ignores the range on a mismatch', async () => {
       const hit = makeServingFixture({ etag: '"s3tag"' });
       const hitRes = makeRes({ headers: { range: 'bytes=2-5', 'if-range': '"s3tag"' } });
-      await hit.storage.sendToResponse('photos-trek', 'photo.jpg', hitRes.res);
+      await hit.storage.sendToResponse('photos-tripmate', 'photo.jpg', hitRes.res);
       expect(hitRes.res.statusCode).toBe(206);
 
       const miss = makeServingFixture({ etag: '"s3tag"' });
       const missRes = makeRes({ headers: { range: 'bytes=2-5', 'if-range': '"changed"' } });
-      await miss.storage.sendToResponse('photos-trek', 'photo.jpg', missRes.res);
+      await miss.storage.sendToResponse('photos-tripmate', 'photo.jpg', missRes.res);
       expect(missRes.res.statusCode).toBe(200);
       expect(missRes.headers['Content-Length']).toBe('10');
       expect(await missRes.body()).toBe(BODY);
@@ -874,7 +874,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
       const fx = makeServingFixture({ etag: '"s3tag"' });
       const mock = makeRes({ method: 'HEAD' });
 
-      await fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res);
+      await fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res);
 
       expect(mock.res.statusCode).toBe(200);
       expect(mock.headers['Content-Length']).toBe('10');
@@ -889,7 +889,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
       const fx = makeServingFixture();
       const mock = makeRes({ method: 'HEAD', headers: { range: 'bytes=2-5' } });
 
-      await fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res);
+      await fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res);
 
       expect(mock.res.statusCode).toBe(206);
       expect(mock.headers['Content-Range']).toBe('bytes 2-5/10');
@@ -910,7 +910,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
     const mock = makeRes();
 
     await expect(
-      fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res, {
+      fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res, {
         disposition: 'attachment; filename="evil\r\nX-Injected: 1"',
       }),
     ).rejects.toMatchObject({ code: 'ERR_INVALID_CHAR' });
@@ -922,7 +922,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
 
   it('leaves the response pristine when getStream fails after a ranged decision', async () => {
     // The stat→get delete race on a Range request. A caller that recovers on
-    // the SAME response object — trek-photo-cache.service.ts falls back to a
+    // the SAME response object — tripmate-photo-cache.service.ts falls back to a
     // cache miss on `StorageNotFoundError && !res.headersSent`, and
     // photo-resolver.service.ts then re-serves through that very res — would
     // otherwise inherit a 206 status and a stale Content-Range from an
@@ -930,7 +930,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
     const fx = makeServingFixture({ vanishesBeforeGet: true });
     const mock = makeRes({ headers: { range: 'bytes=2-5' } });
 
-    await expect(fx.storage.sendToResponse('photos-trek', 'photo.jpg', mock.res)).rejects.toBeInstanceOf(
+    await expect(fx.storage.sendToResponse('photos-tripmate', 'photo.jpg', mock.res)).rejects.toBeInstanceOf(
       StorageNotFoundError,
     );
 
@@ -944,7 +944,7 @@ describe('StorageService sendToResponse — remote serving parity', () => {
     const fx = makeServingFixture({ missing: true });
     const mock = makeRes();
 
-    await expect(fx.storage.sendToResponse('photos-trek', 'gone.jpg', mock.res)).rejects.toBeInstanceOf(
+    await expect(fx.storage.sendToResponse('photos-tripmate', 'gone.jpg', mock.res)).rejects.toBeInstanceOf(
       StorageNotFoundError,
     );
     expect(mock.headers).toEqual({});

@@ -260,7 +260,7 @@ export async function seedDemoData(
   //      posted as the members themselves, via their own bearer tokens, not as
   //      the admin. A single-speaker chat log would misrepresent the feature.
   //      Each member gets its OWN request context. Logging in through the shared
-  //      one would set the trek_session cookie on it, and extractToken()
+  //      one would set the tripmate_session cookie on it, and extractToken()
   //      (server/src/middleware/auth.ts:9) reads the cookie BEFORE the
   //      Authorization header — so every later write, including the admin's,
   //      would silently be attributed to whoever logged in last.
@@ -328,7 +328,7 @@ export async function seedDemoData(
   //     Registry install is the ONLY path that produces a representative
   //     screenshot. Dev-link and sideload both stamp the plugin card with a
   //     badge ("Dev-Link" / "Sideloaded", AdminPluginsPanel.tsx:307,361) that no
-  //     ordinary install shows, and TREK_PLUGINS_DEV_LINK additionally reveals a
+  //     ordinary install shows, and TRIPMATE_PLUGINS_DEV_LINK additionally reveals a
   //     "Link a local plugin" row in the panel. Documenting either would show
   //     readers a UI they will never have.
   //

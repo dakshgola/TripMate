@@ -14,7 +14,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { HttpException } from '@nestjs/common';
 import type { Request } from 'express';
-import { PUBLIC_API_SCOPES, type PublicApiGrant } from '@trek/shared';
+import { PUBLIC_API_SCOPES, type PublicApiGrant } from '@tripmate/shared';
 import { PublicStatsController } from '../../../src/nest/atlas/public-stats.controller';
 import type { AtlasService } from '../../../src/nest/atlas/atlas.service';
 import { RateLimitService } from '../../../src/nest/common/rate-limit.service';

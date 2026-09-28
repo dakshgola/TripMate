@@ -44,7 +44,7 @@ describe('unrelease — delete a stranded tag + release safely', () => {
     indexBody = { plugins: [] };
     indexFails = false;
     tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'unrelease-'));
-    fs.writeFileSync(path.join(tmp, 'trek-plugin.json'), JSON.stringify({ id: 'doomed-plug', version: '1.0.0' }));
+    fs.writeFileSync(path.join(tmp, 'tripmate-plugin.json'), JSON.stringify({ id: 'doomed-plug', version: '1.0.0' }));
     vi.stubGlobal('fetch', async () => {
       if (indexFails) throw new Error('offline');
       return { ok: true, json: async () => indexBody } as Response;
@@ -56,7 +56,7 @@ describe('unrelease — delete a stranded tag + release safely', () => {
   });
 
   const run = (yes?: boolean) => unrelease({
-    dir: tmp, tag: 'v1.0.0', repo: 'someone/trek-plugin-doomed-plug', yes, log: () => {},
+    dir: tmp, tag: 'v1.0.0', repo: 'someone/tripmate-plugin-doomed-plug', yes, log: () => {},
   });
 
   it('REFUSES when that version is published in the registry — those artifacts are immutable', async () => {

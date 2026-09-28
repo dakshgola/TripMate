@@ -26,7 +26,7 @@ describe('ManagedExtModule', () => {
 
   it('MANAGED-EXT-002: compiles as a module, so app.module can import it unconditionally', async () => {
     // Unconditionally on purpose: a conditional import would tie the module graph
-    // to an env var, and the graph is built once per app while TREK_MANAGED is
+    // to an env var, and the graph is built once per app while TRIPMATE_MANAGED is
     // read live. An empty module costs nothing, so the flag never reaches here.
     const built = await Test.createTestingModule({ imports: [ManagedExtModule] }).compile();
 

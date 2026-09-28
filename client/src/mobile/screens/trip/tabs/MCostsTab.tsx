@@ -32,7 +32,7 @@ import {
   dayFilterKeys, filterBudgetItems, filterSettlements, groupLedgerByDay, isUnfinished, lineOf, memberShareOf, tint,
   type CostsCtx, type CostsSegment, type CostsSettlement, type CostsSettlementResponse,
 } from './costsModel'
-import type { BudgetParticipantFinal } from '@trek/shared'
+import type { BudgetParticipantFinal } from '@tripmate/shared'
 import type { BudgetItem, BudgetItemReceipt, TripMember } from '../../../../types'
 
 type TFn = (key: string, params?: Record<string, string | number>) => string

@@ -130,7 +130,7 @@ describe('CollabChat', () => {
     // plus the single "Start the conversation" title (the separate hint
     // paragraph was dropped in the mobile rewrite).
     await screen.findByText('Start the conversation');
-    expect(document.querySelector('svg.trek--chat')).toBeInTheDocument();
+    expect(document.querySelector('svg.tripmate--chat')).toBeInTheDocument();
   });
 
   it('FE-COMP-CHAT-010: chat container renders', () => {

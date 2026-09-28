@@ -19,7 +19,7 @@ import { PluginsController } from '../../../src/nest/plugins/plugins.controller'
 import { PluginRuntimeService } from '../../../src/nest/plugins/plugin-runtime.service';
 import { PluginRegistryService, RegistryError } from '../../../src/nest/plugins/registry/registry.service';
 import { PluginsService } from '../../../src/nest/plugins/plugins.service';
-import { TrekExceptionFilter } from '../../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../../src/nest/common/tripmate-exception.filter';
 import type { RuntimeEnvService } from '../../../src/nest/app-config/runtime-env.service';
 
 const ADMIN = { id: 1 } as { id: number };
@@ -52,7 +52,7 @@ let controller: PluginsController;
 let plugins: PluginsService;
 
 beforeEach(() => {
-  process.env.TREK_PLUGINS_ENABLED = 'true';
+  process.env.TRIPMATE_PLUGINS_ENABLED = 'true';
   runtime = { update: vi.fn(), retrust: vi.fn() } as unknown as PluginRuntimeService;
   registry = { install: vi.fn(), installWithDependencies: vi.fn(), recomputeUpdateHold: vi.fn() } as unknown as PluginRegistryService;
   plugins = { resumeUpdates: vi.fn(() => true) } as unknown as PluginsService;
@@ -244,7 +244,7 @@ describe('POST :id/retrust', () => {
   });
 
   it('is refused when the plugin runtime is disabled by server configuration', async () => {
-    process.env.TREK_PLUGINS_ENABLED = 'false';
+    process.env.TRIPMATE_PLUGINS_ENABLED = 'false';
     const { status } = await wireFailure(() => controller.retrust('flight-tracker', { version: '2.0.0', publicKey: 'K' }, ADMIN, REQ));
     expect(status).toBe(503);
     expect(runtime.retrust).not.toHaveBeenCalled();

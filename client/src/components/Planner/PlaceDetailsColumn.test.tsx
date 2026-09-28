@@ -8,7 +8,7 @@
 import React from 'react'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import type { MapsPlaceEnrichmentResult } from '@trek/shared'
+import type { MapsPlaceEnrichmentResult } from '@tripmate/shared'
 import PlaceDetailsColumn, { __clearEnrichmentCacheForTests, type PlaceDetailsSelection } from './PlaceDetailsColumn'
 
 const placeEnrichment = vi.fn()
@@ -471,7 +471,7 @@ describe('PlaceDetailsColumn — hours and rating', () => {
  *
  * It used to be a line of grey text plus, when no Google key was set, a panel
  * telling the reader to go and ask an administrator for one. The mascot says the
- * same thing in the shape every other empty state in TREK uses, and whose key is
+ * same thing in the shape every other empty state in Trip Mate uses, and whose key is
  * missing is not this panel's business.
  */
 describe('PlaceDetailsColumn — nothing found', () => {

@@ -130,47 +130,35 @@ const admin: TranslationStrings = {
   'admin.requireMfaHint':
     "2FA'sı olmayan kullanıcıların uygulamayı kullanmadan önce Ayarlar'da kurulumu tamamlaması gerekir.",
   'admin.apiKeys': 'API Anahtarları',
-  'admin.apiKeysHint': 'Yer verilerinin nereden geldiği. TREK dizini anahtar istemez; aşağıdaki iki sağlayıcı isteğe bağlıdır.',
+  'admin.apiKeysHint':
+    'Yer verilerinin nereden geldiği. Trip Mate dizini anahtar istemez; aşağıdaki iki sağlayıcı isteğe bağlıdır.',
   'admin.trekApi.badgeDefault': 'Önerilen varsayılan',
   'admin.googleCaveat.badge': 'Önerilmez',
   'admin.googleCaveat.body':
-    "TREK açık kaynaklıdır ve burada tarafsız değiliz. Bu ölçekte değerlendirmeler ve sıradan işletme fotoğrafları yalnızca Google'da vardır; tekel budur. Alan, başka seçenek olmadığı için burada; önerdiğimiz için değil. O zaman her sorgu Google'a gider.",
+    "Trip Mate açık kaynaklıdır ve burada tarafsız değiliz. Bu ölçekte değerlendirmeler ve sıradan işletme fotoğrafları yalnızca Google'da vardır; tekel budur. Alan, başka seçenek olmadığı için burada; önerdiğimiz için değil. O zaman her sorgu Google'a gider.",
   'admin.trekApi.tagline':
-    'TREK\'in kendi yer dizini. Google anahtarı olmadan, kota olmadan ve kimse aramalarınızı saymadan arama.',
-  'admin.trekApi.factPlaces':
-    'Dünya genelinde 73,6 milyon yer',
-  'admin.trekApi.factNoKey':
-    'Anahtar yok, kota yok',
-  'admin.trekApi.factOffline':
-    'Ülke paketleri çevrimdışı da çalışır',
-  'admin.trekApi.factPrivacy':
-    'Aramalar hiçbir zaman kaydedilmez',
-  'admin.trekApi.more':
-    'İçinde ne var',
-  'admin.trekApi.fieldPhone':
-    'Telefon',
-  'admin.trekApi.fieldStableId':
-    'Kalıcı kimlik',
+    "Trip Mate'in kendi yer dizini. Google anahtarı olmadan, kota olmadan ve kimse aramalarınızı saymadan arama.",
+  'admin.trekApi.factPlaces': 'Dünya genelinde 73,6 milyon yer',
+  'admin.trekApi.factNoKey': 'Anahtar yok, kota yok',
+  'admin.trekApi.factOffline': 'Ülke paketleri çevrimdışı da çalışır',
+  'admin.trekApi.factPrivacy': 'Aramalar hiçbir zaman kaydedilmez',
+  'admin.trekApi.more': 'İçinde ne var',
+  'admin.trekApi.fieldPhone': 'Telefon',
+  'admin.trekApi.fieldStableId': 'Kalıcı kimlik',
   'admin.trekApi.includedNote':
-    'Açıklamalar yerin kendi sitesinden, çalışma saatleri girilmiş olduğu yerlerde OpenStreetMap\'ten gelir.',
-  'admin.trekApi.notRatings':
-    'Değerlendirmeler',
-  'admin.trekApi.notPhotos':
-    'Sıradan işletmelerin fotoğrafları',
+    "Açıklamalar yerin kendi sitesinden, çalışma saatleri girilmiş olduğu yerlerde OpenStreetMap'ten gelir.",
+  'admin.trekApi.notRatings': 'Değerlendirmeler',
+  'admin.trekApi.notPhotos': 'Sıradan işletmelerin fotoğrafları',
   'admin.trekApi.notIncludedNote':
     'İkisini de hiçbir açık kaynak hiçbir fiyata sunmuyor. Bu ikisi için Google anahtarı tek yol olmayı sürdürüyor.',
-  'admin.trekApi.sourcesLabel':
-    'Kaynaklar',
-  'admin.trekApi.sourcesNote':
-    'Yanıttaki her alan, bunlardan hangisinden geldiğini söyler.',
-  'admin.trekApi.included':
-    'Dahil',
-  'admin.trekApi.notIncluded':
-    'Dahil değil',
+  'admin.trekApi.sourcesLabel': 'Kaynaklar',
+  'admin.trekApi.sourcesNote': 'Yanıttaki her alan, bunlardan hangisinden geldiğini söyler.',
+  'admin.trekApi.included': 'Dahil',
+  'admin.trekApi.notIncluded': 'Dahil değil',
   'admin.mapsKey': 'Google Haritalar API Anahtarı',
   'admin.mapsKeyHint': 'Yer arama için gereklidir. console.cloud.google.com adresinden erişin',
   'admin.mapsKeyHintLong':
-    'Google API anahtarı olmadan önerilen TREK API kullanılır. Anahtarla ek olarak fotoğraflar, değerlendirmeler ve çalışma saatleri yüklenebilir. Anahtarı console.cloud.google.com adresinde oluşturabilirsiniz.',
+    'Google API anahtarı olmadan önerilen Trip Mate API kullanılır. Anahtarla ek olarak fotoğraflar, değerlendirmeler ve çalışma saatleri yüklenebilir. Anahtarı console.cloud.google.com adresinde oluşturabilirsiniz.',
   'admin.recommended': 'Tavsiye edilen',
   'admin.weatherKey': 'OpenWeatherMap API Anahtarı',
   'admin.weatherKeyHint': "Hava durumu verileri için. openweathermap.org'da ücretsiz",
@@ -181,12 +169,13 @@ const admin: TranslationStrings = {
     'Google’ın erişilemediği ve OpenStreetMap verisinin çok az olduğu Çin anakarasında yer arama için. «Web 服务» (web servisi) türünde bir anahtar gerekir, JS API anahtarı değil. console.amap.com adresinden alınır.',
   'admin.placesProvider.title': 'Yer arama sağlayıcısı',
   'admin.placesProvider.subtitle':
-    "TREK'in kendi dizini ve OpenStreetMap her aramayı yanıtlar. Burada, onlar bir şey bulamadığında başka kime sorulacağı seçilir: Otomatik, anahtar varsa Google'ı, sonra Amap'i tercih eder.",
+    "Trip Mate'in kendi dizini ve OpenStreetMap her aramayı yanıtlar. Burada, onlar bir şey bulamadığında başka kime sorulacağı seçilir: Otomatik, anahtar varsa Google'ı, sonra Amap'i tercih eder.",
   'admin.placesProvider.auto': 'Otomatik',
   'admin.placesProvider.google': 'Google Places',
   'admin.placesProvider.amap': 'Amap (高德地图)',
   'admin.placesProvider.openstreetmap': 'OpenStreetMap',
-  'admin.placesProvider.missingKey': 'Seçilen sağlayıcı için API anahtarı tanımlı değil; yer aramasını yalnızca TREK dizini ve OpenStreetMap yanıtlar.',
+  'admin.placesProvider.missingKey':
+    'Seçilen sağlayıcı için API anahtarı tanımlı değil; yer aramasını yalnızca Trip Mate dizini ve OpenStreetMap yanıtlar.',
   'admin.placesProvider.saved': 'Yer arama sağlayıcısı kaydedildi',
   'admin.validateKey': 'Test et',
   'admin.keyValid': 'Bağlı',
@@ -222,17 +211,23 @@ const admin: TranslationStrings = {
   'admin.placesEnrich.subtitle':
     'Bir yer eklerken görseller ve açıklama gösterir. Wikipedia ve OpenStreetMap her zaman kullanılır; Yer Fotoğrafları veya Yer Ayrıntıları açıkken Google da eklenir.',
   'admin.placesGoogleOnly.title': 'Yalnızca Google ile ara',
-  'admin.placesGoogleOnly.subtitle': 'Her arama ve her öneri Google Places\'e gider. Kapalıyken önce TREK dizini ve OpenStreetMap yanıtlar, Google yalnızca hiçbir şey bulamadıklarında sorulur.',
-  'admin.placesGoogleOnly.missingKey': 'Google Maps API anahtarı gerektirir. Anahtar yoksa arama, bu anahtar ne olursa olsun TREK dizini ve OpenStreetMap üzerinden çalışır.',
-  'admin.placesGoogleOnly.otherProvider': 'Yer sağlayıcısı olarak Google gerekir. Amap veya OpenStreetMap seçiliyken bu anahtar ne derse desin hiçbir arama Google\'a gitmez.',
+  'admin.placesGoogleOnly.subtitle':
+    "Her arama ve her öneri Google Places'e gider. Kapalıyken önce Trip Mate dizini ve OpenStreetMap yanıtlar, Google yalnızca hiçbir şey bulamadıklarında sorulur.",
+  'admin.placesGoogleOnly.missingKey':
+    'Google Maps API anahtarı gerektirir. Anahtar yoksa arama, bu anahtar ne olursa olsun Trip Mate dizini ve OpenStreetMap üzerinden çalışır.',
+  'admin.placesGoogleOnly.otherProvider':
+    "Yer sağlayıcısı olarak Google gerekir. Amap veya OpenStreetMap seçiliyken bu anahtar ne derse desin hiçbir arama Google'a gitmez.",
   'admin.transitProvider.title': 'Toplu taşıma sağlayıcısı',
   'admin.transitProvider.subtitle': 'Toplu taşıma aramasını hangi hizmetin yanıtlayacağı.',
   'admin.transitProvider.transitous': 'Transitous (ücretsiz)',
   'admin.transitProvider.google': 'Google',
-  'admin.transitProvider.transitousHint': 'Topluluk GTFS akışları. Ücretsiz ve anahtarsız, Avrupa\'da en iyi kapsama.',
-  'admin.transitProvider.googleHint': 'Transitous\'un verisi olmayan bölgeler için yukarıdaki Google anahtarını kullanır. Arama başına ücretlendirilir — anahtar ayarlanmadığı sürece Transitous kullanılır.',
-  'admin.transitProvider.noKeyWarning': 'Google seçili, ancak yapılandırılmış bir Google anahtarı yok — toplu taşıma araması hâlâ Transitous kullanıyor. Yukarıdaki API Anahtarları bölümünden bir anahtar ekleyin.',
-  'admin.transitProvider.personalKeyWarning': 'Yalnızca kendi Google anahtarınız ayarlı, bu yüzden diğer üyelerin araması hâlâ Transitous\'a düşüyor. Tüm kuruluma uygulamak için anahtarı yukarıda yönetici olarak kaydedin.',
+  'admin.transitProvider.transitousHint': "Topluluk GTFS akışları. Ücretsiz ve anahtarsız, Avrupa'da en iyi kapsama.",
+  'admin.transitProvider.googleHint':
+    "Transitous'un verisi olmayan bölgeler için yukarıdaki Google anahtarını kullanır. Arama başına ücretlendirilir — anahtar ayarlanmadığı sürece Transitous kullanılır.",
+  'admin.transitProvider.noKeyWarning':
+    'Google seçili, ancak yapılandırılmış bir Google anahtarı yok — toplu taşıma araması hâlâ Transitous kullanıyor. Yukarıdaki API Anahtarları bölümünden bir anahtar ekleyin.',
+  'admin.transitProvider.personalKeyWarning':
+    "Yalnızca kendi Google anahtarınız ayarlı, bu yüzden diğer üyelerin araması hâlâ Transitous'a düşüyor. Tüm kuruluma uygulamak için anahtarı yukarıda yönetici olarak kaydedin.",
   'admin.placeShadow.title': 'Yer arama günlüğü',
   'admin.placeShadow.subtitle':
     'Hangi arama sonucunun seçildiğini kaydeder, böylece başka bir yer dizini daha sonra gerçek aramalarla ölçülebilir. Hiçbir şey bu sunucudan çıkmaz ve bir yönetici günlüğü istediği zaman dışa aktarabilir veya silebilir.',
@@ -335,7 +330,7 @@ const admin: TranslationStrings = {
   'admin.plugins.subtitle': 'Örneğinizde üçüncü taraf eklentileri yükleyin ve yönetin.',
   'admin.plugins.disabledTitle': 'Eklentiler devre dışı',
   'admin.plugins.disabledBody':
-    'Eklenti çalışma zamanı kapalı (TREK_PLUGINS_ENABLED). Bir yönetici sunucu yapılandırmasında etkinleştirene kadar hiçbir eklenti çalışamaz.',
+    'Eklenti çalışma zamanı kapalı (TRIPMATE_PLUGINS_ENABLED). Bir yönetici sunucu yapılandırmasında etkinleştirene kadar hiçbir eklenti çalışamaz.',
   'admin.plugins.empty': 'Henüz eklenti yüklenmedi.',
   'admin.plugins.loadError': 'Eklentiler yüklenemedi.',
   'admin.plugins.scaffoldNote':
@@ -358,7 +353,7 @@ const admin: TranslationStrings = {
   'admin.plugins.sourceRepo': 'Kaynak deposu',
   'admin.plugins.reportIssue': 'Sorun bildir',
   'admin.plugins.homepage': 'Ana sayfa',
-  'admin.plugins.requiresTrek': 'TREK {version}+ gerektirir',
+  'admin.plugins.requiresTrek': 'Trip Mate {version}+ gerektirir',
   'admin.plugins.reviewedOn': '{date} tarihinde incelendi',
   'admin.plugins.perm.db:own': 'Kendi verilerini yalıtılmış bir veritabanında saklar',
   'admin.plugins.perm.db:read:trips': 'İşlemi yapan kullanıcının erişebildiği seyahatleri okur',
@@ -430,7 +425,7 @@ const admin: TranslationStrings = {
   'admin.plugins.perm.hook:place-detail-provider':
     'Bir yere ek ayrıntılar (yorumlar, puanlar, bağlantılar) katkıda bulunur',
   'admin.plugins.perm.hook:search-provider':
-    "Yer aramalarını kendi dizininden yanıtlama, TREK'in kendi sonuçlarının yanında",
+    "Yer aramalarını kendi dizininden yanıtlama, Trip Mate'in kendi sonuçlarının yanında",
   'admin.plugins.perm.hook:trip-warning-provider': 'Bir gezide doğrulama uyarıları oluşturur (planlayıcıda gösterilir)',
   'admin.plugins.perm.hook:table-contributor':
     'Seyahat görünümlerine sütunlar ve eylemler ekler (rezervasyonlar, yerler, günler)',
@@ -445,11 +440,12 @@ const admin: TranslationStrings = {
     'Gün planındaki günleri renklendirir (örneğin bir günün yolculuğun hangi etabına ait olduğu)',
   'admin.plugins.cap.mcpTools': 'Yapay zekâ araçları yayımlar',
   'admin.plugins.mcpToolsTitle': 'Yayımlanan yapay zekâ araçları',
-  'admin.plugins.mcpToolsHint': 'Bir asistan bunları kullanıcı adına çalıştırabilir. Her biri yukarıda verilen yetkilerle çalışır.',
+  'admin.plugins.mcpToolsHint':
+    'Bir asistan bunları kullanıcı adına çalıştırabilir. Her biri yukarıda verilen yetkilerle çalışır.',
   'admin.plugins.perm.mcp:tools':
     'Bir yapay zekâ asistanının sizin adınıza çalıştırabileceği araçlar yayımlamak (burada eklentiye verdiğiniz yetkilerle çalışır, asistanın kendi yetkileriyle değil)',
   'admin.plugins.perm.geolocation:read':
-    'Görünümlerinden biri açıkken canlı konumunu sorar (TREK konumu bu sitenin konum izniyle okur, eklenti için ayrıca izin sorulmaz)',
+    'Görünümlerinden biri açıkken canlı konumunu sorar (Trip Mate konumu bu sitenin konum izniyle okur, eklenti için ayrıca izin sorulmaz)',
   'admin.plugins.perm.hook:pdf-section-provider': 'Seyahat PDF dışa aktarımına metin bölümleri ekler',
   'admin.plugins.perm.hook:atlas-layer-provider':
     'Atlas dünya haritasında ülkeleri vurgular (ör. istek listeleri veya seyahat uyarıları)',
@@ -477,26 +473,26 @@ const admin: TranslationStrings = {
   'admin.plugins.updateLater': 'Şimdilik kapalı tut',
   'admin.plugins.updateKeptOff': 'Güncelleme yüklendi — yeni izinleri onaylayana kadar kapalı bırakıldı',
   'admin.plugins.reviewedMeaning':
-    '„İncelendi", bir TREK sorumlusunun bu eklentiyi her sürümde kötü amaçlı yazılıma karşı taradığı anlamına gelir — kalite ya da çalışıp çalışmadığı için değil. Bir eklentinin zararsız olduğunun garantisi değildir.',
+    '„İncelendi", bir Trip Mate sorumlusunun bu eklentiyi her sürümde kötü amaçlı yazılıma karşı taradığı anlamına gelir — kalite ya da çalışıp çalışmadığı için değil. Bir eklentinin zararsız olduğunun garantisi değildir.',
   'admin.plugins.security.title': 'Eklentiler nasıl sınırlandırılır — ve bunun sınırları',
   'admin.plugins.security.isolationTitle': 'Her eklenti izole şekilde çalışır',
   'admin.plugins.security.isolationBody':
-    'Bir eklenti, yalnızca kendi dosyalarını okuyabilen, kilitlenmiş kendi süreci olarak çalışır. Veritabanınızı, oturum açma gizli anahtarınızı veya şifreleme anahtarınızı okuyamaz, başka programlar başlatamaz ve hiçbir yere dosya yazamaz. Arayüzü, oturum çerezinizi okuyamayan veya çevresindeki TREK sayfasına dokunamayan, yalıtılmış bir tarayıcı çerçevesinde çalışır.',
+    'Bir eklenti, yalnızca kendi dosyalarını okuyabilen, kilitlenmiş kendi süreci olarak çalışır. Veritabanınızı, oturum açma gizli anahtarınızı veya şifreleme anahtarınızı okuyamaz, başka programlar başlatamaz ve hiçbir yere dosya yazamaz. Arayüzü, oturum çerezinizi okuyamayan veya çevresindeki Trip Mate sayfasına dokunamayan, yalıtılmış bir tarayıcı çerçevesinde çalışır.',
   'admin.plugins.security.permsTitle': 'İzinler ne anlama gelir',
   'admin.plugins.security.permsBody':
-    "Yüklemeden önce gösterilen izinler, eklenti çalışırken TREK'in uyguladığı kesin bir sınırdır — eklenti, listede olmayan hiçbir şeyi kelimenin tam anlamıyla yapamaz. Ancak bunlar bir eklentinin ne yapabileceğini söyler, gerçekte ne yaptığını değil. Seyahatlerinizi okumasına ve bir sunucuya erişmesine izin verilen bir eklenti, seyahatlerinizi o sunucuya gönderebilir; bu yüzden yalnızca açıklamayı değil, izinleri ve giden ana bilgisayarları da okuyun.",
+    "Yüklemeden önce gösterilen izinler, eklenti çalışırken Trip Mate'in uyguladığı kesin bir sınırdır — eklenti, listede olmayan hiçbir şeyi kelimenin tam anlamıyla yapamaz. Ancak bunlar bir eklentinin ne yapabileceğini söyler, gerçekte ne yaptığını değil. Seyahatlerinizi okumasına ve bir sunucuya erişmesine izin verilen bir eklenti, seyahatlerinizi o sunucuya gönderebilir; bu yüzden yalnızca açıklamayı değil, izinleri ve giden ana bilgisayarları da okuyun.",
   'admin.plugins.security.limitsTitle': 'Söz veremeyeceğimiz şeyler',
   'admin.plugins.security.limitsBody':
-    'Yalıtım güçlü bir yazılım sınırıdır, mutlak bir sınır değil. Bir eklenti tam olarak onayladığınız haklarla hareket eder; bu nedenle bu hakların sınırları içinde açıklamasının ima ettiğinden farklı davranabilir ve meşru olarak elinde tuttuğu verileri bildirdiği ana bilgisayarlara gönderebilir. TREK, bir eklentinin kodunun gerçekte ne yaptığını okumaz ya da değerlendirmez.',
+    'Yalıtım güçlü bir yazılım sınırıdır, mutlak bir sınır değil. Bir eklenti tam olarak onayladığınız haklarla hareket eder; bu nedenle bu hakların sınırları içinde açıklamasının ima ettiğinden farklı davranabilir ve meşru olarak elinde tuttuğu verileri bildirdiği ana bilgisayarlara gönderebilir. Trip Mate, bir eklentinin kodunun gerçekte ne yaptığını okumaz ya da değerlendirmez.',
   'admin.plugins.security.worstTitle': 'En kötü durum',
   'admin.plugins.security.worstBody':
     'Açtığınız kötü niyetli bir eklenti, ona verdiğiniz verileri ve bağlantıları kötüye kullanabilir — örneğin okumasına izin verilen seyahatleri sızdırabilir. Şifreleri çalamaz, sahte bir yönetici girişi oluşturamaz, sunucunuzda komut çalıştıramaz veya vermediğiniz verilere erişemez. Zarar, onayladığınız sınırların içinde kalır ve eklentiyi kapatmak onu durdurur.',
   'admin.plugins.security.reviewedTitle': '„İncelendi" ne anlama gelir',
   'admin.plugins.security.reviewedBody':
-    'İncelenmiş bir eklenti, her sürümde bir TREK sorumlusu tarafından kötü amaçlı yazılıma karşı elle taranmıştır — düşmanca koda karşı kontrol edilmiştir, iyi çalışıp çalışmadığına göre değil. Bu, eklentinin zararsız olduğunun bir garantisi değildir.',
+    'İncelenmiş bir eklenti, her sürümde bir Trip Mate sorumlusu tarafından kötü amaçlı yazılıma karşı elle taranmıştır — düşmanca koda karşı kontrol edilmiştir, iyi çalışıp çalışmadığına göre değil. Bu, eklentinin zararsız olduğunun bir garantisi değildir.',
   'admin.plugins.security.signedTitle': '„İmzalı" ne anlama gelir',
   'admin.plugins.security.signedBody':
-    "TREK'in her kurulumda doğruladığı sağlama toplamı, dosyaların tam olarak dizinin kefil olduğu dosyalar olduğunu kanıtlar. Bir imza ise başka bir şeyi kanıtlar: dosyaların yazardan geldiğini ve yalnızca onun elindeki bir anahtarla imzalandığını. İmzalı bir eklentide her ikisi de vardır. İmzasız olan güvensiz değildir — yalnızca bir güvence eksiği taşır ve bugün dizindeki eklentilerin çoğu imzasızdır.",
+    "Trip Mate'in her kurulumda doğruladığı sağlama toplamı, dosyaların tam olarak dizinin kefil olduğu dosyalar olduğunu kanıtlar. Bir imza ise başka bir şeyi kanıtlar: dosyaların yazardan geldiğini ve yalnızca onun elindeki bir anahtarla imzalandığını. İmzalı bir eklentide her ikisi de vardır. İmzasız olan güvensiz değildir — yalnızca bir güvence eksiği taşır ve bugün dizindeki eklentilerin çoğu imzasızdır.",
   'admin.plugins.signed': 'İmzalı',
   'admin.plugins.signedHint': 'Kurulduğunda yazarın imzalama anahtarıyla doğrulandı',
   'admin.plugins.unsigned': 'İmzasız',
@@ -511,20 +507,20 @@ const admin: TranslationStrings = {
   'admin.plugins.sig.invalidBody':
     'Dosyalar yazarın imzasıyla eşleşmiyor. Yazarın imzaladığı dosyalar bunlar değil — ya bozulmuşlar ya da kurcalanmışlar. Bu durum geçersiz kılınamaz.',
   'admin.plugins.sig.missingBody':
-    'Bu eklenti siz kurduğunuzda imzalıydı, ancak yeni sürüm hiçbir imza içermiyor. TREK bu geriye gidişi sessizce kabul etmez. Bu durum geçersiz kılınamaz.',
+    'Bu eklenti siz kurduğunuzda imzalıydı, ancak yeni sürüm hiçbir imza içermiyor. Trip Mate bu geriye gidişi sessizce kabul etmez. Bu durum geçersiz kılınamaz.',
   'admin.plugins.sig.incompleteBody':
     'Dizin kaydı yarım imzalı: bir yazar anahtarı bildiriyor ama sürüm imza taşımıyor (ya da tersi). Bu, eklenti tarafındaki bir hatadır. Bu durum geçersiz kılınamaz.',
   'admin.plugins.sig.pinnedKey': 'Kurulduğu anahtar',
   'admin.plugins.sig.newKey': 'Şimdi sunduğu anahtar',
   'admin.plugins.sig.confirmOutOfBand':
-    'TREK, meşru bir anahtar değişimini bir ele geçirmeden ayırt edemez — buradan bakıldığında ikisi birebir aynı görünür. Kabul etmeden önce yeni anahtarı, zaten güvendiğiniz bir kanaldan yazara doğrulatın. Doğruladığınızda eklenti güncellenir ve yeni anahtar hatırlanır.',
+    'Trip Mate, meşru bir anahtar değişimini bir ele geçirmeden ayırt edemez — buradan bakıldığında ikisi birebir aynı görünür. Kabul etmeden önce yeni anahtarı, zaten güvendiğiniz bir kanaldan yazara doğrulatın. Doğruladığınızda eklenti güncellenir ve yeni anahtar hatırlanır.',
   'admin.plugins.sig.retrustConfirm': 'Yeni anahtara güven ve güncelle',
   'admin.plugins.sig.cancel': 'Güvenme',
   'admin.plugins.sig.consentUnsigned':
     'Bu sürümü yazarına bağlayan hiçbir şey yok — dosyalar dizinle eşleşiyor, ama yazar imzası taşımıyorlar.',
   'admin.plugins.security.trustTitle': 'Özetle',
   'admin.plugins.security.trustBody':
-    'Bir eklenti yüklemek, herhangi bir üçüncü taraf uygulamasını yüklemek gibidir: yalnızca güvendiğiniz geliştiricilerin kodunu ekleyin ve şüpheye düştüğünüzde önce kendiniz inceleyin. TREK, üçüncü taraf eklentiler için hiçbir sorumluluk kabul etmez.',
+    'Bir eklenti yüklemek, herhangi bir üçüncü taraf uygulamasını yüklemek gibidir: yalnızca güvendiğiniz geliştiricilerin kodunu ekleyin ve şüpheye düştüğünüzde önce kendiniz inceleyin. Trip Mate, üçüncü taraf eklentiler için hiçbir sorumluluk kabul etmez.',
   'admin.plugins.runtimeOn': 'Çalışma zamanı açık',
   'admin.plugins.tabDiscover': 'Keşfet',
   'admin.plugins.searchPlaceholder': 'Eklenti ara…',
@@ -540,15 +536,16 @@ const admin: TranslationStrings = {
   'admin.plugins.sortUpdates': 'Önce güncellemeler',
   'admin.plugins.sortDownloads': 'En çok indirilen',
   'admin.plugins.updatesAvailable': 'Eklentileriniz için {count} güncelleme mevcut.',
-  'admin.plugins.newerNeedsTrek': 'v{version} mevcut — TREK {range} gerektirir',
+  'admin.plugins.newerNeedsTrek': 'v{version} mevcut — Trip Mate {range} gerektirir',
   'admin.plugins.versionsTitle': 'Sürümler',
   'admin.plugins.versionPickerTitle': 'Sürüm değiştir — {name}',
   'admin.plugins.versionSwitch': '{version} sürümüne geç',
-  'admin.plugins.versionNeedsTrek': 'TREK {range} gerektirir',
+  'admin.plugins.versionNeedsTrek': 'Trip Mate {range} gerektirir',
   'admin.plugins.changeVersion': 'Sürüm değiştir…',
   'admin.plugins.noVersions': 'Kayıt defterinde yayımlanmış sürüm bulunamadı.',
   'admin.plugins.downgradeTitle': 'Bu eklenti geri alınsın mı?',
-  'admin.plugins.downgradeBody': 'v{from} sürümünden v{to} sürümüne geçiş: daha yeni sürümün yazdığı veriler yerinde kalır ve eski sürüm bunları anlamayabilir.',
+  'admin.plugins.downgradeBody':
+    'v{from} sürümünden v{to} sürümüne geçiş: daha yeni sürümün yazdığı veriler yerinde kalır ve eski sürüm bunları anlamayabilir.',
   'admin.plugins.downgradeConfirm': 'Geri al',
   'admin.plugins.updatesHeld': 'Güncellemeler v{version} sürümünde duraklatıldı',
   'admin.plugins.resumeUpdates': 'Güncellemeleri sürdür',
@@ -607,21 +604,21 @@ const admin: TranslationStrings = {
   'admin.plugins.dep.download': 'İndir',
   'admin.plugins.dep.update': 'Güncelle',
   'admin.plugins.dep.resolveHint': 'Kendi bağımlılıkları dahil, en son uyumlu sürümü indirir.',
-  'admin.plugins.dep.trekIncompatible': 'TREK {range} gerektiriyor — bu sunucu {host} çalıştırıyor',
-  'admin.plugins.dep.trekUnknown': 'Hangi TREK sürümlerini desteklediğini belirtmiyor',
+  'admin.plugins.dep.trekIncompatible': 'Trip Mate {range} gerektiriyor — bu sunucu {host} çalıştırıyor',
+  'admin.plugins.dep.trekUnknown': 'Hangi Trip Mate sürümlerini desteklediğini belirtmiyor',
   'admin.plugins.installCompatible': '{version} sürümünü yükle',
   'admin.plugins.installAnyway': 'Yine de yükle',
   'admin.plugins.rangeBypass.pill': 'Sürüm denetimleri kapalı',
   'admin.plugins.rangeBypass.pillHint':
-    'TREK_PLUGINS_IGNORE_TREK_RANGE ayarlı — eklentiler, yazarlarının belirttiği TREK sürümlerinin dışında yüklenip çalıştırılabilir',
-  'admin.plugins.rangeBypass.title': 'Desteklenen TREK sürümlerinin dışında',
-  'admin.plugins.rangeBypass.noticeTitle': 'Desteklenen TREK sürümlerinin dışında yüklendi',
+    'TRIPMATE_PLUGINS_IGNORE_TREK_RANGE ayarlı — eklentiler, yazarlarının belirttiği Trip Mate sürümlerinin dışında yüklenip çalıştırılabilir',
+  'admin.plugins.rangeBypass.title': 'Desteklenen Trip Mate sürümlerinin dışında',
+  'admin.plugins.rangeBypass.noticeTitle': 'Desteklenen Trip Mate sürümlerinin dışında yüklendi',
   'admin.plugins.rangeBypass.body':
-    '“{name}” TREK {range} desteği bildiriyor, bu sunucu ise {host} çalıştırıyor. TREK yalnızca TREK_PLUGINS_IGNORE_TREK_RANGE ayarlı olduğu için izin veriyor. Yazarı eklentinin sürüm aralığını bu TREK için güncellemedi, dolayısıyla çalışacağının garantisi yok — ve nadir durumlarda uyumsuz bir eklenti TREK verilerini bozabilir. Yalnızca bu riski kabul ediyorsanız devam edin.',
+    '“{name}” Trip Mate {range} desteği bildiriyor, bu sunucu ise {host} çalıştırıyor. Trip Mate yalnızca TRIPMATE_PLUGINS_IGNORE_TREK_RANGE ayarlı olduğu için izin veriyor. Yazarı eklentinin sürüm aralığını bu Trip Mate için güncellemedi, dolayısıyla çalışacağının garantisi yok — ve nadir durumlarda uyumsuz bir eklenti Trip Mate verilerini bozabilir. Yalnızca bu riski kabul ediyorsanız devam edin.',
   'admin.plugins.rangeBypass.bodyUnknown':
-    '“{name}” hangi TREK sürümlerini desteklediğini bildirmiyor; bu sunucu {host} çalıştırıyor. TREK yalnızca TREK_PLUGINS_IGNORE_TREK_RANGE ayarlı olduğu için izin veriyor. Yazarının bu TREK üzerinde test ettiğine dair bir işaret yok, dolayısıyla çalışacağının garantisi yok — ve nadir durumlarda uyumsuz bir eklenti TREK verilerini bozabilir. Yalnızca bu riski kabul ediyorsanız devam edin.',
-  'admin.plugins.dep.trekBypassed': 'TREK aralığının dışında ({range}) — sürüm denetimleri kapalı',
-  'admin.plugins.dep.trekBypassedUnknown': 'TREK aralığı bildirmiyor — sürüm denetimleri kapalı',
+    '“{name}” hangi Trip Mate sürümlerini desteklediğini bildirmiyor; bu sunucu {host} çalıştırıyor. Trip Mate yalnızca TRIPMATE_PLUGINS_IGNORE_TREK_RANGE ayarlı olduğu için izin veriyor. Yazarının bu Trip Mate üzerinde test ettiğine dair bir işaret yok, dolayısıyla çalışacağının garantisi yok — ve nadir durumlarda uyumsuz bir eklenti Trip Mate verilerini bozabilir. Yalnızca bu riski kabul ediyorsanız devam edin.',
+  'admin.plugins.dep.trekBypassed': 'Trip Mate aralığının dışında ({range}) — sürüm denetimleri kapalı',
+  'admin.plugins.dep.trekBypassedUnknown': 'Trip Mate aralığı bildirmiyor — sürüm denetimleri kapalı',
   'admin.plugins.incompatible': 'Uyumsuz',
   'admin.plugins.accessTitle': 'Neye erişebilir',
   'admin.plugins.connectsTitle': 'Şuraya bağlanır',
@@ -633,7 +630,8 @@ const admin: TranslationStrings = {
   'admin.plugins.metaReviewed': 'İncelenme tarihi',
   'admin.plugins.downloads': 'İndirmeler',
   'admin.addons.title': 'Eklentiler',
-  'admin.addons.subtitle': 'TREK deneyiminizi özelleştirmek için özellikleri etkinleştirin veya devre dışı bırakın.',
+  'admin.addons.subtitle':
+    'Trip Mate deneyiminizi özelleştirmek için özellikleri etkinleştirin veya devre dışı bırakın.',
   'admin.addons.catalog.packing.name': 'Listeler',
   'admin.addons.catalog.packing.description': 'Seyahatleriniz için paket listeleri ve yapılacak işler',
   'admin.addons.catalog.budget.name': 'Maliyetler',
@@ -647,7 +645,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.collab.name': 'İş birliği',
   'admin.addons.catalog.collab.description': 'Birlikte planlamak için notlar, anketler, sohbet ve öneriler',
   'admin.addons.catalog.roadtrip.name': 'Yol gezisi',
-  'admin.addons.catalog.roadtrip.description': 'Duraklı sürüşler planlayın; sürüş ve varış saatleri kendiliğinden yeniden hesaplanır',
+  'admin.addons.catalog.roadtrip.description':
+    'Duraklı sürüşler planlayın; sürüş ve varış saatleri kendiliğinden yeniden hesaplanır',
   'admin.addons.catalog.memories.name': 'Fotoğraflar (Immich)',
   'admin.addons.catalog.memories.description': 'Immich örneğiniz aracılığıyla gezi fotoğraflarını paylaşın',
   'admin.addons.catalog.mcp.name': 'MCP',
@@ -656,14 +655,16 @@ const admin: TranslationStrings = {
     'Kişiselleştirmenizi özelleştirmek için özellikleri etkinleştirin veya devre dışı bırakın.',
   'admin.addons.subtitleAfter': 'deneyim.',
   'admin.addons.catalog.naver_list_import.name': 'Naver List Import',
-  'admin.addons.catalog.naver_list_import.description': 'Paylaşılan bir Naver Haritalar listesinden yerleri içe aktarın',
+  'admin.addons.catalog.naver_list_import.description':
+    'Paylaşılan bir Naver Haritalar listesinden yerleri içe aktarın',
   'admin.addons.catalog.airtrail.name': 'AirTrail',
   'admin.addons.catalog.airtrail.description': 'AirTrail örneğinizden uçuşları eşitleyin',
   'admin.addons.catalog.dawarich.name': 'Dawarich',
   'admin.addons.catalog.dawarich.description':
     'Her kullanıcının kendi bağladığı bir Dawarich sunucusundan ziyaretleri ve kaydedilen rotaları okuyun',
   'admin.addons.catalog.llm_parsing.name': 'Yapay zekâ ile ayrıştırma',
-  'admin.addons.catalog.llm_parsing.description': 'Yerleşik ayrıştırıcının okuyamadığı rezervasyonları, seçtiğiniz yapay zekâ modeliyle okur',
+  'admin.addons.catalog.llm_parsing.description':
+    'Yerleşik ayrıştırıcının okuyamadığı rezervasyonları, seçtiğiniz yapay zekâ modeliyle okur',
   'admin.addons.enabled': 'Etkinleştirilmiş',
   'admin.addons.disabled': 'Engelli',
   'admin.addons.type.trip': 'Seyahat',
@@ -679,7 +680,7 @@ const admin: TranslationStrings = {
   'admin.weather.title': 'Hava Durumu Verileri',
   'admin.weather.badge': "24 Mart 2026'dan beri",
   'admin.weather.description':
-    "TREK, hava durumu veri kaynağı olarak Open-Meteo'yu kullanıyor. Open-Meteo ücretsiz, açık kaynaklı bir hava durumu hizmetidir; API anahtarı gerekmez.",
+    "Trip Mate, hava durumu veri kaynağı olarak Open-Meteo'yu kullanıyor. Open-Meteo ücretsiz, açık kaynaklı bir hava durumu hizmetidir; API anahtarı gerekmez.",
   'admin.weather.forecast': '16 günlük tahmin',
   'admin.weather.forecastDesc': 'Daha önce 5 gün (OpenWeatherMap)',
   'admin.weather.climate': 'Geçmiş iklim verileri',
@@ -738,14 +739,14 @@ const admin: TranslationStrings = {
   'admin.github.loading': 'Yükleniyor...',
   'admin.github.error': 'Sürümler yüklenemedi',
   'admin.github.by': 'ile',
-  'admin.github.support': "TREK'i geliştirmeye devam etmeme yardımcı oluyor",
+  'admin.github.support': "Trip Mate'i geliştirmeye devam etmeme yardımcı oluyor",
   'admin.update.available': 'Güncelleme mevcut',
-  'admin.update.text': 'TREK {version} mevcut. {current} çalıştırıyorsunuz.',
+  'admin.update.text': 'Trip Mate {version} mevcut. {current} çalıştırıyorsunuz.',
   'admin.update.button': "GitHub'da görüntüle",
   'admin.update.install': 'Güncellemeyi Yükle',
   'admin.update.confirmTitle': 'Güncelleme Yüklensin mi?',
   'admin.update.confirmText':
-    'TREK, {current} sürümünden {version} sürümüne güncellenecek. Sunucu daha sonra otomatik olarak yeniden başlatılacaktır.',
+    'Trip Mate, {current} sürümünden {version} sürümüne güncellenecek. Sunucu daha sonra otomatik olarak yeniden başlatılacaktır.',
   'admin.update.dataInfo':
     'Tüm verileriniz (seyahatler, kullanıcılar, API anahtarları, yüklemeler, Vacay, Atlas, bütçeler) korunacaktır.',
   'admin.update.warning': 'Yeniden başlatma sırasında uygulama kısa süreliğine kullanılamayacaktır.',
@@ -757,9 +758,9 @@ const admin: TranslationStrings = {
   'admin.update.backupLink': 'Yedeklemeye Git',
   'admin.update.howTo': 'Nasıl Güncellenir?',
   'admin.update.dockerText':
-    "TREK örneğiniz Docker'da çalışır. {version} sürümüne güncellemek için sunucunuzda aşağıdaki komutları çalıştırın:",
+    "Trip Mate örneğiniz Docker'da çalışır. {version} sürümüne güncellemek için sunucunuzda aşağıdaki komutları çalıştırın:",
   'admin.update.nonDockerText':
-    'Bu TREK örneği Docker üzerinde çalışmıyor. {version} sürümüne güncellemek için kullandığınız kurulum veya güncelleme yöntemini yeniden çalıştırın — örneğin Proxmox Community Scripts kullanıyorsanız güncellemeyi LXC konsolundan çalıştırın:',
+    'Bu Trip Mate örneği Docker üzerinde çalışmıyor. {version} sürümüne güncellemek için kullandığınız kurulum veya güncelleme yöntemini yeniden çalıştırın — örneğin Proxmox Community Scripts kullanıyorsanız güncellemeyi LXC konsolundan çalıştırın:',
   'admin.update.wikiLink': 'Güncelleme kılavuzunu aç',
   'admin.update.reloadHint': 'Lütfen birkaç saniye içinde sayfayı yeniden yükleyin.',
   'admin.tabs.permissions': 'İzinler',
@@ -767,7 +768,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.journey.description':
     'Check-in, fotoğraf ve günlük hikâyelerle seyahat takibi ve seyahat günlüğü',
   'admin.addons.catalog.collections.name': 'Koleksiyonlar',
-  'admin.addons.catalog.collections.description': 'Her geziden yerleri adlandırılmış listelerde toplayın ve yeniden kullanın',
+  'admin.addons.catalog.collections.description':
+    'Her geziden yerleri adlandırılmış listelerde toplayın ve yeniden kullanın',
   'admin.passkey.title': 'Passkey ile oturum açma',
   'admin.passkey.cardHint':
     'Kullanıcıların passkey (WebAuthn) ile oturum açmasına izin verin. Varsayılan olarak kapalı.',
@@ -778,10 +780,10 @@ const admin: TranslationStrings = {
     'Bu dağıtım için henüz çözümlenen bir WebAuthn alan adı yok. Aşağıdan APP_URL veya Relying Party ID değerini ayarlayın — o ana kadar passkey’ler gizli kalır.',
   'admin.passkey.rpId': 'Relying Party ID (alan adı)',
   'admin.passkey.rpIdHint':
-    'Passkey’lerin bağlı olduğu yalın alan adı, ör. trek.example.org. APP_URL’den türetmek için boş bırakın. Daha sonra değiştirmek mevcut passkey’leri geçersiz kılar.',
+    'Passkey’lerin bağlı olduğu yalın alan adı, ör. tripmate.example.org. APP_URL’den türetmek için boş bırakın. Daha sonra değiştirmek mevcut passkey’leri geçersiz kılar.',
   'admin.passkey.origins': 'İzin verilen kaynaklar',
   'admin.passkey.originsHint':
-    'Virgülle ayrılmış tam kaynaklar, ör. https://trek.example.org. APP_URL kullanmak için boş bırakın.',
+    'Virgülle ayrılmış tam kaynaklar, ör. https://tripmate.example.org. APP_URL kullanmak için boş bırakın.',
   'admin.passkey.reset': 'Passkey’leri sıfırla',
   'admin.passkey.resetHint':
     'Bu kullanıcının tüm passkey’lerini kaldırın (ör. kaybolan bir cihazda). Yine de şifreleriyle oturum açabilirler.',

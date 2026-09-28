@@ -11,7 +11,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import type { ChannelTestResult, UnreadCountResult } from '@trek/shared';
+import type { ChannelTestResult, UnreadCountResult } from '@tripmate/shared';
 import type { User } from '../../types';
 import { NotificationsService } from './notifications.service';
 import { resolveNtfyToken } from './transports/ntfy.service';
@@ -43,7 +43,7 @@ const MASKED = '••••••••';
  * codes. POSTs that answer with res.json stay 200 (Nest would default to 201).
  * The static /in-app/read-all and /in-app/all routes are declared before the
  * /in-app/:id routes so they win over the param, matching the legacy order.
- * Bodies validate via notifications.dto.ts (@trek/shared schemas through the
+ * Bodies validate via notifications.dto.ts (@tripmate/shared schemas through the
  * global ZodValidationPipe) — malformed bodies now get the pipe's standard
  * { error: 'field: message; …' } envelope instead of the old inline checks
  * (the sanctioned ratchet behavior); valid bodies behave byte-identically.

@@ -21,7 +21,7 @@ beforeEach(() => {
     toasts.push({ type: type ?? 'info', message })
     return 1
   }) as Window['__addToast']
-  candidatesRespond([{ id: 2, username: 'bob', email: 'bob@trek.app' }])
+  candidatesRespond([{ id: 2, username: 'bob', email: 'bob@tripmate.app' }])
 })
 
 afterEach(() => {

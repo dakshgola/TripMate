@@ -6,7 +6,7 @@ import {
   roadtripPreferencesSchema,
   roadtripPreferencesUpdateSchema,
   type RoadtripPreferences,
-} from '@trek/shared';
+} from '@tripmate/shared';
 
 @Injectable()
 export class RoadtripPreferencesService {

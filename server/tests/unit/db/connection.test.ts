@@ -20,7 +20,7 @@ import {
 
 // #2518: a container with a read-only root filesystem and no tmpfs on /tmp
 // gives SQLite nowhere to put a temp file, so deleting a trip failed with
-// SQLITE_IOERR_GETTEMPPATH. Every connection TREK opens keeps its temp storage
+// SQLITE_IOERR_GETTEMPPATH. Every connection Trip Mate opens keeps its temp storage
 // in memory now, and these tests pin that down.
 
 const SERVER_ROOT = path.resolve(__dirname, '../../..');
@@ -30,7 +30,7 @@ let tmpDir: string;
 let schemaFile: string;
 
 beforeAll(() => {
-  tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-connection-'));
+  tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-connection-'));
   // Real schema, built once and copied per test: the delete below has to
   // cascade through the same tables and foreign keys a live install has.
   schemaFile = path.join(tmpDir, 'schema.db');
@@ -162,8 +162,8 @@ describe.runIf(canSeeTempFiles)('deleting a trip with content (#2518)', () => {
     }
   });
 
-  it('never touches a temp file on a connection TREK opens', () => {
-    const db = openDatabase(freshCopy('trek'));
+  it('never touches a temp file on a connection Trip Mate opens', () => {
+    const db = openDatabase(freshCopy('tripmate'));
     try {
       const result = deleteTripAndWatchTempFiles(db);
       expect(result.tempFiles).toEqual([]);

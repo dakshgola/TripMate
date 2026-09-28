@@ -2,7 +2,7 @@
  * Unit tests for MCP day and accommodation tools:
  * create_day, delete_day,
  * create_accommodation, create_place_accommodation, update_accommodation,
- * delete_accommodation — plus the trek://trips/{tripId}/accommodations
+ * delete_accommodation — plus the tripmate://trips/{tripId}/accommodations
  * resource (moved from resources.test.ts when the legacy registrar was
  * ported to the DI-discovered DaysMcp).
  */
@@ -40,7 +40,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -543,10 +543,10 @@ describe('Tool: create_place_accommodation', () => {
 });
 
 // ---------------------------------------------------------------------------
-// trek://trips/{tripId}/accommodations resource (moved from resources.test.ts)
+// tripmate://trips/{tripId}/accommodations resource (moved from resources.test.ts)
 // ---------------------------------------------------------------------------
 
-describe('Resource: trek://trips/{tripId}/accommodations', () => {
+describe('Resource: tripmate://trips/{tripId}/accommodations', () => {
   it('returns accommodations for a trip', async () => {
     const { user } = createUser(testDb);
     const trip = createTrip(testDb, user.id);
@@ -556,7 +556,7 @@ describe('Resource: trek://trips/{tripId}/accommodations', () => {
     createDayAccommodation(testDb, trip.id, place.id, day1.id, day2.id);
 
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/accommodations` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/accommodations` });
       const items = parseResourceResult(result) as any[];
       expect(items).toHaveLength(1);
       expect(items[0].place_name).toBe('Grand Hotel');
@@ -569,7 +569,7 @@ describe('Resource: trek://trips/{tripId}/accommodations', () => {
     const trip = createTrip(testDb, other.id);
 
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/accommodations` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/accommodations` });
       const data = parseResourceResult(result) as any;
       expect(data.error).toBeTruthy();
     });

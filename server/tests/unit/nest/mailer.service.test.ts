@@ -59,7 +59,7 @@ function setAppSetting(key: string, value: string): void {
 function configureSmtp(): void {
   setAppSetting('smtp_host', 'mail.internal.example');
   setAppSetting('smtp_port', '587');
-  setAppSetting('smtp_from', 'trek@example.com');
+  setAppSetting('smtp_from', 'tripmate@example.com');
 }
 
 function newMailer(): MailerService {
@@ -134,7 +134,7 @@ describe('MailerService TLS options', () => {
 
     await mailer.sendEmail('first@example.com', 'One', 'Body');
     await mailer.sendEmail('second@example.com', 'Two', 'Body');
-    await mailer.sendPasswordResetEmail('third@example.com', 'https://trek.example/reset', null);
+    await mailer.sendPasswordResetEmail('third@example.com', 'https://tripmate.example/reset', null);
 
     expect(createTransport).toHaveBeenCalledTimes(3);
     expect(logWarn).toHaveBeenCalledTimes(1);
@@ -199,7 +199,7 @@ describe('MailerService test send', () => {
   it('MAILER-009: an unusable port is refused before anything reaches a socket', async () => {
     setAppSetting('smtp_host', 'mail.internal.example');
     setAppSetting('smtp_port', 'smtp.example.com');
-    setAppSetting('smtp_from', 'trek@example.com');
+    setAppSetting('smtp_from', 'tripmate@example.com');
 
     const result = await newMailer().testSmtp('admin@example.com');
 
@@ -237,7 +237,7 @@ describe('MailerService test send', () => {
   it('MAILER-012: a stalled relay is named as a timeout and points at the 465/587 split', async () => {
     setAppSetting('smtp_host', 'mail.internal.example');
     setAppSetting('smtp_port', '465');
-    setAppSetting('smtp_from', 'trek@example.com');
+    setAppSetting('smtp_from', 'tripmate@example.com');
     sendMail.mockRejectedValueOnce(smtpError('Greeting never received', 'ETIMEDOUT'));
 
     const result = await newMailer().testSmtp('admin@example.com');
@@ -248,7 +248,7 @@ describe('MailerService test send', () => {
 
   it('MAILER-013: the password appears in neither the response nor the log', async () => {
     configureSmtp();
-    setAppSetting('smtp_user', 'trek@example.com');
+    setAppSetting('smtp_user', 'tripmate@example.com');
     setAppSetting('smtp_pass', 'correct-horse-battery');
     sendMail.mockRejectedValueOnce(smtpError('Invalid login for correct-horse-battery', 'EAUTH'));
 
@@ -311,7 +311,7 @@ describe('MailerService header logo (#2507)', () => {
   it('MAILER-016: the password-reset mail carries it too', async () => {
     configureSmtp();
 
-    expect((await newMailer().sendPasswordResetEmail('someone@example.com', 'https://trek.example/reset', null)).delivered).toBe('email');
+    expect((await newMailer().sendPasswordResetEmail('someone@example.com', 'https://tripmate.example/reset', null)).delivered).toBe('email');
 
     expectLogoResolves(lastMail());
   });

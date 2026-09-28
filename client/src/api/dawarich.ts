@@ -10,7 +10,7 @@ import type {
   DawarichSuggestion,
   DawarichSuggestionList,
   DawarichTrack,
-} from '@trek/shared'
+} from '@tripmate/shared'
 
 /**
  * The Dawarich surface, in its own file rather than in the `client.ts` god
@@ -22,7 +22,7 @@ import type {
  * How long the browser waits for a call that makes the server go and ask
  * Dawarich.
  *
- * The shared 8 s on `apiClient` is right for TREK's own routes and wrong for
+ * The shared 8 s on `apiClient` is right for Trip Mate's own routes and wrong for
  * these: the server allows each request to Dawarich 15 s by itself, walks pages
  * of points for a route, and runs six probes one after another to test a
  * connection. Cut off at 8 s, the browser gave up while the server carried on

@@ -5,7 +5,7 @@ import { readEnv } from '../../app-config';
 import { RuntimeEnvService } from '../app-config/runtime-env.service';
 
 /**
- * The one way TREK code schedules a cron. Job providers register here from
+ * The one way Trip Mate code schedules a cron. Job providers register here from
  * their onApplicationBootstrap instead of touching cron/@nestjs/schedule
  * directly, because this is where two process-wide invariants live:
  *
@@ -24,7 +24,7 @@ import { RuntimeEnvService } from '../app-config/runtime-env.service';
  * The timezone is resolved per register() call (readEnv().app.tz || 'UTC'),
  * keeping the retired scheduler's read-at-schedule-time behavior: a dynamic
  * job that re-registers picks up a changed TZ. timezone: 'none' schedules in
- * the server-local zone (the demo reset and the trek-photo sweep always ran
+ * the server-local zone (the demo reset and the tripmate-photo sweep always ran
  * that way).
  */
 @Injectable()

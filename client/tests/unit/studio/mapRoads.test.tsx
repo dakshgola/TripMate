@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import type { BookDocument, BookElement, BookPageSetup, BookSpread, JourneyStats } from '@trek/shared'
-import { bookPageSetupSchema } from '@trek/shared'
+import type { BookDocument, BookElement, BookPageSetup, BookSpread, JourneyStats } from '@tripmate/shared'
+import { bookPageSetupSchema } from '@tripmate/shared'
 import { fireEvent, render } from '../../helpers/render'
 import { SpreadView } from '../../../src/components/Studio/SpreadView'
 import { StudioTravelPanel } from '../../../src/components/Studio/StudioTravelPanel'

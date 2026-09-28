@@ -10,11 +10,11 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 const logMock = vi.hoisted(() => ({ LOG_LEVEL: 'error', logInfo: vi.fn(), logError: vi.fn(), logWarn: vi.fn(), logDebug: vi.fn() }));
 vi.mock('../../../src/nest/audit/audit-log.logger', () => logMock);
 
-import { TrekPhotoCacheJob } from '../../../src/nest/memories/trek-photo-cache.job';
+import { TrekPhotoCacheJob } from '../../../src/nest/memories/tripmate-photo-cache.job';
 import { PlacePhotoCacheJob } from '../../../src/nest/place-photos/place-photo-cache.job';
 import { AirtrailSyncJob } from '../../../src/nest/integrations/airtrail-sync.job';
 import { JourneyThumbsJob } from '../../../src/nest/memories/journey-thumbs.job';
-import type { TrekPhotoCacheService } from '../../../src/nest/memories/trek-photo-cache.service';
+import type { TrekPhotoCacheService } from '../../../src/nest/memories/tripmate-photo-cache.service';
 import type { PlacePhotoCacheService } from '../../../src/nest/place-photos/place-photo-cache.service';
 import type { ThumbnailService } from '../../../src/nest/memories/thumbnail.service';
 import type { AirtrailSyncService } from '../../../src/nest/integrations/airtrail-sync.service';
@@ -43,7 +43,7 @@ describe('TrekPhotoCacheJob', () => {
     const { job, registrar, cache } = make();
     job.onApplicationBootstrap();
     expect(cache.sweepExpired).toHaveBeenCalledTimes(1);
-    expect(registrar.register).toHaveBeenCalledWith('trek-photo-cache', '0 */2 * * *', expect.any(Function), { timezone: 'none' });
+    expect(registrar.register).toHaveBeenCalledWith('tripmate-photo-cache', '0 */2 * * *', expect.any(Function), { timezone: 'none' });
   });
 
   it('CSJOB-002 — a throwing boot sweep is swallowed (cache dir may not exist yet) and the cron still registers', () => {

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Check, Flag, Plus, User } from 'lucide-react'
-import type { TodoCreateItemRequest, TodoUpdateItemRequest } from '@trek/shared'
+import type { TodoCreateItemRequest, TodoUpdateItemRequest } from '@tripmate/shared'
 import MSheet from '../../../components/MSheet'
 import { CustomDatePicker } from '../../../../components/shared/CustomDateTimePicker'
 import { Eyebrow, FIELD_AREA_CLS, FIELD_CLS, FormSheetFooter, FormSheetHeader } from '../sheets/PlSheetChrome'

@@ -7,7 +7,7 @@
  * worst possible bug in this module: `dev` would confidently green-light a plugin that
  * the host then refuses (or refuse one the host would allow).
  *
- * These tests read the server's source directly. They only run inside the TREK monorepo;
+ * These tests read the server's source directly. They only run inside the Trip Mate monorepo;
  * in a published/standalone checkout the server isn't there and they skip.
  */
 import { describe, it, expect } from 'vitest';

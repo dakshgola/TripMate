@@ -54,7 +54,7 @@ function recordGoogleRetry() {
     searchBodies.push(body)
     return body.provider === 'google'
       ? HttpResponse.json({ places: [{ name: 'Tokyo Station', address: 'Chiyoda', lat: 35.68, lng: 139.77 }], source: 'google' })
-      : HttpResponse.json({ places: [{ name: 'Weigh station', address: 'Ritzville', lat: 47.1, lng: -118.4 }], source: 'trek-places+openstreetmap' })
+      : HttpResponse.json({ places: [{ name: 'Weigh station', address: 'Ritzville', lat: 47.1, lng: -118.4 }], source: 'tripmate-places+openstreetmap' })
   })
 }
 
@@ -181,13 +181,13 @@ describe('PlPlaceSearch', () => {
     // Both indexes answer the keystroke path at once, so the name the response
     // carries for the whole list is true of the call and wrong for half its rows.
     server.use(recordAutocomplete([
-      { ...SUGGESTION, source: 'trek-places' },
+      { ...SUGGESTION, source: 'tripmate-places' },
       { placeId: 'node:1', mainText: 'Louvre Palace', secondaryText: 'Palais du Louvre', source: 'openstreetmap' },
     ]))
     const { input } = setup()
     fireEvent.change(input, { target: { value: 'Lou' } })
 
-    expect(await screen.findByText('TREK')).toBeInTheDocument()
+    expect(await screen.findByText('Trip Mate')).toBeInTheDocument()
     expect(await screen.findByText('OpenStreetMap')).toBeInTheDocument()
   })
 

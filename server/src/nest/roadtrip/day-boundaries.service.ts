@@ -1,5 +1,5 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import type { RoadtripDayBoundary } from '@trek/shared';
+import type { RoadtripDayBoundary } from '@tripmate/shared';
 import { DatabaseService } from '../database/database.service';
 
 @Injectable()

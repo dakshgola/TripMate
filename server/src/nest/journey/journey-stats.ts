@@ -1,6 +1,6 @@
 import type {
   JourneyStats, JourneyStatsCountry, JourneyStatsExcludedStop, JourneyStatsPoint, JourneyStatsTrip,
-} from '@trek/shared';
+} from '@tripmate/shared';
 
 /**
  * What a journey adds up to — the arithmetic, with no database and no Nest.
@@ -62,7 +62,7 @@ export function routeDistance(points: { lat: number; lng: number }[]): number {
  *
  * Polarsteps calls this "furthest point from home" and measures from where the
  * trip started, which is the only definition that needs no extra information —
- * TREK does not know where anyone lives, and asking would be a worse book for
+ * Trip Mate does not know where anyone lives, and asking would be a worse book for
  * the one fact it adds.
  */
 export function furthestFromStart(points: { lat: number; lng: number }[]): number {

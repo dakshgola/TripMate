@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { roadtripPreferencesSchema } from '@trek/shared'
+import { roadtripPreferencesSchema } from '@tripmate/shared'
 import { addListener, removeListener } from '../api/websocket'
 import { useAuthStore } from '../store/authStore'
 import { publishRoadtripPreferences } from '../store/roadtripPreferencesStore'

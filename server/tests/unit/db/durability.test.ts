@@ -30,15 +30,15 @@ function readModes(file: string): { journalMode: string; synchronous: number } {
 }
 
 beforeEach(() => {
-  tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-durability-'));
+  tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-durability-'));
   dbPath = path.join(tmpDir, 'travel.db');
-  delete process.env.TREK_DB_JOURNAL_MODE;
-  delete process.env.TREK_DB_SYNCHRONOUS;
+  delete process.env.TRIPMATE_DB_JOURNAL_MODE;
+  delete process.env.TRIPMATE_DB_SYNCHRONOUS;
 });
 
 afterEach(() => {
-  delete process.env.TREK_DB_JOURNAL_MODE;
-  delete process.env.TREK_DB_SYNCHRONOUS;
+  delete process.env.TRIPMATE_DB_JOURNAL_MODE;
+  delete process.env.TRIPMATE_DB_SYNCHRONOUS;
   vi.restoreAllMocks();
   fs.rmSync(tmpDir, { recursive: true, force: true });
 });
@@ -81,8 +81,8 @@ describe('resolveDurability', () => {
     expect(result.journalMode).toBe('WAL');
     expect(result.synchronous).toBe('NORMAL');
     expect(result.warnings).toHaveLength(2);
-    expect(result.warnings[0]).toContain('TREK_DB_JOURNAL_MODE="WALL"');
-    expect(result.warnings[1]).toContain('TREK_DB_SYNCHRONOUS="sort-of"');
+    expect(result.warnings[0]).toContain('TRIPMATE_DB_JOURNAL_MODE="WALL"');
+    expect(result.warnings[1]).toContain('TRIPMATE_DB_SYNCHRONOUS="sort-of"');
   });
 
   it('keeps the per-mode synchronous default when only that value is bogus', () => {
@@ -105,7 +105,7 @@ describe('applyDurabilityPragmas', () => {
   });
 
   it('switches the file to the configured mode and persists it', () => {
-    process.env.TREK_DB_JOURNAL_MODE = 'DELETE';
+    process.env.TRIPMATE_DB_JOURNAL_MODE = 'DELETE';
 
     const wal = new Database(dbPath);
     wal.exec('PRAGMA journal_mode = WAL');
@@ -125,7 +125,7 @@ describe('applyDurabilityPragmas', () => {
   });
 
   it('applies an explicit synchronous level on top of the journal mode', () => {
-    process.env.TREK_DB_SYNCHRONOUS = 'FULL';
+    process.env.TRIPMATE_DB_SYNCHRONOUS = 'FULL';
 
     const db = new Database(dbPath);
     const active = applyDurabilityPragmas(db);
@@ -135,7 +135,7 @@ describe('applyDurabilityPragmas', () => {
   });
 
   it('warns and stays on the default when the mode is misspelled', () => {
-    process.env.TREK_DB_JOURNAL_MODE = 'DELET';
+    process.env.TRIPMATE_DB_JOURNAL_MODE = 'DELET';
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
     const db = new Database(dbPath);
@@ -144,11 +144,11 @@ describe('applyDurabilityPragmas', () => {
 
     expect(active.journalMode).toBe('WAL');
     expect(warn).toHaveBeenCalledTimes(1);
-    expect(String(warn.mock.calls[0][0])).toContain('TREK_DB_JOURNAL_MODE="DELET"');
+    expect(String(warn.mock.calls[0][0])).toContain('TRIPMATE_DB_JOURNAL_MODE="DELET"');
   });
 
   it('warns and keeps the mode default when synchronous is misspelled', () => {
-    process.env.TREK_DB_SYNCHRONOUS = 'VERY';
+    process.env.TRIPMATE_DB_SYNCHRONOUS = 'VERY';
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
     const db = new Database(dbPath);
@@ -157,11 +157,11 @@ describe('applyDurabilityPragmas', () => {
 
     expect(active.synchronous).toBe('NORMAL');
     expect(warn).toHaveBeenCalledTimes(1);
-    expect(String(warn.mock.calls[0][0])).toContain('TREK_DB_SYNCHRONOUS="VERY"');
+    expect(String(warn.mock.calls[0][0])).toContain('TRIPMATE_DB_SYNCHRONOUS="VERY"');
   });
 
   it('reports what the engine settled on, not what was asked for', () => {
-    process.env.TREK_DB_JOURNAL_MODE = 'WAL';
+    process.env.TRIPMATE_DB_JOURNAL_MODE = 'WAL';
     const db = new Database(':memory:');
     expect(applyDurabilityPragmas(db).journalMode).toBe('MEMORY');
     db.close();
@@ -201,15 +201,15 @@ describe('standalone scripts honour the same configuration', () => {
     expect(readModes(dbPath).journalMode).toBe('WAL');
   }
 
-  it('reset-admin.js applies TREK_DB_JOURNAL_MODE instead of leaving WAL behind', () => {
+  it('reset-admin.js applies TRIPMATE_DB_JOURNAL_MODE instead of leaving WAL behind', () => {
     seedWalDb();
 
     execFileSync(process.execPath, ['reset-admin.js'], {
       cwd: SERVER_ROOT,
       env: {
         ...process.env,
-        TREK_DB_FILE: dbPath,
-        TREK_DB_JOURNAL_MODE: 'DELETE',
+        TRIPMATE_DB_FILE: dbPath,
+        TRIPMATE_DB_JOURNAL_MODE: 'DELETE',
         RESET_ADMIN_EMAIL: 'locked-out@example.com',
         RESET_ADMIN_PASSWORD: 'Recovery12345!',
       },
@@ -231,7 +231,7 @@ describe('standalone scripts honour the same configuration', () => {
 
     execFileSync(process.execPath, ['--import', 'tsx', 'scripts/migrate-encryption.ts'], {
       cwd: SERVER_ROOT,
-      env: { ...process.env, DB_PATH: dbPath, TREK_DB_JOURNAL_MODE: 'DELETE' },
+      env: { ...process.env, DB_PATH: dbPath, TRIPMATE_DB_JOURNAL_MODE: 'DELETE' },
       input: 'old-key\nnew-key\nyes\n',
       stdio: 'pipe',
     });

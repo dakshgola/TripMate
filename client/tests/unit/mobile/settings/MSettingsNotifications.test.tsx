@@ -319,7 +319,7 @@ describe('MSettingsNotifications', () => {
       const test = await screen.findByRole('button', { name: 'Test' });
       expect(test).toBeDisabled();
 
-      await user.type(screen.getByPlaceholderText('my-trek-alerts'), 'alerts');
+      await user.type(screen.getByPlaceholderText('my-tripmate-alerts'), 'alerts');
       await user.click(test);
 
       expect(await screen.findByText('Test ntfy notification sent successfully')).toBeInTheDocument();
@@ -360,7 +360,7 @@ describe('MSettingsNotifications', () => {
 
   describe('plugin channels', () => {
     const pluginChannel = (over: Partial<Channel> = {}): Channel => ({
-      id: 'plugin:trek-gotify',
+      id: 'plugin:tripmate-gotify',
       source: 'plugin',
       label: 'Gotify',
       settingsPath: '/settings?tab=plugins',
@@ -371,9 +371,9 @@ describe('MSettingsNotifications', () => {
 
     const pluginMatrix = (over: Partial<Channel> = {}) =>
       matrix({
-        preferences: { trip_invite: { inapp: true, 'plugin:trek-gotify': false } },
+        preferences: { trip_invite: { inapp: true, 'plugin:tripmate-gotify': false } },
         channels: [builtin('inapp'), pluginChannel(over)],
-        implemented_combos: { trip_invite: ['inapp', 'plugin:trek-gotify'] },
+        implemented_combos: { trip_invite: ['inapp', 'plugin:tripmate-gotify'] },
       });
 
     it('FE-MOB-SETNOTIF-021: a configured plugin channel offers a test send and no configure link', async () => {
@@ -414,7 +414,7 @@ describe('MSettingsNotifications', () => {
       await user.click(await screen.findByRole('button', { name: 'Send test' }));
 
       expect(await screen.findByText('Test notification sent.')).toBeInTheDocument();
-      expect(called).toBe('plugin:trek-gotify');
+      expect(called).toBe('plugin:tripmate-gotify');
     });
 
     it('FE-MOB-SETNOTIF-024: a channel test answering success:false surfaces its error', async () => {

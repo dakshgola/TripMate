@@ -6,7 +6,7 @@ on:
 
 jobs:
   check-target:
-    if: github.repository == 'liketrek/TREK'
+    if: github.repository == 'liketrek/Trip Mate'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write

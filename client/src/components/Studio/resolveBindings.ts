@@ -1,5 +1,5 @@
-import type { BookDocument } from '@trek/shared'
-import { MAX_TEXT_LENGTH } from '@trek/shared'
+import type { BookDocument } from '@tripmate/shared'
+import { MAX_TEXT_LENGTH } from '@tripmate/shared'
 import { formatBookCoords, formatBookDate } from './entryText'
 
 /**

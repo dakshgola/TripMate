@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import type { TrekWsPayload, TrekWsUserEventName } from '@trek/shared';
+import type { TrekWsPayload, TrekWsUserEventName } from '@tripmate/shared';
 
 const { broadcast, broadcastToUser } = vi.hoisted(() => ({
   broadcast: vi.fn(),

@@ -285,7 +285,7 @@ describe('exportICS', () => {
 
     expect(ics).toContain('SUMMARY:CDG → JFK');
     // Departure endpoint zone drives DTSTART, arrival zone drives DTEND, so the
-    // subscriber sees TREK's zones instead of their own (#1453).
+    // subscriber sees Trip Mate's zones instead of their own (#1453).
     expect(ics).toContain('DTSTART;TZID=Europe/Paris:20250602T090000');
     expect(ics).toContain('DTEND;TZID=America/New_York:20250602T120000');
     expect(ics).not.toContain('DTSTART:20250602T090000');
@@ -658,9 +658,9 @@ describe('exportICS', () => {
 
     const { ics, filename } = svc.exportICS(trip.id);
 
-    expect(ics).toContain('X-WR-CALNAME:TREK Trip');
+    expect(ics).toContain('X-WR-CALNAME:Trip Mate Trip');
     expect(ics).toContain('SUMMARY:Trip');
-    expect(filename).toBe('trek-trip.ics');
+    expect(filename).toBe('tripmate-trip.ics');
   });
 
   it('CAL-021: a corrupt day date degrades the VTIMEZONE offset instead of throwing', () => {
@@ -1113,8 +1113,8 @@ describe('accommodations', () => {
 
     const { ics } = svc.exportICS(trip.id);
 
-    expect(ics.match(/UID:trek-checkin-\d+@trek/g)).toHaveLength(1);
-    expect(ics.match(/UID:trek-checkout-\d+@trek/g)).toHaveLength(1);
+    expect(ics.match(/UID:tripmate-checkin-\d+@tripmate/g)).toHaveLength(1);
+    expect(ics.match(/UID:tripmate-checkout-\d+@tripmate/g)).toHaveLength(1);
     // The lowest booking id names the markers, so the title cannot flip between
     // exports. The second booking keeps its own event (its UID is its own).
     expect(ics).toContain('SUMMARY:Check-in: Hotel Bellevue\r\n');
@@ -1514,8 +1514,8 @@ describe('staged bookings', () => {
     const { ics } = svc.exportICS(trip.id);
 
     expect(ics).not.toContain('Parked Hotel');
-    expect(ics).not.toMatch(/UID:trek-checkin-\d+@trek/);
-    expect(ics).not.toMatch(/UID:trek-checkout-\d+@trek/);
+    expect(ics).not.toMatch(/UID:tripmate-checkin-\d+@tripmate/);
+    expect(ics).not.toMatch(/UID:tripmate-checkout-\d+@tripmate/);
   });
 
   it('CAL-058: an accommodation with no linked booking at all still emits its stay', () => {
@@ -1529,7 +1529,7 @@ describe('staged bookings', () => {
     const { ics } = svc.exportICS(trip.id);
 
     expect(ics).toContain('Hotel Bellevue');
-    expect(ics).toMatch(/UID:trek-checkin-\d+@trek/);
+    expect(ics).toMatch(/UID:tripmate-checkin-\d+@tripmate/);
   });
 
   it('CAL-059: a stay with both a staged and a live booking takes its title from the live one', () => {
@@ -1684,12 +1684,12 @@ describe('serialised output', () => {
     // the minute it ran in or its position in the file.
     const ics = svc.exportICS(trip.id).ics
       .replace(/DTSTAMP:\d{8}T\d{6}Z/g, 'DTSTAMP:<stamp>')
-      .replace(/UID:trek-([a-z]+)-\d+@trek/g, 'UID:trek-$1-<n>@trek');
+      .replace(/UID:tripmate-([a-z]+)-\d+@tripmate/g, 'UID:tripmate-$1-<n>@tripmate');
 
     expect(ics).toMatchInlineSnapshot(`
       "BEGIN:VCALENDAR
       VERSION:2.0
-      PRODID:-//TREK//Travel Planner//EN
+      PRODID:-//Trip Mate//Travel Planner//EN
       CALSCALE:GREGORIAN
       METHOD:PUBLISH
       X-WR-CALNAME:Golden Trip
@@ -1703,7 +1703,7 @@ describe('serialised output', () => {
       END:STANDARD
       END:VTIMEZONE
       BEGIN:VEVENT
-      UID:trek-trip-<n>@trek
+      UID:tripmate-trip-<n>@tripmate
       DTSTAMP:<stamp>
       DTSTART;VALUE=DATE:20260501
       DTEND;VALUE=DATE:20260502
@@ -1711,14 +1711,14 @@ describe('serialised output', () => {
       DESCRIPTION:Line one
       END:VEVENT
       BEGIN:VEVENT
-      UID:trek-assign-<n>@trek
+      UID:tripmate-assign-<n>@tripmate
       DTSTAMP:<stamp>
       DTSTART;TZID=Asia/Tokyo:20260501T090000
       DTEND;TZID=Asia/Tokyo:20260501T103000
       SUMMARY:Tokyo Tower
       END:VEVENT
       BEGIN:VEVENT
-      UID:trek-day-<n>@trek
+      UID:tripmate-day-<n>@tripmate
       DTSTAMP:<stamp>
       DTSTART;VALUE=DATE:20260501
       DTEND;VALUE=DATE:20260502

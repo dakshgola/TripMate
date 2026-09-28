@@ -403,12 +403,12 @@ describe('getGithubReleases', () => {
 
     await getGithubReleases('9999', '0');
     expect(fetchMock.mock.calls[0][0]).toBe(
-      'https://api.github.com/repos/liketrek/TREK/releases?per_page=100&page=1',
+      'https://api.github.com/repos/liketrek/Trip Mate/releases?per_page=100&page=1',
     );
 
     await getGithubReleases('10&per_page=999', 'abc');
     expect(fetchMock.mock.calls[1][0]).toBe(
-      'https://api.github.com/repos/liketrek/TREK/releases?per_page=10&page=1',
+      'https://api.github.com/repos/liketrek/Trip Mate/releases?per_page=10&page=1',
     );
   });
 
@@ -418,7 +418,7 @@ describe('getGithubReleases', () => {
 
     await getGithubReleases('20', '2');
     expect(fetchMock.mock.calls[0][0]).toBe(
-      'https://api.github.com/repos/liketrek/TREK/releases?per_page=20&page=2',
+      'https://api.github.com/repos/liketrek/Trip Mate/releases?per_page=20&page=2',
     );
   });
 });
@@ -693,7 +693,7 @@ describe('checkVersion on a centrally administered install', () => {
     // this instance upgrades, so from inside it there is nothing available.
     const fetchSpy = vi.fn();
     vi.stubGlobal('fetch', fetchSpy);
-    vi.stubEnv('TREK_MANAGED', 'true');
+    vi.stubEnv('TRIPMATE_MANAGED', 'true');
     vi.stubEnv('APP_VERSION', '3.4.1');
 
     return checkVersion().then((info) => {

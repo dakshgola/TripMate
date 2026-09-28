@@ -80,7 +80,7 @@ import { DatabaseModule } from '../../src/nest/database/database.module';
 import { RealtimeModule } from '../../src/nest/realtime/realtime.module';
 import { FilesModule } from '../../src/nest/files/files.module';
 import { PhotosModule } from '../../src/nest/photos/photos.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 
 describe('Files + photos e2e (real auth guard + temp SQLite)', () => {
   let server: Server;

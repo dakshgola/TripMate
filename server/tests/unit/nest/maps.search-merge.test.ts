@@ -19,8 +19,8 @@ const { mockSearch, mockNominatim } = vi.hoisted(() => ({
     }),
   ),
 }));
-vi.mock('../../../src/nest/maps/trek-places.client', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('../../../src/nest/maps/trek-places.client')>()),
+vi.mock('../../../src/nest/maps/tripmate-places.client', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../../../src/nest/maps/tripmate-places.client')>()),
   trekPlacesSearch: mockSearch,
 }));
 vi.mock('../../../src/nest/geo/nominatim.client', async (importOriginal) => ({
@@ -112,7 +112,7 @@ describe('MapsService.searchPlaces — the merged path', () => {
 
     const out = await make().searchPlaces(1, 'Hase-dera');
 
-    expect(out.source).toBe('trek-places+openstreetmap');
+    expect(out.source).toBe('tripmate-places+openstreetmap');
     expect(out.places).toHaveLength(2);
     // The whole point of the feature: the landmark OpenStreetMap knows lands at
     // position two, not at position eleven behind ten shops.
@@ -129,7 +129,7 @@ describe('MapsService.searchPlaces — the merged path', () => {
     // `source` is not decoration: the search log writes it into the corpus a
     // candidate index is scored against later, so a wrong label poisons the
     // measurement rather than just the display.
-    expect(out.source).toBe('trek-places');
+    expect(out.source).toBe('tripmate-places');
     expect(out.places).toHaveLength(1);
   });
 
@@ -139,7 +139,7 @@ describe('MapsService.searchPlaces — the merged path', () => {
 
     const out = await make().searchPlaces(1, "L'Osteria");
 
-    expect(out.source).toBe('trek-places');
+    expect(out.source).toBe('tripmate-places');
     expect(out.places).toHaveLength(1);
     expect(console.warn).toHaveBeenCalledWith('OpenStreetMap search failed, index only:', 'nominatim down');
   });
@@ -156,7 +156,7 @@ describe('MapsService.searchPlaces — the merged path', () => {
 
     expect(out.places).toHaveLength(1);
     expect(out.places[0].name).toBe('Museum');
-    expect(console.warn).toHaveBeenCalledWith('TREK Places search failed, falling back:', 'places api down');
+    expect(console.warn).toHaveBeenCalledWith('Trip Mate Places search failed, falling back:', 'places api down');
     // One question, asked once.
     expect(mockNominatim).toHaveBeenCalledTimes(1);
   });
@@ -173,10 +173,10 @@ describe('MapsService.searchPlaces — the merged path', () => {
 
     mockSearch.mockResolvedValue([indexHit("L'Osteria")]);
     mockNominatim.mockResolvedValue(osmAnswer([]));
-    expect((await make().searchPlaces(1, "L'Osteria")).source).toBe('trek-places');
+    expect((await make().searchPlaces(1, "L'Osteria")).source).toBe('tripmate-places');
 
     mockNominatim.mockResolvedValue(osmAnswer([osmRow('Steinstrasse', 36.5, 12.2)]));
-    expect((await make().searchPlaces(1, "L'Osteria")).source).toBe('trek-places+openstreetmap');
+    expect((await make().searchPlaces(1, "L'Osteria")).source).toBe('tripmate-places+openstreetmap');
   });
 
   it('MAPS-SEARCH-005: both empty asks nobody a second time', async () => {
@@ -231,7 +231,7 @@ describe('MapsService.searchPlaces — the merged path', () => {
 
     // No key at all: the index and OpenStreetMap answer, as before.
     const keyless = await make(true, { places_google_only: 'true' }).searchPlaces(1, "L'Osteria");
-    expect(keyless.source).toBe('trek-places+openstreetmap');
+    expect(keyless.source).toBe('tripmate-places+openstreetmap');
 
     // A key, but the admin picked OpenStreetMap as the provider: Google holds
     // no slot, so there is nothing for the switch to hand the search to.
@@ -239,13 +239,13 @@ describe('MapsService.searchPlaces — the merged path', () => {
     const osmOnly = await make(true, { maps_api_key: 'key', places_google_only: 'true', places_provider: 'openstreetmap' })
       .searchPlaces(1, "L'Osteria");
     expect(mockSearch).toHaveBeenCalled();
-    expect(osmOnly.source).toBe('trek-places+openstreetmap');
+    expect(osmOnly.source).toBe('tripmate-places+openstreetmap');
 
     // A key and the switch off: the index still answers first.
     mockSearch.mockClear();
     const off = await make(true, { maps_api_key: 'key', places_google_only: 'false' }).searchPlaces(1, "L'Osteria");
     expect(mockSearch).toHaveBeenCalled();
-    expect(off.source).toBe('trek-places+openstreetmap');
+    expect(off.source).toBe('tripmate-places+openstreetmap');
   });
 
   it('MAPS-SEARCH-013: one search sent to Google on purpose goes there alone, and only where Google holds the slot', async () => {
@@ -263,7 +263,7 @@ describe('MapsService.searchPlaces — the merged path', () => {
     mockSearch.mockClear();
     const keyless = await make(true, {}).searchPlaces(1, 'Tokyo Station', undefined, undefined, { googleOnly: true });
     expect(mockSearch).toHaveBeenCalled();
-    expect(keyless.source).toBe('trek-places+openstreetmap');
+    expect(keyless.source).toBe('tripmate-places+openstreetmap');
     vi.unstubAllGlobals();
   });
 

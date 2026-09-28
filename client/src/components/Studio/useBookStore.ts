@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { BookDocument, BookRecord } from '@trek/shared'
-import { normalizeBookDocument } from '@trek/shared'
+import type { BookDocument, BookRecord } from '@tripmate/shared'
+import { normalizeBookDocument } from '@tripmate/shared'
 import { journeyApi } from '../../api/client'
 import { addListener, removeListener } from '../../api/websocket'
 

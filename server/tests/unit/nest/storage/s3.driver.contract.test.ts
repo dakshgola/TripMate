@@ -9,15 +9,15 @@ import { MULTIPART_THRESHOLD, S3Driver } from '../../../../src/nest/storage/driv
 import { describeStorageDriver, type DriverHarness } from './storage-driver.contract';
 
 /**
- * Env-gated: engages only when TREK_TEST_S3_* is set (manual-only, via
+ * Env-gated: engages only when TRIPMATE_TEST_S3_* is set (manual-only, via
  * `docker compose -f docker-compose.minio-test.yml up`). Local runs stay
  * hermetic. Deviation from local/mirror's bare top-level call: the gate must
  * wrap describeStorageDriver because the contract file owns its own describe.
  */
-const endpoint = process.env.TREK_TEST_S3_ENDPOINT;
-const bucket = process.env.TREK_TEST_S3_BUCKET ?? 'trek-test';
-const accessKeyId = process.env.TREK_TEST_S3_ACCESS_KEY_ID ?? 'trekci';
-const secretAccessKey = process.env.TREK_TEST_S3_SECRET_ACCESS_KEY ?? 'trekci-secret';
+const endpoint = process.env.TRIPMATE_TEST_S3_ENDPOINT;
+const bucket = process.env.TRIPMATE_TEST_S3_BUCKET ?? 'tripmate-test';
+const accessKeyId = process.env.TRIPMATE_TEST_S3_ACCESS_KEY_ID ?? 'trekci';
+const secretAccessKey = process.env.TRIPMATE_TEST_S3_SECRET_ACCESS_KEY ?? 'trekci-secret';
 
 describe.skipIf(!endpoint)('S3Driver against MinIO', () => {
   beforeAll(async () => {
@@ -40,7 +40,7 @@ describe.skipIf(!endpoint)('S3Driver against MinIO', () => {
     // Fresh namespace per test (makeHarness runs in beforeEach) — reruns
     // against a shared MinIO never collide; cleanup removes everything.
     const keyPrefix = `contract-${randomUUID()}`;
-    const tmpDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'trek-s3-contract-'));
+    const tmpDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'tripmate-s3-contract-'));
     const driver = new S3Driver({
       id: 's3-contract',
       endpoint: endpoint!,

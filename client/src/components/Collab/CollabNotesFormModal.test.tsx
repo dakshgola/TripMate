@@ -99,7 +99,7 @@ describe('NoteFormModal', () => {
     const { onSubmit, onClose } = renderModal({ existingCategories: ['Food'] })
     await user.type(screen.getByPlaceholderText('collab.notes.titlePlaceholder'), '  Dinner  ')
     await user.type(screen.getByPlaceholderText('collab.notes.contentPlaceholder'), 'Book a table')
-    await user.type(screen.getByPlaceholderText('collab.notes.websitePlaceholder'), ' https://trek.test ')
+    await user.type(screen.getByPlaceholderText('collab.notes.websitePlaceholder'), ' https://tripmate.test ')
     await user.click(screen.getByRole('button', { name: 'collab.notes.create' }))
     await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(1))
     expect(onSubmit).toHaveBeenCalledWith({
@@ -107,7 +107,7 @@ describe('NoteFormModal', () => {
       content: 'Book a table',
       category: 'Food',
       color: '#ef4444',
-      website: 'https://trek.test',
+      website: 'https://tripmate.test',
       _pendingFiles: [],
     })
     expect(onClose).toHaveBeenCalled()

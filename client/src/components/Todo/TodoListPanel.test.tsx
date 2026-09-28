@@ -901,7 +901,7 @@ describe('TodoListPanel — new task pane', () => {
     rerender(<TodoListPanel tripId={1} items={items} addItemSignal={1} />);
     await screen.findByText('Create task');
 
-    const pane = document.querySelector('.trek-modal-backdrop') as HTMLElement;
+    const pane = document.querySelector('.tripmate-modal-backdrop') as HTMLElement;
     expect(within(pane).getByRole('button', { name: 'Errands' })).toBeInTheDocument();
   });
 
@@ -925,7 +925,7 @@ describe('TodoListPanel — new task pane', () => {
     const user = userEvent.setup();
     await openNew();
 
-    await user.click(document.querySelector('.trek-modal-backdrop')!);
+    await user.click(document.querySelector('.tripmate-modal-backdrop')!);
 
     expect(screen.queryByText('Create task')).not.toBeInTheDocument();
   });
@@ -966,7 +966,7 @@ describe('TodoListPanel — mobile layout', () => {
     rerender(<TodoListPanel tripId={1} items={[]} addItemSignal={1} />);
     await screen.findByText('Create task');
 
-    const backdrop = document.querySelector('.trek-modal-backdrop') as HTMLElement;
+    const backdrop = document.querySelector('.tripmate-modal-backdrop') as HTMLElement;
     expect(backdrop.style.alignItems).toBe('flex-end');
 
     await user.click(backdrop);
@@ -1040,7 +1040,7 @@ describe('TodoListPanel — mobile layout', () => {
     rerender(<TodoListPanel tripId={1} items={items} addItemSignal={1} />);
     await screen.findByText('Create task');
 
-    const pane = document.querySelector('.trek-modal-backdrop') as HTMLElement;
+    const pane = document.querySelector('.tripmate-modal-backdrop') as HTMLElement;
     expect(within(pane).getByRole('button', { name: 'Errands' })).toBeInTheDocument();
   });
 });
@@ -1140,7 +1140,7 @@ describe('TodoListPanel — remaining paths', () => {
     rerender(<TodoListPanel tripId={1} items={items} addItemSignal={1} />);
     await screen.findByText('Create task');
 
-    const pane = document.querySelector('.trek-modal-backdrop') as HTMLElement;
+    const pane = document.querySelector('.tripmate-modal-backdrop') as HTMLElement;
     await user.type(within(pane).getByPlaceholderText('Task name'), 'Buy stamps');
     await user.click(within(pane).getByRole('button', { name: 'No list' }));
     pickOption('Errands');
@@ -1177,7 +1177,7 @@ describe('TodoListPanel — remaining paths', () => {
 
     rerender(<TodoListPanel tripId={1} items={items} addItemSignal={1} />);
     await screen.findByText('Create task');
-    const pane = document.querySelector('.trek-modal-backdrop') as HTMLElement;
+    const pane = document.querySelector('.tripmate-modal-backdrop') as HTMLElement;
     await user.type(within(pane).getByPlaceholderText('Task name'), 'Buy stamps');
     await user.click(within(pane).getByRole('button', { name: 'Unassigned' }));
     pickOption('bob');
@@ -1250,7 +1250,7 @@ describe('TodoListPanel — remaining paths', () => {
     rerender(<TodoListPanel tripId={1} items={[]} addItemSignal={1} />);
     await screen.findByText('Create task');
 
-    const pane = document.querySelector('.trek-modal-backdrop') as HTMLElement;
+    const pane = document.querySelector('.tripmate-modal-backdrop') as HTMLElement;
     // The header X is the only button without an accessible name.
     await user.click(within(pane).getAllByRole('button').find(b => !b.textContent?.trim())!);
 

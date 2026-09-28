@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService, type TripAccess } from '../database/database.service';
-import type { BudgetFallbackFx, BudgetParticipantFinal, BudgetUnconverted, TrekWsPayload, TrekWsTripEventName } from '@trek/shared';
+import type { BudgetFallbackFx, BudgetParticipantFinal, BudgetUnconverted, TrekWsPayload, TrekWsTripEventName } from '@tripmate/shared';
 import { RealtimeService } from '../realtime/realtime.service';
 import { PermissionsService } from '../permissions/permissions.service';
 import { avatarUrl } from '../common/avatarUrl';

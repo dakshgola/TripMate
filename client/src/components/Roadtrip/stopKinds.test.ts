@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { roadtripStopTypeSchema } from '@trek/shared'
+import { roadtripStopTypeSchema } from '@tripmate/shared'
 import { SERVICE_STOP_TYPES, SERVICE_COLORS } from './roadtripModel'
 import {
   STOP_KINDS, STOP_KIND_BY_KEY, CORRIDOR_CATEGORIES, CORRIDOR_CATEGORY_BY_KEY, CORRIDOR_CATEGORY_KEYS,
@@ -9,7 +9,7 @@ import {
 /**
  * The table exists to stop nine lists from drifting apart, and these are the assertions
  * that make that true rather than intended. Each one pins the table against a list that
- * cannot import it: the Zod enum lives in `@trek/shared` and must not depend on the
+ * cannot import it: the Zod enum lives in `@tripmate/shared` and must not depend on the
  * client, and `SERVICE_STOP_TYPES` lives in the React-free model.
  */
 describe('stop kinds', () => {

@@ -5,7 +5,7 @@ import { bypassChip, bypassOffer, rangeWarningCopy, useRangeBypass } from './use
 const t = (k: string, p?: Record<string, unknown>) => (p ? `${k}:${JSON.stringify(p)}` : k)
 
 /**
- * The ONE logic path behind the TREK_PLUGINS_IGNORE_TREK_RANGE warning in both admin
+ * The ONE logic path behind the TRIPMATE_PLUGINS_IGNORE_TREK_RANGE warning in both admin
  * shells — the desktop panel and the phone panel render their own markup over this.
  */
 describe('rangeBypass helpers', () => {
@@ -19,7 +19,7 @@ describe('rangeBypass helpers', () => {
   })
 
   it('bypassOffer: an enabled "Install anyway" carrying what the dialog must say', () => {
-    const offer = bypassOffer({ name: 'Gotify', trek: '>=4.0.0', hostVersion: '3.3.0' }, t, 'why')
+    const offer = bypassOffer({ name: 'Gotify', tripmate: '>=4.0.0', hostVersion: '3.3.0' }, t, 'why')
     expect(offer).toEqual({
       blocked: false, label: 'admin.plugins.installAnyway', title: 'why',
       warn: { name: 'Gotify', trekRange: '>=4.0.0', hostVersion: '3.3.0', onConfirm: null },
@@ -65,10 +65,10 @@ describe('useRangeBypass', () => {
     expect(ran).toBe(0)
     expect(result.current.warning).toBeNull()
 
-    act(() => result.current.notice('trek-new', null))
+    act(() => result.current.notice('tripmate-new', null))
     expect(result.current.warning).toBeNull()
-    act(() => result.current.notice('trek-new', { trekRange: null, hostVersion: '3.3.0' }))
-    expect(result.current.warning).toMatchObject({ name: 'trek-new', onConfirm: null })
+    act(() => result.current.notice('tripmate-new', { trekRange: null, hostVersion: '3.3.0' }))
+    expect(result.current.warning).toMatchObject({ name: 'tripmate-new', onConfirm: null })
     expect(result.current.copy?.confirm).toBe(false)
     act(() => result.current.confirm()) // a notice's confirm is just a close
     expect(result.current.warning).toBeNull()

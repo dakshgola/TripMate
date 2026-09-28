@@ -11,14 +11,14 @@ const storage: TranslationStrings = {
   'storage.field.region': 'リージョン',
   'storage.help.region': 'プロバイダーが特定のリージョンを要求しない限り、デフォルトのままにしてください。',
   'storage.field.keyPrefix': 'キープレフィックス',
-  'storage.help.keyPrefix': '各オブジェクトキーに追加するオプションのプレフィックス。例: trek/prod。',
+  'storage.help.keyPrefix': '各オブジェクトキーに追加するオプションのプレフィックス。例: tripmate/prod。',
   'storage.field.retries': 'リトライ回数',
   'storage.field.timeoutMs': 'タイムアウト（ms）',
   'storage.field.primary': 'プライマリバックエンド',
   'storage.field.replicas': 'レプリカ',
   'storage.title': 'ストレージ',
   'storage.description':
-    'TREKがアップロードされたファイル、写真、バックアップを保存する場所です。保存するまで何も変更されません。',
+    'Trip Mateがアップロードされたファイル、写真、バックアップを保存する場所です。保存するまで何も変更されません。',
   'storage.loading': '読み込み中…',
   'storage.saved': 'ストレージ設定を保存しました',
   'storage.save': '変更を保存',
@@ -65,7 +65,7 @@ const storage: TranslationStrings = {
   'storage.category.avatars': 'プロフィール写真',
   'storage.category.places': '場所の画像',
   'storage.category.photos-google': 'Googleフォトキャッシュ',
-  'storage.category.photos-trek': 'TREKフォトキャッシュ',
+  'storage.category.photos-tripmate': 'Trip Mateフォトキャッシュ',
   'storage.category.backups': 'バックアップ',
 
   // What each category stores — rendered under the label in the category map.
@@ -77,8 +77,8 @@ const storage: TranslationStrings = {
   'storage.categoryDesc.places': '場所やコレクションの場所に添付された画像 — アップロードまたはインポートされたもの。',
   'storage.categoryDesc.photos-google':
     'Google Placesの写真のキャッシュコピー — 再取得可能で、失っても問題ありません。',
-  'storage.categoryDesc.photos-trek':
-    '「写真」機能（Memories）が使用するTREKフォトサービスのキャッシュ写真 — 再取得可能で、失っても問題ありません。',
+  'storage.categoryDesc.photos-tripmate':
+    '「写真」機能（Memories）が使用するTrip Mateフォトサービスのキャッシュ写真 — 再取得可能で、失っても問題ありません。',
   'storage.categoryDesc.backups':
     'バックアップパネルまたはスケジュールによって作成されたサーバーのバックアップアーカイブ。',
   'storage.health.title': 'ヘルス',

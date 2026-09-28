@@ -1,5 +1,5 @@
 /**
- * trek-plugin status [dir] — where am I, and what do I do next?
+ * tripmate-plugin status [dir] — where am I, and what do I do next?
  *
  * The command an author runs when they are lost, which — before this existed — was most of the
  * time. It runs every offline gate the registry enforces, prints the whole journey as a
@@ -48,12 +48,12 @@ export function runStatus(dir: string, opts: StatusOptions = {}): { ok: boolean;
   const root = path.resolve(dir);
   const out: string[] = [];
 
-  if (!fs.existsSync(path.join(root, 'trek-plugin.json'))) {
+  if (!fs.existsSync(path.join(root, 'tripmate-plugin.json'))) {
     return {
       ok: false,
       text:
-        `  No plugin here.\n\n  ${path.relative(process.cwd(), root) || '.'} has no trek-plugin.json.\n\n` +
-        '  next →  trek-plugin create',
+        `  No plugin here.\n\n  ${path.relative(process.cwd(), root) || '.'} has no tripmate-plugin.json.\n\n` +
+        '  next →  tripmate-plugin create',
     };
   }
 

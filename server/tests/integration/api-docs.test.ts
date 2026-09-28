@@ -28,7 +28,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../src/db/database', () => dbMock);
 vi.mock('../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
   SESSION_DURATION: '24h',
@@ -53,36 +53,36 @@ describe('API-DOCS (#1412) — flag-gated OpenAPI surface', () => {
     createTables(testDb);
     runMigrations(testDb);
     resetTestDb(testDb);
-    prevFlag = process.env.TREK_API_DOCS_ENABLED;
-    process.env.TREK_API_DOCS_ENABLED = 'true';
+    prevFlag = process.env.TRIPMATE_API_DOCS_ENABLED;
+    process.env.TRIPMATE_API_DOCS_ENABLED = 'true';
     app = await buildApp();
     instance = app.getHttpAdapter().getInstance();
   });
 
   afterAll(async () => {
-    if (prevFlag === undefined) delete process.env.TREK_API_DOCS_ENABLED;
-    else process.env.TREK_API_DOCS_ENABLED = prevFlag;
+    if (prevFlag === undefined) delete process.env.TRIPMATE_API_DOCS_ENABLED;
+    else process.env.TRIPMATE_API_DOCS_ENABLED = prevFlag;
     await app.close();
     testDb.close();
   });
 
   it('DOCS-001 — the kill switch parses the boolean-like env family', () => {
-    const prev = process.env.TREK_API_DOCS_ENABLED;
+    const prev = process.env.TRIPMATE_API_DOCS_ENABLED;
     try {
-      process.env.TREK_API_DOCS_ENABLED = 'true';
+      process.env.TRIPMATE_API_DOCS_ENABLED = 'true';
       expect(apiDocsEnabled()).toBe(true);
-      process.env.TREK_API_DOCS_ENABLED = ' TRUE ';
+      process.env.TRIPMATE_API_DOCS_ENABLED = ' TRUE ';
       expect(apiDocsEnabled()).toBe(true);
-      process.env.TREK_API_DOCS_ENABLED = 'false';
+      process.env.TRIPMATE_API_DOCS_ENABLED = 'false';
       expect(apiDocsEnabled()).toBe(false);
       // '1' counts as truthy since the unified boolean coercion (app-config).
-      process.env.TREK_API_DOCS_ENABLED = '1';
+      process.env.TRIPMATE_API_DOCS_ENABLED = '1';
       expect(apiDocsEnabled()).toBe(true);
-      delete process.env.TREK_API_DOCS_ENABLED;
+      delete process.env.TRIPMATE_API_DOCS_ENABLED;
       expect(apiDocsEnabled()).toBe(false);
     } finally {
-      if (prev === undefined) delete process.env.TREK_API_DOCS_ENABLED;
-      else process.env.TREK_API_DOCS_ENABLED = prev;
+      if (prev === undefined) delete process.env.TRIPMATE_API_DOCS_ENABLED;
+      else process.env.TRIPMATE_API_DOCS_ENABLED = prev;
     }
   });
 
@@ -118,8 +118,8 @@ describe('API-DOCS (#1412) — flag-gated OpenAPI surface', () => {
   });
 
   it('DOCS-005 — without the flag the docs routes do not exist', async () => {
-    const prev = process.env.TREK_API_DOCS_ENABLED;
-    delete process.env.TREK_API_DOCS_ENABLED;
+    const prev = process.env.TRIPMATE_API_DOCS_ENABLED;
+    delete process.env.TRIPMATE_API_DOCS_ENABLED;
     let offApp: INestApplication | undefined;
     try {
       offApp = await buildApp();
@@ -128,8 +128,8 @@ describe('API-DOCS (#1412) — flag-gated OpenAPI surface', () => {
       expect((await request(off).get('/api/docs-json')).status).toBe(404);
     } finally {
       if (offApp) await offApp.close();
-      if (prev === undefined) delete process.env.TREK_API_DOCS_ENABLED;
-      else process.env.TREK_API_DOCS_ENABLED = prev;
+      if (prev === undefined) delete process.env.TRIPMATE_API_DOCS_ENABLED;
+      else process.env.TRIPMATE_API_DOCS_ENABLED = prev;
     }
   });
 });

@@ -1,9 +1,9 @@
 /**
- * trek-plugin rotate-key — move a published plugin to a NEW signing key, without shipping a
+ * tripmate-plugin rotate-key — move a published plugin to a NEW signing key, without shipping a
  * version.
  *
  * Rotation was always possible on the registry side (a maintainer applies the `allow-key-change`
- * label) and on the TREK side (SIGNATURE_KEY_CHANGED has an admin re-trust override) — but the
+ * label) and on the Trip Mate side (SIGNATURE_KEY_CHANGED has an admin re-trust override) — but the
  * SDK had no deliberate path to it: every publishing command refused a changed key outright.
  * This command is that path for the no-new-version case (a lost key, a compromised machine, a
  * planned rotation); `publish --allow-key-change` covers rotating as part of a release.
@@ -59,17 +59,17 @@ export async function rotateKey(opts: {
   const id = opts.id || readIdFrom(opts.dir ?? '.');
   if (!id) {
     throw new Error(
-      'no plugin id — run rotate-key from the plugin directory (it reads trek-plugin.json), or pass --id <plugin-id>.',
+      'no plugin id — run rotate-key from the plugin directory (it reads tripmate-plugin.json), or pass --id <plugin-id>.',
     );
   }
 
   // The registry's entry is the source of truth for what must be re-signed: the pinned versions,
-  // their artifacts, and the key TREK instances currently trust.
+  // their artifacts, and the key Trip Mate instances currently trust.
   const entry = await fetchPublishedEntry(registry, id);
   if (!entry) {
     throw new Error(
       `"${id}" is not published in ${registry} — there is nothing to rotate. ` +
-      '(To sign a plugin for the first time, publish a signed update: `trek-plugin publish --sign`.)',
+      '(To sign a plugin for the first time, publish a signed update: `tripmate-plugin publish --sign`.)',
     );
   }
 
@@ -89,7 +89,7 @@ export async function rotateKey(opts: {
 
 function readIdFrom(dir: string): string {
   try {
-    const m = readJsonFile<{ id?: unknown }>(path.join(path.resolve(dir), 'trek-plugin.json'));
+    const m = readJsonFile<{ id?: unknown }>(path.join(path.resolve(dir), 'tripmate-plugin.json'));
     return typeof m.id === 'string' ? m.id : '';
   } catch {
     return '';
@@ -100,7 +100,7 @@ async function fetchPublishedEntry(registry: string, id: string): Promise<Publis
   const url = `https://raw.githubusercontent.com/${registry}/main/registry/plugins/${id}.json`;
   let text: string;
   try {
-    const r = await fetch(url, { headers: { 'User-Agent': 'trek-plugin' } });
+    const r = await fetch(url, { headers: { 'User-Agent': 'tripmate-plugin' } });
     if (r.status === 404) return null;
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     text = await r.text();

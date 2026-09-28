@@ -10,8 +10,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 const { mockById } = vi.hoisted(() => ({
   mockById: vi.fn(async (_gers: string): Promise<unknown> => null),
 }));
-vi.mock('../../../src/nest/maps/trek-places.client', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('../../../src/nest/maps/trek-places.client')>()),
+vi.mock('../../../src/nest/maps/tripmate-places.client', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../../../src/nest/maps/tripmate-places.client')>()),
   trekPlacesById: mockById,
 }));
 
@@ -85,7 +85,7 @@ describe('MapsService.getPlaceDetails for a gers: id', () => {
   it('MAPS-GERS-005: the index wins on the fields the user actually picked', async () => {
     const out = await make({ name: 'Etwas anderes', opening_hours: 'Mo-Fr 09:00-17:00' })
       .getPlaceDetails(1, 'gers:abc-123');
-    expect(out.place).toMatchObject({ name: "L'Osteria", osm_id: 'gers:abc-123', source: 'trek-places' });
+    expect(out.place).toMatchObject({ name: "L'Osteria", osm_id: 'gers:abc-123', source: 'tripmate-places' });
   });
 
   it('MAPS-GERS-006: an unknown id is null rather than a thrown request', async () => {
@@ -113,7 +113,7 @@ describe('MapsService.getPlaceDetails for a gers: id', () => {
     expect(out.place).toMatchObject({
       name: "L'Osteria",
       osm_id: 'gers:abc-123',
-      source: 'trek-places',
+      source: 'tripmate-places',
       website: 'https://losteria.net/',
     });
     // The index's own hours survive: they came with the record, not from OSM.
@@ -134,7 +134,7 @@ describe('MapsService.getPlaceDetails for a gers: id', () => {
   });
 
   it('MAPS-GERS-009: with the index switched off, opening a saved place asks nobody', async () => {
-    // TREK_PLACES_ENABLED=false is the operator's word that nothing leaves for
+    // TRIPMATE_PLACES_ENABLED=false is the operator's word that nothing leaves for
     // the index. Search, autocomplete and the area download honoured it; the
     // lookup by id did not, so every saved place that came from the index was
     // still sent out, with the instance token, on every open.

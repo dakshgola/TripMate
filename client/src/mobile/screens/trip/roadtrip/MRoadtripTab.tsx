@@ -21,7 +21,7 @@ import { ARRIVING_DRIVE, type RailDrive } from '../../../../components/Roadtrip/
 import { dayBookings } from '../../../../components/Roadtrip/stopBookings'
 import { bookendBooking } from '../../../../components/Roadtrip/nightBookend'
 import { getDayOrder } from '../../../../utils/dayOrder'
-import { undatedRides } from '@trek/shared/roadtrip'
+import { undatedRides } from '@tripmate/shared/roadtrip'
 import type { Reservation, TranslationFn } from '../../../../types'
 
 /**
@@ -441,7 +441,7 @@ function UpNext({ planner, shell, rt, stageDayId, onOpen }: {
  *
  * The map half draws such a booking's arc between its terminals all the same, so without
  * this the ferry looked planned while the chain went round it by road. Which bookings
- * these are is decided once, in @trek/shared (`undatedRides`), for the desktop rail too.
+ * these are is decided once, in @tripmate/shared (`undatedRides`), for the desktop rail too.
  */
 function UndatedRides({ rides, t, onOpen }: {
   rides: readonly Reservation[]

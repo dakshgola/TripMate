@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import type { BookDocument, BookElement } from '@trek/shared'
-import { normalizeBookDocument } from '@trek/shared'
+import type { BookDocument, BookElement } from '@tripmate/shared'
+import { normalizeBookDocument } from '@tripmate/shared'
 import {
   resolveBindings, coordValue, type BindingSource,
 } from '../../../src/components/Studio/resolveBindings'

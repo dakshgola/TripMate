@@ -14,11 +14,11 @@ import { getTransitMapSegments } from './transitGeometry'
 import { geodesicArcs } from './flightGeodesy'
 import { cleanEndpointName } from './reservationName'
 import { hopIsVisible, labelFloorPx } from '../../utils/reservationRoutes'
-import { escapeHtml } from '@trek/shared'
+import { escapeHtml } from '@tripmate/shared'
 import type { Reservation, ReservationEndpoint } from '../../types'
 
-export const RESERVATION_SOURCE_ID = 'trek-reservations'
-export const RESERVATION_LINE_LAYER_ID = 'trek-reservations-lines'
+export const RESERVATION_SOURCE_ID = 'tripmate-reservations'
+export const RESERVATION_LINE_LAYER_ID = 'tripmate-reservations-lines'
 /** Sits under the coloured transit lines; named here so teardown can find it. */
 export const TRANSIT_CASING_LAYER_ID = `${RESERVATION_LINE_LAYER_ID}-transit-casing`
 

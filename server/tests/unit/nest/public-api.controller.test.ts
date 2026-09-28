@@ -9,7 +9,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { HttpException } from '@nestjs/common';
 import type { Request } from 'express';
-import { PUBLIC_API_INCLUDES, PUBLIC_API_SCOPES, type PublicApiGrant } from '@trek/shared';
+import { PUBLIC_API_INCLUDES, PUBLIC_API_SCOPES, type PublicApiGrant } from '@tripmate/shared';
 import { PublicApiController } from '../../../src/nest/public-api/public-api.controller';
 import type { PublicApiService } from '../../../src/nest/public-api/public-api.service';
 import type { RateLimitService } from '../../../src/nest/common/rate-limit.service';

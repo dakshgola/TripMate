@@ -6,7 +6,7 @@
  * anywhere mentioned that signing existed. That is the wrong default to arrive at by accident,
  * because of what signing actually means (server registry.service.ts, verifySignatureAndTofu):
  *
- *   - Unsigned throughout is fine. The sha256 pin is the only guarantee, and TREK accepts it.
+ *   - Unsigned throughout is fine. The sha256 pin is the only guarantee, and Trip Mate accepts it.
  *   - UNSIGNED → SIGNED later is allowed. Nothing is pinned until a signed version installs, so
  *     adding a key at v1.4.0 breaks nobody. Signing late is a real option, not a lost cause.
  *   - SIGNED → UNSIGNED is refused forever (SIGNATURE_MISSING) on every instance that already has
@@ -29,7 +29,7 @@ export interface SigningState {
   /** A signing key exists on this machine. */
   hasKey: boolean;
   keyPath: string;
-  /** This plugin is ALREADY PUBLISHED SIGNED — TREK refuses an unsigned update to it. */
+  /** This plugin is ALREADY PUBLISHED SIGNED — Trip Mate refuses an unsigned update to it. */
   publishedSigned: boolean;
   /** The key it was published under, when publishedSigned. */
   publishedKey?: string;
@@ -53,7 +53,7 @@ export async function inspectSigning(
   const registry = opts.registry ?? DEFAULT_REGISTRY;
   try {
     const r = await fetch(`https://raw.githubusercontent.com/${registry}/main/registry/plugins/${pluginId}.json`, {
-      headers: { 'User-Agent': 'trek-plugin' },
+      headers: { 'User-Agent': 'tripmate-plugin' },
     });
     if (!r.ok) return state; // not published yet — nothing to be bound by
     const published = (await r.json()) as { authorPublicKey?: string };
@@ -80,7 +80,7 @@ export function assertSigningAllowed(
   opts: { allowKeyChange?: boolean } = {},
 ): void {
   if (state.publishedSigned && signKeyPath && state.publishedKey && !opts.allowKeyChange) {
-    // Signing with a DIFFERENT key than the one TREK pinned is refused just as hard as not
+    // Signing with a DIFFERENT key than the one Trip Mate pinned is refused just as hard as not
     // signing — instances reject it as SIGNATURE_KEY_CHANGED. Catching it downstream (preflight,
     // submit) is catching it after the immutable release is cut, so compare identities here.
     // Best-effort only: an unreadable/missing key file is NOT a mismatch — `entry`/`sign` report
@@ -90,10 +90,10 @@ export function assertSigningAllowed(
     if (localKey && localKey !== state.publishedKey) {
       throw new Error(
         'this plugin was published under a DIFFERENT key than the one you are signing with.\n\n' +
-          'TREK pins the author key on first install, so an update signed with another key is refused on every\n' +
+          'Trip Mate pins the author key on first install, so an update signed with another key is refused on every\n' +
           'instance that already has the plugin (SIGNATURE_KEY_CHANGED).\n\n' +
           `If this is the wrong key by accident, sign with the original one (expected authorPublicKey ${state.publishedKey}).\n` +
-          'If you MEAN to rotate the key: `trek-plugin rotate-key` rotates without publishing a version, or re-run\n' +
+          'If you MEAN to rotate the key: `tripmate-plugin rotate-key` rotates without publishing a version, or re-run\n' +
           'this publish with --allow-key-change to rotate as part of it. Either way a registry maintainer must\n' +
           'apply the allow-key-change label to the PR, and every admin who has the plugin must re-trust it.',
       );
@@ -103,7 +103,7 @@ export function assertSigningAllowed(
 
   throw new Error(
     'this plugin was published SIGNED, so this update must be signed too.\n\n' +
-      'TREK pins the author key on first install. An unsigned update to a signed plugin is REFUSED on every\n' +
+      'Trip Mate pins the author key on first install. An unsigned update to a signed plugin is REFUSED on every\n' +
       'instance that already has it — publishing this would strand every existing user on the version they have.\n\n' +
       (state.hasKey
         ? `Re-run with --sign (your key is at ${state.keyPath}).`
@@ -127,7 +127,7 @@ export async function proposeSigning(state: SigningState): Promise<string | unde
   // and sign. (assertSigningAllowed handles the no-key case with a much longer explanation.)
   if (state.publishedSigned) {
     if (!state.hasKey) return undefined; // let the guard produce the real error
-    logWarn('This plugin was published signed — TREK refuses an unsigned update, so this release will be signed.');
+    logWarn('This plugin was published signed — Trip Mate refuses an unsigned update, so this release will be signed.');
     return state.keyPath;
   }
 
@@ -141,7 +141,7 @@ export async function proposeSigning(state: SigningState): Promise<string | unde
 
   note(
     'A signature proves the artifact came from YOU, not just that its bytes match what the registry saw.\n' +
-      'TREK pins your key the first time someone installs a signed version, and refuses anything not signed\n' +
+      'Trip Mate pins your key the first time someone installs a signed version, and refuses anything not signed\n' +
       'with it after that.\n\n' +
       'It is a one-way door — but you can walk through it late. Publishing unsigned now and signing at v1.4.0\n' +
       'breaks nobody. Publishing SIGNED and then unsigned breaks everybody.\n\n' +
@@ -155,7 +155,7 @@ export async function proposeSigning(state: SigningState): Promise<string | unde
     initialValue: true,
   });
   if (!create) {
-    logWarn('Publishing unsigned. You can add signing later with `trek-plugin keygen`, and it will break nobody.');
+    logWarn('Publishing unsigned. You can add signing later with `tripmate-plugin keygen`, and it will break nobody.');
     return undefined;
   }
 

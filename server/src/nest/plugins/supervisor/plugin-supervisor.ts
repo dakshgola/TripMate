@@ -22,7 +22,7 @@ export interface PluginRouteInfo {
  * heartbeats, and restart-with-backoff / auto-disable on crashes. A child dying
  * — segfault, throw, OOM, infinite loop — only ever kills the child; the Nest
  * event loop never hiccups. That is what finally makes "a plugin can't crash
- * TREK" true.
+ * Trip Mate" true.
  */
 
 export type PluginStatus = 'starting' | 'active' | 'error' | 'stopped';
@@ -473,7 +473,7 @@ export class PluginSupervisor {
         NODE_ENV: process.env.NODE_ENV ?? 'production',
         TZ: process.env.TZ ?? '',
         PATH: process.env.PATH ?? '',
-        TREK_PLUGIN_ID: sup.id,
+        TRIPMATE_PLUGIN_ID: sup.id,
         // The egress guard that reads this runs INSIDE the child, and the child's env
         // is scrubbed — so without forwarding it here the documented opt-out is dead
         // code and a plugin can never reach a self-hoster's LAN service (a Gotify, an
@@ -482,7 +482,7 @@ export class PluginSupervisor {
         // Normalized to the literal 'on': the child and plugin-sdk keep their
         // `=== 'on'` check (they are exempt from app-config), so the host-side
         // boolean-family coercion must collapse to the one literal they accept.
-        ...(readEnv().plugins.allowPrivateEgress ? { TREK_PLUGIN_ALLOW_PRIVATE_EGRESS: 'on' } : {}),
+        ...(readEnv().plugins.allowPrivateEgress ? { TRIPMATE_PLUGIN_ALLOW_PRIVATE_EGRESS: 'on' } : {}),
       },
     });
     sup.child = child;
@@ -511,7 +511,7 @@ export class PluginSupervisor {
     if (sup.droppedLogs > 0) {
       const dropped = sup.droppedLogs;
       sup.droppedLogs = 0;
-      this.hooks.onLog?.(sup.id, 'warn', `[trek] ${dropped} log line(s) dropped (plugin log rate limit exceeded)`);
+      this.hooks.onLog?.(sup.id, 'warn', `[tripmate] ${dropped} log line(s) dropped (plugin log rate limit exceeded)`);
     }
     this.hooks.onLog?.(sup.id, level, msg, meta);
   }

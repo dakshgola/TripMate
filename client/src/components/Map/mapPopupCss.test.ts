@@ -17,15 +17,15 @@ describe('GL hover popup css', () => {
 
   it('FE-COMP-MAPPOPUPCSS-001: the tail is off, not merely painted white', () => {
     // Colouring it left a visible notch under the card in every theme.
-    expect(block('.trek-map-popup .maplibregl-popup-tip')).toMatch(/display:\s*none/)
+    expect(block('.tripmate-map-popup .maplibregl-popup-tip')).toMatch(/display:\s*none/)
   })
 
   it('FE-COMP-MAPPOPUPCSS-002: the corner radius outweighs the vendor anchor rules', () => {
     // maplibre-gl.css squares one corner per anchor so the tail meets the card
     // flush. With the tail gone that is just a squared corner, and the vendor
-    // rule carries the same specificity as a plain `.trek-map-popup .content`
+    // rule carries the same specificity as a plain `.tripmate-map-popup .content`
     // — whichever sheet loads last would win. The `[class]` guard settles it.
-    const radius = block('.trek-map-popup[class] .maplibregl-popup-content')
+    const radius = block('.tripmate-map-popup[class] .maplibregl-popup-content')
     expect(radius).toMatch(/border-radius:\s*10px/)
   })
 

@@ -3,7 +3,7 @@ import {
   KeyRound, Plus, Trash2, Copy, Check, AlertTriangle, Briefcase, CalendarDays, MapPin,
   StickyNote, Ticket, Hotel, Users, Star, BarChart3, type LucideIcon,
 } from 'lucide-react'
-import { PUBLIC_API_SCOPES, type PublicApiScope } from '@trek/shared'
+import { PUBLIC_API_SCOPES, type PublicApiScope } from '@tripmate/shared'
 import Section from './Section'
 import Modal from '../shared/Modal'
 import ConfirmDialog from '../shared/ConfirmDialog'

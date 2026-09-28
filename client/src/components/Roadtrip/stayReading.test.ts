@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { RoadtripDay, RoadtripStop } from '@trek/shared/roadtrip'
+import type { RoadtripDay, RoadtripStop } from '@tripmate/shared/roadtrip'
 import { inspectorStay, locateStop, missedLeaveOf, readStay, shownStay, stayDraftOf } from './stayReading'
 
 // FE-ROADTRIP-STAY-001..014: what a stay badge reads for a stop, and where the dialog

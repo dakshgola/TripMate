@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, it, expect } from 'vitest'
-import { BOOK_FONTS_IDS } from '@trek/shared'
+import { BOOK_FONTS_IDS } from '@tripmate/shared'
 import { BOOK_FONTS, type BookFontId } from '../../../src/components/Studio/bookFonts'
 // Loaded for real as well as read: a weight a family does not ship fails to
 // resolve here rather than in the build.

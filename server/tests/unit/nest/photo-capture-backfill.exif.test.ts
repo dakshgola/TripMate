@@ -13,7 +13,7 @@ import path from 'node:path';
 import { Readable } from 'node:stream';
 import { PhotoCaptureBackfillService } from '../../../src/nest/memories/photo-capture-backfill.service';
 import type { PhotoResolverService } from '../../../src/nest/memories/photo-resolver.service';
-import type { TrekPhotosRepository } from '../../../src/nest/photos/trek-photos.repository';
+import type { TrekPhotosRepository } from '../../../src/nest/photos/tripmate-photos.repository';
 import { jpegWithExif, type ExifJpegTags } from '../../helpers/exif-jpeg';
 import { makeStorageFixture, type StorageFixture } from '../../helpers/storage-fixture';
 

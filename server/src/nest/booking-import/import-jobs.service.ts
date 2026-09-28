@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import { RealtimeService } from '../realtime/realtime.service';
 import { BookingImportService } from './booking-import.service';
-import type { BookingImportMode, BookingImportPreviewResponse, TrekWsPayload } from '@trek/shared';
+import type { BookingImportMode, BookingImportPreviewResponse, TrekWsPayload } from '@tripmate/shared';
 
 type JobStatus = 'running' | 'done' | 'error';
 

@@ -56,7 +56,7 @@ describe('TripWarningsController', () => {
     expect(runtime.tripWarnings).toHaveBeenCalledWith('p1', 1, 5);
   });
 
-  it('strips emojis from the warning message (rendered natively in TREK chrome)', async () => {
+  it('strips emojis from the warning message (rendered natively in Trip Mate chrome)', async () => {
     const { c } = controller({
       providersOf: vi.fn(() => ['p1']),
       tripWarnings: vi.fn(async () => [{ level: 'error', message: '🔥 Overbooked!' }]) as unknown as PluginHooks['tripWarnings'],

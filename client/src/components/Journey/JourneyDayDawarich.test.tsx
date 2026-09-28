@@ -11,7 +11,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, within } from '../../../tests/helpers/render'
 import { fireEvent } from '@testing-library/react'
-import type { DawarichSuggestion } from '@trek/shared'
+import type { DawarichSuggestion } from '@tripmate/shared'
 import { useSettingsStore } from '../../store/settingsStore'
 import JourneyDayDawarich from './JourneyDayDawarich'
 

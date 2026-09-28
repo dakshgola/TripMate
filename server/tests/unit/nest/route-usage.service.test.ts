@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import Database from 'better-sqlite3';
 import { RouteUsageService, RETENTION_DAYS } from '../../../src/nest/route-usage/route-usage.service';
-import type { RouteUsageEntry } from '@trek/shared';
+import type { RouteUsageEntry } from '@tripmate/shared';
 
 /**
- * SRV-ROUTEUSAGE-001..010 — the counters behind "could TREK host a router".
+ * SRV-ROUTEUSAGE-001..010 — the counters behind "could Trip Mate host a router".
  *
  * Aggregates, not a log: the same day and kind adds onto one row, and the summary
  * turns those rows into the two figures the decision needs, requests on an average

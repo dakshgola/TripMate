@@ -91,7 +91,7 @@ describe('AdminNotificationsTab', () => {
 
     expect(screen.getByPlaceholderText('mail.example.com')).toHaveValue('mail.example.com');
     expect(screen.getByPlaceholderText('587')).toBeInTheDocument();
-    expect(screen.getAllByPlaceholderText('trek@example.com')).toHaveLength(2);
+    expect(screen.getAllByPlaceholderText('tripmate@example.com')).toHaveLength(2);
     expect(screen.getByPlaceholderText('••••••••')).toBeInTheDocument();
   });
 
@@ -393,7 +393,7 @@ describe('AdminNotificationsTab', () => {
     const server_ = screen.getByPlaceholderText('https://ntfy.sh');
     fireEvent.change(server_, { target: { value: 'https://ntfy.example' } });
 
-    const topic = screen.getByPlaceholderText('trek-admin-alerts');
+    const topic = screen.getByPlaceholderText('tripmate-admin-alerts');
     fireEvent.change(topic, { target: { value: 'alerts' } });
 
     const token = screen.getByText('Access Token (optional)').parentElement!.querySelector('input')!;

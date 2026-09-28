@@ -17,7 +17,7 @@ import {
   type StopRow,
 } from './roadtripRowModel'
 import type { ScheduleEntry, ScheduleWarning } from './roadtripModel'
-import type { BookendPhase, NightBookend, RoadtripDay, RoadtripStop, RouteSegment } from '@trek/shared/roadtrip'
+import type { BookendPhase, NightBookend, RoadtripDay, RoadtripStop, RouteSegment } from '@tripmate/shared/roadtrip'
 
 // FE-RTROW-001 to FE-RTROW-067
 

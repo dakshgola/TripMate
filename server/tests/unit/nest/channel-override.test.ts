@@ -90,7 +90,7 @@ const rogueGlobal = vi.fn().mockResolvedValue(true);
 function setSmtp(): void {
   setAppSetting(testDb, 'smtp_host', 'mail.test.com');
   setAppSetting(testDb, 'smtp_port', '587');
-  setAppSetting(testDb, 'smtp_from', 'trek@test.com');
+  setAppSetting(testDb, 'smtp_from', 'tripmate@test.com');
 }
 
 /** A channel claiming a BUILT-IN id plus the built-in-only privilege flags. */

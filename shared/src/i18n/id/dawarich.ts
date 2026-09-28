@@ -4,17 +4,16 @@ const dawarich: TranslationStrings = {
   // ── Connection ─────────────────────────────────────────────────────────────
   'dawarich.title': 'Dawarich',
   'dawarich.intro':
-    'Hubungkan instans Dawarich milikmu sendiri untuk melihat ke mana kamu benar-benar pergi. TREK membacanya dan mengusulkan entri jurnal, tempat, dan negara — tidak ada yang ditambahkan sebelum kamu mengonfirmasinya, dan tidak ada yang ditulis kembali ke Dawarich.',
+    'Hubungkan instans Dawarich milikmu sendiri untuk melihat ke mana kamu benar-benar pergi. Trip Mate membacanya dan mengusulkan entri jurnal, tempat, dan negara — tidak ada yang ditambahkan sebelum kamu mengonfirmasinya, dan tidak ada yang ditulis kembali ke Dawarich.',
   'dawarich.url': 'Alamat instans',
   'dawarich.apiKey': 'Kunci API',
   'dawarich.apiKeyPlaceholder': 'Tempelkan kunci API Dawarich milikmu',
   'dawarich.apiKeyHint':
     'Ada di Dawarich pada Account → API key. Disimpan terenkripsi dan tidak pernah ditampilkan lagi.',
   'dawarich.allowInsecureTls': 'Izinkan sertifikat yang ditandatangani sendiri',
-  'dawarich.allowInsecureTlsHint':
-    'Hanya perlu jika instansmu memakai sertifikat yang tidak dipercaya oleh servermu.',
+  'dawarich.allowInsecureTlsHint': 'Hanya perlu jika instansmu memakai sertifikat yang tidak dipercaya oleh servermu.',
   'dawarich.syncEnabled': 'Periksa persinggahan baru secara otomatis',
-  'dawarich.syncEnabledHint': 'Jika mati, TREK hanya membaca Dawarich saat kamu memintanya.',
+  'dawarich.syncEnabledHint': 'Jika mati, Trip Mate hanya membaca Dawarich saat kamu memintanya.',
   'dawarich.test.button': 'Uji koneksi',
   'dawarich.test.success': 'Terhubung. {count} persinggahan ditemukan dalam 30 hari terakhir.',
   'dawarich.test.failed': 'Tidak dapat menjangkau Dawarich.',
@@ -47,19 +46,20 @@ const dawarich: TranslationStrings = {
   'dawarich.capability.missing': 'Versi Dawarich ini tidak menyediakan: {features}.',
 
   // ── Failure reasons, as sentences the reader can act on ────────────────────
-  'dawarich.error.unreachable': 'TREK tidak dapat menjangkau alamat itu.',
+  'dawarich.error.unreachable': 'Trip Mate tidak dapat menjangkau alamat itu.',
   'dawarich.error.unauthorized': 'Dawarich menolak kunci API tersebut.',
   'dawarich.error.forbidden': 'Kunci API itu tidak diizinkan membaca ini.',
   'dawarich.error.not_found': 'Versi Dawarich ini tidak punya endpoint tersebut.',
-  'dawarich.error.rate_limited': 'Dawarich meminta TREK memperlambat. Coba lagi sebentar lagi.',
+  'dawarich.error.rate_limited': 'Dawarich meminta Trip Mate memperlambat. Coba lagi sebentar lagi.',
   'dawarich.error.server_error': 'Dawarich menjawab dengan galat.',
   'dawarich.error.invalid_response': 'Alamat itu menjawab dengan sesuatu yang bukan Dawarich.',
-  'dawarich.error.too_large': 'Dawarich mengirim data lebih banyak daripada yang dibaca TREK sekaligus.',
+  'dawarich.error.too_large': 'Dawarich mengirim data lebih banyak daripada yang dibaca Trip Mate sekaligus.',
   'dawarich.error.not_connected': 'Belum ada instans Dawarich yang terhubung.',
   'dawarich.error.addon_disabled': 'Addon Dawarich dimatikan untuk instans ini.',
-  'dawarich.error.offline': 'Ini butuh koneksi — TREK sedang offline.',
-  'dawarich.error.invalid_url': 'TREK tidak bisa memakai alamat itu.',
-  'dawarich.warning.private_ip': 'Alamat itu mengarah ke IP privat ({ip}). Pastikan memang itu maksudmu — server mungkin perlu ALLOW_INTERNAL_NETWORK=true untuk menjangkaunya.',
+  'dawarich.error.offline': 'Ini butuh koneksi — Trip Mate sedang offline.',
+  'dawarich.error.invalid_url': 'Trip Mate tidak bisa memakai alamat itu.',
+  'dawarich.warning.private_ip':
+    'Alamat itu mengarah ke IP privat ({ip}). Pastikan memang itu maksudmu — server mungkin perlu ALLOW_INTERNAL_NETWORK=true untuk menjangkaunya.',
   'dawarich.error.unknown': 'Terjadi kesalahan saat berkomunikasi dengan Dawarich.',
 
   // ── The recorded route on the map ──────────────────────────────────────────
@@ -98,9 +98,9 @@ const dawarich: TranslationStrings = {
   'dawarich.suggestions.acceptedAs.journal': 'Ada di jurnal',
   'dawarich.suggestions.acceptedAs.bucket_list': 'Keinginan dicoret',
   'dawarich.suggestions.sourceChanged':
-    'Persinggahan ini berubah di Dawarich sejak kamu memakainya. Apa yang kamu tulis di TREK tetap utuh.',
+    'Persinggahan ini berubah di Dawarich sejak kamu memakainya. Apa yang kamu tulis di Trip Mate tetap utuh.',
   'dawarich.suggestions.sourceMissing':
-    'Persinggahan ini tidak ada lagi di Dawarich. Apa yang kamu tulis di TREK tetap utuh.',
+    'Persinggahan ini tidak ada lagi di Dawarich. Apa yang kamu tulis di Trip Mate tetap utuh.',
   'dawarich.sourceStatus.suggested': 'Terdeteksi, belum dikonfirmasi',
   'dawarich.confidence.high': 'Deteksi meyakinkan',
   'dawarich.confidence.medium': 'Deteksi cukup meyakinkan',
@@ -155,12 +155,12 @@ const dawarich: TranslationStrings = {
     'Negara-negara yang menurut rekamanmu pernah kamu singgahi. Konfirmasi mana yang kamu inginkan di Atlas-mu — tidak ada yang ditambahkan dengan sendirinya, dan yang kamu tandai sendiri tetap milikmu.',
   'dawarich.atlas.load': 'Cari negara',
   'dawarich.atlas.loading': 'Membaca rekamanmu…',
-  'dawarich.atlas.empty': 'Rekamanmu tidak menunjukkan negara yang belum dimiliki TREK.',
+  'dawarich.atlas.empty': 'Rekamanmu tidak menunjukkan negara yang belum dimiliki Trip Mate.',
   'dawarich.atlas.cities': '{count} kota',
   'dawarich.atlas.citiesOne': '1 kota',
   'dawarich.atlas.accept': 'Tambah {count} negara',
   'dawarich.atlas.accepted': '{count} negara ditambahkan',
-  'dawarich.atlas.unresolved': 'TREK tidak dapat mencocokkan ini dengan sebuah negara: {names}.',
+  'dawarich.atlas.unresolved': 'Trip Mate tidak dapat mencocokkan ini dengan sebuah negara: {names}.',
   'dawarich.atlas.source': 'Dari Dawarich',
   'dawarich.atlas.range': 'Ditinjau dari {from} sampai {to}',
 
@@ -173,7 +173,8 @@ const dawarich: TranslationStrings = {
   'dawarich.again': 'Periksa lagi',
   'dawarich.bucket.metersAway': '{meters} m dari sana',
   'dawarich.bucket.kilometersAway': '{km} km dari sana',
-  'dawarich.bucket.rule': 'Sebuah keinginan dianggap tercapai dalam radius {meters} m dan setelah {minutes} menit di lokasi.',
+  'dawarich.bucket.rule':
+    'Sebuah keinginan dianggap tercapai dalam radius {meters} m dan setelah {minutes} menit di lokasi.',
 
   'dawarich.journey.dayStays.one': '1 persinggahan dari Dawarich',
   'dawarich.journey.dayStays.other': '{count} persinggahan dari Dawarich',

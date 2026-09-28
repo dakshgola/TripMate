@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import exifr from 'exifr';
 import { PhotoResolverService } from './photo-resolver.service';
 import { StorageService } from '../storage/storage.service';
-import { TrekPhotosRepository } from '../photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../photos/tripmate-photos.repository';
 import { exifCaptureInstant } from './memories.helpers';
 
 /**

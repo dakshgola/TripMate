@@ -1,5 +1,5 @@
 /**
- * The permission families TREK enforces OUTSIDE the ctx object — and the single
+ * The permission families Trip Mate enforces OUTSIDE the ctx object — and the single
  * PermissionDenied both the dev server and the mock host throw.
  *
  * ctx methods are gated at call time (an ungranted ctx.trips.getById throws). But a
@@ -14,7 +14,7 @@
 export class PermissionDenied extends Error {}
 
 /**
- * hooks.<key> -> the permission that must ALSO be granted for TREK to ever call it, plus
+ * hooks.<key> -> the permission that must ALSO be granted for Trip Mate to ever call it, plus
  * the three capability gates that are not hooks.* keys.
  *
  * These are GENERATED from the host's single source, server/src/nest/plugins/protocol/
@@ -53,12 +53,12 @@ export interface GrantGap {
   entryPoint: string;
   /** The permission the manifest is missing. */
   permission: string;
-  /** What TREK does instead — always a silent no-op, hence the warning. */
+  /** What Trip Mate does instead — always a silent no-op, hence the warning. */
   consequence: string;
 }
 
 /**
- * Every entry point the plugin implements without the permission that makes TREK
+ * Every entry point the plugin implements without the permission that makes Trip Mate
  * call it. Pure, so both the dev banner and the tests can use it.
  *
  * The consequence is worth spelling out to the author: production does NOT throw
@@ -68,7 +68,7 @@ export interface GrantGap {
 export function grantGaps(plugin: PluginEntryPoints, grants: ReadonlySet<string>): GrantGap[] {
   const gaps: GrantGap[] = [];
   const gap = (entryPoint: string, permission: string, noun: string) => {
-    if (!grants.has(permission)) gaps.push({ entryPoint, permission, consequence: `TREK will never ${noun}` });
+    if (!grants.has(permission)) gaps.push({ entryPoint, permission, consequence: `Trip Mate will never ${noun}` });
   };
 
   for (const key of Object.keys(plugin.hooks ?? {})) {
@@ -85,7 +85,7 @@ export function grantGaps(plugin: PluginEntryPoints, grants: ReadonlySet<string>
 }
 
 /**
- * The hosts a plugin may actually reach. TREK builds its runtime network allowlist
+ * The hosts a plugin may actually reach. Trip Mate builds its runtime network allowlist
  * from the `http:outbound:<host>` PERMISSIONS — the manifest's `egress[]` array is
  * the consent-screen declaration and is never read at runtime. A bare `http:outbound`
  * with no host suffix therefore reaches nothing.

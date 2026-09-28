@@ -79,10 +79,10 @@ const oauth: TranslationStrings = {
   'oauth.authorize.loading': 'Loading…', // en-fallback
   'oauth.authorize.errorTitle': 'Authorization Error', // en-fallback
   'oauth.authorize.loginTitle': 'Sign in to continue', // en-fallback
-  'oauth.authorize.loginDescription': '{client} wants access to your TREK account. Please sign in first.', // en-fallback
-  'oauth.authorize.loginButton': 'Sign in to TREK', // en-fallback
+  'oauth.authorize.loginDescription': '{client} wants access to your Trip Mate account. Please sign in first.', // en-fallback
+  'oauth.authorize.loginButton': 'Sign in to Trip Mate', // en-fallback
   'oauth.authorize.requestLabel': 'Authorization Request', // en-fallback
-  'oauth.authorize.requestDescription': 'This application is requesting access to your TREK account.', // en-fallback
+  'oauth.authorize.requestDescription': 'This application is requesting access to your Trip Mate account.', // en-fallback
   'oauth.authorize.trustNote': 'Only grant access to applications you trust. Your data stays on your server.', // en-fallback
   'oauth.authorize.selectScope': 'Select at least one scope', // en-fallback
   'oauth.authorize.approveOneScope': 'Approve ({count} scope)', // en-fallback
@@ -105,9 +105,11 @@ const oauth: TranslationStrings = {
   'oauth.scope.settings:read.label': '環境設定を表示',
   'oauth.scope.settings:read.description': '単位、時刻表示、言語、既定通貨、開始ページの読み取り',
   'oauth.scope.settings:write.label': '環境設定を変更',
-  'oauth.scope.settings:write.description': '単位、時刻表示、言語、既定通貨、開始ページの変更。保存されたAPIキーは対象外',
+  'oauth.scope.settings:write.description':
+    '単位、時刻表示、言語、既定通貨、開始ページの変更。保存されたAPIキーは対象外',
   'oauth.scope.group.plugins': 'プラグイン',
   'oauth.scope.plugins:use.label': 'プラグインのツールを実行',
-  'oauth.scope.plugins:use.description': '管理者がインストールして承認したプラグインが公開するツールを、このクライアントから呼び出せるようにします。各プラグインは、このトークンのスコープではなく、すでに付与されている権限で動作します',
+  'oauth.scope.plugins:use.description':
+    '管理者がインストールして承認したプラグインが公開するツールを、このクライアントから呼び出せるようにします。各プラグインは、このトークンのスコープではなく、すでに付与されている権限で動作します',
 };
 export default oauth;

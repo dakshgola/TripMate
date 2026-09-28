@@ -12,7 +12,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { renderHook } from '@testing-library/react'
 import type { Map as MapboxMap, Popup } from 'mapbox-gl'
-import type { RoadtripHazard } from '@trek/shared'
+import type { RoadtripHazard } from '@tripmate/shared'
 import { useHazardLayerGL } from './useHazardLayerGL'
 
 vi.mock('../../i18n/TranslationContext', () => ({ useTranslation: () => ({ t: (key: string) => key }) }))

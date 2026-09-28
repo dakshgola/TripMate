@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import semver from 'semver';
-import type { SystemNoticeDto } from '@trek/shared';
+import type { SystemNoticeDto } from '@tripmate/shared';
 import { getActiveNoticesFor, dismissNotice, getCurrentAppVersion } from '../../systemNotices/service';
 import { AddonsService } from '../addons/addons.service';
 import { RuntimeEnvService } from '../app-config/runtime-env.service';

@@ -81,10 +81,10 @@ const oauth: TranslationStrings = {
   'oauth.authorize.loading': 'Loading…', // en-fallback
   'oauth.authorize.errorTitle': 'Authorization Error', // en-fallback
   'oauth.authorize.loginTitle': 'Sign in to continue', // en-fallback
-  'oauth.authorize.loginDescription': '{client} wants access to your TREK account. Please sign in first.', // en-fallback
-  'oauth.authorize.loginButton': 'Sign in to TREK', // en-fallback
+  'oauth.authorize.loginDescription': '{client} wants access to your Trip Mate account. Please sign in first.', // en-fallback
+  'oauth.authorize.loginButton': 'Sign in to Trip Mate', // en-fallback
   'oauth.authorize.requestLabel': 'Authorization Request', // en-fallback
-  'oauth.authorize.requestDescription': 'This application is requesting access to your TREK account.', // en-fallback
+  'oauth.authorize.requestDescription': 'This application is requesting access to your Trip Mate account.', // en-fallback
   'oauth.authorize.trustNote': 'Only grant access to applications you trust. Your data stays on your server.', // en-fallback
   'oauth.authorize.selectScope': 'Select at least one scope', // en-fallback
   'oauth.authorize.approveOneScope': 'Approve ({count} scope)', // en-fallback
@@ -99,17 +99,22 @@ const oauth: TranslationStrings = {
   'oauth.scope.group.files': 'Bestanden',
   'oauth.scope.group.settings': 'Instellingen',
   'oauth.scope.files:read.label': 'Reisbestanden bekijken',
-  'oauth.scope.files:read.description': 'De documenten van een reis tonen: namen, groottes, wie ze heeft geüpload en waaraan ze gekoppeld zijn',
+  'oauth.scope.files:read.description':
+    'De documenten van een reis tonen: namen, groottes, wie ze heeft geüpload en waaraan ze gekoppeld zijn',
   'oauth.scope.files:write.label': 'Reisbestanden beheren',
-  'oauth.scope.files:write.description': 'Bestanden hernoemen en beschrijven, koppelen aan boekingen en plaatsen, markeren en naar de prullenbak verplaatsen',
+  'oauth.scope.files:write.description':
+    'Bestanden hernoemen en beschrijven, koppelen aan boekingen en plaatsen, markeren en naar de prullenbak verplaatsen',
   'oauth.scope.files:content.label': 'Bestandsinhoud lezen',
-  'oauth.scope.files:content.description': 'De inhoud van een geüpload document lezen, zoals een boekings-PDF of een ticket',
+  'oauth.scope.files:content.description':
+    'De inhoud van een geüpload document lezen, zoals een boekings-PDF of een ticket',
   'oauth.scope.settings:read.label': 'Je voorkeuren bekijken',
   'oauth.scope.settings:read.description': 'Eenheden, tijdnotatie, taal, standaardvaluta en startpagina lezen',
   'oauth.scope.settings:write.label': 'Je voorkeuren wijzigen',
-  'oauth.scope.settings:write.description': 'Eenheden, tijdnotatie, taal, standaardvaluta en startpagina wijzigen. Nooit opgeslagen API-sleutels',
+  'oauth.scope.settings:write.description':
+    'Eenheden, tijdnotatie, taal, standaardvaluta en startpagina wijzigen. Nooit opgeslagen API-sleutels',
   'oauth.scope.group.plugins': 'Plug-ins',
   'oauth.scope.plugins:use.label': 'Plug-intools uitvoeren',
-  'oauth.scope.plugins:use.description': 'Laat deze client tools aanroepen die worden aangeboden door de plug-ins die een beheerder heeft geïnstalleerd en goedgekeurd. Elke plug-in handelt met de rechten die deze al had, niet met de scopes van dit token',
+  'oauth.scope.plugins:use.description':
+    'Laat deze client tools aanroepen die worden aangeboden door de plug-ins die een beheerder heeft geïnstalleerd en goedgekeurd. Elke plug-in handelt met de rechten die deze al had, niet met de scopes van dit token',
 };
 export default oauth;

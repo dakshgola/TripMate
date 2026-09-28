@@ -28,7 +28,7 @@ import {
   type CollectionGpxExport,
   type CollectionGpxReadRequest,
   type CollectionGpxReadResult,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import type {
   Collection,
   CollectionDetailResponse,
@@ -46,7 +46,7 @@ import type {
   CollectionStatus,
   CollectionLabel,
   CollectionImportablesResponse,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import { NotificationsService } from '../notifications/notifications.service';
 import { collectionFileToGpx, gpxToCollectionFile, type ExportedCollectionFile } from './collection-gpx.helpers';
 
@@ -729,7 +729,7 @@ export class CollectionsService {
    * though every collection_places row stores them, so a renamed place with no
    * matching name or coordinates could be saved again under its old id.
    *
-   * Now walks the shared strategy list from @trek/shared, same as
+   * Now walks the shared strategy list from @tripmate/shared, same as
    * PlacesService.findMatchingPlaceId: provider id, then name, then coordinates
    * and only when there is no name.
    */

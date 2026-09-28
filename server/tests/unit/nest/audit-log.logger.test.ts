@@ -126,17 +126,17 @@ describe('lazy logs dir + rotation + resilience', () => {
     }
   });
 
-  it('AUDIT-LOG-006: rotates trek.log through .1… in descending order once the cap is hit', () => {
+  it('AUDIT-LOG-006: rotates tripmate.log through .1… in descending order once the cap is hit', () => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
     mocked.existsSync.mockReturnValue(true);
     mocked.statSync.mockReturnValue({ size: 10 * 1024 * 1024 } as unknown as ReturnType<typeof fs.statSync>);
     logError('rotate me');
-    // MAX_LOG_FILES=5 → renames .3→.4, .2→.3, .1→.2, trek.log→.1 (descending).
+    // MAX_LOG_FILES=5 → renames .3→.4, .2→.3, .1→.2, tripmate.log→.1 (descending).
     expect(mocked.renameSync).toHaveBeenCalledTimes(4);
     const dsts = mocked.renameSync.mock.calls.map((c) => String(c[1]));
-    expect(dsts[0].endsWith('trek.log.4')).toBe(true);
-    expect(dsts[3].endsWith('trek.log.1')).toBe(true);
-    expect(String(mocked.renameSync.mock.calls[3][0]).endsWith('trek.log')).toBe(true);
+    expect(dsts[0].endsWith('tripmate.log.4')).toBe(true);
+    expect(dsts[3].endsWith('tripmate.log.1')).toBe(true);
+    expect(String(mocked.renameSync.mock.calls[3][0]).endsWith('tripmate.log')).toBe(true);
   });
 
   it('AUDIT-LOG-007: no rotation below the size cap', () => {

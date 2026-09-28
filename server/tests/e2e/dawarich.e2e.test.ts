@@ -57,7 +57,7 @@ import { DawarichModule } from '../../src/nest/integrations/dawarich.module';
 import { DawarichClient } from '../../src/nest/integrations/dawarich.client';
 import { DatabaseModule } from '../../src/nest/database/database.module';
 import { AddonsService } from '../../src/nest/addons/addons.service';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 /**

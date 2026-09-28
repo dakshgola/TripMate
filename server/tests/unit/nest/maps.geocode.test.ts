@@ -19,8 +19,8 @@ const { mockSearch, mockNominatim } = vi.hoisted(() => ({
     }),
   ),
 }));
-vi.mock('../../../src/nest/maps/trek-places.client', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('../../../src/nest/maps/trek-places.client')>()),
+vi.mock('../../../src/nest/maps/tripmate-places.client', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../../../src/nest/maps/tripmate-places.client')>()),
   trekPlacesSearch: mockSearch,
 }));
 vi.mock('../../../src/nest/geo/nominatim.client', async (importOriginal) => ({
@@ -51,19 +51,19 @@ const OSM_ROW = {
 
 const osmAnswer = (rows: unknown[]) => ({ ok: true, json: async () => rows });
 
-const ORIGINAL_TREK_PLACES = process.env.TREK_PLACES_ENABLED;
+const ORIGINAL_TREK_PLACES = process.env.TRIPMATE_PLACES_ENABLED;
 
 afterEach(() => {
-  if (ORIGINAL_TREK_PLACES === undefined) delete process.env.TREK_PLACES_ENABLED;
-  else process.env.TREK_PLACES_ENABLED = ORIGINAL_TREK_PLACES;
+  if (ORIGINAL_TREK_PLACES === undefined) delete process.env.TRIPMATE_PLACES_ENABLED;
+  else process.env.TRIPMATE_PLACES_ENABLED = ORIGINAL_TREK_PLACES;
 });
 
 // The index is an operator switch, not an admin row, so switching it off means
 // moving the env rather than stubbing a settings lookup. The service reads the
 // flag per call, which is why the restore above belongs in afterEach.
 function make(enabled = true) {
-  if (enabled) delete process.env.TREK_PLACES_ENABLED;
-  else process.env.TREK_PLACES_ENABLED = 'false';
+  if (enabled) delete process.env.TRIPMATE_PLACES_ENABLED;
+  else process.env.TRIPMATE_PLACES_ENABLED = 'false';
   const database = { get: vi.fn(() => undefined) } as unknown as DatabaseService;
   return new MapsService(database, {} as PlacePhotoCacheService);
 }
@@ -113,7 +113,7 @@ describe('MapsService.geocodeQuery', () => {
   it('MAPS-GEOCODE-005: an index failure is a warning and a fallback, not a lost booking', async () => {
     mockSearch.mockRejectedValue(new Error('places api down'));
     expect(await make().geocodeQuery(QUERY)).toEqual({ lat: 52.5162746, lng: 13.379678 });
-    expect(console.warn).toHaveBeenCalledWith('TREK Places geocode failed, falling back:', 'places api down');
+    expect(console.warn).toHaveBeenCalledWith('Trip Mate Places geocode failed, falling back:', 'places api down');
   });
 
   it('MAPS-GEOCODE-006: the query never leaves for the index while the operator has it off', async () => {

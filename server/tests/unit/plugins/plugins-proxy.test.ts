@@ -137,7 +137,7 @@ describe('PluginsProxyController', () => {
       'content-type': 'application/json',
       'stripe-signature': 't=1,v1=abc',
       'x-hub-signature-256': 'sha256=deadbeef',
-      cookie: 'trek_session=secret',              // must be dropped
+      cookie: 'tripmate_session=secret',              // must be dropped
       authorization: 'Bearer leak',               // must be dropped
       'x-socket-id': 'sock-1',                    // must be dropped
     };

@@ -1034,7 +1034,7 @@ describe('MapViewGL', () => {
     // gap itself — the offset has to make those up or the card sits on top of
     // the marker it describes.
     const options = (popupOf() as unknown as { mock: { calls: [Record<string, unknown>][] } }).mock.calls[0]?.[0]
-    expect(options).toMatchObject({ className: 'trek-map-popup', offset: 26, closeButton: false })
+    expect(options).toMatchObject({ className: 'tripmate-map-popup', offset: 26, closeButton: false })
     // Leaves the map listeners attached otherwise, and the next case reads them
     // back out of the same mock.
     unmount()
@@ -1141,7 +1141,7 @@ describe('MapViewGL', () => {
     loadOnAttach()
     render(<MapViewGL places={[]} fitKey={1} />)
     await act(async () => {})
-    const showLabel = layerHandler('click', 'trek-plugin-layers-fill')
+    const showLabel = layerHandler('click', 'tripmate-plugin-layers-fill')
     expect(showLabel).toBeTypeOf('function')
 
     act(() => { showLabel({ lngLat: { lng: 2, lat: 48 }, features: [{ properties: { label: 'Charging corridor' } }] }) })
@@ -1508,7 +1508,7 @@ describe('MapViewGL', () => {
     const pluginSource = geoSource()
 
     render(<MapViewGL places={[]} fitKey={1} tripId={4} />)
-    glMap.getSource.mockImplementation((id: string) => (id === 'trek-plugin-layers' ? pluginSource : null))
+    glMap.getSource.mockImplementation((id: string) => (id === 'tripmate-plugin-layers' ? pluginSource : null))
     await waitFor(() => expect(lastData(pluginSource).features).toHaveLength(3))
 
     const [line, polygon, circle] = lastData(pluginSource).features
@@ -1537,7 +1537,7 @@ describe('MapViewGL', () => {
     const pluginSource = geoSource()
 
     const { rerender } = render(<MapViewGL places={[]} fitKey={1} tripId={4} />)
-    glMap.getSource.mockImplementation((id: string) => (id === 'trek-plugin-layers' ? pluginSource : null))
+    glMap.getSource.mockImplementation((id: string) => (id === 'tripmate-plugin-layers' ? pluginSource : null))
     await act(async () => {})
     expect(glMarkers.created).toHaveLength(0)
 
@@ -2308,9 +2308,9 @@ describe('MapViewGL', () => {
   //
   // Leaflet has had the imagery for a while and swaps its whole tile layer for it.
   // A GL map cannot do that, because its basemap is a style with dozens of layers,
-  // so the imagery goes on as a raster layer under everything TREK draws.
+  // so the imagery goes on as a raster layer under everything Trip Mate draws.
 
-  it('FE-COMP-MAPVIEWGL-074: satellite adds the imagery under the first TREK layer', async () => {
+  it('FE-COMP-MAPVIEWGL-074: satellite adds the imagery under the first Trip Mate layer', async () => {
     loadOnAttach()
     useSettingsStore.setState({
       settings: { ...useSettingsStore.getState().settings, map_base_layer: 'satellite' },

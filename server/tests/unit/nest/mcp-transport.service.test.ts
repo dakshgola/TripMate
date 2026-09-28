@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 const h = vi.hoisted(() => ({
-  getMcpSafeUrl: vi.fn(() => 'https://trek.example.test'),
+  getMcpSafeUrl: vi.fn(() => 'https://tripmate.example.test'),
 }));
 
 vi.mock('../../../src/app-config', async (importOriginal) => {
@@ -48,7 +48,7 @@ function makeService(overrides: {
 
 beforeEach(() => {
   vi.clearAllMocks();
-  h.getMcpSafeUrl.mockReturnValue('https://trek.example.test');
+  h.getMcpSafeUrl.mockReturnValue('https://tripmate.example.test');
 });
 
 describe('jsonRpcError', () => {
@@ -64,7 +64,7 @@ describe('setAuthChallenge', () => {
     setAuthChallenge(res as never);
     expect(res.set).toHaveBeenCalledWith(
       'WWW-Authenticate',
-      'Bearer realm="TREK MCP", resource_metadata="https://trek.example.test/.well-known/oauth-protected-resource/mcp", error="invalid_token"',
+      'Bearer realm="Trip Mate MCP", resource_metadata="https://tripmate.example.test/.well-known/oauth-protected-resource/mcp", error="invalid_token"',
     );
     setAuthChallenge(res as never, 'insufficient_scope');
     expect(res.set).toHaveBeenLastCalledWith('WWW-Authenticate', expect.stringContaining('error="insufficient_scope"'));
@@ -164,7 +164,7 @@ describe('McpTransportService.verifyToken', () => {
   });
 
   it('MCPT-011: trekoa_ tokens resolve through OauthService and enforce the RFC 8707 audience', () => {
-    const info = { user, scopes: ['trips:read'], clientId: 'cid-1', audience: 'https://trek.example.test/mcp' };
+    const info = { user, scopes: ['trips:read'], clientId: 'cid-1', audience: 'https://tripmate.example.test/mcp' };
     const { svc, oauth } = makeService({ oauth: { getUserByAccessToken: vi.fn(() => info) } });
     expect(svc.verifyToken('Bearer trekoa_x')).toEqual({
       user, scopes: ['trips:read'], clientId: 'cid-1', isStaticToken: false,

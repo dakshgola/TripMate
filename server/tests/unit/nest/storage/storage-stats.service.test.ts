@@ -32,7 +32,7 @@ beforeAll(() => {
 
 const tmpDirs: string[] = [];
 function makeTmpDir(): string {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-stats-'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-stats-'));
   tmpDirs.push(dir);
   return dir;
 }
@@ -84,7 +84,7 @@ describe('StorageStatsService', () => {
     expect(JSON.parse(raw.value)).toEqual(usage);
   });
 
-  it('STATS-002 photos-google/photos-trek nested content is NOT double-counted into legacy photos', async () => {
+  it('STATS-002 photos-google/photos-tripmate nested content is NOT double-counted into legacy photos', async () => {
     const { storage, stats } = makeWorld();
     await storage.put('photos-google', 'g.jpg', Readable.from('gggg'));
     const usage = await stats.scan();

@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
-import { MASKED_SETTING_VALUE, type StorageAdminState, type StorageCategory, type StorageConfig } from '@trek/shared';
+import { MASKED_SETTING_VALUE, type StorageAdminState, type StorageCategory, type StorageConfig } from '@tripmate/shared';
 import { server } from '../../../helpers/msw/server';
 import { fireEvent, render, screen, waitFor, within } from '../../../helpers/render';
 import { ToastContainer } from '../../../../src/components/shared/Toast';
@@ -9,11 +9,11 @@ import MAdminStoragePanel from '../../../../src/mobile/screens/admin/MAdminStora
 function baseState(overrides: Partial<StorageAdminState> = {}): StorageAdminState {
   return {
     backends: [
-      { name: 'uploads-local', type: 'local', source: 'built-in', options: { root: '/data/uploads' }, categories: ['files', 'journey', 'covers', 'avatars', 'photos-google', 'photos-trek'] },
+      { name: 'uploads-local', type: 'local', source: 'built-in', options: { root: '/data/uploads' }, categories: ['files', 'journey', 'covers', 'avatars', 'photos-google', 'photos-tripmate'] },
       { name: 'backups-local', type: 'local', source: 'built-in', options: { root: '/data/backups' }, categories: ['backups'] },
       {
         name: 'off-box', type: 's3', source: 'settings',
-        options: { endpoint: 'http://127.0.0.1:9000', bucket: 'trek', accessKeyId: 'ak', secretAccessKey: MASKED_SETTING_VALUE, region: 'us-east-1', keyPrefix: '', retries: 1, timeoutMs: 30000 },
+        options: { endpoint: 'http://127.0.0.1:9000', bucket: 'tripmate', accessKeyId: 'ak', secretAccessKey: MASKED_SETTING_VALUE, region: 'us-east-1', keyPrefix: '', retries: 1, timeoutMs: 30000 },
         categories: [],
       },
     ],
@@ -24,7 +24,7 @@ function baseState(overrides: Partial<StorageAdminState> = {}): StorageAdminStat
       avatars: { backend: 'uploads-local', source: 'default' },
       places: { backend: 'uploads-local', source: 'default' },
       'photos-google': { backend: 'uploads-local', source: 'default' },
-      'photos-trek': { backend: 'uploads-local', source: 'default' },
+      'photos-tripmate': { backend: 'uploads-local', source: 'default' },
       backups: { backend: 'backups-local', source: 'default' },
     },
     health: { replicaFailures: [] },
@@ -163,7 +163,7 @@ describe('MAdminStoragePanel', () => {
     );
     fireEvent.click(within(screen.getByTestId('m-storage-category-places')).getByRole('button'));
     fireEvent.click(within(screen.getByRole('dialog', { name: 'Place images' })).getByRole('button', { name: 'backups-local' })); // picker option = primary name
-    // getByText(/re-fetchable/) is now ambiguous — the photos-google/photos-trek category
+    // getByText(/re-fetchable/) is now ambiguous — the photos-google/photos-tripmate category
     // descriptions also say "re-fetchable". The cache warning is the only role="note" on
     // screen here (the mirror-targets latency note only renders while a form is open).
     expect(screen.getByRole('note')).toHaveTextContent(/re-fetchable/);
@@ -191,7 +191,7 @@ describe('MAdminStoragePanel', () => {
     const usage = {
       computedAt: Date.now() - 3_600_000,
       categories: Object.fromEntries(
-        (['files', 'journey', 'covers', 'avatars', 'places', 'photos-google', 'photos-trek', 'backups'] as const).map(
+        (['files', 'journey', 'covers', 'avatars', 'places', 'photos-google', 'photos-tripmate', 'backups'] as const).map(
           (c) => [c, { objects: 2, bytes: 1024 * 1024 }],
         ),
       ),

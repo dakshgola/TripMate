@@ -22,7 +22,7 @@ beforeEach(() => {
     toasts.push({ type: type ?? 'info', message })
     return 1
   }) as Window['__addToast']
-  availableRespond([{ id: 2, username: 'bob', email: 'bob@trek.app' }])
+  availableRespond([{ id: 2, username: 'bob', email: 'bob@tripmate.app' }])
   useAuthStore.setState({ user: { id: 1, username: 'alice', email: 'a@t.app', role: 'user' } as never })
   useVacayStore.setState({ users: [{ id: 1, username: 'alice', color: '#3b82f6' }], selectedUserId: null })
 })
@@ -54,7 +54,7 @@ describe('VacayPersons modals', () => {
 
     openInvite()
     fireEvent.click(await screen.findByRole('button', { name: 'Select user' }))
-    fireEvent.click(screen.getByRole('button', { name: 'bob (bob@trek.app)' }))
+    fireEvent.click(screen.getByRole('button', { name: 'bob (bob@tripmate.app)' }))
     fireEvent.click(screen.getByRole('button', { name: 'Send Invite' }))
 
     await waitFor(() => expect(invited).toBe(2))
@@ -68,7 +68,7 @@ describe('VacayPersons modals', () => {
 
     openInvite()
     fireEvent.click(await screen.findByRole('button', { name: 'Select user' }))
-    fireEvent.click(screen.getByRole('button', { name: 'bob (bob@trek.app)' }))
+    fireEvent.click(screen.getByRole('button', { name: 'bob (bob@tripmate.app)' }))
     fireEvent.click(screen.getByRole('button', { name: 'Send Invite' }))
 
     await waitFor(() => expect(toasts).toEqual([{ type: 'error', message: 'Already invited' }]))
@@ -79,7 +79,7 @@ describe('VacayPersons modals', () => {
     render(<VacayPersons />)
 
     openInvite()
-    const modal = await screen.findByText('Invite another TREK user to share a combined vacation calendar.')
+    const modal = await screen.findByText('Invite another Trip Mate user to share a combined vacation calendar.')
     fireEvent.click(modal.closest('.fixed') as HTMLElement)
     expect(screen.queryByRole('button', { name: 'Send Invite' })).not.toBeInTheDocument()
 

@@ -40,7 +40,7 @@ import type {
   DawarichSuggestion,
   DawarichSuggestionList,
   DawarichTrack,
-} from '@trek/shared'
+} from '@tripmate/shared'
 
 const BASE = '/api/integrations/dawarich'
 
@@ -449,7 +449,7 @@ describe('dawarichApi: how long the browser waits', () => {
     expect(get.mock.calls[0][1]).toEqual(expect.objectContaining({ timeout: DAWARICH_ATLAS_TIMEOUT_MS }))
     expect(DAWARICH_ATLAS_TIMEOUT_MS).toBeGreaterThan(DAWARICH_UPSTREAM_TIMEOUT_MS)
 
-    // Reading suggestions and confirming countries touch TREK's own database
+    // Reading suggestions and confirming countries touch Trip Mate's own database
     // only; a two-minute wait there would just hide a stuck server.
     await dawarichApi.listSuggestions()
     await dawarichApi.acceptAtlasCountries(['DE'])

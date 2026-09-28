@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { roadtripDayBoundaryListSchema, type RoadtripDayBoundary } from '@trek/shared'
+import { roadtripDayBoundaryListSchema, type RoadtripDayBoundary } from '@tripmate/shared'
 import { apiClient } from '../../api/client'
 import { addListener, removeListener } from '../../api/websocket'
 import { useNetworkMode } from '../../hooks/useNetworkMode'

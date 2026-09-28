@@ -10,8 +10,8 @@ import {
   vacayAddHolidayCalendarRequestSchema,
   vacayToggleEntryRequestSchema,
   vacayUpdatePlanRequestSchema,
-} from '@trek/shared';
-import type { VacayUpdatePlanRequest } from '@trek/shared';
+} from '@tripmate/shared';
+import type { VacayUpdatePlanRequest } from '@tripmate/shared';
 import { AuthService } from '../auth/auth.service';
 import { ADDON_IDS } from '../../addons';
 import { VacayService } from './vacay.service';
@@ -59,7 +59,7 @@ function calendarRegionCodes(country: string, data: unknown): { region: string; 
 
 /**
  * Vacay MCP surface — ported 1:1 from the legacy registrars: the 26 tools from
- * src/mcp/tools/vacay.ts and the trek://vacay/{plan,entries,holidays} resources
+ * src/mcp/tools/vacay.ts and the tripmate://vacay/{plan,entries,holidays} resources
  * from src/mcp/resources.ts (identical names, descriptions, schemas,
  * annotations and error/payload shapes; broadcasts happen inside VacayService,
  * driven by the socketId argument every tool passes as undefined). The
@@ -619,7 +619,7 @@ export class VacayMcp {
 
   @Resource({
     name: 'vacay-plan',
-    uri: 'trek://vacay/plan',
+    uri: 'tripmate://vacay/plan',
     description: "Full snapshot of the user's active vacation plan (members, years, settings)",
     mimeType: 'application/json',
     when: vacayAddonOn,
@@ -638,7 +638,7 @@ export class VacayMcp {
 
   @ResourceTemplate({
     name: 'vacay-entries',
-    uriTemplate: 'trek://vacay/entries/{year}',
+    uriTemplate: 'tripmate://vacay/entries/{year}',
     description: 'All vacation entries for the active plan and a specific year',
     mimeType: 'application/json',
     when: vacayAddonOn,
@@ -658,7 +658,7 @@ export class VacayMcp {
 
   @ResourceTemplate({
     name: 'vacay-holidays',
-    uriTemplate: 'trek://vacay/holidays/{year}',
+    uriTemplate: 'tripmate://vacay/holidays/{year}',
     description: "Cached public holidays for the plan's configured region and year",
     mimeType: 'application/json',
     when: vacayAddonOn,

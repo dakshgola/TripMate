@@ -42,7 +42,7 @@ describe('ContextMenu', () => {
     const { container, baseElement } = render(<ContextMenu menu={null} onClose={() => {}} />)
 
     expect(container).toBeEmptyDOMElement()
-    expect(baseElement.querySelector('.trek-popover-enter')).toBeNull()
+    expect(baseElement.querySelector('.tripmate-popover-enter')).toBeNull()
   })
 
   it('FE-W4CTX-004: renders one button per item at the pointer position', () => {
@@ -51,7 +51,7 @@ describe('ContextMenu', () => {
     )
 
     expect(screen.getAllByRole('button')).toHaveLength(2)
-    expect(baseElement.querySelector('.trek-popover-enter')).toHaveStyle({ left: '40px', top: '20px' })
+    expect(baseElement.querySelector('.tripmate-popover-enter')).toHaveStyle({ left: '40px', top: '20px' })
   })
 
   it('FE-W4CTX-005: a danger item is red and carries its icon', () => {
@@ -110,7 +110,7 @@ describe('ContextMenu', () => {
 
     const { baseElement } = render(<ContextMenu menu={{ x: 380, y: 290, items: [{ label: 'Open' }] }} onClose={() => {}} />)
 
-    const menu = baseElement.querySelector('.trek-popover-enter') as HTMLElement
+    const menu = baseElement.querySelector('.tripmate-popover-enter') as HTMLElement
     expect(menu.style.left).toBe('192px')
     expect(menu.style.top).toBe('172px')
   })

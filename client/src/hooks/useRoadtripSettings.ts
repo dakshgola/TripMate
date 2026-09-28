@@ -1,7 +1,7 @@
 import { liveQuery } from 'dexie'
 import { onNetworkModeChange } from '../sync/networkMode'
 import { useEffect, useState } from 'react'
-import type { RoadtripPreferences } from '@trek/shared'
+import type { RoadtripPreferences } from '@tripmate/shared'
 import { useAuthStore } from '../store/authStore'
 import { useTripStore } from '../store/tripStore'
 import { EMPTY_ROADTRIP_PREFERENCES, publishRoadtripPreferences, useRoadtripPreferencesStore } from '../store/roadtripPreferencesStore'

@@ -1,8 +1,8 @@
 // GENERATED — do not edit by hand.
 // Snapshot of every lucide icon name (lucide-react 0.344.0), used by
-// `trek-plugin validate` to WARN on a manifest `icon` lucide doesn't know —
+// `tripmate-plugin validate` to WARN on a manifest `icon` lucide doesn't know —
 // never a hard error (the host falls back to Blocks, and a plugin built for a
-// newer TREK may name an icon this SDK predates). Regenerate with
+// newer Trip Mate may name an icon this SDK predates). Regenerate with
 // `node scripts/gen-lucide-icon-names.mjs`.
 export const LUCIDE_ICON_NAMES: ReadonlySet<string> = new Set([
   "AArrowDown",

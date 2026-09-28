@@ -1,5 +1,5 @@
 {
-  "name": "@trek/server",
+  "name": "@tripmate/server",
   "version": "4.3.3",
   "main": "src/index.ts",
   "scripts": {
@@ -37,7 +37,7 @@
     "@nestjs/swagger": "^11.4.5",
     "@nestjs/websockets": "^11.1.29",
     "@simplewebauthn/server": "^13.3.2",
-    "@trek/shared": "*",
+    "@tripmate/shared": "*",
     "archiver": "^6.0.1",
     "bcryptjs": "^2.4.3",
     "better-sqlite3": "^13.0.3",

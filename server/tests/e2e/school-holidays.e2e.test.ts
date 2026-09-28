@@ -18,7 +18,7 @@ import { SchoolHolidaysModule } from '../../src/nest/school-holidays/school-holi
 import { SchoolHolidaysService } from '../../src/nest/school-holidays/school-holidays.service';
 import { SchoolHolidaysMcp } from '../../src/nest/school-holidays/school-holidays.mcp';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { validateBodyContracts } from '../../src/nest/common/validate-body-contracts';
 import { createTestRegistry } from '../../src/nest-mcp';
 import { trekMcpAccessPolicy, trekMcpValidateAccess } from '../../src/mcp/nest-mcp-policy';

@@ -25,10 +25,11 @@ const settings: TranslationStrings = {
   'settings.mapTemplatePlaceholder.select': 'Välj mall...',
   'settings.mapDefaultHint': 'Lämna fältet tomt för OpenStreetMap (standard)',
   'settings.routingBase': 'Egen ruttmotor',
-  'settings.routingBaseHint': 'En egen OSRM-instans. Tomt använder de publika servrarna, som tillåter ungefär en förfrågan per sekund – nog för en dag, knappt för en bilresa. Träder i kraft efter omstart av servern.',
+  'settings.routingBaseHint':
+    'En egen OSRM-instans. Tomt använder de publika servrarna, som tillåter ungefär en förfrågan per sekund – nog för en dag, knappt för en bilresa. Träder i kraft efter omstart av servern.',
   'settings.valhallaBase': 'Egen Valhalla-instans',
   'settings.valhallaBaseHint':
-    'TREK använder som standard FOSSGIS publika Valhalla för att undvika vägtullar, motorvägar och färjor. Ange URL:en till din egen Valhalla här för att använda den i stället. Om bara en egen ruttserver är konfigurerad används inte den publika Valhalla. Starta om servern och ladda om sidan efter att du angett en egen URL.',
+    'Trip Mate använder som standard FOSSGIS publika Valhalla för att undvika vägtullar, motorvägar och färjor. Ange URL:en till din egen Valhalla här för att använda den i stället. Om bara en egen ruttserver är konfigurerad används inte den publika Valhalla. Starta om servern och ladda om sidan efter att du angett en egen URL.',
   'settings.mapHint': 'URL-mall för kartrutor',
   'settings.mapProvider': 'Kartleverantör',
   'settings.mapProviderHint': 'Påverkar resplaneraren och resedagbokens kartor. Atlas använder alltid Leaflet.',
@@ -46,7 +47,7 @@ const settings: TranslationStrings = {
   'settings.mapCartoKeyHint': 'CARTO-bakgrundskartor visar en vattenstämpel utan nyckel. Gratis och utan konto, från',
   'settings.mapCartoKeyLink': 'API-nyckel för bakgrundskartor på carto.com',
   'settings.mapCartoKeyMissing':
-    'Den här mallen är en CARTO-bakgrundskarta. Utan nyckel stämplar CARTO "API KEY REQUIRED" på varje ruta. Tills en nyckel anges visar TREK standardbakgrundskartan.',
+    'Den här mallen är en CARTO-bakgrundskarta. Utan nyckel stämplar CARTO "API KEY REQUIRED" på varje ruta. Tills en nyckel anges visar Trip Mate standardbakgrundskartan.',
   'settings.mapStyle': 'Kartstil',
   'settings.mapStylePlaceholder': 'Välj en Mapbox-stil',
   'settings.mapStyleHint': 'Förinställda eller egna mapbox://styles/USER/ID länk',
@@ -128,7 +129,7 @@ const settings: TranslationStrings = {
   'settings.webhookUrl.testSuccess': 'Test av webhook skickades utan problem',
   'settings.webhookUrl.testFailed': 'Test av webhook misslyckades',
   'settings.ntfyUrl.topicLabel': 'Ntfy Ämne',
-  'settings.ntfyUrl.topicPlaceholder': 'my-trek-alerts',
+  'settings.ntfyUrl.topicPlaceholder': 'my-tripmate-alerts',
   'settings.ntfyUrl.serverLabel': 'Ntfy Server URL (valfritt)',
   'settings.ntfyUrl.serverPlaceholder': 'https://ntfy.sh',
   'settings.ntfyUrl.hint':
@@ -240,13 +241,13 @@ const settings: TranslationStrings = {
   'settings.about.featureRequestHint': 'Föreslå en ny funktion',
   'settings.about.wikiHint': 'Dokumentation och handledningar',
   'settings.about.descriptionManaged':
-    'TREK helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
+    'Trip Mate helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
   'settings.about.sourceTitle': 'Source code',
-  'settings.about.sourceHint': 'TREK is open source, licensed AGPL-3.0',
+  'settings.about.sourceHint': 'Trip Mate is open source, licensed AGPL-3.0',
   'settings.about.supporters.badge': 'Månatliga bidragsgivare',
-  'settings.about.supporters.title': 'Resekompisar för TREK',
+  'settings.about.supporters.title': 'Resekompisar för Trip Mate',
   'settings.about.supporters.subtitle':
-    'Medan du planerar din nästa rutt bidrar dessa personer till att forma TREK:s framtid. Deras månatliga bidrag går direkt till utveckling och faktisk arbetstid – så att TREK förblir öppen källkod.',
+    'Medan du planerar din nästa rutt bidrar dessa personer till att forma Trip Mate:s framtid. Deras månatliga bidrag går direkt till utveckling och faktisk arbetstid – så att Trip Mate förblir öppen källkod.',
   'settings.about.supporters.since': 'bidragsgivare sedan {date}',
   'settings.about.supporters.tierEmpty': 'Var först',
   'settings.about.supporter.tier.noReturnTicket': 'Ingen returbiljett',
@@ -255,7 +256,7 @@ const settings: TranslationStrings = {
   'settings.about.supporter.tier.budgetTraveller': 'Budgetresenären',
   'settings.about.supporter.tier.hostelBunkmate': 'Rumskamrat på vandrarhem',
   'settings.about.description':
-    'TREK är en resplanerare som du själv kan driva och som hjälper dig att organisera dina resor från den första idén till det sista minnet. Dagsplanering, budget, packlistor, foton och mycket mer – allt på ett och samma ställe, på din egen server.',
+    'Trip Mate är en resplanerare som du själv kan driva och som hjälper dig att organisera dina resor från den första idén till det sista minnet. Dagsplanering, budget, packlistor, foton och mycket mer – allt på ett och samma ställe, på din egen server.',
   'settings.about.madeWith': 'Gjord med',
   'settings.about.madeBy': 'av Maurice och en växande open source-gemenskap.',
   'settings.username': 'Användarnamn',
@@ -359,7 +360,7 @@ const settings: TranslationStrings = {
   'settings.airtrail.allowInsecureTlsHint': 'Aktivera endast för en betrodd instans i ditt eget nätverk.',
   'settings.airtrail.writeBack': 'Skriv tillbaka ändringarna till AirTrail',
   'settings.airtrail.writeBackHint':
-    'Avstängt som standard: AirTrail är den primära källan och TREK läser endast från den. Aktivera funktionen för att skicka ändringar som gjorts i TREK tillbaka till AirTrail.',
+    'Avstängt som standard: AirTrail är den primära källan och Trip Mate läser endast från den. Aktivera funktionen för att skicka ändringar som gjorts i Trip Mate tillbaka till AirTrail.',
   'settings.airtrail.connected': 'Ansluten',
   'settings.airtrail.notConnected': 'Inte ansluten',
   'settings.airtrail.toast.saved': 'AirTrail anslutning sparad',
@@ -471,7 +472,7 @@ const settings: TranslationStrings = {
   'settings.startPageDashboard': 'Översikt',
   'settings.startPageActiveTrip': 'Aktiv resa',
   'settings.startPageHint':
-    'TREK öppnar direkt i resan som pågår, annars i nästa som börjar. Det är samma resa som översikten lyfter fram.',
+    'Trip Mate öppnar direkt i resan som pågår, annars i nästa som börjar. Det är samma resa som översikten lyfter fram.',
   'settings.startTripTab': 'Startflik',
   'settings.startTripTabHint':
     'Fliken som resan öppnas med. Hör den till ett avstängt tillägg öppnas planvyn i stället.',
@@ -566,7 +567,8 @@ const settings: TranslationStrings = {
   'settings.apiScopes.bucket-list': 'Önskelista',
   'settings.apiScopes.stats': 'Totalsummor',
   'settings.apiKeys.title': 'API-nycklar',
-  'settings.apiKeys.description': 'Nycklar för det publika API:et, så att annan programvara kan läsa dina resor. Endast läsning: en nyckel kan inte ändra eller ta bort något.',
+  'settings.apiKeys.description':
+    'Nycklar för det publika API:et, så att annan programvara kan läsa dina resor. Endast läsning: en nyckel kan inte ändra eller ta bort något.',
   'settings.apiKeys.create': 'Skapa nyckel',
   'settings.apiKeys.empty': 'Inga nycklar än. Skapa en för att koppla annan programvara.',
   'settings.apiKeys.createdAt': 'skapad',
@@ -581,7 +583,8 @@ const settings: TranslationStrings = {
   'settings.apiKeys.endpoint': 'Ändpunkt',
   'settings.apiKeys.neverUsed': 'aldrig använd',
   'settings.apiKeys.loadFailed': 'Det gick inte att läsa in dina nycklar. Ladda om sidan för att försöka igen.',
-  'settings.apiKeys.limitReached': 'Du har {max} nycklar, det högsta antalet per konto. Ta bort en som du inte längre använder för att skapa en ny.',
+  'settings.apiKeys.limitReached':
+    'Du har {max} nycklar, det högsta antalet per konto. Ta bort en som du inte längre använder för att skapa en ny.',
   'settings.apiKeys.copyFailed': 'Det gick inte att kopiera. Markera texten och kopiera den manuellt.',
   'settings.apiKeys.modal.createTitle': 'Skapa API-nyckel',
   'settings.apiKeys.modal.name': 'Namn',

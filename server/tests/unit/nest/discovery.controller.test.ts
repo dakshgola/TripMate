@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { NotFoundException } from '@nestjs/common';
 
 const h = vi.hoisted(() => ({
-  getMcpSafeUrl: vi.fn(() => 'https://trek.example.test'),
+  getMcpSafeUrl: vi.fn(() => 'https://tripmate.example.test'),
   // The SDK factory returns a tagged middleware so tests can identify delegation
   // without running real router wiring.
   metaRouter: vi.fn(),
@@ -49,18 +49,18 @@ function addons(enabled: boolean) {
 
 beforeEach(() => {
   vi.clearAllMocks();
-  h.getMcpSafeUrl.mockReturnValue('https://trek.example.test');
+  h.getMcpSafeUrl.mockReturnValue('https://tripmate.example.test');
 });
 
 describe('DiscoveryMetadataService', () => {
   it('DISC-001: builds the RFC 8414 AS metadata from the live safe URL', () => {
     const meta = new DiscoveryMetadataService().getOAuthMetadata();
     expect(meta).toEqual({
-      issuer:                                'https://trek.example.test',
-      authorization_endpoint:                'https://trek.example.test/oauth/authorize',
-      token_endpoint:                        'https://trek.example.test/oauth/token',
-      revocation_endpoint:                   'https://trek.example.test/oauth/revoke',
-      registration_endpoint:                 'https://trek.example.test/oauth/register',
+      issuer:                                'https://tripmate.example.test',
+      authorization_endpoint:                'https://tripmate.example.test/oauth/authorize',
+      token_endpoint:                        'https://tripmate.example.test/oauth/token',
+      revocation_endpoint:                   'https://tripmate.example.test/oauth/revoke',
+      registration_endpoint:                 'https://tripmate.example.test/oauth/register',
       response_types_supported:              ['code'],
       grant_types_supported:                 ['authorization_code', 'refresh_token', 'client_credentials'],
       code_challenge_methods_supported:      ['S256'],
@@ -70,8 +70,8 @@ describe('DiscoveryMetadataService', () => {
   });
 
   it('DISC-002: trims trailing slashes off the configured base URL', () => {
-    h.getMcpSafeUrl.mockReturnValue('https://trek.example.test///');
-    expect(new DiscoveryMetadataService().getOAuthMetadata().issuer).toBe('https://trek.example.test');
+    h.getMcpSafeUrl.mockReturnValue('https://tripmate.example.test///');
+    expect(new DiscoveryMetadataService().getOAuthMetadata().issuer).toBe('https://tripmate.example.test');
   });
 
   it('DISC-003: caches the metadata after the first lazy build', () => {
@@ -87,8 +87,8 @@ describe('DiscoveryMetadataService', () => {
     expect(svc.getMetaRouter()).toBe(h.metaRouter);
     expect(mcpAuthMetadataRouter).toHaveBeenCalledTimes(1);
     const opts = vi.mocked(mcpAuthMetadataRouter).mock.calls[0][0];
-    expect(opts.resourceServerUrl.href).toBe('https://trek.example.test/mcp');
-    expect(opts.resourceName).toBe('TREK MCP');
+    expect(opts.resourceServerUrl.href).toBe('https://tripmate.example.test/mcp');
+    expect(opts.resourceName).toBe('Trip Mate MCP');
     expect(opts.scopesSupported).toEqual(ALL_SCOPES);
   });
 });
@@ -146,8 +146,8 @@ describe('DiscoveryController', () => {
     const res = makeRes();
     controller().openidConfiguration(res as never);
     const body = res.body as { issuer: string; userinfo_endpoint: string };
-    expect(body.issuer).toBe('https://trek.example.test');
-    expect(body.userinfo_endpoint).toBe('https://trek.example.test/oauth/userinfo');
+    expect(body.issuer).toBe('https://tripmate.example.test');
+    expect(body.userinfo_endpoint).toBe('https://tripmate.example.test/oauth/userinfo');
   });
 
   it('DISC-031: flat oauth-protected-resource 404s empty when MCP is disabled', () => {
@@ -161,11 +161,11 @@ describe('DiscoveryController', () => {
     const res = makeRes();
     controller().protectedResource(res as never);
     expect(res.body).toEqual({
-      resource:                 'https://trek.example.test/mcp',
-      authorization_servers:    ['https://trek.example.test'],
+      resource:                 'https://tripmate.example.test/mcp',
+      authorization_servers:    ['https://tripmate.example.test'],
       bearer_methods_supported: ['header'],
       scopes_supported:         ALL_SCOPES,
-      resource_name:            'TREK MCP',
+      resource_name:            'Trip Mate MCP',
     });
   });
 
@@ -201,7 +201,7 @@ describe('DiscoveryController', () => {
   it('DISC-037: the RFC 8414 path-inserted AS metadata is served, not 404', () => {
     const res = makeRes();
     controller().authorizationServerForMcp(res as never);
-    expect((res.body as { issuer: string }).issuer).toBe('https://trek.example.test');
+    expect((res.body as { issuer: string }).issuer).toBe('https://tripmate.example.test');
     expect(res.statusCode).toBe(200);
   });
 });
@@ -214,15 +214,15 @@ describe('McpResourceDiscoveryController', () => {
   it('DISC-038: serves the three documents under the resource URL, never SPA HTML', () => {
     const oidc = makeRes();
     resourceController().openidConfiguration(oidc as never);
-    expect((oidc.body as { userinfo_endpoint: string }).userinfo_endpoint).toBe('https://trek.example.test/oauth/userinfo');
+    expect((oidc.body as { userinfo_endpoint: string }).userinfo_endpoint).toBe('https://tripmate.example.test/oauth/userinfo');
 
     const as = makeRes();
     resourceController().authorizationServer(as as never);
-    expect((as.body as { registration_endpoint: string }).registration_endpoint).toBe('https://trek.example.test/oauth/register');
+    expect((as.body as { registration_endpoint: string }).registration_endpoint).toBe('https://tripmate.example.test/oauth/register');
 
     const prm = makeRes();
     resourceController().protectedResource(prm as never);
-    expect((prm.body as { resource: string }).resource).toBe('https://trek.example.test/mcp');
+    expect((prm.body as { resource: string }).resource).toBe('https://tripmate.example.test/mcp');
   });
 
   it('DISC-039: an unknown path under the resource URL answers 404 JSON, and the PRM follows the addon switch', () => {

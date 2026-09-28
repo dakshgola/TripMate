@@ -1,4 +1,4 @@
-import { roadtripHazardsSchema } from '@trek/shared'
+import { roadtripHazardsSchema } from '@tripmate/shared'
 import { apiClient } from '../api/client'
 
 /**

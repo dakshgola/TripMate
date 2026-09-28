@@ -12,8 +12,8 @@ import type { User } from '../../types';
 import { KitineraryExtractorService } from './kitinerary-extractor.service';
 import { LlmParseService } from '../llm-parse/llm-parse.service';
 import { mapReservations } from './kitinerary-mapper';
-import { normalizePlaceWebsite, typeToCostCategory } from '@trek/shared';
-import type { BookingImportPreviewItem, BookingImportPreviewResponse, BookingImportConfirmResponse, BookingImportMode, BookingImportFileReport, Reservation } from '@trek/shared';
+import { normalizePlaceWebsite, typeToCostCategory } from '@tripmate/shared';
+import type { BookingImportPreviewItem, BookingImportPreviewResponse, BookingImportConfirmResponse, BookingImportMode, BookingImportFileReport, Reservation } from '@tripmate/shared';
 import type { ParsedBookingItem, KiReservation } from './kitinerary.types';
 
 @Injectable()

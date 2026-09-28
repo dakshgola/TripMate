@@ -250,7 +250,7 @@ describe('the closed vocabularies', () => {
     expect(dawarichVisitStatusSchema.safeParse('declined').success).toBe(false);
   });
 
-  it('DAWARICH-SCHEMA-011 TREK tracks its own three states and three accept targets', () => {
+  it('DAWARICH-SCHEMA-011 Trip Mate tracks its own three states and three accept targets', () => {
     expect(DAWARICH_SUGGESTION_STATES).toEqual(['new', 'accepted', 'dismissed']);
     expect(DAWARICH_SUGGESTION_TARGETS).toEqual(['place', 'journal', 'bucket_list']);
     expect(dawarichSuggestionStateSchema.safeParse('accepted').success).toBe(true);
@@ -387,7 +387,7 @@ describe('dawarichSuggestionSchema', () => {
     expect(flagged.success).toBe(true);
   });
 
-  it('DAWARICH-SCHEMA-020 holds the two vocabularies apart: what Dawarich thinks, what TREK did', () => {
+  it('DAWARICH-SCHEMA-020 holds the two vocabularies apart: what Dawarich thinks, what Trip Mate did', () => {
     expect(dawarichSuggestionSchema.safeParse({ ...suggestion, sourceStatus: 'declined' }).success).toBe(false);
     expect(dawarichSuggestionSchema.safeParse({ ...suggestion, state: 'dismissed' }).success).toBe(true);
     expect(dawarichSuggestionSchema.safeParse({ ...suggestion, state: 'suggested' }).success).toBe(false);
@@ -523,7 +523,7 @@ describe('dawarichAcceptResultSchema and the re-review body', () => {
     expect(dawarichSuggestionStateSchemaBody.safeParse({}).success).toBe(false);
   });
 
-  it('DAWARICH-SCHEMA-043 keeps the re-review body a strict subset of the states TREK tracks', () => {
+  it('DAWARICH-SCHEMA-043 keeps the re-review body a strict subset of the states Trip Mate tracks', () => {
     // The body spells its two words out instead of deriving them from
     // DAWARICH_SUGGESTION_STATES, so nothing but this makes the two move together:
     // renaming a state would leave a route still accepting a word that no longer
@@ -560,7 +560,7 @@ describe('the track overlay', () => {
   });
 
   it('DAWARICH-SCHEMA-030 passes the mode through untranslated, or null on an older instance', () => {
-    // Dawarich has `stationary`, TREK has `ferry`. Mapping one onto the other
+    // Dawarich has `stationary`, Trip Mate has `ferry`. Mapping one onto the other
     // would put a confident wrong label on a recorded fact, so the string travels
     // as it came and an unknown value is not a reason to reject the segment.
     expect(dawarichTrackSegmentSchema.safeParse({ ...segment, mode: 'stationary' }).success).toBe(true);
@@ -721,7 +721,7 @@ describe('the bucket-list contracts', () => {
 });
 
 describe('the tuning numbers', () => {
-  it('DAWARICH-SCHEMA-039 pins what TREK calls "being somewhere"', () => {
+  it('DAWARICH-SCHEMA-039 pins what Trip Mate calls "being somewhere"', () => {
     // These decide whether a wish counts as fulfilled and how much of a month-long
     // trip stays drawable. They live in the contract so the server, the help text
     // and these tests cannot disagree; changing one is a product decision.

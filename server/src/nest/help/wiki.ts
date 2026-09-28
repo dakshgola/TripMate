@@ -15,7 +15,7 @@ import { exceedsDeclaredLength, readCapped, readCappedText } from '../../utils/c
  * GitHub directly either way; images are proxied through /api/help/asset.
  */
 
-const REPO = 'liketrek/TREK';
+const REPO = 'liketrek/Trip Mate';
 const RAW_BASE = `https://raw.githubusercontent.com/${REPO}/main/wiki`;
 const TTL_MS = 60 * 60 * 1000; // remote fallback only: refresh from GitHub at most hourly
 // Remote fallback only: raw.githubusercontent.com is a third party on the
@@ -84,7 +84,7 @@ async function fetchText(file: string): Promise<string> {
   if (cached && fresh(cached.ts)) return cached.data;
   try {
     const res = await fetch(`${RAW_BASE}/${encodeURIComponent(file)}`, {
-      headers: { 'User-Agent': 'TREK-help', Accept: 'text/plain' },
+      headers: { 'User-Agent': 'Trip Mate-help', Accept: 'text/plain' },
       signal: AbortSignal.timeout(WIKI_TIMEOUT_MS),
     });
     if (res.ok && !exceedsDeclaredLength(res, WIKI_MAX_BYTES)) {
@@ -260,7 +260,7 @@ export async function getWikiAsset(assetPath: string): Promise<{ buf: Buffer; ty
   if (cached && fresh(cached.ts)) return { buf: cached.buf, type: cached.type };
   try {
     const res = await fetch(`${RAW_BASE}/${assetPath.split('/').map(encodeURIComponent).join('/')}`, {
-      headers: { 'User-Agent': 'TREK-help' },
+      headers: { 'User-Agent': 'Trip Mate-help' },
       signal: AbortSignal.timeout(WIKI_TIMEOUT_MS),
     });
     if (res.ok && !exceedsDeclaredLength(res, WIKI_MAX_BYTES)) {

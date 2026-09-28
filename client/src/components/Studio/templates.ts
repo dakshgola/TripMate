@@ -1,4 +1,4 @@
-import type { BookElement, BookPageSetup, BookSpread } from '@trek/shared'
+import type { BookElement, BookPageSetup, BookSpread } from '@tripmate/shared'
 
 /**
  * Layout templates for a spread.

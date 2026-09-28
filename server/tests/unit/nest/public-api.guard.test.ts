@@ -8,7 +8,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { HttpException } from '@nestjs/common';
 import type { ExecutionContext } from '@nestjs/common';
-import { PUBLIC_API_SCOPES } from '@trek/shared';
+import { PUBLIC_API_SCOPES } from '@tripmate/shared';
 import { ApiTokenGuard } from '../../../src/nest/public-api/api-token.guard';
 import type { TokenService } from '../../../src/nest/tokens/token.service';
 import type { User } from '../../../src/types';
@@ -102,7 +102,7 @@ describe('ApiTokenGuard', () => {
 
   /**
    * The credential-confusion cases. Each of these is a valid credential somewhere
-   * else in TREK, and none of them may open this door — a session cookie that ends
+   * else in Trip Mate, and none of them may open this door — a session cookie that ends
    * up in a third-party integration is precisely what a machine token prevents.
    */
   it.each([

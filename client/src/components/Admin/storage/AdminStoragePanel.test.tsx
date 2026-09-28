@@ -1,20 +1,20 @@
 import { http, HttpResponse } from 'msw';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { MASKED_SETTING_VALUE, type StorageAdminState, type StorageCategory, type StorageConfig } from '@trek/shared';
+import { MASKED_SETTING_VALUE, type StorageAdminState, type StorageCategory, type StorageConfig } from '@tripmate/shared';
 import { server } from '../../../../tests/helpers/msw/server';
 import { fireEvent, render, screen, waitFor, within } from '../../../../tests/helpers/render';
 import { ToastContainer } from '../../shared/Toast';
 import AdminStoragePanel from './AdminStoragePanel';
 
 const S3_MASKED = {
-  endpoint: 'http://127.0.0.1:9000', bucket: 'trek', accessKeyId: 'ak',
+  endpoint: 'http://127.0.0.1:9000', bucket: 'tripmate', accessKeyId: 'ak',
   secretAccessKey: MASKED_SETTING_VALUE, region: 'us-east-1', keyPrefix: '', retries: 1, timeoutMs: 30000,
 };
 
 function baseState(overrides: Partial<StorageAdminState> = {}): StorageAdminState {
   return {
     backends: [
-      { name: 'uploads-local', type: 'local', source: 'built-in', options: { root: '/data/uploads' }, categories: ['files', 'journey', 'covers', 'avatars', 'photos-google', 'photos-trek'] },
+      { name: 'uploads-local', type: 'local', source: 'built-in', options: { root: '/data/uploads' }, categories: ['files', 'journey', 'covers', 'avatars', 'photos-google', 'photos-tripmate'] },
       { name: 'backups-local', type: 'local', source: 'built-in', options: { root: '/data/backups' }, categories: ['backups'] },
       { name: 'place-photos-local', type: 'local', source: 'env', options: { root: '/photos' }, categories: ['places'] },
       { name: 'off-box', type: 's3', source: 'settings', options: S3_MASKED, categories: ['covers'] },
@@ -30,7 +30,7 @@ function baseState(overrides: Partial<StorageAdminState> = {}): StorageAdminStat
       avatars: { backend: 'uploads-local', source: 'default' },
       places: { backend: 'place-photos-local', source: 'default' },
       'photos-google': { backend: 'uploads-local', source: 'default' },
-      'photos-trek': { backend: 'uploads-local', source: 'default' },
+      'photos-tripmate': { backend: 'uploads-local', source: 'default' },
       backups: { backend: 'backups-local', source: 'default' },
     },
     health: { replicaFailures: [] },
@@ -404,7 +404,7 @@ describe('AdminStoragePanel', () => {
     const usage = {
       computedAt: Date.now() - 3_600_000,
       categories: Object.fromEntries(
-        (['files', 'journey', 'covers', 'avatars', 'places', 'photos-google', 'photos-trek', 'backups'] as const).map(
+        (['files', 'journey', 'covers', 'avatars', 'places', 'photos-google', 'photos-tripmate', 'backups'] as const).map(
           (c) => [c, { objects: 2, bytes: 1024 * 1024 }],
         ),
       ),
@@ -424,7 +424,7 @@ describe('AdminStoragePanel', () => {
         HttpResponse.json({
           computedAt: Date.now(),
           categories: Object.fromEntries(
-            (['files', 'journey', 'covers', 'avatars', 'places', 'photos-google', 'photos-trek', 'backups'] as const).map(
+            (['files', 'journey', 'covers', 'avatars', 'places', 'photos-google', 'photos-tripmate', 'backups'] as const).map(
               (c) => [c, { objects: 1, bytes: 2048 }],
             ),
           ),

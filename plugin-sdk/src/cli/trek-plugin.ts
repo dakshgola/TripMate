@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * `trek-plugin <command>` — the plugin author CLI (#plugins).
+ * `tripmate-plugin <command>` — the plugin author CLI (#plugins).
  *
  * This file is the ROUTER, and nothing more: it parses flags, decides interactive vs not, and
  * hands off. The per-command help lives in ./help.ts (single source of truth, so `--help` and the
@@ -141,7 +141,7 @@ async function ensureRepoTag(f: Flags, failMsg: string): Promise<{ repo: string;
   if (missingArgs(f, ['repo', 'tag']).length === 0) return { repo: f.repo, tag: f.tag };
   if (!isInteractive()) fail(failMsg);
   const repo = f.repo || await promptText({
-    message: 'GitHub repo (owner/name)', placeholder: 'you/trek-plugin-thing',
+    message: 'GitHub repo (owner/name)', placeholder: 'you/tripmate-plugin-thing',
     validate: (v) => (/^[^/\s]+\/[^/\s]+$/.test((v ?? '').trim()) ? undefined : 'format: owner/name'),
   });
   const tag = f.tag || await promptText({
@@ -151,7 +151,7 @@ async function ensureRepoTag(f: Flags, failMsg: string): Promise<{ repo: string;
   return { repo: repo.trim(), tag: tag.trim() };
 }
 
-const USAGE = 'usage: trek-plugin <create|dev|status|publish|...>   (`trek-plugin help` for the full list)';
+const USAGE = 'usage: tripmate-plugin <create|dev|status|publish|...>   (`tripmate-plugin help` for the full list)';
 
 /** The SDK's own version, for `--version` and the help banner. */
 function sdkVersion(): string {
@@ -177,9 +177,9 @@ async function main(): Promise<void> {
 
   // Handled before dispatch, so assertKnownFlags never sees `--help` and rejects it as unknown.
   // Help is not an error: it goes to stdout and exits 0.
-  //   trek-plugin help            the path, plus where to find everything else
-  //   trek-plugin help <cmd>      that command's own page
-  //   trek-plugin <cmd> --help    the same page — this is what people actually type
+  //   tripmate-plugin help            the path, plus where to find everything else
+  //   tripmate-plugin help <cmd>      that command's own page
+  //   tripmate-plugin <cmd> --help    the same page — this is what people actually type
   if (cmd === 'help' || cmd === '--help' || cmd === '-h') {
     const topic = pos[0];
     if (topic) {
@@ -216,7 +216,7 @@ async function main(): Promise<void> {
 /** The plugin's id, or '' if this isn't a plugin directory. Never throws — the caller has better errors. */
 function readPluginId(dir: string): string {
   try {
-    const m = readJsonFile<{ id?: unknown }>(path.join(path.resolve(dir), 'trek-plugin.json'));
+    const m = readJsonFile<{ id?: unknown }>(path.join(path.resolve(dir), 'tripmate-plugin.json'));
     return typeof m.id === 'string' ? m.id : '';
   } catch {
     return '';
@@ -229,7 +229,7 @@ const DIR_COMMANDS = new Set(['dev', 'status', 'validate', 'pack', 'shot', 'publ
 async function promptPluginDir(command: string): Promise<string | undefined> {
   if (!DIR_COMMANDS.has(command)) return undefined;
   // If the cwd IS a plugin, that is overwhelmingly what was meant — don't make them type a dot.
-  if (fs.existsSync(path.join(process.cwd(), 'trek-plugin.json'))) return undefined;
+  if (fs.existsSync(path.join(process.cwd(), 'tripmate-plugin.json'))) return undefined;
   const dir = await promptText({
     message: 'Which plugin directory?',
     placeholder: './my-plugin',
@@ -237,7 +237,7 @@ async function promptPluginDir(command: string): Promise<string | undefined> {
     validate: (v) => {
       const d = (v || '.').trim();
       if (!fs.existsSync(d)) return `${d} does not exist`;
-      if (!fs.existsSync(path.join(d, 'trek-plugin.json'))) return `${d} has no trek-plugin.json`;
+      if (!fs.existsSync(path.join(d, 'tripmate-plugin.json'))) return `${d} has no tripmate-plugin.json`;
       return undefined;
     },
   });
@@ -263,11 +263,11 @@ async function dispatch(command: string, f: Flags, positional: string[]): Promis
       icon: f.icon,
       slot: f.slot as WidgetSlot | undefined,
     });
-    // The SAME text the wizard and the `create-trek-plugin` bin print. These three used to
+    // The SAME text the wizard and the `create-tripmate-plugin` bin print. These three used to
     // name three different next commands.
     console.log(nextStepsAfterCreate(path.join(process.cwd(), name)));
   } else if (command === 'dev') {
-    if (tui) intro(`trek-plugin dev — ${positional[0] || '.'}`);
+    if (tui) intro(`tripmate-plugin dev — ${positional[0] || '.'}`);
     await runDev(positional[0] || '.', { port: f.port ? Number(f.port) : undefined });
   } else if (command === 'status') {
     // Never exits non-zero: `status` is for orientation, not gating. A command you are afraid
@@ -282,7 +282,7 @@ async function dispatch(command: string, f: Flags, positional: string[]): Promis
       try {
         const r = await runShot(dir, { port: f.port ? Number(f.port) : undefined, out: f.out, dark: !!f.dark, noServe: !!f['no-serve'] });
         s.stop(`Wrote ${path.relative(process.cwd(), r.out) || r.out} (${r.width}×${r.height})`);
-        outro('next →  trek-plugin status');
+        outro('next →  tripmate-plugin status');
       } catch (e) {
         s.stop('Could not take the screenshot');
         throw e;
@@ -297,7 +297,7 @@ async function dispatch(command: string, f: Flags, positional: string[]): Promis
     if (text) console.error(text);
     if (!report.ok) {
       // Don't just fail — say where to see the whole picture.
-      console.error(`\n${report.errors.length} of these would be rejected by the registry. \`trek-plugin status\` shows the full checklist.`);
+      console.error(`\n${report.errors.length} of these would be rejected by the registry. \`tripmate-plugin status\` shows the full checklist.`);
       process.exit(1);
     }
     if (tui) outro('✓ plugin is valid'); else console.log('✓ plugin is valid');
@@ -310,23 +310,23 @@ async function dispatch(command: string, f: Flags, positional: string[]): Promis
       note([...r.files, '', `sha256: ${r.sha256}`, `size:   ${r.size}`].join('\n'), `Packed ${r.files.length} files → ${rel}`);
       // This used to point at `entry` — the low-level, assemble-the-PR-by-hand path — rather than
       // at `publish`, which does the release, the entry and the PR and gets the ORDER right.
-      logInfo('Install this into a local TREK to try it. To ship it: `trek-plugin publish`.');
+      logInfo('Install this into a local Trip Mate to try it. To ship it: `tripmate-plugin publish`.');
     } else {
       console.log(`Packed ${r.files.length} files -> ${rel}`);
       for (const file of r.files) console.log('  ' + file);
       console.log(`\nsha256: ${r.sha256}\nsize:   ${r.size}`);
-      console.log('\nInstall this into a local TREK to try it. To ship it: `trek-plugin publish --repo <owner/name> --tag <vX.Y.Z>`.');
+      console.log('\nInstall this into a local Trip Mate to try it. To ship it: `tripmate-plugin publish --repo <owner/name> --tag <vX.Y.Z>`.');
     }
   } else if (command === 'keygen') {
     const keyPath = f.key || defaultKeyPath();
     const { publicKey } = generateKeypair(keyPath);
     if (tui) {
       note(`Signing key written to ${keyPath}\nKeep it safe + BACK IT UP — losing it means you can't ship signed updates.\n\nauthorPublicKey (goes in your registry entry):\n${publicKey}`, 'Signing key');
-      logInfo('`trek-plugin publish` will now offer to sign with this key — you do not need to pass --sign.');
+      logInfo('`tripmate-plugin publish` will now offer to sign with this key — you do not need to pass --sign.');
     } else {
       console.log(`Signing key written to ${keyPath} (keep it safe + BACK IT UP — losing it means you can't ship signed updates).`);
       console.log(`\nauthorPublicKey (goes in your registry entry): ${publicKey}`);
-      console.log('\nPass --sign to `trek-plugin publish` to sign a release with it (interactively, publish offers).');
+      console.log('\nPass --sign to `tripmate-plugin publish` to sign a release with it (interactively, publish offers).');
     }
   } else if (command === 'sign') {
     const zip = positional[0] || 'plugin.zip';
@@ -380,7 +380,7 @@ async function dispatch(command: string, f: Flags, positional: string[]): Promis
     const json = JSON.stringify(entry, null, 2) + '\n';
     if (f.out) {
       fs.writeFileSync(f.out, json);
-      const msg = `Wrote ${f.out} — add it as registry/plugins/${entry.id}.json in a TREK-Plugins PR.`;
+      const msg = `Wrote ${f.out} — add it as registry/plugins/${entry.id}.json in a Trip Mate-Plugins PR.`;
       if (tui) logSuccess(msg); else console.error(msg);
     } else {
       process.stdout.write(json); // machine output on stdout — never decorated
@@ -493,7 +493,7 @@ async function dispatch(command: string, f: Flags, positional: string[]): Promis
     }
   } else if (command === 'unrelease') {
     if (positional[0]) f.tag = positional[0];
-    const { repo, tag } = await ensureRepoTag(f, 'unrelease needs a tag and --repo <owner/name>: trek-plugin unrelease vX.Y.Z --repo <owner/name>');
+    const { repo, tag } = await ensureRepoTag(f, 'unrelease needs a tag and --repo <owner/name>: tripmate-plugin unrelease vX.Y.Z --repo <owner/name>');
     const dir = positional[1] || '.';
     let yes = !!f.yes;
     if (tui && !yes) {

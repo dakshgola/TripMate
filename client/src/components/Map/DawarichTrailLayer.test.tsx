@@ -28,7 +28,7 @@
 import React from 'react'
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import type { DawarichTrack, DawarichTrackDay } from '@trek/shared'
+import type { DawarichTrack, DawarichTrackDay } from '@tripmate/shared'
 import { DAWARICH_DAY_COLORS, DAWARICH_TRAIL_CASING } from './dawarichTrail'
 
 // Leaflet itself is irrelevant here. What is under test is which polylines are
@@ -104,7 +104,7 @@ describe('DawarichTrailLayer', () => {
   })
 
   it('FE-DAWARICH-TRAILUI-012: draws every casing first, then every coloured line on top', () => {
-    render(<DawarichTrailLayer track={track([DAY_ONE, DAY_TWO])} casingPane="trek-track-casing" />)
+    render(<DawarichTrailLayer track={track([DAY_ONE, DAY_TWO])} casingPane="tripmate-track-casing" />)
 
     const drawn = lines()
     expect(drawn).toHaveLength(6) // three segments, casing + line each
@@ -118,10 +118,10 @@ describe('DawarichTrailLayer', () => {
   })
 
   it('FE-DAWARICH-TRAILUI-013: gives the casing the pane and the weight that make it a casing, and nothing catches clicks', () => {
-    render(<DawarichTrailLayer track={track([DAY_ONE])} casingPane="trek-track-casing" />)
+    render(<DawarichTrailLayer track={track([DAY_ONE])} casingPane="tripmate-track-casing" />)
 
     const [casing, line] = lines()
-    expect(casing.getAttribute('data-pane')).toBe('trek-track-casing')
+    expect(casing.getAttribute('data-pane')).toBe('tripmate-track-casing')
     expect(casing.getAttribute('data-weight')).toBe('6')
     expect(casing.getAttribute('data-opacity')).toBe('0.55')
 

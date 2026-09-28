@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { render, screen } from '../../../helpers/render';
 import { resetAllStores, seedStore } from '../../../helpers/store';
 import { useAddonStore } from '../../../../src/store/addonStore';
-import { DEFAULT_APPEARANCE, type AppearanceConfig, type MobileDashToken } from '@trek/shared';
+import { DEFAULT_APPEARANCE, type AppearanceConfig, type MobileDashToken } from '@tripmate/shared';
 import MMobileDashOrder from '../../../../src/mobile/screens/settings/MMobileDashOrder';
 
 function buildCfg(over: Partial<AppearanceConfig['dashboard']> = {}): AppearanceConfig {

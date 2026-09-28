@@ -10,7 +10,7 @@ vi.mock('exifr', () => ({ default: { parse: vi.fn() } }));
 import exifr from 'exifr';
 import { PhotoCaptureBackfillService } from '../../../src/nest/memories/photo-capture-backfill.service';
 import type { PhotoResolverService } from '../../../src/nest/memories/photo-resolver.service';
-import type { TrekPhotosRepository } from '../../../src/nest/photos/trek-photos.repository';
+import type { TrekPhotosRepository } from '../../../src/nest/photos/tripmate-photos.repository';
 import type { StorageService } from '../../../src/nest/storage/storage.service';
 
 // The storage layer's job here is only to hand the EXIF reader a real path;

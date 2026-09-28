@@ -46,7 +46,7 @@ import { ADDON_IDS } from '../../../src/addons';
 import { AddonsService } from '../../../src/nest/addons/addons.service';
 import { UnifiedMemoriesService } from '../../../src/nest/memories/unified-memories.service';
 import { MemoriesAccessService } from '../../../src/nest/memories/memories-access.service';
-import { TrekPhotosRepository } from '../../../src/nest/photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../../../src/nest/photos/tripmate-photos.repository';
 import { DatabaseService } from '../../../src/nest/database/database.service';
 import type { ImmichService } from '../../../src/nest/memories/immich.service';
 import type { SynologyService } from '../../../src/nest/memories/synology.service';

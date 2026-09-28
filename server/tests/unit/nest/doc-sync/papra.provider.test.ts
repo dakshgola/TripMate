@@ -221,12 +221,12 @@ describe('probe', () => {
   it('authenticates against the tag route and labels the connection with the organisation name', async () => {
     answerWith(
       reply({ body: { tags: [TAG_ROW] } }),
-      reply({ body: { organizations: [{ id: ORG, name: 'TREK Lab' }] } }),
+      reply({ body: { organizations: [{ id: ORG, name: 'Trip Mate Lab' }] } }),
     );
 
     const result = ok(await provider.probe(CONN));
 
-    expect(result.account).toBe('TREK Lab');
+    expect(result.account).toBe('Trip Mate Lab');
     expect(result.capabilities.push).toBe('webhook-manual');
     expect(requested(0).pathname).toBe(`/api/organizations/${ORG}/tags`);
     expect(authHeader(0)).toBe(`Bearer ${API_KEY}`);
@@ -273,7 +273,7 @@ describe('probe', () => {
   });
 
   it('refuses an organisation id Papra could not parse, rather than reading its 400 as a lost document', async () => {
-    const result = await provider.probe({ ...CONN, settings: { organization_id: 'TREK Lab' } });
+    const result = await provider.probe({ ...CONN, settings: { organization_id: 'Trip Mate Lab' } });
     expect(err(result).code).toBe('provider_error');
     expect(err(result).detail).toContain('org_');
     expect(safeFetchMock).not.toHaveBeenCalled();
@@ -571,7 +571,7 @@ describe('fetch', () => {
     expect(ok(await provider.fetch(CONN, SCOPE, 'doc_mm5jovmyfbe4podpho983esv')).size).toBe(4096);
   });
 
-  it('refuses a body the instance declares as larger than TREK will transfer', async () => {
+  it('refuses a body the instance declares as larger than Trip Mate will transfer', async () => {
     answerWith(
       reply({ body: { document: doc() } }),
       reply({ stream: Buffer.from('x'), headers: { 'content-length': String(1024 ** 4) } }),
@@ -601,8 +601,8 @@ describe('push', () => {
       size: BYTES.length,
       sha256: crypto.createHash('sha256').update(BYTES).digest('hex'),
       mtimeSeconds: 1789000000,
-      trekDocUid: 'trek-doc-1',
-      trekTripUid: 'trek-trip-42',
+      trekDocUid: 'tripmate-doc-1',
+      trekTripUid: 'tripmate-trip-42',
       ...overrides,
     };
   }
@@ -894,8 +894,8 @@ function anyPush(overrides: Partial<PushRequest> = {}): PushRequest {
     size: 1,
     sha256: 'b'.repeat(64),
     mtimeSeconds: 1789000000,
-    trekDocUid: 'trek-doc-1',
-    trekTripUid: 'trek-trip-42',
+    trekDocUid: 'tripmate-doc-1',
+    trekTripUid: 'tripmate-trip-42',
     ...overrides,
   };
 }

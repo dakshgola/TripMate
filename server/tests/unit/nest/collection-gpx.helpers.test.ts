@@ -4,13 +4,13 @@
  * The fixtures under tests/fixtures/gpx are modelled on what the apps people
  * keep places in actually write: OsmAnd favourites, Organic Maps, gpx.studio,
  * a Garmin handheld, a Windows tool that adds a BOM and CRLF, and one hostile
- * document. The round trip at the end is the promise the TREK extension makes.
+ * document. The round trip at the end is the promise the Trip Mate extension makes.
  */
 import fs from 'fs';
 import path from 'path';
 import { describe, it, expect } from 'vitest';
 import { XMLValidator } from 'fast-xml-parser';
-import { COLLECTION_GPX_NAMESPACE, MAX_COLLECTION_FILE_BYTES, type CollectionFilePlace } from '@trek/shared';
+import { COLLECTION_GPX_NAMESPACE, MAX_COLLECTION_FILE_BYTES, type CollectionFilePlace } from '@tripmate/shared';
 import {
   CollectionGpxError,
   MAX_GPX_ELEMENTS,
@@ -22,7 +22,7 @@ import {
 const fixture = (name: string) => fs.readFileSync(path.join(__dirname, '../../fixtures/gpx', name), 'utf8');
 
 const listFile = (over: Partial<ExportedCollectionFile> = {}): ExportedCollectionFile => ({
-  format: 'trek.collection', version: 1, name: 'Lisbon', places: [], ...over,
+  format: 'tripmate.collection', version: 1, name: 'Lisbon', places: [], ...over,
 });
 
 const place = (over: Partial<CollectionFilePlace> = {}): CollectionFilePlace => ({
@@ -65,7 +65,7 @@ describe('collectionFileToGpx', () => {
     expect(gpx).toContain('<type>Restaurant</type>');
   });
 
-  it('GPX-COLL-002: carries what GPX has no element for in the TREK namespace', () => {
+  it('GPX-COLL-002: carries what GPX has no element for in the Trip Mate namespace', () => {
     const { gpx } = collectionFileToGpx(listFile({
       color: '#ef4444', icon: 'Utensils', description: 'Three days',
       labels: [{ name: 'Must see', color: '#ff0000' }],
@@ -75,12 +75,12 @@ describe('collectionFileToGpx', () => {
       })],
     }));
 
-    expect(gpx).toContain(`xmlns:trek="${COLLECTION_GPX_NAMESPACE}"`);
+    expect(gpx).toContain(`xmlns:tripmate="${COLLECTION_GPX_NAMESPACE}"`);
     for (const line of [
-      '<trek:address>Rua 1</trek:address>', '<trek:phone>+351 1</trek:phone>', '<trek:status>want</trek:status>',
-      '<trek:price>12.5</trek:price>', '<trek:currency>EUR</trek:currency>', '<trek:label>Must see</trek:label>',
-      '<trek:link href="https://menu.example">Menu</trek:link>', '<trek:link href="https://bare.example"/>',
-      '<trek:color>#ef4444</trek:color>', '<trek:icon>Utensils</trek:icon>', '<trek:label color="#ff0000">Must see</trek:label>',
+      '<tripmate:address>Rua 1</tripmate:address>', '<tripmate:phone>+351 1</tripmate:phone>', '<tripmate:status>want</tripmate:status>',
+      '<tripmate:price>12.5</tripmate:price>', '<tripmate:currency>EUR</tripmate:currency>', '<tripmate:label>Must see</tripmate:label>',
+      '<tripmate:link href="https://menu.example">Menu</tripmate:link>', '<tripmate:link href="https://bare.example"/>',
+      '<tripmate:color>#ef4444</tripmate:color>', '<tripmate:icon>Utensils</tripmate:icon>', '<tripmate:label color="#ff0000">Must see</tripmate:label>',
     ]) expect(gpx, line).toContain(line);
     expect(gpx).toContain('<metadata>\n    <name>Lisbon</name>\n    <desc>Three days</desc>');
   });
@@ -138,7 +138,7 @@ describe('gpxToCollectionFile: what other apps write', () => {
     expect(file.places[1]).toMatchObject({ name: 'Miradouro de Santa Luzia', category: 'Viewpoints' });
     // A numeric character reference is text like any other.
     expect(file.places[2]).toMatchObject({ name: 'Pastéis de Belém', description: 'Pastéis warm from the oven' });
-    // OsmAnd's icon and colour are its own business, not TREK labels or statuses.
+    // OsmAnd's icon and colour are its own business, not Trip Mate labels or statuses.
     expect(file.places[0]).toMatchObject({ status: 'idea' });
     expect(file.places[0]).not.toHaveProperty('labels', expect.arrayContaining([expect.anything()]));
   });
@@ -213,7 +213,7 @@ describe('gpxToCollectionFile: what it refuses', () => {
   });
 
   it('GPX-COLL-021: a file that is not XML, not well-formed, or not GPX', () => {
-    expect(refusal('{"format":"trek.collection"}')).toBe('unreadable');
+    expect(refusal('{"format":"tripmate.collection"}')).toBe('unreadable');
     expect(refusal('<gpx><wpt lat="1" lon="2"><name>x</wpt></gpx>')).toBe('unreadable');
     expect(refusal('<?xml version="1.0"?><kml><Document/></kml>')).toBe('not-gpx');
   });
@@ -252,27 +252,27 @@ describe('gpxToCollectionFile: one bad field costs that field', () => {
     expect(only.category).toBe('Museum');
   });
 
-  it('GPX-COLL-031: reads the TREK extension by namespace, whatever the prefix', () => {
-    const body = '<wpt lat="1" lon="2"><name>A</name><extensions><t:status>visited</t:status><trek:status>want</trek:status></extensions></wpt>';
-    const ours = gpxToCollectionFile(wptDoc(body, ` xmlns:t="${COLLECTION_GPX_NAMESPACE}" xmlns:trek="https://elsewhere.example"`));
+  it('GPX-COLL-031: reads the Trip Mate extension by namespace, whatever the prefix', () => {
+    const body = '<wpt lat="1" lon="2"><name>A</name><extensions><t:status>visited</t:status><tripmate:status>want</tripmate:status></extensions></wpt>';
+    const ours = gpxToCollectionFile(wptDoc(body, ` xmlns:t="${COLLECTION_GPX_NAMESPACE}" xmlns:tripmate="https://elsewhere.example"`));
     expect(ours.file.places[0]).toMatchObject({ status: 'visited' });
-    // Without the namespace bound, `trek:` is just somebody else's prefix.
-    const theirs = gpxToCollectionFile(wptDoc(body, ' xmlns:trek="https://elsewhere.example"'));
+    // Without the namespace bound, `tripmate:` is just somebody else's prefix.
+    const theirs = gpxToCollectionFile(wptDoc(body, ' xmlns:tripmate="https://elsewhere.example"'));
     expect(theirs.file.places[0]).toMatchObject({ status: 'idea' });
   });
 
   it('GPX-COLL-032: an unknown status, a price that is not a number and a bad label cost only themselves', () => {
     const { file } = gpxToCollectionFile(wptDoc(
-      '<wpt lat="1" lon="2"><name>A</name><extensions><trek:status>loved</trek:status><trek:price>cheap</trek:price>'
-      + `<trek:label>Ok</trek:label><trek:label>${'x'.repeat(61)}</trek:label><trek:phone>+1</trek:phone></extensions></wpt>`,
-      ` xmlns:trek="${COLLECTION_GPX_NAMESPACE}"`,
+      '<wpt lat="1" lon="2"><name>A</name><extensions><tripmate:status>loved</tripmate:status><tripmate:price>cheap</tripmate:price>'
+      + `<tripmate:label>Ok</tripmate:label><tripmate:label>${'x'.repeat(61)}</tripmate:label><tripmate:phone>+1</tripmate:phone></extensions></wpt>`,
+      ` xmlns:tripmate="${COLLECTION_GPX_NAMESPACE}"`,
     ));
     expect(file.places[0]).toMatchObject({ status: 'idea', labels: ['Ok'], phone: '+1' });
     expect(file.places[0]).not.toHaveProperty('price');
   });
 });
 
-describe('a GPX made by TREK comes back as the same list (#2301)', () => {
+describe('a GPX made by Trip Mate comes back as the same list (#2301)', () => {
   it('GPX-COLL-040: every field of every place, and the list around them', () => {
     const places: CollectionFilePlace[] = [
       {

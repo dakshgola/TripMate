@@ -1,5 +1,5 @@
 apiVersion: v2
-name: trek
+name: tripmate
 version: 4.3.3
-description: Minimal Helm chart for TREK app
+description: Minimal Helm chart for Trip Mate app
 appVersion: "4.3.3"

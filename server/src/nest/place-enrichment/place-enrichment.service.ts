@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
-import { placeWebsiteSchema } from '@trek/shared';
+import { placeWebsiteSchema } from '@tripmate/shared';
 import type {
   MapsPlaceEnrichmentRequest,
   MapsPlaceEnrichmentResult,
@@ -9,7 +9,7 @@ import type {
   PlaceHours,
   PlacePhotoCandidate,
   PlaceRating,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import { safeFetchFollow } from '../../utils/ssrfGuard';
 import { DatabaseService } from '../database/database.service';
 import {
@@ -22,7 +22,7 @@ import {
   type WikiIdentity,
 } from '../maps/maps.service';
 import { buildOsmDetails, isGooglePlaceId, parseWikipediaTag, rankCommonsCandidates, toWikiLang } from '../maps/maps.helpers';
-import { trekPlacesById } from '../maps/trek-places.client';
+import { trekPlacesById } from '../maps/tripmate-places.client';
 import { PlacePhotoCacheService } from '../place-photos/place-photo-cache.service';
 
 /**
@@ -152,7 +152,7 @@ interface CachePayload extends CachedEnrichment {
  * picture is honest; a confident picture of the building opposite is not.
  *
  * Matched against the category the source reports: `basic_category` from the
- * TREK index, the amenity/shop tag from OpenStreetMap, a Google type.
+ * Trip Mate index, the amenity/shop tag from OpenStreetMap, a Google type.
  */
 const NEARBY_MISLEADS = [
   'restaurant', 'cafe', 'coffee', 'bar', 'pub', 'bakery', 'fast_food', 'food',
@@ -298,7 +298,7 @@ export function collectRating(details: Record<string, unknown> | null): PlaceRat
  * Photos and a description for a place the user is looking at but has not saved
  * yet — the detail column next to the search field in the add-place dialog.
  *
- * Two things shape this service. First, most TREK instances have no Google key,
+ * Two things shape this service. First, most Trip Mate instances have no Google key,
  * so the free path (OpenStreetMap tags, Wikimedia Commons, Wikipedia) is the
  * normal case and has to stand on its own; Google is an addition an admin opts
  * into, not the design centre. Second, every picture shown here is somebody
@@ -607,10 +607,10 @@ export class PlaceEnrichmentService {
   // ── Description ────────────────────────────────────────────────────────────
 
   /**
-   * The description the place publishes on its own site, served from the TREK
+   * The description the place publishes on its own site, served from the Trip Mate
    * Places API rather than fetched here.
    *
-   * TREK never opens the business's website itself: that would be one request
+   * Trip Mate never opens the business's website itself: that would be one request
    * per instance per place, against small servers, from hundreds of homelabs.
    * The API fetches each page once, keeps the summary, and every instance reads
    * it from there. Only places carrying a GERS id can be looked up, which is
@@ -681,7 +681,7 @@ export class PlaceEnrichmentService {
       return { text: extract.text, source: extract.source, sourceUrl: extract.sourceUrl, license: 'CC BY-SA 4.0' };
     }
 
-    // Then the place's own website, through the TREK Places API.
+    // Then the place's own website, through the Trip Mate Places API.
     //
     // Placed here and not higher on purpose: an encyclopaedia article reached
     // through the OSM `wikipedia` tag is about this exact place and was written

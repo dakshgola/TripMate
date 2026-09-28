@@ -8,7 +8,7 @@ import { AuthService } from '../auth/auth.service';
 import { ADDON_IDS } from '../../addons';
 import { addonGate } from '../addons/addon-gate';
 import { AddonsService } from '../addons/addons.service';
-import { roadtripViaUpdateRequestSchema, type RoadtripViaUpdateRequest } from '@trek/shared';
+import { roadtripViaUpdateRequestSchema, type RoadtripViaUpdateRequest } from '@tripmate/shared';
 
 /**
  * The whole surface rides the road trip addon, the same way the controller does

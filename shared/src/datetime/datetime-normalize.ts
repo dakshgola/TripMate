@@ -1,7 +1,7 @@
 /**
  * Twelve-hour clock handling for imported booking documents (#2094).
  *
- * A confirmation mail prints "01:11 pm". Every downstream consumer in TREK
+ * A confirmation mail prints "01:11 pm". Every downstream consumer in Trip Mate
  * expects a naive 24-hour local string, and the mapper used to reach it by
  * slicing: `'2026-06-11T02:30 PM'.slice(11, 16)` yields '02:30'. The hour
  * survives, the half of the day does not, and the booking silently lands
@@ -46,7 +46,10 @@ export function parseMeridiemClock(value: string | null | undefined): string | n
 
 /** The part after a leading `YYYY-MM-DD`, with its `T` or space removed. */
 function clockPart(value: string): string {
-  return value.slice(10).replace(/^[T\s]/, '').trim();
+  return value
+    .slice(10)
+    .replace(/^[T\s]/, '')
+    .trim();
 }
 
 /** Split a naive date-time string into its date and its 24-hour clock. */

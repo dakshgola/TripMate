@@ -1,7 +1,7 @@
 // FE-COMP-COLLIMPORT-001 to FE-COMP-COLLIMPORT-026
 import { render, screen, waitFor } from '../../../tests/helpers/render';
 import userEvent from '@testing-library/user-event';
-import type { Collection, CollectionFile } from '@trek/shared';
+import type { Collection, CollectionFile } from '@tripmate/shared';
 import { useTranslation } from '../../i18n/TranslationContext';
 import ImportCollectionModal from './ImportCollectionModal';
 import type { GpxReader } from './collectionFile';
@@ -14,7 +14,7 @@ function Harness(props: Omit<React.ComponentProps<typeof ImportCollectionModal>,
 }
 
 const listFile: CollectionFile = {
-  format: 'trek.collection', version: 1, name: 'Lisbon',
+  format: 'tripmate.collection', version: 1, name: 'Lisbon',
   description: 'Worth it if you have three days',
   color: '#ef4444',
   labels: [{ name: 'Must see', color: '#ff0000' }, { name: 'Rainy day', color: '#00ff00' }],
@@ -110,7 +110,7 @@ describe('ImportCollectionModal (#2198)', () => {
     await waitFor(() => expect(screen.getByText('That file could not be read.')).toBeInTheDocument());
 
     await choose(JSON.stringify({ format: 'something.else' }));
-    await waitFor(() => expect(screen.getByText('That is not a TREK list file.')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('That is not a Trip Mate list file.')).toBeInTheDocument());
   });
 
   it('FE-COMP-COLLIMPORT-008: takes a good file after a bad one, and forgets the complaint', async () => {
@@ -147,7 +147,7 @@ describe('ImportCollectionModal (#2198)', () => {
 describe('ImportCollectionModal with a GPX (#2301)', () => {
   const gpx = '<?xml version="1.0"?><gpx version="1.1"><wpt lat="1" lon="2"><name>Pena Palace</name></wpt></gpx>';
   const gpxFile: CollectionFile = {
-    format: 'trek.collection', version: 1, name: 'Sintra loop',
+    format: 'tripmate.collection', version: 1, name: 'Sintra loop',
     places: [{ name: 'Pena Palace' }, { name: 'Moorish Castle' }],
   } as CollectionFile;
   const refusal = (code: string) => Object.assign(new Error('Request failed'), { response: { status: 400, data: { error: 'no', code } } });
@@ -170,7 +170,7 @@ describe('ImportCollectionModal with a GPX (#2301)', () => {
     expect(screen.getByText('2 places')).toBeInTheDocument();
     expect(screen.getByText('2 waypoints without usable coordinates are left out.')).toBeInTheDocument();
     expect(screen.getByText('This file also has 8 track points. Tracks are not imported, only waypoints.')).toBeInTheDocument();
-    // The note about ratings and members is about TREK files; a GPX never had any.
+    // The note about ratings and members is about Trip Mate files; a GPX never had any.
     expect(screen.queryByText(/Ratings, members/)).toBeNull();
 
     await userEvent.click(importButton());

@@ -14,7 +14,7 @@ import { useToast } from '../shared/Toast'
 import { getApiErrorMessage } from '../../types'
 import { normalizeLinkUrl, STATUS_META, STATUS_ORDER } from '../../pages/collections/collectionsModel'
 import type { Category, TranslationFn } from '../../types'
-import type { CollectionLink, CollectionStatus } from '@trek/shared'
+import type { CollectionLink, CollectionStatus } from '@tripmate/shared'
 
 type MapsPlace = Record<string, unknown>
 const str = (v: unknown): string | undefined => (typeof v === 'string' && v ? v : undefined)

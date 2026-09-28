@@ -1,5 +1,5 @@
 import type { StoreApi } from 'zustand'
-import type { TrekWsTripEventName } from '@trek/shared'
+import type { TrekWsTripEventName } from '@tripmate/shared'
 import type { TripStoreState } from '../tripStore'
 import type { Assignment, Place, Day, DayNote, PackingItem, TodoItem, BudgetItem, BudgetItemMember, Reservation, Trip, TripFile, WebSocketEvent } from '../../types'
 import { offlineDb } from '../../db/offlineDb'

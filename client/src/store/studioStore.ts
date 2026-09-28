@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { BookDocument, BookElement, BookFrame, BookSpread } from '@trek/shared'
+import type { BookDocument, BookElement, BookFrame, BookSpread } from '@tripmate/shared'
 
 /**
  * The book being edited.

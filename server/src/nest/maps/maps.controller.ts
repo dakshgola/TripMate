@@ -20,7 +20,7 @@ import type {
   MapsResolveUrlResult,
   MapsReverseResult,
   MapsSearchResult,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import type { User } from '../../types';
 import { MapsService } from './maps.service';
 import { StorageService } from '../storage/storage.service';
@@ -51,7 +51,7 @@ function toHttpException(err: unknown, fallbackMessage: string, defaultStatus: n
  * validation (reverse's query params). The SSRF guard lives in the underlying
  * service and is reused unchanged.
  *
- * Bodies are validated against the @trek/shared maps schemas via maps.dto.ts
+ * Bodies are validated against the @tripmate/shared maps schemas via maps.dto.ts
  * (global ZodValidationPipe). This replaced the legacy bespoke 400s ('Search
  * query is required', 'Input is required', 'Input too long (max 200 chars)',
  * 'URL is required', the two 'Invalid locationBias: …' messages) with the
@@ -192,7 +192,7 @@ export class MapsController {
     }
     // A place with no photo resolves to the same { photoUrl: null } body. It is an
     // empty result, not a missing resource, and one 404 per photo-less place gets
-    // the user's IP banned by any 404-rate IPS in front of TREK (#1727).
+    // the user's IP banned by any 404-rate IPS in front of Trip Mate (#1727).
     try {
       return await this.maps.photo(user.id, placeId, Number.parseFloat(lat as string), Number.parseFloat(lng as string), name);
     } catch (err: unknown) {

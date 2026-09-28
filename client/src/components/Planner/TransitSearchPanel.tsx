@@ -8,11 +8,11 @@ import { useSettingsStore } from '../../store/settingsStore'
 import { useToast } from '../shared/Toast'
 import { useTranslation } from '../../i18n'
 import type { Day, Place, Accommodation } from '../../types'
-import type { TransitProvider } from '@trek/shared'
+import type { TransitProvider } from '@tripmate/shared'
 
 /**
  * Public transit route search (#1065), backed by Transitous (MOTIS) through the
- * server proxy — no paid providers. Google-Maps-like flow in TREK's clean style:
+ * server proxy — no paid providers. Google-Maps-like flow in Trip Mate's clean style:
  * pick from/to (stop search + the day's own places as quick picks), filter by
  * mode and preference, compare the returned itineraries, then add the chosen
  * one to the day. The result is saved as a regular transport reservation

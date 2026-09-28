@@ -1,6 +1,6 @@
 // FE-DAWARICH-SUGMODEL-001 to FE-DAWARICH-SUGMODEL-014
 import { describe, it, expect } from 'vitest'
-import type { DawarichSuggestion } from '@trek/shared'
+import type { DawarichSuggestion } from '@tripmate/shared'
 import {
   clockOf,
   formatDayHeading,

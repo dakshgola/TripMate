@@ -3,7 +3,7 @@ import {
   CalendarDays, Car, Compass, Footprints, Hotel, MapPin, Pencil, Plus, RotateCcw,
   Route as RouteIcon, TramFront, Zap,
 } from 'lucide-react'
-import type { WeatherResult } from '@trek/shared'
+import type { WeatherResult } from '@tripmate/shared'
 import MSheet from '../../../components/MSheet'
 import type { MTripSheetsProps } from '../MTripShell'
 import { useTranslation } from '../../../../i18n'

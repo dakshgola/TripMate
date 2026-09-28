@@ -47,7 +47,7 @@ import { ReservationImportModule } from '../../src/nest/reservation-import/reser
 import { KitineraryExtractorService } from '../../src/nest/booking-import/kitinerary-extractor.service';
 import { NotificationsService } from '../../src/nest/notifications/notifications.service';
 import { PermissionsService } from '../../src/nest/permissions/permissions.service';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 /** A one-page PDF whose text layer holds `lines`, in the standard Helvetica. */

@@ -63,7 +63,7 @@ import {
 } from '../../helpers/factories';
 import { DatabaseService } from '../../../src/nest/database/database.service';
 import { RealtimeService } from '../../../src/nest/realtime/realtime.service';
-import { TrekPhotosRepository } from '../../../src/nest/photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../../../src/nest/photos/tripmate-photos.repository';
 import { JourneyDomainService } from '../../../src/nest/journey/journey-domain.service';
 import { db as dbConn } from '../../../src/db/database';
 
@@ -446,7 +446,7 @@ describe('journeyStats excluded stops', () => {
   });
 
   /*
-   * The fallback honours the switch too. A skeleton is the entry TREK derives
+   * The fallback honours the switch too. A skeleton is the entry Trip Mate derives
    * from a trip place; switching it off and then drawing the place it came
    * from would put the same stop straight back on the map by its other name.
    */

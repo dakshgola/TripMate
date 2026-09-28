@@ -35,7 +35,7 @@ import { MapsService } from '../../src/nest/maps/maps.service';
 import { PlacePhotoCacheService } from '../../src/nest/place-photos/place-photo-cache.service';
 import { DatabaseModule } from '../../src/nest/database/database.module';
 import { RateLimitService } from '../../src/nest/common/rate-limit.service';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 const BODY = { lat: 50.9, lng: 6.96, name: 'Museum Ludwig', placeId: 'way:12345' };

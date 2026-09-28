@@ -1,4 +1,4 @@
-import type { BookElement } from '@trek/shared'
+import type { BookElement } from '@tripmate/shared'
 
 /**
  * The spread templates, as data.

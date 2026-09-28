@@ -2,8 +2,8 @@ import { useState } from 'react'
 import type {
   BookBadgeElement, BookCountriesElement, BookElement, BookListElement, BookMapElement,
   BookMetric, BookStatsElement, JourneyStats,
-} from '@trek/shared'
-import { BOOK_METRICS } from '@trek/shared'
+} from '@tripmate/shared'
+import { BOOK_METRICS } from '@tripmate/shared'
 import { isStale, refreshPatch } from './travelRefresh'
 import { Swatches } from './StudioSwatches'
 import { BOOK_FONTS, BOOK_FONT_ORDER, hasWeight, nearestWeight } from './bookFonts'

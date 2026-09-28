@@ -88,47 +88,35 @@ const admin: TranslationStrings = {
   'admin.requireMfaHint':
     'Gebruikers zonder 2FA moeten de installatie in Instellingen voltooien voordat ze de app kunnen gebruiken.',
   'admin.apiKeys': 'API-sleutels',
-  'admin.apiKeysHint': 'Waar plaatsgegevens vandaan komen. De TREK-index heeft geen sleutel nodig; de twee aanbieders hieronder zijn optioneel.',
+  'admin.apiKeysHint':
+    'Waar plaatsgegevens vandaan komen. De Trip Mate-index heeft geen sleutel nodig; de twee aanbieders hieronder zijn optioneel.',
   'admin.trekApi.badgeDefault': 'Aanbevolen standaardbron',
   'admin.googleCaveat.badge': 'Niet aanbevolen',
   'admin.googleCaveat.body':
-    "TREK is open source en wij zijn hier niet neutraal. Op deze schaal bestaan beoordelingen en foto's van gewone zaken alleen bij Google, en dat is een monopolie. Het veld staat er bij gebrek aan alternatief, niet omdat wij het aanraden. Elke opvraging gaat dan naar Google.",
+    "Trip Mate is open source en wij zijn hier niet neutraal. Op deze schaal bestaan beoordelingen en foto's van gewone zaken alleen bij Google, en dat is een monopolie. Het veld staat er bij gebrek aan alternatief, niet omdat wij het aanraden. Elke opvraging gaat dan naar Google.",
   'admin.trekApi.tagline':
-    'TREK\'s eigen plaatsenindex. Zoeken zonder Google-sleutel, zonder quotum en zonder dat iemand meetelt.',
-  'admin.trekApi.factPlaces':
-    '73,6 miljoen plaatsen wereldwijd',
-  'admin.trekApi.factNoKey':
-    'Geen sleutel, geen quotum',
-  'admin.trekApi.factOffline':
-    'Landpakketten werken offline',
-  'admin.trekApi.factPrivacy':
-    'Zoekopdrachten worden nooit vastgelegd',
-  'admin.trekApi.more':
-    'Wat erin zit',
-  'admin.trekApi.fieldPhone':
-    'Telefoon',
-  'admin.trekApi.fieldStableId':
-    'Stabiele id',
+    "Trip Mate's eigen plaatsenindex. Zoeken zonder Google-sleutel, zonder quotum en zonder dat iemand meetelt.",
+  'admin.trekApi.factPlaces': '73,6 miljoen plaatsen wereldwijd',
+  'admin.trekApi.factNoKey': 'Geen sleutel, geen quotum',
+  'admin.trekApi.factOffline': 'Landpakketten werken offline',
+  'admin.trekApi.factPrivacy': 'Zoekopdrachten worden nooit vastgelegd',
+  'admin.trekApi.more': 'Wat erin zit',
+  'admin.trekApi.fieldPhone': 'Telefoon',
+  'admin.trekApi.fieldStableId': 'Stabiele id',
   'admin.trekApi.includedNote':
     'Beschrijvingen komen van de website van de plaats zelf; openingstijden uit OpenStreetMap waar ze zijn ingevuld.',
-  'admin.trekApi.notRatings':
-    'Beoordelingen',
-  'admin.trekApi.notPhotos':
-    'Foto\'s van gewone zaken',
+  'admin.trekApi.notRatings': 'Beoordelingen',
+  'admin.trekApi.notPhotos': "Foto's van gewone zaken",
   'admin.trekApi.notIncludedNote':
     'Geen enkele open bron heeft ze, voor geen prijs. Een Google-sleutel blijft de enige weg naar die twee.',
-  'admin.trekApi.sourcesLabel':
-    'Bronnen',
-  'admin.trekApi.sourcesNote':
-    'Elk veld in een antwoord vermeldt uit welke ervan het komt.',
-  'admin.trekApi.included':
-    'Inbegrepen',
-  'admin.trekApi.notIncluded':
-    'Niet inbegrepen',
+  'admin.trekApi.sourcesLabel': 'Bronnen',
+  'admin.trekApi.sourcesNote': 'Elk veld in een antwoord vermeldt uit welke ervan het komt.',
+  'admin.trekApi.included': 'Inbegrepen',
+  'admin.trekApi.notIncluded': 'Niet inbegrepen',
   'admin.mapsKey': 'Google Maps API-sleutel',
   'admin.mapsKeyHint': 'Vereist voor het zoeken van plaatsen. Verkrijgbaar op console.cloud.google.com',
   'admin.mapsKeyHintLong':
-    "Zonder Google-API-sleutel wordt de aanbevolen TREK-API gebruikt. Met een sleutel kunnen daarnaast foto's, beoordelingen en openingstijden worden geladen. Maak er een aan op console.cloud.google.com.",
+    "Zonder Google-API-sleutel wordt de aanbevolen Trip Mate-API gebruikt. Met een sleutel kunnen daarnaast foto's, beoordelingen en openingstijden worden geladen. Maak er een aan op console.cloud.google.com.",
   'admin.recommended': 'Aanbevolen',
   'admin.weatherKey': 'OpenWeatherMap API-sleutel',
   'admin.weatherKeyHint': 'Voor weergegevens. Gratis op openweathermap.org',
@@ -138,12 +126,14 @@ const admin: TranslationStrings = {
   'admin.amapKeyHint':
     'Voor het zoeken naar plaatsen in het Chinese vasteland, waar Google onbereikbaar is en OpenStreetMap weinig gegevens heeft. Vereist een sleutel van het type ‘Web 服务’ (webservice), geen JS API-sleutel. Verkrijgbaar op console.amap.com.',
   'admin.placesProvider.title': 'Provider voor plaatszoeken',
-  'admin.placesProvider.subtitle': 'De eigen index van TREK en OpenStreetMap beantwoorden elke zoekopdracht. Hier kies je wie er nog meer wordt gevraagd als zij niets vinden: Automatisch geeft de voorkeur aan Google als er een sleutel is, daarna Amap.',
+  'admin.placesProvider.subtitle':
+    'De eigen index van Trip Mate en OpenStreetMap beantwoorden elke zoekopdracht. Hier kies je wie er nog meer wordt gevraagd als zij niets vinden: Automatisch geeft de voorkeur aan Google als er een sleutel is, daarna Amap.',
   'admin.placesProvider.auto': 'Automatisch',
   'admin.placesProvider.google': 'Google Places',
   'admin.placesProvider.amap': 'Amap (高德地图)',
   'admin.placesProvider.openstreetmap': 'OpenStreetMap',
-  'admin.placesProvider.missingKey': 'Voor de gekozen aanbieder is geen API-sleutel ingesteld, dus plaatszoeken wordt alleen door de TREK-index en OpenStreetMap beantwoord.',
+  'admin.placesProvider.missingKey':
+    'Voor de gekozen aanbieder is geen API-sleutel ingesteld, dus plaatszoeken wordt alleen door de Trip Mate-index en OpenStreetMap beantwoord.',
   'admin.placesProvider.saved': 'Provider voor plaatszoeken opgeslagen',
   'admin.validateKey': 'Testen',
   'admin.keyValid': 'Verbonden',
@@ -177,17 +167,24 @@ const admin: TranslationStrings = {
   'admin.placesEnrich.subtitle':
     "Toont afbeeldingen en een beschrijving bij het toevoegen van een plaats. Wikipedia en OpenStreetMap worden altijd gebruikt; Google komt erbij als Plaatsfoto's of Plaatsdetails aanstaan.",
   'admin.placesGoogleOnly.title': 'Alleen met Google zoeken',
-  'admin.placesGoogleOnly.subtitle': 'Elke zoekopdracht en elke suggestie gaat naar Google Places. Uit, antwoorden eerst de TREK-index en OpenStreetMap; Google wordt alleen gevraagd als die niets vinden.',
-  'admin.placesGoogleOnly.missingKey': 'Vereist een Google Maps API-sleutel. Zonder sleutel zoekt TREK via de eigen index en OpenStreetMap, wat deze schakelaar ook zegt.',
-  'admin.placesGoogleOnly.otherProvider': 'Vereist Google als plaatsenprovider. Met Amap of OpenStreetMap gekozen gaat geen enkele zoekopdracht naar Google, wat deze schakelaar ook zegt.',
+  'admin.placesGoogleOnly.subtitle':
+    'Elke zoekopdracht en elke suggestie gaat naar Google Places. Uit, antwoorden eerst de Trip Mate-index en OpenStreetMap; Google wordt alleen gevraagd als die niets vinden.',
+  'admin.placesGoogleOnly.missingKey':
+    'Vereist een Google Maps API-sleutel. Zonder sleutel zoekt Trip Mate via de eigen index en OpenStreetMap, wat deze schakelaar ook zegt.',
+  'admin.placesGoogleOnly.otherProvider':
+    'Vereist Google als plaatsenprovider. Met Amap of OpenStreetMap gekozen gaat geen enkele zoekopdracht naar Google, wat deze schakelaar ook zegt.',
   'admin.transitProvider.title': 'Ov-provider',
   'admin.transitProvider.subtitle': 'Welke dienst het ov-zoeken beantwoordt.',
   'admin.transitProvider.transitous': 'Transitous (gratis)',
   'admin.transitProvider.google': 'Google',
-  'admin.transitProvider.transitousHint': 'GTFS-feeds van de community. Gratis en zonder sleutel, met de beste dekking in Europa.',
-  'admin.transitProvider.googleHint': 'Gebruikt de Google-sleutel hierboven, voor regio\'s zonder Transitous-data. Wordt per zoekopdracht afgerekend — zolang er geen sleutel is, wordt Transitous gebruikt.',
-  'admin.transitProvider.noKeyWarning': 'Google is geselecteerd, maar er is geen Google-sleutel ingesteld — het ov-zoeken gebruikt nog steeds Transitous. Voeg hierboven een sleutel toe bij API-sleutels.',
-  'admin.transitProvider.personalKeyWarning': 'Alleen je eigen Google-sleutel is ingesteld, dus het zoeken van andere leden valt nog steeds terug op Transitous. Sla de sleutel hierboven op als beheerder om hem instantiebreed toe te passen.',
+  'admin.transitProvider.transitousHint':
+    'GTFS-feeds van de community. Gratis en zonder sleutel, met de beste dekking in Europa.',
+  'admin.transitProvider.googleHint':
+    "Gebruikt de Google-sleutel hierboven, voor regio's zonder Transitous-data. Wordt per zoekopdracht afgerekend — zolang er geen sleutel is, wordt Transitous gebruikt.",
+  'admin.transitProvider.noKeyWarning':
+    'Google is geselecteerd, maar er is geen Google-sleutel ingesteld — het ov-zoeken gebruikt nog steeds Transitous. Voeg hierboven een sleutel toe bij API-sleutels.',
+  'admin.transitProvider.personalKeyWarning':
+    'Alleen je eigen Google-sleutel is ingesteld, dus het zoeken van andere leden valt nog steeds terug op Transitous. Sla de sleutel hierboven op als beheerder om hem instantiebreed toe te passen.',
   'admin.placeShadow.title': 'Logboek van plaatszoekopdrachten',
   'admin.placeShadow.subtitle':
     'Vastleggen welk zoekresultaat is gekozen, zodat een andere plaatsindex later aan echte zoekopdrachten kan worden getoetst. Er verlaat niets deze instantie en een beheerder kan het logboek altijd exporteren of verwijderen.',
@@ -290,7 +287,7 @@ const admin: TranslationStrings = {
   'admin.plugins.subtitle': 'Installeer en beheer plugins van derden op je instantie.',
   'admin.plugins.disabledTitle': 'Plugins zijn uitgeschakeld',
   'admin.plugins.disabledBody':
-    'De plugin-runtime staat uit (TREK_PLUGINS_ENABLED). Er kan geen plugin draaien totdat een beheerder dit inschakelt in de serverconfiguratie.',
+    'De plugin-runtime staat uit (TRIPMATE_PLUGINS_ENABLED). Er kan geen plugin draaien totdat een beheerder dit inschakelt in de serverconfiguratie.',
   'admin.plugins.empty': 'Nog geen plugins geïnstalleerd.',
   'admin.plugins.loadError': 'Plugins konden niet worden geladen.',
   'admin.plugins.scaffoldNote':
@@ -313,7 +310,7 @@ const admin: TranslationStrings = {
   'admin.plugins.sourceRepo': 'Broncoderepository',
   'admin.plugins.reportIssue': 'Probleem melden',
   'admin.plugins.homepage': 'Homepage',
-  'admin.plugins.requiresTrek': 'Vereist TREK {version}+',
+  'admin.plugins.requiresTrek': 'Vereist Trip Mate {version}+',
   'admin.plugins.reviewedOn': 'Beoordeeld op {date}',
   'admin.plugins.perm.db:own': 'Eigen gegevens opslaan in een geïsoleerde database',
   'admin.plugins.perm.db:read:trips': 'Reizen lezen waartoe de actieve gebruiker toegang heeft',
@@ -384,7 +381,7 @@ const admin: TranslationStrings = {
   'admin.plugins.perm.hook:place-detail-provider':
     'Extra details (reviews, beoordelingen, links) aan een plek toevoegen',
   'admin.plugins.perm.hook:search-provider':
-    'Zoekopdrachten naar locaties beantwoorden vanuit een eigen index, naast de resultaten van TREK',
+    'Zoekopdrachten naar locaties beantwoorden vanuit een eigen index, naast de resultaten van Trip Mate',
   'admin.plugins.perm.hook:trip-warning-provider':
     'Validatiewaarschuwingen tonen bij een reis (zichtbaar in de planner)',
   'admin.plugins.perm.hook:table-contributor':
@@ -399,11 +396,12 @@ const admin: TranslationStrings = {
     'Dagen in het dagplan een kleur geven (bijvoorbeeld bij welk deel van de reis een dag hoort)',
   'admin.plugins.cap.mcpTools': 'Publiceert AI-tools',
   'admin.plugins.mcpToolsTitle': 'Gepubliceerde AI-tools',
-  'admin.plugins.mcpToolsHint': 'Een assistent kan deze namens een gebruiker uitvoeren. Elke tool handelt met de hierboven verleende rechten.',
+  'admin.plugins.mcpToolsHint':
+    'Een assistent kan deze namens een gebruiker uitvoeren. Elke tool handelt met de hierboven verleende rechten.',
   'admin.plugins.perm.mcp:tools':
     'Tools publiceren die een AI-assistent namens jou kan uitvoeren (die handelt met de rechten die je de plug-in hier geeft, niet met die van de assistent)',
   'admin.plugins.perm.geolocation:read':
-    'Je live locatie opvragen zolang een van zijn weergaven open is (TREK leest die met de locatietoestemming van deze site, niet met een eigen toestemming van de plug-in)',
+    'Je live locatie opvragen zolang een van zijn weergaven open is (Trip Mate leest die met de locatietoestemming van deze site, niet met een eigen toestemming van de plug-in)',
   'admin.plugins.perm.hook:pdf-section-provider': 'Tekstsecties toevoegen aan de PDF-export van de reis',
   'admin.plugins.perm.hook:atlas-layer-provider':
     'Landen markeren op de Atlas-wereldkaart (bijv. wensenlijsten of reisadviezen)',
@@ -431,26 +429,26 @@ const admin: TranslationStrings = {
   'admin.plugins.updateLater': 'Voorlopig uit laten',
   'admin.plugins.updateKeptOff': 'Update geïnstalleerd — uit gelaten totdat je de nieuwe machtigingen goedkeurt',
   'admin.plugins.reviewedMeaning':
-    '"Beoordeeld" betekent dat een TREK-beheerder deze plugin bij elke versie op malware heeft gecontroleerd — niet op kwaliteit of op de vraag of hij werkt. Het is geen garantie dat een plugin ongevaarlijk is.',
+    '"Beoordeeld" betekent dat een Trip Mate-beheerder deze plugin bij elke versie op malware heeft gecontroleerd — niet op kwaliteit of op de vraag of hij werkt. Het is geen garantie dat een plugin ongevaarlijk is.',
   'admin.plugins.security.title': 'Hoe plugins worden ingeperkt — en de grenzen',
   'admin.plugins.security.isolationTitle': 'Elke plugin draait afgeschermd',
   'admin.plugins.security.isolationBody':
-    "Een plugin draait als een eigen afgeschermd proces dat alleen zijn eigen bestanden kan lezen. Hij kan je database, je login-geheim of je versleutelingssleutel niet lezen, kan geen andere programma's starten en kan nergens bestanden wegschrijven. De interface draait in een afgesloten browserframe dat je sessiecookie niet kan lezen en de TREK-pagina eromheen niet kan aanraken.",
+    "Een plugin draait als een eigen afgeschermd proces dat alleen zijn eigen bestanden kan lezen. Hij kan je database, je login-geheim of je versleutelingssleutel niet lezen, kan geen andere programma's starten en kan nergens bestanden wegschrijven. De interface draait in een afgesloten browserframe dat je sessiecookie niet kan lezen en de Trip Mate-pagina eromheen niet kan aanraken.",
   'admin.plugins.security.permsTitle': 'Wat de machtigingen betekenen',
   'admin.plugins.security.permsBody':
-    'De machtigingen die vóór het installeren worden getoond, zijn een harde grens die TREK afdwingt zolang de plugin draait — hij kan letterlijk niets doen wat niet op de lijst staat. Maar ze vertellen je wat een plugin kán doen, niet wat hij daadwerkelijk doet. Een plugin die je reizen mag lezen en een server mag bereiken, kan je reizen naar die server sturen; lees dus de machtigingen en de uitgaande hosts, niet alleen de beschrijving.',
+    'De machtigingen die vóór het installeren worden getoond, zijn een harde grens die Trip Mate afdwingt zolang de plugin draait — hij kan letterlijk niets doen wat niet op de lijst staat. Maar ze vertellen je wat een plugin kán doen, niet wat hij daadwerkelijk doet. Een plugin die je reizen mag lezen en een server mag bereiken, kan je reizen naar die server sturen; lees dus de machtigingen en de uitgaande hosts, niet alleen de beschrijving.',
   'admin.plugins.security.limitsTitle': 'Wat we niet kunnen beloven',
   'admin.plugins.security.limitsBody':
-    'De isolatie is een sterke softwaregrens, geen absolute. Een plugin handelt met precies de rechten die je goedkeurt, dus binnen die rechten kan hij zich anders gedragen dan zijn beschrijving suggereert, en kan hij gegevens die hij rechtmatig bezit naar de door hem opgegeven hosts sturen. TREK leest of beoordeelt niet wat de code van een plugin daadwerkelijk doet.',
+    'De isolatie is een sterke softwaregrens, geen absolute. Een plugin handelt met precies de rechten die je goedkeurt, dus binnen die rechten kan hij zich anders gedragen dan zijn beschrijving suggereert, en kan hij gegevens die hij rechtmatig bezit naar de door hem opgegeven hosts sturen. Trip Mate leest of beoordeelt niet wat de code van een plugin daadwerkelijk doet.',
   'admin.plugins.security.worstTitle': 'Het ergste geval',
   'admin.plugins.security.worstBody':
     "Een kwaadwillende plugin die je inschakelt, kan de gegevens en verbindingen die je hebt verleend misbruiken — bijvoorbeeld de reizen lekken die hij mag lezen. Hij kan geen wachtwoorden stelen, geen beheerderslogin vervalsen, geen commando's op je server uitvoeren en geen gegevens bereiken die je niet hebt verleend. De schade blijft binnen wat je hebt goedgekeurd, en de plugin uitschakelen stopt hem.",
   'admin.plugins.security.reviewedTitle': 'Wat "Beoordeeld" betekent',
   'admin.plugins.security.reviewedBody':
-    'Een beoordeelde plugin is bij elke versie handmatig door een TREK-beheerder op malware gecontroleerd — gecontroleerd op kwaadaardige code, niet op de vraag of hij goed werkt. Het is geen belofte dat de plugin ongevaarlijk is.',
+    'Een beoordeelde plugin is bij elke versie handmatig door een Trip Mate-beheerder op malware gecontroleerd — gecontroleerd op kwaadaardige code, niet op de vraag of hij goed werkt. Het is geen belofte dat de plugin ongevaarlijk is.',
   'admin.plugins.security.signedTitle': 'Wat "Ondertekend" betekent',
   'admin.plugins.security.signedBody':
-    'De controlesom die TREK bij elke installatie verifieert, bewijst dat de bestanden precies zijn waarvoor de registry instaat. Een handtekening bewijst iets anders: dat ze van de auteur komen, ondertekend met een sleutel die alleen hij heeft. Een ondertekende plugin heeft beide. Een niet-ondertekende plugin is niet onveilig — hij draagt simpelweg één garantie minder, en de meeste plugins in de registry zijn vandaag niet ondertekend.',
+    'De controlesom die Trip Mate bij elke installatie verifieert, bewijst dat de bestanden precies zijn waarvoor de registry instaat. Een handtekening bewijst iets anders: dat ze van de auteur komen, ondertekend met een sleutel die alleen hij heeft. Een ondertekende plugin heeft beide. Een niet-ondertekende plugin is niet onveilig — hij draagt simpelweg één garantie minder, en de meeste plugins in de registry zijn vandaag niet ondertekend.',
   'admin.plugins.signed': 'Ondertekend',
   'admin.plugins.signedHint': 'Bij de installatie geverifieerd tegen de ondertekeningssleutel van de auteur',
   'admin.plugins.unsigned': 'Niet ondertekend',
@@ -465,20 +463,20 @@ const admin: TranslationStrings = {
   'admin.plugins.sig.invalidBody':
     'De bestanden komen niet overeen met de handtekening van de auteur. Ze zijn niet wat de auteur heeft ondertekend — ze zijn beschadigd geraakt, of er is mee geknoeid. Dit kan niet worden genegeerd.',
   'admin.plugins.sig.missingBody':
-    'Deze plugin was ondertekend toen je hem installeerde, maar de nieuwe versie levert geen handtekening mee. TREK aanvaardt die stap terug niet stilzwijgend. Dit kan niet worden genegeerd.',
+    'Deze plugin was ondertekend toen je hem installeerde, maar de nieuwe versie levert geen handtekening mee. Trip Mate aanvaardt die stap terug niet stilzwijgend. Dit kan niet worden genegeerd.',
   'admin.plugins.sig.incompleteBody':
     'Het registry-item is half ondertekend: het vermeldt een auteurssleutel, maar de versie draagt geen handtekening (of andersom). Dat is een fout aan de kant van de plugin. Dit kan niet worden genegeerd.',
   'admin.plugins.sig.pinnedKey': 'Sleutel waarmee hij is geïnstalleerd',
   'admin.plugins.sig.newKey': 'Sleutel die hij nu aanbiedt',
   'admin.plugins.sig.confirmOutOfBand':
-    'TREK kan een legitieme sleutelwissel niet onderscheiden van een overname — van hieruit zien ze er identiek uit. Bevestig de nieuwe sleutel bij de auteur via een kanaal dat je al vertrouwt voordat je hem accepteert. Zodra je dat doet, wordt de plugin bijgewerkt en wordt de nieuwe sleutel onthouden.',
+    'Trip Mate kan een legitieme sleutelwissel niet onderscheiden van een overname — van hieruit zien ze er identiek uit. Bevestig de nieuwe sleutel bij de auteur via een kanaal dat je al vertrouwt voordat je hem accepteert. Zodra je dat doet, wordt de plugin bijgewerkt en wordt de nieuwe sleutel onthouden.',
   'admin.plugins.sig.retrustConfirm': 'Nieuwe sleutel vertrouwen en bijwerken',
   'admin.plugins.sig.cancel': 'Niet vertrouwen',
   'admin.plugins.sig.consentUnsigned':
     'Niets koppelt deze versie aan de auteur — de bestanden komen overeen met de registry, maar dragen geen handtekening van de auteur.',
   'admin.plugins.security.trustTitle': 'De conclusie',
   'admin.plugins.security.trustBody':
-    'Een plugin installeren is als het installeren van elke andere app van derden: voeg alleen code toe van auteurs die je vertrouwt en controleer deze bij twijfel eerst zelf. TREK aanvaardt geen enkele verantwoordelijkheid voor plugins van derden.',
+    'Een plugin installeren is als het installeren van elke andere app van derden: voeg alleen code toe van auteurs die je vertrouwt en controleer deze bij twijfel eerst zelf. Trip Mate aanvaardt geen enkele verantwoordelijkheid voor plugins van derden.',
   'admin.plugins.runtimeOn': 'Runtime aan',
   'admin.plugins.tabDiscover': 'Ontdekken',
   'admin.plugins.searchPlaceholder': 'Plugins zoeken…',
@@ -494,15 +492,16 @@ const admin: TranslationStrings = {
   'admin.plugins.sortUpdates': 'Updates eerst',
   'admin.plugins.sortDownloads': 'Meest gedownload',
   'admin.plugins.updatesAvailable': '{count} updates beschikbaar voor je plugins.',
-  'admin.plugins.newerNeedsTrek': 'v{version} beschikbaar — vereist TREK {range}',
+  'admin.plugins.newerNeedsTrek': 'v{version} beschikbaar — vereist Trip Mate {range}',
   'admin.plugins.versionsTitle': 'Versies',
   'admin.plugins.versionPickerTitle': 'Versie wijzigen — {name}',
   'admin.plugins.versionSwitch': 'Overschakelen naar {version}',
-  'admin.plugins.versionNeedsTrek': 'vereist TREK {range}',
+  'admin.plugins.versionNeedsTrek': 'vereist Trip Mate {range}',
   'admin.plugins.changeVersion': 'Versie wijzigen…',
   'admin.plugins.noVersions': 'Geen gepubliceerde versies gevonden in het register.',
   'admin.plugins.downgradeTitle': 'Deze plugin terugdraaien?',
-  'admin.plugins.downgradeBody': 'Overschakelen van v{from} naar v{to}: gegevens die door de nieuwere versie zijn geschreven blijven staan, en de oudere versie begrijpt ze mogelijk niet.',
+  'admin.plugins.downgradeBody':
+    'Overschakelen van v{from} naar v{to}: gegevens die door de nieuwere versie zijn geschreven blijven staan, en de oudere versie begrijpt ze mogelijk niet.',
   'admin.plugins.downgradeConfirm': 'Terugdraaien',
   'admin.plugins.updatesHeld': 'Updates gepauzeerd op v{version}',
   'admin.plugins.resumeUpdates': 'Updates hervatten',
@@ -561,21 +560,21 @@ const admin: TranslationStrings = {
   'admin.plugins.dep.download': 'Downloaden',
   'admin.plugins.dep.update': 'Bijwerken',
   'admin.plugins.dep.resolveHint': 'Downloadt de nieuwste compatibele versie, inclusief de eigen afhankelijkheden.',
-  'admin.plugins.dep.trekIncompatible': 'Vereist TREK {range} — deze server draait {host}',
-  'admin.plugins.dep.trekUnknown': 'Geeft niet aan welke TREK-versies worden ondersteund',
+  'admin.plugins.dep.trekIncompatible': 'Vereist Trip Mate {range} — deze server draait {host}',
+  'admin.plugins.dep.trekUnknown': 'Geeft niet aan welke Trip Mate-versies worden ondersteund',
   'admin.plugins.installCompatible': '{version} installeren',
   'admin.plugins.installAnyway': 'Toch installeren',
   'admin.plugins.rangeBypass.pill': 'Versiecontroles uit',
   'admin.plugins.rangeBypass.pillHint':
-    'TREK_PLUGINS_IGNORE_TREK_RANGE is ingesteld — plugins mogen worden geïnstalleerd en uitgevoerd buiten de TREK-versies die hun auteurs opgeven',
-  'admin.plugins.rangeBypass.title': 'Buiten de ondersteunde TREK-versies',
-  'admin.plugins.rangeBypass.noticeTitle': 'Geïnstalleerd buiten de ondersteunde TREK-versies',
+    'TRIPMATE_PLUGINS_IGNORE_TREK_RANGE is ingesteld — plugins mogen worden geïnstalleerd en uitgevoerd buiten de Trip Mate-versies die hun auteurs opgeven',
+  'admin.plugins.rangeBypass.title': 'Buiten de ondersteunde Trip Mate-versies',
+  'admin.plugins.rangeBypass.noticeTitle': 'Geïnstalleerd buiten de ondersteunde Trip Mate-versies',
   'admin.plugins.rangeBypass.body':
-    '“{name}” geeft ondersteuning op voor TREK {range}, en deze server draait {host}. TREK laat het alleen door omdat TREK_PLUGINS_IGNORE_TREK_RANGE is ingesteld. De auteur heeft het versiebereik van de plugin niet bijgewerkt voor deze TREK, dus er is geen garantie dat het werkt — en in zeldzame gevallen kan een niet-passende plugin TREK-gegevens beschadigen. Ga alleen verder als je dat risico accepteert.',
+    '“{name}” geeft ondersteuning op voor Trip Mate {range}, en deze server draait {host}. Trip Mate laat het alleen door omdat TRIPMATE_PLUGINS_IGNORE_TREK_RANGE is ingesteld. De auteur heeft het versiebereik van de plugin niet bijgewerkt voor deze Trip Mate, dus er is geen garantie dat het werkt — en in zeldzame gevallen kan een niet-passende plugin Trip Mate-gegevens beschadigen. Ga alleen verder als je dat risico accepteert.',
   'admin.plugins.rangeBypass.bodyUnknown':
-    '“{name}” geeft niet op welke TREK-versies het ondersteunt; deze server draait {host}. TREK laat het alleen door omdat TREK_PLUGINS_IGNORE_TREK_RANGE is ingesteld. Niets wijst erop dat de auteur het op deze TREK heeft getest, dus er is geen garantie dat het werkt — en in zeldzame gevallen kan een niet-passende plugin TREK-gegevens beschadigen. Ga alleen verder als je dat risico accepteert.',
-  'admin.plugins.dep.trekBypassed': 'Buiten zijn TREK-bereik ({range}) — versiecontroles uit',
-  'admin.plugins.dep.trekBypassedUnknown': 'Geeft geen TREK-bereik op — versiecontroles uit',
+    '“{name}” geeft niet op welke Trip Mate-versies het ondersteunt; deze server draait {host}. Trip Mate laat het alleen door omdat TRIPMATE_PLUGINS_IGNORE_TREK_RANGE is ingesteld. Niets wijst erop dat de auteur het op deze Trip Mate heeft getest, dus er is geen garantie dat het werkt — en in zeldzame gevallen kan een niet-passende plugin Trip Mate-gegevens beschadigen. Ga alleen verder als je dat risico accepteert.',
+  'admin.plugins.dep.trekBypassed': 'Buiten zijn Trip Mate-bereik ({range}) — versiecontroles uit',
+  'admin.plugins.dep.trekBypassedUnknown': 'Geeft geen Trip Mate-bereik op — versiecontroles uit',
   'admin.plugins.incompatible': 'Niet compatibel',
   'admin.plugins.accessTitle': 'Waartoe hij toegang heeft',
   'admin.plugins.connectsTitle': 'Maakt verbinding met',
@@ -587,7 +586,7 @@ const admin: TranslationStrings = {
   'admin.plugins.metaReviewed': 'Beoordeeld op',
   'admin.plugins.downloads': 'Downloads',
   'admin.addons.title': 'Add-ons',
-  'admin.addons.subtitle': 'Schakel functies in of uit om je TREK-ervaring aan te passen.',
+  'admin.addons.subtitle': 'Schakel functies in of uit om je Trip Mate-ervaring aan te passen.',
   'admin.addons.catalog.memories.name': "Foto's (Immich)",
   'admin.addons.catalog.memories.description': "Deel reisfoto's via je Immich-instantie",
   'admin.addons.catalog.mcp.name': 'MCP',
@@ -605,7 +604,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.collab.name': 'Samenwerking',
   'admin.addons.catalog.collab.description': 'Notities, peilingen, chat en suggesties om samen te plannen',
   'admin.addons.catalog.roadtrip.name': 'Roadtrip',
-  'admin.addons.catalog.roadtrip.description': 'Plan ritten met tussenstops; rijtijden en aankomsttijden berekenen zichzelf opnieuw',
+  'admin.addons.catalog.roadtrip.description':
+    'Plan ritten met tussenstops; rijtijden en aankomsttijden berekenen zichzelf opnieuw',
   'admin.addons.subtitleBefore': 'Schakel functies in of uit om je ',
   'admin.addons.subtitleAfter': '-ervaring aan te passen.',
   'admin.addons.catalog.naver_list_import.name': 'Naver List Import',
@@ -616,7 +616,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.dawarich.description':
     'Lees bezoeken en opgenomen routes uit een Dawarich-instantie die elke lezer zelf koppelt',
   'admin.addons.catalog.llm_parsing.name': 'AI-analyse',
-  'admin.addons.catalog.llm_parsing.description': 'Leest boekingen die de ingebouwde parser niet begrijpt, met een AI-model naar keuze',
+  'admin.addons.catalog.llm_parsing.description':
+    'Leest boekingen die de ingebouwde parser niet begrijpt, met een AI-model naar keuze',
   'admin.addons.enabled': 'Ingeschakeld',
   'admin.addons.disabled': 'Uitgeschakeld',
   'admin.addons.type.trip': 'Reis',
@@ -632,7 +633,7 @@ const admin: TranslationStrings = {
   'admin.weather.title': 'Weergegevens',
   'admin.weather.badge': 'Sinds 24 maart 2026',
   'admin.weather.description':
-    'TREK gebruikt Open-Meteo als weerbron. Open-Meteo is een gratis, open-source weerdienst — geen API-sleutel vereist.',
+    'Trip Mate gebruikt Open-Meteo als weerbron. Open-Meteo is een gratis, open-source weerdienst — geen API-sleutel vereist.',
   'admin.weather.forecast': '16-daagse voorspelling',
   'admin.weather.forecastDesc': 'Voorheen 5 dagen (OpenWeatherMap)',
   'admin.weather.climate': 'Historische klimaatgegevens',
@@ -690,15 +691,16 @@ const admin: TranslationStrings = {
   'admin.github.hideDetails': 'Details verbergen',
   'admin.github.loadMore': 'Meer laden',
   'admin.github.loading': 'Laden...',
-  'admin.github.support': 'Helpt mij TREK verder te ontwikkelen',
+  'admin.github.support': 'Helpt mij Trip Mate verder te ontwikkelen',
   'admin.github.error': 'Releases laden mislukt',
   'admin.github.by': 'door',
   'admin.update.available': 'Update beschikbaar',
-  'admin.update.text': 'TREK {version} is beschikbaar. Je draait {current}.',
+  'admin.update.text': 'Trip Mate {version} is beschikbaar. Je draait {current}.',
   'admin.update.button': 'Bekijk op GitHub',
   'admin.update.install': 'Update installeren',
   'admin.update.confirmTitle': 'Update installeren?',
-  'admin.update.confirmText': 'TREK wordt bijgewerkt van {current} naar {version}. De server herstart automatisch.',
+  'admin.update.confirmText':
+    'Trip Mate wordt bijgewerkt van {current} naar {version}. De server herstart automatisch.',
   'admin.update.dataInfo':
     'Al je gegevens (reizen, gebruikers, API-sleutels, uploads, Vacay, Atlas, budgetten) worden bewaard.',
   'admin.update.warning': 'De app is kort niet beschikbaar tijdens het herstarten.',
@@ -710,9 +712,9 @@ const admin: TranslationStrings = {
   'admin.update.backupLink': 'Naar back-up',
   'admin.update.howTo': 'Hoe bij te werken',
   'admin.update.dockerText':
-    "Je TREK-instantie draait in Docker. Om bij te werken naar {version}, voer de volgende commando's uit op je server:",
+    "Je Trip Mate-instantie draait in Docker. Om bij te werken naar {version}, voer de volgende commando's uit op je server:",
   'admin.update.nonDockerText':
-    'Deze TREK-instantie draait niet in Docker. Om bij te werken naar {version}, voer de installatie- of updatemethode die je hebt gebruikt opnieuw uit — bij Proxmox Community Scripts voer je de update bijvoorbeeld uit vanuit de LXC-console:',
+    'Deze Trip Mate-instantie draait niet in Docker. Om bij te werken naar {version}, voer de installatie- of updatemethode die je hebt gebruikt opnieuw uit — bij Proxmox Community Scripts voer je de update bijvoorbeeld uit vanuit de LXC-console:',
   'admin.update.wikiLink': 'Open de updatehandleiding',
   'admin.update.reloadHint': 'Herlaad de pagina over een paar seconden.',
   'admin.tabs.permissions': 'Rechten',
@@ -743,7 +745,7 @@ const admin: TranslationStrings = {
     'Wordt ook gebruikt als standaardserver voor ntfy-meldingen van gebruikers. Laat leeg om ntfy.sh te gebruiken. Gebruikers kunnen dit aanpassen in hun eigen instellingen.',
   'admin.notifications.adminNtfyPanel.serverPlaceholder': 'https://ntfy.sh',
   'admin.notifications.adminNtfyPanel.topicLabel': 'Admin-onderwerp',
-  'admin.notifications.adminNtfyPanel.topicPlaceholder': 'trek-admin-alerts',
+  'admin.notifications.adminNtfyPanel.topicPlaceholder': 'tripmate-admin-alerts',
   'admin.notifications.adminNtfyPanel.tokenLabel': 'Toegangstoken (optioneel)',
   'admin.notifications.adminNtfyPanel.tokenCleared': 'Admin-toegangstoken gewist',
   'admin.notifications.adminNtfyPanel.saved': 'Admin-Ntfy-instellingen opgeslagen',
@@ -763,7 +765,8 @@ const admin: TranslationStrings = {
   'admin.addons.catalog.journey.name': 'Reisverslag',
   'admin.addons.catalog.journey.description': "Reistracking & reisdagboek met check-ins, foto's en dagelijkse verhalen",
   'admin.addons.catalog.collections.name': 'Collecties',
-  'admin.addons.catalog.collections.description': 'Verzamel plaatsen uit al je reizen in benoemde lijsten en gebruik ze opnieuw',
+  'admin.addons.catalog.collections.description':
+    'Verzamel plaatsen uit al je reizen in benoemde lijsten en gebruik ze opnieuw',
   'admin.passkey.title': 'Inloggen met passkey',
   'admin.passkey.cardHint': 'Laat gebruikers inloggen met passkeys (WebAuthn). Standaard uit.',
   'admin.passkey.login': 'Inloggen met passkey inschakelen',
@@ -773,10 +776,10 @@ const admin: TranslationStrings = {
     'Voor deze installatie wordt nog geen WebAuthn-domein herleid. Stel APP_URL of de Relying Party ID hieronder in — tot dan blijven passkeys verborgen.',
   'admin.passkey.rpId': 'Relying Party ID (domein)',
   'admin.passkey.rpIdHint':
-    'Het kale domein waaraan passkeys zijn gebonden, bijv. trek.example.org. Laat leeg om het af te leiden uit APP_URL. Als je dit later wijzigt, worden bestaande passkeys ongeldig.',
+    'Het kale domein waaraan passkeys zijn gebonden, bijv. tripmate.example.org. Laat leeg om het af te leiden uit APP_URL. Als je dit later wijzigt, worden bestaande passkeys ongeldig.',
   'admin.passkey.origins': 'Toegestane origins',
   'admin.passkey.originsHint':
-    "Volledige origins, gescheiden door komma's, bijv. https://trek.example.org. Laat leeg om APP_URL te gebruiken.",
+    "Volledige origins, gescheiden door komma's, bijv. https://tripmate.example.org. Laat leeg om APP_URL te gebruiken.",
   'admin.passkey.reset': 'Passkeys resetten',
   'admin.passkey.resetHint':
     'Verwijder alle passkeys van deze gebruiker (bijv. bij een verloren apparaat). Ze kunnen nog steeds inloggen met hun wachtwoord.',
@@ -808,8 +811,9 @@ const admin: TranslationStrings = {
     'De nieuwe gebruiker wordt automatisch aan deze reis toegevoegd wanneer hij zich via de link registreert.',
   'admin.invite.boundTo': 'voegt toe aan {trip}',
   'admin.placesUsageTitle': 'Waar de sleutel voor wordt gebruikt',
-  'admin.mapsKeyHintShort': 'Voegt foto\'s, beoordelingen en openingstijden toe. Elke opzoeking gaat dan naar Google.',
-  'admin.amapKeyHintShort': 'Voor plaatszoeken in het vasteland van China. Vereist een webservicesleutel, geen JS-API-sleutel.',
+  'admin.mapsKeyHintShort': "Voegt foto's, beoordelingen en openingstijden toe. Elke opzoeking gaat dan naar Google.",
+  'admin.amapKeyHintShort':
+    'Voor plaatszoeken in het vasteland van China. Vereist een webservicesleutel, geen JS-API-sleutel.',
   'admin.collab.links.subtitle': 'Gedeelde links en bladwijzers',
 };
 export default admin;

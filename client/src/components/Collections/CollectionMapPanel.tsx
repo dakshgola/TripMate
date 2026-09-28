@@ -1,6 +1,6 @@
 import React from 'react'
 import { PanelLeftClose, PanelLeftOpen, Search } from 'lucide-react'
-import type { CollectionPlace } from '@trek/shared'
+import type { CollectionPlace } from '@tripmate/shared'
 import type { TranslationFn } from '../../types'
 import CollectionMap from './CollectionMap'
 import CollectionLabelFilter, { type LabelOption } from './CollectionLabelFilter'

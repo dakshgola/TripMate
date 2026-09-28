@@ -20,16 +20,16 @@ describe('validateEnvAtBoot', () => {
         SESSION_DURATION: '12h',
         SESSION_DURATION_REMEMBER: '90d',
         DEFAULT_LANGUAGE: 'en',
-        APP_URL: 'https://trek.example.com',
-        ALLOWED_ORIGINS: 'https://trek.example.com',
+        APP_URL: 'https://tripmate.example.com',
+        ALLOWED_ORIGINS: 'https://tripmate.example.com',
         LOG_LEVEL: 'debug',
         TRUST_PROXY: '2',
-        OIDC_ISSUER: 'https://auth.example.com/realms/trek',
+        OIDC_ISSUER: 'https://auth.example.com/realms/tripmate',
         SMTP_PORT: '587',
         MCP_RATE_LIMIT: '100',
         BACKUP_UPLOAD_LIMIT_MB: '750',
-        TREK_PLUGINS_ENABLED: 'off',
-        TREK_PLUGIN_PERMISSIONS: 'on',
+        TRIPMATE_PLUGINS_ENABLED: 'off',
+        TRIPMATE_PLUGIN_PERMISSIONS: 'on',
       }),
     ).not.toThrow();
   });
@@ -63,7 +63,7 @@ describe('validateEnvAtBoot', () => {
   });
 
   it('ignores unknown environment variables', () => {
-    expect(() => validateEnvAtBoot({ SOME_OTHER_TOOLS_VAR: '!!not-a-trek-var!!' })).not.toThrow();
+    expect(() => validateEnvAtBoot({ SOME_OTHER_TOOLS_VAR: '!!not-a-tripmate-var!!' })).not.toThrow();
   });
 
   it('does not validate NODE_ENV (non-standard values must keep booting)', () => {
@@ -99,10 +99,10 @@ describe('validateEnvAtBoot', () => {
     ['IDEMPOTENCY_TTL_SECONDS', '0'],
     ['BACKUP_UPLOAD_LIMIT_MB', '0'],
     ['HSTS_INCLUDE_SUBDOMAINS', 'enabled'],
-    ['TREK_PLUGINS_ENABLED', 'maybe'],
-    ['TREK_PLUGINS_DEV_LINK', 'always'],
-    ['TREK_PLUGIN_PERMISSIONS', 'disabled'],
-    ['TREK_PLUGIN_MAX_RSS_MB', '-100'],
+    ['TRIPMATE_PLUGINS_ENABLED', 'maybe'],
+    ['TRIPMATE_PLUGINS_DEV_LINK', 'always'],
+    ['TRIPMATE_PLUGIN_PERMISSIONS', 'disabled'],
+    ['TRIPMATE_PLUGIN_MAX_RSS_MB', '-100'],
   ])('rejects malformed %s=%s', (key, value) => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
     expect(() => validateEnvAtBoot({ [key]: value })).toThrow(/Invalid environment configuration/);
@@ -110,8 +110,8 @@ describe('validateEnvAtBoot', () => {
 
   it.each([
     ['DEMO_MODE', 'TRUE'],
-    ['TREK_API_DOCS_ENABLED', ' TRUE '],
-    ['TREK_PLUGINS_ENABLED', ' OFF '],
+    ['TRIPMATE_API_DOCS_ENABLED', ' TRUE '],
+    ['TRIPMATE_PLUGINS_ENABLED', ' OFF '],
     ['DEFAULT_LANGUAGE', 'EN'],
     ['DEFAULT_LANGUAGE', 'zh-TW'],
     ['LOG_LEVEL', 'ERROR'],
@@ -122,13 +122,13 @@ describe('validateEnvAtBoot', () => {
 
   // Booleans accept the whole boolean-like family (true/false, 1/0, on/off,
   // yes/no) and derive to real booleans via parseBool — DEMO_MODE=yes enables
-  // demo mode, TREK_PLUGINS_DEV_LINK=true activates dev-link (see derive.test).
+  // demo mode, TRIPMATE_PLUGINS_DEV_LINK=true activates dev-link (see derive.test).
   it.each([
     ['DEMO_MODE', 'yes'],
     ['HSTS_INCLUDE_SUBDOMAINS', '1'],
-    ['TREK_PLUGINS_DEV_LINK', 'true'],
-    ['TREK_PLUGIN_PERMISSIONS', 'off'],
-    ['TREK_PLUGIN_ALLOW_PRIVATE_EGRESS', 'on'],
+    ['TRIPMATE_PLUGINS_DEV_LINK', 'true'],
+    ['TRIPMATE_PLUGIN_PERMISSIONS', 'off'],
+    ['TRIPMATE_PLUGIN_ALLOW_PRIVATE_EGRESS', 'on'],
     ['FORCE_HTTPS', 'On'],
   ])('accepts boolean-like %s=%s', (key, value) => {
     expect(() => validateEnvAtBoot({ [key]: value })).not.toThrow();
@@ -140,23 +140,23 @@ describe('validateEnvAtBoot — centrally administered preconditions', () => {
     vi.restoreAllMocks();
   });
 
-  it('MANAGED-BOOT-001: refuses TREK_MANAGED without ENCRYPTION_KEY', () => {
+  it('MANAGED-BOOT-001: refuses TRIPMATE_MANAGED without ENCRYPTION_KEY', () => {
     // The combination boots fine and is wrong: the at-rest key falls back to a
     // file in the data volume, and backupService puts that file in every archive
     // an instance admin can download.
     vi.spyOn(console, 'error').mockImplementation(() => {});
-    expect(() => validateEnvAtBoot({ TREK_MANAGED: '1' })).toThrow(/1 problem/);
+    expect(() => validateEnvAtBoot({ TRIPMATE_MANAGED: '1' })).toThrow(/1 problem/);
   });
 
   it('MANAGED-BOOT-002: names the variable, so the fix does not need the source', () => {
     const err = vi.spyOn(console, 'error').mockImplementation(() => {});
-    expect(() => validateEnvAtBoot({ TREK_MANAGED: 'true' })).toThrow();
+    expect(() => validateEnvAtBoot({ TRIPMATE_MANAGED: 'true' })).toThrow();
     expect(err.mock.calls[0][0]).toMatch(/ENCRYPTION_KEY/);
   });
 
   it('MANAGED-BOOT-003: passes once the key is supplied', () => {
     expect(() =>
-      validateEnvAtBoot({ TREK_MANAGED: '1', ENCRYPTION_KEY: 'a'.repeat(64) }),
+      validateEnvAtBoot({ TRIPMATE_MANAGED: '1', ENCRYPTION_KEY: 'a'.repeat(64) }),
     ).not.toThrow();
   });
 
@@ -164,15 +164,15 @@ describe('validateEnvAtBoot — centrally administered preconditions', () => {
     // The whole point of the check is that it cannot reach anyone who did not
     // ask to be centrally administered.
     expect(() => validateEnvAtBoot({})).not.toThrow();
-    expect(() => validateEnvAtBoot({ TREK_MANAGED: 'off' })).not.toThrow();
-    expect(() => validateEnvAtBoot({ TREK_MANAGED: 'false' })).not.toThrow();
+    expect(() => validateEnvAtBoot({ TRIPMATE_MANAGED: 'off' })).not.toThrow();
+    expect(() => validateEnvAtBoot({ TRIPMATE_MANAGED: 'false' })).not.toThrow();
   });
 
   it('MANAGED-BOOT-005: reports alongside schema problems rather than instead of them', () => {
     // Both kinds land in one report: fixing the env should take one pass, not a
     // restart per problem.
     const err = vi.spyOn(console, 'error').mockImplementation(() => {});
-    expect(() => validateEnvAtBoot({ TREK_MANAGED: '1', PORT: 'not-a-port' })).toThrow(
+    expect(() => validateEnvAtBoot({ TRIPMATE_MANAGED: '1', PORT: 'not-a-port' })).toThrow(
       /2 problems/,
     );
     expect(err.mock.calls[0][0]).toMatch(/PORT/);

@@ -9,7 +9,7 @@ import { METHOD_PERMISSION } from '../protocol/envelope';
  * HOST-bound acting user (not a value the plugin supplies) and a per-plugin hash
  * chain (hash = sha256(prev_hash + row)). That makes wide data grants
  * attributable, tamper-evident, and user-visible, which is exactly what lets
- * TREK grant broad reads to large addons without raising risk.
+ * Trip Mate grant broad reads to large addons without raising risk.
  */
 
 interface AuditDb {
@@ -79,13 +79,13 @@ export function isAuditable(method: string): boolean {
   return perm !== undefined && perm !== 'db:own';
 }
 
-// Per-plugin retention cap for the audit table — it lives in the SHARED trek.db, and a
+// Per-plugin retention cap for the audit table — it lives in the SHARED tripmate.db, and a
 // busy granted plugin at the sustained RPC rate could otherwise add a million rows a day
 // with no reclaim path. Default 20k rows/plugin (weeks of normal activity), env-tunable;
 // 0 disables pruning. Pruning is chain-SAFE: each retained row's hash still equals
 // sha256(its stored prev_hash + its content), so the retained window stays tamper-evident
 // — only continuity to a now-deleted genesis is lost, which is inherent to any retention.
-const MAX_AUDIT_ROWS = envInt('TREK_PLUGIN_AUDIT_MAX_ROWS', 20_000);
+const MAX_AUDIT_ROWS = envInt('TRIPMATE_PLUGIN_AUDIT_MAX_ROWS', 20_000);
 const PRUNE_EVERY = 500; // amortise the COUNT/DELETE over this many appends per plugin
 const appendsSincePrune = new Map<string, number>();
 

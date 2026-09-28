@@ -13,7 +13,7 @@ import {
  * The parameterized driver contract suite — the groundwork's real product
  * (spec, Testing). Every driver must pass it: LocalDriver and MirrorDriver in
  * v1; a future S3 driver imports this same suite (against MinIO/localstack)
- * and must pass before touching TREK code.
+ * and must pass before touching Trip Mate code.
  *
  * Not a `.test.ts` on purpose: vitest only collects files matching the
  * `*.test.ts` include, so this suite runs exclusively through a driver's own

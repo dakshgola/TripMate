@@ -5,7 +5,7 @@ import ErrorBoundary from '../shared/ErrorBoundary'
 import type { JourneyMapGLHandle } from './JourneyMapGL'
 
 import { JourneyMapGLMapbox, JourneyMapGLMaplibre } from '../Map/glLazy'
-import type { JourneyTrack } from '@trek/shared'
+import type { JourneyTrack } from '@tripmate/shared'
 
 // Unified handle — both providers expose the same three methods.
 export type JourneyMapAutoHandle = JourneyMapHandle

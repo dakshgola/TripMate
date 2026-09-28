@@ -1,5 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import type { SchoolHolidayCatalog, SchoolHolidayCountryRequest, SchoolHolidayPeriod, SchoolHolidayRegion, SchoolHolidayRegionDetail, SchoolHolidayRegionRequest } from '@trek/shared';
+import type { SchoolHolidayCatalog, SchoolHolidayCountryRequest, SchoolHolidayPeriod, SchoolHolidayRegion, SchoolHolidayRegionDetail, SchoolHolidayRegionRequest } from '@tripmate/shared';
 import { DatabaseService } from '../database/database.service';
 
 @Injectable()

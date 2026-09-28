@@ -134,10 +134,10 @@ export default function VacaySharedCalendars() {
 
       {/* Share Modal — Portal to body to avoid z-index issues */}
       {showShare && createPortal(
-        <div className="fixed inset-0 flex items-center justify-center px-4 trek-backdrop-enter bg-[rgba(15,23,42,0.5)]" style={{ zIndex: 99990, paddingTop: 70 }}
+        <div className="fixed inset-0 flex items-center justify-center px-4 tripmate-backdrop-enter bg-[rgba(15,23,42,0.5)]" style={{ zIndex: 99990, paddingTop: 70 }}
           role="presentation"
           onClick={() => setShowShare(false)}>
-          <div className="trek-modal-enter rounded-2xl shadow-2xl w-full max-w-sm bg-surface-card"
+          <div className="tripmate-modal-enter rounded-2xl shadow-2xl w-full max-w-sm bg-surface-card"
             role="presentation"
             onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between p-5 border-b border-edge-secondary">

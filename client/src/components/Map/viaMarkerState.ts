@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import type { RoadtripVia } from '@trek/shared'
+import type { RoadtripVia } from '@tripmate/shared'
 
 /**
  * The trip's via points as an array that only changes when a via does.

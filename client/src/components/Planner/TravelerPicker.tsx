@@ -1,5 +1,5 @@
 import { Check, Users } from 'lucide-react'
-import type { ReservationTraveler } from '@trek/shared'
+import type { ReservationTraveler } from '@tripmate/shared'
 import { SPLIT_COLORS } from '../Budget/BudgetPanel.constants'
 import type { TripMember } from '../Budget/BudgetPanelMemberChips'
 import GuestBadge from '../shared/GuestBadge'

@@ -5,7 +5,7 @@ import {
 } from '../../nest-mcp';
 import { McpToolGuardsService } from '../mcp-shared/mcp-tool-guards.service';
 import { z } from 'zod';
-import { NOTE_COLORS, type NoteColor } from '@trek/shared';
+import { NOTE_COLORS, type NoteColor } from '@tripmate/shared';
 import { AuthService } from '../auth/auth.service';
 import { noAccess, permissionDenied } from '../../mcp/tools/_shared';
 import { DayNotesService } from './day-notes.service';
@@ -26,7 +26,7 @@ function parseId(value: string | string[]): number | null {
 /**
  * Day-note MCP surface — ported 1:1 from the legacy registrars: the three
  * tools from the DAY NOTES block of src/mcp/tools/days.ts and the
- * trek://trips/{tripId}/days/{dayId}/notes resource from src/mcp/resources.ts
+ * tripmate://trips/{tripId}/days/{dayId}/notes resource from src/mcp/resources.ts
  * (identical names, descriptions, schemas, annotations, error/payload shapes
  * and broadcasts). The legacy registration-time gates map to the declarative
  * trips write/read access markers (registerDayTools' whole-registrar
@@ -132,7 +132,7 @@ export class DayNotesMcp {
 
   @ResourceTemplate({
     name: 'day-notes',
-    uriTemplate: 'trek://trips/{tripId}/days/{dayId}/notes',
+    uriTemplate: 'tripmate://trips/{tripId}/days/{dayId}/notes',
     description: 'Notes for a specific day in a trip',
     mimeType: 'application/json',
     access: { group: 'trips', mode: 'read' },

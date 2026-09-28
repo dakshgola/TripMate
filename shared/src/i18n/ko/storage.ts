@@ -11,14 +11,14 @@ const storage: TranslationStrings = {
   'storage.field.region': '리전',
   'storage.help.region': '제공업체가 특정 리전을 요구하지 않는 한 기본값을 유지하세요.',
   'storage.field.keyPrefix': '키 접두사',
-  'storage.help.keyPrefix': '모든 객체 키에 추가되는 선택적 접두사입니다. 예: trek/prod.',
+  'storage.help.keyPrefix': '모든 객체 키에 추가되는 선택적 접두사입니다. 예: tripmate/prod.',
   'storage.field.retries': '재시도 횟수',
   'storage.field.timeoutMs': '제한 시간(ms)',
   'storage.field.primary': '기본 백엔드',
   'storage.field.replicas': '복제본',
   'storage.title': '스토리지',
   'storage.description':
-    'TREK이 업로드된 파일, 사진, 백업을 보관하는 곳입니다. 저장하기 전까지는 아무것도 변경되지 않습니다.',
+    'Trip Mate이 업로드된 파일, 사진, 백업을 보관하는 곳입니다. 저장하기 전까지는 아무것도 변경되지 않습니다.',
   'storage.loading': '로딩 중…',
   'storage.saved': '스토리지 설정이 저장되었습니다',
   'storage.save': '변경 사항 저장',
@@ -64,7 +64,7 @@ const storage: TranslationStrings = {
   'storage.category.avatars': '프로필 사진',
   'storage.category.places': '장소 이미지',
   'storage.category.photos-google': 'Google 사진 캐시',
-  'storage.category.photos-trek': 'TREK 사진 캐시',
+  'storage.category.photos-tripmate': 'Trip Mate 사진 캐시',
   'storage.category.backups': '백업',
 
   // What each category stores — rendered under the label in the category map.
@@ -75,8 +75,8 @@ const storage: TranslationStrings = {
   'storage.categoryDesc.places': '장소 및 컬렉션 장소에 첨부된 이미지 — 업로드되었거나 가져온 것.',
   'storage.categoryDesc.photos-google':
     'Google Places 사진의 캐시된 사본 — 다시 가져올 수 있으므로 손실되어도 안전합니다.',
-  'storage.categoryDesc.photos-trek':
-    '사진(Memories) 기능이 사용하는 TREK 사진 서비스의 캐시된 사진 — 다시 가져올 수 있으므로 손실되어도 안전합니다.',
+  'storage.categoryDesc.photos-tripmate':
+    '사진(Memories) 기능이 사용하는 Trip Mate 사진 서비스의 캐시된 사진 — 다시 가져올 수 있으므로 손실되어도 안전합니다.',
   'storage.categoryDesc.backups': '백업 패널 또는 일정에 의해 생성된 서버 백업 아카이브.',
   'storage.health.title': '상태',
   'storage.health.allClear': '기록된 복제본 오류가 없습니다.',

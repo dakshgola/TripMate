@@ -34,7 +34,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -196,7 +196,7 @@ afterEach(async () => {
 
 /** A connected client over a fresh McpServer with the prompts registered for the given userId. */
 async function buildServer(userId: number, opts: { isStaticToken?: boolean } = {}): Promise<Client> {
-  const server = new McpServer({ name: 'trek-test', version: '1.0.0' });
+  const server = new McpServer({ name: 'tripmate-test', version: '1.0.0' });
   // Every prompt is DI-discovered now; attach them the way registerTools does in
   // production, including the isStaticToken flag the notice's `when` gate reads.
   createTestRegistry([tripsMcp, tripPromptsMcp, packingMcp, budgetMcp, authMcp], { accessPolicy: trekMcpAccessPolicy, validateAccess: trekMcpValidateAccess })

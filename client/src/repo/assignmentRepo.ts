@@ -1,4 +1,4 @@
-import { assignmentSchema } from '@trek/shared'
+import { assignmentSchema } from '@tripmate/shared'
 import { saveAssignmentEndDay } from '../api/assignmentEndDay'
 import { assignmentsApi } from '../api/client'
 import { offlineDb } from '../db/offlineDb'

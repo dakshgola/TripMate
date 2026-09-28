@@ -82,10 +82,10 @@ const oauth: TranslationStrings = {
   'oauth.authorize.loading': 'Loading…', // en-fallback
   'oauth.authorize.errorTitle': 'Authorization Error', // en-fallback
   'oauth.authorize.loginTitle': 'Sign in to continue', // en-fallback
-  'oauth.authorize.loginDescription': '{client} wants access to your TREK account. Please sign in first.', // en-fallback
-  'oauth.authorize.loginButton': 'Sign in to TREK', // en-fallback
+  'oauth.authorize.loginDescription': '{client} wants access to your Trip Mate account. Please sign in first.', // en-fallback
+  'oauth.authorize.loginButton': 'Sign in to Trip Mate', // en-fallback
   'oauth.authorize.requestLabel': 'Authorization Request', // en-fallback
-  'oauth.authorize.requestDescription': 'This application is requesting access to your TREK account.', // en-fallback
+  'oauth.authorize.requestDescription': 'This application is requesting access to your Trip Mate account.', // en-fallback
   'oauth.authorize.trustNote': 'Only grant access to applications you trust. Your data stays on your server.', // en-fallback
   'oauth.authorize.selectScope': 'Select at least one scope', // en-fallback
   'oauth.authorize.approveOneScope': 'Approve ({count} scope)', // en-fallback
@@ -100,17 +100,23 @@ const oauth: TranslationStrings = {
   'oauth.scope.group.files': 'Fájlok',
   'oauth.scope.group.settings': 'Beállítások',
   'oauth.scope.files:read.label': 'Az utazás fájljainak megtekintése',
-  'oauth.scope.files:read.description': 'Az utazás dokumentumainak listázása: nevek, méretek, ki töltötte fel és mihez kapcsolódnak',
+  'oauth.scope.files:read.description':
+    'Az utazás dokumentumainak listázása: nevek, méretek, ki töltötte fel és mihez kapcsolódnak',
   'oauth.scope.files:write.label': 'Az utazás fájljainak kezelése',
-  'oauth.scope.files:write.description': 'Fájlok átnevezése és leírása, foglalásokhoz és helyekhez kapcsolása, megjelölése és kukába helyezése',
+  'oauth.scope.files:write.description':
+    'Fájlok átnevezése és leírása, foglalásokhoz és helyekhez kapcsolása, megjelölése és kukába helyezése',
   'oauth.scope.files:content.label': 'Fájltartalom olvasása',
-  'oauth.scope.files:content.description': 'Feltöltött dokumentum tartalmának olvasása, például egy foglalási PDF vagy jegy',
+  'oauth.scope.files:content.description':
+    'Feltöltött dokumentum tartalmának olvasása, például egy foglalási PDF vagy jegy',
   'oauth.scope.settings:read.label': 'Beállítások megtekintése',
-  'oauth.scope.settings:read.description': 'Mértékegységek, időformátum, nyelv, alapértelmezett pénznem és kezdőoldal olvasása',
+  'oauth.scope.settings:read.description':
+    'Mértékegységek, időformátum, nyelv, alapértelmezett pénznem és kezdőoldal olvasása',
   'oauth.scope.settings:write.label': 'Beállítások módosítása',
-  'oauth.scope.settings:write.description': 'Mértékegységek, időformátum, nyelv, alapértelmezett pénznem és kezdőoldal módosítása. Soha nem a tárolt API-kulcsok',
+  'oauth.scope.settings:write.description':
+    'Mértékegységek, időformátum, nyelv, alapértelmezett pénznem és kezdőoldal módosítása. Soha nem a tárolt API-kulcsok',
   'oauth.scope.group.plugins': 'Bővítmények',
   'oauth.scope.plugins:use.label': 'Bővítményeszközök futtatása',
-  'oauth.scope.plugins:use.description': 'Engedélyezi, hogy ez az ügyfél meghívja a rendszergazda által telepített és jóváhagyott bővítmények eszközeit. Minden bővítmény a már megkapott jogosultságaival működik, nem a token hatóköreivel',
+  'oauth.scope.plugins:use.description':
+    'Engedélyezi, hogy ez az ügyfél meghívja a rendszergazda által telepített és jóváhagyott bővítmények eszközeit. Minden bővítmény a már megkapott jogosultságaival működik, nem a token hatóköreivel',
 };
 export default oauth;

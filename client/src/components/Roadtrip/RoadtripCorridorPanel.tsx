@@ -17,7 +17,7 @@ import { alongLabel, offRouteLabel } from './corridorSearchModel'
 import { CORRIDOR_CATEGORY_BY_KEY, manualStopKindFor } from './stopKinds'
 import { FS } from './typeScale'
 import { CORRIDOR_CATEGORY_KEYS, CORRIDOR_SECTION_KM, CORRIDOR_WIDTHS_KM, type RoadtripCorridor } from './useRoadtripCorridor'
-import type { RoadtripStopType } from '@trek/shared'
+import type { RoadtripStopType } from '@tripmate/shared'
 import type { CorridorPoi } from './useCorridorPois'
 import type { RoadtripRoutes } from './useRoadtripRoutes'
 
@@ -666,7 +666,7 @@ export default function RoadtripCorridorPanel({
 
         <div className="min-h-0 flex-1 overflow-y-auto px-2.5 pb-3">
           {grouped.length === 0 ? (
-            // The same empty state the rest of TREK uses, with the mascot acting out the
+            // The same empty state the rest of Trip Mate uses, with the mascot acting out the
             // scene. `search` while it is running, `idle` before anyone has asked, and a
             // confused look when a filter left nothing standing — the picture says which
             // of the three it is before the sentence is read.

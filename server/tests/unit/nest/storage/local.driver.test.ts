@@ -8,7 +8,7 @@ import { StorageInvalidKeyError } from '../../../../src/nest/storage/storage.typ
 import { describeStorageDriver, type DriverHarness } from './storage-driver.contract';
 
 function makeTmpDir(): string {
-  return fs.mkdtempSync(path.join(os.tmpdir(), 'trek-storage-'));
+  return fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-storage-'));
 }
 
 async function makeHarness(): Promise<DriverHarness> {
@@ -92,11 +92,11 @@ describe('LocalDriver specifics', () => {
   it('creates its root, spool, and category prefix dirs at init', () => {
     const root = path.join(tmp(), 'nested', 'uploads');
     const driver = new LocalDriver({ id: 'pfx', root });
-    driver.init({ ensurePrefixes: ['files', 'photos/trek'] });
+    driver.init({ ensurePrefixes: ['files', 'photos/tripmate'] });
 
     expect(fs.statSync(path.join(root, '.tmp')).isDirectory()).toBe(true);
     expect(fs.statSync(path.join(root, 'files')).isDirectory()).toBe(true);
-    expect(fs.statSync(path.join(root, 'photos/trek')).isDirectory()).toBe(true);
+    expect(fs.statSync(path.join(root, 'photos/tripmate')).isDirectory()).toBe(true);
   });
 
   it('falls back to copy+unlink when a temp-file rename crosses volumes (EXDEV)', async () => {

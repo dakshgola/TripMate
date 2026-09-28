@@ -52,7 +52,7 @@ export interface McpHarnessOptions {
 export async function createMcpHarness(options: McpHarnessOptions): Promise<McpHarness> {
   const { userId, withTools = true, scopes = null, isStaticToken = false, getDeprecationNotice, dynamicTools } = options;
 
-  const server = new McpServer({ name: 'trek-test', version: '1.0.0' });
+  const server = new McpServer({ name: 'tripmate-test', version: '1.0.0' });
 
   if (withTools) {
     // In production the transport service passes its injected

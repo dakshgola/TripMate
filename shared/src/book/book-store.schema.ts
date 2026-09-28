@@ -1,12 +1,13 @@
-import { z } from 'zod';
 import { bookDocumentSchema } from './book.schema';
+
+import { z } from 'zod';
 
 /**
  * Storing a book.
  *
  * ── Why a version rather than a lock ──────────────────────────────────────
  *
- * Everyone on a journey can open its book, and TREK's whole premise is that
+ * Everyone on a journey can open its book, and Trip Mate's whole premise is that
  * they are editing at once. A lock would mean one person at a time; a
  * last-write-wins save would mean the second person silently erases the first.
  *

@@ -44,9 +44,9 @@ export function nextStep(report: CheckReport): { command?: string; hint: string 
   }
   const first = report.errors[0];
   if (first) {
-    return { hint: `fix "${first.title}" above, then re-run \`trek-plugin status\`` };
+    return { hint: `fix "${first.title}" above, then re-run \`tripmate-plugin status\`` };
   }
-  return { command: 'trek-plugin publish --repo <owner/name> --tag v<x.y.z>', hint: 'everything checks out' };
+  return { command: 'tripmate-plugin publish --repo <owner/name> --tag v<x.y.z>', hint: 'everything checks out' };
 }
 
 export interface RenderOptions {

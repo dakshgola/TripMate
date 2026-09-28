@@ -2,7 +2,7 @@ import { useCallback, useMemo, useRef, useState } from 'react'
 import { calculateRouteWithLegs } from '../Map/RouteCalculator'
 import { lineLengthKm, parseTrack, planTrack, trackGapKm, type FollowTrackPlan } from './followTrack'
 import type { LatLng } from './corridor'
-import { isStoredStop } from '@trek/shared/roadtrip'
+import { isStoredStop } from '@tripmate/shared/roadtrip'
 import type { RoadtripRoutes } from './useRoadtripRoutes'
 import type { RoadtripVias } from './useRoadtripVias'
 

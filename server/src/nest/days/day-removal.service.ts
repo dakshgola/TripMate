@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { RoadtripDayBoundary } from '@trek/shared';
+import type { RoadtripDayBoundary } from '@tripmate/shared';
 import { DatabaseService } from '../database/database.service';
 import { AccommodationsService, type AccommodationMirror, type MirrorSender } from '../accommodations/accommodations.service';
 import { AssignmentsService } from '../assignments/assignments.service';

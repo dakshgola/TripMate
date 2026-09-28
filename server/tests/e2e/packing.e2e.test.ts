@@ -123,7 +123,7 @@ let checkPermission: MockInstance;
 import { PackingModule } from '../../src/nest/packing/packing.module';
 import { DatabaseModule } from '../../src/nest/database/database.module';
 import { RealtimeModule } from '../../src/nest/realtime/realtime.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 function insertItem(tripId: number, name: string, extra: Partial<{ sort_order: number; category: string; is_private: number; owner_id: number }> = {}): number {

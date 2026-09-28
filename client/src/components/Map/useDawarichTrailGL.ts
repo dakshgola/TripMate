@@ -1,15 +1,15 @@
 import { useEffect } from 'react'
 import type { Map } from 'mapbox-gl'
 import type { GeoJSONSource } from 'mapbox-gl'
-import type { DawarichTrack } from '@trek/shared'
+import type { DawarichTrack } from '@tripmate/shared'
 import { DAWARICH_TRAIL_CASING, trailGeoJson, trailSegments } from './dawarichTrail'
 
 /**
  * The recorded route on the GL renderer — the imperative twin of
  * `DawarichTrailLayer`.
  *
- * The ids start with `trek-` because `applySatellite` finds the first layer
- * whose id carries one of TREK's own prefixes and inserts the satellite tile
+ * The ids start with `tripmate-` because `applySatellite` finds the first layer
+ * whose id carries one of Trip Mate's own prefixes and inserts the satellite tile
  * beneath it. A layer named `dawarich-trail` would end up *under* the
  * satellite image and simply not be there when someone switched basemap on.
  *
@@ -17,9 +17,9 @@ import { DAWARICH_TRAIL_CASING, trailGeoJson, trailSegments } from './dawarichTr
  * and reassembled when the provider, the style or the token changes, and a
  * source added outside that effect does not survive it.
  */
-const SOURCE = 'trek-dawarich-trail'
-const CASING_LAYER = 'trek-dawarich-trail-casing'
-const LINE_LAYER = 'trek-dawarich-trail-line'
+const SOURCE = 'tripmate-dawarich-trail'
+const CASING_LAYER = 'tripmate-dawarich-trail-casing'
+const LINE_LAYER = 'tripmate-dawarich-trail-line'
 
 export function useDawarichTrailGL(
   map: Map | null,

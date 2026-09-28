@@ -41,7 +41,7 @@ const { testDb, dbMock, answers } = vi.hoisted(() => {
 
 vi.mock('../../src/db/database', () => dbMock);
 vi.mock('../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
   SESSION_DURATION: '24h',
@@ -70,7 +70,7 @@ import { runMigrations } from '../../src/db/migrations';
 import { resetTestDb, resetRateLimits } from '../helpers/test-db';
 import { createUser } from '../helpers/factories';
 
-const CLIENT_ID = 'trek-local';
+const CLIENT_ID = 'tripmate-local';
 const CLIENT_SECRET = 'local-secret';
 const EMAIL = 'lan-admin@home.test';
 
@@ -107,7 +107,7 @@ function answerJson(res: http.ServerResponse, status: number, body: unknown) {
 }
 
 function handle(req: http.IncomingMessage, res: http.ServerResponse) {
-  // The Host header carries the name TREK asked for, so one server plays every issuer.
+  // The Host header carries the name Trip Mate asked for, so one server plays every issuer.
   const issuer = `http://${req.headers.host}`;
   const url = new URL(req.url ?? '/', issuer);
   seen.push({ method: req.method ?? '', path: url.pathname, local: req.socket.localAddress ?? '' });
@@ -189,7 +189,7 @@ afterAll(async () => {
   testDb.close();
 });
 
-/** Point TREK at the provider under `host`, answering the name with `answer`. */
+/** Point Trip Mate at the provider under `host`, answering the name with `answer`. */
 function useIssuer(host: string, answer: { address: string; family: number }[]): string {
   answers.set(host, answer);
   const issuer = `http://${host}:${port}`;
@@ -230,10 +230,10 @@ describe('OIDC login against a provider whose name has an fe80:: record (#2506)'
       .get(`/api/auth/oidc/exchange?code=${oidcCode}`)
       .set('Cookie', `trek_oidc_exchange=${readCookie(cb, 'trek_oidc_exchange')}`);
     expect(exchange.status).toBe(200);
-    const session = readCookie(exchange, 'trek_session');
+    const session = readCookie(exchange, 'tripmate_session');
     expect(session).toBeTruthy();
 
-    const me = await request(app).get('/api/auth/me').set('Cookie', `trek_session=${session}`);
+    const me = await request(app).get('/api/auth/me').set('Cookie', `tripmate_session=${session}`);
     expect(me.status).toBe(200);
     expect(me.body.user).toMatchObject({ id: user.id, email: EMAIL });
 

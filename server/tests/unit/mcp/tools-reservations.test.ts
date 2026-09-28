@@ -25,7 +25,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -452,18 +452,18 @@ describe('Tool: link_hotel_accommodation', () => {
 });
 
 // ---------------------------------------------------------------------------
-// trek://trips/{tripId}/reservations resource (moved from the legacy
+// tripmate://trips/{tripId}/reservations resource (moved from the legacy
 // registerResources into the DI-discovered ReservationsMcp)
 // ---------------------------------------------------------------------------
 
-describe('Resource: trek://trips/{tripId}/reservations', () => {
+describe('Resource: tripmate://trips/{tripId}/reservations', () => {
   it('returns reservations for a trip', async () => {
     const { user } = createUser(testDb);
     const trip = createTrip(testDb, user.id);
     createReservation(testDb, trip.id, { title: 'Flight to Paris', type: 'flight' });
 
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/reservations` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/reservations` });
       const items = parseResourceResult(result) as { title: string }[];
       expect(items).toHaveLength(1);
       expect(items[0].title).toBe('Flight to Paris');
@@ -476,7 +476,7 @@ describe('Resource: trek://trips/{tripId}/reservations', () => {
     const trip = createTrip(testDb, other.id);
 
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/reservations` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/reservations` });
       const data = parseResourceResult(result) as { error?: string };
       expect(data.error).toBeTruthy();
     });

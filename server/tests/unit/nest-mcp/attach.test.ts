@@ -191,15 +191,15 @@ describe('McpRegistry.attach', () => {
 
   it('binds (args, ctx) and preserves `this` on tool handlers', async () => {
     harness = await createAttachHarness(buildRegistry(), { userId: 42, canRead: true, canWrite: true, allow: true });
-    const result = await harness.client.callTool({ name: 'read_tool', arguments: { name: 'trek' } });
-    expect(JSON.parse(textOf(result))).toEqual({ greeting: 'hello trek', userId: 42 });
+    const result = await harness.client.callTool({ name: 'read_tool', arguments: { name: 'tripmate' } });
+    expect(JSON.parse(textOf(result))).toEqual({ greeting: 'hello tripmate', userId: 42 });
   });
 
   it('refuses an argument the tool never declared instead of stripping it', async () => {
     harness = await createAttachHarness(buildRegistry(), { userId: 42, canRead: true, canWrite: true, allow: true });
     // A shape is registered strict: the SDK would otherwise drop `nmae` and run
     // the handler as if the caller had sent nothing wrong.
-    const refused = await harness.client.callTool({ name: 'read_tool', arguments: { name: 'trek', nmae: 'typo' } });
+    const refused = await harness.client.callTool({ name: 'read_tool', arguments: { name: 'tripmate', nmae: 'typo' } });
     expect(refused.isError).toBe(true);
     expect(textOf(refused)).toMatch(/Unrecognized key.*nmae/);
     // An empty shape is strict too: nothing declared means nothing accepted.
@@ -215,8 +215,8 @@ describe('McpRegistry.attach', () => {
 
   it('hands a whole schema to the SDK as written, however open its author left it', async () => {
     harness = await createAttachHarness(buildRegistry(), { userId: 42 });
-    const result = await harness.client.callTool({ name: 'loose_tool', arguments: { name: 'trek', extra: 'kept' } });
-    expect(JSON.parse(textOf(result))).toEqual({ args: { name: 'trek', extra: 'kept' }, userId: 42 });
+    const result = await harness.client.callTool({ name: 'loose_tool', arguments: { name: 'tripmate', extra: 'kept' } });
+    expect(JSON.parse(textOf(result))).toEqual({ args: { name: 'tripmate', extra: 'kept' }, userId: 42 });
     const loose = (await harness.client.listTools()).tools.find((t) => t.name === 'loose_tool');
     expect(loose?.inputSchema).not.toHaveProperty('additionalProperties', false);
   });

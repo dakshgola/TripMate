@@ -41,7 +41,7 @@ import { CurrentUser } from '../auth/current-user.decorator';
  * legacy route uses res.json, not 201); and the bespoke 403/404/502 bodies are
  * reproduced exactly. No addon gate — the legacy mount has none.
  *
- * Bodies validate against the @trek/shared vacay schemas via the DTO classes in
+ * Bodies validate against the @tripmate/shared vacay schemas via the DTO classes in
  * vacay.dto.ts + the global ZodValidationPipe (400 with the standard `{ error }`
  * envelope on mismatch — this replaced the bespoke 'region required' and
  * 'date required' checks). The 'user_id required' / 'Year required' guards stay:

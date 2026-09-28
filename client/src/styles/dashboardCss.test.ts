@@ -33,9 +33,9 @@ describe('dashboard css', () => {
     // boarding pass grew to the width of the word, and edit, clone, archive and
     // delete sat off the card. The grid column may not grow past the hero, and the
     // title breaks inside the card and stops at two lines.
-    expect(block('.trek-dash .hero-content {')).toMatch(/grid-template-columns:\s*minmax\(0,\s*1fr\)/)
-    expect(block('.trek-dash .hero-title-block {')).toMatch(/min-width:\s*0/)
-    const title = block('.trek-dash .hero-title {')
+    expect(block('.tripmate-dash .hero-content {')).toMatch(/grid-template-columns:\s*minmax\(0,\s*1fr\)/)
+    expect(block('.tripmate-dash .hero-title-block {')).toMatch(/min-width:\s*0/)
+    const title = block('.tripmate-dash .hero-title {')
     expect(title).toMatch(/overflow-wrap:\s*anywhere/)
     expect(title).toMatch(/-webkit-line-clamp:\s*2/)
     expect(title).toMatch(/overflow:\s*hidden/)
@@ -48,7 +48,7 @@ describe('dashboard css', () => {
     // padding the margin takes back, and the line-height has to keep a clipped
     // third line's plain ascenders below that padding, which 1.12 just does (an
     // accented capital on that third line still leaves a sliver, as at 0.9).
-    for (const selector of ['.trek-dash .hero-title {', '.trek-dash .trip-name {']) {
+    for (const selector of ['.tripmate-dash .hero-title {', '.tripmate-dash .trip-name {']) {
       const rule = block(selector)
       expect(rule, selector).toMatch(/overflow:\s*hidden/)
       expect(value(rule, 'line-height'), selector).toBeGreaterThanOrEqual(1.12)
@@ -61,7 +61,7 @@ describe('dashboard css', () => {
   it('FE-DASH-CSS-003: a grid or list card breaks a one-word title inside the cover and stops at two lines', () => {
     // The same title that stretched the hero was cut at the cover edge on every
     // card: the cover content is absolutely positioned and the cover clips.
-    const name = block('.trek-dash .trip-name {')
+    const name = block('.tripmate-dash .trip-name {')
     expect(name).toMatch(/overflow-wrap:\s*anywhere/)
     expect(name).toMatch(/-webkit-line-clamp:\s*2/)
   })
@@ -74,10 +74,10 @@ describe('dashboard css', () => {
     // type smaller, so there two fit. jsdom lays nothing out, so the row is
     // measured from the rules the browser would apply.
     const inherited = 1.5 // html's line-height; nothing in dashboard.css resets it
-    const badge = block('.trek-dash .trip-status {')
+    const badge = block('.tripmate-dash .trip-status {')
     const badgeBottom =
       value(badge, 'top') + 2 * value(badge, 'border') + 2 * value(badge, 'padding') + value(badge, 'font-size') * inherited
-    const name = block('.trek-dash .trip-name {')
+    const name = block('.tripmate-dash .trip-name {')
     // What the row ends up with: its own override where it has one, the shared
     // .trip-name rule otherwise.
     const shell = (rule: string, prop: string): number => number(rule, prop) ?? value(name, prop)
@@ -85,15 +85,15 @@ describe('dashboard css', () => {
     const rows = [
       {
         label: 'desktop',
-        cover: block('.trek-dash .trips.list-view .trip-cover {'),
-        content: block('.trek-dash .trip-cover-content {'),
-        row: block('.trek-dash .trips.list-view .trip-name {')
+        cover: block('.tripmate-dash .trips.list-view .trip-cover {'),
+        content: block('.tripmate-dash .trip-cover-content {'),
+        row: block('.tripmate-dash .trips.list-view .trip-name {')
       },
       {
         label: 'phone',
-        cover: within(phone(), '.trek-dash .trips.list-view .trip-cover {'),
-        content: within(phone(), '.trek-dash .trips.list-view .trip-cover-content {'),
-        row: within(phone(), '.trek-dash .trips.list-view .trip-name {')
+        cover: within(phone(), '.tripmate-dash .trips.list-view .trip-cover {'),
+        content: within(phone(), '.tripmate-dash .trips.list-view .trip-cover-content {'),
+        row: within(phone(), '.tripmate-dash .trips.list-view .trip-name {')
       }
     ]
 

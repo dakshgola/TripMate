@@ -58,7 +58,7 @@ vi.mock('../../src/db/database', () => ({
 
 // Own the calendar parts so we control the events and can assert which trips were pulled.
 const SAMPLE_EVENT =
-  'BEGIN:VEVENT\r\nUID:trek-trip-x@trek\r\nDTSTAMP:20260101T000000Z\r\n' +
+  'BEGIN:VEVENT\r\nUID:tripmate-trip-x@tripmate\r\nDTSTAMP:20260101T000000Z\r\n' +
   'DTSTART;VALUE=DATE:20260101\r\nDTEND;VALUE=DATE:20260102\r\nSUMMARY:Sample\r\nEND:VEVENT\r\n';
 const sampleCalendar = () => ({
   calName: 'Sample',
@@ -73,12 +73,12 @@ const buildTripCalendar = vi.fn();
 import { FeedsModule } from '../../src/nest/feeds/feeds.module';
 import { CalendarService } from '../../src/nest/calendar/calendar.service';
 import { RealtimeModule } from '../../src/nest/realtime/realtime.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { AppConfigModule } from '../../src/nest/app-config/app-config.module';
 import { GlobalAuthGuard } from '../../src/nest/auth/global-auth.guard';
 import { MfaPolicyGuard } from '../../src/nest/auth/mfa-policy.guard';
 
-const BASE = 'https://trek.example.test';
+const BASE = 'https://tripmate.example.test';
 
 describe('Calendar-feed e2e (real auth guard + temp SQLite)', () => {
   let server: Server;
@@ -331,7 +331,7 @@ describe('Calendar-feed e2e (real auth guard + temp SQLite)', () => {
       filename: 'zoned.ics',
       timezones: new Map([['Europe/Paris', PARIS_VTIMEZONE]]),
       events: [
-        'BEGIN:VEVENT\r\nUID:trek-res-1@trek\r\nDTSTAMP:20260101T000000Z\r\n' +
+        'BEGIN:VEVENT\r\nUID:tripmate-res-1@tripmate\r\nDTSTAMP:20260101T000000Z\r\n' +
           'DTSTART;TZID=Europe/Paris:20260602T090000\r\nSUMMARY:Flight\r\nEND:VEVENT\r\n',
       ],
     }));

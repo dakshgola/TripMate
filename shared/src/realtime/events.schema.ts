@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 /**
  * WS event contract registry — the single source of truth for every realtime
- * event TREK broadcasts (roadmap: "Tokenization & registries", paired with the
+ * event Trip Mate broadcasts (roadmap: "Tokenization & registries", paired with the
  * server's injectable RealtimeService facade).
  *
  * Wire envelopes (see server/src/websocket.ts):
@@ -58,7 +58,7 @@ export interface TrekWsEventContract {
   payload: z.ZodType;
 }
 
-export const TREK_WS_EVENTS = {
+export const TRIPMATE_WS_EVENTS = {
   // ── Places ────────────────────────────────────────────────────────────────
   'place:created': { scope: 'trip', payload: z.object({ place: entity }) },
   'place:updated': { scope: 'trip', payload: z.object({ place: entity }) },
@@ -403,20 +403,20 @@ export const TREK_WS_EVENTS = {
 } as const satisfies Record<string, TrekWsEventContract>;
 
 /** Every registered event name. The registry above is the count; this derives from it. */
-export type TrekWsEventName = keyof typeof TREK_WS_EVENTS;
+export type TrekWsEventName = keyof typeof TRIPMATE_WS_EVENTS;
 
 /** Names broadcast to a trip room (`{ type, tripId, ...payload }` envelope). */
 export type TrekWsTripEventName = {
-  [K in TrekWsEventName]: (typeof TREK_WS_EVENTS)[K]['scope'] extends 'trip' ? K : never;
+  [K in TrekWsEventName]: (typeof TRIPMATE_WS_EVENTS)[K]['scope'] extends 'trip' ? K : never;
 }[TrekWsEventName];
 
 /** Names sent to a single user's sockets (payload carries `type` itself). */
 export type TrekWsUserEventName = {
-  [K in TrekWsEventName]: (typeof TREK_WS_EVENTS)[K]['scope'] extends 'user' ? K : never;
+  [K in TrekWsEventName]: (typeof TRIPMATE_WS_EVENTS)[K]['scope'] extends 'user' ? K : never;
 }[TrekWsEventName];
 
 /** The payload contract for one event (the part beside type/tripId on the wire). */
-export type TrekWsPayload<E extends TrekWsEventName> = z.infer<(typeof TREK_WS_EVENTS)[E]['payload']>;
+export type TrekWsPayload<E extends TrekWsEventName> = z.infer<(typeof TRIPMATE_WS_EVENTS)[E]['payload']>;
 
 /**
  * The reserved plugin escape hatch: trip broadcasts are force-namespaced to
@@ -427,23 +427,23 @@ export type TrekWsPayload<E extends TrekWsEventName> = z.infer<(typeof TREK_WS_E
 export type TrekWsPluginEventName = `plugin:${string}`;
 
 /** All registered names, for runtime enumeration (client ratchet, audits). */
-export const TREK_WS_EVENT_NAMES = Object.keys(TREK_WS_EVENTS) as TrekWsEventName[];
+export const TRIPMATE_WS_EVENT_NAMES = Object.keys(TRIPMATE_WS_EVENTS) as TrekWsEventName[];
 
-/** Trip-scoped subset of {@link TREK_WS_EVENT_NAMES}. */
-export const TREK_WS_TRIP_EVENT_NAMES = TREK_WS_EVENT_NAMES.filter(
-  (name) => TREK_WS_EVENTS[name].scope === 'trip',
+/** Trip-scoped subset of {@link TRIPMATE_WS_EVENT_NAMES}. */
+export const TRIPMATE_WS_TRIP_EVENT_NAMES = TRIPMATE_WS_EVENT_NAMES.filter(
+  (name) => TRIPMATE_WS_EVENTS[name].scope === 'trip',
 ) as TrekWsTripEventName[];
 
-/** User-scoped subset of {@link TREK_WS_EVENT_NAMES}. */
-export const TREK_WS_USER_EVENT_NAMES = TREK_WS_EVENT_NAMES.filter(
-  (name) => TREK_WS_EVENTS[name].scope === 'user',
+/** User-scoped subset of {@link TRIPMATE_WS_EVENT_NAMES}. */
+export const TRIPMATE_WS_USER_EVENT_NAMES = TRIPMATE_WS_EVENT_NAMES.filter(
+  (name) => TRIPMATE_WS_EVENTS[name].scope === 'user',
 ) as TrekWsUserEventName[];
 
 // Compile-time lockstep: the trip/user unions must partition the full name
 // union exactly — fails `tsc` if a scope literal widens or a name lands in
 // neither bucket (same pattern as the MCP access-group gate).
 type AssertExact<A, B> = [A] extends [B] ? ([B] extends [A] ? true : never) : never;
-export const TREK_WS_SCOPES_PARTITION_EVENT_NAMES: AssertExact<
+export const TRIPMATE_WS_SCOPES_PARTITION_EVENT_NAMES: AssertExact<
   TrekWsTripEventName | TrekWsUserEventName,
   TrekWsEventName
 > = true;

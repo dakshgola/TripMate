@@ -404,7 +404,7 @@ describe('safeFetchFollow (manual per-hop redirect SSRF)', () => {
   // (Fetch, "HTTP-redirect fetch" step 13) — without this, converting a caller
   // that sends a bearer token to safeFetchFollow would have been a regression.
   describe('credentials and body across a hop', () => {
-    const authInit = { method: 'POST', headers: { Authorization: 'Bearer secret', 'X-Api-Key': 'k', 'User-Agent': 'TREK' }, body: 'payload' };
+    const authInit = { method: 'POST', headers: { Authorization: 'Bearer secret', 'X-Api-Key': 'k', 'User-Agent': 'Trip Mate' }, body: 'payload' };
     const headerOf = (call: unknown[], name: string) =>
       new Headers((call[1] as { headers?: ConstructorParameters<typeof Headers>[0] }).headers).get(name);
 
@@ -426,7 +426,7 @@ describe('safeFetchFollow (manual per-hop redirect SSRF)', () => {
       expect(headerOf(mockFetch.mock.calls[1], 'x-api-key')).toBeNull();
       // User-Agent is not a credential and must survive: the goo.gl chain needs
       // it on the last hop or Google serves a different page.
-      expect(headerOf(mockFetch.mock.calls[1], 'user-agent')).toBe('TREK');
+      expect(headerOf(mockFetch.mock.calls[1], 'user-agent')).toBe('Trip Mate');
     });
 
     it('keeps them on a same-origin hop', async () => {
@@ -463,12 +463,12 @@ describe('safeFetchFollow (manual per-hop redirect SSRF)', () => {
 
     it('leaves a GET alone on a 301', async () => {
       const mockFetch = twoHops('https://start.example/b', 301);
-      await safeFetchFollow('https://start.example/a', { headers: { 'User-Agent': 'TREK' } });
+      await safeFetchFollow('https://start.example/a', { headers: { 'User-Agent': 'Trip Mate' } });
       // No downgrade to apply: the request was already a GET, so the init keeps
       // its shape and the caller's own header rides along.
       expect((mockFetch.mock.calls[1][1] as RequestInit).method).toBeUndefined();
       expect((mockFetch.mock.calls[1][1] as RequestInit).body).toBeUndefined();
-      expect(headerOf(mockFetch.mock.calls[1], 'user-agent')).toBe('TREK');
+      expect(headerOf(mockFetch.mock.calls[1], 'user-agent')).toBe('Trip Mate');
     });
 
     it('keeps credentials when the caller opts in', async () => {
@@ -803,7 +803,7 @@ describe('ALLOW_LINK_LOCAL_IPS (#2400)', () => {
     const okFetch = vi.fn().mockResolvedValue({ status: 200, headers: new Headers() });
     vi.stubGlobal('fetch', okFetch);
 
-    await guard.safeFetchAdminConfigured('https://keycloak.example.com/realms/trek/.well-known/openid-configuration');
+    await guard.safeFetchAdminConfigured('https://keycloak.example.com/realms/tripmate/.well-known/openid-configuration');
 
     expect(okFetch).toHaveBeenCalledTimes(1);
 

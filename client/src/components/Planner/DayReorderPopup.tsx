@@ -147,7 +147,7 @@ export function DayReorderPopup({ isOpen, days, t, locale, onReorder, onAddDay, 
     <Modal isOpen={isOpen} onClose={close} title={t('dayplan.reorderTitle')} size="lg" align="top" footer={footer}>
       <div ref={bodyRef}>
         {asking ? (
-          <section aria-labelledby={titleId} aria-describedby={bodyId} className="trek-page-enter">
+          <section aria-labelledby={titleId} aria-describedby={bodyId} className="tripmate-page-enter">
             <div className="flex items-start gap-3">
               <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-danger-soft text-danger">
                 <AlertTriangle size={16} strokeWidth={2} aria-hidden="true" />

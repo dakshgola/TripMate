@@ -1,4 +1,4 @@
-import type { BookElement, JourneyStats } from '@trek/shared'
+import type { BookElement, JourneyStats } from '@tripmate/shared'
 
 /**
  * Keeping a travel element in step with the journey it came from.

@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import type { BookRecord, BookSummary } from '@trek/shared';
-import { normalizeBookDocument } from '@trek/shared';
+import type { BookRecord, BookSummary } from '@tripmate/shared';
+import { normalizeBookDocument } from '@tripmate/shared';
 import { DatabaseService } from '../database/database.service';
 import { JourneyDomainService } from './journey-domain.service';
 
 /**
- * Storing TREK Studio books.
+ * Storing Trip Mate Studio books.
  *
  * ── Access ───────────────────────────────────────────────────────────────
  *
@@ -185,7 +185,7 @@ export class JourneyBookService {
    * Broadcasting a few hundred kilobytes of JSON on every autosave would make
    * the notification the size of the thing being edited.
    *
-   * The saver is excluded by socket id, the same way every other TREK mutation
+   * The saver is excluded by socket id, the same way every other Trip Mate mutation
    * does it, so the client that just saved does not process its own change.
    */
   broadcastSaved(journeyId: number, userId: number, record: BookRecord, socketId?: string) {

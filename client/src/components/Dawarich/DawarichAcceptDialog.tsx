@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { Gauge, Hourglass, CircleDashed, Star } from 'lucide-react'
-import type { DawarichAccept, DawarichSuggestion, DawarichSuggestionTarget } from '@trek/shared'
-import { DAWARICH_BUCKET_MATCH_MIN_MINUTES, DAWARICH_BUCKET_MATCH_RADIUS_M } from '@trek/shared'
+import type { DawarichAccept, DawarichSuggestion, DawarichSuggestionTarget } from '@tripmate/shared'
+import { DAWARICH_BUCKET_MATCH_MIN_MINUTES, DAWARICH_BUCKET_MATCH_RADIUS_M } from '@tripmate/shared'
 import { useTranslation } from '../../i18n'
 import Modal from '../shared/Modal'
 import MSheet from '../../mobile/components/MSheet'
@@ -198,7 +198,7 @@ export default function DawarichAcceptDialog({
           />
         </div>
 
-        {/* TREK's own pickers, not the browser's. A native `type="date"` paints
+        {/* Trip Mate's own pickers, not the browser's. A native `type="date"` paints
             itself from the OS locale and a native `type="time"` ignores the 12h/24h
             setting outright (#2067) — and neither follows the colour scheme. The
             date column is the wide one because a localized date is long and a

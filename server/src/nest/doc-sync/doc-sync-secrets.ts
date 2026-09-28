@@ -1,4 +1,4 @@
-import { DOCSYNC_SECRET_MASK } from '@trek/shared';
+import { DOCSYNC_SECRET_MASK } from '@tripmate/shared';
 import { decrypt_api_key, maybe_encrypt_api_key } from '../common/crypto/apiKeyCrypto';
 
 /**

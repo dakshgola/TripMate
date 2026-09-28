@@ -2,13 +2,13 @@
  * Admin recovery — reset (or create) an admin account when you are locked out.
  *
  * Usage inside the container:
- *   docker exec -it trek node server/reset-admin.js
- *   docker exec -it -e RESET_ADMIN_EMAIL=me@example.com -e RESET_ADMIN_PASSWORD=secret trek node server/reset-admin.js
+ *   docker exec -it tripmate node server/reset-admin.js
+ *   docker exec -it -e RESET_ADMIN_EMAIL=me@example.com -e RESET_ADMIN_PASSWORD=secret tripmate node server/reset-admin.js
  *
- * Defaults to admin@trek.local with a generated password (printed below). The
+ * Defaults to admin@tripmate.local with a generated password (printed below). The
  * account is flagged must_change_password, so you are prompted to set a new one
- * on first login. Honours TREK_DB_FILE, TREK_DB_JOURNAL_MODE and
- * TREK_DB_SYNCHRONOUS the same way the server does.
+ * on first login. Honours TRIPMATE_DB_FILE, TRIPMATE_DB_JOURNAL_MODE and
+ * TRIPMATE_DB_SYNCHRONOUS the same way the server does.
  */
 const path = require('path');
 const crypto = require('crypto');
@@ -18,7 +18,7 @@ const bcrypt = require('bcryptjs');
 // Kept in sync with the seeder/authService cost factor.
 const BCRYPT_COST = 12;
 
-const email = process.env.RESET_ADMIN_EMAIL || 'admin@trek.local';
+const email = process.env.RESET_ADMIN_EMAIL || 'admin@tripmate.local';
 const password = process.env.RESET_ADMIN_PASSWORD || crypto.randomBytes(12).toString('base64url');
 const generated = !process.env.RESET_ADMIN_PASSWORD;
 
@@ -31,20 +31,20 @@ const generated = !process.env.RESET_ADMIN_PASSWORD;
 const journalModes = ['DELETE', 'TRUNCATE', 'PERSIST', 'MEMORY', 'WAL', 'OFF'];
 const syncLevels = ['OFF', 'NORMAL', 'FULL', 'EXTRA'];
 
-const wantedJournal = (process.env.TREK_DB_JOURNAL_MODE || '').trim().toUpperCase();
+const wantedJournal = (process.env.TRIPMATE_DB_JOURNAL_MODE || '').trim().toUpperCase();
 const journalMode = journalModes.includes(wantedJournal) ? wantedJournal : 'WAL';
 if (wantedJournal && journalMode !== wantedJournal) {
-  console.warn(`TREK_DB_JOURNAL_MODE="${process.env.TREK_DB_JOURNAL_MODE}" is not a SQLite journal mode — using ${journalMode}.`);
+  console.warn(`TRIPMATE_DB_JOURNAL_MODE="${process.env.TRIPMATE_DB_JOURNAL_MODE}" is not a SQLite journal mode — using ${journalMode}.`);
 }
 
-const wantedSync = (process.env.TREK_DB_SYNCHRONOUS || '').trim().toUpperCase();
+const wantedSync = (process.env.TRIPMATE_DB_SYNCHRONOUS || '').trim().toUpperCase();
 const defaultSync = journalMode === 'WAL' ? 'NORMAL' : 'FULL';
 const synchronous = syncLevels.includes(wantedSync) ? wantedSync : defaultSync;
 if (wantedSync && synchronous !== wantedSync) {
-  console.warn(`TREK_DB_SYNCHRONOUS="${process.env.TREK_DB_SYNCHRONOUS}" is not a SQLite synchronous level — using ${synchronous}.`);
+  console.warn(`TRIPMATE_DB_SYNCHRONOUS="${process.env.TRIPMATE_DB_SYNCHRONOUS}" is not a SQLite synchronous level — using ${synchronous}.`);
 }
 
-const dbPath = process.env.TREK_DB_FILE || path.join(__dirname, 'data/travel.db');
+const dbPath = process.env.TRIPMATE_DB_FILE || path.join(__dirname, 'data/travel.db');
 const db = new Database(dbPath);
 // Spelled out rather than left to better-sqlite3's default, so switching the
 // journal mode below waits for a busy server instead of failing on the spot.

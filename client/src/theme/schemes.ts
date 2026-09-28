@@ -1,4 +1,4 @@
-import type { AppearanceSchemeId } from '@trek/shared'
+import type { AppearanceSchemeId } from '@tripmate/shared'
 
 /**
  * Color-scheme registry for the appearance picker. The actual token values live

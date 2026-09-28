@@ -47,7 +47,7 @@ const MD_PROBE = '@@md-probe';
 function MarkdownOverrideProbe({ c }: { c: MarkdownOverrides }) {
   return (
     <span data-testid="md-parts">
-      <c.a href="https://trek.app/changelog">changelog</c.a>
+      <c.a href="https://tripmate.app/changelog">changelog</c.a>
       <c.p>{'— Maurice'}</c.p>
       <c.p>{['— Julien', <em key="mark">!</em>]}</c.p>
       <c.p>{'— a closing line that runs past the signature length limit'}</c.p>
@@ -289,13 +289,13 @@ describe('ModalRenderer', () => {
   it('FE-SN-MODAL-007: body params are interpolated before rendering', async () => {
     const notice = makeNotice({
       bodyKey: 'Hello {name}, welcome to {app}',
-      bodyParams: { name: 'Alice', app: 'TREK' },
+      bodyParams: { name: 'Alice', app: 'Trip Mate' },
     });
     render(<ModalRenderer notices={[notice]} />);
 
     await flushGraceDelay();
 
-    expect(screen.getByText('Hello Alice, welcome to TREK')).toBeTruthy();
+    expect(screen.getByText('Hello Alice, welcome to Trip Mate')).toBeTruthy();
   });
 
   it('FE-SN-MODAL-057: a body param is inserted literally, not as a replacement pattern', async () => {
@@ -699,7 +699,7 @@ describe('ModalRenderer', () => {
     const parts = screen.getByTestId('md-parts');
 
     const link = parts.querySelector('a') as HTMLAnchorElement;
-    expect(link.getAttribute('href')).toBe('https://trek.app/changelog');
+    expect(link.getAttribute('href')).toBe('https://tripmate.app/changelog');
     expect(link.getAttribute('target')).toBe('_blank');
     expect(link.getAttribute('rel')).toBe('noopener noreferrer');
 
@@ -753,8 +753,8 @@ describe('ModalRenderer', () => {
     vi.spyOn(window, 'open').mockImplementation(() => null);
     const notice = makeNotice({
       id: 'brands',
-      cta: { kind: 'link', href: 'https://buymeacoffee.com/trek', labelKey: 'Buy me a coffee' },
-      secondaryCta: { kind: 'link', href: 'https://ko-fi.com/trek', labelKey: 'Ko-fi' },
+      cta: { kind: 'link', href: 'https://buymeacoffee.com/tripmate', labelKey: 'Buy me a coffee' },
+      secondaryCta: { kind: 'link', href: 'https://ko-fi.com/tripmate', labelKey: 'Ko-fi' },
     });
     render(<ModalRenderer notices={[notice]} />);
     await flushGraceDelay();
@@ -771,7 +771,7 @@ describe('ModalRenderer', () => {
     vi.spyOn(window, 'open').mockImplementation(() => null);
     const notice = makeNotice({
       id: 'kofi-alt',
-      cta: { kind: 'link', href: 'https://kofi.example/trek', labelKey: 'Ko-fi' },
+      cta: { kind: 'link', href: 'https://kofi.example/tripmate', labelKey: 'Ko-fi' },
     });
     render(<ModalRenderer notices={[notice]} />);
     await flushGraceDelay();

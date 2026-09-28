@@ -1,4 +1,4 @@
-import { escapeHtml } from '@trek/shared'
+import { escapeHtml } from '@tripmate/shared'
 
 /**
  * The card a journey marker shows: what the entry is called, where and when, and
@@ -58,18 +58,18 @@ export function journeyPopupHtml({ title, place, date, photoUrls = [] }: Journey
   // Columns from the count, not a fixed three: two pictures should fill the card,
   // not sit next to a gap where a third would have gone.
   const photos = shots.length
-    ? `<div class="trek-journey-popup-shots${shots.length === 1 ? ' is-single' : ''}" style="grid-template-columns:repeat(${shots.length},1fr)">${shots
-        .map((url, i) => `<span class="trek-journey-popup-shot" ${SHOT_INDEX_ATTR}="${i}" style="background-image:url('${escapeHtml(url)}')"></span>`)
+    ? `<div class="tripmate-journey-popup-shots${shots.length === 1 ? ' is-single' : ''}" style="grid-template-columns:repeat(${shots.length},1fr)">${shots
+        .map((url, i) => `<span class="tripmate-journey-popup-shot" ${SHOT_INDEX_ATTR}="${i}" style="background-image:url('${escapeHtml(url)}')"></span>`)
         .join('')}</div>`
     : ''
 
   const chips: string[] = []
-  if (place) chips.push(`<span class="trek-journey-popup-chip trek-journey-popup-place">${PIN_ICON}<span>${escapeHtml(place)}</span></span>`)
-  if (date) chips.push(`<span class="trek-journey-popup-chip trek-journey-popup-date">${CAL_ICON}<span>${escapeHtml(date)}</span></span>`)
+  if (place) chips.push(`<span class="tripmate-journey-popup-chip tripmate-journey-popup-place">${PIN_ICON}<span>${escapeHtml(place)}</span></span>`)
+  if (date) chips.push(`<span class="tripmate-journey-popup-chip tripmate-journey-popup-date">${CAL_ICON}<span>${escapeHtml(date)}</span></span>`)
 
   return `${photos}
-      <div class="trek-journey-popup-title">${escapeHtml(title)}</div>
-      ${chips.length ? `<div class="trek-journey-popup-sub">${chips.join('')}</div>` : ''}`
+      <div class="tripmate-journey-popup-title">${escapeHtml(title)}</div>
+      ${chips.length ? `<div class="tripmate-journey-popup-sub">${chips.join('')}</div>` : ''}`
 }
 
 // Inline rather than the lucide components: this markup lives outside React's tree.
@@ -82,25 +82,25 @@ const CAL_ICON =
  * Inject the card's styles once per document.
  *
  * A stylesheet rather than inline styles because the card has states (dark, the
- * single-photo strip) and two hosts. `.trek-journey-popup` is MapLibre's popup
- * shell; `.trek-journey-tooltip` is Leaflet's, whose own chrome is stripped back
+ * single-photo strip) and two hosts. `.tripmate-journey-popup` is MapLibre's popup
+ * shell; `.tripmate-journey-tooltip` is Leaflet's, whose own chrome is stripped back
  * so the card inside provides all of it.
  */
 export function ensureJourneyPopupStyle(): void {
-  if (document.getElementById('trek-journey-popup-style')) return
+  if (document.getElementById('tripmate-journey-popup-style')) return
   const s = document.createElement('style')
-  s.id = 'trek-journey-popup-style'
+  s.id = 'tripmate-journey-popup-style'
   s.textContent = `
-    .mapboxgl-popup.trek-journey-popup,
-    .maplibregl-popup.trek-journey-popup { pointer-events: none; animation: trek-journey-popup-in 180ms ease-out; }
+    .mapboxgl-popup.tripmate-journey-popup,
+    .maplibregl-popup.tripmate-journey-popup { pointer-events: none; animation: tripmate-journey-popup-in 180ms ease-out; }
     /* The card as a whole never takes the pointer — it sits over the map and would
        swallow drags. The photo strip is the one exception, and only where the host
        wired a handler for it. */
-    .trek-journey-popup.is-interactive .trek-journey-popup-shots { pointer-events: auto; cursor: zoom-in; }
-    .trek-journey-popup.is-interactive .trek-journey-popup-shot:hover { filter: brightness(1.06); }
-    .mapboxgl-popup.trek-journey-popup .mapboxgl-popup-content,
-    .maplibregl-popup.trek-journey-popup .maplibregl-popup-content,
-    .leaflet-tooltip.trek-journey-tooltip {
+    .tripmate-journey-popup.is-interactive .tripmate-journey-popup-shots { pointer-events: auto; cursor: zoom-in; }
+    .tripmate-journey-popup.is-interactive .tripmate-journey-popup-shot:hover { filter: brightness(1.06); }
+    .mapboxgl-popup.tripmate-journey-popup .mapboxgl-popup-content,
+    .maplibregl-popup.tripmate-journey-popup .maplibregl-popup-content,
+    .leaflet-tooltip.tripmate-journey-tooltip {
       padding: 9px 14px 10px;
       border-radius: 14px;
       background: rgba(255, 255, 255, 0.94);
@@ -114,27 +114,27 @@ export function ensureJourneyPopupStyle(): void {
       white-space: normal;
     }
     /* Leaflet paints its own tip and font on the tooltip; the card supplies both. */
-    .leaflet-tooltip.trek-journey-tooltip { color: #18181B; font-weight: 400; }
-    .leaflet-tooltip.trek-journey-tooltip::before { display: none; }
-    .mapboxgl-popup.trek-journey-popup.trek-dark .mapboxgl-popup-content,
-    .maplibregl-popup.trek-journey-popup.trek-dark .maplibregl-popup-content,
-    .dark .leaflet-tooltip.trek-journey-tooltip {
+    .leaflet-tooltip.tripmate-journey-tooltip { color: #18181B; font-weight: 400; }
+    .leaflet-tooltip.tripmate-journey-tooltip::before { display: none; }
+    .mapboxgl-popup.tripmate-journey-popup.tripmate-dark .mapboxgl-popup-content,
+    .maplibregl-popup.tripmate-journey-popup.tripmate-dark .maplibregl-popup-content,
+    .dark .leaflet-tooltip.tripmate-journey-tooltip {
       background: rgba(24, 24, 27, 0.88);
       border-color: rgba(255, 255, 255, 0.08);
       color: #FAFAFA;
     }
-    .mapboxgl-popup.trek-journey-popup .mapboxgl-popup-tip,
-    .maplibregl-popup.trek-journey-popup .maplibregl-popup-tip {
+    .mapboxgl-popup.tripmate-journey-popup .mapboxgl-popup-tip,
+    .maplibregl-popup.tripmate-journey-popup .maplibregl-popup-tip {
       border-top-color: rgba(255, 255, 255, 0.94);
       border-bottom-color: rgba(255, 255, 255, 0.94);
     }
-    .mapboxgl-popup.trek-journey-popup.trek-dark .mapboxgl-popup-tip,
-    .maplibregl-popup.trek-journey-popup.trek-dark .mapboxgl-popup-tip {
+    .mapboxgl-popup.tripmate-journey-popup.tripmate-dark .mapboxgl-popup-tip,
+    .maplibregl-popup.tripmate-journey-popup.tripmate-dark .mapboxgl-popup-tip {
       border-top-color: rgba(24, 24, 27, 0.88);
       border-bottom-color: rgba(24, 24, 27, 0.88);
     }
-    .mapboxgl-popup.trek-journey-popup .mapboxgl-popup-close-button,
-    .maplibregl-popup.trek-journey-popup .maplibregl-popup-close-button { display: none; }
+    .mapboxgl-popup.tripmate-journey-popup .mapboxgl-popup-close-button,
+    .maplibregl-popup.tripmate-journey-popup .maplibregl-popup-close-button { display: none; }
     /* A glimpse of the entry's own pictures, above its name. Backgrounds rather
        than <img>: no layout shift while they load, and no broken-image glyph if
        one 404s — the strip just stays the placeholder grey.
@@ -142,27 +142,27 @@ export function ensureJourneyPopupStyle(): void {
        Out to the card's edges via negative margins, and the rounding lives on the
        strip rather than on each tile: the two corners that meet the card's top are
        round, the edges where two pictures touch stay square. */
-    .trek-journey-popup-shots {
+    .tripmate-journey-popup-shots {
       display: grid;
       gap: 2px;
       margin: -9px -14px 9px;
       border-radius: 13px 13px 0 0;
       overflow: hidden;
     }
-    .trek-journey-popup-shot {
+    .tripmate-journey-popup-shot {
       display: block;
       height: 62px;
       background-color: rgba(0, 0, 0, 0.06);
       background-size: cover;
       background-position: center;
     }
-    .trek-journey-popup-shots.is-single .trek-journey-popup-shot { height: 96px; }
-    .mapboxgl-popup.trek-journey-popup.trek-dark .trek-journey-popup-shot,
-    .maplibregl-popup.trek-journey-popup.trek-dark .trek-journey-popup-shot,
-    .dark .leaflet-tooltip.trek-journey-tooltip .trek-journey-popup-shot {
+    .tripmate-journey-popup-shots.is-single .tripmate-journey-popup-shot { height: 96px; }
+    .mapboxgl-popup.tripmate-journey-popup.tripmate-dark .tripmate-journey-popup-shot,
+    .maplibregl-popup.tripmate-journey-popup.tripmate-dark .tripmate-journey-popup-shot,
+    .dark .leaflet-tooltip.tripmate-journey-tooltip .tripmate-journey-popup-shot {
       background-color: rgba(255, 255, 255, 0.08);
     }
-    .trek-journey-popup-title {
+    .tripmate-journey-popup-title {
       font-size: 13.5px;
       font-weight: 600;
       letter-spacing: -0.01em;
@@ -172,12 +172,12 @@ export function ensureJourneyPopupStyle(): void {
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .mapboxgl-popup.trek-journey-popup.trek-dark .trek-journey-popup-title,
-    .maplibregl-popup.trek-journey-popup.trek-dark .trek-journey-popup-title,
-    .dark .leaflet-tooltip.trek-journey-tooltip .trek-journey-popup-title { color: #FAFAFA; }
+    .mapboxgl-popup.tripmate-journey-popup.tripmate-dark .tripmate-journey-popup-title,
+    .maplibregl-popup.tripmate-journey-popup.tripmate-dark .tripmate-journey-popup-title,
+    .dark .leaflet-tooltip.tripmate-journey-tooltip .tripmate-journey-popup-title { color: #FAFAFA; }
     /* Place and date as their own chips rather than one grey line divided by a
        middle dot: two different kinds of fact should not read as one sentence. */
-    .trek-journey-popup-sub {
+    .tripmate-journey-popup-sub {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
@@ -185,7 +185,7 @@ export function ensureJourneyPopupStyle(): void {
       margin-top: 6px;
       line-height: 1;
     }
-    .trek-journey-popup-chip {
+    .tripmate-journey-popup-chip {
       display: inline-flex;
       align-items: center;
       gap: 4px;
@@ -198,17 +198,17 @@ export function ensureJourneyPopupStyle(): void {
       font-weight: 600;
       white-space: nowrap;
     }
-    .mapboxgl-popup.trek-journey-popup.trek-dark .trek-journey-popup-chip,
-    .maplibregl-popup.trek-journey-popup.trek-dark .trek-journey-popup-chip,
-    .dark .leaflet-tooltip.trek-journey-tooltip .trek-journey-popup-chip {
+    .mapboxgl-popup.tripmate-journey-popup.tripmate-dark .tripmate-journey-popup-chip,
+    .maplibregl-popup.tripmate-journey-popup.tripmate-dark .tripmate-journey-popup-chip,
+    .dark .leaflet-tooltip.tripmate-journey-tooltip .tripmate-journey-popup-chip {
       background: rgba(255, 255, 255, 0.1);
       color: #D4D4D8;
     }
-    .trek-journey-popup-chip svg { flex: 0 0 auto; opacity: 0.7; }
-    .trek-journey-popup-chip span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
-    .trek-journey-popup-place { min-width: 0; }
-    .trek-journey-popup-date { flex: 0 0 auto; }
-    @keyframes trek-journey-popup-in {
+    .tripmate-journey-popup-chip svg { flex: 0 0 auto; opacity: 0.7; }
+    .tripmate-journey-popup-chip span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+    .tripmate-journey-popup-place { min-width: 0; }
+    .tripmate-journey-popup-date { flex: 0 0 auto; }
+    @keyframes tripmate-journey-popup-in {
       from { opacity: 0; }
       to { opacity: 1; }
     }

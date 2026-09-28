@@ -2,11 +2,11 @@
 
 ## "Access token required" when changing password on first login
 
-**Cause:** The session cookie has the `Secure` flag set, which means the browser will only send it over HTTPS. When accessing TREK over plain HTTP (e.g. `http://192.168.1.x:3000`), the browser silently drops the cookie and the server sees no session — returning "Access token required".
+**Cause:** The session cookie has the `Secure` flag set, which means the browser will only send it over HTTPS. When accessing Trip Mate over plain HTTP (e.g. `http://192.168.1.x:3000`), the browser silently drops the cookie and the server sees no session — returning "Access token required".
 
 **Fix:** Choose one of the following options:
 
-**Option 1 — Use HTTPS.** Access TREK via HTTPS with a valid SSL certificate.
+**Option 1 — Use HTTPS.** Access Trip Mate via HTTPS with a valid SSL certificate.
 
 **Option 2 — Disable the Secure flag.** Set `COOKIE_SECURE=false` in your Docker environment to allow the session cookie to be sent over plain HTTP:
 
@@ -24,7 +24,7 @@ environment:
 **Cause:** The initial admin account is seeded **only on the first boot, when the database has no users yet.** Three things follow from that, and each trips people up:
 
 - `ADMIN_EMAIL` / `ADMIN_PASSWORD` apply **only on that first run**. If you first start *without* them, an admin is created with a **random** password (it is **not** `changeme`) — and adding the variables afterwards has no effect, because a user already exists. The server now logs a reminder when it ignores them.
-- The random first-run password is printed to the log **once**, in a box titled `TREK — First Run: Admin Account Created`. It is easy to miss if you read the logs later.
+- The random first-run password is printed to the log **once**, in a box titled `Trip Mate — First Run: Admin Account Created`. It is easy to miss if you read the logs later.
 - Pulling a "fresh image" does **not** reset anything — your `./data` volume still holds the old database, so first-run setup does not run again.
 
 **Fix — pick whichever applies:**
@@ -40,16 +40,16 @@ Log in with what it shows; you will be asked to set a new password.
 **Reset the admin without losing data** (locked-out, existing install):
 
 ```bash
-docker exec -it trek node server/reset-admin.js
+docker exec -it tripmate node server/reset-admin.js
 ```
 
-This resets (or creates) `admin@trek.local` and prints a generated password. Override with `-e RESET_ADMIN_EMAIL=you@example.com -e RESET_ADMIN_PASSWORD=yourpass`. You will be asked to change it on first login.
+This resets (or creates) `admin@tripmate.local` and prints a generated password. Override with `-e RESET_ADMIN_EMAIL=you@example.com -e RESET_ADMIN_PASSWORD=yourpass`. You will be asked to change it on first login.
 
 **Start over with chosen credentials** (fresh install, no data to keep):
 
 ```bash
 docker compose down
-rm -rf ./data        # deletes ALL TREK data — only on a throwaway/fresh install
+rm -rf ./data        # deletes ALL Trip Mate data — only on a throwaway/fresh install
 docker compose up -d
 ```
 
@@ -79,7 +79,7 @@ Without these headers, the WebSocket handshake fails and real-time sync will not
 
 **Cause:** `FORCE_HTTPS=true` is set but your reverse proxy is not forwarding the `X-Forwarded-Proto: https` header, so every request looks like plain HTTP and gets redirected indefinitely.
 
-**Fix:** Ensure your proxy passes the `X-Forwarded-Proto` header to TREK. Also set `TRUST_PROXY=1` so that Express uses the forwarded IP for rate limiting and audit logs:
+**Fix:** Ensure your proxy passes the `X-Forwarded-Proto` header to Trip Mate. Also set `TRUST_PROXY=1` so that Express uses the forwarded IP for rate limiting and audit logs:
 
 ```yaml
 environment:
@@ -89,7 +89,7 @@ environment:
 
 > **Note:** The `/api/health` endpoint is always exempt from the HTTPS redirect so that Docker health checks continue to work over plain HTTP.
 
-If you are accessing TREK directly on `http://<host>:3000` with no proxy, remove `FORCE_HTTPS` entirely. See [Environment Variables](Environment-Variables).
+If you are accessing Trip Mate directly on `http://<host>:3000` with no proxy, remove `FORCE_HTTPS` entirely. See [Environment Variables](Environment-Variables).
 
 ---
 
@@ -127,7 +127,7 @@ There is no button for it: the Admin Panel UI has no per-user MFA reset (the use
 
 **Cause:** Your reverse proxy has a default body size limit (commonly 1 MB or 10 MB) that is smaller than the backup ZIP. Backup archives include the full uploads directory and can be large.
 
-**Fix:** Raise the body size limit in your proxy config. TREK's own cap on the uploaded (compressed) archive is 500 MB by default. For nginx:
+**Fix:** Raise the body size limit in your proxy config. Trip Mate's own cap on the uploaded (compressed) archive is 500 MB by default. For nginx:
 
 ```nginx
 client_max_body_size 500m;
@@ -135,7 +135,7 @@ client_max_body_size 500m;
 
 Add this to the `location /` block (or the specific backup route). See [Reverse Proxy](Reverse-Proxy) and [Backups](Backups).
 
-If the archive is genuinely larger than that, raise TREK's own caps too. There are two, and they are independent: one on the compressed upload, one on the total **decompressed** size of the archive (the zip-bomb guard). An archive that gets past the upload limit can still be refused part-way through extraction with `Backup exceeds the maximum decompressed size.`
+If the archive is genuinely larger than that, raise Trip Mate's own caps too. There are two, and they are independent: one on the compressed upload, one on the total **decompressed** size of the archive (the zip-bomb guard). An archive that gets past the upload limit can still be refused part-way through extraction with `Backup exceeds the maximum decompressed size.`
 
 ```yaml
 environment:
@@ -149,7 +149,7 @@ Keep the proxy's `client_max_body_size` at or above `BACKUP_UPLOAD_LIMIT_MB`. No
 
 ## "Cannot find module" on startup
 
-**Likely cause:** A volume is mounted at `/app`, which hides the application code (`node_modules` and `dist`) shipped inside the image. Mount only the data and uploads directories — `-v ./data:/app/data -v ./uploads:/app/uploads` — never `/app` itself. Current images detect this before Node starts and print `FATAL: TREK application files are missing from the image.` instead of the bare module error.
+**Likely cause:** A volume is mounted at `/app`, which hides the application code (`node_modules` and `dist`) shipped inside the image. Mount only the data and uploads directories — `-v ./data:/app/data -v ./uploads:/app/uploads` — never `/app` itself. Current images detect this before Node starts and print `FATAL: Trip Mate application files are missing from the image.` instead of the bare module error.
 
 **Fix:** List your mounts and remove any that target `/app`:
 
@@ -159,7 +159,7 @@ docker inspect <container> --format '{{json .Mounts}}'
 
 Keep only `./data:/app/data` and `./uploads:/app/uploads`, then recreate the container. Your data in those two directories is preserved when you switch.
 
-> **Note:** Unwritable `data`/`uploads` directories are a *different* failure — they abort with a permission error (`EACCES`), not with `Cannot find module`. TREK creates the subdirectories it needs on startup (`data/logs`, `data/backups`, `data/tmp`, `uploads/files`, `uploads/covers`, `uploads/avatars`, `uploads/photos`, `uploads/journey`, `uploads/places`). The container's `chown` step (which runs as root before dropping to `node`) normally corrects ownership, but if your host filesystem is read-only or permissions are locked down, grant write access manually:
+> **Note:** Unwritable `data`/`uploads` directories are a *different* failure — they abort with a permission error (`EACCES`), not with `Cannot find module`. Trip Mate creates the subdirectories it needs on startup (`data/logs`, `data/backups`, `data/tmp`, `uploads/files`, `uploads/covers`, `uploads/avatars`, `uploads/photos`, `uploads/journey`, `uploads/places`). The container's `chown` step (which runs as root before dropping to `node`) normally corrects ownership, but if your host filesystem is read-only or permissions are locked down, grant write access manually:
 >
 > ```bash
 > sudo chown -R 1000:1000 ./data ./uploads
@@ -172,8 +172,8 @@ Keep only `./data:/app/data` and `./uploads:/app/uploads`, then recreate the con
 **Symptoms:** The container restarts in a loop and the logs show nothing but:
 
 ```
-trek  | exec /usr/bin/dumb-init: operation not permitted
-trek exited with code 255 (restarting)
+tripmate  | exec /usr/bin/dumb-init: operation not permitted
+tripmate exited with code 255 (restarting)
 ```
 
 **Cause:** You are running **Docker installed from the snap** (its config lives under `/var/snap/docker/...`) *and* your compose file sets `security_opt: [no-new-privileges:true]`. The snap-packaged `dockerd` runs under its own AppArmor profile, and AppArmor refuses the `no_new_privs` privilege transition for snapped daemons. The container's very first `execve` is denied with `EPERM`, so it never starts. Confirm it in the kernel log right after a crash:
@@ -183,7 +183,7 @@ sudo dmesg -T | grep -iE 'apparmor|denied'
 # apparmor="DENIED" operation="exec" ... info="no new privs"
 ```
 
-This affects **any** image, not just TREK, and is a known snap limitation ([snapd bug #1908448](https://bugs.launchpad.net/snapd/+bug/1908448)). Setting `apparmor=unconfined` on the container does **not** help — that only swaps the *container's* profile, while the denial comes from the *daemon's* (snap's) confinement, which a container-level option cannot reach.
+This affects **any** image, not just Trip Mate, and is a known snap limitation ([snapd bug #1908448](https://bugs.launchpad.net/snapd/+bug/1908448)). Setting `apparmor=unconfined` on the container does **not** help — that only swaps the *container's* profile, while the denial comes from the *daemon's* (snap's) confinement, which a container-level option cannot reach.
 
 **Fix:** Install Docker from the official apt repository instead of the snap. Your data is safe as long as it lives in host bind-mounts (`./data`, `./uploads`):
 
@@ -199,15 +199,15 @@ docker compose up -d
 
 ## Container won't start: `Syntax error: end of file unexpected (expecting "fi")`
 
-**Symptoms:** The container restarts in a loop and the log holds a single line, with no TREK banner and no Node error:
+**Symptoms:** The container restarts in a loop and the log holds a single line, with no Trip Mate banner and no Node error:
 
 ```
-TREK: 1: Syntax error: end of file unexpected (expecting "fi")
+Trip Mate: 1: Syntax error: end of file unexpected (expecting "fi")
 ```
 
 It typically shows up right after you changed an environment variable — `COOKIE_SECURE=false`, for example — on a container that had been running fine.
 
-**Cause:** The environment variable is innocent. The message comes from `/bin/sh` inside the container, before Node is ever reached. Some container management UIs — Portainer's **Duplicate/Edit** form among them — let you edit a running container's command by rendering it back into a text field and re-splitting that text when you submit. Older images shipped their start-up logic as a single quoted shell command, and the quotes do not survive that round-trip: the command comes back truncated, and the shell refuses to parse the half of an `if` block that is left. `TREK` is simply the word the re-split happened to strand as the shell's program name, from the message quoted in [**"Cannot find module" on startup**](#cannot-find-module-on-startup).
+**Cause:** The environment variable is innocent. The message comes from `/bin/sh` inside the container, before Node is ever reached. Some container management UIs — Portainer's **Duplicate/Edit** form among them — let you edit a running container's command by rendering it back into a text field and re-splitting that text when you submit. Older images shipped their start-up logic as a single quoted shell command, and the quotes do not survive that round-trip: the command comes back truncated, and the shell refuses to parse the half of an `if` block that is left. `Trip Mate` is simply the word the re-split happened to strand as the shell's program name, from the message quoted in [**"Cannot find module" on startup**](#cannot-find-module-on-startup).
 
 Once a container is in this state it stays broken across restarts and image pulls, because the mangled command is stored in the container's own configuration, not in the image.
 
@@ -215,7 +215,7 @@ Once a container is in this state it stays broken across restarts and image pull
 
 In Portainer, open the container → **Duplicate/Edit** → **Command & logging**, empty the **Command** field completely, then deploy. An empty field means "use the image's command". Recreating the container from the image, or redeploying it as a stack, has the same effect.
 
-> **Note:** `COOKIE_SECURE=false` is still the right setting if you reach TREK over plain HTTP — without it the browser will not send the session cookie and you cannot log in. Set it, just not by editing the container in place. Change environment variables by editing the **stack** and redeploying it; see [Install: Portainer](Install-Portainer).
+> **Note:** `COOKIE_SECURE=false` is still the right setting if you reach Trip Mate over plain HTTP — without it the browser will not send the session cookie and you cannot log in. Set it, just not by editing the container in place. Change environment variables by editing the **stack** and redeploying it; see [Install: Portainer](Install-Portainer).
 
 Current images run their start-up logic from a script file, and their command is a single word with nothing left for a UI to mangle.
 
@@ -223,7 +223,7 @@ Current images run their start-up logic from a script file, and their command is
 
 ## Encryption key regenerated on restart — stored secrets stop working
 
-**Cause:** On every startup, TREK resolves its encryption key in this order: (1) `ENCRYPTION_KEY` env var, (2) `data/.encryption_key` file, (3) legacy `data/.jwt_secret` fallback, (4) auto-generate a fresh key. If neither the env var nor the `data/` volume is persisted — for example after recreating a container without a volume mount — a new random key is generated and all stored secrets (SMTP password, OIDC client secret, API keys, MFA TOTP seeds) become unrecoverable.
+**Cause:** On every startup, Trip Mate resolves its encryption key in this order: (1) `ENCRYPTION_KEY` env var, (2) `data/.encryption_key` file, (3) legacy `data/.jwt_secret` fallback, (4) auto-generate a fresh key. If neither the env var nor the `data/` volume is persisted — for example after recreating a container without a volume mount — a new random key is generated and all stored secrets (SMTP password, OIDC client secret, API keys, MFA TOTP seeds) become unrecoverable.
 
 **Fix:** Ensure `./data:/app/data` is mounted as a persistent volume so `data/.encryption_key` survives restarts. Alternatively, pin the key explicitly:
 
@@ -238,20 +238,20 @@ See [Encryption Key Rotation](Encryption-Key-Rotation) for how to retrieve or ro
 
 ## OIDC login returns "APP_URL is not configured"
 
-**Cause:** When OIDC is enabled, TREK needs to know its own public URL to build the redirect URI. It resolves this from (1) `APP_URL` env var, (2) the first entry in `ALLOWED_ORIGINS`, (3) `http://localhost:<PORT>` as a last resort. Step (3) always produces a value, so the message in the heading is a guard that never actually fires. What you get instead, with `APP_URL` and `ALLOWED_ORIGINS` both unset, is a redirect URI of `http://localhost:<PORT>/api/auth/oidc/callback` — and the provider rejects it as an unregistered `redirect_uri`.
+**Cause:** When OIDC is enabled, Trip Mate needs to know its own public URL to build the redirect URI. It resolves this from (1) `APP_URL` env var, (2) the first entry in `ALLOWED_ORIGINS`, (3) `http://localhost:<PORT>` as a last resort. Step (3) always produces a value, so the message in the heading is a guard that never actually fires. What you get instead, with `APP_URL` and `ALLOWED_ORIGINS` both unset, is a redirect URI of `http://localhost:<PORT>/api/auth/oidc/callback` — and the provider rejects it as an unregistered `redirect_uri`.
 
 **Fix:** Set `APP_URL` to the public URL of your instance:
 
 ```yaml
 environment:
-  - APP_URL=https://trek.example.com
+  - APP_URL=https://tripmate.example.com
 ```
 
 ---
 
 ## OIDC login fails with issuer mismatch
 
-**Cause:** TREK validates that the `issuer` field in the provider's discovery document matches the configured `OIDC_ISSUER`. Trailing slashes are stripped from both sides before the comparison, so `https://auth.example.com` and `https://auth.example.com/` are the same value here — the difference is somewhere else: a realm path the provider adds, an internal hostname configured where the provider advertises the public one, or `http://` against `https://`.
+**Cause:** Trip Mate validates that the `issuer` field in the provider's discovery document matches the configured `OIDC_ISSUER`. Trailing slashes are stripped from both sides before the comparison, so `https://auth.example.com` and `https://auth.example.com/` are the same value here — the difference is somewhere else: a realm path the provider adds, an internal hostname configured where the provider advertises the public one, or `http://` against `https://`.
 
 **Fix:** Check the exact issuer value your provider advertises and match it:
 
@@ -261,7 +261,7 @@ curl -s https://<your-oidc-issuer>/.well-known/openid-configuration | jq .issuer
 
 Set `OIDC_ISSUER` to that exact string.
 
-> **Note:** The mismatch is only fatal while no custom discovery URL is set. With `OIDC_DISCOVERY_URL` configured — which is how Authentik realm paths are usually wired up — TREK treats the discovery document's issuer as the canonical one, logs `[OIDC] Discovery doc issuer … differs from configured OIDC_ISSUER …` and continues.
+> **Note:** The mismatch is only fatal while no custom discovery URL is set. With `OIDC_DISCOVERY_URL` configured — which is how Authentik realm paths are usually wired up — Trip Mate treats the discovery document's issuer as the canonical one, logs `[OIDC] Discovery doc issuer … differs from configured OIDC_ISSUER …` and continues.
 
 ---
 
@@ -269,7 +269,7 @@ Set `OIDC_ISSUER` to that exact string.
 
 **Cause:** Not the SSRF guard, despite what it looks like. All four OIDC calls (discovery, token, userinfo, JWKS) go through the admin-configured fetch path, which deliberately **allows** loopback and private/LAN targets: a Keycloak or Authentik on `192.168.x` or `10.x` is a supported setup and needs no extra variable. `ALLOW_INTERNAL_NETWORK` belongs to the guard on *user*-supplied URLs and changes nothing about OIDC. The only addresses that path refuses are link-local and cloud-metadata ones (`169.254.0.0/16`, `fe80::/10`), which fail with `Requests to link-local / cloud-metadata addresses are not allowed`. A provider behind the host gateway of a rootless Podman container resolves to `169.254.1.2` and fails exactly like that; list that address in `ALLOW_LINK_LOCAL_IPS`, see [Internal-Network-Access](Internal-Network-Access#a-link-local-address-you-need).
 
-Versions 4.3.0 to 4.3.2 also failed like that when the provider's hostname had an IPv6 link-local (`fe80::`) record next to its LAN address, which many LAN DNS servers hand out. From 4.3.3 on, TREK leaves such an address out and connects over the LAN address, so only a hostname that resolves to nothing but link-local or metadata addresses still fails.
+Versions 4.3.0 to 4.3.2 also failed like that when the provider's hostname had an IPv6 link-local (`fe80::`) record next to its LAN address, which many LAN DNS servers hand out. From 4.3.3 on, Trip Mate leaves such an address out and connects over the LAN address, so only a hostname that resolves to nothing but link-local or metadata addresses still fails.
 
 **Fix:** Look for the reasons an internal provider actually fails. A failed discovery fetch answers `500 { "error": "OIDC login failed" }` and logs the real message as `[OIDC] Login error: …`, so start there:
 
@@ -278,7 +278,7 @@ docker logs <container> 2>&1 | grep "OIDC"
 ```
 
 - **The container cannot reach the issuer.** Test from inside it, not from your desktop — the container has its own DNS and its own network: `docker exec <container> wget -qO- https://<issuer>/.well-known/openid-configuration`. A `Could not resolve hostname` in the log is this.
-- **The issuer is not HTTPS.** In production TREK refuses a plain-HTTP issuer up front with `400 { "error": "OIDC issuer must use HTTPS in production" }`, before any request goes out.
+- **The issuer is not HTTPS.** In production Trip Mate refuses a plain-HTTP issuer up front with `400 { "error": "OIDC issuer must use HTTPS in production" }`, before any request goes out.
 - **The provider's certificate is not trusted by the container.** A self-signed certificate on an internal Keycloak fails the TLS handshake; issue it from a CA the container trusts.
 
 ---
@@ -297,7 +297,7 @@ docker logs <container> 2>&1 | grep -E "SMTP test email (sent|failed)|SMTP test 
 |-----------------------|----------------|
 | `rejected the credentials` (`code=EAUTH`) | Wrong SMTP user or password. Mailboxes with 2FA normally need an app-specific password, not the account one. |
 | `refused the connection` | Nothing is listening on that port, or a firewall closed it. |
-| `did not answer in time` | The port is filtered, or 465 and 587 are swapped: TREK dials 465 with implicit TLS and every other port in plain mode with STARTTLS. |
+| `did not answer in time` | The port is filtered, or 465 and 587 are swapped: Trip Mate dials 465 with implicit TLS and every other port in plain mode with STARTTLS. |
 | `could not be resolved` | The container's DNS cannot resolve the host. Test with `docker exec <container> nc -zv <SMTP_HOST> <SMTP_PORT>`. |
 | `TLS certificate ... was not accepted` | Turn on **Skip TLS certificate check** (or `SMTP_SKIP_TLS_VERIFY=true`) for an internal relay carrying its own certificate. |
 | `rejected the envelope` | The from address usually has to belong to the authenticated mailbox. |
@@ -317,7 +317,7 @@ docker logs <container> 2>&1 | grep -E "SMTP test email (sent|failed)|SMTP test 
    ```bash
    docker logs <container> 2>&1 | grep -E "Password reset email failed|Email send failed"
    ```
-   If neither matches, check whether the mail ever left at all — TREK needs a host, a port **and** a from-address (`SMTP_HOST` / `SMTP_PORT` / `SMTP_FROM`, or the same three fields under **Admin > Notifications**). With any one of them missing it skips SMTP entirely and logs `Password reset link issued (no SMTP)` plus the `===== PASSWORD RESET LINK =====` block instead of any error:
+   If neither matches, check whether the mail ever left at all — Trip Mate needs a host, a port **and** a from-address (`SMTP_HOST` / `SMTP_PORT` / `SMTP_FROM`, or the same three fields under **Admin > Notifications**). With any one of them missing it skips SMTP entirely and logs `Password reset link issued (no SMTP)` plus the `===== PASSWORD RESET LINK =====` block instead of any error:
    ```bash
    docker logs <container> 2>&1 | grep "no SMTP"
    ```
@@ -328,7 +328,7 @@ docker logs <container> 2>&1 | grep -E "SMTP test email (sent|failed)|SMTP test 
    docker exec <container> nc -zv <SMTP_HOST> <SMTP_PORT>
    ```
 
-> **Note:** If no SMTP is configured at all, TREK prints the reset link directly to the server logs (`===== PASSWORD RESET LINK =====`). This is useful for initial setup or self-hosted installs without email.
+> **Note:** If no SMTP is configured at all, Trip Mate prints the reset link directly to the server logs (`===== PASSWORD RESET LINK =====`). This is useful for initial setup or self-hosted installs without email.
 
 ---
 
@@ -340,7 +340,7 @@ docker logs <container> 2>&1 | grep -E "SMTP test email (sent|failed)|SMTP test 
 
 ```yaml
 environment:
-  - ALLOWED_ORIGINS=https://trek.example.com,https://other.example.com
+  - ALLOWED_ORIGINS=https://tripmate.example.com,https://other.example.com
 ```
 
 If `ALLOWED_ORIGINS` is not set, the default is **same-origin only** — cross-origin browser requests are rejected — because every shipped deployment path (Dockerfile, `docker-compose.yml`, the Helm chart) runs with `NODE_ENV=production`. Allowing any origin is the development default, and only applies outside production. See [Environment Variables](Environment-Variables).
@@ -367,7 +367,7 @@ If `ALLOWED_ORIGINS` is not set, the default is **same-origin only** — cross-o
 
 **Cause:** The browser Clipboard API (`navigator.clipboard`) is only available in a [secure context](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts), so on plain HTTP at a non-localhost address it is undefined.
 
-TREK works around this where it matters most. The share-link and invite-link buttons in the trip **Members** dialog, the journey share link, and the calendar-subscribe URLs fall back to a hidden textarea plus the deprecated `document.execCommand('copy')`, which is not secure-context gated — **those keep working over plain HTTP**, on desktop and mobile alike.
+Trip Mate works around this where it matters most. The share-link and invite-link buttons in the trip **Members** dialog, the journey share link, and the calendar-subscribe URLs fall back to a hidden textarea plus the deprecated `document.execCommand('copy')`, which is not secure-context gated — **those keep working over plain HTTP**, on desktop and mobile alike.
 
 The remaining copy buttons call `navigator.clipboard` directly and have no fallback:
 
@@ -377,8 +377,8 @@ The remaining copy buttons call `navigator.clipboard` directly and have no fallb
 
 **Fix:** For those buttons, one of:
 
-- Access TREK over HTTPS with a valid SSL certificate.
-- Access TREK directly from `http://localhost:<port>` — browsers treat `localhost` as a secure context for the Clipboard API.
+- Access Trip Mate over HTTPS with a valid SSL certificate.
+- Access Trip Mate directly from `http://localhost:<port>` — browsers treat `localhost` as a secure context for the Clipboard API.
 
 Failing that, select the value shown in the field and copy it manually; every one of these buttons sits next to the text it copies.
 
@@ -386,11 +386,11 @@ Failing that, select the value shown in the field and copy it manually; every on
 
 ## Place photos not loading / place thumbnail shows default map pin (Google Maps API key configured)
 
-**Cause:** When a Google Maps API key is set, TREK fetches photo references and image bytes from the Google Places API on the server side. If the server-side call is rejected or returns no photos, the `/place-photo/:id` endpoint answers `200 { "photoUrl": null }` and the place falls back to the default map-pin thumbnail. The image proxy behind it, `/place-photo/:id/bytes`, answers `204 No Content` when it has nothing cached — neither endpoint returns 404, so a trip full of photo-less places cannot trip a 404 rate limit in a reverse proxy or IPS. The most common causes are:
+**Cause:** When a Google Maps API key is set, Trip Mate fetches photo references and image bytes from the Google Places API on the server side. If the server-side call is rejected or returns no photos, the `/place-photo/:id` endpoint answers `200 { "photoUrl": null }` and the place falls back to the default map-pin thumbnail. The image proxy behind it, `/place-photo/:id/bytes`, answers `204 No Content` when it has nothing cached — neither endpoint returns 404, so a trip full of photo-less places cannot trip a 404 rate limit in a reverse proxy or IPS. The most common causes are:
 
-1. **HTTP referrer restriction on the API key.** Google Cloud Console lets you restrict a key to specific HTTP referrers. Because TREK calls Google from the server (not the browser), it sends a `Referer` header only when `APP_URL` is set — the header is the value of `APP_URL`. If `APP_URL` is not set, TREK sends no `Referer` header at all, and a referrer-restricted key rejects a request with no referrer just as it rejects a wrong one.
+1. **HTTP referrer restriction on the API key.** Google Cloud Console lets you restrict a key to specific HTTP referrers. Because Trip Mate calls Google from the server (not the browser), it sends a `Referer` header only when `APP_URL` is set — the header is the value of `APP_URL`. If `APP_URL` is not set, Trip Mate sends no `Referer` header at all, and a referrer-restricted key rejects a request with no referrer just as it rejects a wrong one.
 
-2. **Wrong key restriction type.** API keys restricted by **HTTP referrers** are designed for browser-side JavaScript. For a self-hosted server application, use **IP address** restrictions instead — add the public IP of your TREK server and no `APP_URL` configuration is needed.
+2. **Wrong key restriction type.** API keys restricted by **HTTP referrers** are designed for browser-side JavaScript. For a self-hosted server application, use **IP address** restrictions instead — add the public IP of your Trip Mate server and no `APP_URL` configuration is needed.
 
 3. **Places API (New) not enabled.** The key must have **Places API (New)** enabled in Google Cloud Console under APIs & Services → Enabled APIs. Enabling only the legacy Places API is not sufficient.
 
@@ -398,11 +398,11 @@ Failing that, select the value shown in the field and copy it manually; every on
 
 **Fix for HTTP referrer restriction:**
 
-Set `APP_URL` to the public URL of your instance and add that URL (or its domain with a wildcard, e.g. `https://trek.example.com/*`) to the allowed referrers in GCP:
+Set `APP_URL` to the public URL of your instance and add that URL (or its domain with a wildcard, e.g. `https://tripmate.example.com/*`) to the allowed referrers in GCP:
 
 ```yaml
 environment:
-  - APP_URL=https://trek.example.com
+  - APP_URL=https://tripmate.example.com
 ```
 
 **Fix for wrong restriction type:**
@@ -425,18 +425,18 @@ If the response is `{}` or `{"error": {...}}`, the key or its restrictions are b
 
 ## MCP OAuth flow does not initiate / "Connect" redirects but authentication never starts
 
-**Cause:** TREK advertises its OAuth 2.1 issuer and authorization endpoint from its resolved public base URL (`APP_URL`, else the first entry of `ALLOWED_ORIGINS`, else `http://localhost:<PORT>`; the resolved value is kept only if it is `https://` or `localhost`/`127.0.0.1`). If that resolution lands on `http://localhost:<PORT>`, external clients (Claude.ai, Claude Desktop) cannot reach the authorization endpoint and the OAuth handshake never completes.
+**Cause:** Trip Mate advertises its OAuth 2.1 issuer and authorization endpoint from its resolved public base URL (`APP_URL`, else the first entry of `ALLOWED_ORIGINS`, else `http://localhost:<PORT>`; the resolved value is kept only if it is `https://` or `localhost`/`127.0.0.1`). If that resolution lands on `http://localhost:<PORT>`, external clients (Claude.ai, Claude Desktop) cannot reach the authorization endpoint and the OAuth handshake never completes.
 
 **Fix:** Set `APP_URL` to the public URL of your instance:
 
 ```yaml
 environment:
-  - APP_URL=https://trek.example.com
+  - APP_URL=https://tripmate.example.com
 ```
 
-Restart the container after adding the variable. Once set, clicking **Connect** in the MCP client should redirect to your TREK instance and complete the OAuth flow normally.
+Restart the container after adding the variable. Once set, clicking **Connect** in the MCP client should redirect to your Trip Mate instance and complete the OAuth flow normally.
 
-> **Note:** Set `APP_URL` for any MCP OAuth integration. TREK resolves its public base URL **once**, in this order: (1) `APP_URL`, (2) the first entry of `ALLOWED_ORIGINS`, (3) `http://localhost:<PORT>` as a last resort — a step is skipped only when the value is unset or not a valid URL. The winner is then checked for MCP: only an `https://` URL or a `localhost` / `127.0.0.1` host is kept; anything else is replaced by `http://localhost:<PORT>`, which external MCP clients cannot reach. Because only the resolved winner is checked, a valid but plain-HTTP `APP_URL` (e.g. `http://trek.internal.lan`) is **not** rescued by an `https://` entry in `ALLOWED_ORIGINS` — it still ends up on localhost.
+> **Note:** Set `APP_URL` for any MCP OAuth integration. Trip Mate resolves its public base URL **once**, in this order: (1) `APP_URL`, (2) the first entry of `ALLOWED_ORIGINS`, (3) `http://localhost:<PORT>` as a last resort — a step is skipped only when the value is unset or not a valid URL. The winner is then checked for MCP: only an `https://` URL or a `localhost` / `127.0.0.1` host is kept; anything else is replaced by `http://localhost:<PORT>`, which external MCP clients cannot reach. Because only the resolved winner is checked, a valid but plain-HTTP `APP_URL` (e.g. `http://tripmate.internal.lan`) is **not** rescued by an `https://` entry in `ALLOWED_ORIGINS` — it still ends up on localhost.
 
 ---
 
@@ -464,13 +464,13 @@ The session limit no longer rejects requests: at the cap, the server closes the 
 
 There are two reasons the header goes missing:
 
-1. **TREK 3.3.0 and earlier** did not send `Access-Control-Expose-Headers: Mcp-Session-Id`. Without it, browser-based clients — Claude.ai, Claude Desktop connectors, MCP Inspector — are forbidden by the browser from reading the session id, no matter how the proxy is configured. **Fix: upgrade** — no proxy change will help.
+1. **Trip Mate 3.3.0 and earlier** did not send `Access-Control-Expose-Headers: Mcp-Session-Id`. Without it, browser-based clients — Claude.ai, Claude Desktop connectors, MCP Inspector — are forbidden by the browser from reading the session id, no matter how the proxy is configured. **Fix: upgrade** — no proxy change will help.
 2. **A reverse proxy stripping the header.** Nginx and Caddy forward it by default, so this only happens if you have a `proxy_hide_header` directive or a response-header allowlist in front of `/mcp`. See [Reverse-Proxy](Reverse-Proxy).
 
 **How to tell which:** from the machine running the proxy, ask for a session and look at the response headers.
 
 ```bash
-curl -i -X POST https://trek.example.com/mcp \
+curl -i -X POST https://tripmate.example.com/mcp \
   -H "Authorization: Bearer <your-token>" \
   -H "Accept: application/json, text/event-stream" \
   -H "Content-Type: application/json" \
@@ -498,7 +498,7 @@ the client (check that your reverse proxy forwards it).
 
 ## MCP requests blocked by Cloudflare WAF (Bot Fight Mode)
 
-**Cause:** When TREK is proxied through Cloudflare, **Bot Fight Mode** and **Super Bot Fight Mode** classify server-to-server requests as bots and block them at the WAF level — before the request ever reaches TREK. Their exit-node IPs have low reputation scores in Cloudflare's threat intelligence and the User-Agent matches Cloudflare's automated-traffic heuristics. TREK itself never receives the request, so there is nothing in TREK's logs; the block is silent from TREK's perspective.
+**Cause:** When Trip Mate is proxied through Cloudflare, **Bot Fight Mode** and **Super Bot Fight Mode** classify server-to-server requests as bots and block them at the WAF level — before the request ever reaches Trip Mate. Their exit-node IPs have low reputation scores in Cloudflare's threat intelligence and the User-Agent matches Cloudflare's automated-traffic heuristics. Trip Mate itself never receives the request, so there is nothing in Trip Mate's logs; the block is silent from Trip Mate's perspective.
 
 This affects **ChatGPT** and **Google account linking (Gemini, Assistant)**. Claude.ai is not affected.
 
@@ -506,7 +506,7 @@ Note that Bot Fight Mode does **not** honour IP allowlists, so adding the provid
 
 Symptoms:
 - ChatGPT shows a connection error or times out immediately after OAuth completes.
-- With Google account linking the symptom looks different, and more confusing: the browser part succeeds (you approve the consent screen and are redirected back), then linking fails. Google exchanges the authorization code from its own servers, and that call is what gets blocked. In TREK's logs you see `POST /api/oauth/authorize` answered `200` and then **no** `POST /oauth/token` at all.
+- With Google account linking the symptom looks different, and more confusing: the browser part succeeds (you approve the consent screen and are redirected back), then linking fails. Google exchanges the authorization code from its own servers, and that call is what gets blocked. In Trip Mate's logs you see `POST /api/oauth/authorize` answered `200` and then **no** `POST /oauth/token` at all.
 - Cloudflare's Security → Events log shows blocked requests to `/mcp` or `/oauth/token` with action `block` and source `bfm` (Bot Fight Mode) or `managed_rule`.
 
 **Fix — Option 1: Disable Bot Fight Mode (free plan and paid plan)**
@@ -522,10 +522,10 @@ This is the only option available on the **free plan**. It disables bot blocking
 Create a WAF skip rule that bypasses bot management only for the MCP and OAuth paths, leaving protection in place for the rest of the site:
 
 1. Go to **Security → WAF → Custom rules** and click **Create rule**.
-2. Enter the following expression (replace `trek.example.com` with your domain):
+2. Enter the following expression (replace `tripmate.example.com` with your domain):
 
    ```
-   (http.host eq "trek.example.com") and (
+   (http.host eq "tripmate.example.com") and (
      http.request.uri.path eq "/mcp" or
      http.request.uri.path starts_with "/oauth/" or
      http.request.uri.path starts_with "/.well-known/"

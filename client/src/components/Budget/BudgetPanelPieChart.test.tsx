@@ -23,7 +23,7 @@ describe('BudgetPanelPieChart', () => {
 
   it('FE-W4PIE-003: turns the segment shares into consecutive conic-gradient stops', () => {
     const { container } = render(<PieChart segments={SEGMENTS} totalLabel="400 €" />)
-    const pie = container.querySelector('.trek-pie-reveal') as HTMLElement
+    const pie = container.querySelector('.tripmate-pie-reveal') as HTMLElement
 
     expect(pie.style.background).toBe('conic-gradient(rgb(239, 68, 68) 0deg 270deg, rgb(59, 130, 246) 270deg 360deg)')
   })

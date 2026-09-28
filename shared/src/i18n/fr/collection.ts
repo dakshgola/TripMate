@@ -100,7 +100,7 @@ const collection: TranslationStrings = {
   'collections.markVisited': 'Marquer comme visité',
   'collections.markVisitedAll': 'Visité partout',
   'collections.markVisitedSelection': 'Marquer comme visité dans vos listes',
-  'collections.markVisitedNone': 'Aucun de ces lieux n\'est enregistré dans une liste',
+  'collections.markVisitedNone': "Aucun de ces lieux n'est enregistré dans une liste",
   'collections.markedVisited': 'Marqué comme visité',
   'collections.markedVisitedTrip': '{count} lieux marqués comme visités',
 
@@ -156,7 +156,8 @@ const collection: TranslationStrings = {
   'collections.file.targetExisting': 'Ajouter à une liste',
   'collections.file.targetExistingHint': 'À une liste que vous avez déjà',
   'collections.file.searchLists': 'Rechercher une liste',
-  'collections.file.intoHint': 'Les lieux déjà dans la liste restent tels quels, comme son nom et sa couleur. Les étiquettes du fichier sont ajoutées.',
+  'collections.file.intoHint':
+    'Les lieux déjà dans la liste restent tels quels, comme son nom et sa couleur. Les étiquettes du fichier sont ajoutées.',
   'collections.file.confirmInto': 'Ajouter à la liste',
   'collections.file.doneInto': '{count} lieux ajoutés à {name}',
   'collections.file.doneIntoDuplicates': '{count} ajoutés à {name}, {duplicates} y étaient déjà',
@@ -169,9 +170,9 @@ const collection: TranslationStrings = {
   'collections.file.doneSkipped': '{count} lieux importés, {skipped} ignorés',
   'collections.file.errorTooLarge': 'Ce fichier est trop volumineux pour être une liste.',
   'collections.file.errorUnreadable': 'Ce fichier n’a pas pu être lu.',
-  'collections.file.errorNotACollection': 'Ce n’est pas un fichier de liste TREK.',
-  'collections.file.formatTrek': 'Liste TREK',
-  'collections.file.formatTrekHint': 'Pour un autre TREK, avec étiquettes et statut',
+  'collections.file.errorNotACollection': 'Ce n’est pas un fichier de liste Trip Mate.',
+  'collections.file.formatTrek': 'Liste Trip Mate',
+  'collections.file.formatTrekHint': 'Pour un autre Trip Mate, avec étiquettes et statut',
   'collections.file.formatGpxHint':
     'Points de passage pour OsmAnd, Organic Maps, Garmin et d’autres applications cartographiques',
   'collections.file.gpxOmitted': '{count} lieux sans coordonnées ont été laissés hors du fichier GPX',

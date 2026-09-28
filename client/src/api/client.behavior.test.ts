@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { AxiosError, type AxiosAdapter, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios'
 import { http, HttpResponse } from 'msw'
 import { server } from '../../tests/helpers/msw/server'
-import { weatherResultSchema } from '@trek/shared'
+import { weatherResultSchema } from '@tripmate/shared'
 
 // client.ts probes the health endpoint to tell an edge-proxy auth wall apart
 // from a plain offline boot — the probe result decides whether it tears down
@@ -244,8 +244,8 @@ describe('client > proxy auth challenges', () => {
     expect(sessionStorage.getItem('proxy_reauth_attempted')).toBe('1')
   })
 
-  it('FE-APIWIRE-016: an HTML 401 from TREK itself keeps the service worker (#2228)', async () => {
-    // text/html is not proof of a proxy: several of TREK's own routes answer
+  it('FE-APIWIRE-016: an HTML 401 from Trip Mate itself keeps the service worker (#2228)', async () => {
+    // text/html is not proof of a proxy: several of Trip Mate's own routes answer
     // res.status(401).send('Authentication required'), which Express labels
     // text/html. Tearing the worker down for one of those costs the user
     // offline mode for a wall that is not there, so confirm reachability first.
@@ -382,7 +382,7 @@ describe('client > dev-only contract drift checks', () => {
 
     expect(parseInDev(weatherResultSchema, payload, 'weather.get')).toBe(payload)
     expect(warn).toHaveBeenCalledWith(
-      '[api] weather.get: response did not match the @trek/shared schema',
+      '[api] weather.get: response did not match the @tripmate/shared schema',
       expect.anything(),
     )
   })
@@ -420,7 +420,7 @@ describe('client > dev-only contract drift checks', () => {
 
     await expect(mapsApi.search('Rome')).resolves.toEqual({ nonsense: true })
     expect(warn).toHaveBeenCalledWith(
-      '[api] maps.search: response did not match the @trek/shared schema',
+      '[api] maps.search: response did not match the @tripmate/shared schema',
       expect.anything(),
     )
   })

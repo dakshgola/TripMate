@@ -9,7 +9,7 @@ import {
   roadtripCorridorRequestSchema,
   type RoadtripPlanRequest,
   type RoadtripCorridorRequest,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import {
   corridorTiles,
   drivenPieces,
@@ -18,7 +18,7 @@ import {
   rideGaps,
   riddenRanges,
   simplifyLine,
-} from '@trek/shared/roadtrip';
+} from '@tripmate/shared/roadtrip';
 import { answeringRefusals } from './roadtrip-mcp.helpers';
 
 import { z } from 'zod';

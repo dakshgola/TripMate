@@ -1,6 +1,6 @@
 // Central registry of demo-user email addresses.
 //
-// Historical: the demo account was seeded as "demo@trek.app" (see
+// Historical: the demo account was seeded as "demo@tripmate.app" (see
 // authService.demoLogin), but several guards — demoUploadBlock in
 // the upload block that used to live in middleware/auth.ts, the MFA/backup-code
 // bypasses in authService —
@@ -8,7 +8,7 @@
 // either never fired or silently diverged between call sites. Routing
 // every check through this constant keeps them aligned.
 
-export const DEMO_EMAIL_PRIMARY = 'demo@trek.app';
+export const DEMO_EMAIL_PRIMARY = 'demo@tripmate.app';
 
 /**
  * The demo account's password. Public on purpose — a demo instance shows it on

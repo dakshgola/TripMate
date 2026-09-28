@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { DawarichTrack } from '@trek/shared'
+import type { DawarichTrack } from '@tripmate/shared'
 import { dawarichRepo } from '../../repo/dawarichRepo'
 import { useAddonStore } from '../../store/addonStore'
 import { isEffectivelyOffline, onNetworkModeChange } from '../../sync/networkMode'

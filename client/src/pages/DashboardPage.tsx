@@ -32,7 +32,7 @@ import { CURRENCIES } from '../components/Budget/BudgetPanel.constants'
 import { convertDistance, getDistanceUnitLabel } from '../utils/units'
 import { useSettingsStore } from '../store/settingsStore'
 import { useAddonStore } from '../store/addonStore'
-import { normalizeAppearance } from '@trek/shared'
+import { normalizeAppearance } from '@tripmate/shared'
 import '../styles/dashboard.css'
 
 const GRADIENTS = [
@@ -146,13 +146,13 @@ function DashboardPageDesktop(): React.ReactElement {
 
   return (
     <>
-      {/* Navbar lives outside .trek-dash so it keeps the app-wide font + button
+      {/* Navbar lives outside .tripmate-dash so it keeps the app-wide font + button
           styling instead of inheriting the dashboard scope's font and the
-          `.trek-dash button` reset (which shifted the bell icon + menu items). */}
+          `.tripmate-dash button` reset (which shifted the bell icon + menu items). */}
       <Navbar />
-      <div className="trek-dash trek-dash-shell">
+      <div className="tripmate-dash tripmate-dash-shell">
       {demoMode && <DemoBanner />}
-      <div className="trek-dash-scroll">
+      <div className="tripmate-dash-scroll">
         <MobileTopBar />
         <main className="page" data-no-sidebar={sidebarVisible ? undefined : 'true'}>
           <div className="page-main">

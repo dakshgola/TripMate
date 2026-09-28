@@ -4,7 +4,7 @@ import {
   errorResult, ok,
 } from '../../nest-mcp';
 import { z } from 'zod';
-import type { AirtrailFlight } from '@trek/shared';
+import type { AirtrailFlight } from '@tripmate/shared';
 import { ADDON_IDS } from '../../addons';
 import { addonGate } from '../addons/addon-gate';
 import { AddonsService } from '../addons/addons.service';
@@ -75,7 +75,7 @@ export class AirtrailMcp {
       limit: z.number().int().min(1).max(MAX_FLIGHT_LIMIT).optional()
         .describe(`Maximum flights to return, oldest departure first (default ${DEFAULT_FLIGHT_LIMIT}, max ${MAX_FLIGHT_LIMIT})`),
     },
-    // Reads a remote AirTrail instance, not TREK's own database.
+    // Reads a remote AirTrail instance, not Trip Mate's own database.
     annotations: TOOL_ANNOTATIONS_OPEN_WORLD_READONLY,
     // The flights are candidate bookings and the import writes reservations, so
     // the pair rides one group. There is no airtrail scope, and settings:read

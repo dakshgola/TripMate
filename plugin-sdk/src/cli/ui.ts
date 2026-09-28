@@ -85,14 +85,14 @@ export const promptConfirm = async (opts: Omit<ConfirmOptions, 'output'>): Promi
 // ── permissions ──────────────────────────────────────────────────────────────
 
 /**
- * Every permission an author can grant, grouped into the areas of TREK they touch.
+ * Every permission an author can grant, grouped into the areas of Trip Mate they touch.
  *
  * This used to be a hand-written list, and it silently fell 40 permissions behind the
  * host — `create` could not offer `jobs:run`, `events:subscribe` or 7 of the 12 hooks,
  * so a scaffolded plugin that needed one had no way to ask for it. The families below
  * are now the ONLY place a permission may be listed, and `test/cli.test.ts` fails if a
  * permission in the manifest validator's KNOWN_PERMISSIONS has no entry here. Add a
- * permission to TREK ⇒ the test tells you to describe it ⇒ `create` offers it.
+ * permission to Trip Mate ⇒ the test tells you to describe it ⇒ `create` offers it.
  *
  * `db:read:*` grants read the data the REQUESTING USER can already see; `db:write:*`
  * grants act on trips that user can edit. Neither is a superuser grant.
@@ -134,7 +134,7 @@ export const PERMISSION_FAMILIES: PermissionFamily[] = [
       { value: 'db:write:places', hint: 'Add, edit and remove places on trips the user can edit' },
       { value: 'db:write:days', hint: 'Add, edit and remove days on trips the user can edit' },
       { value: 'db:write:itinerary', hint: 'Assign and remove places on days of trips the user can edit' },
-      { value: 'db:read:categories', hint: 'Read the place categories TREK ships' },
+      { value: 'db:read:categories', hint: 'Read the place categories Trip Mate ships' },
       { value: 'db:read:tags', hint: 'Read the tags used to label places' },
       { value: 'db:write:tags', hint: 'Create, rename and delete tags' },
     ],
@@ -206,15 +206,15 @@ export const PERMISSION_FAMILIES: PermissionFamily[] = [
   },
   {
     id: 'hooks',
-    label: 'Provider hooks (render inside TREK natively)',
-    hint: 'TREK calls YOU. Without the matching grant a hook is NEVER invoked — silently',
+    label: 'Provider hooks (render inside Trip Mate natively)',
+    hint: 'Trip Mate calls YOU. Without the matching grant a hook is NEVER invoked — silently',
     permissions: [
-      { value: 'hook:photo-provider', hint: 'Supply place photos to TREK' },
-      { value: 'hook:calendar-source', hint: 'Supply calendar events to TREK' },
+      { value: 'hook:photo-provider', hint: 'Supply place photos to Trip Mate' },
+      { value: 'hook:calendar-source', hint: 'Supply calendar events to Trip Mate' },
       { value: 'hook:place-detail-provider', hint: 'Contribute extra details (reviews, ratings, links) to a place' },
       { value: 'hook:search-provider', hint: 'Answer place searches from your own index, beside the core results' },
       { value: 'hook:trip-warning-provider', hint: 'Raise validation warnings on a trip (shown in the planner)' },
-      { value: 'hook:table-contributor', hint: 'Add columns to TREK\'s tables' },
+      { value: 'hook:table-contributor', hint: 'Add columns to Trip Mate\'s tables' },
       { value: 'hook:map-marker-provider', hint: 'Add your own markers to the map' },
       { value: 'hook:map-layer-provider', hint: 'Draw routes, corridors and zones on the trip map' },
       { value: 'hook:route-provider', hint: 'Offer routing profiles the planner can route days with (e.g. EV with charging stops)' },
@@ -224,7 +224,7 @@ export const PERMISSION_FAMILIES: PermissionFamily[] = [
       { value: 'hook:atlas-layer-provider', hint: 'Add a layer to the Atlas map' },
       { value: 'hook:journal-entry-provider', hint: 'Contribute entries to a journey' },
       { value: 'hook:trip-card-provider', hint: 'Add a badge/card to the trip list' },
-      { value: 'hook:notification-channel', hint: 'Deliver TREK notifications over your own channel' },
+      { value: 'hook:notification-channel', hint: 'Deliver Trip Mate notifications over your own channel' },
       { value: 'hook:user-data', hint: 'Implement GDPR erasure/export of the data you hold for a user' },
     ],
   },
@@ -234,7 +234,7 @@ export const PERMISSION_FAMILIES: PermissionFamily[] = [
     hint: 'Run without a user present. Ungranted, these never run at all',
     permissions: [
       { value: 'jobs:run', hint: 'Run cron jobs and ctx.scheduler timers (no acting user)' },
-      { value: 'events:subscribe', hint: 'Receive TREK events (place:created, trip:updated…) as they happen' },
+      { value: 'events:subscribe', hint: 'Receive Trip Mate events (place:created, trip:updated…) as they happen' },
     ],
   },
   {
@@ -249,12 +249,12 @@ export const PERMISSION_FAMILIES: PermissionFamily[] = [
   {
     id: 'services',
     label: 'Network & host services',
-    hint: 'Reach the outside world, or borrow a TREK service',
+    hint: 'Reach the outside world, or borrow a Trip Mate service',
     permissions: [
       { value: 'http:outbound', hint: 'Call external HTTP hosts (you name the hosts next)' },
-      { value: 'weather:read', hint: 'Read forecasts through TREK\'s weather service' },
-      { value: 'rates:read', hint: 'Read currency exchange rates through TREK' },
-      { value: 'notify:send', hint: 'Send a TREK notification to a user or trip' },
+      { value: 'weather:read', hint: 'Read forecasts through Trip Mate\'s weather service' },
+      { value: 'rates:read', hint: 'Read currency exchange rates through Trip Mate' },
+      { value: 'notify:send', hint: 'Send a Trip Mate notification to a user or trip' },
       { value: 'ai:invoke', hint: 'Call the instance\'s configured AI model' },
       { value: 'oauth:client', hint: 'Obtain OAuth access tokens for the user' },
       { value: 'geolocation:read', hint: 'Ask the host for the browser\'s live position in your frames (browser prompt still applies)' },

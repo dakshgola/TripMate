@@ -5,7 +5,7 @@ import {
   type DawarichConnection,
   type DawarichStatus,
   type DawarichSyncState,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import { DatabaseService } from '../database/database.service';
 import { AuditService } from '../audit/audit.service';
 import { maybe_encrypt_api_key, decrypt_api_key } from '../common/crypto/apiKeyCrypto';

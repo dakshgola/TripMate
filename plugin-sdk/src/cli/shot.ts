@@ -1,12 +1,12 @@
 /**
- * trek-plugin shot — capture docs/screenshot.png.
+ * tripmate-plugin shot — capture docs/screenshot.png.
  *
  * The screenshot is the one registry gate an author cannot fake, cannot satisfy by writing more
  * words, and — until now — could not do anything about from the CLI at all. The scaffold's README
  * linked `./docs/screenshot.png`, nothing created it, `validate` passed anyway (it only looked for
  * an image LINK), and the truth arrived from CI after the release was immutable.
  *
- * So: boot the dev server, render the plugin in the same themed, sandboxed frame TREK uses
+ * So: boot the dev server, render the plugin in the same themed, sandboxed frame Trip Mate uses
  * (`/preview`), and write a 1600×900 PNG. One command, and the hardest gate is done.
  *
  * Playwright is NOT a dependency of this SDK — it is ~300 MB of browser and most authors never
@@ -30,7 +30,7 @@ export interface ShotOptions {
   out?: string;
   /** Screenshot an already-running dev server instead of booting one. */
   noServe?: boolean;
-  /** Render in TREK's dark theme instead of light. */
+  /** Render in Trip Mate's dark theme instead of light. */
   dark?: boolean;
 }
 
@@ -76,7 +76,7 @@ async function loadChromium(pluginDir: string): Promise<{ launch: (o?: unknown) 
   }
 
   throw new ShotError(
-    'trek-plugin shot needs Playwright, which is not installed.\n\n' +
+    'tripmate-plugin shot needs Playwright, which is not installed.\n\n' +
       '  npm i -D playwright && npx playwright install chromium\n\n' +
       'It is not a dependency of the SDK — it ships a whole browser, and most authors never run this.\n' +
       'If you would rather not install it: take a 16:9 screenshot yourself (1600×900 is ideal — the\n' +
@@ -99,8 +99,8 @@ type Chromium = Browser;
 
 export async function runShot(dir: string, opts: ShotOptions = {}): Promise<{ out: string; width: number; height: number }> {
   const root = path.resolve(dir);
-  const manifestPath = path.join(root, 'trek-plugin.json');
-  if (!fs.existsSync(manifestPath)) throw new ShotError(`no trek-plugin.json in ${dir} — is this a plugin directory?`);
+  const manifestPath = path.join(root, 'tripmate-plugin.json');
+  if (!fs.existsSync(manifestPath)) throw new ShotError(`no tripmate-plugin.json in ${dir} — is this a plugin directory?`);
 
   const manifest = readJsonFile<{ type?: string; id?: string }>(manifestPath);
   const type = String(manifest.type ?? '');
@@ -111,7 +111,7 @@ export async function runShot(dir: string, opts: ShotOptions = {}): Promise<{ ou
     throw new ShotError(
       'An integration plugin has no UI, so there is nothing for the dev server to render.\n\n' +
         'It still needs a screenshot — the registry requires one and the store card shows it. Capture the\n' +
-        'TREK surface your plugin CHANGES: the notification it sends, the badge it adds to a place, the row\n' +
+        'Trip Mate surface your plugin CHANGES: the notification it sends, the badge it adds to a place, the row\n' +
         'it contributes to a table, its settings page under Admin → Plugins.\n\n' +
         'Save it as docs/screenshot.png (16:9, 1600×900 is ideal — the card crops the edges).',
     );
@@ -136,7 +136,7 @@ export async function runShot(dir: string, opts: ShotOptions = {}): Promise<{ ou
       //
       // Spawn the CLI, not dev.js: dev.js only EXPORTS runDev, it has no entry block, so running
       // it as a script imports a module and exits — and the only symptom is a 30-second wait.
-      dev = spawn(process.execPath, [path.join(import.meta.dirname, 'trek-plugin.js'), 'dev', root, '--port', String(port)], {
+      dev = spawn(process.execPath, [path.join(import.meta.dirname, 'tripmate-plugin.js'), 'dev', root, '--port', String(port)], {
         stdio: ['ignore', 'ignore', 'pipe'],
       });
       // Keep the child's stderr. If it dies (a plugin that throws on load, a port clash), that
@@ -147,7 +147,7 @@ export async function runShot(dir: string, opts: ShotOptions = {}): Promise<{ ou
       if (!(await waitForPort(port))) {
         throw new ShotError(
           `the dev server did not come up on port ${port} within 30s.` +
-            (devErr.trim() ? `\n\n${devErr.trim()}` : '\n\nRun `trek-plugin dev` yourself to see why.'),
+            (devErr.trim() ? `\n\n${devErr.trim()}` : '\n\nRun `tripmate-plugin dev` yourself to see why.'),
         );
       }
     } else if (!(await portOpen(port))) {

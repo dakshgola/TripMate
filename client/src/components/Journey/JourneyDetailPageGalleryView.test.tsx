@@ -145,7 +145,7 @@ describe('GalleryView', () => {
     const { container } = mountGallery([])
 
     expect(screen.getByText('No photos yet')).toBeInTheDocument()
-    expect(container.querySelector('.trek--journey')).toBeInTheDocument()
+    expect(container.querySelector('.tripmate--journey')).toBeInTheDocument()
     expect(screen.getByText('0 photos')).toBeInTheDocument()
   })
 

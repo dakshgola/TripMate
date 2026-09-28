@@ -1,4 +1,4 @@
-import { normalizePlaceWebsite } from '@trek/shared';
+import { normalizePlaceWebsite } from '@tripmate/shared';
 import { readEnv, getAppUrl } from '../../app-config';
 import { stripHtmlTags } from '../common/stripHtmlTags';
 import { haversineMetres } from '../common/geo';
@@ -36,7 +36,7 @@ export const UA = buildUserAgent(getAppUrl());
 export const SEARCH_TEXT_FIELD_MASK =
   'places.id,places.displayName,places.formattedAddress,places.location,places.rating,places.websiteUri,places.nationalPhoneNumber,places.types,places.googleMapsUri,places.businessStatus';
 
-// TREK's internal language codes mostly coincide with valid BCP-47 codes, but a
+// Trip Mate's internal language codes mostly coincide with valid BCP-47 codes, but a
 // couple don't: 'br' is Brazilian Portuguese here (BCP-47 'pt-BR'; bare 'br' is
 // Breton) and 'gr' is Greek (BCP-47 'el'). Outbound geo APIs (Google Places,
 // Nominatim) expect BCP-47, so normalise before sending — otherwise names and
@@ -55,9 +55,9 @@ export function toApiLang(lang: string | undefined, fallback = 'en'): string {
 }
 
 /**
- * A wiki subdomain out of a TREK language code.
+ * A wiki subdomain out of a Trip Mate language code.
  *
- * Not the same normalisation as `toApiLang`, and the difference bites: TREK
+ * Not the same normalisation as `toApiLang`, and the difference bites: Trip Mate
  * calls Brazilian Portuguese `br`, but `br.wikipedia.org` exists and is the
  * BRETON Wikipedia. Passing the raw code through would not fail — it would
  * quietly return Breton articles. `pt-br.wikipedia.org` does not resolve at
@@ -88,7 +88,7 @@ export { haversineMetres };
  *
  * One shared word is enough only when it carries some weight — four letters or
  * more. Otherwise two have to match. A single short word is almost always an
- * article or a generic noun, and TREK speaks 23 languages, so "Der Kiosk" and
+ * article or a generic noun, and Trip Mate speaks 23 languages, so "Der Kiosk" and
  * "Der Bahnhof" would sail through a plain word-overlap test while a stopword
  * list for all of them is its own maintenance problem. Anything the pair rule
  * lets through has already survived the distance check.
@@ -269,11 +269,11 @@ export interface OverpassPoi {
   charging: ChargingInfo | null;
   /**
    * Which index the row came from. Overture is not OpenStreetMap: it carries
-   * OSM among other sources under other licences, so a row from the TREK index
+   * OSM among other sources under other licences, so a row from the Trip Mate index
    * says so rather than borrowing OSM's name. The wire contract keeps this an
    * open string, so widening it here breaks nothing.
    */
-  source: 'openstreetmap' | 'trek-places';
+  source: 'openstreetmap' | 'tripmate-places';
 }
 
 /**
@@ -406,7 +406,7 @@ const DEFAULT_OVERPASS_MIRRORS = [
   'https://overpass.private.coffee/api/interpreter',
 ];
 
-// Operators behind locked-down egress — or running their own Overpass — can point TREK
+// Operators behind locked-down egress — or running their own Overpass — can point Trip Mate
 // at one or more custom endpoints via OVERPASS_URL (comma-separated). When set it
 // REPLACES the public mirrors, so a firewalled cluster never reaches out to them and a
 // self-hosted instance is used exclusively (see #1309). Non-http(s) entries are dropped.
@@ -727,7 +727,7 @@ export function parseWikipediaTag(tag: string | undefined | null): { lang: strin
 // Ids that can never resolve against the Google Places API: coordinate pseudo-ids
 // (right-click places, in both the coords: and the bare "lat,lng" spelling the
 // collection views send), OSM ids the client sends when a place has no
-// google_place_id, GERS ids from the TREK index, Amap POI ids (`amap:<poiid>`,
+// google_place_id, GERS ids from the Trip Mate index, Amap POI ids (`amap:<poiid>`,
 // which are otherwise shaped exactly like a Google id), the raw photo URLs
 // legacy rows keep in image_url, and photo cache keys of the form "<placeId>~p3"
 // that enrichment mints for the picker.

@@ -5,7 +5,7 @@
 import React from 'react'
 import { act, renderHook, waitFor } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
-import type { Collection, CollectionLabel, CollectionMember, CollectionPlace, CollectionStatus } from '@trek/shared'
+import type { Collection, CollectionLabel, CollectionMember, CollectionPlace, CollectionStatus } from '@tripmate/shared'
 import { TranslationProvider } from '../../i18n'
 import { useAuthStore } from '../../store/authStore'
 import { useSettingsStore } from '../../store/settingsStore'
@@ -983,7 +983,7 @@ describe('useCollections — local UI state', () => {
 
 describe('useCollections — export and import as a file', () => {
   const listFile = {
-    format: 'trek.collection', version: 1, name: 'Lisbon',
+    format: 'tripmate.collection', version: 1, name: 'Lisbon',
     places: [{ name: 'Time Out Market' }, { name: 'Miradouro' }],
   }
 
@@ -1193,7 +1193,7 @@ describe('useCollections: GPX (#2301)', () => {
 
   it('FE-PAGE-COLL-081: reads a GPX through the server and hands the list file back to the dialog', async () => {
     const seen: unknown[] = []
-    const read = { file: { format: 'trek.collection', version: 1, name: 'Sintra', places: [] }, skipped: 1, track_points: 9 }
+    const read = { file: { format: 'tripmate.collection', version: 1, name: 'Sintra', places: [] }, skipped: 1, track_points: 9 }
     server.use(http.post('/api/addons/collections/gpx/read', async ({ request }) => {
       seen.push(await request.json())
       return HttpResponse.json(read)

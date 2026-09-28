@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen, act } from '../../helpers/render'
-import { bookPageSetupSchema, bookSpreadSchema } from '@trek/shared'
+import { bookPageSetupSchema, bookSpreadSchema } from '@tripmate/shared'
 import { seedStore } from '../../helpers/store'
 import { buildSettings } from '../../helpers/factories'
 import { useSettingsStore } from '../../../src/store/settingsStore'

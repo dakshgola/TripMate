@@ -62,7 +62,7 @@ function mountDialog(journey: JourneyDetail = buildJourney()) {
 
 /** The confirm dialogs are portalled and only differ by their heading. */
 function confirmIn(headingText: string) {
-  const modal = screen.getByRole('heading', { name: headingText }).closest('.trek-modal-enter') as HTMLElement
+  const modal = screen.getByRole('heading', { name: headingText }).closest('.tripmate-modal-enter') as HTMLElement
   return within(modal)
 }
 

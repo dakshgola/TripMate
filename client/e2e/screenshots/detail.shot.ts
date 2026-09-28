@@ -75,7 +75,7 @@ test('costs — record a settle-up payment', async ({ page, shot }) => {
   await addPayment.click()
   await page.waitForTimeout(700)
 
-  const modal = page.locator('.trek-modal-backdrop > div').first()
+  const modal = page.locator('.tripmate-modal-backdrop > div').first()
   await expect(modal).toBeVisible()
   await shot.element('CostsSettleUp', modal)
 })

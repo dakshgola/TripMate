@@ -12,7 +12,7 @@ const roadtrip: TranslationStrings = {
   'roadtrip.charging.coverage': 'Open data; dekking verschilt per regio en aanbieder.',
   'roadtrip.charging.availability': 'Beschikbaarheid en tarieven',
   'roadtrip.import.title': 'Google Maps-route importeren',
-  'roadtrip.import.note': 'Stops worden aan de gekozen dag toegevoegd. TREK berekent de route opnieuw.',
+  'roadtrip.import.note': 'Stops worden aan de gekozen dag toegevoegd. Trip Mate berekent de route opnieuw.',
   'roadtrip.import.unresolved': 'Locatie niet gevonden; deze stop wordt overgeslagen.',
   'roadtrip.import.day': 'Dag',
   'roadtrip.hazards.show': 'Gevarengebieden tonen',
@@ -96,7 +96,7 @@ const roadtrip: TranslationStrings = {
   'roadtrip.limit.afterFill': 'Een stop tot {percent} % geeft {distance}',
   'roadtrip.limit.fullNote': 'Een stop maakt weer helemaal vol',
   'roadtrip.limit.rangeEmpty': 'Geen actieradius',
-  'roadtrip.limit.rangeEmptyHint': 'Vul een actieradius in, of vul de velden in en TREK rekent hem uit.',
+  'roadtrip.limit.rangeEmptyHint': 'Vul een actieradius in, of vul de velden in en Trip Mate rekent hem uit.',
   'roadtrip.limit.specHint': 'Ingevuld bepalen deze velden de actieradius hierboven.',
   'roadtrip.limit.vehicleHint':
     'Geef aan wat je rijdt, dan kun je de voertuiggegevens invullen in plaats van een actieradius.',
@@ -283,7 +283,8 @@ const roadtrip: TranslationStrings = {
   'roadtrip.summary.partial': 'De rest van de rit wordt nog berekend',
   'roadtrip.stay.releaseTitle': 'Overnachting laten vervallen?',
   'roadtrip.stay.releaseBody': 'De nacht bij ‘{name}’ wordt verwijderd. De stop blijft als pauze op de route.',
-  'roadtrip.stay.releaseBookedBody': 'De nacht bij ‘{name}’ wordt verwijderd, samen met de boeking ‘{booking}’ en elke gekoppelde uitgave. De stop blijft als pauze op de route.',
+  'roadtrip.stay.releaseBookedBody':
+    'De nacht bij ‘{name}’ wordt verwijderd, samen met de boeking ‘{booking}’ en elke gekoppelde uitgave. De stop blijft als pauze op de route.',
   'roadtrip.stay.releaseAction': 'Maak er een pauze van',
   'roadtrip.ride.departure': 'Vertrek {time}',
   'roadtrip.ride.arrival': 'Aankomst {time}',

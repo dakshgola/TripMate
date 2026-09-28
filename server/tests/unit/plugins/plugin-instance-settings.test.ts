@@ -67,8 +67,8 @@ function installFixturePlugin(opts: { settings: Array<Record<string, unknown>> }
   const dir = path.join(codeRoot, 'fixture-id', 'server');
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(
-    path.join(codeRoot, 'fixture-id', 'trek-plugin.json'),
-    JSON.stringify({ id: 'fixture-id', name: 'Fixture', version: '1.0.0', type: 'integration', trek: '>=4.0.0 <5.0.0', settings: opts.settings }),
+    path.join(codeRoot, 'fixture-id', 'tripmate-plugin.json'),
+    JSON.stringify({ id: 'fixture-id', name: 'Fixture', version: '1.0.0', type: 'integration', tripmate: '>=4.0.0 <5.0.0', settings: opts.settings }),
   );
   fs.writeFileSync(path.join(dir, 'index.js'), 'module.exports={}');
   discoverPlugins(testDb);
@@ -81,12 +81,12 @@ beforeAll(() => {
 beforeEach(() => {
   testDb.prepare('DELETE FROM plugins').run();
   testDb.prepare('DELETE FROM plugin_settings_fields').run();
-  process.env.TREK_PLUGINS_ENABLED = 'true';
+  process.env.TRIPMATE_PLUGINS_ENABLED = 'true';
   codeRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ins-settings-'));
-  process.env.TREK_PLUGINS_DIR = codeRoot;
+  process.env.TRIPMATE_PLUGINS_DIR = codeRoot;
 });
 afterEach(() => {
-  delete process.env.TREK_PLUGINS_DIR;
+  delete process.env.TRIPMATE_PLUGINS_DIR;
   fs.rmSync(codeRoot, { recursive: true, force: true });
 });
 
@@ -282,7 +282,7 @@ describe('admin config endpoints (controller)', () => {
   it('INS-010: with the kill switch off the save is refused before anything is written', async () => {
     install('p');
     declareField('p', 'apiUrl', 'instance');
-    process.env.TREK_PLUGINS_ENABLED = 'false';
+    process.env.TRIPMATE_PLUGINS_ENABLED = 'false';
     const respawnIfActive = vi.fn(async () => false);
 
     const failed = await controllerWith({ respawnIfActive })

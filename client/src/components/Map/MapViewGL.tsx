@@ -1,6 +1,6 @@
 import { useEffect, useRef, useMemo, useState, createElement, useCallback } from 'react'
 import { makeMarkerDraggable, makePoiDraggable, draggedPoiId } from './markerDrag'
-import type { DawarichTrack, RoadtripVia } from '@trek/shared'
+import type { DawarichTrack, RoadtripVia } from '@tripmate/shared'
 import { useStableVias } from './viaMarkerState'
 import { ALT_CASING, ALT_LABEL_TEXT } from '../Roadtrip/alternativeColors'
 import type { AlternativeOverlay } from '../Roadtrip/alternativeOverlays'
@@ -29,7 +29,7 @@ import type { MapHoverInfo } from './mapHover'
 import { nightPauseMarker, NIGHT_PAUSE_MIN_ZOOM } from './nightPauseMarker'
 import { clusterPois, poiClusterMarkup, poiClusterList, POI_CLUSTER_DETAIL_ZOOM } from './poiClusters'
 import { groupCoincidentPlaces } from './coincidentPlaces'
-import type { RoadtripHazard } from '@trek/shared'
+import type { RoadtripHazard } from '@tripmate/shared'
 import { useHazardLayerGL } from './useHazardLayerGL'
 import { useDawarichTrailGL } from './useDawarichTrailGL'
 import { bindDayBoundaryDrag, type DayBoundaryControls } from './dayBoundaryDrag'
@@ -67,7 +67,7 @@ const GPX_HIT_LAYER_ID = 'trip-gpx-hit'
  *
  * Leaflet swaps its whole tile layer for the imagery; a GL map cannot, because the
  * basemap is a style with dozens of layers in it. So the imagery goes on as a raster
- * layer of its own, drawn over the style and under everything TREK adds — the route,
+ * layer of its own, drawn over the style and under everything Trip Mate adds — the route,
  * the pins and the tracks stay on top and stay legible, which is the same order the
  * Leaflet map ends up with.
  *
@@ -75,12 +75,12 @@ const GPX_HIT_LAYER_ID = 'trip-gpx-hit'
  */
 const SATELLITE_SOURCE_ID = 'trip-satellite'
 const SATELLITE_LAYER_ID = 'trip-satellite-raster'
-/** Everything TREK draws is prefixed; the imagery is inserted before the first of them. */
-// Everything TREK draws on a GL map, so the satellite raster can be slipped underneath all
+/** Everything Trip Mate draws is prefixed; the imagery is inserted before the first of them. */
+// Everything Trip Mate draws on a GL map, so the satellite raster can be slipped underneath all
 // of it. `route-alt-` earns its place here: the roads offered for a leg are added before the
 // route source so they sit under the current route, which also puts them before the first
 // `trip-` layer, and anchoring the imagery there painted right over them.
-const OWN_LAYER_PREFIXES = ['trip-', 'trek-', 'route-alt-']
+const OWN_LAYER_PREFIXES = ['trip-', 'tripmate-', 'route-alt-']
 
 type PlaceWithCoords = Place & { lat: number; lng: number }
 
@@ -340,7 +340,7 @@ function applySatellite(map: any, on: boolean): void {
         attribution: SATELLITE_TILE_ATTRIBUTION,
       })
     }
-    // Under the first thing TREK draws, over everything the basemap style draws.
+    // Under the first thing Trip Mate draws, over everything the basemap style draws.
     // Without the anchor the imagery lands on top and buries the route.
     const layers = map.getStyle?.()?.layers ?? []
     const firstOwn = layers.find((l: { id: string }) =>
@@ -451,13 +451,13 @@ function createMarkerElement(place: Place & { category_color?: string; category_
 // data only, tone palette, plugin JS never touches the canvas. Layer features live
 // in one geojson source with data-driven paint; the dash style can't be data-driven
 // in GL, so the stroke is split across three filtered line layers.
-const PLUGIN_LAYER_SOURCE_ID = 'trek-plugin-layers'
+const PLUGIN_LAYER_SOURCE_ID = 'tripmate-plugin-layers'
 const PLUGIN_LINE_LAYER_IDS: Record<'solid' | 'dash' | 'dot', string> = {
-  solid: 'trek-plugin-layers-line-solid',
-  dash: 'trek-plugin-layers-line-dash',
-  dot: 'trek-plugin-layers-line-dot',
+  solid: 'tripmate-plugin-layers-line-solid',
+  dash: 'tripmate-plugin-layers-line-dash',
+  dot: 'tripmate-plugin-layers-line-dot',
 }
-const PLUGIN_FILL_LAYER_ID = 'trek-plugin-layers-fill'
+const PLUGIN_FILL_LAYER_ID = 'tripmate-plugin-layers-fill'
 const PLUGIN_TONE_COLORS: Record<string, string> = {
   default: '#4F46E5',
   success: '#10b981',
@@ -770,7 +770,7 @@ export function MapViewGL({
   const containerRef = useRef<HTMLDivElement>(null)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mapRef = useRef<any | null>(null)
-  const hazardPopupFactory = useCallback(() => new gl.Popup({ className: 'map-tooltip trek-hazard-popup', maxWidth: '320px' }), [gl])
+  const hazardPopupFactory = useCallback(() => new gl.Popup({ className: 'map-tooltip tripmate-hazard-popup', maxWidth: '320px' }), [gl])
   useHazardLayerGL(mapRef.current, mapReady, hazards, hazardPopupFactory)
   // Beneath the planned route's casing, the GL twin of the Leaflet pane order.
   useDawarichTrailGL(mapRef.current, mapReady, dawarichTrack, dawarichSelectedDate, 'trip-route-casing', dawarichHiddenDates)
@@ -1030,7 +1030,7 @@ export function MapViewGL({
         `color:${ALT_LABEL_TEXT}`,
         'border:none;border-radius:11px',
         // A <button> does not inherit the page's font, so without this the label reads in
-        // the browser's UI face while every other piece of TREK chrome reads in Poppins.
+        // the browser's UI face while every other piece of Trip Mate chrome reads in Poppins.
         'font-family:var(--font-system)',
         'padding:6px 11px;font-size:13px;font-weight:600;line-height:1.25',
         'box-shadow:0 2px 10px rgba(0,0,0,.35)',
@@ -1242,7 +1242,7 @@ export function MapViewGL({
       // itself — without them the card sat almost on top of the marker.
       offset: 26,
       maxWidth: '240px',
-      className: 'trek-map-popup',
+      className: 'tripmate-map-popup',
     })
     /*
      * The credit starts as the little (i), not as a ribbon across the map.

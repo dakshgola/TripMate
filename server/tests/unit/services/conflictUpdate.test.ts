@@ -50,7 +50,7 @@ import { QueryHelpersService } from '../../../src/nest/query-helpers/query-helpe
 import { UnsplashService } from '../../../src/nest/unsplash/unsplash.service';
 import { PlacePhotoCacheService } from '../../../src/nest/place-photos/place-photo-cache.service';
 import { JourneyDomainService } from '../../../src/nest/journey/journey-domain.service';
-import { TrekPhotosRepository } from '../../../src/nest/photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../../../src/nest/photos/tripmate-photos.repository';
 import { RuntimeEnvService } from '../../../src/nest/app-config/runtime-env.service';
 import { notificationsStub } from '../../helpers/notifications';
 import { makeStorageFixture } from '../../helpers/storage-fixture';

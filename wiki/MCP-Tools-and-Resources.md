@@ -1,6 +1,6 @@
 # MCP Tools and Resources
 
-TREK exposes **tools** (read and write actions) and **resources** (read-only `trek://` URIs). Tools are registered per-session based on OAuth scopes and enabled addons.
+Trip Mate exposes **tools** (read and write actions) and **resources** (read-only `tripmate://` URIs). Tools are registered per-session based on OAuth scopes and enabled addons.
 
 Every built-in tool checks its arguments against its published schema before anything runs. An argument the tool does not declare (a misspelt field such as `stopType` for `stop_type`) is refused with `Unrecognized key`, so the AI sees the mistake and can retry rather than reporting a change that never happened. Plugin-contributed tools follow the schema their manifest declares.
 
@@ -41,7 +41,7 @@ Requires `trips:read` or `trips:write` scope.
 | `add_trip_member` | Add a user to a trip by username or email. Owner only. |
 | `remove_trip_member` | Remove a collaborator from a trip. Owner only. |
 | `leave_trip` | Leave a trip you were invited to, giving up your own access. Use this rather than `remove_trip_member` when the user means themselves. The owner cannot leave their own trip. Requires `trips:write`. |
-| `create_trip_guest` | Add a travelling companion who has no TREK account. Assignable to budget splits, packing and day participants; never signs in, never emailed. Owner only. |
+| `create_trip_guest` | Add a travelling companion who has no Trip Mate account. Assignable to budget splits, packing and day participants; never signs in, never emailed. Owner only. |
 | `rename_trip_guest` | Rename a guest on a trip. Owner only. |
 | `delete_trip_guest` | Delete a guest and re-split the expenses they were part of. Owner only. |
 | `copy_trip` | Duplicate a trip (days, places, itinerary, packing, budget, reservations). Packing items reset to unchecked. |
@@ -68,7 +68,7 @@ Requires `places:read` or `places:write` scope.
 | `create_category` | Add a category to the instance-wide palette, with name, hex colour and emoji icon. Every trip on the instance sees it, so prefer an existing one from `list_categories`. Admin only; a non-admin gets `Admin access required`. Requires `places:write`. |
 | `update_category` | Rename a category or change its colour or icon. Every place already carrying it follows the change. Admin only. Requires `places:write`. |
 | `delete_category` | Remove a category from the palette. Places keep their data but lose the category, across every trip. Admin only. Requires `places:write`. |
-| `search_place` | Search for a place by name or address, the way the full search in the app does: TREK's own place index and OpenStreetMap together, and Google or Amap only when both are empty. Returns `osm_id` (and `google_place_id` / `google_ftid` when Google answered) for use in `create_place`. Takes an optional `locationBias` to rank results around the trip's destination, and an optional `provider: 'google'` that sends this one search to Google Places alone, the same as the **Search Google instead** line under a result list in the app; it is ignored unless Google holds the keyed slot: an instance without a Google key, or one whose admin picked Amap or OpenStreetMap as the places provider, answers from the index and OpenStreetMap as usual. With the admin switch **Search with Google only** on (see [Places-and-Search](Places-and-Search#with-a-google-maps-api-key)), every call goes to Google whatever is passed, and the index and OpenStreetMap are never asked, so no result carries an `osm_id`. |
+| `search_place` | Search for a place by name or address, the way the full search in the app does: Trip Mate's own place index and OpenStreetMap together, and Google or Amap only when both are empty. Returns `osm_id` (and `google_place_id` / `google_ftid` when Google answered) for use in `create_place`. Takes an optional `locationBias` to rank results around the trip's destination, and an optional `provider: 'google'` that sends this one search to Google Places alone, the same as the **Search Google instead** line under a result list in the app; it is ignored unless Google holds the keyed slot: an instance without a Google key, or one whose admin picked Amap or OpenStreetMap as the places provider, answers from the index and OpenStreetMap as usual. With the admin switch **Search with Google only** on (see [Places-and-Search](Places-and-Search#with-a-google-maps-api-key)), every call goes to Google whatever is passed, and the index and OpenStreetMap are never asked, so no result carries an `osm_id`. |
 | `search_places_via_plugins` | Search the place indexes installed plugins provide, alongside `search_place` rather than instead of it. Results have the shape `search_place` returns plus a `rating` and the `pluginId` that found them; only these results can carry a rating. Empty when no plugin offers a search index. Requires `places:read`. |
 
 ### Day Planning
@@ -182,7 +182,7 @@ Requires `places:read` or `places:write` scope.
 | `get_place_details` | `geo:read` | Fetch detailed information (hours, photos, ratings) about a place by its Google Place ID. |
 | `reverse_geocode` | `geo:read` | Get a human-readable address for given coordinates. |
 | `resolve_maps_url` | `geo:read` | Resolve a Google Maps or Amap (高德地图) share URL to coordinates and place name. |
-| `search_pois` | `geo:read` | List places of one or more categories inside a map rectangle, the MCP side of the category buttons on the trip map. Answers from TREK's place index where it can and from OpenStreetMap (Overpass) otherwise, names the source of each result, and never calls Google. |
+| `search_pois` | `geo:read` | List places of one or more categories inside a map rectangle, the MCP side of the category buttons on the trip map. Answers from Trip Mate's place index where it can and from OpenStreetMap (Overpass) otherwise, names the source of each result, and never calls Google. |
 | `search_airports` | `geo:read` | Search for airports by name, city, or IATA code. Returns IATA code, name, city, country, timezone. |
 | `get_airport` | `geo:read` | Look up an airport by IATA code (e.g. `"ZRH"`, `"CDG"`). |
 | `get_weather` | `weather:read` | Get a weather forecast for a location and date. |
@@ -273,7 +273,7 @@ Photo bytes are never returned: those are image URLs the app renders.
 
 | Tool | Description |
 |---|---|
-| `list_help_topics` | List the bundled help pages. Answers "how do I do X in TREK?" without guessing. |
+| `list_help_topics` | List the bundled help pages. Answers "how do I do X in Trip Mate?" without guessing. |
 | `get_help_page` | Read one help page. |
 | `list_addons` | Which addons and collaboration features this instance has enabled. Worth calling when a tool you expected is not in the list: an addon that is off removes its tools exactly the way a missing scope does. |
 | `get_trip_warnings` | Warnings plugins have raised about a trip. A plugin raising one is telling the user something is wrong, so it is worth reading before reviewing an itinerary. |
@@ -282,22 +282,22 @@ Photo bytes are never returned: those are image URLs the app renders.
 
 ## Resources
 
-Resources provide read-only access via `trek://` URIs. Read them to understand current state before making changes.
+Resources provide read-only access via `tripmate://` URIs. Read them to understand current state before making changes.
 
 ### Core resources
 
 | URI | Scope required | Description |
 |---|---|---|
-| `trek://trips` | `trips:*` | All trips you own or are a member of |
-| `trek://trips/{tripId}` | `trips:*` | Single trip with metadata and member count |
-| `trek://trips/{tripId}/days` | `trips:read` | Days of a trip with their assigned places |
-| `trek://trips/{tripId}/places` | `places:read` | All places in a trip. Supports `?assignment=all\|unassigned\|assigned` |
-| `trek://trips/{tripId}/reservations` | `reservations:read` | Flights, hotels, restaurants, and other reservations |
-| `trek://trips/{tripId}/days/{dayId}/notes` | `trips:read` | Notes for a specific day |
-| `trek://trips/{tripId}/accommodations` | `trips:read` | Hotels and rentals with check-in/out details |
-| `trek://trips/{tripId}/members` | `trips:*` | Owner and collaborators |
-| `trek://categories` | (any) | Available place categories (id, name, icon, color) |
-| `trek://notifications/in-app` | `notifications:read` | Your in-app notifications (most recent 50, newest first) |
+| `tripmate://trips` | `trips:*` | All trips you own or are a member of |
+| `tripmate://trips/{tripId}` | `trips:*` | Single trip with metadata and member count |
+| `tripmate://trips/{tripId}/days` | `trips:read` | Days of a trip with their assigned places |
+| `tripmate://trips/{tripId}/places` | `places:read` | All places in a trip. Supports `?assignment=all\|unassigned\|assigned` |
+| `tripmate://trips/{tripId}/reservations` | `reservations:read` | Flights, hotels, restaurants, and other reservations |
+| `tripmate://trips/{tripId}/days/{dayId}/notes` | `trips:read` | Notes for a specific day |
+| `tripmate://trips/{tripId}/accommodations` | `trips:read` | Hotels and rentals with check-in/out details |
+| `tripmate://trips/{tripId}/members` | `trips:*` | Owner and collaborators |
+| `tripmate://categories` | (any) | Available place categories (id, name, icon, color) |
+| `tripmate://notifications/in-app` | `notifications:read` | Your in-app notifications (most recent 50, newest first) |
 
 For addon-gated resources (Budget, Packing, To-Dos, Collab, Atlas, Vacay, Journey), see [MCP-Addon-Tools](MCP-Addon-Tools).
 

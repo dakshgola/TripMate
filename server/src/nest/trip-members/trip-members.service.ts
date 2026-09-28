@@ -8,7 +8,7 @@ import { BudgetService } from '../budget/budget.service';
 import { PermissionsService } from '../permissions/permissions.service';
 import { RealtimeService } from '../realtime/realtime.service';
 import { TRIP_SELECT } from '../trips/trips.service';
-import type { TrekWsPayload, TrekWsTripEventName } from '@trek/shared';
+import type { TrekWsPayload, TrekWsTripEventName } from '@tripmate/shared';
 import { emitUserDeleted } from '../../plugin-user-lifecycle';
 import { NotFoundError, ValidationError } from '../common/domain-errors';
 import { NotificationsService } from '../notifications/notifications.service';

@@ -1,5 +1,5 @@
 import { furthestFrom, sameRoad, type RoadLine } from '../Map/RouteCalculator'
-import { isStoredStop, type RouteSegment } from '@trek/shared/roadtrip'
+import { isStoredStop, type RouteSegment } from '@tripmate/shared/roadtrip'
 import type { RailLegRoute, RailLegRouter, RoadtripDay, RoadtripStop } from './useRoadtripRoutes'
 import type { OfferedRoute, RailDrive, ViaAnchor } from './useRouteAlternatives'
 

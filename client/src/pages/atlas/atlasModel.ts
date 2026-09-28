@@ -1,4 +1,4 @@
-import { continentForCountry, type VisitStatus } from '@trek/shared'
+import { continentForCountry, type VisitStatus } from '@tripmate/shared'
 
 /**
  * Shared types + pure helpers for the Atlas page. No React, no side effects.

@@ -40,7 +40,7 @@
 
 /*
  * The design draws these boxes with their border outside the stated size, the
- * browser default. TREK sets border-box globally, which would take 2px off each.
+ * browser default. Trip Mate sets border-box globally, which would take 2px off each.
  */
 .rn-panel,
 .rn-mark,
@@ -413,7 +413,7 @@
 
 .rn-vis-trekmark { display: block; height: 20px; width: auto; color: #f5f5f7; }
 
-.rn-vis-places .trek-mark .pill-fg { fill: #101013; }
+.rn-vis-places .tripmate-mark .pill-fg { fill: #101013; }
 
 .rn-vis-search {
   display: flex;

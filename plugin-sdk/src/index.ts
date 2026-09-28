@@ -2,7 +2,7 @@
  * trek-plugin-sdk — the author-facing SDK for building TREK plugins (#plugins, M6).
  *
  * Types + `definePlugin` mirror what the isolated runtime injects, so a plugin
- * written against this package runs unchanged inside TREK. Pure and
+ * written against this package runs unchanged inside Trip Mate. Pure and
  * dependency-free.
  */
 
@@ -415,17 +415,17 @@ export interface PhotoProvider {
  * A channel plugin never touches i18n — it only delivers.
  */
 export interface NotificationMessage {
-  /** The TREK event that produced this, e.g. `trip_invite`. */
+  /** The Trip Mate event that produced this, e.g. `trip_invite`. */
   event: string;
   title: string;
   body: string;
-  /** Absolute deep link back into TREK, when the event has one. */
+  /** Absolute deep link back into Trip Mate, when the event has one. */
   url?: string;
   tripName?: string;
 }
 
 /**
- * Deliver TREK notifications over a channel TREK doesn't ship (Gotify, Pushover, …).
+ * Deliver Trip Mate notifications over a channel Trip Mate doesn't ship (Gotify, Pushover, …).
  * Needs `hook:notification-channel`.
  *
  * Unlike every other hook, this one is HOST-initiated for an arbitrary recipient, so
@@ -469,7 +469,7 @@ export interface CalendarSource {
   // The host caps results at 500 events per source per request.
   getEvents(userId: number, start: string, end: string, ctx: PluginContext): Promise<CalendarEvent[]>;
 }
-/** One row of extra place info TREK renders natively (reviews/ratings/links/…). */
+/** One row of extra place info Trip Mate renders natively (reviews/ratings/links/…). */
 export interface PlaceDetailItem { label: string; value?: string; url?: string; }
 export interface PlaceDetailProvider {
   /** Extra info for a place; core calls this for a `place-detail` panel. Needs `hook:place-detail-provider`.
@@ -510,7 +510,7 @@ export interface SearchRequest {
   bounds?: { south: number; west: number; north: number; east: number };
 }
 export interface SearchProvider {
-  /** Places for a query, drawn into TREK's own search list beside the core results.
+  /** Places for a query, drawn into Trip Mate's own search list beside the core results.
    * Needs `hook:search-provider`. The host caps results at 20 places per provider and
    * gives you 2 seconds to answer, because somebody is waiting on the list.
    *
@@ -518,7 +518,7 @@ export interface SearchProvider {
    * limits, and a request per typed letter would spend them on words nobody finished. */
   search(request: SearchRequest, ctx: PluginContext): Promise<SearchResultPlace[]>;
 }
-/** A validation/warning a plugin raises on a trip; TREK surfaces it in the planner. */
+/** A validation/warning a plugin raises on a trip; Trip Mate surfaces it in the planner. */
 export interface TripWarning { level: 'info' | 'warning' | 'error'; message: string; dayId?: number; placeId?: number; }
 export interface WarningProvider {
   /** Problems/warnings for a trip (e.g. overpacked day, place closed). Needs `hook:trip-warning-provider`.
@@ -613,7 +613,7 @@ export interface RouteWaypoint {
   lat: number;
   lng: number;
   name?: string;    // the stop's display name, when known
-  placeId?: number; // the TREK place behind this stop, when it is one
+  placeId?: number; // the Trip Mate place behind this stop, when it is one
 }
 /** What the planner asks a routeProvider to route. */
 export interface RouteRequest {
@@ -785,7 +785,7 @@ export interface TripCardProvider {
   getCards(tripIds: number[], ctx: PluginContext): Promise<TripCardContribution[]>;
 }
 
-/** One row of extra info TREK renders under a journal entry (same shape as PlaceDetailItem). */
+/** One row of extra info Trip Mate renders under a journal entry (same shape as PlaceDetailItem). */
 export interface JournalEntryRow { label: string; value?: string; url?: string; }
 export interface JournalEntryProvider {
   /** Return rows for a journal entry. Runs with the current user bound, on a short
@@ -820,7 +820,7 @@ export interface PluginSubscription {
 }
 
 /**
- * Publishes MCP tools on TREK's own MCP server, so an assistant can call into
+ * Publishes MCP tools on Trip Mate's own MCP server, so an assistant can call into
  * the plugin as the requesting user. Requires the `mcp:tools` permission.
  *
  * `tools` lists which of the tools declared in `capabilities.mcpTools` this
@@ -846,7 +846,7 @@ export interface PluginDefinition {
   /** Handles a callback registered via ctx.scheduler (userless, like a job). The
    * `name` identifies which scheduled task fired; `payload` is what you passed. */
   scheduled?(input: { name: string; payload: unknown }, ctx: PluginContext): Promise<void> | void;
-  /** GDPR erasure: a TREK account was deleted — remove everything you hold about it
+  /** GDPR erasure: a Trip Mate account was deleted — remove everything you hold about it
    * from your OWN db. Userless (no acting user). Needs `hook:user-data`. The host
    * calls this durably (queued, retried until it succeeds), so make it idempotent. */
   deleteUserData?(input: { userId: number }, ctx: PluginContext): Promise<void> | void;
@@ -891,7 +891,7 @@ export interface PluginDefinition {
   subscriptions?: PluginSubscription[];
 }
 
-/** Define a plugin. Gives you types; the returned object is what TREK loads. */
+/** Define a plugin. Gives you types; the returned object is what Trip Mate loads. */
 export function definePlugin(def: PluginDefinition): PluginDefinition {
   return def;
 }
@@ -909,7 +909,7 @@ export {
   type ManifestCapabilities,
 } from './manifest.js';
 export { createMockHost, type MockHostOptions } from './mock-host.js';
-// The permissions TREK enforces OUTSIDE ctx — hooks, events, jobs, egress. An entry
+// The permissions Trip Mate enforces OUTSIDE ctx — hooks, events, jobs, egress. An entry
 // point you implement without its grant is never called in production, silently; these
 // are what `dev` and the mock driver use to make that loud.
 export {
@@ -933,7 +933,7 @@ export interface PluginSessionStorageOptions {
   scope?: PluginSessionStorageScope;
 }
 
-/** The `window.trek.session` surface. Values must be JSON-serialisable. */
+/** The `window.tripmate.session` surface. Values must be JSON-serialisable. */
 export interface PluginSessionStorage {
   get<T = unknown>(key: string, options?: PluginSessionStorageOptions): Promise<T | undefined>;
   set(key: string, value: unknown, options?: PluginSessionStorageOptions): Promise<void>;
@@ -942,6 +942,6 @@ export interface PluginSessionStorage {
 }
 
 // The design kit for page/widget UIs: inline these into your client/index.html
-// (or drop a `<!-- trek:ui -->` marker and let `dev`/`pack` expand it) to get the
-// native TREK look — glass, hover, buttons, inputs — plus a `window.trek` bridge.
-export { TREK_UI_CSS, TREK_THEME_JS, TREK_UI_MARKER, injectTrekUi } from './ui/kit.js';
+// (or drop a `<!-- tripmate:ui -->` marker and let `dev`/`pack` expand it) to get the
+// native Trip Mate look — glass, hover, buttons, inputs — plus a `window.tripmate` bridge.
+export { TRIPMATE_UI_CSS, TRIPMATE_THEME_JS, TRIPMATE_UI_MARKER, injectTrekUi } from './ui/kit.js';

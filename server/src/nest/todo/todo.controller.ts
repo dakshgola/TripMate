@@ -23,7 +23,7 @@ import { RequirePermission, TripAccessGuard } from '../permissions/trip-access.g
  * Every handler verifies trip access (404); mutations check the 'packing_edit'
  * permission (403); create is 201, the rest 200; mutations broadcast over
  * WebSocket with the forwarded X-Socket-Id. /reorder is declared before /:id so
- * it wins over the param. Bodies validate against the @trek/shared todo schemas
+ * it wins over the param. Bodies validate against the @tripmate/shared todo schemas
  * via the DTO classes in todo.dto.ts + the global ZodValidationPipe (400 with
  * the standard `{ error }` envelope on mismatch — this replaced the legacy
  * bespoke 'Item name is required' check).

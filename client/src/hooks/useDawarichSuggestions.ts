@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import type { DawarichAccept, DawarichSuggestion, DawarichSyncState } from '@trek/shared'
+import type { DawarichAccept, DawarichSuggestion, DawarichSyncState } from '@tripmate/shared'
 import { dawarichApi } from '../api/dawarich'
 import { dawarichRepo, DawarichOfflineError } from '../repo/dawarichRepo'
 import { isEffectivelyOffline } from '../sync/networkMode'

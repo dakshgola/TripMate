@@ -18,9 +18,9 @@ import { DocSyncService } from './doc-sync.service';
  * data would mean trusting an unauthenticated stranger's description of what
  * changed. So the webhook means exactly one thing: look now.
  *
- * `@Public` because a provider cannot hold a TREK session. The token in the URL
+ * `@Public` because a provider cannot hold a Trip Mate session. The token in the URL
  * is the authentication, one per binding, so a leaked URL can only ever nudge
- * the one trip it belongs to, and nudging is all it can do. Where TREK
+ * the one trip it belongs to, and nudging is all it can do. Where Trip Mate
  * registered the subscription itself, the shared secret it handed over is
  * checked as well.
  */
@@ -70,7 +70,7 @@ export class DocSyncWebhookController implements OnModuleDestroy {
   }
 
   @Post(':token')
-  @Public('A provider cannot hold a TREK session; the per-link token in the URL is the authentication, and the call can only ever trigger a sync run.')
+  @Public('A provider cannot hold a Trip Mate session; the per-link token in the URL is the authentication, and the call can only ever trigger a sync run.')
   @HttpCode(200)
   nudge(@Param('token') token: string, @Req() req: Request) {
     const link = this.config.getLinkByToken(token);
@@ -79,11 +79,11 @@ export class DocSyncWebhookController implements OnModuleDestroy {
     if (!link || link.sync_enabled !== 1) return { received: true };
     if (!this.syncIsOn(link)) return { received: true };
 
-    // The secret is only known to a provider TREK subscribed at itself, so it
+    // The secret is only known to a provider Trip Mate subscribed at itself, so it
     // is only demanded there. A URL pasted into a store by hand (Papra, or a
     // Nextcloud without admin rights) carries the token and nothing else: the
     // secret is never shown to anybody, and Papra signs with a secret of its
-    // own that TREK cannot know. Demanding it there meant every such call was
+    // own that Trip Mate cannot know. Demanding it there meant every such call was
     // dropped and the binding ran on the timer while the screen promised
     // instant updates.
     const secret = link.webhook_subscription_id ? this.config.webhookSecret(link) : '';
@@ -133,7 +133,7 @@ export class DocSyncWebhookController implements OnModuleDestroy {
    * the endpoint tells a prober nothing either way.
    */
   private secretMatches(req: Request, secret: string): boolean {
-    const header = req.get('x-trek-docsync-secret');
+    const header = req.get('x-tripmate-docsync-secret');
     if (header && timingSafeEqualStr(header, secret)) return true;
 
     const sig = req.get('webhook-signature');

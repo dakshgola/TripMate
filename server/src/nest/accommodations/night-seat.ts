@@ -1,5 +1,5 @@
 import type Database from 'better-sqlite3';
-import { seamViaIndex } from '@trek/shared/roadtrip';
+import { seamViaIndex } from '@tripmate/shared/roadtrip';
 
 /**
  * Where a booked night sits in its day, and how the drawn roads follow when a stop

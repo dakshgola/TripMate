@@ -23,7 +23,7 @@ function parseId(value: string | string[]): number | null {
 
 /**
  * Todo MCP surface — ported 1:1 from the legacy registrars: the eight tools
- * from src/mcp/tools/todos.ts and the trek://trips/{tripId}/todos resource
+ * from src/mcp/tools/todos.ts and the tripmate://trips/{tripId}/todos resource
  * from src/mcp/resources.ts (identical names, descriptions, schemas,
  * annotations, error/payload shapes and broadcasts). The registration-time
  * gates map to `when` (the whole-registrar packing-addon early return) plus
@@ -224,7 +224,7 @@ export class TodoMcp {
 
   @ResourceTemplate({
     name: 'trip-todos',
-    uriTemplate: 'trek://trips/{tripId}/todos',
+    uriTemplate: 'tripmate://trips/{tripId}/todos',
     description: 'To-do items for a trip, ordered by position',
     mimeType: 'application/json',
     when: packingAddonOn,

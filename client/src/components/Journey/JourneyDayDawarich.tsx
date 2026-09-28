@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ChevronDown, ChevronRight } from 'lucide-react'
-import type { DawarichSuggestion, DawarichSuggestionTarget } from '@trek/shared'
+import type { DawarichSuggestion, DawarichSuggestionTarget } from '@tripmate/shared'
 import { useTranslation } from '../../i18n'
 import DawarichIcon from '../shared/DawarichIcon'
 import { SuggestionRow } from '../Dawarich/DawarichSuggestionsPanel'

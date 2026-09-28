@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { ReservationTraveler } from '@trek/shared'
+import type { ReservationTraveler } from '@tripmate/shared'
 import {
   CountPill, Field, SectionHeader, StatusDot, TabScroller, TravelerAvatars, TravelerFilterRow,
 } from '../../../../src/mobile/screens/trip/tabs/tabChrome'

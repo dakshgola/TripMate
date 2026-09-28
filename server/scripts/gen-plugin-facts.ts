@@ -103,7 +103,7 @@ const OUTPUTS: Array<[string, string]> = [
 /**
  * Coverage assertions the type system cannot make, because the targets are not TypeScript
  * unions. Both failure modes are silent today: a new permission reaches the consent screen
- * as a raw code with no translation, and `trek-plugin permissions` prints it with no hint.
+ * as a raw code with no translation, and `tripmate-plugin permissions` prints it with no hint.
  */
 function coverageProblems(): string[] {
   const problems: string[] = [];

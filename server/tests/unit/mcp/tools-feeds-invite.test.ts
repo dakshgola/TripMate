@@ -30,7 +30,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -43,7 +43,7 @@ import { createUser, createTrip, addTripMember } from '../../helpers/factories';
 import { invalidatePermissionsCache } from '../../../src/nest/permissions/permissions-cache';
 import { createMcpHarness, parseToolResult, type McpHarness } from '../../helpers/mcp-harness';
 
-const BASE = 'https://trek.example';
+const BASE = 'https://tripmate.example';
 
 type ToolResult = Awaited<ReturnType<McpHarness['client']['callTool']>>;
 
@@ -236,7 +236,7 @@ describe('trip calendar feed gates', () => {
     '%s refuses a demo account',
     async (name) => {
       process.env.DEMO_MODE = 'true';
-      const { user: demo } = createUser(testDb, { email: 'demo@trek.app' });
+      const { user: demo } = createUser(testDb, { email: 'demo@tripmate.app' });
       const trip = createTrip(testDb, demo.id);
       testDb.prepare('UPDATE trips SET feed_token = ? WHERE id = ?').run('demo-token', trip.id);
       await withHarness(demo.id, async (h) => {
@@ -315,7 +315,7 @@ describe('all-trips calendar feed gates', () => {
     '%s refuses a demo account',
     async (name) => {
       process.env.DEMO_MODE = 'true';
-      const { user: demo } = createUser(testDb, { email: 'demo@trek.app' });
+      const { user: demo } = createUser(testDb, { email: 'demo@tripmate.app' });
       testDb.prepare('UPDATE users SET feed_token = ? WHERE id = ?').run('demo-user-token', demo.id);
       await withHarness(demo.id, async (h) => {
         const result = await h.client.callTool({ name, arguments: {} });
@@ -481,7 +481,7 @@ describe('trip invite link gates', () => {
 
   it.each(['create_trip_invite_link', 'delete_trip_invite_link'])('%s refuses a demo account', async (name) => {
     process.env.DEMO_MODE = 'true';
-    const { user: demo } = createUser(testDb, { email: 'demo@trek.app' });
+    const { user: demo } = createUser(testDb, { email: 'demo@tripmate.app' });
     const trip = createTrip(testDb, demo.id);
     testDb.prepare('INSERT INTO trip_invite_tokens (trip_id, token, created_by) VALUES (?, ?, ?)').run(trip.id, 'seeded-token', demo.id);
     await withHarness(demo.id, async (h) => {

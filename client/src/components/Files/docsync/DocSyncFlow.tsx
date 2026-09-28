@@ -7,7 +7,7 @@ import { Badge } from './DocSyncBits'
 export type SyncDirection = 'both' | 'pull' | 'push'
 
 export interface FlowHoldings {
-  /** Documents this trip has in TREK. */
+  /** Documents this trip has in Trip Mate. */
   inTrek: number
   /** How many of them the store is holding. */
   atProvider: number
@@ -68,7 +68,7 @@ export default function DocSyncFlow({
     <section className="rounded-2xl border border-edge bg-surface-secondary p-4 sm:p-6">
       <div className="flex items-center gap-3 sm:gap-5">
         <End
-          name={t('docsync.flow.trek')}
+          name={t('docsync.flow.tripmate')}
           count={holdings.inTrek}
           glyph={<TrekIcon className="h-6 w-6 text-content" />}
         />
@@ -177,7 +177,7 @@ function Lane({
         reverse ? 'flex-row-reverse' : '',
         active
           ? 'bg-accent-subtle text-accent-on'
-          : 'trek-docsync-lane-off bg-surface text-content-faint',
+          : 'tripmate-docsync-lane-off bg-surface text-content-faint',
         disabled ? 'cursor-default' : active ? 'hover:brightness-[0.98]' : 'hover:text-content-muted',
       ].join(' ')}
     >
@@ -203,8 +203,8 @@ function Lane({
       {moving && (
         <span
           aria-hidden
-          className={`trek-docsync-lane-run pointer-events-none absolute inset-x-3 bottom-1.5 h-0.5 rounded-full ${
-            reverse ? 'trek-docsync-lane-run-rev' : ''
+          className={`tripmate-docsync-lane-run pointer-events-none absolute inset-x-3 bottom-1.5 h-0.5 rounded-full ${
+            reverse ? 'tripmate-docsync-lane-run-rev' : ''
           }`}
         />
       )}

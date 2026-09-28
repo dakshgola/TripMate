@@ -16,7 +16,7 @@
  *  - "Check now" or "Disconnect" offered before a connection exists asks the
  *    server to sync an instance it has no address for;
  *  - the key field advertising "Paste your Dawarich API key" while a key is
- *    already stored sends the reader back to Dawarich for a key TREK already
+ *    already stored sends the reader back to Dawarich for a key Trip Mate already
  *    has, and the hook reads anything typed there as a replacement, so the
  *    placeholder is the only signal that the field is empty on purpose;
  *  - the status block claiming "Connected" (or a last-sync time, or a server
@@ -31,7 +31,7 @@
  */
 import React from 'react'
 import { describe, it, expect, vi } from 'vitest'
-import type { DawarichCapabilities } from '@trek/shared'
+import type { DawarichCapabilities } from '@tripmate/shared'
 import { render, screen, fireEvent } from '../../../../tests/helpers/render'
 import { getLocaleForLanguage } from '../../../i18n'
 import { useSettingsStore } from '../../../store/settingsStore'
@@ -292,11 +292,11 @@ describe('MDawarichConnectionSection', () => {
     // only explanation the reader ever gets.
     show({
       connected: false,
-      probeMessage: 'TREK could not reach that address. (ENOTFOUND)',
+      probeMessage: 'Trip Mate could not reach that address. (ENOTFOUND)',
       lastSyncError: 'Dawarich rejected the API key.',
     })
     expect(screen.getByText('Not connected')).toBeInTheDocument()
-    expect(screen.getByText('TREK could not reach that address. (ENOTFOUND)')).toBeInTheDocument()
+    expect(screen.getByText('Trip Mate could not reach that address. (ENOTFOUND)')).toBeInTheDocument()
     expect(screen.getByText('Dawarich rejected the API key.')).toBeInTheDocument()
   })
 

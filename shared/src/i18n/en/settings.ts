@@ -34,10 +34,11 @@ const settings: TranslationStrings = {
   'settings.mapTemplatePlaceholder.select': 'Select template...',
   'settings.mapDefaultHint': 'Leave empty for OpenStreetMap (default)',
   'settings.routingBase': 'Own routing engine',
-  'settings.routingBaseHint': 'An OSRM instance of your own. Empty uses the public servers, which allow about one request a second — enough for a day, tight for a road trip. Takes effect after a server restart.',
+  'settings.routingBaseHint':
+    'An OSRM instance of your own. Empty uses the public servers, which allow about one request a second — enough for a day, tight for a road trip. Takes effect after a server restart.',
   'settings.valhallaBase': 'Own Valhalla instance',
   'settings.valhallaBaseHint':
-    'TREK uses the public FOSSGIS Valhalla by default to avoid toll roads, motorways and ferries. Enter your own Valhalla URL here to use it instead. If only a custom routing instance is configured, the public Valhalla is not used. After entering a custom URL, restart the server and reload the page.',
+    'Trip Mate uses the public FOSSGIS Valhalla by default to avoid toll roads, motorways and ferries. Enter your own Valhalla URL here to use it instead. If only a custom routing instance is configured, the public Valhalla is not used. After entering a custom URL, restart the server and reload the page.',
   'settings.mapHint': 'URL template for map tiles',
   'settings.mapProvider': 'Map Provider',
   'settings.mapProviderHint': 'Affects Trip Planner and Journey maps. Atlas always uses Leaflet.',
@@ -52,7 +53,7 @@ const settings: TranslationStrings = {
   'settings.mapCartoKeyHint': 'CARTO basemaps show a watermark without a key. Free, no account needed, from',
   'settings.mapCartoKeyLink': 'carto.com basemap API key',
   'settings.mapCartoKeyMissing':
-    'This template is a CARTO basemap. Without a key CARTO stamps "API KEY REQUIRED" onto every tile. Until you enter one, TREK shows the default basemap instead.',
+    'This template is a CARTO basemap. Without a key CARTO stamps "API KEY REQUIRED" onto every tile. Until you enter one, Trip Mate shows the default basemap instead.',
   'settings.mapStyle': 'Map Style',
   'settings.mapStylePlaceholder': 'Select a Mapbox style',
   'settings.mapStyleHint': 'Preset or your own mapbox://styles/USER/ID URL',
@@ -133,7 +134,7 @@ const settings: TranslationStrings = {
   'settings.webhookUrl.testSuccess': 'Test webhook sent successfully',
   'settings.webhookUrl.testFailed': 'Test webhook failed',
   'settings.ntfyUrl.topicLabel': 'Ntfy Topic',
-  'settings.ntfyUrl.topicPlaceholder': 'my-trek-alerts',
+  'settings.ntfyUrl.topicPlaceholder': 'my-tripmate-alerts',
   'settings.ntfyUrl.serverLabel': 'Ntfy Server URL (optional)',
   'settings.ntfyUrl.serverPlaceholder': 'https://ntfy.sh',
   'settings.ntfyUrl.hint':
@@ -244,13 +245,13 @@ const settings: TranslationStrings = {
   'settings.about.featureRequestHint': 'Suggest a new feature',
   'settings.about.wikiHint': 'Documentation & guides',
   'settings.about.descriptionManaged':
-    'TREK helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
+    'Trip Mate helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
   'settings.about.sourceTitle': 'Source code',
-  'settings.about.sourceHint': 'TREK is open source, licensed AGPL-3.0',
+  'settings.about.sourceHint': 'Trip Mate is open source, licensed AGPL-3.0',
   'settings.about.supporters.badge': 'Monthly Supporters',
-  'settings.about.supporters.title': 'Travel companions for TREK',
+  'settings.about.supporters.title': 'Travel companions for Trip Mate',
   'settings.about.supporters.subtitle':
-    "While you're planning your next route, these folks are helping plan TREK's future. Their monthly contribution goes straight into development and real hours spent — so TREK stays Open Source.",
+    "While you're planning your next route, these folks are helping plan Trip Mate's future. Their monthly contribution goes straight into development and real hours spent — so Trip Mate stays Open Source.",
   'settings.about.supporters.since': 'supporter since {date}',
   'settings.about.supporters.tierEmpty': 'Be the first',
   'settings.about.supporter.tier.noReturnTicket': 'No Return Ticket',
@@ -259,7 +260,7 @@ const settings: TranslationStrings = {
   'settings.about.supporter.tier.budgetTraveller': 'Budget Traveller',
   'settings.about.supporter.tier.hostelBunkmate': 'Hostel Bunkmate',
   'settings.about.description':
-    'TREK is a self-hosted travel planner that helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place, on your own server.',
+    'Trip Mate is a self-hosted travel planner that helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place, on your own server.',
   'settings.about.madeWith': 'Made with',
   'settings.about.madeBy': 'by Maurice and a growing open-source community.',
   'settings.username': 'Username',
@@ -363,7 +364,7 @@ const settings: TranslationStrings = {
   'settings.airtrail.allowInsecureTlsHint': 'Enable only for a trusted instance on your own network.',
   'settings.airtrail.writeBack': 'Write changes back to AirTrail',
   'settings.airtrail.writeBackHint':
-    'Off by default: AirTrail is the source of truth and TREK only reads from it. Turn on to push edits made in TREK back to AirTrail.',
+    'Off by default: AirTrail is the source of truth and Trip Mate only reads from it. Turn on to push edits made in Trip Mate back to AirTrail.',
   'settings.airtrail.connected': 'Connected',
   'settings.airtrail.notConnected': 'Not connected',
   'settings.airtrail.toast.saved': 'AirTrail connection saved',
@@ -474,7 +475,7 @@ const settings: TranslationStrings = {
   'settings.startPageDashboard': 'Dashboard',
   'settings.startPageActiveTrip': 'Active trip',
   'settings.startPageHint':
-    'TREK opens straight in the trip running today, or the next one coming up. That is the same trip the dashboard features.',
+    'Trip Mate opens straight in the trip running today, or the next one coming up. That is the same trip the dashboard features.',
   'settings.startTripTab': 'Start tab',
   'settings.startTripTabHint':
     'The tab the trip opens on. If it belongs to an addon you switched off, the plan view opens instead.',
@@ -511,7 +512,8 @@ const settings: TranslationStrings = {
   'settings.offline.notice.offline': 'No connection. Connect to store trips for offline use.',
   'settings.offline.notice.signedOut': 'Your session has ended. Sign in again to sync.',
   'settings.offline.notice.failed': 'The download could not finish. Check your connection and try again.',
-  'settings.offline.notice.loadFailed': 'Could not read this device’s offline storage. Clearing the cache usually fixes it.',
+  'settings.offline.notice.loadFailed':
+    'Could not read this device’s offline storage. Clearing the cache usually fixes it.',
   'settings.offline.clear': 'Clear cache',
   'settings.offline.clearConfirm': 'Clear all offline trip data? You can re-sync anytime while online.',
   'settings.offline.stats.trips': 'Cached trips',
@@ -560,7 +562,8 @@ const settings: TranslationStrings = {
   'settings.apiScopes.bucket-list': 'Wishlist',
   'settings.apiScopes.stats': 'Totals',
   'settings.apiKeys.title': 'API Keys',
-  'settings.apiKeys.description': 'Keys for the public API, so other software can read your trips. Read-only: a key cannot change or delete anything.',
+  'settings.apiKeys.description':
+    'Keys for the public API, so other software can read your trips. Read-only: a key cannot change or delete anything.',
   'settings.apiKeys.create': 'Create key',
   'settings.apiKeys.empty': 'No keys yet. Create one to connect other software.',
   'settings.apiKeys.createdAt': 'created',
@@ -575,7 +578,8 @@ const settings: TranslationStrings = {
   'settings.apiKeys.endpoint': 'Endpoint',
   'settings.apiKeys.neverUsed': 'never used',
   'settings.apiKeys.loadFailed': 'Could not load your keys. Reload the page to try again.',
-  'settings.apiKeys.limitReached': 'You have {max} keys, the most an account can hold. Delete one you no longer use to create another.',
+  'settings.apiKeys.limitReached':
+    'You have {max} keys, the most an account can hold. Delete one you no longer use to create another.',
   'settings.apiKeys.copyFailed': 'Could not copy. Select the text and copy it by hand.',
   'settings.apiKeys.modal.createTitle': 'Create API key',
   'settings.apiKeys.modal.name': 'Name',

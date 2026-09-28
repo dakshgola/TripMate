@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import type { BookDocument, BookElement, JourneyStats } from '@trek/shared'
+import type { BookDocument, BookElement, JourneyStats } from '@tripmate/shared'
 import {
   bookBadgeElementSchema, bookCountriesElementSchema, bookListElementSchema,
   bookMapElementSchema, bookPageSetupSchema, bookStatsElementSchema, journeyStatsSchema,
-} from '@trek/shared'
+} from '@tripmate/shared'
 import { fireEvent, render, screen, within } from '../../helpers/render'
 import { StudioInspector } from '../../../src/components/Studio/StudioInspector'
 import { useStudioStore } from '../../../src/store/studioStore'

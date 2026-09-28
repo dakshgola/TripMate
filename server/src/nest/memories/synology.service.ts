@@ -25,7 +25,7 @@ const SYNOLOGY_PROVIDER = 'synologyphotos';
 // The API endpoint is always at {base_url}/webapi/entry.cgi.
 const SYNOLOGY_ENDPOINT_PATH = '/webapi/entry.cgi';
 
-const SYNOLOGY_DEVICE_NAME = 'trek';
+const SYNOLOGY_DEVICE_NAME = 'tripmate';
 
 const SYNOLOGY_ERROR_MESSAGES: Record<number, string> = {
     101: 'Missing API, method, or version parameter.',

@@ -156,7 +156,8 @@ const collection: TranslationStrings = {
   'collections.file.targetExisting': 'Tambahkan ke daftar',
   'collections.file.targetExistingHint': 'Ke daftar yang sudah ada',
   'collections.file.searchLists': 'Cari daftar',
-  'collections.file.intoHint': 'Tempat yang sudah ada di daftar tetap seperti semula, begitu juga nama dan warnanya. Label dari berkas akan ditambahkan.',
+  'collections.file.intoHint':
+    'Tempat yang sudah ada di daftar tetap seperti semula, begitu juga nama dan warnanya. Label dari berkas akan ditambahkan.',
   'collections.file.confirmInto': 'Tambahkan ke daftar',
   'collections.file.doneInto': '{count} tempat ditambahkan ke {name}',
   'collections.file.doneIntoDuplicates': '{count} ditambahkan ke {name}, {duplicates} sudah ada',
@@ -169,9 +170,9 @@ const collection: TranslationStrings = {
   'collections.file.doneSkipped': '{count} tempat diimpor, {skipped} dilewati',
   'collections.file.errorTooLarge': 'Berkas ini terlalu besar untuk sebuah daftar.',
   'collections.file.errorUnreadable': 'Berkas ini tidak bisa dibaca.',
-  'collections.file.errorNotACollection': 'Ini bukan berkas daftar TREK.',
-  'collections.file.formatTrek': 'Daftar TREK',
-  'collections.file.formatTrekHint': 'Untuk TREK lain, lengkap dengan label dan status',
+  'collections.file.errorNotACollection': 'Ini bukan berkas daftar Trip Mate.',
+  'collections.file.formatTrek': 'Daftar Trip Mate',
+  'collections.file.formatTrekHint': 'Untuk Trip Mate lain, lengkap dengan label dan status',
   'collections.file.formatGpxHint': 'Titik lokasi untuk OsmAnd, Organic Maps, Garmin, dan aplikasi peta lain',
   'collections.file.gpxOmitted': '{count} tempat tanpa koordinat tidak dimasukkan ke berkas GPX',
   'collections.file.gpxNothing':

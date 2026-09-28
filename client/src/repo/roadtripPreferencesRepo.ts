@@ -1,4 +1,4 @@
-import { roadtripPreferencesResponseSchema, roadtripPreferencesUpdateSchema, type RoadtripPreferences } from '@trek/shared'
+import { roadtripPreferencesResponseSchema, roadtripPreferencesUpdateSchema, type RoadtripPreferences } from '@tripmate/shared'
 import { apiClient } from '../api/client'
 import { offlineDb } from '../db/offlineDb'
 import { generateUUID, mutationQueue } from '../sync/mutationQueue'

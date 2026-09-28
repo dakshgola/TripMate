@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import path from 'path';
 
 // The wiki module picks its source (local disk vs GitHub) once at module load, so each
-// mode needs a fresh import with TREK_WIKI_DIR already set.
+// mode needs a fresh import with TRIPMATE_WIKI_DIR already set.
 const FIXTURE_WIKI = path.join(__dirname, '..', '..', 'fixtures', 'wiki');
 const MISSING_WIKI = path.join(__dirname, '..', '..', 'fixtures', 'no-such-wiki');
 
@@ -10,8 +10,8 @@ type WikiModule = typeof import('../../../src/nest/help/wiki');
 
 async function loadWiki(dir: string | undefined): Promise<WikiModule> {
   vi.resetModules();
-  if (dir === undefined) delete process.env.TREK_WIKI_DIR;
-  else process.env.TREK_WIKI_DIR = dir;
+  if (dir === undefined) delete process.env.TRIPMATE_WIKI_DIR;
+  else process.env.TRIPMATE_WIKI_DIR = dir;
   return import('../../../src/nest/help/wiki');
 }
 
@@ -24,7 +24,7 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.unstubAllGlobals();
-  delete process.env.TREK_WIKI_DIR;
+  delete process.env.TRIPMATE_WIKI_DIR;
 });
 
 describe('wiki — local wiki on disk', () => {

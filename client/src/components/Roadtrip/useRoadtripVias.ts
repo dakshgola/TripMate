@@ -3,7 +3,7 @@ import { addListener, removeListener } from '../../api/websocket'
 import { roadtripApi } from '../../api/client'
 import { useNetworkMode } from '../../hooks/useNetworkMode'
 import { isEmptyReanchoring, type Reanchoring } from './roadtripModel'
-import type { RoadtripDayTrack, RoadtripVia } from '@trek/shared'
+import type { RoadtripDayTrack, RoadtripVia } from '@tripmate/shared'
 
 /**
  * Via points are DELIBERATELY online-only, which the repo asks to be said out

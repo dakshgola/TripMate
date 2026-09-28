@@ -156,7 +156,8 @@ const collection: TranslationStrings = {
   'collections.file.targetExisting': 'Añadir a una lista',
   'collections.file.targetExistingHint': 'A una que ya tienes',
   'collections.file.searchLists': 'Buscar listas',
-  'collections.file.intoHint': 'Los lugares que la lista ya tiene se quedan como están, igual que su nombre y su color. Las etiquetas del archivo se añaden.',
+  'collections.file.intoHint':
+    'Los lugares que la lista ya tiene se quedan como están, igual que su nombre y su color. Las etiquetas del archivo se añaden.',
   'collections.file.confirmInto': 'Añadir a la lista',
   'collections.file.doneInto': '{count} lugares añadidos a {name}',
   'collections.file.doneIntoDuplicates': '{count} añadidos a {name}, {duplicates} ya estaban',
@@ -169,9 +170,9 @@ const collection: TranslationStrings = {
   'collections.file.doneSkipped': '{count} lugares importados, {skipped} omitidos',
   'collections.file.errorTooLarge': 'Ese archivo es demasiado grande para ser una lista.',
   'collections.file.errorUnreadable': 'No se ha podido leer ese archivo.',
-  'collections.file.errorNotACollection': 'Ese no es un archivo de lista de TREK.',
-  'collections.file.formatTrek': 'Lista de TREK',
-  'collections.file.formatTrekHint': 'Para otro TREK, con etiquetas y estado',
+  'collections.file.errorNotACollection': 'Ese no es un archivo de lista de Trip Mate.',
+  'collections.file.formatTrek': 'Lista de Trip Mate',
+  'collections.file.formatTrekHint': 'Para otro Trip Mate, con etiquetas y estado',
   'collections.file.formatGpxHint': 'Puntos de ruta para OsmAnd, Organic Maps, Garmin y otras apps de mapas',
   'collections.file.gpxOmitted': '{count} lugares no tienen coordenadas y se han quedado fuera del archivo GPX',
   'collections.file.gpxNothing':

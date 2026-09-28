@@ -1,4 +1,4 @@
-import type { BookElement, BookSpread } from '@trek/shared'
+import type { BookElement, BookSpread } from '@tripmate/shared'
 
 /**
  * What colour a page number has to be to be readable.

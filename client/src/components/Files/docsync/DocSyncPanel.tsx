@@ -358,7 +358,7 @@ function Attention({
                     <p className="truncate text-body text-content" title={item.name}>{item.name}</p>
                     <p className="mt-0.5 text-caption text-content-muted">{t('docsync.conflict.title')}</p>
                     <div className="mt-2 flex flex-wrap gap-2">
-                      {(['trek', 'provider', 'both'] as const).map(keep => (
+                      {(['tripmate', 'provider', 'both'] as const).map(keep => (
                         <button
                           key={keep}
                           type="button"
@@ -366,7 +366,7 @@ function Attention({
                           onClick={() => void conflicts.resolve(item.id, keep)}
                           className="rounded-lg border border-edge px-2.5 py-1 text-caption text-content-secondary transition-colors hover:bg-surface-hover disabled:opacity-50"
                         >
-                          {t(`docsync.conflict.${keep === 'trek' ? 'keepTrek' : keep === 'provider' ? 'keepProvider' : 'keepBoth'}`)}
+                          {t(`docsync.conflict.${keep === 'tripmate' ? 'keepTrek' : keep === 'provider' ? 'keepProvider' : 'keepBoth'}`)}
                         </button>
                       ))}
                     </div>
@@ -418,12 +418,12 @@ function Empty() {
  * The id is appended because two trips can share a title and a folder cannot.
  */
 function slugFor(title: string | undefined, tripId: number | string): string {
-  const base = (title || 'trek')
+  const base = (title || 'tripmate')
     .toLowerCase()
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
     .slice(0, 40)
-  return `${base || 'trek'}-${tripId}`
+  return `${base || 'tripmate'}-${tripId}`
 }

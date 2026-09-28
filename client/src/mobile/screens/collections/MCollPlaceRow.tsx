@@ -1,5 +1,5 @@
 import { Check, MapPin } from 'lucide-react'
-import type { CollectionPlace, CollectionStatus } from '@trek/shared'
+import type { CollectionPlace, CollectionStatus } from '@tripmate/shared'
 import type { TranslationFn } from '../../../types'
 import { nextStatus } from '../../../pages/collections/collectionsModel'
 import { categoryMeta, STATUS_SPEC, tint, UNCATEGORIZED_META } from './collectionsMobileModel'

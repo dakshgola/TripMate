@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import type { BookElement, BookSpread } from '@trek/shared'
+import type { BookElement, BookSpread } from '@tripmate/shared'
 import { brightness, folioInk } from '../../../src/components/Studio/folioColour'
 
 /**

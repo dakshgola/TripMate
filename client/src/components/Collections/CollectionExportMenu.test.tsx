@@ -42,7 +42,7 @@ describe('CollectionExportMenu (#2301)', () => {
     expect(trigger()).toHaveAttribute('aria-expanded', 'true');
     expect(trigger()).toHaveAttribute('aria-controls', menu.id);
     expect(items().map(item => item.textContent)).toEqual([
-      'TREK list.trekcollection.jsonFor another TREK, with labels and status',
+      'Trip Mate list.trekcollection.jsonFor another Trip Mate, with labels and status',
       'GPX.gpxWaypoints for OsmAnd, Organic Maps, Garmin and other map apps',
     ]);
   });
@@ -84,7 +84,7 @@ describe('CollectionExportMenu (#2301)', () => {
     await waitFor(() => expect(items()[0]).toHaveFocus());
     await userEvent.keyboard('{Enter}');
 
-    expect(props.onExport).toHaveBeenCalledWith('trek');
+    expect(props.onExport).toHaveBeenCalledWith('tripmate');
   });
 
   it('FE-COMP-COLEXPORT-006: closes on Escape without exporting, and gives focus back', async () => {

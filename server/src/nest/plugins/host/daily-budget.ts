@@ -32,8 +32,8 @@ export function envCap(name: string, def: number): number {
 // one. Overridable via env for a self-hoster who wants tighter or looser caps
 // (set to 0 to disable a broker entirely).
 export const DEFAULT_DAILY_BUDGET: DailyBudgetConfig = {
-  aiPerDay: envCap('TREK_PLUGIN_AI_PER_DAY', 200),
-  notifyPerDay: envCap('TREK_PLUGIN_NOTIFY_PER_DAY', 100),
+  aiPerDay: envCap('TRIPMATE_PLUGIN_AI_PER_DAY', 200),
+  notifyPerDay: envCap('TRIPMATE_PLUGIN_NOTIFY_PER_DAY', 100),
 };
 
 export type BudgetKind = 'ai' | 'notify';

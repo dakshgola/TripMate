@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Reservation, ReservationEndpoint } from '../types'
 import { calculateRouteWithLegs } from '../components/Map/RouteCalculator'
-import { MAX_DRIVE_KM } from '@trek/shared/roadtrip'
+import { MAX_DRIVE_KM } from '@tripmate/shared/roadtrip'
 import { haversineKm } from '../utils/geo'
 
 /**

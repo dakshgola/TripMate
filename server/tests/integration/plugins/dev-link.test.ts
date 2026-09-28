@@ -42,12 +42,12 @@ let runtime: PluginRuntimeService;
 const ROUTE = (v: string) =>
   `module.exports = { routes: [{ method: 'GET', path: '/v', auth: false, async handler() { return { status: 200, body: JSON.stringify({ v: ${v} }) }; } }] };`;
 
-function writeSource(id: string, opts: { index?: string; native?: boolean; noBuild?: boolean; trek?: string } = {}): string {
+function writeSource(id: string, opts: { index?: string; native?: boolean; noBuild?: boolean; tripmate?: string } = {}): string {
   const dir = path.join(srcRoot, id);
   fs.mkdirSync(path.join(dir, 'server'), { recursive: true });
-  // dev-link requires a `trek` range like any other install front door; `opts.trek`
+  // dev-link requires a `tripmate` range like any other install front door; `opts.tripmate`
   // overrides it to exercise the gate.
-  fs.writeFileSync(path.join(dir, 'trek-plugin.json'), JSON.stringify({ id, name: id, version: '1.0.0', type: 'integration', permissions: [], trek: opts.trek ?? '>=3.0.0' }));
+  fs.writeFileSync(path.join(dir, 'tripmate-plugin.json'), JSON.stringify({ id, name: id, version: '1.0.0', type: 'integration', permissions: [], tripmate: opts.tripmate ?? '>=3.0.0' }));
   if (!opts.noBuild) fs.writeFileSync(path.join(dir, 'server', 'index.js'), opts.index ?? 'module.exports = {};');
   if (opts.native) fs.writeFileSync(path.join(dir, 'server', 'addon.node'), '\0');
   return dir;
@@ -57,20 +57,20 @@ beforeAll(() => {
   codeRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'trekplug-link-code-'));
   dataRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'trekplug-link-data-'));
   srcRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'trekplug-link-src-'));
-  process.env.TREK_PLUGINS_DIR = codeRoot;
-  process.env.TREK_PLUGINS_DATA_DIR = dataRoot;
-  process.env.TREK_PLUGINS_ENABLED = 'true';
-  process.env.TREK_PLUGINS_DEV_LINK = '1';
+  process.env.TRIPMATE_PLUGINS_DIR = codeRoot;
+  process.env.TRIPMATE_PLUGINS_DATA_DIR = dataRoot;
+  process.env.TRIPMATE_PLUGINS_ENABLED = 'true';
+  process.env.TRIPMATE_PLUGINS_DEV_LINK = '1';
   runtime = createPluginRuntime(new DatabaseService(dbConn));
 });
 
 afterAll(async () => {
   await runtime?.onModuleDestroy();
   for (const r of [codeRoot, dataRoot, srcRoot]) fs.rmSync(r, { recursive: true, force: true });
-  delete process.env.TREK_PLUGINS_DIR;
-  delete process.env.TREK_PLUGINS_DATA_DIR;
-  delete process.env.TREK_PLUGINS_ENABLED;
-  delete process.env.TREK_PLUGINS_DEV_LINK;
+  delete process.env.TRIPMATE_PLUGINS_DIR;
+  delete process.env.TRIPMATE_PLUGINS_DATA_DIR;
+  delete process.env.TRIPMATE_PLUGINS_ENABLED;
+  delete process.env.TRIPMATE_PLUGINS_DEV_LINK;
 });
 
 describe('PluginRuntimeService dev-link', () => {
@@ -98,20 +98,20 @@ describe('PluginRuntimeService dev-link', () => {
 
   it('rejects a non-absolute path, a missing manifest, a missing build, and native binaries', async () => {
     await expect(runtime.link('relative/dir')).rejects.toThrow(/absolute/);
-    await expect(runtime.link(path.join(srcRoot, 'ghost-dir'))).rejects.toThrow(/trek-plugin\.json/);
+    await expect(runtime.link(path.join(srcRoot, 'ghost-dir'))).rejects.toThrow(/tripmate-plugin\.json/);
     await expect(runtime.link(writeSource('nobuild', { noBuild: true }))).rejects.toThrow(/server\/index\.js|build/);
     await expect(runtime.link(writeSource('nativeplug', { native: true }))).rejects.toThrow(/native/);
   });
 
-  it('links a dir outside its TREK range when TREK_PLUGINS_IGNORE_TREK_RANGE is set, and says so', async () => {
+  it('links a dir outside its Trip Mate range when TRIPMATE_PLUGINS_IGNORE_TREK_RANGE is set, and says so', async () => {
     process.env.APP_VERSION = '3.3.0';
-    process.env.TREK_PLUGINS_IGNORE_TREK_RANGE = '1';
+    process.env.TRIPMATE_PLUGINS_IGNORE_TREK_RANGE = '1';
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
     try {
-      await expect(runtime.link(writeSource('oldplug-bypass', { trek: '>=2.0.0 <3.0.0' }))).resolves.toMatchObject({
+      await expect(runtime.link(writeSource('oldplug-bypass', { tripmate: '>=2.0.0 <3.0.0' }))).resolves.toMatchObject({
         id: 'oldplug-bypass', trekRangeBypassed: { trekRange: '>=2.0.0 <3.0.0', hostVersion: '3.3.0' },
       });
-      await expect(runtime.link(writeSource('rangeless-bypass', { trek: '' }))).resolves.toMatchObject({
+      await expect(runtime.link(writeSource('rangeless-bypass', { tripmate: '' }))).resolves.toMatchObject({
         id: 'rangeless-bypass', trekRangeBypassed: { trekRange: null, hostVersion: '3.3.0' },
       });
       // A dir that fits is a plain link — no marker to alarm anyone with.
@@ -119,20 +119,20 @@ describe('PluginRuntimeService dev-link', () => {
     } finally {
       warn.mockRestore();
       delete process.env.APP_VERSION;
-      delete process.env.TREK_PLUGINS_IGNORE_TREK_RANGE;
+      delete process.env.TRIPMATE_PLUGINS_IGNORE_TREK_RANGE;
     }
   });
 
-  it('rejects a local dir whose TREK range this server does not satisfy', async () => {
-    // Dev-link is the third install front door, and it hands TREK code to RUN against real
+  it('rejects a local dir whose Trip Mate range this server does not satisfy', async () => {
+    // Dev-link is the third install front door, and it hands Trip Mate code to RUN against real
     // data — the fact that the author is standing right there is not a reason to skip the
     // check that the code supports the host it is about to be spawned on.
     process.env.APP_VERSION = '3.3.0';
     try {
-      await expect(runtime.link(writeSource('oldplug', { trek: '>=2.0.0 <3.0.0' }))).rejects.toMatchObject({
-        code: 'TREK_VERSION_INCOMPATIBLE',
+      await expect(runtime.link(writeSource('oldplug', { tripmate: '>=2.0.0 <3.0.0' }))).rejects.toMatchObject({
+        code: 'TRIPMATE_VERSION_INCOMPATIBLE',
       });
-      await expect(runtime.link(writeSource('rangeless', { trek: '' }))).rejects.toThrow(/missing "trek"/);
+      await expect(runtime.link(writeSource('rangeless', { tripmate: '' }))).rejects.toThrow(/missing "tripmate"/);
     } finally {
       delete process.env.APP_VERSION;
     }
@@ -143,13 +143,13 @@ describe('PluginRuntimeService dev-link', () => {
     await expect(runtime.link(writeSource('installed'))).rejects.toThrow(/already installed/);
   });
 
-  it('is disabled unless TREK_PLUGINS_DEV_LINK=1', async () => {
-    delete process.env.TREK_PLUGINS_DEV_LINK;
+  it('is disabled unless TRIPMATE_PLUGINS_DEV_LINK=1', async () => {
+    delete process.env.TRIPMATE_PLUGINS_DEV_LINK;
     try {
       await expect(runtime.link(writeSource('gated'))).rejects.toThrow(/disabled/);
       await expect(runtime.reload('linkplug')).rejects.toThrow(/disabled/);
     } finally {
-      process.env.TREK_PLUGINS_DEV_LINK = '1';
+      process.env.TRIPMATE_PLUGINS_DEV_LINK = '1';
     }
   });
 

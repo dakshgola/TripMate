@@ -16,7 +16,7 @@ import { DatabaseService } from '../database/database.service';
 import { McpToolGuardsService } from '../mcp-shared/mcp-tool-guards.service';
 import { RoadtripPreferencesService } from './roadtrip-preferences.service';
 import { answeringRefusals } from './roadtrip-mcp.helpers';
-import { roadtripPreferencesUpdateSchema, type RoadtripPreferences } from '@trek/shared';
+import { roadtripPreferencesUpdateSchema, type RoadtripPreferences } from '@tripmate/shared';
 
 import { z } from 'zod';
 

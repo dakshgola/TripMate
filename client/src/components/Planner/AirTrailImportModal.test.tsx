@@ -7,7 +7,7 @@ import { useAuthStore } from '../../store/authStore';
 import { useTripStore } from '../../store/tripStore';
 import { resetAllStores, seedStore } from '../../../tests/helpers/store';
 import { buildUser, buildTrip, buildReservation } from '../../../tests/helpers/factories';
-import type { AirtrailFlight } from '@trek/shared';
+import type { AirtrailFlight } from '@tripmate/shared';
 import AirTrailImportModal, { detectConnections } from './AirTrailImportModal';
 
 const toasts: Array<[string, string]> = [];

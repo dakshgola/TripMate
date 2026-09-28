@@ -13,7 +13,7 @@
  * maps.service.test.ts does it.
  */
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { gcj02ToWgs84, wgs84ToGcj02 } from '@trek/shared';
+import { gcj02ToWgs84, wgs84ToGcj02 } from '@tripmate/shared';
 
 const { mockDbGet, mockDbRun, mockInstanceGet, mockProviderGet } = vi.hoisted(() => ({
   mockDbGet: vi.fn((..._args: unknown[]) => undefined as any),
@@ -55,8 +55,8 @@ vi.mock('../../../src/config', () => ({ JWT_SECRET: 'test-secret', ENCRYPTION_KE
 // trekPlacesEnabled fails open, so a service-level case that reached it with
 // the Amap fetch stub in place would leave the runner for places.liketrek.com.
 // Stubbed to "nothing found", which is the state that hands the query on.
-vi.mock('../../../src/nest/maps/trek-places.client', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('../../../src/nest/maps/trek-places.client')>()),
+vi.mock('../../../src/nest/maps/tripmate-places.client', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../../../src/nest/maps/tripmate-places.client')>()),
   trekPlacesSearch: vi.fn(async (): Promise<unknown[]> => []),
 }));
 

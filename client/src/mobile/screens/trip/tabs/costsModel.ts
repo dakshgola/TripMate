@@ -1,4 +1,4 @@
-import type { BudgetParticipantFinal, BudgetUnconverted, CostCategory } from '@trek/shared'
+import type { BudgetParticipantFinal, BudgetUnconverted, CostCategory } from '@tripmate/shared'
 import { paidByUser, readUserNote, settlementDate, splitEqualShares } from '../../../../components/Budget/CostsPanel.helpers'
 import { catMeta, COST_CATEGORY_LIST } from '../../../../components/Budget/costsCategories'
 import { convertBooked, convertedLine, tripAmountOf } from '../../../../hooks/useExchangeRates'

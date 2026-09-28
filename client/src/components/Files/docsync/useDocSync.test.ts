@@ -456,7 +456,7 @@ describe('useDocSync resolveConflict', () => {
     const { result } = await mountLoaded()
 
     let outcome: boolean | undefined
-    await act(async () => { outcome = await result.current.resolveConflict(4, 'trek') })
+    await act(async () => { outcome = await result.current.resolveConflict(4, 'tripmate') })
 
     expect(outcome).toBe(false)
     expect(result.current.error).toBe('forbidden')

@@ -49,7 +49,7 @@ beforeAll(() => {
 
 const tmpDirs: string[] = [];
 function makeTmpDir(): string {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-registry-'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-registry-'));
   tmpDirs.push(dir);
   return dir;
 }
@@ -139,13 +139,13 @@ describe('StorageRegistryService defaults', () => {
     expect(backups.keyPrefix).toBe('');
     expect(backups.driver.getLocalPath!('backup-1.zip')).toBe(path.join(fs.realpathSync(DEFAULT_BACKUPS_ROOT), 'backup-1.zip'));
 
-    // photos-google without TREK_PLACE_PHOTO_DIR: today's layout under uploads
+    // photos-google without TRIPMATE_PLACE_PHOTO_DIR: today's layout under uploads
     const googlePhotos = registry.resolve('photos-google');
     expect(googlePhotos.backendName).toBe('uploads-local');
     expect(googlePhotos.keyPrefix).toBe('photos/google/');
   });
 
-  it('honors TREK_PLACE_PHOTO_DIR via the conditional third backend (mode B: bare keys)', () => {
+  it('honors TRIPMATE_PLACE_PHOTO_DIR via the conditional third backend (mode B: bare keys)', () => {
     const photoDir = makeTmpDir();
     const { registry } = makeRegistry({ placePhotoDir: photoDir });
 
@@ -155,14 +155,14 @@ describe('StorageRegistryService defaults', () => {
     expect(googlePhotos.driver.getLocalPath!('abc.jpg')).toBe(path.join(fs.realpathSync(photoDir), 'abc.jpg'));
 
     // Everything else stays on uploads-local, unchanged.
-    expect(registry.resolve('photos-trek').backendName).toBe('uploads-local');
-    expect(registry.resolve('photos-trek').keyPrefix).toBe('photos/trek/');
+    expect(registry.resolve('photos-tripmate').backendName).toBe('uploads-local');
+    expect(registry.resolve('photos-tripmate').keyPrefix).toBe('photos/tripmate/');
   });
 
   it('creates roots, spools, category prefix dirs, and the global temp dir on load', () => {
     const { uploadsRoot } = makeRegistry();
 
-    for (const sub of ['.tmp', 'files', 'journey', 'covers', 'avatars', 'places', 'photos', 'photos/trek', 'photos/google']) {
+    for (const sub of ['.tmp', 'files', 'journey', 'covers', 'avatars', 'places', 'photos', 'photos/tripmate', 'photos/google']) {
       expect(fs.statSync(path.join(uploadsRoot, sub)).isDirectory()).toBe(true);
     }
     expect(fs.statSync(GLOBAL_TEMP_DIR).isDirectory()).toBe(true);
@@ -533,7 +533,7 @@ describe('StorageRegistryService replica health', () => {
 describe('settings-declared s3 backends', () => {
   const s3Options = {
     endpoint: 'http://127.0.0.1:9000',
-    bucket: 'trek',
+    bucket: 'tripmate',
     accessKeyId: 'ak',
     secretAccessKey: 'sk-plain',
     region: 'us-east-1',
@@ -753,7 +753,7 @@ describe('seed-once storage-config.json import', () => {
             type: 's3',
             options: {
               endpoint: 'http://127.0.0.1:9000',
-              bucket: 'trek',
+              bucket: 'tripmate',
               accessKeyId: 'ak',
               secretAccessKey: 'sk-seed',
             },
@@ -821,7 +821,7 @@ describe('seed-once storage-config.json import', () => {
             type: 's3',
             options: {
               endpoint: 'http://127.0.0.1:9000',
-              bucket: 'trek',
+              bucket: 'tripmate',
               accessKeyId: 'ak',
               secretAccessKey: 'sk-seed',
             },
@@ -848,7 +848,7 @@ describe('seed-once storage-config.json import', () => {
             type: 's3',
             options: {
               endpoint: 'http://127.0.0.1:9000',
-              bucket: 'trek',
+              bucket: 'tripmate',
               accessKeyId: 'ak',
               secretAccessKey: '••••••••',
             },
@@ -883,7 +883,7 @@ describe('seed-once storage-config.json import', () => {
             type: 's3',
             options: {
               endpoint: 'http://127.0.0.1:9000',
-              bucket: 'trek',
+              bucket: 'tripmate',
               accessKeyId: 'ak',
               secretAccessKey: cipher,
             },
@@ -947,7 +947,7 @@ describe('snapshot()', () => {
           type: 's3',
           options: {
             endpoint: 'http://127.0.0.1:9000',
-            bucket: 'trek',
+            bucket: 'tripmate',
             accessKeyId: 'ak',
             secretAccessKey: cipher,
           },

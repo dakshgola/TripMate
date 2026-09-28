@@ -310,7 +310,7 @@ function DetailView({
           a phone does not have. */}
       <section className="rounded-2xl border border-[color:var(--m-rowbr)] bg-m-sheetop p-3">
         <div className="flex items-stretch gap-2">
-          <EndBox glyph={<TrekIcon className="h-[18px] w-[18px]" />} count={holdings.inTrek} name={t('docsync.flow.trek')} />
+          <EndBox glyph={<TrekIcon className="h-[18px] w-[18px]" />} count={holdings.inTrek} name={t('docsync.flow.tripmate')} />
           <EndBox
             glyph={ProviderIcon ? <ProviderIcon className="h-[18px] w-[18px]" /> : null}
             count={holdings.atProvider}
@@ -743,7 +743,7 @@ function LaneRow({
       disabled={disabled}
       aria-pressed={active}
       className={`flex h-11 items-center gap-[10px] overflow-hidden rounded-2xl px-3 text-left ${
-        active ? 'bg-m-act text-m-actfg' : 'trek-docsync-lane-off-m bg-[color:var(--m-inner)] text-m-faint'
+        active ? 'bg-m-act text-m-actfg' : 'tripmate-docsync-lane-off-m bg-[color:var(--m-inner)] text-m-faint'
       }`}
     >
       {/* Inverted on the active lane: --m-knob and --m-act are both white in
@@ -813,14 +813,14 @@ function Empty({ text, hint }: { text: string; hint?: string }) {
 
 /** A folder name from the trip's own title, so nobody has to invent one. */
 function slugFor(title: string | undefined, tripId: number | string): string {
-  const base = (title || 'trek')
+  const base = (title || 'tripmate')
     .toLowerCase()
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
     .slice(0, 40)
-  return `${base || 'trek'}-${tripId}`
+  return `${base || 'tripmate'}-${tripId}`
 }
 
 /**
@@ -885,7 +885,7 @@ function MConflicts({
             <li key={item.id} className="rounded-2xl bg-m-card px-3 py-2.5">
               <p className="truncate font-geist text-[0.75rem] text-m-ink">{item.name}</p>
               <div className="mt-2 flex flex-wrap gap-2">
-                {(['trek', 'provider', 'both'] as const).map(keep => (
+                {(['tripmate', 'provider', 'both'] as const).map(keep => (
                   <button
                     key={keep}
                     type="button"
@@ -893,7 +893,7 @@ function MConflicts({
                     onClick={() => void conflicts.resolve(item.id, keep)}
                     className="rounded-full bg-[color:var(--m-ic)] px-3 py-[6px] font-geist text-[0.6875rem] font-bold text-m-ink disabled:opacity-60"
                   >
-                    {t(`docsync.conflict.${keep === 'trek' ? 'keepTrek' : keep === 'provider' ? 'keepProvider' : 'keepBoth'}`)}
+                    {t(`docsync.conflict.${keep === 'tripmate' ? 'keepTrek' : keep === 'provider' ? 'keepProvider' : 'keepBoth'}`)}
                   </button>
                 ))}
               </div>

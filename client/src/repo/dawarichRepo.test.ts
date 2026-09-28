@@ -18,7 +18,7 @@
  *    timeout for every one of the five reads. The forced-offline case therefore
  *    gets its own test, because it is the half that a naive `navigator.onLine`
  *    rewrite would silently drop.
- *  - **A response is parsed, not cast.** The upstream here is a server TREK does
+ *  - **A response is parsed, not cast.** The upstream here is a server Trip Mate does
  *    not own, running a version nobody controls. An answer that does not match
  *    the contract has to fail at this line, naming the field, instead of
  *    arriving three components later as an undefined that renders as blank.
@@ -38,7 +38,7 @@ import type {
   DawarichSuggestion,
   DawarichSuggestionList,
   DawarichTrack,
-} from '@trek/shared'
+} from '@tripmate/shared'
 
 const BASE = '/api/integrations/dawarich'
 

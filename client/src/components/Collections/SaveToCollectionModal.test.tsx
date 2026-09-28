@@ -2,7 +2,7 @@
 import React from 'react';
 import { afterEach, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor, within } from '../../../tests/helpers/render';
-import type { Collection, CollectionListResponse, CollectionMembership, CollectionSaveResult } from '@trek/shared';
+import type { Collection, CollectionListResponse, CollectionMembership, CollectionSaveResult } from '@tripmate/shared';
 import { collectionsApi } from '../../api/collections';
 import { useSaveToCollectionStore } from '../../store/saveToCollectionStore';
 import type { SaveToCollectionTarget } from '../../store/saveToCollectionStore';

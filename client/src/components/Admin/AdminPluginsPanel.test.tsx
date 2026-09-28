@@ -15,7 +15,7 @@ import AdminPluginsPanel from './AdminPluginsPanel'
  */
 function plugin(over: Record<string, unknown> = {}) {
   return {
-    id: 'trek-gotify', name: 'Gotify', description: 'Push notifications', type: 'integration',
+    id: 'tripmate-gotify', name: 'Gotify', description: 'Push notifications', type: 'integration',
     icon: 'Bell', version: '1.0.0', status: 'active', enabled: 1,
     last_error: null, reviewed_at: null, source_repo: null,
     permissions: JSON.stringify(['hook:notification-channel', 'http:outbound:gotify.net']),
@@ -63,7 +63,7 @@ describe('AdminPluginsPanel — allowed-hosts chip', () => {
   it('FE-COMP-PLUGINS-EGRESS-004: clicking the chip opens the allowed-hosts dialog', async () => {
     mockList(plugin({ egressHostCount: 1 }))
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/egress-hosts', () =>
+      http.get('*/api/admin/plugins/tripmate-gotify/egress-hosts', () =>
         HttpResponse.json({ supported: true, hosts: ['gotify.mydomain.com'] })),
     )
     render(<AdminPluginsPanel />)
@@ -83,10 +83,10 @@ function mockDetail(manifest: Record<string, unknown> | null) {
     http.get('*/api/admin/plugins', () => HttpResponse.json({ enabled: true, devLink: false, plugins: [] })),
     // pluginBrowse returns the ARRAY itself, not { plugins: [...] }.
     http.get('*/api/admin/plugins/registry', () =>
-      HttpResponse.json([{ id: 'trek-gotify', name: 'Gotify', author: 'jubnl', description: 'Push', repo: 'jubnl/trek-gotify', type: 'integration', tags: [] }])),
-    http.get('*/api/admin/plugins/registry/trek-gotify', () =>
+      HttpResponse.json([{ id: 'tripmate-gotify', name: 'Gotify', author: 'jubnl', description: 'Push', repo: 'jubnl/tripmate-gotify', type: 'integration', tags: [] }])),
+    http.get('*/api/admin/plugins/registry/tripmate-gotify', () =>
       HttpResponse.json({
-        id: 'trek-gotify', name: 'Gotify', author: 'jubnl', description: 'Push', repo: 'jubnl/trek-gotify',
+        id: 'tripmate-gotify', name: 'Gotify', author: 'jubnl', description: 'Push', repo: 'jubnl/tripmate-gotify',
         type: 'integration', tags: [], size: 1024, publishedAt: null, latest: '1.0.0', manifest,
       })),
   )
@@ -131,7 +131,7 @@ describe('AdminPluginsPanel — Discover modal, operator-egress pill', () => {
 describe('AdminPluginsPanel — row ⋯ menu is never clipped (#1523)', () => {
   // operatorEgress so the menu shows every action, Allowed hosts included (it is
   // gated on the declaration, like the row chip).
-  const withRepo = plugin({ source_repo: 'trek/gotify', operatorEgress: true })
+  const withRepo = plugin({ source_repo: 'tripmate/gotify', operatorEgress: true })
   const realRect = HTMLButtonElement.prototype.getBoundingClientRect
   afterEach(() => { HTMLButtonElement.prototype.getBoundingClientRect = realRect })
 
@@ -147,8 +147,8 @@ describe('AdminPluginsPanel — row ⋯ menu is never clipped (#1523)', () => {
   async function openRowMenu() {
     mockList(withRepo)
     const { container } = render(<AdminPluginsPanel />)
-    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-trek-gotify'))
-    return { container, menu: screen.getByTestId('plugin-row-menu-trek-gotify') }
+    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-tripmate-gotify'))
+    return { container, menu: screen.getByTestId('plugin-row-menu-tripmate-gotify') }
   }
 
   it('FE-COMP-PLUGINS-MENU-001: renders every action, including Delete', async () => {
@@ -189,7 +189,7 @@ describe('AdminPluginsPanel — row ⋯ menu is never clipped (#1523)', () => {
 })
 
 /**
- * Signature status (#plugins). TREK has always verified author signatures and TOFU-pinned
+ * Signature status (#plugins). Trip Mate has always verified author signatures and TOFU-pinned
  * the key — and never showed any of it, so a successfully-installed UNSIGNED plugin looked
  * identical to a signed one, forever.
  *
@@ -200,7 +200,7 @@ describe('AdminPluginsPanel — row ⋯ menu is never clipped (#1523)', () => {
  */
 function registryEntry(over: Record<string, unknown> = {}) {
   return {
-    id: 'trek-gotify', name: 'Gotify', author: 'Acme', description: 'Push', repo: 'acme/gotify',
+    id: 'tripmate-gotify', name: 'Gotify', author: 'Acme', description: 'Push', repo: 'acme/gotify',
     type: 'integration', latest: '2.0.0', minTrekVersion: null, reviewedAt: null,
     screenshotUrl: null, signed: true, authorPublicKey: 'NEWKEYbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
     // The real browse response always carries latestCompatible (server-side hostCompat);
@@ -316,7 +316,7 @@ describe('AdminPluginsPanel — a refused update', () => {
     let body: unknown = null
     mockPanel(blocked('SIGNATURE_KEY_CHANGED'))
     server.use(
-      http.post('*/api/admin/plugins/trek-gotify/retrust', async ({ request }) => {
+      http.post('*/api/admin/plugins/tripmate-gotify/retrust', async ({ request }) => {
         body = await request.json()
         return HttpResponse.json({ version: '2.0.0', activated: true, newPermissions: [], newEgress: [] })
       }),
@@ -340,10 +340,10 @@ describe('AdminPluginsPanel — update consent', () => {
     let activated = false
     mockPanel(plugin({ source_repo: 'acme/gotify', signed: false }), registryEntry({ signed: false }))
     server.use(
-      http.post('*/api/admin/plugins/trek-gotify/update', () =>
+      http.post('*/api/admin/plugins/tripmate-gotify/update', () =>
         HttpResponse.json({ version: '2.0.0', activated: false, newPermissions: ['db:read:trips'], newEgress: [] }),
       ),
-      http.post('*/api/admin/plugins/trek-gotify/activate', () => { activated = true; return HttpResponse.json({ status: 'active' }) }),
+      http.post('*/api/admin/plugins/tripmate-gotify/activate', () => { activated = true; return HttpResponse.json({ status: 'active' }) }),
     )
     render(<AdminPluginsPanel />)
     await screen.findByText('Gotify')
@@ -372,7 +372,7 @@ describe('AdminPluginsPanel — update consent', () => {
         })),
       // The registry is down: `regById` stays empty, so the entry's `signed` is unknowable.
       http.get('*/api/admin/plugins/registry', () => HttpResponse.json({ error: 'registry unreachable' }, { status: 500 })),
-      http.post('*/api/admin/plugins/trek-gotify/activate', () =>
+      http.post('*/api/admin/plugins/tripmate-gotify/activate', () =>
         HttpResponse.json({ error: 'consent required', code: 'CONSENT_REQUIRED', newPermissions: ['db:read:trips'], newEgress: [] }, { status: 409 })),
     )
     render(<AdminPluginsPanel />)
@@ -415,13 +415,13 @@ describe('AdminPluginsPanel — a refusal with no installed row', () => {
   })
 
   it('FE-COMP-PLUGINS-SIG-014: a refusal while downloading a DEPENDENCY opens the dialog too', async () => {
-    const parent = plugin({ id: 'trek-parent', name: 'Parent', source_repo: 'acme/parent', enabled: 0, status: 'inactive', operatorEgress: false })
+    const parent = plugin({ id: 'tripmate-parent', name: 'Parent', source_repo: 'acme/parent', enabled: 0, status: 'inactive', operatorEgress: false })
     server.use(
       http.get('*/api/admin/plugins', () => HttpResponse.json({ enabled: true, devLink: false, plugins: [parent] })),
       http.get('*/api/admin/plugins/registry', () => HttpResponse.json([registryEntry()])),
       // Turning it on reveals the missing dependency…
-      http.post('*/api/admin/plugins/trek-parent/activate', () =>
-        HttpResponse.json({ error: 'missing dependency', code: 'DEPENDENCY_MISSING', missing: [{ id: 'trek-gotify', version: '^1.0.0' }], versionMismatch: [] }, { status: 409 })),
+      http.post('*/api/admin/plugins/tripmate-parent/activate', () =>
+        HttpResponse.json({ error: 'missing dependency', code: 'DEPENDENCY_MISSING', missing: [{ id: 'tripmate-gotify', version: '^1.0.0' }], versionMismatch: [] }, { status: 409 })),
       // …and downloading it is refused on its signature.
       http.post('*/api/admin/plugins/install', () =>
         HttpResponse.json({ error: 'author signature verification failed', code: 'SIGNATURE_INVALID' }, { status: 400 })),
@@ -454,11 +454,11 @@ describe('AdminPluginsPanel — a block never outlives the registry relationship
 })
 
 /**
- * TREK-version compatibility. The SERVER owns the semver — a second implementation in the
+ * Trip Mate-version compatibility. The SERVER owns the semver — a second implementation in the
  * browser would eventually disagree with the install gate and offer a button that 400s —
  * so the panel only renders the verdict the API hands it (`compatible`, `latestCompatible`).
  */
-describe('AdminPluginsPanel — TREK-version compatibility', () => {
+describe('AdminPluginsPanel — Trip Mate-version compatibility', () => {
   /** Discover cards for a plugin that is NOT installed — an installed one just reads "Installed". */
   async function openDiscover(entry: Record<string, unknown>) {
     mockPanel(plugin({ id: 'something-else' }), registryEntry(entry))
@@ -466,20 +466,20 @@ describe('AdminPluginsPanel — TREK-version compatibility', () => {
     fireEvent.click(await screen.findByText('Discover'))
   }
 
-  it('blocks Install when no published version runs on this TREK, and says why', async () => {
-    await openDiscover({ trek: '>=4.0.0', hostVersion: '3.3.0', compatible: false, latestCompatible: null })
+  it('blocks Install when no published version runs on this Trip Mate, and says why', async () => {
+    await openDiscover({ tripmate: '>=4.0.0', hostVersion: '3.3.0', compatible: false, latestCompatible: null })
     const btn = await screen.findByRole('button', { name: /^incompatible$/i })
     expect(btn).toBeDisabled()
   })
 
   it('offers the newest version that DOES run here rather than a dead button', async () => {
-    await openDiscover({ latest: '2.0.0', trek: '>=3.4.0', hostVersion: '3.3.0', compatible: false, latestCompatible: '1.5.0' })
+    await openDiscover({ latest: '2.0.0', tripmate: '>=3.4.0', hostVersion: '3.3.0', compatible: false, latestCompatible: '1.5.0' })
     const btn = await screen.findByRole('button', { name: /^install 1\.5\.0$/i })
     expect(btn).toBeEnabled()
   })
 
   it('installs normally when the latest version fits', async () => {
-    await openDiscover({ trek: '>=3.2.0 <4.0.0', hostVersion: '3.3.0', compatible: true, latestCompatible: '2.0.0' })
+    await openDiscover({ tripmate: '>=3.2.0 <4.0.0', hostVersion: '3.3.0', compatible: true, latestCompatible: '2.0.0' })
     expect(await screen.findByRole('button', { name: /^install$/i })).toBeEnabled()
   })
 
@@ -490,7 +490,7 @@ describe('AdminPluginsPanel — TREK-version compatibility', () => {
       dependencyStatus: 'hostIncompatible', trekRange: '>=3.2.0 <4.0.0', hostVersion: '4.0.0', enabled: 0, status: 'inactive',
     }))
     render(<AdminPluginsPanel />)
-    expect(await screen.findByText(/needs trek >=3\.2\.0 <4\.0\.0/i)).toBeInTheDocument()
+    expect(await screen.findByText(/needs tripmate >=3\.2\.0 <4\.0\.0/i)).toBeInTheDocument()
   })
 })
 
@@ -596,7 +596,7 @@ describe('AdminPluginsPanel — load states and toolbar', () => {
 
   it('FE-COMP-PLUGINS-PANEL-006: the status filter separates off, error and update-available rows', async () => {
     panelWith([
-      plugin({ id: 'trek-gotify', name: 'OnOne', enabled: 1, status: 'active', version: '1.0.0', source_repo: 'acme/gotify' }),
+      plugin({ id: 'tripmate-gotify', name: 'OnOne', enabled: 1, status: 'active', version: '1.0.0', source_repo: 'acme/gotify' }),
       plugin({ id: 'off-one', name: 'OffOne', enabled: 0, status: 'inactive' }),
       plugin({ id: 'bad-one', name: 'BadOne', enabled: 1, status: 'error', last_error: 'boom' }),
     ], { registry: [registryEntry({ latest: '2.0.0' })] })
@@ -653,7 +653,7 @@ describe('AdminPluginsPanel — sideloading', () => {
 
   it('FE-COMP-PLUGINS-PANEL-009: the toolbar button opens the hidden picker and uploads the pick', async () => {
     panelWith([plugin()])
-    server.use(http.post('*/api/admin/plugins/upload', () => HttpResponse.json({ id: 'trek-new' })))
+    server.use(http.post('*/api/admin/plugins/upload', () => HttpResponse.json({ id: 'tripmate-new' })))
     const { container } = withToast()
     await screen.findByText('Gotify')
 
@@ -664,7 +664,7 @@ describe('AdminPluginsPanel — sideloading', () => {
     clickSpy.mockRestore()
 
     await userEvent.upload(input, zip())
-    expect(await screen.findByText(/trek-new.*uploaded/i)).toBeInTheDocument()
+    expect(await screen.findByText(/tripmate-new.*uploaded/i)).toBeInTheDocument()
   })
 
   it('FE-COMP-PLUGINS-PANEL-010: a rejected upload surfaces the server message', async () => {
@@ -681,7 +681,7 @@ describe('AdminPluginsPanel — sideloading', () => {
   it('FE-COMP-PLUGINS-PANEL-011: dragging a file over the panel offers a drop target and installs it', async () => {
     let uploaded = false
     panelWith([plugin()])
-    server.use(http.post('*/api/admin/plugins/upload', () => { uploaded = true; return HttpResponse.json({ id: 'trek-dropped' }) }))
+    server.use(http.post('*/api/admin/plugins/upload', () => { uploaded = true; return HttpResponse.json({ id: 'tripmate-dropped' }) }))
     const { container } = withToast()
     await screen.findByText('Gotify')
 
@@ -698,7 +698,7 @@ describe('AdminPluginsPanel — sideloading', () => {
     fireEvent.drop(panel, { dataTransfer })
 
     await waitFor(() => expect(uploaded).toBe(true))
-    expect(await screen.findByText(/trek-dropped.*uploaded/i)).toBeInTheDocument()
+    expect(await screen.findByText(/tripmate-dropped.*uploaded/i)).toBeInTheDocument()
   })
 
   it('FE-COMP-PLUGINS-PANEL-012: a drag that carries no files is ignored', async () => {
@@ -718,7 +718,7 @@ describe('AdminPluginsPanel — sideloading', () => {
       const body = await request.json() as { path: string }
       paths.push(body.path)
       return paths.length === 1
-        ? HttpResponse.json({ id: 'trek-local' })
+        ? HttpResponse.json({ id: 'tripmate-local' })
         : HttpResponse.json({ error: 'no manifest there' }, { status: 400 })
     }))
     withToast()
@@ -728,7 +728,7 @@ describe('AdminPluginsPanel — sideloading', () => {
 
     fireEvent.change(input, { target: { value: '/srv/plugins/mine' } })
     fireEvent.click(screen.getByRole('button', { name: /^link$/i }))
-    expect(await screen.findByText(/linked trek-local/i)).toBeInTheDocument()
+    expect(await screen.findByText(/linked tripmate-local/i)).toBeInTheDocument()
     expect(paths).toEqual(['/srv/plugins/mine'])
 
     fireEvent.change(screen.getByPlaceholderText('/absolute/path/to/your/plugin'), { target: { value: '/nope' } })
@@ -750,7 +750,7 @@ describe('AdminPluginsPanel — row actions', () => {
   }
 
   it('FE-COMP-PLUGINS-PANEL-014: the error log lists what the runtime recorded', async () => {
-    server.use(http.get('*/api/admin/plugins/trek-gotify/errors', () =>
+    server.use(http.get('*/api/admin/plugins/tripmate-gotify/errors', () =>
       HttpResponse.json({ errors: [{ ts: '2026-01-01T00:00:00Z', level: 'error', message: 'connect ECONNREFUSED' }] })))
     await openRowMenu()
 
@@ -763,7 +763,7 @@ describe('AdminPluginsPanel — row actions', () => {
   })
 
   it('FE-COMP-PLUGINS-PANEL-015: an unreachable error log still opens, empty', async () => {
-    server.use(http.get('*/api/admin/plugins/trek-gotify/errors', () => HttpResponse.error()))
+    server.use(http.get('*/api/admin/plugins/tripmate-gotify/errors', () => HttpResponse.error()))
     await openRowMenu()
 
     fireEvent.click(screen.getByText('View error log'))
@@ -775,8 +775,8 @@ describe('AdminPluginsPanel — row actions', () => {
     let hosts: string[] = []
     let puts = 0
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/egress-hosts', () => HttpResponse.json({ supported: true, hosts })),
-      http.put('*/api/admin/plugins/trek-gotify/egress-hosts', async ({ request }) => {
+      http.get('*/api/admin/plugins/tripmate-gotify/egress-hosts', () => HttpResponse.json({ supported: true, hosts })),
+      http.put('*/api/admin/plugins/tripmate-gotify/egress-hosts', async ({ request }) => {
         puts += 1
         const body = await request.json() as { hosts: string[] }
         if (puts === 3) return HttpResponse.json({ error: 'not a valid host' }, { status: 400 })
@@ -803,7 +803,7 @@ describe('AdminPluginsPanel — row actions', () => {
   })
 
   it('FE-COMP-PLUGINS-PANEL-017: a plugin whose hosts are fixed in its manifest says the list is unsupported', async () => {
-    server.use(http.get('*/api/admin/plugins/trek-gotify/egress-hosts', () => HttpResponse.error()))
+    server.use(http.get('*/api/admin/plugins/tripmate-gotify/egress-hosts', () => HttpResponse.error()))
     await openRowMenu()
 
     fireEvent.click(screen.getByText('Allowed hosts'))
@@ -814,7 +814,7 @@ describe('AdminPluginsPanel — row actions', () => {
 
   it('FE-COMP-PLUGINS-PANEL-018: Delete asks first, then uninstalls with its data', async () => {
     let body: unknown = null
-    server.use(http.post('*/api/admin/plugins/trek-gotify/uninstall', async ({ request }) => {
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/uninstall', async ({ request }) => {
       body = await request.json()
       return HttpResponse.json({ ok: true })
     }))
@@ -832,8 +832,8 @@ describe('AdminPluginsPanel — row actions', () => {
   it('FE-COMP-PLUGINS-PANEL-019: Restart cycles the plugin off and on again', async () => {
     const seen: string[] = []
     server.use(
-      http.post('*/api/admin/plugins/trek-gotify/deactivate', () => { seen.push('deactivate'); return HttpResponse.json({ ok: true }) }),
-      http.post('*/api/admin/plugins/trek-gotify/activate', () => { seen.push('activate'); return HttpResponse.json({ ok: true }) }),
+      http.post('*/api/admin/plugins/tripmate-gotify/deactivate', () => { seen.push('deactivate'); return HttpResponse.json({ ok: true }) }),
+      http.post('*/api/admin/plugins/tripmate-gotify/activate', () => { seen.push('activate'); return HttpResponse.json({ ok: true }) }),
     )
     await openRowMenu(plugin({ enabled: 1, status: 'active' }))
 
@@ -860,7 +860,7 @@ describe('AdminPluginsPanel — row actions', () => {
   })
 
   it('FE-COMP-PLUGINS-PANEL-050: a long host list scrolls inside the dialog instead of growing past the viewport (#2159)', async () => {
-    server.use(http.get('*/api/admin/plugins/trek-gotify/egress-hosts', () =>
+    server.use(http.get('*/api/admin/plugins/tripmate-gotify/egress-hosts', () =>
       HttpResponse.json({ supported: true, hosts: ['gotify.lan', 'ntfy.lan'] })))
     await openRowMenu()
 
@@ -879,7 +879,7 @@ describe('AdminPluginsPanel — enabling a plugin', () => {
   it('FE-COMP-PLUGINS-PANEL-021: turning a plugin off deactivates it', async () => {
     let called = false
     panelWith([plugin({ enabled: 1, status: 'active' })])
-    server.use(http.post('*/api/admin/plugins/trek-gotify/deactivate', () => { called = true; return HttpResponse.json({ ok: true }) }))
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/deactivate', () => { called = true; return HttpResponse.json({ ok: true }) }))
     withToast()
     await screen.findByText('Gotify')
 
@@ -891,10 +891,10 @@ describe('AdminPluginsPanel — enabling a plugin', () => {
 
   it('FE-COMP-PLUGINS-PANEL-022: turning one on also reports the dependencies it enabled first', async () => {
     panelWith([
-      plugin({ enabled: 0, status: 'inactive', dependencies: { pluginDependencies: [{ id: 'trek-core', version: '^1.0.0' }] } }),
-      plugin({ id: 'trek-core', name: 'Core', enabled: 0, status: 'inactive' }),
+      plugin({ enabled: 0, status: 'inactive', dependencies: { pluginDependencies: [{ id: 'tripmate-core', version: '^1.0.0' }] } }),
+      plugin({ id: 'tripmate-core', name: 'Core', enabled: 0, status: 'inactive' }),
     ])
-    server.use(http.post('*/api/admin/plugins/trek-gotify/activate', () => HttpResponse.json({ ok: true })))
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/activate', () => HttpResponse.json({ ok: true })))
     withToast()
     await screen.findByText('Gotify')
 
@@ -906,7 +906,7 @@ describe('AdminPluginsPanel — enabling a plugin', () => {
 
   it('FE-COMP-PLUGINS-PANEL-023: a disabled required addon is reported as a toast, not a dialog', async () => {
     panelWith([plugin({ enabled: 0, status: 'inactive' })])
-    server.use(http.post('*/api/admin/plugins/trek-gotify/activate', () =>
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/activate', () =>
       HttpResponse.json({ code: 'ADDON_DISABLED', addons: ['journey'] }, { status: 409 })))
     withToast()
     await screen.findByText('Gotify')
@@ -918,7 +918,7 @@ describe('AdminPluginsPanel — enabling a plugin', () => {
 
   it('FE-COMP-PLUGINS-PANEL-024: any other activation failure surfaces the server message', async () => {
     panelWith([plugin({ enabled: 0, status: 'inactive' })])
-    server.use(http.post('*/api/admin/plugins/trek-gotify/activate', () =>
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/activate', () =>
       HttpResponse.json({ code: 'DEPENDENCY_CYCLE', error: 'circular dependency' }, { status: 409 })))
     withToast()
     await screen.findByText('Gotify')
@@ -933,19 +933,19 @@ describe('AdminPluginsPanel — enabling a plugin', () => {
     let installed: unknown = null
     panelWith([plugin({ enabled: 0, status: 'inactive' })])
     server.use(
-      http.post('*/api/admin/plugins/trek-gotify/activate', () => {
+      http.post('*/api/admin/plugins/tripmate-gotify/activate', () => {
         activates += 1
         return activates === 1
           ? HttpResponse.json({
             code: 'DEPENDENCY_MISSING',
-            missing: [{ id: 'trek-core', version: '^1.0.0' }],
-            versionMismatch: [{ id: 'trek-old', wanted: '^2.0.0', installed: '1.0.0' }],
+            missing: [{ id: 'tripmate-core', version: '^1.0.0' }],
+            versionMismatch: [{ id: 'tripmate-old', wanted: '^2.0.0', installed: '1.0.0' }],
           }, { status: 409 })
           : HttpResponse.json({ ok: true })
       }),
       http.post('*/api/admin/plugins/install', async ({ request }) => {
         installed = await request.json()
-        return HttpResponse.json({ installed: ['trek-core'], requiredAddons: ['journey'] })
+        return HttpResponse.json({ installed: ['tripmate-core'], requiredAddons: ['journey'] })
       }),
     )
     withToast()
@@ -959,8 +959,8 @@ describe('AdminPluginsPanel — enabling a plugin', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /^download$/i }))
 
-    expect(await screen.findByText('Downloaded trek-core')).toBeInTheDocument()
-    expect(installed).toEqual({ id: 'trek-core', constraint: '^1.0.0', withDependencies: true })
+    expect(await screen.findByText('Downloaded tripmate-core')).toBeInTheDocument()
+    expect(installed).toEqual({ id: 'tripmate-core', constraint: '^1.0.0', withDependencies: true })
     expect(await screen.findByText(/enable the required addon\(s\) first: journey/i)).toBeInTheDocument()
     await waitFor(() => expect(screen.queryByText('Missing dependencies')).not.toBeInTheDocument())
   })
@@ -969,8 +969,8 @@ describe('AdminPluginsPanel — enabling a plugin', () => {
     let installs = 0
     panelWith([plugin({ enabled: 0, status: 'inactive' })])
     server.use(
-      http.post('*/api/admin/plugins/trek-gotify/activate', () =>
-        HttpResponse.json({ code: 'DEPENDENCY_MISSING', missing: [{ id: 'trek-core', version: '^1.0.0' }], versionMismatch: [] }, { status: 409 })),
+      http.post('*/api/admin/plugins/tripmate-gotify/activate', () =>
+        HttpResponse.json({ code: 'DEPENDENCY_MISSING', missing: [{ id: 'tripmate-core', version: '^1.0.0' }], versionMismatch: [] }, { status: 409 })),
       http.post('*/api/admin/plugins/install', () => { installs += 1; return HttpResponse.json({}) }),
     )
     withToast()
@@ -978,7 +978,7 @@ describe('AdminPluginsPanel — enabling a plugin', () => {
 
     fireEvent.click(rowToggle('Gotify'))
     // The dependency list scrolls; Cancel sits outside it, so it never leaves the viewport (#2159).
-    const body = (await screen.findByText('trek-core')).closest('.overflow-y-auto')
+    const body = (await screen.findByText('tripmate-core')).closest('.overflow-y-auto')
     expect(body).not.toBeNull()
     expect(body).not.toContainElement(screen.getByRole('button', { name: /^cancel$/i }))
     fireEvent.click(screen.getByRole('button', { name: /^cancel$/i }))
@@ -989,7 +989,7 @@ describe('AdminPluginsPanel — enabling a plugin', () => {
 
   it('FE-COMP-PLUGINS-PANEL-027: widened permissions route to the consent dialog, which can be deferred', async () => {
     panelWith([plugin({ enabled: 0, status: 'inactive', source_repo: 'acme/gotify', signed: false })])
-    server.use(http.post('*/api/admin/plugins/trek-gotify/activate', () =>
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/activate', () =>
       HttpResponse.json({ code: 'CONSENT_REQUIRED', newPermissions: ['db:read:trips', 'weird:perm'], newEgress: ['api.acme.io'] }, { status: 409 })))
     withToast()
     await screen.findByText('Gotify')
@@ -1014,7 +1014,7 @@ describe('AdminPluginsPanel — enabling a plugin', () => {
   it('FE-COMP-PLUGINS-PANEL-028: approving consent re-activates with the consent flag', async () => {
     const bodies: unknown[] = []
     panelWith([plugin({ enabled: 0, status: 'inactive' })])
-    server.use(http.post('*/api/admin/plugins/trek-gotify/activate', async ({ request }) => {
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/activate', async ({ request }) => {
       bodies.push(await request.json())
       return bodies.length === 1
         ? HttpResponse.json({ code: 'CONSENT_REQUIRED', newPermissions: ['db:read:trips'], newEgress: [] }, { status: 409 })
@@ -1037,8 +1037,8 @@ describe('AdminPluginsPanel — updates', () => {
   it('FE-COMP-PLUGINS-PANEL-029: the update banner updates every outdated plugin at once', async () => {
     const updated: string[] = []
     panelWith(
-      [outdated, plugin({ id: 'trek-ntfy', name: 'Ntfy', source_repo: 'acme/ntfy', version: '1.0.0', operatorEgress: false })],
-      { registry: [registryEntry({ latest: '2.0.0' }), registryEntry({ id: 'trek-ntfy', latest: '3.0.0' })] },
+      [outdated, plugin({ id: 'tripmate-ntfy', name: 'Ntfy', source_repo: 'acme/ntfy', version: '1.0.0', operatorEgress: false })],
+      { registry: [registryEntry({ latest: '2.0.0' }), registryEntry({ id: 'tripmate-ntfy', latest: '3.0.0' })] },
     )
     server.use(http.post('*/api/admin/plugins/:id/update', ({ params }) => {
       updated.push(String(params.id))
@@ -1049,13 +1049,13 @@ describe('AdminPluginsPanel — updates', () => {
     expect(await screen.findByText('2 updates available for your plugins.')).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: /update all/i }))
 
-    await waitFor(() => expect([...updated].sort()).toEqual(['trek-gotify', 'trek-ntfy']))
+    await waitFor(() => expect([...updated].sort()).toEqual(['tripmate-gotify', 'tripmate-ntfy']))
     expect((await screen.findAllByText('Plugin updated')).length).toBeGreaterThan(0)
   })
 
   it('FE-COMP-PLUGINS-PANEL-030: an update that widens permissions queues the consent dialog', async () => {
     panelWith([outdated], { registry: [registryEntry({ latest: '2.0.0', signed: false })] })
-    server.use(http.post('*/api/admin/plugins/trek-gotify/update', () =>
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/update', () =>
       HttpResponse.json({ version: '2.0.0', activated: false, newPermissions: ['db:read:users'], newEgress: [] })))
     withToast()
 
@@ -1069,7 +1069,7 @@ describe('AdminPluginsPanel — updates', () => {
 
   it('FE-COMP-PLUGINS-PANEL-031: a failed update that is not a signature refusal is a plain toast', async () => {
     panelWith([outdated], { registry: [registryEntry({ latest: '2.0.0' })] })
-    server.use(http.post('*/api/admin/plugins/trek-gotify/update', () =>
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/update', () =>
       HttpResponse.json({ error: 'registry unreachable' }, { status: 502 })))
     withToast()
 
@@ -1083,7 +1083,7 @@ describe('AdminPluginsPanel — updates', () => {
       source_repo: 'acme/gotify', version: '1.0.0', keyFingerprint: 'OLDAAAAA…BBBBBBBB', operatorEgress: false,
       updateBlock: { code: 'SIGNATURE_KEY_CHANGED', version: '2.0.0', detail: 'key rotated' },
     })], { registry: [registryEntry({ latest: '2.0.0' })] })
-    server.use(http.post('*/api/admin/plugins/trek-gotify/retrust', () =>
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/retrust', () =>
       HttpResponse.json({ version: '2.0.0', activated: false, newPermissions: ['db:read:trips'], newEgress: ['api.acme.io'] })))
     withToast()
 
@@ -1099,7 +1099,7 @@ describe('AdminPluginsPanel — updates', () => {
       source_repo: 'acme/gotify', version: '1.0.0', keyFingerprint: 'OLDAAAAA…BBBBBBBB', operatorEgress: false,
       updateBlock: { code: 'SIGNATURE_KEY_CHANGED', version: '2.0.0', detail: 'key rotated' },
     })], { registry: [registryEntry({ latest: '2.0.0' })] })
-    server.use(http.post('*/api/admin/plugins/trek-gotify/retrust', () =>
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/retrust', () =>
       HttpResponse.json({ error: 'key does not match' }, { status: 400 })))
     withToast()
 
@@ -1130,16 +1130,16 @@ describe('AdminPluginsPanel — updates', () => {
 })
 
 /**
- * Update availability must follow what this TREK can actually INSTALL (latestCompatible,
+ * Update availability must follow what this Trip Mate can actually INSTALL (latestCompatible,
  * computed server-side), never the absolute newest published version — a banner counting
  * versions the update endpoint would refuse nags the admin toward a guaranteed 400.
  */
 describe('AdminPluginsPanel — compatible updates only', () => {
   const outdated = plugin({ source_repo: 'acme/gotify', version: '1.0.0', operatorEgress: false })
 
-  it('FE-COMP-PLUGINS-UPD-001: an update this TREK cannot install is neither offered nor counted', async () => {
+  it('FE-COMP-PLUGINS-UPD-001: an update this Trip Mate cannot install is neither offered nor counted', async () => {
     panelWith([outdated], {
-      registry: [registryEntry({ latest: '2.0.0', latestCompatible: null, trek: '>=4.0.0', hostVersion: '3.3.0' })],
+      registry: [registryEntry({ latest: '2.0.0', latestCompatible: null, tripmate: '>=4.0.0', hostVersion: '3.3.0' })],
     })
     render(<AdminPluginsPanel />)
     await screen.findByText('Gotify')
@@ -1150,7 +1150,7 @@ describe('AdminPluginsPanel — compatible updates only', () => {
 
   it('FE-COMP-PLUGINS-UPD-002: the update offer is the newest compatible version, not the absolute latest', async () => {
     panelWith([outdated], {
-      registry: [registryEntry({ latest: '3.0.0', latestCompatible: '2.0.0', trek: '>=4.0.0', hostVersion: '3.3.0' })],
+      registry: [registryEntry({ latest: '3.0.0', latestCompatible: '2.0.0', tripmate: '>=4.0.0', hostVersion: '3.3.0' })],
     })
     render(<AdminPluginsPanel />)
 
@@ -1159,22 +1159,22 @@ describe('AdminPluginsPanel — compatible updates only', () => {
     expect(screen.queryByRole('button', { name: /update → v3\.0\.0/i })).not.toBeInTheDocument()
   })
 
-  it('FE-COMP-PLUGINS-UPD-003: a newer version needing a newer TREK leaves a passive hint on the row', async () => {
+  it('FE-COMP-PLUGINS-UPD-003: a newer version needing a newer Trip Mate leaves a passive hint on the row', async () => {
     panelWith([outdated], {
-      registry: [registryEntry({ latest: '2.0.0', latestCompatible: null, trek: '>=4.0.0', hostVersion: '3.3.0' })],
+      registry: [registryEntry({ latest: '2.0.0', latestCompatible: null, tripmate: '>=4.0.0', hostVersion: '3.3.0' })],
     })
     render(<AdminPluginsPanel />)
 
-    expect(await screen.findByText('v2.0.0 available — needs TREK >=4.0.0')).toBeInTheDocument()
+    expect(await screen.findByText('v2.0.0 available — needs Trip Mate >=4.0.0')).toBeInTheDocument()
   })
 
   it('FE-COMP-PLUGINS-UPD-004: a legacy entry with only minTrekVersion still gets a hint range', async () => {
     panelWith([outdated], {
-      registry: [registryEntry({ latest: '2.0.0', latestCompatible: null, trek: null, minTrekVersion: '4.0.0', hostVersion: '3.3.0' })],
+      registry: [registryEntry({ latest: '2.0.0', latestCompatible: null, tripmate: null, minTrekVersion: '4.0.0', hostVersion: '3.3.0' })],
     })
     render(<AdminPluginsPanel />)
 
-    expect(await screen.findByText('v2.0.0 available — needs TREK >=4.0.0')).toBeInTheDocument()
+    expect(await screen.findByText('v2.0.0 available — needs Trip Mate >=4.0.0')).toBeInTheDocument()
   })
 
   it('FE-COMP-PLUGINS-UPD-005: no hint when the latest version is the one on offer', async () => {
@@ -1182,7 +1182,7 @@ describe('AdminPluginsPanel — compatible updates only', () => {
     render(<AdminPluginsPanel />)
 
     expect(await screen.findByRole('button', { name: /update → v2\.0\.0/i })).toBeInTheDocument()
-    expect(screen.queryByText(/needs TREK/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/needs Trip Mate/i)).not.toBeInTheDocument()
   })
 })
 
@@ -1207,7 +1207,7 @@ describe('AdminPluginsPanel — update hold', () => {
   it('FE-COMP-PLUGINS-HOLD-002: Resume updates releases the hold on the server', async () => {
     let resumed = false
     panelWith([held], { registry: [registryEntry({ latest: '2.0.0' })] })
-    server.use(http.post('*/api/admin/plugins/trek-gotify/resume-updates', () => {
+    server.use(http.post('*/api/admin/plugins/tripmate-gotify/resume-updates', () => {
       resumed = true
       return HttpResponse.json({ updateHold: false })
     }))
@@ -1222,8 +1222,8 @@ describe('AdminPluginsPanel — update hold', () => {
   it('FE-COMP-PLUGINS-HOLD-003: Update all skips held plugins', async () => {
     const updated: string[] = []
     panelWith(
-      [held, plugin({ id: 'trek-ntfy', name: 'Ntfy', source_repo: 'acme/ntfy', version: '1.0.0', operatorEgress: false })],
-      { registry: [registryEntry({ latest: '2.0.0' }), registryEntry({ id: 'trek-ntfy', latest: '3.0.0' })] },
+      [held, plugin({ id: 'tripmate-ntfy', name: 'Ntfy', source_repo: 'acme/ntfy', version: '1.0.0', operatorEgress: false })],
+      { registry: [registryEntry({ latest: '2.0.0' }), registryEntry({ id: 'tripmate-ntfy', latest: '3.0.0' })] },
     )
     server.use(http.post('*/api/admin/plugins/:id/update', ({ params }) => {
       updated.push(String(params.id))
@@ -1234,7 +1234,7 @@ describe('AdminPluginsPanel — update hold', () => {
     expect(await screen.findByText('1 updates available for your plugins.')).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: /update all/i }))
 
-    await waitFor(() => expect(updated).toEqual(['trek-ntfy']))
+    await waitFor(() => expect(updated).toEqual(['tripmate-ntfy']))
   })
 })
 
@@ -1246,12 +1246,12 @@ describe('AdminPluginsPanel — update hold', () => {
  */
 describe('AdminPluginsPanel — version picker', () => {
   const VERSIONS = [
-    { version: '3.0.0', publishedAt: '2026-08-01', size: 2048, signed: true, trek: '>=4.0.0', compatible: false },
-    { version: '2.0.0', publishedAt: '2026-07-01', size: 1024, signed: true, trek: '>=3.0.0 <4.0.0', compatible: true },
-    { version: '1.5.0', publishedAt: '2026-06-01', size: 1000, signed: true, trek: '>=3.0.0 <4.0.0', compatible: true },
+    { version: '3.0.0', publishedAt: '2026-08-01', size: 2048, signed: true, tripmate: '>=4.0.0', compatible: false },
+    { version: '2.0.0', publishedAt: '2026-07-01', size: 1024, signed: true, tripmate: '>=3.0.0 <4.0.0', compatible: true },
+    { version: '1.5.0', publishedAt: '2026-06-01', size: 1000, signed: true, tripmate: '>=3.0.0 <4.0.0', compatible: true },
   ]
   const detailWithVersions = () => ({
-    ...registryEntry({ latest: '3.0.0', latestCompatible: '2.0.0', trek: '>=4.0.0', hostVersion: '3.3.0', compatible: false }),
+    ...registryEntry({ latest: '3.0.0', latestCompatible: '2.0.0', tripmate: '>=4.0.0', hostVersion: '3.3.0', compatible: false }),
     size: 1024, publishedAt: null, manifest: null, versions: VERSIONS,
   })
 
@@ -1259,8 +1259,8 @@ describe('AdminPluginsPanel — version picker', () => {
     server.use(
       http.get('*/api/admin/plugins', () => HttpResponse.json({ enabled: true, devLink: false, plugins: [] })),
       http.get('*/api/admin/plugins/registry', () =>
-        HttpResponse.json([registryEntry({ latest: '3.0.0', latestCompatible: '2.0.0', trek: '>=4.0.0', hostVersion: '3.3.0', compatible: false })])),
-      http.get('*/api/admin/plugins/registry/trek-gotify', () => HttpResponse.json(detailWithVersions())),
+        HttpResponse.json([registryEntry({ latest: '3.0.0', latestCompatible: '2.0.0', tripmate: '>=4.0.0', hostVersion: '3.3.0', compatible: false })])),
+      http.get('*/api/admin/plugins/registry/tripmate-gotify', () => HttpResponse.json(detailWithVersions())),
     )
   }
 
@@ -1269,7 +1269,7 @@ describe('AdminPluginsPanel — version picker', () => {
     mockDiscoverDetail()
     server.use(http.post('*/api/admin/plugins/install', async ({ request }) => {
       body = await request.json()
-      return HttpResponse.json({ id: 'trek-gotify', version: '1.5.0' })
+      return HttpResponse.json({ id: 'tripmate-gotify', version: '1.5.0' })
     }))
     withToast()
     const tabs = await screen.findAllByRole('tab', { name: /^discover/i })
@@ -1278,17 +1278,17 @@ describe('AdminPluginsPanel — version picker', () => {
 
     fireEvent.click(await screen.findByRole('button', { name: /^install 1\.5\.0$/i }))
 
-    await waitFor(() => expect(body).toEqual({ id: 'trek-gotify', version: '1.5.0' }))
+    await waitFor(() => expect(body).toEqual({ id: 'tripmate-gotify', version: '1.5.0' }))
   })
 
-  it('FE-COMP-PLUGINS-VPICK-002: an incompatible version is greyed with its TREK requirement, not installable', async () => {
+  it('FE-COMP-PLUGINS-VPICK-002: an incompatible version is greyed with its Trip Mate requirement, not installable', async () => {
     mockDiscoverDetail()
     render(<AdminPluginsPanel />)
     const tabs = await screen.findAllByRole('tab', { name: /^discover/i })
     fireEvent.click(tabs[0])
     fireEvent.click(await screen.findByText('Gotify'))
 
-    expect(await screen.findByText(/^needs TREK >=4\.0\.0$/i)).toBeInTheDocument()
+    expect(await screen.findByText(/^needs Trip Mate >=4\.0\.0$/i)).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /^install 3\.0\.0$/i })).not.toBeInTheDocument()
   })
 
@@ -1298,14 +1298,14 @@ describe('AdminPluginsPanel — version picker', () => {
       registry: [registryEntry({ latest: '2.0.0' })],
     })
     server.use(
-      http.get('*/api/admin/plugins/registry/trek-gotify', () => HttpResponse.json(detailWithVersions())),
-      http.post('*/api/admin/plugins/trek-gotify/update', async ({ request }) => {
+      http.get('*/api/admin/plugins/registry/tripmate-gotify', () => HttpResponse.json(detailWithVersions())),
+      http.post('*/api/admin/plugins/tripmate-gotify/update', async ({ request }) => {
         body = await request.json()
         return HttpResponse.json({ version: '1.5.0', activated: true, newPermissions: [], newEgress: [] })
       }),
     )
     withToast()
-    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-trek-gotify'))
+    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-tripmate-gotify'))
     fireEvent.click(await screen.findByRole('button', { name: /change version/i }))
     fireEvent.click(await screen.findByRole('button', { name: /^switch to 1\.5\.0$/i }))
 
@@ -1322,14 +1322,14 @@ describe('AdminPluginsPanel — version picker', () => {
       registry: [registryEntry({ latest: '2.0.0' })],
     })
     server.use(
-      http.get('*/api/admin/plugins/registry/trek-gotify', () => HttpResponse.json(detailWithVersions())),
-      http.post('*/api/admin/plugins/trek-gotify/update', async ({ request }) => {
+      http.get('*/api/admin/plugins/registry/tripmate-gotify', () => HttpResponse.json(detailWithVersions())),
+      http.post('*/api/admin/plugins/tripmate-gotify/update', async ({ request }) => {
         body = await request.json()
         return HttpResponse.json({ version: '2.0.0', activated: true, newPermissions: [], newEgress: [] })
       }),
     )
     withToast()
-    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-trek-gotify'))
+    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-tripmate-gotify'))
     fireEvent.click(await screen.findByRole('button', { name: /change version/i }))
     fireEvent.click(await screen.findByRole('button', { name: /^switch to 2\.0\.0$/i }))
 
@@ -1342,14 +1342,14 @@ describe('AdminPluginsPanel — version picker', () => {
       plugin({ source_repo: 'acme/gotify', version: '2.0.0', operatorEgress: false }),
       plugin({ id: 'side-load', name: 'Sideload', source_repo: 'local:upload', version: '1.0.0', operatorEgress: false }),
     ], { registry: [registryEntry({ latest: '2.0.0' })] })
-    server.use(http.get('*/api/admin/plugins/registry/trek-gotify', () => HttpResponse.json(detailWithVersions())))
+    server.use(http.get('*/api/admin/plugins/registry/tripmate-gotify', () => HttpResponse.json(detailWithVersions())))
     withToast()
 
     fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-side-load'))
     expect(screen.queryByRole('button', { name: /change version/i })).not.toBeInTheDocument()
     fireEvent.click(screen.getByTestId('plugin-row-menu-btn-side-load')) // close
 
-    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-trek-gotify'))
+    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-tripmate-gotify'))
     fireEvent.click(await screen.findByRole('button', { name: /change version/i }))
 
     const current = await screen.findByTestId('version-row-2.0.0')
@@ -1410,20 +1410,20 @@ describe('AdminPluginsPanel — capability and dependency chips', () => {
   it('FE-COMP-PLUGINS-PANEL-038: dependency chips flag the addon and plugin the row is waiting on', async () => {
     panelWith([plugin({
       operatorEgress: false,
-      dependencies: { requiredAddons: ['journey'], pluginDependencies: [{ id: 'trek-core', version: '^1.0.0' }] },
-      dependencyIssues: { disabledAddons: ['journey'], missing: [{ id: 'trek-core', version: '^1.0.0' }], versionMismatch: [] },
+      dependencies: { requiredAddons: ['journey'], pluginDependencies: [{ id: 'tripmate-core', version: '^1.0.0' }] },
+      dependencyIssues: { disabledAddons: ['journey'], missing: [{ id: 'tripmate-core', version: '^1.0.0' }], versionMismatch: [] },
     })])
     render(<AdminPluginsPanel />)
 
     expect(await screen.findByText('Requires journey')).toBeInTheDocument()
-    expect(screen.getByText('Needs trek-core ^1.0.0')).toBeInTheDocument()
+    expect(screen.getByText('Needs tripmate-core ^1.0.0')).toBeInTheDocument()
   })
 
-  it('FE-COMP-PLUGINS-PANEL-039: a plugin that names no TREK range says so', async () => {
+  it('FE-COMP-PLUGINS-PANEL-039: a plugin that names no Trip Mate range says so', async () => {
     panelWith([plugin({ operatorEgress: false, dependencyStatus: 'hostIncompatible' })])
     render(<AdminPluginsPanel />)
 
-    expect(await screen.findByText('Does not say which TREK versions it supports')).toBeInTheDocument()
+    expect(await screen.findByText('Does not say which Trip Mate versions it supports')).toBeInTheDocument()
   })
 })
 
@@ -1432,14 +1432,14 @@ describe('AdminPluginsPanel — Discover cards and the detail modal', () => {
     server.use(
       http.get('*/api/admin/plugins', () => HttpResponse.json({ enabled: true, devLink: false, plugins: [] })),
       http.get('*/api/admin/plugins/registry', () => HttpResponse.json([registryEntry(entry)])),
-      http.get('*/api/admin/plugins/registry/trek-gotify', () =>
+      http.get('*/api/admin/plugins/registry/tripmate-gotify', () =>
         detail ? HttpResponse.json(detail) : HttpResponse.json({ error: 'gone' }, { status: 404 })),
     )
   }
 
   function manifestDetail(over: Record<string, unknown> = {}, manifest: Record<string, unknown> = {}) {
     return {
-      id: 'trek-gotify', name: 'Gotify', author: 'Acme', description: 'Push', repo: 'acme/gotify',
+      id: 'tripmate-gotify', name: 'Gotify', author: 'Acme', description: 'Push', repo: 'acme/gotify',
       type: 'integration', tags: [], size: 4096, publishedAt: null, latest: '2.0.0',
       manifest: { permissions: [], egress: [], settings: [], license: 'MIT', icon: null, operatorEgress: false, ...manifest },
       ...over,
@@ -1492,7 +1492,7 @@ describe('AdminPluginsPanel — Discover cards and the detail modal', () => {
 
   it('FE-COMP-PLUGINS-PANEL-042: the detail modal lists setup fields, metadata and a separate homepage', async () => {
     discoverWith(
-      { downloadCount: 999_500, reviewedAt: '2026-01-05T00:00:00Z', homepage: 'https://gotify.example', trek: '>=3.2.0' },
+      { downloadCount: 999_500, reviewedAt: '2026-01-05T00:00:00Z', homepage: 'https://gotify.example', tripmate: '>=3.2.0' },
       manifestDetail({}, {
         permissions: ['db:own'],
         settings: [{ key: 'url', label: 'Server URL', scope: 'instance', required: true }],
@@ -1506,7 +1506,7 @@ describe('AdminPluginsPanel — Discover cards and the detail modal', () => {
     expect(screen.getByText('Instance-wide')).toBeInTheDocument()
     expect(screen.getByText('Required')).toBeInTheDocument()
     expect(screen.getByText('4 KB')).toBeInTheDocument()
-    expect(screen.getByText('TREK >=3.2.0')).toBeInTheDocument()
+    expect(screen.getByText('Trip Mate >=3.2.0')).toBeInTheDocument()
     expect(screen.getByText('Store its own data in an isolated database')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /homepage/i })).toHaveAttribute('href', 'https://gotify.example')
     // 999 500 rounds to a whole megabyte on the card, never "1000k"
@@ -1520,7 +1520,7 @@ describe('AdminPluginsPanel — Discover cards and the detail modal', () => {
     fireEvent.click(await screen.findByText('Gotify'))
 
     expect(await screen.findByText('Needs no special access.')).toBeInTheDocument()
-    expect(screen.getByText('TREK 3.2.0+')).toBeInTheDocument()
+    expect(screen.getByText('Trip Mate 3.2.0+')).toBeInTheDocument()
     expect(screen.queryByText('Connects to')).not.toBeInTheDocument()
     expect(screen.queryByText('Setup')).not.toBeInTheDocument()
   })
@@ -1541,12 +1541,12 @@ describe('AdminPluginsPanel — Discover cards and the detail modal', () => {
   })
 
   it('FE-COMP-PLUGINS-PANEL-044: an incompatible entry explains the blocked button in the modal body', async () => {
-    discoverWith({ compatible: false, latestCompatible: null, trek: '>=4.0.0', hostVersion: '3.3.0' })
+    discoverWith({ compatible: false, latestCompatible: null, tripmate: '>=4.0.0', hostVersion: '3.3.0' })
     render(<AdminPluginsPanel />)
     await clickDiscover()
     fireEvent.click(await screen.findByText('Gotify'))
 
-    const explanations = await screen.findAllByText(/needs trek >=4\.0\.0 — this server runs 3\.3\.0/i)
+    const explanations = await screen.findAllByText(/needs tripmate >=4\.0\.0 — this server runs 3\.3\.0/i)
     expect(explanations.length).toBeGreaterThan(0)
   })
 
@@ -1563,7 +1563,7 @@ describe('AdminPluginsPanel — Discover cards and the detail modal', () => {
 
   it('FE-COMP-PLUGINS-PANEL-046: installing from a card posts the offered version', async () => {
     let body: unknown = null
-    discoverWith({ compatible: false, latestCompatible: '1.5.0', trek: '>=4.0.0', hostVersion: '3.3.0' })
+    discoverWith({ compatible: false, latestCompatible: '1.5.0', tripmate: '>=4.0.0', hostVersion: '3.3.0' })
     server.use(http.post('*/api/admin/plugins/install', async ({ request }) => {
       body = await request.json()
       return HttpResponse.json({ ok: true })
@@ -1573,7 +1573,7 @@ describe('AdminPluginsPanel — Discover cards and the detail modal', () => {
 
     fireEvent.click(await screen.findByRole('button', { name: /^install 1\.5\.0$/i }))
 
-    await waitFor(() => expect(body).toEqual({ id: 'trek-gotify', version: '1.5.0' }))
+    await waitFor(() => expect(body).toEqual({ id: 'tripmate-gotify', version: '1.5.0' }))
   })
 
   it('FE-COMP-PLUGINS-PANEL-047: an unreachable registry leaves Discover empty rather than spinning', async () => {
@@ -1942,8 +1942,8 @@ describe('AdminPluginsPanel registry cards and dependency chips', () => {
   it('FE-W5PLG-017: an outrun release offers the newest compatible version instead of a dead button', async () => {
     const user = userEvent.setup()
     mockPanel([row()], [
-      regItem({ id: 'r-old', name: 'Older Fit', compatible: false, latestCompatible: '1.4.0', trek: '>=4', hostVersion: '3.5.0' }),
-      regItem({ id: 'r-dead', name: 'No Fit', compatible: false, latestCompatible: null, trek: null }),
+      regItem({ id: 'r-old', name: 'Older Fit', compatible: false, latestCompatible: '1.4.0', tripmate: '>=4', hostVersion: '3.5.0' }),
+      regItem({ id: 'r-dead', name: 'No Fit', compatible: false, latestCompatible: null, tripmate: null }),
     ])
     render(<AdminPluginsPanel />)
     await screen.findByText('Alpha Widget')
@@ -2023,12 +2023,12 @@ describe('AdminPluginsPanel registry cards and dependency chips', () => {
     expect(screen.getByText(/dep-b/)).toBeInTheDocument()
   })
 
-  it('FE-W5PLG-022: a plugin whose TREK range is unknown still gets an incompatibility chip', async () => {
+  it('FE-W5PLG-022: a plugin whose Trip Mate range is unknown still gets an incompatibility chip', async () => {
     mockPanel([row({ dependencyStatus: 'hostIncompatible', trekRange: null, hostVersion: null })])
     render(<AdminPluginsPanel />)
 
     await screen.findByText('Alpha Widget')
-    expect(screen.getByText(/does not say which trek/i)).toBeInTheDocument()
+    expect(screen.getByText(/does not say which tripmate/i)).toBeInTheDocument()
   })
 
   it('FE-W5PLG-023: a registry-sourced row links to its repository and issue tracker', async () => {
@@ -2065,7 +2065,7 @@ describe('AdminPluginsPanel signature fingerprints and dismissals', () => {
 
   it('FE-W5PLG-024: a long new key is shown head…tail next to the pinned one', async () => {
     const key = 'untrusted comment: minisign key\nRWQf6LRCGA9iA1234567890ABCDEFGH'
-    mockPanel(blocked(), [{ id: 'trek-gotify', name: 'Gotify', author: 'acme', description: 'd', type: 'integration', latest: '2.0.0', authorPublicKey: key }])
+    mockPanel(blocked(), [{ id: 'tripmate-gotify', name: 'Gotify', author: 'acme', description: 'd', type: 'integration', latest: '2.0.0', authorPublicKey: key }])
     render(<AdminPluginsPanel />)
     await screen.findByText('Gotify')
 
@@ -2078,7 +2078,7 @@ describe('AdminPluginsPanel signature fingerprints and dismissals', () => {
 
   it('FE-W5PLG-025: a short key is shown in full and a missing pinned key falls back to a dash', async () => {
     mockPanel(blocked({ keyFingerprint: null }), [
-      { id: 'trek-gotify', name: 'Gotify', author: 'acme', description: 'd', type: 'integration', latest: '2.0.0', authorPublicKey: 'SHORTKEY' },
+      { id: 'tripmate-gotify', name: 'Gotify', author: 'acme', description: 'd', type: 'integration', latest: '2.0.0', authorPublicKey: 'SHORTKEY' },
     ])
     render(<AdminPluginsPanel />)
     await screen.findByText('Gotify')
@@ -2115,7 +2115,7 @@ describe('AdminPluginsPanel signature fingerprints and dismissals', () => {
     const user = userEvent.setup()
     mockPanel(plugin({ egressHostCount: 1 }))
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/egress-hosts', () =>
+      http.get('*/api/admin/plugins/tripmate-gotify/egress-hosts', () =>
         HttpResponse.json({ supported: true, hosts: ['gotify.mydomain.com'] })),
     )
     render(<AdminPluginsPanel />)
@@ -2203,12 +2203,12 @@ describe('AdminPluginsPanel — instance settings', () => {
   async function openRowMenu(p: Record<string, unknown>) {
     mockList(p)
     render(<><ToastContainer /><AdminPluginsPanel /></>)
-    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-trek-gotify'))
+    fireEvent.click(await screen.findByTestId('plugin-row-menu-btn-tripmate-gotify'))
   }
 
   async function openSettings(config: Record<string, unknown> = { apiUrl: 'https://gotify.mydomain.com', apiKey: '••••••••' }) {
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/config', () => HttpResponse.json({ fields: FIELDS, config })),
+      http.get('*/api/admin/plugins/tripmate-gotify/config', () => HttpResponse.json({ fields: FIELDS, config })),
     )
     await openRowMenu(plugin({ instanceSettingsCount: 2 }))
     fireEvent.click(screen.getByText('Instance settings'))
@@ -2230,7 +2230,7 @@ describe('AdminPluginsPanel — instance settings', () => {
 
   it('FE-COMP-PLUGINS-CFG-008: a plugin with instance ACTIONS but no fields still offers the menu item', async () => {
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/config', () =>
+      http.get('*/api/admin/plugins/tripmate-gotify/config', () =>
         HttpResponse.json({ fields: [], config: {}, actions: [{ key: 'ping', label: 'Ping server', danger: false, scope: 'instance' }] })),
     )
     await openRowMenu(plugin({ instanceSettingsCount: 0, instanceActionsCount: 1 }))
@@ -2242,7 +2242,7 @@ describe('AdminPluginsPanel — instance settings', () => {
   it('FE-COMP-PLUGINS-CFG-003: saving sends the edits but never the untouched secret mask', async () => {
     let body: Record<string, unknown> | null = null
     server.use(
-      http.put('*/api/admin/plugins/trek-gotify/config', async ({ request }) => {
+      http.put('*/api/admin/plugins/tripmate-gotify/config', async ({ request }) => {
         body = await request.json() as Record<string, unknown>
         return HttpResponse.json({ config: body, restarted: false })
       }),
@@ -2259,7 +2259,7 @@ describe('AdminPluginsPanel — instance settings', () => {
 
   it('FE-COMP-PLUGINS-CFG-004: a save that restarted the running plugin says so', async () => {
     server.use(
-      http.put('*/api/admin/plugins/trek-gotify/config', () =>
+      http.put('*/api/admin/plugins/tripmate-gotify/config', () =>
         HttpResponse.json({ config: { apiUrl: 'https://gotify.mydomain.com' }, restarted: true })),
     )
     await openSettings()
@@ -2277,9 +2277,9 @@ describe('AdminPluginsPanel — instance settings', () => {
     ]
     let body: Record<string, unknown> | null = null
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/config', () =>
+      http.get('*/api/admin/plugins/tripmate-gotify/config', () =>
         HttpResponse.json({ fields: RICH, config: { mode: 'slow', enabled: true } })),
-      http.put('*/api/admin/plugins/trek-gotify/config', async ({ request }) => {
+      http.put('*/api/admin/plugins/tripmate-gotify/config', async ({ request }) => {
         body = await request.json() as Record<string, unknown>
         return HttpResponse.json({ config: body, restarted: false })
       }),
@@ -2311,7 +2311,7 @@ describe('AdminPluginsPanel — instance settings', () => {
 
   async function openWithActions(p: Record<string, unknown> = plugin({ instanceSettingsCount: 2 })) {
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/config', () =>
+      http.get('*/api/admin/plugins/tripmate-gotify/config', () =>
         HttpResponse.json({ fields: FIELDS, config: { apiUrl: 'https://gotify.mydomain.com' }, actions: ACTIONS })),
     )
     await openRowMenu(p)
@@ -2322,7 +2322,7 @@ describe('AdminPluginsPanel — instance settings', () => {
   it('FE-COMP-PLUGINS-ACT-010: instance actions render below the fields and run against the admin route', async () => {
     let posted = ''
     server.use(
-      http.post('*/api/admin/plugins/trek-gotify/actions/:key', ({ params }) => {
+      http.post('*/api/admin/plugins/tripmate-gotify/actions/:key', ({ params }) => {
         posted = String(params.key)
         return HttpResponse.json({ ok: true, message: 'pong' })
       }),
@@ -2339,7 +2339,7 @@ describe('AdminPluginsPanel — instance settings', () => {
   it('FE-COMP-PLUGINS-ACT-011: a danger action asks first; confirming runs it', async () => {
     let posted = ''
     server.use(
-      http.post('*/api/admin/plugins/trek-gotify/actions/:key', ({ params }) => {
+      http.post('*/api/admin/plugins/tripmate-gotify/actions/:key', ({ params }) => {
         posted = String(params.key)
         return HttpResponse.json({ ok: false, message: 'cache locked' })
       }),
@@ -2362,8 +2362,8 @@ describe('AdminPluginsPanel — instance settings', () => {
   it('FE-COMP-PLUGINS-ACT-013: a dirty form is saved before the action runs', async () => {
     const calls: string[] = []
     server.use(
-      http.put('*/api/admin/plugins/trek-gotify/config', () => { calls.push('save'); return HttpResponse.json({ config: {}, restarted: false }) }),
-      http.post('*/api/admin/plugins/trek-gotify/actions/:key', () => { calls.push('run'); return HttpResponse.json({ ok: true }) }),
+      http.put('*/api/admin/plugins/tripmate-gotify/config', () => { calls.push('save'); return HttpResponse.json({ config: {}, restarted: false }) }),
+      http.post('*/api/admin/plugins/tripmate-gotify/actions/:key', () => { calls.push('run'); return HttpResponse.json({ ok: true }) }),
     )
     await openWithActions()
     fireEvent.change(screen.getByDisplayValue('https://gotify.mydomain.com'), { target: { value: 'https://new.example' } })
@@ -2373,7 +2373,7 @@ describe('AdminPluginsPanel — instance settings', () => {
 
   it('FE-COMP-PLUGINS-CFG-006: a failed config fetch is a toast, not a broken dialog', async () => {
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/config', () => HttpResponse.json({ error: 'nope' }, { status: 500 })),
+      http.get('*/api/admin/plugins/tripmate-gotify/config', () => HttpResponse.json({ error: 'nope' }, { status: 500 })),
     )
     await openRowMenu(plugin({ instanceSettingsCount: 2 }))
     fireEvent.click(screen.getByText('Instance settings'))
@@ -2383,7 +2383,7 @@ describe('AdminPluginsPanel — instance settings', () => {
 
   it('FE-COMP-PLUGINS-CFG-007: a rejected save shows the server reason and keeps the dialog open', async () => {
     server.use(
-      http.put('*/api/admin/plugins/trek-gotify/config', () =>
+      http.put('*/api/admin/plugins/tripmate-gotify/config', () =>
         HttpResponse.json({ error: 'config refused' }, { status: 400 })),
     )
     await openSettings()
@@ -2405,7 +2405,7 @@ describe('AdminPluginsPanel — instance settings', () => {
 
   it('FE-COMP-PLUGINS-CFG-009: pre-fills a declared default when no value is stored', async () => {
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/config', () => HttpResponse.json({
+      http.get('*/api/admin/plugins/tripmate-gotify/config', () => HttpResponse.json({
         fields: [{ key: 'oauth_authorize_url', label: 'Authorize URL', input_type: 'text', required: true, secret: false, default: 'https://auth.openbnb.org/authorize' }],
         config: {},
       })),
@@ -2418,7 +2418,7 @@ describe('AdminPluginsPanel — instance settings', () => {
 
   it('FE-COMP-PLUGINS-CFG-010: a stored value wins over the default', async () => {
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/config', () => HttpResponse.json({
+      http.get('*/api/admin/plugins/tripmate-gotify/config', () => HttpResponse.json({
         fields: [{ key: 'oauth_authorize_url', label: 'Authorize URL', input_type: 'text', required: false, secret: false, default: 'https://auth.openbnb.org/authorize' }],
         config: { oauth_authorize_url: 'https://mine.example' },
       })),
@@ -2433,11 +2433,11 @@ describe('AdminPluginsPanel — instance settings', () => {
   it('FE-COMP-PLUGINS-CFG-011: blocks Save while a required field is empty and names it', async () => {
     let called = false
     server.use(
-      http.get('*/api/admin/plugins/trek-gotify/config', () => HttpResponse.json({
+      http.get('*/api/admin/plugins/tripmate-gotify/config', () => HttpResponse.json({
         fields: [{ key: 'client_id', label: 'Client ID', input_type: 'text', required: true, secret: false }],
         config: {},
       })),
-      http.put('*/api/admin/plugins/trek-gotify/config', () => { called = true; return HttpResponse.json({ config: {}, restarted: false }) }),
+      http.put('*/api/admin/plugins/tripmate-gotify/config', () => { called = true; return HttpResponse.json({ config: {}, restarted: false }) }),
     )
     await openRowMenu(plugin({ instanceSettingsCount: 1 }))
     fireEvent.click(screen.getByText('Instance settings'))
@@ -2461,19 +2461,19 @@ describe('AdminPluginsPanel — instance settings', () => {
 })
 
 /**
- * TREK_PLUGINS_IGNORE_TREK_RANGE. The server turns its version gates into warnings; the
+ * TRIPMATE_PLUGINS_IGNORE_TREK_RANGE. The server turns its version gates into warnings; the
  * panel's job is to make sure the admin actually SEES the warning — before a registry
  * install, after a sideload/link that could not be asked first, and on the row for as
  * long as the plugin keeps running outside the range its author vouched for.
  */
-describe('AdminPluginsPanel — TREK-range bypass (TREK_PLUGINS_IGNORE_TREK_RANGE)', () => {
+describe('AdminPluginsPanel — Trip Mate-range bypass (TRIPMATE_PLUGINS_IGNORE_TREK_RANGE)', () => {
   function bypassPanel(plugins: Record<string, unknown>[], entry: Record<string, unknown> | null) {
     server.use(
       http.get('*/api/admin/plugins', () => HttpResponse.json({ enabled: true, devLink: false, ignoreTrekRange: true, plugins })),
       http.get('*/api/admin/plugins/registry', () => HttpResponse.json(entry ? [entry] : [])),
     )
   }
-  const incompatibleEntry = () => registryEntry({ trek: '>=4.0.0', hostVersion: '3.3.0', compatible: false, latestCompatible: null })
+  const incompatibleEntry = () => registryEntry({ tripmate: '>=4.0.0', hostVersion: '3.3.0', compatible: false, latestCompatible: null })
 
   it('FE-PLG-BYPASS-001: says so in the header', async () => {
     bypassPanel([plugin()], null)
@@ -2486,7 +2486,7 @@ describe('AdminPluginsPanel — TREK-range bypass (TREK_PLUGINS_IGNORE_TREK_RANG
     bypassPanel([plugin({ id: 'something-else' })], incompatibleEntry())
     server.use(http.post('*/api/admin/plugins/install', async ({ request }) => {
       posted = await request.json()
-      return HttpResponse.json({ id: 'trek-gotify', version: '2.0.0', trekRangeBypassed: { trekRange: '>=4.0.0', hostVersion: '3.3.0' } })
+      return HttpResponse.json({ id: 'tripmate-gotify', version: '2.0.0', trekRangeBypassed: { trekRange: '>=4.0.0', hostVersion: '3.3.0' } })
     }))
     withToast()
     fireEvent.click(await screen.findByText('Discover'))
@@ -2495,41 +2495,41 @@ describe('AdminPluginsPanel — TREK-range bypass (TREK_PLUGINS_IGNORE_TREK_RANG
     expect(btn).toBeEnabled()
     fireEvent.click(btn)
 
-    const dialog = await screen.findByRole('dialog', { name: /outside its supported trek versions/i })
+    const dialog = await screen.findByRole('dialog', { name: /outside its supported tripmate versions/i })
     expect(within(dialog).getByText(/no guarantee/i)).toBeInTheDocument()
-    expect(within(dialog).getByText(/corrupt trek data/i)).toBeInTheDocument()
+    expect(within(dialog).getByText(/corrupt tripmate data/i)).toBeInTheDocument()
     expect(posted).toBeNull() // nothing sent until the admin accepts the risk
 
     fireEvent.click(within(dialog).getByRole('button', { name: /^install anyway$/i }))
-    await waitFor(() => expect(posted).toEqual({ id: 'trek-gotify' }))
+    await waitFor(() => expect(posted).toEqual({ id: 'tripmate-gotify' }))
   })
 
   it('FE-PLG-BYPASS-003: cancelling the warning installs nothing', async () => {
     let posted = false
     bypassPanel([plugin({ id: 'something-else' })], incompatibleEntry())
-    server.use(http.post('*/api/admin/plugins/install', () => { posted = true; return HttpResponse.json({ id: 'trek-gotify', version: '2.0.0', trekRangeBypassed: null }) }))
+    server.use(http.post('*/api/admin/plugins/install', () => { posted = true; return HttpResponse.json({ id: 'tripmate-gotify', version: '2.0.0', trekRangeBypassed: null }) }))
     withToast()
     fireEvent.click(await screen.findByText('Discover'))
     fireEvent.click(await screen.findByRole('button', { name: /^install anyway$/i }))
 
-    const dialog = await screen.findByRole('dialog', { name: /outside its supported trek versions/i })
+    const dialog = await screen.findByRole('dialog', { name: /outside its supported tripmate versions/i })
     fireEvent.click(within(dialog).getByRole('button', { name: /cancel/i }))
-    await waitFor(() => expect(screen.queryByRole('dialog', { name: /outside its supported trek versions/i })).not.toBeInTheDocument())
+    await waitFor(() => expect(screen.queryByRole('dialog', { name: /outside its supported tripmate versions/i })).not.toBeInTheDocument())
     expect(posted).toBe(false)
   })
 
   it('FE-PLG-BYPASS-004: a sideload that landed outside its range is warned about afterwards', async () => {
     bypassPanel([plugin()], null)
     server.use(http.post('*/api/admin/plugins/upload', () =>
-      HttpResponse.json({ id: 'trek-new', version: '1.0.0', replaced: false, trekRangeBypassed: { trekRange: null, hostVersion: '3.3.0' } })))
+      HttpResponse.json({ id: 'tripmate-new', version: '1.0.0', replaced: false, trekRangeBypassed: { trekRange: null, hostVersion: '3.3.0' } })))
     const { container } = withToast()
     await screen.findByText('Gotify')
 
     await userEvent.upload(container.querySelector('input[type="file"]') as HTMLInputElement, new File(['zip'], 'plugin.zip', { type: 'application/zip' }))
 
-    const dialog = await screen.findByRole('dialog', { name: /installed outside its supported trek versions/i })
+    const dialog = await screen.findByRole('dialog', { name: /installed outside its supported tripmate versions/i })
     expect(within(dialog).getByText(/no guarantee/i)).toBeInTheDocument()
-    expect(within(dialog).getByText(/trek-new/)).toBeInTheDocument()
+    expect(within(dialog).getByText(/tripmate-new/)).toBeInTheDocument()
   })
 
   it('FE-PLG-BYPASS-005: a plugin running outside its range keeps a warning chip on its row', async () => {
@@ -2538,6 +2538,6 @@ describe('AdminPluginsPanel — TREK-range bypass (TREK_PLUGINS_IGNORE_TREK_RANG
       trekRangeBypassed: { trekRange: '>=3.2.0 <4.0.0', hostVersion: '4.0.0' },
     })], null)
     render(<AdminPluginsPanel />)
-    expect(await screen.findByText(/outside its trek range \(>=3\.2\.0 <4\.0\.0\)/i)).toBeInTheDocument()
+    expect(await screen.findByText(/outside its tripmate range \(>=3\.2\.0 <4\.0\.0\)/i)).toBeInTheDocument()
   })
 })

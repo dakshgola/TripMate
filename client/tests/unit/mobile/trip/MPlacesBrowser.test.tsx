@@ -3,7 +3,7 @@ import { act, fireEvent, render, screen, waitFor } from '../../../helpers/render
 import { buildPlanner, buildShell } from '../../../helpers/mobileTrip'
 import MPlacesBrowser from '../../../../src/mobile/screens/trip/places/MPlacesBrowser'
 import { collectionsApi } from '../../../../src/api/collections'
-import type { CollectionListResponse } from '@trek/shared'
+import type { CollectionListResponse } from '@tripmate/shared'
 import { useAddonStore } from '../../../../src/store/addonStore'
 import { useTripStore } from '../../../../src/store/tripStore'
 import { resetAllStores, seedStore } from '../../../helpers/store'

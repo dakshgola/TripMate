@@ -41,13 +41,13 @@ vi.mock('../../../src/utils/ssrfGuard', () => ({
 vi.mock('../../../src/config', () => ({ JWT_SECRET: 'test-secret', ENCRYPTION_KEY: '0'.repeat(64) }));
 
 // Reached for any `gers:` place id, where the real one is an outbound request
-// to the TREK Places API. Only this export is replaced; the record shaping the
+// to the Trip Mate Places API. Only this export is replaced; the record shaping the
 // rest of the module provides stays as it is.
 const { mockTrekPlacesById } = vi.hoisted(() => ({
   mockTrekPlacesById: vi.fn(async (_gers: string): Promise<unknown> => null),
 }));
-vi.mock('../../../src/nest/maps/trek-places.client', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('../../../src/nest/maps/trek-places.client')>()),
+vi.mock('../../../src/nest/maps/tripmate-places.client', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../../../src/nest/maps/tripmate-places.client')>()),
   trekPlacesById: mockTrekPlacesById,
 }));
 
@@ -1032,10 +1032,10 @@ describe('picture source ladder', () => {
 describe('nearby pictures that would mislead', () => {
   const GERS_REQ = { ...REQ, placeId: 'gers:abc-123' };
 
-  // What the TREK index reports for a place: one `category` string.
+  // What the Trip Mate index reports for a place: one `category` string.
   const indexPlace = (category: string) =>
     mapsStub({
-      details: vi.fn(async () => ({ place: { source: 'trek-places', category } })),
+      details: vi.fn(async () => ({ place: { source: 'tripmate-places', category } })),
       fetchCommonsCandidates: vi.fn(async () => [commonsCandidate()]),
     });
 
@@ -1117,7 +1117,7 @@ describe('nearby pictures that would mislead', () => {
     // The item comes from the OSM tag and not from the index record, whose
     // `wikidata` holds the chain's item rather than this branch's.
     const maps = mapsStub({
-      details: vi.fn(async () => ({ place: { source: 'trek-places', category: 'cafe' } })),
+      details: vi.fn(async () => ({ place: { source: 'tripmate-places', category: 'cafe' } })),
       resolveOsmIdentity: vi.fn(async () => ({
         tags: { wikidata: 'Q1' },
         osmUrl: null,

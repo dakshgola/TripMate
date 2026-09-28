@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { MASKED_SETTING_VALUE, type StorageBackend } from '@trek/shared';
+import { MASKED_SETTING_VALUE, type StorageBackend } from '@tripmate/shared';
 import { fireEvent, render, screen } from '../../../../tests/helpers/render';
 import BackendForm from './BackendForm';
 
@@ -26,7 +26,7 @@ const S3_INITIAL: StorageBackend = {
   name: 'off-box',
   type: 's3',
   options: {
-    endpoint: 'http://127.0.0.1:9000', bucket: 'trek', accessKeyId: 'ak',
+    endpoint: 'http://127.0.0.1:9000', bucket: 'tripmate', accessKeyId: 'ak',
     secretAccessKey: MASKED_SETTING_VALUE, region: 'us-east-1', keyPrefix: '', retries: 1, timeoutMs: 30000,
   },
 };
@@ -95,13 +95,13 @@ describe('BackendForm', () => {
     fireEvent.click(screen.getByText('S3'));
     fireEvent.change(screen.getByLabelText(/Name/), { target: { value: 'fresh' } });
     fireEvent.change(screen.getByLabelText(/Endpoint URL/), { target: { value: 'http://127.0.0.1:9000' } });
-    fireEvent.change(screen.getByLabelText(/Bucket/), { target: { value: 'trek' } });
+    fireEvent.change(screen.getByLabelText(/Bucket/), { target: { value: 'tripmate' } });
     fireEvent.change(screen.getByLabelText(/Access key ID/), { target: { value: 'ak' } });
     fireEvent.change(screen.getByLabelText(/Secret access key/), { target: { value: 'sk' } });
     fireEvent.click(screen.getByRole('button', { name: 'Apply' }));
     const committed = onCommit.mock.calls[0]![0] as StorageBackend;
     expect(committed.options).toEqual({
-      endpoint: 'http://127.0.0.1:9000', bucket: 'trek', accessKeyId: 'ak', secretAccessKey: 'sk',
+      endpoint: 'http://127.0.0.1:9000', bucket: 'tripmate', accessKeyId: 'ak', secretAccessKey: 'sk',
     });
     expect(committed.options).not.toHaveProperty('region');
   });

@@ -155,7 +155,8 @@ const collection: TranslationStrings = {
   'collections.file.targetExisting': 'Добавить в список',
   'collections.file.targetExistingHint': 'В список, который уже есть',
   'collections.file.searchLists': 'Поиск списков',
-  'collections.file.intoHint': 'Места, которые уже есть в списке, остаются без изменений, как и его название и цвет. Метки из файла добавляются.',
+  'collections.file.intoHint':
+    'Места, которые уже есть в списке, остаются без изменений, как и его название и цвет. Метки из файла добавляются.',
   'collections.file.confirmInto': 'Добавить в список',
   'collections.file.doneInto': '{count} мест добавлено в {name}',
   'collections.file.doneIntoDuplicates': '{count} добавлено в {name}, {duplicates} уже были там',
@@ -168,9 +169,9 @@ const collection: TranslationStrings = {
   'collections.file.doneSkipped': 'Импортировано мест: {count}, пропущено: {skipped}',
   'collections.file.errorTooLarge': 'Этот файл слишком велик для списка.',
   'collections.file.errorUnreadable': 'Не удалось прочитать этот файл.',
-  'collections.file.errorNotACollection': 'Это не файл списка TREK.',
-  'collections.file.formatTrek': 'Список TREK',
-  'collections.file.formatTrekHint': 'Для другого TREK, с метками и статусом',
+  'collections.file.errorNotACollection': 'Это не файл списка Trip Mate.',
+  'collections.file.formatTrek': 'Список Trip Mate',
+  'collections.file.formatTrekHint': 'Для другого Trip Mate, с метками и статусом',
   'collections.file.formatGpxHint':
     'Путевые точки для OsmAnd, Organic Maps, Garmin и других картографических приложений',
   'collections.file.gpxOmitted': 'Мест без координат, не попавших в файл GPX: {count}',

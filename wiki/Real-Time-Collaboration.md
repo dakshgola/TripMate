@@ -1,6 +1,6 @@
 # Real-Time Collaboration
 
-TREK keeps every trip in sync across all connected members without requiring a page refresh. A dedicated **Collab addon** adds a second layer on top of that sync: group chat, shared notes, shared links, polls, and a "What's Next" widget showing upcoming assigned places.
+Trip Mate keeps every trip in sync across all connected members without requiring a page refresh. A dedicated **Collab addon** adds a second layer on top of that sync: group chat, shared notes, shared links, polls, and a "What's Next" widget showing upcoming assigned places.
 
 ![The Collab tab: chat, shared notes, polls and the What's Next widget side by side](assets/Collab.png)
 
@@ -24,7 +24,7 @@ All changes to a trip — places, day plans, reservations, budget entries, and p
 - **4001** — missing, invalid, or expired token; user not found
 - **4403** — site-wide MFA is required but the account does not have MFA enabled
 
-An origin rejection happens before the socket exists, so it produces no close code at all — the browser just reports a failed connection. And because clients that send no `Origin` header are exempt, curl and other CLI clients keep connecting while every browser fails, which makes it look like a client bug. If real-time sync stops working behind a reverse proxy, check that `ALLOWED_ORIGINS` lists the exact scheme, host, and port the browser uses: the comparison is a plain string match, so `https://trek.example.com` matches neither `http://trek.example.com` nor `https://trek.example.com:443`. See [Environment-Variables](Environment-Variables) and [Reverse-Proxy](Reverse-Proxy).
+An origin rejection happens before the socket exists, so it produces no close code at all — the browser just reports a failed connection. And because clients that send no `Origin` header are exempt, curl and other CLI clients keep connecting while every browser fails, which makes it look like a client bug. If real-time sync stops working behind a reverse proxy, check that `ALLOWED_ORIGINS` lists the exact scheme, host, and port the browser uses: the comparison is a plain string match, so `https://tripmate.example.com` matches neither `http://tripmate.example.com` nor `https://tripmate.example.com:443`. See [Environment-Variables](Environment-Variables) and [Reverse-Proxy](Reverse-Proxy).
 
 ## The Collab addon
 
@@ -48,7 +48,7 @@ The **Links** tab collects the web addresses a trip runs on: the booking portal,
 
 ## Conflict handling
 
-TREK uses a **last-write-wins** model. Each mutation is applied on the server and the resulting canonical state is broadcast to all connected clients. If two members edit the same field at the same time, the change that reaches the server last is the one that sticks; all clients converge to that server-authoritative state.
+Trip Mate uses a **last-write-wins** model. Each mutation is applied on the server and the resulting canonical state is broadcast to all connected clients. If two members edit the same field at the same time, the change that reaches the server last is the one that sticks; all clients converge to that server-authoritative state.
 
 On reconnect, any locally queued mutations are flushed to the server before the client re-fetches trip data, so offline changes are applied before the latest state is read back.
 

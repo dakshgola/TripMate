@@ -63,7 +63,7 @@ import { QueryHelpersService } from '../../src/nest/query-helpers/query-helpers.
 import { JourneyMcp } from '../../src/nest/journey/journey.mcp';
 import { JourneyDomainService } from '../../src/nest/journey/journey-domain.service';
 import { JourneyShareService } from '../../src/nest/journey/journey-share.service';
-import { TrekPhotosRepository } from '../../src/nest/photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../../src/nest/photos/tripmate-photos.repository';
 import { UnsplashService } from '../../src/nest/unsplash/unsplash.service';
 import { UserCleanupService } from '../../src/nest/auth/user-cleanup.service';
 import { WebauthnConfigService } from '../../src/nest/auth/webauthn-config.service';
@@ -97,7 +97,7 @@ import { MemoriesAccessService } from '../../src/nest/memories/memories-access.s
 import { PhotoCaptureBackfillService } from '../../src/nest/memories/photo-capture-backfill.service';
 import { PhotoResolverService } from '../../src/nest/memories/photo-resolver.service';
 import { ThumbnailService } from '../../src/nest/memories/thumbnail.service';
-import { TrekPhotoCacheService } from '../../src/nest/memories/trek-photo-cache.service';
+import { TrekPhotoCacheService } from '../../src/nest/memories/tripmate-photo-cache.service';
 import { PhotoProviderRegistry } from '../../src/nest/memories/photo-provider.registry';
 import { ImmichPhotoProvider } from '../../src/nest/memories/providers/immich.provider';
 import { SynologyPhotoProvider } from '../../src/nest/memories/providers/synology.provider';

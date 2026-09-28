@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router'
 import { useTranslation } from '../../i18n'
 import { collectionsApi } from '../../api/collections'
 import { entityGradient } from '../../utils/gradients'
-import type { Collection } from '@trek/shared'
+import type { Collection } from '@tripmate/shared'
 
 /**
  * Dashboard sidebar widget — a glassy `.tool` card that surfaces the user's

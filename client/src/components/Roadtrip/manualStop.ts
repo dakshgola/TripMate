@@ -1,4 +1,4 @@
-import type { RoadtripStopType } from '@trek/shared'
+import type { RoadtripStopType } from '@tripmate/shared'
 import { projectOntoRoute, type LatLng } from './corridor'
 
 /**

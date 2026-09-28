@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, HttpException, Param, Post, Put, UseGuards } from '@nestjs/common';
-import type { Category, CategoryListResponse } from '@trek/shared';
+import type { Category, CategoryListResponse } from '@tripmate/shared';
 import type { User } from '../../types';
 import { CategoriesService } from './categories.service';
 import { CategoryCreateDto, CategoryUpdateDto } from './categories.dto';
@@ -14,7 +14,7 @@ import { CurrentUser } from '../auth/current-user.decorator';
  * (JwtAuthGuard + AdminGuard). Status codes match the legacy Express route
  * (201 on create, 200 elsewhere) and the bespoke 404 body is reproduced exactly.
  *
- * Bodies now validate against the @trek/shared schemas through the DTO classes
+ * Bodies now validate against the @tripmate/shared schemas through the DTO classes
  * and the global ZodValidationPipe. That replaced the hand-rolled 400 ("Category
  * name is required") with the pipe's envelope — the same trade the places, todo
  * and trips migrations made. It matters here because `color` was reaching a

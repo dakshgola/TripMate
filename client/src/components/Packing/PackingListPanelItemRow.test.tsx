@@ -51,7 +51,7 @@ function overflowTrigger(container: HTMLElement) {
  * viewports), so every query against it has to opt into hidden elements.
  */
 function menu(container: HTMLElement) {
-  return within(container.querySelector<HTMLElement>('.trek-menu-enter')!)
+  return within(container.querySelector<HTMLElement>('.tripmate-menu-enter')!)
 }
 
 function menuButton(container: HTMLElement, name: string) {

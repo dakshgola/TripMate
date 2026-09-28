@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router'
-import type { BookElement, BookPageNumbers, JourneyStats } from '@trek/shared'
-import { bookPageSetupSchema } from '@trek/shared'
+import type { BookElement, BookPageNumbers, JourneyStats } from '@tripmate/shared'
+import { bookPageSetupSchema } from '@tripmate/shared'
 import { journeyApi } from '../../api/client'
 import { useJourneyStore, type GalleryPhoto, type JourneyEntry, type JourneyPhoto } from '../../store/journeyStore'
 import { useStudioStore } from '../../store/studioStore'
@@ -31,7 +31,7 @@ const WORK_PADDING_PX = 72
 export const STUDIO_INSET = 16
 
 /**
- * TREK Studio — the book designer's shell state.
+ * Trip Mate Studio — the book designer's shell state.
  *
  * Studio is a child route of the journey, so the journey it edits is already in
  * the store by the time this runs; it only asks for a load when someone lands on

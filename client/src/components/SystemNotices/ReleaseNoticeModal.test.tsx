@@ -205,9 +205,9 @@ describe('ReleaseNoticeModal', () => {
     const wide = cards[3]
     expect(wide.querySelector('.rn-vis-docs')).not.toBeNull()
     expect(wide.querySelectorAll('.rn-vis-docs-store')).toHaveLength(5)
-    expect(wide.querySelector('.trek-mark .pill-bg')).toBeNull()
+    expect(wide.querySelector('.tripmate-mark .pill-bg')).toBeNull()
     // The places card keeps the pill: that one is about the index.
-    expect(cards[0].querySelector('.trek-mark .pill-bg')).not.toBeNull()
+    expect(cards[0].querySelector('.tripmate-mark .pill-bg')).not.toBeNull()
   })
 
   it('FE-RN-016: the close button belongs to the panel, not the note', () => {

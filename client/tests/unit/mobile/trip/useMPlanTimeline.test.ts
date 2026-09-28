@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { WeatherResult } from '@trek/shared'
+import type { WeatherResult } from '@tripmate/shared'
 import { assignmentsApi, reservationsApi, weatherApi } from '../../../../src/api/client'
 import { useMPlanTimeline } from '../../../../src/mobile/screens/trip/plan/useMPlanTimeline'
 import type { TransportEntry } from '../../../../src/mobile/screens/trip/plan/planTimelineModel'
@@ -629,7 +629,7 @@ describe('useMPlanTimeline', () => {
   })
 
   it('FE-MOB-PLTL-051: a day with a single stop still offers the hand-offs, which open that stop as a pin', async () => {
-    // No stay in TREK: one sight is the whole export. The #2476 gate only drops a day
+    // No stay in Trip Mate: one sight is the whole export. The #2476 gate only drops a day
     // with nothing to hand over, not one that opens a pin to navigate to.
     const { result } = await renderTimeline(makePlanner({ assignments: { '2': [A_MUSEUM] } }))
     expect(result.current.canExportRoute).toBe(true)

@@ -17,13 +17,13 @@ import {
   collectionInviteRequestSchema, collectionSetStatusFromTripRequestSchema,
   collectionLinkSchema,
   COLLECTION_STATUSES, COLLECTION_ROLES,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import type {
   CollectionCreateRequest, CollectionUpdateRequest, CollectionSavePlaceRequest,
   CollectionPlaceUpdateRequest, CollectionCopyToTripRequest, CollectionInviteRequest,
   CollectionLabelCreateRequest, CollectionLabelUpdateRequest, CollectionLabelAssignRequest,
   CollectionSetStatusFromTripRequest, CollectionStatus, CollectionRole,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import { addonGate } from '../addons/addon-gate';
 import { AddonsService } from '../addons/addons.service';
 

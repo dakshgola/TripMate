@@ -31,7 +31,7 @@ const C = {
 // ── File logger with rotation ─────────────────────────────────────────────
 
 const logsDir = path.join(process.cwd(), 'data/logs');
-const logFilePath = path.join(logsDir, 'trek.log');
+const logFilePath = path.join(logsDir, 'tripmate.log');
 let logsDirReady = false;
 
 function ensureLogsDir(): void {

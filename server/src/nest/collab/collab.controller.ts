@@ -89,7 +89,7 @@ export const collabNoteFileFilter: Options['fileFilter'] = (_req, file, cb) => {
  * access (404), 'collab_edit' (403) on mutations + 'file_upload' on note files,
  * create 201 / rest 200 (vote + react POST stay 200), the bespoke 400/403/404
  * bodies, the chat/note notifications, and all WebSocket broadcasts with the
- * forwarded X-Socket-Id. Bodies validate against the @trek/shared collab
+ * forwarded X-Socket-Id. Bodies validate against the @tripmate/shared collab
  * schemas via the DTO classes in collab.dto.ts + the global ZodValidationPipe
  * (400 with the standard `{ error }` envelope on mismatch — this replaced the
  * legacy bespoke 'Title is required' / 'Question is required' / '... 2 options

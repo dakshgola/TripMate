@@ -26,10 +26,11 @@ const notif: TranslationStrings = {
   'notif.packing_tagged.title': 'Zadanie pakowania',
   'notif.packing_tagged.text': '{actor} przypisał Cię do {category} w {trip}',
   'notif.version_available.title': 'Nowa wersja dostępna',
-  'notif.version_available.text': 'TREK {version} jest teraz dostępny',
+  'notif.version_available.text': 'Trip Mate {version} jest teraz dostępny',
   'notif.replica_failure.title': 'Awaria repliki magazynu',
   'notif.replica_failure.text': "Zapis do repliki '{backend}' nie powiódł się: {op} dla {key} — {error}",
-  'notif.replica_failure.textSuppressed': "Zapis do repliki '{backend}' nie powiódł się: {op} dla {key} — {error}. Od ostatniego powiadomienia ukryto {suppressed} kolejnych błędów.",
+  'notif.replica_failure.textSuppressed':
+    "Zapis do repliki '{backend}' nie powiódł się: {op} dla {key} — {error}. Od ostatniego powiadomienia ukryto {suppressed} kolejnych błędów.",
   'notif.action.view_trip': 'Zobacz podróż',
   'notif.action.view_collab': 'Zobacz wiadomości',
   'notif.action.view_packing': 'Zobacz pakowanie',

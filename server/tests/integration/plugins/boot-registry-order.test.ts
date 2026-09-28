@@ -67,9 +67,9 @@ let mod: TestingModule;
 beforeAll(() => {
   codeRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'trekplug-boot-code-'));
   dataRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'trekplug-boot-data-'));
-  process.env.TREK_PLUGINS_DIR = codeRoot;
-  process.env.TREK_PLUGINS_DATA_DIR = dataRoot;
-  process.env.TREK_PLUGINS_ENABLED = 'true';
+  process.env.TRIPMATE_PLUGINS_DIR = codeRoot;
+  process.env.TRIPMATE_PLUGINS_DATA_DIR = dataRoot;
+  process.env.TRIPMATE_PLUGINS_ENABLED = 'true';
 
   // The exact shape the bug bit: a plugin that runs its own-db migration as the
   // first thing its onLoad does — what every db-backed plugin's activation looks like.
@@ -89,9 +89,9 @@ beforeAll(() => {
 
 afterAll(async () => {
   await mod?.close();
-  delete process.env.TREK_PLUGINS_DIR;
-  delete process.env.TREK_PLUGINS_DATA_DIR;
-  delete process.env.TREK_PLUGINS_ENABLED;
+  delete process.env.TRIPMATE_PLUGINS_DIR;
+  delete process.env.TRIPMATE_PLUGINS_DATA_DIR;
+  delete process.env.TRIPMATE_PLUGINS_ENABLED;
   fs.rmSync(codeRoot, { recursive: true, force: true });
   fs.rmSync(dataRoot, { recursive: true, force: true });
 });

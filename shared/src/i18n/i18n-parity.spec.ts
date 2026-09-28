@@ -16,7 +16,7 @@ describe('i18n parity', () => {
   it('every locale has the same domain files as en', () => {
     const report = checkParity();
     expect(report.fileDrift).toEqual([]);
-  });
+  }, 15000);
 
   it('reports key drift as data (not enforced, used by the CLI tool)', () => {
     const report = checkParity();

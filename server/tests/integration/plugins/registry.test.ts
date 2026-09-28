@@ -1,5 +1,5 @@
 /**
- * TREK-side registry service (#plugins, M5): browse the aggregated registry and
+ * Trip Mate-side registry service (#plugins, M5): browse the aggregated registry and
  * install a pinned version through the full verify -> extract -> validate ->
  * move -> register pipeline (with the network download mocked).
  */
@@ -45,14 +45,14 @@ function tarHeader(name: string, size: number, typeflag = '0'): Buffer {
   h.write(sum.toString(8).padStart(6, '0') + '\0 ', 148);
   return h;
 }
-// Every artifact declares a `trek` range by default — install REQUIRES one, so a fixture
+// Every artifact declares a `tripmate` range by default — install REQUIRES one, so a fixture
 // without it would be testing the version gate rather than whatever the test is about.
-// Pass an explicit `trek` (or null, spread last) to exercise the gate itself.
+// Pass an explicit `tripmate` (or null, spread last) to exercise the gate itself.
 function makeArtifact(manifest: object): Buffer {
-  const withTrek = { trek: '>=3.2.0', ...manifest };
+  const withTrek = { tripmate: '>=3.2.0', ...manifest };
   const files = [
     { name: 'plug-abc/', type: '5' as const, data: '' },
-    { name: 'plug-abc/trek-plugin.json', type: '0' as const, data: JSON.stringify(withTrek) },
+    { name: 'plug-abc/tripmate-plugin.json', type: '0' as const, data: JSON.stringify(withTrek) },
     { name: 'plug-abc/server/', type: '5' as const, data: '' },
     { name: 'plug-abc/server/index.js', type: '0' as const, data: 'module.exports={}' },
   ];
@@ -70,9 +70,9 @@ const REGISTRY = {
   schemaVersion: 1,
   plugins: [
     {
-      id: 'flight-tracker', name: 'Flight', author: 'Acme', description: 'flights', repo: 'acme/trek-flight',
+      id: 'flight-tracker', name: 'Flight', author: 'Acme', description: 'flights', repo: 'acme/tripmate-flight',
       type: 'widget', icon: 'Plane', reviewedAt: '2026-06-20',
-      versions: [{ version: '1.0.0', gitTag: 'v1.0.0', commitSha: 'a'.repeat(40), downloadUrl: 'https://codeload.github.com/acme/trek-flight/tar.gz/aaaa', sha256: '', minTrekVersion: '3.2.0' }],
+      versions: [{ version: '1.0.0', gitTag: 'v1.0.0', commitSha: 'a'.repeat(40), downloadUrl: 'https://codeload.github.com/acme/tripmate-flight/tar.gz/aaaa', sha256: '', minTrekVersion: '3.2.0' }],
     },
   ],
 };
@@ -84,8 +84,8 @@ let svc: PluginRegistryService;
 beforeEach(() => {
   dataRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'reg-data-'));
   codeRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'reg-code-'));
-  process.env.TREK_PLUGINS_DATA_DIR = dataRoot;
-  process.env.TREK_PLUGINS_DIR = codeRoot;
+  process.env.TRIPMATE_PLUGINS_DATA_DIR = dataRoot;
+  process.env.TRIPMATE_PLUGINS_DIR = codeRoot;
   testDb.exec('DELETE FROM plugins; DELETE FROM plugin_settings_fields; DELETE FROM plugin_error_log');
   __clearRegistryCacheForTests();
   vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, json: async () => REGISTRY }) as unknown as Response));
@@ -96,8 +96,8 @@ afterEach(() => {
   safeDownload.mockReset();
   delete (REGISTRY.plugins[0] as { authorPublicKey?: string }).authorPublicKey;
   delete (REGISTRY.plugins[0].versions[0] as { signature?: string }).signature;
-  delete process.env.TREK_PLUGINS_DATA_DIR;
-  delete process.env.TREK_PLUGINS_DIR;
+  delete process.env.TRIPMATE_PLUGINS_DATA_DIR;
+  delete process.env.TRIPMATE_PLUGINS_DIR;
   fs.rmSync(dataRoot, { recursive: true, force: true });
   fs.rmSync(codeRoot, { recursive: true, force: true });
 });
@@ -136,7 +136,7 @@ describe('PluginRegistryService', () => {
 
   it('browse exposes a screenshot url pinned at the reviewed commit', async () => {
     const list = await svc.browse();
-    expect(list[0].screenshotUrl).toBe(`https://raw.githubusercontent.com/acme/trek-flight/${'a'.repeat(40)}/docs/screenshot.png`);
+    expect(list[0].screenshotUrl).toBe(`https://raw.githubusercontent.com/acme/tripmate-flight/${'a'.repeat(40)}/docs/screenshot.png`);
   });
 
   // The registry aggregate now resolves the cover at build time (docs/screenshot.png
@@ -144,7 +144,7 @@ describe('PluginRegistryService', () => {
   // must win over the docs/screenshot.png guess — that's what gives entries without a
   // committed docs/screenshot.png a non-blank card.
   it('browse prefers a build-injected screenshotUrl over the docs/screenshot.png guess', async () => {
-    const injected = 'https://raw.githubusercontent.com/acme/trek-flight/bbbb/docs/img1.png';
+    const injected = 'https://raw.githubusercontent.com/acme/tripmate-flight/bbbb/docs/img1.png';
     (REGISTRY.plugins[0] as { screenshotUrl?: string }).screenshotUrl = injected;
     try {
       const [entry] = await svc.browse();
@@ -167,12 +167,12 @@ describe('PluginRegistryService', () => {
     });
     const d = await svc.detail('flight-tracker');
     expect(safeDownload).toHaveBeenCalledWith(
-      `https://raw.githubusercontent.com/acme/trek-flight/${'a'.repeat(40)}/trek-plugin.json`,
+      `https://raw.githubusercontent.com/acme/tripmate-flight/${'a'.repeat(40)}/tripmate-plugin.json`,
       expect.any(Number),
     );
     expect(d).toMatchObject({
-      id: 'flight-tracker', repo: 'acme/trek-flight', latest: '1.0.0', reviewedAt: '2026-06-20',
-      screenshotUrl: `https://raw.githubusercontent.com/acme/trek-flight/${'a'.repeat(40)}/docs/screenshot.png`,
+      id: 'flight-tracker', repo: 'acme/tripmate-flight', latest: '1.0.0', reviewedAt: '2026-06-20',
+      screenshotUrl: `https://raw.githubusercontent.com/acme/tripmate-flight/${'a'.repeat(40)}/docs/screenshot.png`,
       manifest: {
         permissions: ['db:read:trips', 'http:outbound'],
         egress: ['api.example.com'],
@@ -266,7 +266,7 @@ describe('PluginRegistryService', () => {
       schemaVersion: 1,
       plugins: [
         {
-          id: 'flight-tracker', name: 'Flight', author: 'Acme', description: 'flights', repo: 'acme/trek-flight', type: 'widget',
+          id: 'flight-tracker', name: 'Flight', author: 'Acme', description: 'flights', repo: 'acme/tripmate-flight', type: 'widget',
           versions: [
             { version: '2.0.0', gitTag: 'v2.0.0', commitSha: 'b'.repeat(40), downloadUrl: 'https://x/2', sha256: '2'.repeat(64) },
             { version: '1.0.0', gitTag: 'v1.0.0', commitSha: 'd'.repeat(40), downloadUrl: 'https://x/1', sha256: '0'.repeat(64) },
@@ -296,19 +296,19 @@ describe('PluginRegistryService', () => {
       expect(holdInDb()).toBe(0);
     });
 
-    // The comparison is against the newest version THIS TREK can run, not the newest
-    // published one. Both fixtures above leave `trek` unset, so every version is
+    // The comparison is against the newest version THIS Trip Mate can run, not the newest
+    // published one. Both fixtures above leave `tripmate` unset, so every version is
     // compatible and the two readings agree; only a version this host must skip tells
     // them apart. Getting it wrong stamps a hold on an admin who picked the best
     // available version, and the row silently leaves the banner and "Update all".
-    it('does not hold when a newer version exists but this TREK cannot run it', async () => {
+    it('does not hold when a newer version exists but this Trip Mate cannot run it', async () => {
       const withIncompatibleNewest = {
         schemaVersion: 1,
         plugins: [
           {
             ...twoVersions.plugins[0],
             versions: [
-              { version: '3.0.0', gitTag: 'v3.0.0', commitSha: 'c'.repeat(40), downloadUrl: 'https://x/3', sha256: '3'.repeat(64), trek: '>=4.0.0' },
+              { version: '3.0.0', gitTag: 'v3.0.0', commitSha: 'c'.repeat(40), downloadUrl: 'https://x/3', sha256: '3'.repeat(64), tripmate: '>=4.0.0' },
               ...twoVersions.plugins[0].versions,
             ],
           },
@@ -349,11 +349,11 @@ describe('PluginRegistryService', () => {
       schemaVersion: 1,
       plugins: [
         {
-          id: 'flight-tracker', name: 'Flight', author: 'Acme', description: 'flights', repo: 'acme/trek-flight',
+          id: 'flight-tracker', name: 'Flight', author: 'Acme', description: 'flights', repo: 'acme/tripmate-flight',
           type: 'widget', authorPublicKey: 'K'.repeat(44),
           versions: [
-            { version: '2.0.0', gitTag: 'v2.0.0', commitSha: 'b'.repeat(40), downloadUrl: 'https://x/2', sha256: '2'.repeat(64), trek: '>=4.0.0', publishedAt: '2026-08-01', size: 2048, signature: 'sig2' },
-            { version: '1.5.0', gitTag: 'v1.5.0', commitSha: 'c'.repeat(40), downloadUrl: 'https://x/15', sha256: '1'.repeat(64), trek: '>=3.0.0 <4.0.0', publishedAt: '2026-07-01', size: 1024 },
+            { version: '2.0.0', gitTag: 'v2.0.0', commitSha: 'b'.repeat(40), downloadUrl: 'https://x/2', sha256: '2'.repeat(64), tripmate: '>=4.0.0', publishedAt: '2026-08-01', size: 2048, signature: 'sig2' },
+            { version: '1.5.0', gitTag: 'v1.5.0', commitSha: 'c'.repeat(40), downloadUrl: 'https://x/15', sha256: '1'.repeat(64), tripmate: '>=3.0.0 <4.0.0', publishedAt: '2026-07-01', size: 1024 },
             { version: '1.0.0', gitTag: 'v1.0.0', commitSha: 'd'.repeat(40), downloadUrl: 'https://x/1', sha256: '0'.repeat(64), minTrekVersion: '3.0.0' },
           ],
         },
@@ -364,10 +364,10 @@ describe('PluginRegistryService', () => {
     try {
       const d = (await svc.detail('flight-tracker')) as { versions: unknown };
       expect(d.versions).toEqual([
-        { version: '2.0.0', publishedAt: '2026-08-01', size: 2048, signed: true, trek: '>=4.0.0', compatible: false },
-        { version: '1.5.0', publishedAt: '2026-07-01', size: 1024, signed: false, trek: '>=3.0.0 <4.0.0', compatible: true },
+        { version: '2.0.0', publishedAt: '2026-08-01', size: 2048, signed: true, tripmate: '>=4.0.0', compatible: false },
+        { version: '1.5.0', publishedAt: '2026-07-01', size: 1024, signed: false, tripmate: '>=3.0.0 <4.0.0', compatible: true },
         // A legacy entry composes its requirement from the min/max bounds it has.
-        { version: '1.0.0', publishedAt: null, size: null, signed: false, trek: '>=3.0.0', compatible: true },
+        { version: '1.0.0', publishedAt: null, size: null, signed: false, tripmate: '>=3.0.0', compatible: true },
       ]);
     } finally {
       delete process.env.APP_VERSION;
@@ -390,9 +390,9 @@ describe('PluginRegistryService', () => {
     expect(out).toEqual({ id: 'flight-tracker', version: '1.0.0', trekRangeBypassed: null });
 
     // moved into place + registered inactive with provenance
-    expect(fs.existsSync(path.join(codeRoot, 'flight-tracker', 'trek-plugin.json'))).toBe(true);
+    expect(fs.existsSync(path.join(codeRoot, 'flight-tracker', 'tripmate-plugin.json'))).toBe(true);
     const row = testDb.prepare("SELECT status, source_repo, source_commit FROM plugins WHERE id='flight-tracker'").get() as { status: string; source_repo: string; source_commit: string };
-    expect(row).toMatchObject({ status: 'inactive', source_repo: 'acme/trek-flight', source_commit: 'a'.repeat(40) });
+    expect(row).toMatchObject({ status: 'inactive', source_repo: 'acme/tripmate-flight', source_commit: 'a'.repeat(40) });
     // no staging left behind
     const staging = path.join(dataRoot, '.staging');
     expect(!fs.existsSync(staging) || fs.readdirSync(staging).length === 0).toBe(true);
@@ -445,7 +445,7 @@ describe('PluginRegistryService', () => {
     expect(row?.source_repo).toBe('local:upload');
     expect(row?.reviewed_at).toBeNull();        // unsigned + unreviewed → flagged in the UI
     expect(row?.version).toBe('2.0.0');
-    expect(fs.existsSync(path.join(codeRoot, 'my-upload', 'trek-plugin.json'))).toBe(true);
+    expect(fs.existsSync(path.join(codeRoot, 'my-upload', 'tripmate-plugin.json'))).toBe(true);
     expect(fs.existsSync(staged.stagingDir)).toBe(false); // staging cleaned up
   });
 
@@ -455,7 +455,7 @@ describe('PluginRegistryService', () => {
 
   it('sideload: rejects an archive without a manifest', () => {
     const empty = zlib.gzipSync(Buffer.alloc(1024, 0)); // valid gzip, empty tar
-    expect(() => svc.stageUpload(empty)).toThrow(/trek-plugin\.json/);
+    expect(() => svc.stageUpload(empty)).toThrow(/tripmate-plugin\.json/);
   });
 
   it('sideload: forces INACTIVE even when replacing a plugin that was active', () => {
@@ -483,7 +483,7 @@ describe('PluginRegistryService', () => {
     const empty = zlib.gzipSync(Buffer.concat(parts));
     REGISTRY.plugins[0].versions[0].sha256 = createHash('sha256').update(empty).digest('hex');
     safeDownload.mockResolvedValue({ bytes: empty, sha256: REGISTRY.plugins[0].versions[0].sha256 });
-    await expect(svc.install('flight-tracker')).rejects.toThrow(/no trek-plugin.json/);
+    await expect(svc.install('flight-tracker')).rejects.toThrow(/no tripmate-plugin.json/);
   });
 
   it('rejects a manifest id that does not match the registry id', async () => {
@@ -676,7 +676,7 @@ describe('re-trust (assertRetrustable)', () => {
   async function rotateTo(b: { pubB64: string; sign: (x: Buffer) => string }, a = signingKey()) {
     stageSignedArtifact(a.pubB64, a.sign);
     await svc.install('flight-tracker');
-    testDb.prepare("UPDATE plugins SET source_repo='acme/trek-flight' WHERE id='flight-tracker'").run();
+    testDb.prepare("UPDATE plugins SET source_repo='acme/tripmate-flight' WHERE id='flight-tracker'").run();
     stageSignedArtifact(b.pubB64, b.sign);
     return a;
   }
@@ -704,7 +704,7 @@ describe('re-trust (assertRetrustable)', () => {
     const a = signingKey();
     stageSignedArtifact(a.pubB64, a.sign);
     await svc.install('flight-tracker');
-    testDb.prepare("UPDATE plugins SET source_repo='acme/trek-flight' WHERE id='flight-tracker'").run();
+    testDb.prepare("UPDATE plugins SET source_repo='acme/tripmate-flight' WHERE id='flight-tracker'").run();
 
     await expect(svc.assertRetrustable('flight-tracker', a.pubB64)).rejects.toMatchObject({ code: 'RETRUST_NOT_APPLICABLE' });
   });
@@ -785,7 +785,7 @@ describe('PluginRegistryService.resolveVersion (latest compatible)', () => {
   };
   const stub = () => { __clearRegistryCacheForTests(); vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, json: async () => MULTI }) as unknown as Response)); };
 
-  it('picks the highest version compatible with the running TREK', async () => {
+  it('picks the highest version compatible with the running Trip Mate', async () => {
     process.env.APP_VERSION = '3.3.0'; stub();
     expect((await svc.resolveVersion('multi')).version).toBe('2.0.0'); // 2.1.0 needs 3.4.0 > host
     delete process.env.APP_VERSION;
@@ -807,21 +807,21 @@ describe('PluginRegistryService.resolveVersion (latest compatible)', () => {
 });
 
 /**
- * The install must be satisfied by the running TREK — on EVERY path.
+ * The install must be satisfied by the running Trip Mate — on EVERY path.
  *
  * hostCompatible() used to be reachable only from resolveVersion(), i.e. only when the
  * caller passed a semver constraint. The admin UI's Install button passes neither a
  * version nor a constraint, so the one path an admin actually clicks was the one that
  * skipped the check entirely.
  */
-describe('TREK-version gating on install', () => {
+describe('Trip Mate-version gating on install', () => {
   const MULTI = {
     schemaVersion: 1,
     plugins: [{
       id: 'multi', name: 'Multi', author: 'a', description: 'many versions', repo: 'a/b', type: 'integration',
       versions: [
-        { version: '2.1.0', gitTag: 'v2.1.0', commitSha: 'a'.repeat(40), downloadUrl: 'https://codeload.github.com/a/b/tar.gz/x', sha256: '', minTrekVersion: '3.4.0', trek: '>=3.4.0 <4.0.0' },
-        { version: '2.0.0', gitTag: 'v2.0.0', commitSha: 'a'.repeat(40), downloadUrl: 'https://codeload.github.com/a/b/tar.gz/y', sha256: '', minTrekVersion: '3.2.0', trek: '>=3.2.0 <4.0.0' },
+        { version: '2.1.0', gitTag: 'v2.1.0', commitSha: 'a'.repeat(40), downloadUrl: 'https://codeload.github.com/a/b/tar.gz/x', sha256: '', minTrekVersion: '3.4.0', tripmate: '>=3.4.0 <4.0.0' },
+        { version: '2.0.0', gitTag: 'v2.0.0', commitSha: 'a'.repeat(40), downloadUrl: 'https://codeload.github.com/a/b/tar.gz/y', sha256: '', minTrekVersion: '3.2.0', tripmate: '>=3.2.0 <4.0.0' },
       ],
     }],
   };
@@ -831,13 +831,13 @@ describe('TREK-version gating on install', () => {
 
   /** Stage `version`'s artifact so a successful install has real bytes to fetch. */
   const stageMulti = (version: string, idx: number) => {
-    const artifact = makeArtifact({ id: 'multi', name: 'Multi', version, type: 'integration', trek: MULTI.plugins[0].versions[idx].trek });
+    const artifact = makeArtifact({ id: 'multi', name: 'Multi', version, type: 'integration', tripmate: MULTI.plugins[0].versions[idx].tripmate });
     const sha = createHash('sha256').update(artifact).digest('hex');
     MULTI.plugins[0].versions[idx].sha256 = sha;
     safeDownload.mockResolvedValue({ bytes: artifact, sha256: sha });
   };
 
-  it('install-latest takes the newest version this TREK can RUN, not the newest published', async () => {
+  it('install-latest takes the newest version this Trip Mate can RUN, not the newest published', async () => {
     // 2.1.0 is versions[0] and needs >=3.4.0. The old code fetched it without asking; now
     // the same "install latest" the admin's button sends resolves to 2.0.0 instead.
     process.env.APP_VERSION = '3.3.0'; stubMulti();
@@ -848,32 +848,32 @@ describe('TREK-version gating on install', () => {
 
   it('refuses install-latest outright when NO published version fits', async () => {
     process.env.APP_VERSION = '3.0.0'; stubMulti(); // both versions need >=3.2.0
-    await expect(svc.install('multi')).rejects.toMatchObject({ code: 'TREK_VERSION_INCOMPATIBLE' });
+    await expect(svc.install('multi')).rejects.toMatchObject({ code: 'TRIPMATE_VERSION_INCOMPATIBLE' });
     expect(safeDownload).not.toHaveBeenCalled(); // refused BEFORE a byte is fetched
   });
 
-  it('refuses an explicitly-pinned version this TREK cannot run', async () => {
+  it('refuses an explicitly-pinned version this Trip Mate cannot run', async () => {
     process.env.APP_VERSION = '3.3.0'; stubMulti();
-    await expect(svc.install('multi', { version: '2.1.0' })).rejects.toMatchObject({ code: 'TREK_VERSION_INCOMPATIBLE' });
+    await expect(svc.install('multi', { version: '2.1.0' })).rejects.toMatchObject({ code: 'TRIPMATE_VERSION_INCOMPATIBLE' });
     expect(safeDownload).not.toHaveBeenCalled();
   });
 
   it('honours an EXCLUSIVE upper bound, which minTrekVersion alone cannot express', async () => {
     // Both versions declare "<4.0.0" and neither carries a maxTrekVersion — under the old
-    // min-only check TREK 4 looked compatible with everything.
+    // min-only check Trip Mate 4 looked compatible with everything.
     process.env.APP_VERSION = '4.0.0'; stubMulti();
-    await expect(svc.install('multi')).rejects.toMatchObject({ code: 'TREK_VERSION_INCOMPATIBLE' });
+    await expect(svc.install('multi')).rejects.toMatchObject({ code: 'TRIPMATE_VERSION_INCOMPATIBLE' });
   });
 
   /**
-   * TREK_PLUGINS_IGNORE_TREK_RANGE: the operator's explicit "install it anyway". Every gate
+   * TRIPMATE_PLUGINS_IGNORE_TREK_RANGE: the operator's explicit "install it anyway". Every gate
    * above turns into a warning + a `trekRangeBypassed` marker in the response, so the admin
-   * is told the author never vouched for this TREK. The registry's compat VERDICT stays
+   * is told the author never vouched for this Trip Mate. The registry's compat VERDICT stays
    * truthful — the UI needs it to say "outside its range" while still offering the button.
    */
-  describe('range bypass (TREK_PLUGINS_IGNORE_TREK_RANGE)', () => {
-    beforeEach(() => { process.env.TREK_PLUGINS_IGNORE_TREK_RANGE = '1'; });
-    afterEach(() => { delete process.env.TREK_PLUGINS_IGNORE_TREK_RANGE; });
+  describe('range bypass (TRIPMATE_PLUGINS_IGNORE_TREK_RANGE)', () => {
+    beforeEach(() => { process.env.TRIPMATE_PLUGINS_IGNORE_TREK_RANGE = '1'; });
+    afterEach(() => { delete process.env.TRIPMATE_PLUGINS_IGNORE_TREK_RANGE; });
 
     it('install-latest fetches the newest PUBLISHED version and reports the ignored range', async () => {
       process.env.APP_VERSION = '3.3.0'; stubMulti();
@@ -886,7 +886,7 @@ describe('TREK-version gating on install', () => {
       warn.mockRestore();
     });
 
-    it('installs an explicitly-pinned version this TREK cannot run', async () => {
+    it('installs an explicitly-pinned version this Trip Mate cannot run', async () => {
       process.env.APP_VERSION = '3.3.0'; stubMulti();
       stageMulti('2.1.0', 0);
       await expect(svc.install('multi', { version: '2.1.0' })).resolves.toMatchObject({
@@ -909,7 +909,7 @@ describe('TREK-version gating on install', () => {
     it("re-gate on the ARTIFACT's range warns instead of refusing, with the artifact's range", async () => {
       process.env.APP_VERSION = '3.9.0';
       __clearRegistryCacheForTests();
-      const artifact = makeArtifact({ id: 'flight-tracker', name: 'Flight', version: '1.0.0', type: 'widget', trek: '>=3.2.0 <3.4.0' });
+      const artifact = makeArtifact({ id: 'flight-tracker', name: 'Flight', version: '1.0.0', type: 'widget', tripmate: '>=3.2.0 <3.4.0' });
       const sha = createHash('sha256').update(artifact).digest('hex');
       REGISTRY.plugins[0].versions[0].sha256 = sha;
       safeDownload.mockResolvedValue({ bytes: artifact, sha256: sha });
@@ -922,7 +922,7 @@ describe('TREK-version gating on install', () => {
     it('installs an artifact that declares no range at all, saying so', async () => {
       process.env.APP_VERSION = '3.9.0';
       __clearRegistryCacheForTests();
-      const artifact = makeArtifact({ id: 'flight-tracker', name: 'Flight', version: '1.0.0', type: 'widget', trek: undefined });
+      const artifact = makeArtifact({ id: 'flight-tracker', name: 'Flight', version: '1.0.0', type: 'widget', tripmate: undefined });
       const sha = createHash('sha256').update(artifact).digest('hex');
       REGISTRY.plugins[0].versions[0].sha256 = sha;
       safeDownload.mockResolvedValue({ bytes: artifact, sha256: sha });
@@ -933,10 +933,10 @@ describe('TREK-version gating on install', () => {
 
     it('sideload: stages an incompatible or rangeless archive and reports it', () => {
       process.env.APP_VERSION = '3.9.0';
-      const old = svc.stageUpload(makeArtifact({ id: 'my-upload', name: 'Up', version: '1.0.0', type: 'integration', trek: '>=3.0.0 <3.5.0' }));
+      const old = svc.stageUpload(makeArtifact({ id: 'my-upload', name: 'Up', version: '1.0.0', type: 'integration', tripmate: '>=3.0.0 <3.5.0' }));
       expect(old).toMatchObject({ id: 'my-upload', trekRangeBypassed: { trekRange: '>=3.0.0 <3.5.0', hostVersion: '3.9.0' } });
       fs.rmSync(old.stagingDir, { recursive: true, force: true });
-      const rangeless = svc.stageUpload(makeArtifact({ id: 'my-upload', name: 'Up', version: '1.0.0', type: 'integration', trek: undefined }));
+      const rangeless = svc.stageUpload(makeArtifact({ id: 'my-upload', name: 'Up', version: '1.0.0', type: 'integration', tripmate: undefined }));
       expect(rangeless).toMatchObject({ trekRangeBypassed: { trekRange: null, hostVersion: '3.9.0' } });
       fs.rmSync(rangeless.stagingDir, { recursive: true, force: true });
       const fits = svc.stageUpload(makeArtifact({ id: 'my-upload', name: 'Up', version: '1.0.0', type: 'integration' }));
@@ -946,11 +946,11 @@ describe('TREK-version gating on install', () => {
 
     it('does NOT lift the plugin-API version gate — that one is a real ABI break', () => {
       const bytes = makeArtifact({ id: 'my-upload', name: 'Up', version: '1.0.0', type: 'integration', apiVersion: 2 });
-      expect(() => svc.stageUpload(bytes)).toThrow('plugin requires plugin-API v2; this TREK supports v1');
+      expect(() => svc.stageUpload(bytes)).toThrow('plugin requires plugin-API v2; this Trip Mate supports v1');
     });
   });
 
-  it('reports the newest version this TREK CAN run, so the UI can offer it', async () => {
+  it('reports the newest version this Trip Mate CAN run, so the UI can offer it', async () => {
     process.env.APP_VERSION = '3.3.0'; stubMulti();
     const [item] = await svc.browse(true);
     expect(item).toMatchObject({ id: 'multi', latest: '2.1.0', compatible: false, latestCompatible: '2.0.0', hostVersion: '3.3.0' });
@@ -964,7 +964,7 @@ describe('TREK-version gating on install', () => {
 
   it('tolerates a legacy entry with NO lower bound at all (minTrekVersion: null)', async () => {
     // The schema allows a null floor, so nothing may assume a string here: the legacy check
-    // must skip the bound rather than compare against it, and the "requires TREK …" message
+    // must skip the bound rather than compare against it, and the "requires Trip Mate …" message
     // must not interpolate a missing bound as the word "null".
     process.env.APP_VERSION = '3.3.0';
     __clearRegistryCacheForTests();
@@ -977,17 +977,17 @@ describe('TREK-version gating on install', () => {
     };
     vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, json: async () => noFloor }) as unknown as Response));
 
-    // Only the ceiling applies, and TREK 3.3 is past it — refused, with a readable reason.
+    // Only the ceiling applies, and Trip Mate 3.3 is past it — refused, with a readable reason.
     const err = await svc.install('nofloor').catch((e) => e);
-    expect(err).toMatchObject({ code: 'TREK_VERSION_INCOMPATIBLE' });
+    expect(err).toMatchObject({ code: 'TRIPMATE_VERSION_INCOMPATIBLE' });
     expect(err.message).toContain('<=3.0.0');
     expect(err.message).not.toContain('null');
   });
 
   it('falls back to the legacy min/max bounds for an entry published without a range', async () => {
-    process.env.APP_VERSION = '3.1.0'; // the fixture entry declares minTrekVersion 3.2.0, no trek
+    process.env.APP_VERSION = '3.1.0'; // the fixture entry declares minTrekVersion 3.2.0, no tripmate
     __clearRegistryCacheForTests();
-    await expect(svc.install('flight-tracker')).rejects.toMatchObject({ code: 'TREK_VERSION_INCOMPATIBLE' });
+    await expect(svc.install('flight-tracker')).rejects.toMatchObject({ code: 'TRIPMATE_VERSION_INCOMPATIBLE' });
   });
 
   it("re-gates on the ARTIFACT's own range — the index metadata is only a pre-download filter", async () => {
@@ -995,43 +995,43 @@ describe('TREK-version gating on install', () => {
     // 3.3.0. The bytes are what will run, so the bytes get the last word.
     process.env.APP_VERSION = '3.9.0';
     __clearRegistryCacheForTests();
-    const artifact = makeArtifact({ id: 'flight-tracker', name: 'Flight', version: '1.0.0', type: 'widget', trek: '>=3.2.0 <3.4.0' });
+    const artifact = makeArtifact({ id: 'flight-tracker', name: 'Flight', version: '1.0.0', type: 'widget', tripmate: '>=3.2.0 <3.4.0' });
     const sha = createHash('sha256').update(artifact).digest('hex');
     REGISTRY.plugins[0].versions[0].sha256 = sha;
     safeDownload.mockResolvedValue({ bytes: artifact, sha256: sha });
-    await expect(svc.install('flight-tracker')).rejects.toMatchObject({ code: 'TREK_VERSION_INCOMPATIBLE' });
+    await expect(svc.install('flight-tracker')).rejects.toMatchObject({ code: 'TRIPMATE_VERSION_INCOMPATIBLE' });
     expect(fs.existsSync(path.join(codeRoot, 'flight-tracker'))).toBe(false); // nothing moved into place
   });
 
   it('refuses an artifact that declares no range at all', async () => {
     __clearRegistryCacheForTests();
-    const artifact = makeArtifact({ id: 'flight-tracker', name: 'Flight', version: '1.0.0', type: 'widget', trek: undefined });
+    const artifact = makeArtifact({ id: 'flight-tracker', name: 'Flight', version: '1.0.0', type: 'widget', tripmate: undefined });
     const sha = createHash('sha256').update(artifact).digest('hex');
     REGISTRY.plugins[0].versions[0].sha256 = sha;
     safeDownload.mockResolvedValue({ bytes: artifact, sha256: sha });
-    await expect(svc.install('flight-tracker')).rejects.toThrow(/missing "trek"/);
+    await expect(svc.install('flight-tracker')).rejects.toThrow(/missing "tripmate"/);
   });
 
   describe('sideload', () => {
-    it('refuses an uploaded archive this TREK cannot run, and cleans up staging', async () => {
+    it('refuses an uploaded archive this Trip Mate cannot run, and cleans up staging', async () => {
       process.env.APP_VERSION = '3.9.0';
-      const bytes = makeArtifact({ id: 'my-upload', name: 'Up', version: '1.0.0', type: 'integration', trek: '>=3.0.0 <3.5.0' });
-      expect(() => svc.stageUpload(bytes)).toThrow(expect.objectContaining({ code: 'TREK_VERSION_INCOMPATIBLE' }));
+      const bytes = makeArtifact({ id: 'my-upload', name: 'Up', version: '1.0.0', type: 'integration', tripmate: '>=3.0.0 <3.5.0' });
+      expect(() => svc.stageUpload(bytes)).toThrow(expect.objectContaining({ code: 'TRIPMATE_VERSION_INCOMPATIBLE' }));
       const staging = path.join(dataRoot, '.staging');
       // The rejected upload leaves nothing extracted behind.
       expect(fs.existsSync(staging) ? fs.readdirSync(staging) : []).toEqual([]);
     });
 
     it('refuses an uploaded archive that declares no range', () => {
-      const bytes = makeArtifact({ id: 'my-upload', name: 'Up', version: '1.0.0', type: 'integration', trek: undefined });
-      expect(() => svc.stageUpload(bytes)).toThrow(/missing "trek"/);
+      const bytes = makeArtifact({ id: 'my-upload', name: 'Up', version: '1.0.0', type: 'integration', tripmate: undefined });
+      expect(() => svc.stageUpload(bytes)).toThrow(/missing "tripmate"/);
     });
 
-    it('refuses an uploaded archive declaring apiVersion 2 (this TREK only speaks plugin-API v1), and writes nothing to the plugin code dir', () => {
-      // trek range is satisfiable on its own — parseManifest's apiVersion check must
+    it('refuses an uploaded archive declaring apiVersion 2 (this Trip Mate only speaks plugin-API v1), and writes nothing to the plugin code dir', () => {
+      // tripmate range is satisfiable on its own — parseManifest's apiVersion check must
       // fire (and stop the upload) before assertHostCompatible is ever reached.
       const bytes = makeArtifact({ id: 'my-upload', name: 'Up', version: '1.0.0', type: 'integration', apiVersion: 2 });
-      expect(() => svc.stageUpload(bytes)).toThrow('plugin requires plugin-API v2; this TREK supports v1');
+      expect(() => svc.stageUpload(bytes)).toThrow('plugin requires plugin-API v2; this Trip Mate supports v1');
       expect(fs.existsSync(path.join(codeRoot, 'my-upload'))).toBe(false);
     });
   });
@@ -1041,7 +1041,7 @@ describe('TREK-version gating on install', () => {
     // nothing, for the root), which made install() re-pick — landing on versions[0] and
     // discarding the compatible choice entirely.
     process.env.APP_VERSION = '3.3.0'; stubMulti();
-    const artifact = makeArtifact({ id: 'multi', name: 'Multi', version: '2.0.0', type: 'integration', trek: '>=3.2.0 <4.0.0' });
+    const artifact = makeArtifact({ id: 'multi', name: 'Multi', version: '2.0.0', type: 'integration', tripmate: '>=3.2.0 <4.0.0' });
     const sha = createHash('sha256').update(artifact).digest('hex');
     MULTI.plugins[0].versions[1].sha256 = sha;
     safeDownload.mockResolvedValue({ bytes: artifact, sha256: sha });
@@ -1055,7 +1055,7 @@ describe('TREK-version gating on install', () => {
 /**
  * Leaving the registry trust model (sideload / dev-link) must take the update-block with it.
  *
- * A block describes a refused REGISTRY update. Once an admin hands TREK the bytes directly,
+ * A block describes a refused REGISTRY update. Once an admin hands Trip Mate the bytes directly,
  * the running code is whatever they uploaded — a warning about an author's signing key says
  * nothing about it, and the row would insist an update was blocked over a key that no longer
  * applies to the code in front of them.

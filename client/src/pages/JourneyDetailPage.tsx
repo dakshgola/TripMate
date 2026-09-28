@@ -451,7 +451,7 @@ function JourneyDetailPageDesktop() {
                     const locations = [...new Set(entries.map(e => e.location_name).filter(Boolean))]
 
                     return (
-                      <div key={date} className="flex flex-col gap-3 trek-stagger">
+                      <div key={date} className="flex flex-col gap-3 tripmate-stagger">
                         <div className="backdrop-blur border-y md:border rounded-none md:rounded-2xl -mx-4 md:mx-0 px-4 py-3 flex items-center justify-between" style={{ background: 'var(--vg-surf)', borderColor: 'var(--vg-line)' }}>
                           <div className="flex items-center gap-3">
                             <div className="w-9 h-9 rounded-xl flex items-center justify-center text-[13px] font-bold text-white" style={{ background: DAY_COLORS[dayIdx % DAY_COLORS.length], boxShadow: `0 5px 14px -4px ${DAY_COLORS[dayIdx % DAY_COLORS.length]}` }}>
@@ -784,7 +784,7 @@ function JourneyDetailPageDesktop() {
         />
       )}
 
-      {/* TREK Studio. It portals itself over the page, so this journey keeps
+      {/* Trip Mate Studio. It portals itself over the page, so this journey keeps
           rendering underneath and shows through the panel's margin. */}
       <Outlet />
     </div>

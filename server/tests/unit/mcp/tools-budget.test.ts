@@ -27,7 +27,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -367,18 +367,18 @@ describe('Tool: delete_budget_item', () => {
 });
 
 // ---------------------------------------------------------------------------
-// Resource: trek://trips/{tripId}/budget (moved from the legacy resources.ts
+// Resource: tripmate://trips/{tripId}/budget (moved from the legacy resources.ts
 // registrar to the DI-discovered BudgetMcp — attached via the nest-mcp registry)
 // ---------------------------------------------------------------------------
 
-describe('Resource: trek://trips/{tripId}/budget', () => {
+describe('Resource: tripmate://trips/{tripId}/budget', () => {
   it('returns budget items for a trip', async () => {
     const { user } = createUser(testDb);
     const trip = createTrip(testDb, user.id);
     createBudgetItem(testDb, trip.id, { name: 'Hotel', category: 'Accommodation', total_price: 200 });
 
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/budget` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/budget` });
       const items = parseResourceResult(result) as { name: string }[];
       expect(items).toHaveLength(1);
       expect(items[0].name).toBe('Hotel');
@@ -391,7 +391,7 @@ describe('Resource: trek://trips/{tripId}/budget', () => {
     const trip = createTrip(testDb, other.id);
 
     await withHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: `trek://trips/${trip.id}/budget` });
+      const result = await h.client.readResource({ uri: `tripmate://trips/${trip.id}/budget` });
       const data = parseResourceResult(result) as { error?: string };
       expect(data.error).toBeTruthy();
     });

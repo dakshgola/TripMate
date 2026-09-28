@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import type { BookDocument, BookSpread } from '@trek/shared'
-import { bookPageSetupSchema } from '@trek/shared'
+import type { BookDocument, BookSpread } from '@tripmate/shared'
+import { bookPageSetupSchema } from '@tripmate/shared'
 import { fireEvent, render, screen } from '../../helpers/render'
 
 const printed = vi.hoisted(() => vi.fn())

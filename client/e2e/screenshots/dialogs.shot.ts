@@ -22,7 +22,7 @@ const seed = JSON.parse(
  * itself, so the capture excludes the dimmed backdrop.
  */
 function dialog(page: import('@playwright/test').Page) {
-  return page.locator('.trek-modal-backdrop > div').first()
+  return page.locator('.tripmate-modal-backdrop > div').first()
 }
 
 test('create trip modal — with the new currency field', async ({ page, shot }) => {

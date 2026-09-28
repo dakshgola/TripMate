@@ -26,7 +26,7 @@ is your job, and `status` tells you exactly what is left.
 
 ## Develop with a live reload loop
 
-`dev` runs your plugin locally — no full TREK needed. It injects a `ctx` that
+`dev` runs your plugin locally — no full Trip Mate needed. It injects a `ctx` that
 enforces exactly the permissions your manifest grants (an ungranted call throws
 `PERMISSION_DENIED`, so you catch missing grants), backs `db:own` with a real
 SQLite file, serves your routes and your page/widget UI, and reloads on save.
@@ -36,7 +36,7 @@ npx trek-plugin-sdk dev        # http://localhost:4317 — dashboard, routes, UI
 ```
 
 Open **`/preview`** to see a page/widget rendered in a real sandboxed frame with a
-theme/accent/appearance toggle (`trek.invoke()` is proxied to your routes). Hit a route
+theme/accent/appearance toggle (`tripmate.invoke()` is proxied to your routes). Hit a route
 as an unauthenticated request with `?_anon=1`. Drop a `dev-fixtures.json` (trips, users,
 config) next to your manifest to feed `ctx.trips` / `ctx.users`.
 
@@ -46,7 +46,7 @@ config) next to your manifest to feed `ctx.trips` / `ctx.users`.
 npx trek-plugin-sdk status        # never fails — it's a map, not a gate
 ```
 
-`status` runs every check the TREK-Plugins registry enforces that can be answered
+`status` runs every check the Trip Mate-Plugins registry enforces that can be answered
 without a network — which is nearly all of them — and prints the whole journey as a
 checklist grouped by stage (Manifest, Code, Docs, Release, Repo): what passes, what
 does not, and the **one** command to run next. Run it whenever you are not sure what
@@ -59,21 +59,21 @@ run in `preflight`, which `publish` does for you.
 
 ## Build a native UI (page / widget)
 
-The UI is a sandboxed, opaque-origin iframe that can't load TREK's stylesheet — so the
+The UI is a sandboxed, opaque-origin iframe that can't load Trip Mate's stylesheet — so the
 SDK ships it. Put **one line** in your `client/index.html` `<head>`:
 
 ```html
-<!-- trek:ui -->
+<!-- tripmate:ui -->
 ```
 
 `dev` and `pack` expand it into the inlined **design kit**: token-driven styles that
-follow the host's theme and accent (glass, cards, `.trek-btn`, `.trek-input`,
-`.trek-chip`, `.trek-row`, hover), plus a `window.trek` bridge:
+follow the host's theme and accent (glass, cards, `.tripmate-btn`, `.tripmate-input`,
+`.tripmate-chip`, `.tripmate-row`, hover), plus a `window.tripmate` bridge:
 
 ```js
-trek.onContext((ctx) => { /* ctx.theme, ctx.tokens, ctx.appearance, ctx.user, ctx.tripId */ })
-const data = await trek.invoke('/status')   // calls your own route, host-proxied
-trek.notify('success', 'Saved')
+tripmate.onContext((ctx) => { /* ctx.theme, ctx.tokens, ctx.appearance, ctx.user, ctx.tripId */ })
+const data = await tripmate.invoke('/status')   // calls your own route, host-proxied
+tripmate.notify('success', 'Saved')
 ```
 
 ### Keep UI state for this browser tab
@@ -85,11 +85,11 @@ store secrets.
 
 ```js
 // Default: this user + this plugin + this browser tab.
-await trek.session.set('dismissed-onboarding', true)
-const dismissed = await trek.session.get('dismissed-onboarding')
+await tripmate.session.set('dismissed-onboarding', true)
+const dismissed = await tripmate.session.get('dismissed-onboarding')
 
 // Explicitly partition state by the trip in view (fails without a trip context).
-await trek.session.set('filters', ['flight', 'hotel'], { scope: 'trip' })
+await tripmate.session.set('filters', ['flight', 'hotel'], { scope: 'trip' })
 ```
 
 `get()` returns `undefined` for a missing key. `set`, `get`, `remove`, and
@@ -100,9 +100,9 @@ partitioning. Each plugin or individual trip scope is limited to 32 keys,
 
 The kit applies the theme, mirrors the appearance flags (reduced-motion,
 no-transparency) and auto-reports your height. It also upgrades any native
-`<select>` into a host-styled, keyboard-accessible dropdown that matches TREK —
+`<select>` into a host-styled, keyboard-accessible dropdown that matches Trip Mate —
 the OS-drawn popup never could. Write a plain `<select>` and it just works; add
-`data-trek-native` to opt a field out. See the
+`data-tripmate-native` to opt a field out. See the
 [Plugin Development wiki](https://github.com/liketrek/TREK/wiki/Plugin-Development)
 for the full component + token reference.
 
@@ -124,12 +124,12 @@ module.exports = definePlugin({
 ```
 
 Your plugin runs in an **isolated child process**. `ctx` is the only way to reach
-TREK, and it grants exactly the permissions your `trek-plugin.json` declares — an
+Trip Mate, and it grants exactly the permissions your `tripmate-plugin.json` declares — an
 ungranted call throws `PERMISSION_DENIED`.
 
 ## Settings
 
-Declare settings in `trek-plugin.json`; TREK renders the form, you write no settings UI.
+Declare settings in `tripmate-plugin.json`; Trip Mate renders the form, you write no settings UI.
 
 ```json
 "settings": [
@@ -146,19 +146,19 @@ Declare settings in `trek-plugin.json`; TREK renders the form, you write no sett
 | `key` | Identifier (`^[a-zA-Z][a-zA-Z0-9_.-]{0,63}$`). |
 | `scope` | `instance` (default) — set once by the admin, arrives in `ctx.config`. `user` — per user, read with `await ctx.settings.get(key)`. |
 | `input_type` | `text` (default), `password`, `number`, `checkbox`, `select` (with `options`). |
-| `default` | The field's value wherever nobody set one. The form pre-fills it **and the runtime resolves it** — `ctx.config.api_url` / `ctx.settings.get('region')` return it until someone saves something else — so a plugin with sensible defaults works before anyone opens the form. Satisfies `required`. Not allowed on a `secret` (the manifest is public); must be a boolean on a `checkbox` and one of the `options` when declared. `trek-plugin dev` seeds its fixtures from these too. |
+| `default` | The field's value wherever nobody set one. The form pre-fills it **and the runtime resolves it** — `ctx.config.api_url` / `ctx.settings.get('region')` return it until someone saves something else — so a plugin with sensible defaults works before anyone opens the form. Satisfies `required`. Not allowed on a `secret` (the manifest is public); must be a boolean on a `checkbox` and one of the `options` when declared. `tripmate-plugin dev` seeds its fixtures from these too. |
 | `required` | Enforced: the form refuses Save while the field is blank, and the host answers `400 { error: 'Missing required setting "<key>"' }` if a save reaches it anyway. A `checkbox` is exempt (that would be consent, not a setting). A required `scope:'user'` field also gates whether a notification channel dispatches to that user. |
 | `secret` | Encrypted at rest, decrypted only into the server-side `ctx.config` / `ctx.settings`, masked to the browser, never sent to the iframe. |
 | `label`, `placeholder`, `hint` | Form text. |
 | `options` | `[{ "value", "label" }]` for a `select` (bare strings are accepted and coerced). |
 | `oauth` | Descriptive metadata only — for a host-brokered flow see the OAuth broker below. |
 
-Any other attribute is **silently dropped at install**. `trek-plugin validate` warns on
+Any other attribute is **silently dropped at install**. `tripmate-plugin validate` warns on
 one (`manifest.settings-known-keys`) so a typo like `"defalt"` doesn't quietly do nothing.
 
 ### Actions
 
-Up to 8 buttons the host renders on a settings form, declared in `trek-plugin.json`
+Up to 8 buttons the host renders on a settings form, declared in `tripmate-plugin.json`
 and implemented in `definePlugin({ actions: { <key>: async (ctx) => ({ ok, message }) } })`:
 
 ```json
@@ -170,7 +170,7 @@ and implemented in `definePlugin({ actions: { <key>: async (ctx) => ({ ok, messa
 
 | Attribute | Meaning |
 |---|---|
-| `scope` | `user` (default) — renders on the user Settings tab and runs as the clicking user. `instance` — renders in the admin instance-settings dialog and runs as the clicking admin. The default differs from settings fields on purpose: existing manifests keep their user-tab buttons. A host older than TREK 4.2.0 (which introduced action scope) ignores this field entirely and renders the button on every user's Settings tab, running it as each user — so if you declare `scope: "instance"`, set the manifest's `trek` range floor to `>=4.2.0` or the button will run in the wrong place on an older host. |
+| `scope` | `user` (default) — renders on the user Settings tab and runs as the clicking user. `instance` — renders in the admin instance-settings dialog and runs as the clicking admin. The default differs from settings fields on purpose: existing manifests keep their user-tab buttons. A host older than Trip Mate 4.2.0 (which introduced action scope) ignores this field entirely and renders the button on every user's Settings tab, running it as each user — so if you declare `scope: "instance"`, set the manifest's `tripmate` range floor to `>=4.2.0` or the button will run in the wrong place on an older host. |
 | `danger` | Rendered destructive; the host asks for confirmation first. |
 | `hint` | Shown beside the button (≤ 200 chars). |
 
@@ -186,7 +186,7 @@ and drive either with `drv.action(key)`.
 saves. `ctx.settings.get()` is live per call and returns `undefined` in a userless
 context (`onLoad`, jobs, scheduler) — fall back to `ctx.config` there.
 
-## Test without a running TREK
+## Test without a running Trip Mate
 
 ```js
 import { createMockHost } from 'trek-plugin-sdk/testing'
@@ -252,7 +252,7 @@ plugin code itself only ever calls `getAccessToken()`.
 
 The registry requires a screenshot that resolves to a real image, and the store card
 shows it. `shot` boots the dev server, renders your plugin in the same themed frame
-TREK uses, and writes a 1600×900 `docs/screenshot.png`:
+Trip Mate uses, and writes a 1600×900 `docs/screenshot.png`:
 
 ```bash
 npm i -D playwright && npx playwright install chromium   # once
@@ -261,7 +261,7 @@ npx trek-plugin-sdk shot                                 # --dark for the dark t
 
 Playwright is deliberately **not** a dependency of this SDK — it ships a browser, and
 most authors never need one. An `integration` plugin has no UI to render, so `shot`
-cannot help; screenshot the TREK surface your plugin changes instead.
+cannot help; screenshot the Trip Mate surface your plugin changes instead.
 
 ## Publish — one command
 
@@ -277,7 +277,7 @@ npx trek-plugin-sdk publish --repo you/repo --tag v1.0.0
 2. **pack** — build `plugin.zip`
 3. **release** — git tag, push, and cut the GitHub release with the artifact
 4. **preflight** — the gates that need the tag and the release to exist
-5. **submit** — open the PR against the TREK-Plugins registry
+5. **submit** — open the PR against the Trip Mate-Plugins registry
 
 Step 1 comes first for a reason: a GitHub release is effectively immutable, because
 the registry pins its sha256. If a check fails, **nothing is packed, tagged, pushed
@@ -288,7 +288,7 @@ Needs `git` and an authenticated `gh`. It prints the PR URL at the end.
 
 **Updating** a listed plugin: bump `version` in the manifest, commit, and run
 `publish` again with the new tag — it detects the existing entry and prepends the
-new version, newest-first. Your TREK-Plugins fork is fast-forwarded automatically
+new version, newest-first. Your Trip Mate-Plugins fork is fast-forwarded automatically
 before the PR branch is cut, so a fork left behind doesn't break the submit (a
 *diverged* fork gets a warning and the `gh repo sync --force` command to fix it).
 
@@ -305,7 +305,7 @@ Two related conveniences:
 - A leftover tag from an earlier failed run (it has no release and doesn't point
   at `HEAD`) is recognised as debris and **moved to your current commit** instead
   of silently releasing the stale one.
-- `trek-plugin unrelease <vX.Y.Z> --repo you/repo` deletes a stranded release +
+- `tripmate-plugin unrelease <vX.Y.Z> --repo you/repo` deletes a stranded release +
   remote tag + local tag in one go. It checks the published registry index first
   and **refuses to touch a version that is actually published** — those artifacts
   are immutable (the registry pins their sha256), so the only way forward there is
@@ -326,7 +326,7 @@ the registry saw. Signing is dependency-free Ed25519 over the artifact bytes.
 
 It is a one-way door you may walk through **late**:
 
-- Unsigned throughout is fine — the sha256 pin is the only guarantee, and TREK accepts it.
+- Unsigned throughout is fine — the sha256 pin is the only guarantee, and Trip Mate accepts it.
 - **Unsigned → signed later breaks nobody.** Nothing is pinned until a signed version
   installs, so adding a key at v1.4.0 is a real option, not a lost cause. The registry
   does require every version signed once your key appears in the entry — your first
@@ -335,7 +335,7 @@ It is a one-way door you may walk through **late**:
 - **Signed → unsigned is refused forever**, on every instance that already has the plugin.
   `publish` refuses that at step 1, before anything is tagged or released.
 
-So **back the key up** (`~/.trek-plugin/signing.key`). Losing it means you cannot ship an
+So **back the key up** (`~/.tripmate-plugin/signing.key`). Losing it means you cannot ship an
 update to your own plugin without a registry maintainer override.
 
 ```bash
@@ -349,13 +349,13 @@ npx trek-plugin-sdk publish --repo you/repo --tag v1.1.0 --sign   # or just answ
 - `validateManifest(json)` — the manifest rules the server loader uses.
 - `settingDefaults(manifest, scope)` — the `default`s of one settings scope, keyed by field: what the host resolves for an unset field, and what `dev` seeds `ctx.config` / `ctx.settings` with. Spread it under your own fixtures when calling `createMockHost` to mirror the host. `SETTING_FIELD_KEYS` is the attribute list the host stores.
 - `createMockHost(opts)` (from `trek-plugin-sdk/testing`).
-- `TREK_UI_CSS`, `TREK_THEME_JS`, `TREK_UI_MARKER`, `injectTrekUi(html)` — the design kit, for authors who inline it themselves (a bundler, a custom build). Most plugins just use the `<!-- trek:ui -->` marker instead.
+- `TRIPMATE_UI_CSS`, `TRIPMATE_THEME_JS`, `TRIPMATE_UI_MARKER`, `injectTrekUi(html)` — the design kit, for authors who inline it themselves (a bundler, a custom build). Most plugins just use the `<!-- tripmate:ui -->` marker instead.
 
 ## Commands
 
 Run any of these with `npx trek-plugin-sdk <command>` (or the short `trek-plugin`
-bin if you install the package). `trek-plugin help <command>` — or
-`trek-plugin <command> --help` — prints a full page for any of them.
+bin if you install the package). `tripmate-plugin help <command>` — or
+`tripmate-plugin <command> --help` — prints a full page for any of them.
 
 **The path:**
 
@@ -379,10 +379,10 @@ bin if you install the package). `trek-plugin help <command>` — or
 
 ## Update notice
 
-Both CLIs (`trek-plugin` and `create-trek-plugin`) tell you when a newer SDK has been
+Both CLIs (`tripmate-plugin` and `create-tripmate-plugin`) tell you when a newer SDK has been
 published. This matters more than the usual "you're on an old version" nag: the
 registry entry format, the manifest rules and the permission catalog all move with the
-TREK host, so a stale SDK can `pack` and `submit` an entry that today's registry CI
+Trip Mate host, so a stale SDK can `pack` and `submit` an entry that today's registry CI
 rejects.
 
 It is powered by [`update-notifier`](https://github.com/sindresorhus/update-notifier),
@@ -396,7 +396,7 @@ the standard for npm CLIs:
 - The notice goes to **stderr**, so `pack --json` and `entry` keep piping clean JSON.
 
 The request is an unauthenticated GET for a public package — the same one `npm install`
-makes (npm's servers see your IP, as for any download). TREK has no telemetry, and this
+makes (npm's servers see your IP, as for any download). Trip Mate has no telemetry, and this
 isn't any. To turn it off:
 
 ```bash

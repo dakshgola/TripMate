@@ -12,14 +12,14 @@ const storage: TranslationStrings = {
   'storage.field.region': 'Région',
   'storage.help.region': 'Conserve la valeur par défaut, sauf si ton fournisseur exige une région spécifique.',
   'storage.field.keyPrefix': 'Préfixe de clé',
-  'storage.help.keyPrefix': "Préfixe optionnel ajouté à chaque clé d'objet, par ex. trek/prod.",
+  'storage.help.keyPrefix': "Préfixe optionnel ajouté à chaque clé d'objet, par ex. tripmate/prod.",
   'storage.field.retries': 'Tentatives',
   'storage.field.timeoutMs': "Délai d'expiration (ms)",
   'storage.field.primary': 'Backend principal',
   'storage.field.replicas': 'Répliques',
   'storage.title': 'Stockage',
   'storage.description':
-    "Où TREK conserve les fichiers, photos et sauvegardes envoyés. Rien ne change tant que tu n'enregistres pas.",
+    "Où Trip Mate conserve les fichiers, photos et sauvegardes envoyés. Rien ne change tant que tu n'enregistres pas.",
   'storage.loading': 'Chargement…',
   'storage.saved': 'Configuration de stockage enregistrée',
   'storage.save': 'Enregistrer les modifications',
@@ -67,7 +67,7 @@ const storage: TranslationStrings = {
   'storage.category.avatars': 'Photos de profil',
   'storage.category.places': 'Images de lieux',
   'storage.category.photos-google': 'Cache photos Google',
-  'storage.category.photos-trek': 'Cache photos TREK',
+  'storage.category.photos-tripmate': 'Cache photos Trip Mate',
   'storage.category.backups': 'Sauvegardes',
 
   // What each category stores — rendered under the label in the category map.
@@ -80,8 +80,8 @@ const storage: TranslationStrings = {
   'storage.categoryDesc.places': 'Images associées aux lieux et aux lieux de collections — importées ou téléversées.',
   'storage.categoryDesc.photos-google':
     'Copies en cache des photos de Google Places — récupérables à nouveau, leur perte est sans risque.',
-  'storage.categoryDesc.photos-trek':
-    'Photos en cache du service photo de TREK utilisé par Photos (Memories) — récupérables à nouveau, leur perte est sans risque.',
+  'storage.categoryDesc.photos-tripmate':
+    'Photos en cache du service photo de Trip Mate utilisé par Photos (Memories) — récupérables à nouveau, leur perte est sans risque.',
   'storage.categoryDesc.backups':
     'Archives de sauvegarde du serveur créées par le panneau Sauvegarde ou par la planification.',
   'storage.health.title': 'État',
@@ -139,6 +139,7 @@ const storage: TranslationStrings = {
   'storage.migrate.cancel': 'Annuler le déplacement',
   'storage.migrate.promptCancel': 'Annuler',
   'storage.migrate.queued': "En file d'attente : {categories}",
-  'storage.migrate.queueDropped': "Impossible de démarrer le déplacement suivant — la file d'attente restante a été vidée : {categories}",
+  'storage.migrate.queueDropped':
+    "Impossible de démarrer le déplacement suivant — la file d'attente restante a été vidée : {categories}",
 };
 export default storage;

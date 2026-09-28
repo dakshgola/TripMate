@@ -10,7 +10,7 @@ import { StorageService } from '../../src/nest/storage/storage.service';
  * rooted in a throwaway mkdtemp dir (the storage.service.test.ts makeFixture
  * pattern, shared). Every category resolves to the same driver + keyPrefix —
  * exactly what a single-category service test needs, and the two
- * TREK_PLACE_PHOTO_DIR modes are just two prefixes ('photos/google/' vs '').
+ * TRIPMATE_PLACE_PHOTO_DIR modes are just two prefixes ('photos/google/' vs '').
  * The real mode flip lives in the registry and is pinned by its own tests.
  */
 export interface StorageFixture {
@@ -21,8 +21,8 @@ export interface StorageFixture {
 }
 
 export function makeStorageFixture(keyPrefix: string): StorageFixture {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-storage-fx-'));
-  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-storage-fx-tmp-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-storage-fx-'));
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-storage-fx-tmp-'));
   const driver = new LocalDriver({ id: 'fixture-local', root });
   driver.init({ cleanSpool: true });
   const registry = {

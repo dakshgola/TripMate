@@ -25,10 +25,11 @@ const settings: TranslationStrings = {
   'settings.mapTemplatePlaceholder.select': 'Sélectionner un modèle…',
   'settings.mapDefaultHint': 'Laissez vide pour OpenStreetMap (par défaut)',
   'settings.routingBase': 'Moteur de calcul d’itinéraire propre',
-  'settings.routingBaseHint': 'Votre propre instance OSRM. Vide utilise les serveurs publics, limités à environ une requête par seconde : suffisant pour une journée, juste pour un road trip. Prend effet après un redémarrage du serveur.',
+  'settings.routingBaseHint':
+    'Votre propre instance OSRM. Vide utilise les serveurs publics, limités à environ une requête par seconde : suffisant pour une journée, juste pour un road trip. Prend effet après un redémarrage du serveur.',
   'settings.valhallaBase': 'Instance Valhalla propre',
   'settings.valhallaBaseHint':
-    'TREK utilise par défaut la Valhalla publique de FOSSGIS pour éviter les péages, autoroutes et ferries. Saisissez ici l’URL de votre propre Valhalla pour l’utiliser à la place. Si seule une instance de routage personnalisée est configurée, la Valhalla publique n’est pas utilisée. Après avoir saisi une URL personnalisée, redémarrez le serveur et rechargez la page.',
+    'Trip Mate utilise par défaut la Valhalla publique de FOSSGIS pour éviter les péages, autoroutes et ferries. Saisissez ici l’URL de votre propre Valhalla pour l’utiliser à la place. Si seule une instance de routage personnalisée est configurée, la Valhalla publique n’est pas utilisée. Après avoir saisi une URL personnalisée, redémarrez le serveur et rechargez la page.',
   'settings.mapHint': "Modèle d'URL pour les tuiles de carte",
   'settings.mapProvider': 'Fournisseur de carte',
   'settings.mapProviderHint': 'Affecte les cartes Trip Planner et Journey. Atlas utilise toujours Leaflet.',
@@ -44,7 +45,7 @@ const settings: TranslationStrings = {
     'Les fonds de carte CARTO affichent un filigrane sans clé. Gratuite et sans compte, depuis',
   'settings.mapCartoKeyLink': "clé d'API de fonds de carte carto.com",
   'settings.mapCartoKeyMissing':
-    'Ce modèle est un fond de carte CARTO. Sans clé, CARTO appose "API KEY REQUIRED" sur chaque tuile. Tant que la clé manque, TREK affiche le fond de carte par défaut.',
+    'Ce modèle est un fond de carte CARTO. Sans clé, CARTO appose "API KEY REQUIRED" sur chaque tuile. Tant que la clé manque, Trip Mate affiche le fond de carte par défaut.',
   'settings.mapStyle': 'Style de carte',
   'settings.mapStylePlaceholder': 'Sélectionner un style Mapbox',
   'settings.mapStyleHint': 'Preset ou votre propre URL mapbox://styles/USER/ID',
@@ -200,13 +201,13 @@ const settings: TranslationStrings = {
   'settings.about.featureRequestHint': 'Suggérez une nouvelle fonctionnalité',
   'settings.about.wikiHint': 'Documentation et guides',
   'settings.about.descriptionManaged':
-    'TREK helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
+    'Trip Mate helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
   'settings.about.sourceTitle': 'Source code',
-  'settings.about.sourceHint': 'TREK is open source, licensed AGPL-3.0',
+  'settings.about.sourceHint': 'Trip Mate is open source, licensed AGPL-3.0',
   'settings.about.supporters.badge': 'Soutiens Mensuels',
-  'settings.about.supporters.title': 'Compagnons de voyage pour TREK',
+  'settings.about.supporters.title': 'Compagnons de voyage pour Trip Mate',
   'settings.about.supporters.subtitle':
-    "Pendant que tu planifies ton prochain itinéraire, ces personnes aident à planifier l'avenir de TREK. Leur contribution mensuelle va directement au développement et aux heures réellement passées — pour que TREK reste Open Source.",
+    "Pendant que tu planifies ton prochain itinéraire, ces personnes aident à planifier l'avenir de Trip Mate. Leur contribution mensuelle va directement au développement et aux heures réellement passées — pour que Trip Mate reste Open Source.",
   'settings.about.supporters.since': 'soutien depuis {date}',
   'settings.about.supporters.tierEmpty': 'Sois le premier',
   'settings.about.supporter.tier.noReturnTicket': 'No Return Ticket',
@@ -215,7 +216,7 @@ const settings: TranslationStrings = {
   'settings.about.supporter.tier.budgetTraveller': 'Budget Traveller',
   'settings.about.supporter.tier.hostelBunkmate': 'Hostel Bunkmate',
   'settings.about.description':
-    'TREK est un planificateur de voyage auto-hébergé qui vous aide à organiser vos voyages de la première idée au dernier souvenir. Planification journalière, budget, listes de bagages, photos et bien plus — le tout au même endroit, sur votre propre serveur.',
+    'Trip Mate est un planificateur de voyage auto-hébergé qui vous aide à organiser vos voyages de la première idée au dernier souvenir. Planification journalière, budget, listes de bagages, photos et bien plus — le tout au même endroit, sur votre propre serveur.',
   'settings.about.madeWith': 'Fait avec',
   'settings.about.madeBy': 'par Maurice et une communauté open-source grandissante.',
   'settings.username': "Nom d'utilisateur",
@@ -300,7 +301,7 @@ const settings: TranslationStrings = {
   'settings.webhookUrl.testSuccess': 'Webhook de test envoyé avec succès',
   'settings.webhookUrl.testFailed': 'Échec du webhook de test',
   'settings.ntfyUrl.topicLabel': 'Sujet Ntfy',
-  'settings.ntfyUrl.topicPlaceholder': 'my-trek-alerts',
+  'settings.ntfyUrl.topicPlaceholder': 'my-tripmate-alerts',
   'settings.ntfyUrl.serverLabel': 'URL du serveur Ntfy (optionnel)',
   'settings.ntfyUrl.serverPlaceholder': 'https://ntfy.sh',
   'settings.ntfyUrl.hint':
@@ -367,7 +368,7 @@ const settings: TranslationStrings = {
     'À activer uniquement pour une instance de confiance sur votre propre réseau.',
   'settings.airtrail.writeBack': 'Réécrire les modifications dans AirTrail',
   'settings.airtrail.writeBackHint':
-    'Désactivé par défaut : AirTrail fait référence et TREK se contente de le lire. Activez pour renvoyer vers AirTrail les modifications faites dans TREK.',
+    'Désactivé par défaut : AirTrail fait référence et Trip Mate se contente de le lire. Activez pour renvoyer vers AirTrail les modifications faites dans Trip Mate.',
   'settings.airtrail.connected': 'Connecté',
   'settings.airtrail.notConnected': 'Non connecté',
   'settings.airtrail.toast.saved': 'Connexion AirTrail enregistrée',
@@ -480,7 +481,7 @@ const settings: TranslationStrings = {
   'settings.startPageDashboard': 'Tableau de bord',
   'settings.startPageActiveTrip': 'Voyage en cours',
   'settings.startPageHint':
-    "TREK s'ouvre directement sur le voyage en cours, ou sur le prochain à venir. C'est le même voyage que celui mis en avant sur le tableau de bord.",
+    "Trip Mate s'ouvre directement sur le voyage en cours, ou sur le prochain à venir. C'est le même voyage que celui mis en avant sur le tableau de bord.",
   'settings.startTripTab': 'Onglet de démarrage',
   'settings.startTripTabHint':
     "L'onglet sur lequel le voyage s'ouvre. S'il appartient à un module désactivé, la vue Plan s'ouvre à la place.",
@@ -518,7 +519,8 @@ const settings: TranslationStrings = {
   'settings.offline.notice.offline': 'Aucune connexion. Connectez-vous pour enregistrer des voyages hors ligne.',
   'settings.offline.notice.signedOut': 'Votre session a expiré. Reconnectez-vous pour synchroniser.',
   'settings.offline.notice.failed': 'Le téléchargement n’a pas pu se terminer. Vérifiez votre connexion et réessayez.',
-  'settings.offline.notice.loadFailed': 'Impossible de lire le stockage hors ligne de cet appareil. Vider le cache résout généralement le problème.',
+  'settings.offline.notice.loadFailed':
+    'Impossible de lire le stockage hors ligne de cet appareil. Vider le cache résout généralement le problème.',
   'settings.offline.clear': 'Vider le cache',
   'settings.offline.clearConfirm':
     'Vider toutes les données de voyage hors ligne ? Vous pourrez resynchroniser à tout moment lorsque vous serez en ligne.',
@@ -578,13 +580,15 @@ const settings: TranslationStrings = {
   'settings.apiScopes.bucket-list': 'Liste de souhaits',
   'settings.apiScopes.stats': 'Totaux',
   'settings.apiKeys.title': 'Clés API',
-  'settings.apiKeys.description': 'Clés pour l\'API publique, afin que d\'autres logiciels puissent lire vos voyages. Lecture seule : une clé ne peut rien modifier ni supprimer.',
+  'settings.apiKeys.description':
+    "Clés pour l'API publique, afin que d'autres logiciels puissent lire vos voyages. Lecture seule : une clé ne peut rien modifier ni supprimer.",
   'settings.apiKeys.create': 'Créer une clé',
   'settings.apiKeys.empty': 'Aucune clé pour le moment. Créez-en une pour connecter un autre logiciel.',
   'settings.apiKeys.createdAt': 'créée',
   'settings.apiKeys.usedAt': 'dernière utilisation',
   'settings.apiKeys.deleteTitle': 'Supprimer la clé',
-  'settings.apiKeys.deleteMessage': 'Tout ce qui utilise cette clé cesse de fonctionner immédiatement. Cette action est irréversible.',
+  'settings.apiKeys.deleteMessage':
+    'Tout ce qui utilise cette clé cesse de fonctionner immédiatement. Cette action est irréversible.',
   'settings.apiKeys.deleted': 'Clé supprimée',
   'settings.apiKeys.deleteFailed': 'Impossible de supprimer la clé',
   'settings.apiKeys.createFailed': 'Impossible de créer la clé',
@@ -593,7 +597,8 @@ const settings: TranslationStrings = {
   'settings.apiKeys.endpoint': 'Point de terminaison',
   'settings.apiKeys.neverUsed': 'jamais utilisée',
   'settings.apiKeys.loadFailed': 'Impossible de charger vos clés. Rechargez la page pour réessayer.',
-  'settings.apiKeys.limitReached': 'Vous avez {max} clés, le maximum pour un compte. Supprimez-en une dont vous n\'avez plus besoin pour en créer une autre.',
+  'settings.apiKeys.limitReached':
+    "Vous avez {max} clés, le maximum pour un compte. Supprimez-en une dont vous n'avez plus besoin pour en créer une autre.",
   'settings.apiKeys.copyFailed': 'Impossible de copier. Sélectionnez le texte et copiez-le manuellement.',
   'settings.apiKeys.modal.createTitle': 'Créer une clé API',
   'settings.apiKeys.modal.name': 'Nom',
@@ -602,7 +607,8 @@ const settings: TranslationStrings = {
   'settings.apiKeys.modal.creating': 'Création...',
   'settings.apiKeys.modal.create': 'Créer',
   'settings.apiKeys.modal.createdTitle': 'Clé API créée',
-  'settings.apiKeys.modal.createdWarning': 'Copiez la clé maintenant. Elle n\'est affichée qu\'une seule fois et ne peut pas être récupérée ensuite.',
+  'settings.apiKeys.modal.createdWarning':
+    "Copiez la clé maintenant. Elle n'est affichée qu'une seule fois et ne peut pas être récupérée ensuite.",
   'settings.apiKeys.modal.done': 'Terminé',
 };
 

@@ -48,7 +48,7 @@ import {
 const PROVIDER_ID = 'synologydrive';
 
 /** What the connection form offers as a placeholder, and the fallback here. */
-const DEFAULT_BASE_PATH = '/trek';
+const DEFAULT_BASE_PATH = '/tripmate';
 
 /** Scope keys are `path:` plus the normalised path. See `docsyncScopeKeySchema`. */
 const SCOPE_PREFIX = 'path:';
@@ -59,7 +59,7 @@ const SCOPE_PREFIX = 'path:';
  * permissions, and it is skipped by every listing so a trashed document does not
  * come back as a new one on the next run.
  */
-const TRASH_FOLDER = '.trek-trash';
+const TRASH_FOLDER = '.tripmate-trash';
 
 /**
  * The adapter's own ceiling for one transfer. Not a policy: the install's limit
@@ -391,7 +391,7 @@ export class SynologyDriveDocumentProvider implements DocumentProvider {
    * The confirmation is not ceremony: FileStation answers `success: true` as
    * soon as it has written the part, and the version the core stores has to
    * describe the file as the NAS now sees it (including the mtime DSM rounded
-   * to whole seconds), or the next listing reads TREK's own upload as a change
+   * to whole seconds), or the next listing reads Trip Mate's own upload as a change
    * made upstream.
    */
   async push(
@@ -550,7 +550,7 @@ export class SynologyDriveDocumentProvider implements DocumentProvider {
    * conflict, but a task that finished is only its word that the task ran, not
    * that the file left its folder, so the source is asked afterwards: a file
    * that is still there was not moved, whatever the task reported. Reporting
-   * success on its word alone would mark the document as binned in TREK while
+   * success on its word alone would mark the document as binned in Trip Mate while
    * every NAS user still sees it in the trip's folder.
    */
   private async moveIntoBin(creds: SynologyDriveCreds, path: string, trashPath: string): Promise<boolean> {
@@ -627,7 +627,7 @@ export class SynologyDriveDocumentProvider implements DocumentProvider {
   /**
    * A remote id turned into a path this call is allowed to touch.
    *
-   * DSM checks DSM permissions and nothing else: the account TREK logs in with
+   * DSM checks DSM permissions and nothing else: the account Trip Mate logs in with
    * can reach every share it owns, so `/trips/japan/../../payroll/2026.pdf` is a
    * perfectly legal request that another trip's binding must never be able to
    * make. The trip boundary exists only here.

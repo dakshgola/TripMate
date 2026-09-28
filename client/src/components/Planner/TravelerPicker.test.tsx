@@ -1,7 +1,7 @@
 // FE-COMP-TRAVELERS-001 to FE-COMP-TRAVELERS-017
 import { render, screen, fireEvent } from '../../../tests/helpers/render';
 import userEvent from '@testing-library/user-event';
-import type { ReservationTraveler } from '@trek/shared';
+import type { ReservationTraveler } from '@tripmate/shared';
 import type { TripMember } from '../Budget/BudgetPanelMemberChips';
 import { TravelerPicker, TravelerAvatarRow, TravelerFilterAvatars } from './TravelerPicker';
 

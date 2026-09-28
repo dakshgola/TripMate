@@ -47,8 +47,8 @@ describe('buildStorageUploadOptions', () => {
   let dirB: string;
 
   beforeAll(() => {
-    dirA = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-upload-factory-a-'));
-    dirB = fs.mkdtempSync(path.join(os.tmpdir(), 'trek-upload-factory-b-'));
+    dirA = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-upload-factory-a-'));
+    dirB = fs.mkdtempSync(path.join(os.tmpdir(), 'tripmate-upload-factory-b-'));
   });
 
   afterAll(() => {

@@ -23,7 +23,7 @@ vi.mock('../../../src/config', () => ({
 import { createTables } from '../../../src/db/schema';
 import { runMigrations } from '../../../src/db/migrations';
 import { createUser } from '../../helpers/factories';
-import { TrekPhotosRepository } from '../../../src/nest/photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../../../src/nest/photos/tripmate-photos.repository';
 import { DatabaseService } from '../../../src/nest/database/database.service';
 import { db as trekDb } from '../../../src/db/database';
 

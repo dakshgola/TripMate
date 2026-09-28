@@ -1,5 +1,5 @@
 // Per-trip booking-route visibility, persisted in localStorage under
-// `trek:visible-connections:<tripId>` (see useTripPlanner.ts). Two modes:
+// `tripmate:visible-connections:<tripId>` (see useTripPlanner.ts). Two modes:
 //   'only'        — nothing shown except `ids`
 //   'all-except'  — everything routable shown except `ids`
 // The account-wide "always show booking routes" setting only decides which

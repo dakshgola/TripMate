@@ -36,7 +36,7 @@ import type { VersionMismatch, PluginDepRow } from './dependencies';
 import { parseDependencies, disabledRequiredAddons, resolveDependencyState, enableOrder, findDependentsTransitive, DependencyCycleError } from './dependencies';
 
 import { HTTP_OUTBOUND_PREFIX as HTTP_OUTBOUND, PLUGIN_API_VERSION } from './protocol/envelope';
-import type { PluginActionDescriptor, PluginActionResult, PluginActionScope } from '@trek/shared';
+import type { PluginActionDescriptor, PluginActionResult, PluginActionScope } from '@tripmate/shared';
 
 // Mirrors HOST_RE in install/manifest.ts: an exact hostname or a `*.`-prefixed wildcard
 // with a real multi-label suffix. Rejects a bare `*`, a whole-TLD wildcard, a scheme and
@@ -85,16 +85,16 @@ export class PluginConsentRequired extends Error {
 export type PluginDependencyCode =
   | 'ADDON_DISABLED'
   | 'DEPENDENCY_MISSING'
-  /** The plugin's declared TREK range doesn't admit the running host. */
-  | 'TREK_VERSION_INCOMPATIBLE'
+  /** The plugin's declared Trip Mate range doesn't admit the running host. */
+  | 'TRIPMATE_VERSION_INCOMPATIBLE'
   /** The plugin never declared a range, so we can't know that it does. */
-  | 'TREK_VERSION_UNKNOWN'
-  /** The plugin's manifest apiVersion is newer than this TREK's plugin-API surface. */
+  | 'TRIPMATE_VERSION_UNKNOWN'
+  /** The plugin's manifest apiVersion is newer than this Trip Mate's plugin-API surface. */
   | 'API_VERSION_INCOMPATIBLE';
 
 /**
  * Thrown when a plugin can't activate because a required addon is disabled, a declared
- * plugin dependency is missing / version-mismatched, or it doesn't support this TREK.
+ * plugin dependency is missing / version-mismatched, or it doesn't support this Trip Mate.
  * The controller maps it to a 409 carrying `code` + `detail` so the admin UI can offer
  * the right fix.
  *
@@ -149,7 +149,7 @@ export class PluginRuntimeService implements OnApplicationBootstrap, OnModuleDes
       try {
         this.db.prepare('INSERT INTO plugin_error_log (plugin_id, level, message) VALUES (?, ?, ?)').run(id, level, msg);
         // Retention: a crash-looping plugin emits a stderr line per restart, so an
-        // uncapped table grows without bound in the shared trek.db. Keep only the
+        // uncapped table grows without bound in the shared tripmate.db. Keep only the
         // most recent LOG_RETENTION rows per plugin (the admin view shows 200).
         this.pruneErrorLog(id);
       } catch { /* DB unavailable — a log line must never crash the host */ }
@@ -380,7 +380,7 @@ export class PluginRuntimeService implements OnApplicationBootstrap, OnModuleDes
       }
     }
 
-    // Fold in the host-side per-user data TREK stores itself (what erasePluginUserData
+    // Fold in the host-side per-user data Trip Mate stores itself (what erasePluginUserData
     // deletes) so an access request isn't asymmetric with erasure: the user's plugin
     // settings (secret fields masked) and which plugins they OAuth-linked. Raw tokens
     // are never exported. This is supplementary to each plugin's own-this.db export above, so
@@ -490,7 +490,7 @@ export class PluginRuntimeService implements OnApplicationBootstrap, OnModuleDes
 
   /**
    * Read-only activation gate for one plugin — throws (without mutating) if it may
-   * not activate. Checks run most- to least-severe: TREK-version compatibility →
+   * not activate. Checks run most- to least-severe: Trip Mate-version compatibility →
    * plugin-API version compatibility → permission re-consent → required addon disabled →
    * missing/mismatched plugin dependency.
    */
@@ -501,35 +501,35 @@ export class PluginRuntimeService implements OnApplicationBootstrap, OnModuleDes
     if (!row) throw new Error(`plugin ${id} not found`);
 
     // This runs FIRST, and before the consent check in particular: a plugin that cannot
-    // run on this TREK must never be offered a permission dialog, because consenting to
+    // run on this Trip Mate must never be offered a permission dialog, because consenting to
     // it would not make the plugin start. It is also the gate that catches the case
-    // install can't — TREK was upgraded PAST the plugin's declared upper bound, so code
+    // install can't — Trip Mate was upgraded PAST the plugin's declared upper bound, so code
     // that was legitimately installed no longer supports the host it's sitting on.
     const bypass = bypassedRange(row.trek_range);
     if (bypass) {
-      // TREK_PLUGINS_IGNORE_TREK_RANGE: the operator chose to run it anyway. Say so in the
+      // TRIPMATE_PLUGINS_IGNORE_TREK_RANGE: the operator chose to run it anyway. Say so in the
       // log every time it starts — the plugin list carries the same marker for the UI.
       warnRangeBypass(id, bypass);
     } else if (!row.trek_range) {
       throw new PluginDependencyError(
-        `plugin ${id} does not declare which TREK versions it supports`,
-        'TREK_VERSION_UNKNOWN',
+        `plugin ${id} does not declare which Trip Mate versions it supports`,
+        'TRIPMATE_VERSION_UNKNOWN',
         { trekRange: null, hostVersion: hostVersion() },
       );
     } else if (!hostSatisfies(row.trek_range)) {
       throw new PluginDependencyError(
-        `plugin ${id} requires TREK ${row.trek_range} — this is TREK ${hostVersion()}`,
-        'TREK_VERSION_INCOMPATIBLE',
+        `plugin ${id} requires Trip Mate ${row.trek_range} — this is Trip Mate ${hostVersion()}`,
+        'TRIPMATE_VERSION_INCOMPATIBLE',
         { trekRange: row.trek_range, hostVersion: hostVersion() },
       );
     }
-    // Same reasoning as the TREK-version gate above: a plugin whose manifest apiVersion
-    // outpaces this TREK's plugin-API surface can never run correctly, so it must be
+    // Same reasoning as the Trip Mate-version gate above: a plugin whose manifest apiVersion
+    // outpaces this Trip Mate's plugin-API surface can never run correctly, so it must be
     // refused before any consent dialog is offered.
     const apiVersion = row.api_version ?? 1;
     if (apiVersion > PLUGIN_API_VERSION) {
       throw new PluginDependencyError(
-        `plugin requires plugin-API v${apiVersion}; this TREK supports v${PLUGIN_API_VERSION}`,
+        `plugin requires plugin-API v${apiVersion}; this Trip Mate supports v${PLUGIN_API_VERSION}`,
         'API_VERSION_INCOMPATIBLE',
       );
     }
@@ -696,7 +696,7 @@ export class PluginRuntimeService implements OnApplicationBootstrap, OnModuleDes
     const wasEnabled = before.enabled === 1;
     const granted = new Set(parseArray(before.granted_permissions));
 
-    // Pick the newest version that this TREK can actually run, not simply the newest one
+    // Pick the newest version that this Trip Mate can actually run, not simply the newest one
     // published. Taking the latest blindly is how an update BREAKS a working plugin: the
     // new release drops support for this host, the swap succeeds, and the activation gate
     // then refuses to restart it — leaving the admin worse off than not updating. Refusing
@@ -724,17 +724,17 @@ export class PluginRuntimeService implements OnApplicationBootstrap, OnModuleDes
   }
 
   /**
-   * The version an "update" should install: the newest one compatible with this TREK.
+   * The version an "update" should install: the newest one compatible with this Trip Mate.
    * Refuses when that is not actually newer than what's installed — a compatible-but-older
    * artifact is a DOWNGRADE, and silently rolling a plugin back under the word "update"
    * would be worse than doing nothing.
    */
   private async resolveUpdateTarget(id: string, installedVersion: string | null): Promise<string> {
     if (!this.registry) throw new Error('registry service unavailable');
-    const target = await this.registry.resolveVersion(id); // throws TREK_VERSION_INCOMPATIBLE if nothing fits
+    const target = await this.registry.resolveVersion(id); // throws TRIPMATE_VERSION_INCOMPATIBLE if nothing fits
     if (installedVersion && semver.valid(installedVersion) && !semver.gt(target.version, installedVersion)) {
       throw new RegistryError(
-        `no update available for ${id} on TREK ${hostVersion()} — ${installedVersion} is already the newest compatible version`,
+        `no update available for ${id} on Trip Mate ${hostVersion()} — ${installedVersion} is already the newest compatible version`,
         'NO_COMPATIBLE_UPDATE',
       );
     }
@@ -821,14 +821,14 @@ export class PluginRuntimeService implements OnApplicationBootstrap, OnModuleDes
    * against this instance's REAL data. Symlinks `<plugins>/<id>` at the author's
    * dir (so the supervisor forks the local code with ZERO loader change), validates
    * the manifest + refuses native binaries like a sideload, registers it INACTIVE,
-   * and starts an fs.watch that re-forks on rebuild. Gated behind TREK_PLUGINS_DEV_LINK
+   * and starts an fs.watch that re-forks on rebuild. Gated behind TRIPMATE_PLUGINS_DEV_LINK
    * on top of the controller's admin + kill-switch gates — see dev-link.ts for why.
    */
   async link(sourceDir: string): Promise<{ id: string; version: string; replaced: boolean; trekRangeBypassed: TrekRangeBypass | null }> {
-    if (!devLinkEnabled()) throw new Error('dev-link is disabled (set TREK_PLUGINS_DEV_LINK=1)');
+    if (!devLinkEnabled()) throw new Error('dev-link is disabled (set TRIPMATE_PLUGINS_DEV_LINK=1)');
     if (!path.isAbsolute(sourceDir)) throw new Error('the dev-link path must be absolute');
-    const manifestPath = path.join(sourceDir, 'trek-plugin.json');
-    if (!fs.existsSync(manifestPath)) throw new Error(`no trek-plugin.json at ${sourceDir}`);
+    const manifestPath = path.join(sourceDir, 'tripmate-plugin.json');
+    if (!fs.existsSync(manifestPath)) throw new Error(`no tripmate-plugin.json at ${sourceDir}`);
     const manifest = parseManifest(parseJsonText(fs.readFileSync(manifestPath, 'utf8')), { requireTrek: true });
     const trekRangeBypassed = assertHostCompatible(manifest.trekRange, manifest.id);
     if (!fs.existsSync(path.join(sourceDir, 'server', 'index.js'))) {
@@ -871,7 +871,7 @@ export class PluginRuntimeService implements OnApplicationBootstrap, OnModuleDes
    * a manifest that widened its permissions still requires explicit re-consent.
    */
   async reload(id: string): Promise<void> {
-    if (!devLinkEnabled()) throw new Error('dev-link is disabled (set TREK_PLUGINS_DEV_LINK=1)');
+    if (!devLinkEnabled()) throw new Error('dev-link is disabled (set TRIPMATE_PLUGINS_DEV_LINK=1)');
     const row = this.db.prepare('SELECT source_repo FROM plugins WHERE id = ?').get(id) as { source_repo?: string } | undefined;
     if (!row) throw new Error(`plugin ${id} not found`);
     if (row.source_repo !== DEV_LINK_SOURCE) throw new Error(`plugin ${id} is not dev-linked`);
@@ -927,7 +927,7 @@ export class PluginRuntimeService implements OnApplicationBootstrap, OnModuleDes
     // a scheduled callback for a plugin that no longer exists must never fire.
     this.db.prepare('DELETE FROM plugin_scheduled_tasks WHERE plugin_id = ?').run(id);
     // If it was a notification channel, retire the channel too. Unconditional, for the
-    // same reason as the settings fields: these are TREK's config ABOUT the plugin, and
+    // same reason as the settings fields: these are Trip Mate's config ABOUT the plugin, and
     // leaving them means a later plugin that reuses this id silently inherits every
     // user's opt-outs and the admin's enablement.
     this.retireNotificationChannel(id);

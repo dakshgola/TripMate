@@ -37,7 +37,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   SESSION_DURATION_SECONDS: 86400,
   SESSION_DURATION_REMEMBER_SECONDS: 2592000,
@@ -121,9 +121,9 @@ const auth = new AuthService(
 );
 const svc = new PasskeyService(new DatabaseService(testDb), auth, webauthn);
 
-const CFG = { rpID: 'trek.example.com', rpName: 'TREK', origins: ['https://trek.example.com'], explicitOrigins: false };
+const CFG = { rpID: 'tripmate.example.com', rpName: 'Trip Mate', origins: ['https://tripmate.example.com'], explicitOrigins: false };
 // The unconfigured fallback resolve() yields when APP_URL is unset (#2147).
-const LOCALHOST_CFG = { rpID: 'localhost', rpName: 'TREK', origins: ['http://localhost:5173', 'http://localhost:3001'], explicitOrigins: false };
+const LOCALHOST_CFG = { rpID: 'localhost', rpName: 'Trip Mate', origins: ['http://localhost:5173', 'http://localhost:3001'], explicitOrigins: false };
 const NOT_CONFIGURED_ERROR = 'Passkey login is not configured for this server.';
 
 beforeAll(() => {
@@ -412,17 +412,17 @@ describe('passkeyRegisterVerify', () => {
     // TLS-terminating proxy (http://… while the browser is on https://…). The
     // browser-asserted origin is added because it falls within the RP scope;
     // rpIdHash/challenge/signature checks still run in the verifier.
-    resolveWebauthnConfigMock.mockReturnValue({ rpID: 'trek.example.org', rpName: 'TREK', origins: ['http://trek.example.org'], explicitOrigins: false });
+    resolveWebauthnConfigMock.mockReturnValue({ rpID: 'tripmate.example.org', rpName: 'Trip Mate', origins: ['http://tripmate.example.org'], explicitOrigins: false });
     const { user } = createUser(testDb);
     seedChallenge('w1', user.id, 'registration');
     swMock.verifyRegistrationResponse.mockResolvedValue(registrationVerdict());
 
     const result = await svc.passkeyRegisterVerify(user.id, {
-      attestationResponse: ceremonyResponse('w1', {}, { origin: 'https://trek.example.org' }),
+      attestationResponse: ceremonyResponse('w1', {}, { origin: 'https://tripmate.example.org' }),
     });
     expect(result.success).toBe(true);
     expect(swMock.verifyRegistrationResponse.mock.calls[0][0].expectedOrigin)
-      .toEqual(['http://trek.example.org', 'https://trek.example.org']);
+      .toEqual(['http://tripmate.example.org', 'https://tripmate.example.org']);
   });
 
   it('PASSKEY-SVC-037: never widens for an explicit origins list or an out-of-scope origin', async () => {
@@ -430,17 +430,17 @@ describe('passkeyRegisterVerify', () => {
 
     // Operator-supplied list is verbatim — an in-scope but unlisted origin
     // still has to fail verify (documented contract, options let it through).
-    resolveWebauthnConfigMock.mockReturnValue({ ...CFG, origins: ['https://trek.example.com'], explicitOrigins: true });
+    resolveWebauthnConfigMock.mockReturnValue({ ...CFG, origins: ['https://tripmate.example.com'], explicitOrigins: true });
     seedChallenge('w2', user.id, 'registration');
     swMock.verifyRegistrationResponse.mockResolvedValue(registrationVerdict());
-    await svc.passkeyRegisterVerify(user.id, { attestationResponse: ceremonyResponse('w2', {}, { origin: 'https://app.trek.example.com' }) });
-    expect(swMock.verifyRegistrationResponse.mock.calls[0][0].expectedOrigin).toEqual(['https://trek.example.com']);
+    await svc.passkeyRegisterVerify(user.id, { attestationResponse: ceremonyResponse('w2', {}, { origin: 'https://app.tripmate.example.com' }) });
+    expect(swMock.verifyRegistrationResponse.mock.calls[0][0].expectedOrigin).toEqual(['https://tripmate.example.com']);
 
     // Derived config, but the asserted origin is outside the RP scope.
     resolveWebauthnConfigMock.mockReturnValue(CFG);
     seedChallenge('w3', user.id, 'registration');
     await svc.passkeyRegisterVerify(user.id, { attestationResponse: ceremonyResponse('w3', {}, { origin: 'https://evil.example.net' }) });
-    expect(swMock.verifyRegistrationResponse.mock.calls[1][0].expectedOrigin).toEqual(['https://trek.example.com']);
+    expect(swMock.verifyRegistrationResponse.mock.calls[1][0].expectedOrigin).toEqual(['https://tripmate.example.com']);
   });
 
   it('PASSKEY-SVC-040: a derived config heals scheme and port, never the host (#2147)', async () => {
@@ -448,7 +448,7 @@ describe('passkeyRegisterVerify', () => {
     // subdomain of it, so a taken-over sibling could hand over an assertion
     // nothing else in the chain rejects. The exact-origin list is the only
     // defence there, so only scheme/port drift on the RP ID's host is healed.
-    resolveWebauthnConfigMock.mockReturnValue({ rpID: 'example.com', rpName: 'TREK', origins: ['https://example.com'], explicitOrigins: false });
+    resolveWebauthnConfigMock.mockReturnValue({ rpID: 'example.com', rpName: 'Trip Mate', origins: ['https://example.com'], explicitOrigins: false });
     const { user } = createUser(testDb);
 
     seedChallenge('w4', user.id, 'registration');
@@ -606,7 +606,7 @@ describe('passkeyLoginVerify', () => {
     expect(result.user).toHaveProperty('avatar_url');
     expect(result.user).not.toHaveProperty('password_hash');
     // The token is the SAME session shape password login mints ({ id, pv }).
-    const decoded = jwtLib.verify(result.token!, 'test-jwt-secret-for-trek-testing-only') as Record<string, unknown>;
+    const decoded = jwtLib.verify(result.token!, 'test-jwt-secret-for-tripmate-testing-only') as Record<string, unknown>;
     expect(decoded.id).toBe(user.id);
     expect(decoded).toHaveProperty('pv');
 
@@ -621,25 +621,25 @@ describe('passkeyLoginVerify', () => {
   it('PASSKEY-SVC-039: widens expectedOrigin for a derived config on login too (#2147)', async () => {
     // Same derivation chain as registration: an instance whose APP_URL changes
     // scheme after enrollment must not brick every passkey login.
-    resolveWebauthnConfigMock.mockReturnValue({ rpID: 'trek.example.org', rpName: 'TREK', origins: ['http://trek.example.org'], explicitOrigins: false });
+    resolveWebauthnConfigMock.mockReturnValue({ rpID: 'tripmate.example.org', rpName: 'Trip Mate', origins: ['http://tripmate.example.org'], explicitOrigins: false });
     const { user } = createUser(testDb);
     insertCredential(user.id, { credential_id: 'scheme-heal' });
     seedChallenge('a10', null, 'authentication');
     swMock.verifyAuthenticationResponse.mockResolvedValue({ verified: true, authenticationInfo: { newCounter: 1 } });
 
     const result = await svc.passkeyLoginVerify({
-      assertionResponse: ceremonyResponse('a10', { id: 'scheme-heal' }, { origin: 'https://trek.example.org' }),
+      assertionResponse: ceremonyResponse('a10', { id: 'scheme-heal' }, { origin: 'https://tripmate.example.org' }),
     });
     expect(result.token).toBeTruthy();
     expect(swMock.verifyAuthenticationResponse.mock.calls[0][0].expectedOrigin)
-      .toEqual(['http://trek.example.org', 'https://trek.example.org']);
+      .toEqual(['http://tripmate.example.org', 'https://tripmate.example.org']);
   });
 
   it('PASSKEY-SVC-041: login never widens to a sibling subdomain of the RP ID (#2147)', async () => {
     // The relay path the exact-origin list exists for: a challenge fetched from
     // the public options endpoint, spent by a ceremony a compromised sibling
     // subdomain ran against the apex RP ID.
-    resolveWebauthnConfigMock.mockReturnValue({ rpID: 'example.com', rpName: 'TREK', origins: ['https://example.com'], explicitOrigins: false });
+    resolveWebauthnConfigMock.mockReturnValue({ rpID: 'example.com', rpName: 'Trip Mate', origins: ['https://example.com'], explicitOrigins: false });
     const { user } = createUser(testDb);
     insertCredential(user.id, { credential_id: 'apex-cred' });
     seedChallenge('a11', null, 'authentication');

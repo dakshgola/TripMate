@@ -5,8 +5,8 @@ import { decodeEntryRow, type JourneyEntryWire } from './journey-entry-row';
 import { GALLERY_CHRONOLOGICAL_ORDER } from './journey-gallery-order';
 import { DatabaseService } from '../database/database.service';
 import { RealtimeService } from '../realtime/realtime.service';
-import type { JourneyStats, JourneyTrack, TrekWsUserEventName } from '@trek/shared';
-import { TrekPhotosRepository } from '../photos/trek-photos.repository';
+import type { JourneyStats, JourneyTrack, TrekWsUserEventName } from '@tripmate/shared';
+import { TrekPhotosRepository } from '../photos/tripmate-photos.repository';
 import { getCountryFromCoords } from '../atlas/atlas-geo';
 import { computeJourneyStats, type StatsInputPoint } from './journey-stats';
 
@@ -990,7 +990,7 @@ export class JourneyDomainService {
   }
 
   /**
-   * What this journey adds up to — the figures TREK Studio prints on a page.
+   * What this journey adds up to — the figures Trip Mate Studio prints on a page.
    *
    * Derived, never stored: the trips added to the journey carry the places and
    * the dates, the journey carries the entries and the photographs, and the
@@ -1151,7 +1151,7 @@ export class JourneyDomainService {
      * a stop that does not exist. It still stops being a step, because the
      * traveller said it does not count.
      *
-     * The fallback has to honour it too. A skeleton is the entry TREK derives
+     * The fallback has to honour it too. A skeleton is the entry Trip Mate derives
      * from a trip place, so switching the skeleton off and then drawing the
      * place it came from would put the same stop straight back on the map
      * under its other name. Hence the set of places to leave out.

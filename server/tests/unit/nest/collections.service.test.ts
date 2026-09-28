@@ -1079,7 +1079,7 @@ describe('exportCollection / importCollection (#2198)', () => {
 
     const file = svc.exportCollection(owner.id, col.id);
 
-    expect(file.format).toBe('trek.collection');
+    expect(file.format).toBe('tripmate.collection');
     expect(file.version).toBe(1);
     expect(file).toMatchObject({ name: 'Lisbon', description: 'Three days', color: '#ef4444' });
     expect(file.labels).toEqual([
@@ -1174,7 +1174,7 @@ describe('exportCollection / importCollection (#2198)', () => {
     createCategory(testDb, { name: 'Restaurant' });
 
     const created = svc.importCollection(owner.id, { file: {
-      format: 'trek.collection', version: 1, name: 'Categories', places: [
+      format: 'tripmate.collection', version: 1, name: 'Categories', places: [
         { name: 'Exact', category: 'Restaurant' },
         { name: 'Sloppy', category: '  rEsTaUrAnT  ' },
         { name: 'Unknown', category: 'Not a category here' },
@@ -1190,7 +1190,7 @@ describe('exportCollection / importCollection (#2198)', () => {
     const owner = createUser(testDb).user;
 
     const created = svc.importCollection(owner.id, { file: {
-      format: 'trek.collection', version: 1, name: 'Labelled',
+      format: 'tripmate.collection', version: 1, name: 'Labelled',
       labels: [{ name: 'Must see', color: '#ff0000' }, { name: 'Must see', color: '#00ff00' }],
       places: [
         { name: 'Tagged', labels: ['Must see'] },
@@ -1210,7 +1210,7 @@ describe('exportCollection / importCollection (#2198)', () => {
     const owner = createUser(testDb).user;
 
     const result = svc.importCollection(owner.id, { file: {
-      format: 'trek.collection', version: 1, name: 'Mixed', places: [
+      format: 'tripmate.collection', version: 1, name: 'Mixed', places: [
         { name: 'Good' },
         { noName: true },
         { name: '' },
@@ -1231,7 +1231,7 @@ describe('exportCollection / importCollection (#2198)', () => {
     const place = createPlace(testDb, trip.id, { name: 'Private place' });
 
     const created = svc.importCollection(owner.id, { file: {
-      format: 'trek.collection', version: 1, name: 'Hostile', places: [{
+      format: 'tripmate.collection', version: 1, name: 'Hostile', places: [{
         name: 'Claims things',
         id: 9999, collection_id: 1, owner_id: victim.id, saved_by: victim.id,
         source_trip_id: trip.id, source_place_id: place.id,
@@ -1250,7 +1250,7 @@ describe('exportCollection / importCollection (#2198)', () => {
     const owner = createUser(testDb).user;
 
     const created = svc.importCollection(owner.id, { file: {
-      format: 'trek.collection', version: 1, name: 'Links', places: [
+      format: 'tripmate.collection', version: 1, name: 'Links', places: [
         { name: 'Script', website: 'javascript:alert(1)' as never },
         { name: 'Local image', image_url: '/uploads/x.jpg' as never },
         { name: 'Fine', website: 'https://example.com', image_url: 'https://example.com/p.jpg' },
@@ -1275,7 +1275,7 @@ describe('exportCollection / importCollection (#2198)', () => {
 
     try {
       expect(() => svc.importCollection(owner.id, { file: {
-        format: 'trek.collection', version: 1, name: 'Doomed', places: [{ name: 'Never arrives' }],
+        format: 'tripmate.collection', version: 1, name: 'Doomed', places: [{ name: 'Never arrives' }],
       } })).toThrow('disk is full');
     } finally {
       spy.mockRestore();
@@ -1289,7 +1289,7 @@ describe('exportCollection / importCollection (#2198)', () => {
 
 describe('importIntoCollection', () => {
   const file = (places: unknown[], labels?: { name: string; color?: string }[]) => ({
-    format: 'trek.collection' as const, version: 1, name: 'From a friend',
+    format: 'tripmate.collection' as const, version: 1, name: 'From a friend',
     description: 'Their notes', color: '#ef4444', ...(labels ? { labels } : {}), places,
   });
 

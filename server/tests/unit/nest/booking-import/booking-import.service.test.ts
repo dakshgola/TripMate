@@ -25,7 +25,7 @@ function make(opts: { kit?: boolean; ai?: boolean; extract?: any; parse?: any })
   const reservations = { create: vi.fn() };
   // budget/addons/realtime/maps ride the confirm() path only — the preview()
   // tests never reach them, so stubs beyond the positional slots aren't needed.
-  // geocodeQuery, not searchNominatim: the import asks the TREK index first
+  // geocodeQuery, not searchNominatim: the import asks the Trip Mate index first
   // and falls through to OpenStreetMap inside that method, so the service no
   // longer knows which of the two answered.
   const maps = { geocodeQuery: vi.fn() };

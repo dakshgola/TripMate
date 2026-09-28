@@ -139,7 +139,7 @@ export const tripTransferOwnershipRequestSchema = z.object({
 export type TripTransferOwnershipRequest = z.infer<typeof tripTransferOwnershipRequestSchema>;
 
 /**
- * The one trip TREK opens on for a user who wants to land in their trip instead
+ * The one trip Trip Mate opens on for a user who wants to land in their trip instead
  * of on the dashboard (GET /api/trips/active). Deliberately narrow: it is read
  * on the very first paint to decide where to navigate, so it carries the id plus
  * enough to label the destination — nothing that would make it as wide (or as

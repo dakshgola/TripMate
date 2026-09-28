@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import type { BookRecord } from '@trek/shared'
+import type { BookRecord } from '@tripmate/shared'
 import { fireEvent, render, screen } from '../../helpers/render'
 import { SaveIndicator } from '../../../src/components/Studio/SaveIndicator'
 

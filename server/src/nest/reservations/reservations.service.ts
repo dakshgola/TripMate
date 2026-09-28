@@ -1,13 +1,13 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DatabaseService, type TripAccess } from '../database/database.service';
-import type { TrekWsPayload, TrekWsTripEventName } from '@trek/shared';
+import type { TrekWsPayload, TrekWsTripEventName } from '@tripmate/shared';
 import { RealtimeService } from '../realtime/realtime.service';
 import { PermissionsService } from '../permissions/permissions.service';
 import { ReservationsReadRepository, toTraveler } from './reservations-read.repository';
 import { keepMirroredPrice } from './reservation-metadata';
 import type { Reservation, User } from '../../types';
 import { BudgetService } from '../budget/budget.service';
-import { typeToCostCategory } from '@trek/shared';
+import { typeToCostCategory } from '@tripmate/shared';
 import { NotificationsService } from '../notifications/notifications.service';
 import { AccommodationsService, noStayMirror, type AccommodationMirror } from '../accommodations/accommodations.service';
 

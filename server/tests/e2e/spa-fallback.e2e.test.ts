@@ -15,7 +15,7 @@ import request from 'supertest';
 import type { Server } from 'http';
 import { Module, type INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { SpaFallbackFilter } from '../../src/nest/platform/spa-fallback.filter';
 import { applyPlatformStatic, PUBLIC_DIR } from '../../src/nest/platform/platform.routes';
 

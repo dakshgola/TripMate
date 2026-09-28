@@ -1,7 +1,7 @@
 /**
  * WGS-84 ⇄ GCJ-02 conversion.
  *
- * Everything TREK stores and draws is WGS-84: the database columns, Nominatim,
+ * Everything Trip Mate stores and draws is WGS-84: the database columns, Nominatim,
  * Overpass, OSRM, GPX and KML, and every Leaflet/MapLibre coordinate. Chinese
  * providers are not allowed to publish that datum — Amap (高德) returns and
  * expects GCJ-02, the "Mars coordinates" obfuscation, which is offset from
@@ -36,7 +36,7 @@ const PI = Math.PI;
  * True when GCJ-02 does not apply and the coordinate must pass through
  * untouched.
  *
- * Without this every foreign trip in TREK would move: the offset formula is
+ * Without this every foreign trip in Trip Mate would move: the offset formula is
  * happy to evaluate anywhere on earth, so applying it to Paris shifts Paris.
  * The bounding box is deliberately the crude one every implementation uses —
  * it over-covers, reaching into the sea and into neighbouring countries, but

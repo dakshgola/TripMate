@@ -3,7 +3,7 @@
  *
  * The PROMPT is interactive and not worth mocking a TTY for. The guard is the part that matters,
  * because of what it prevents: a plugin that shipped signed and then publishes unsigned is refused
- * by TREK on every instance that already has it (registry.service.ts, SIGNATURE_MISSING) — and
+ * by Trip Mate on every instance that already has it (registry.service.ts, SIGNATURE_MISSING) — and
  * before this, `preflight` caught that at step 4, AFTER the immutable GitHub release was cut. The
  * author's tag was burned for a problem that was knowable before a single byte was packed.
  */
@@ -16,7 +16,7 @@ import { generateKeypair } from '../src/cli/sign.js';
 
 const state = (over: Partial<SigningState> = {}): SigningState => ({
   hasKey: false,
-  keyPath: '/home/someone/.trek-plugin/signing.key',
+  keyPath: '/home/someone/.tripmate-plugin/signing.key',
   publishedSigned: false,
   ...over,
 });

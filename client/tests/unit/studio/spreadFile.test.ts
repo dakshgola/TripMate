@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import type { BookElement, BookSpread } from '@trek/shared'
-import { bookPageSetupSchema } from '@trek/shared'
+import type { BookElement, BookSpread } from '@tripmate/shared'
+import { bookPageSetupSchema } from '@tripmate/shared'
 import { exportSpread, importSpread, MAX_SPREAD_FILE_BYTES } from '../../../src/components/Studio/spreadFile'
 
 /**
@@ -28,7 +28,7 @@ const spread = (elements: BookElement[], background: string | null = '#faf8f4'):
 describe('exportSpread', () => {
   it('measures everything as a fraction of the page it was drawn on', () => {
     const file = exportSpread(spread([el({ kind: 'shape', shape: 'rect', fill: '#112233' })]), square)
-    expect(file.format).toBe('trek.studio.spread')
+    expect(file.format).toBe('tripmate.studio.spread')
     expect(file.elements[0]).toMatchObject({
       frame: { x: 0.1, y: 0.2, w: 0.5, h: 0.3 },
     })
@@ -75,12 +75,12 @@ describe('importSpread', () => {
   it('refuses a file that is not one of ours', () => {
     expect(importSpread({ hello: 'world' }, a4)).toBeNull()
     expect(importSpread(null, a4)).toBeNull()
-    expect(importSpread({ format: 'trek.studio.spread' }, a4)).toBeNull()
+    expect(importSpread({ format: 'tripmate.studio.spread' }, a4)).toBeNull()
   })
 
   it('drops an element the document contract will not have', () => {
     const back = importSpread({
-      format: 'trek.studio.spread',
+      format: 'tripmate.studio.spread',
       version: 1,
       background: null,
       elements: [
@@ -93,7 +93,7 @@ describe('importSpread', () => {
 
   it('will not take a background that is not a colour', () => {
     const back = importSpread({
-      format: 'trek.studio.spread',
+      format: 'tripmate.studio.spread',
       version: 1,
       background: 'url(https://example.invalid/pixel.png)',
       elements: [{ kind: 'shape', shape: 'rect', frame: { x: 0.1, y: 0.1, w: 0.2, h: 0.2 } }],
@@ -103,7 +103,7 @@ describe('importSpread', () => {
 
   it('blanks a map source the file tried to bring with it', () => {
     const back = importSpread({
-      format: 'trek.studio.spread',
+      format: 'tripmate.studio.spread',
       version: 1,
       background: null,
       elements: [{
@@ -119,7 +119,7 @@ describe('importSpread', () => {
   it('takes no more elements than a spread is allowed to hold', () => {
     const one = { kind: 'shape', shape: 'rect', frame: { x: 0.1, y: 0.1, w: 0.1, h: 0.1 } }
     const back = importSpread({
-      format: 'trek.studio.spread',
+      format: 'tripmate.studio.spread',
       version: 1,
       background: null,
       elements: Array.from({ length: 400 }, () => one),
@@ -130,14 +130,14 @@ describe('importSpread', () => {
   it('gives every element an id of its own', () => {
     const one = { kind: 'shape', shape: 'rect', frame: { x: 0.1, y: 0.1, w: 0.1, h: 0.1 } }
     const back = importSpread({
-      format: 'trek.studio.spread', version: 1, background: null, elements: [one, one, one],
+      format: 'tripmate.studio.spread', version: 1, background: null, elements: [one, one, one],
     }, a4)!
     expect(new Set(back.elements.map(e => e.id)).size).toBe(3)
   })
 
   it('arrives as an inner spread, never as a cover', () => {
     const back = importSpread({
-      format: 'trek.studio.spread', version: 1, background: null,
+      format: 'tripmate.studio.spread', version: 1, background: null,
       elements: [{ kind: 'shape', shape: 'rect', frame: { x: 0.1, y: 0.1, w: 0.1, h: 0.1 }, role: 'cover' }],
     }, a4)!
     expect(back.role).toBe('inner')

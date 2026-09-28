@@ -29,7 +29,7 @@ vi.mock('../../src/nest/airports/airports.data', async (importActual) => {
 });
 
 import { AirportsModule } from '../../src/nest/airports/airports.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 
 const BER = {
   iata: 'BER', icao: 'EDDB', name: 'Berlin Brandenburg', city: 'Berlin',

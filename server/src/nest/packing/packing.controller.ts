@@ -11,7 +11,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import type { TrekWsPayload, TrekWsTripEventName } from '@trek/shared';
+import type { TrekWsPayload, TrekWsTripEventName } from '@tripmate/shared';
 import type { User } from '../../types';
 import { PackingService, isInvalidBagRef } from './packing.service';
 import { isUpdateConflict } from '../common/conflictResult';
@@ -46,7 +46,7 @@ type PackingItemRow = { is_private?: number; owner_id?: number | null; recipient
  * 400/404 bodies are reproduced. Mutations broadcast over WebSocket with the
  * forwarded X-Socket-Id. /reorder is declared before /:id so it wins over the param.
  *
- * Bodies validate via the @trek/shared Zod contracts (packing.dto.ts + the
+ * Bodies validate via the @tripmate/shared Zod contracts (packing.dto.ts + the
  * global ZodValidationPipe). The pipe's 400 envelope replaced the legacy
  * bespoke name checks that the schemas now enforce (missing item name, invalid
  * visibility); checks the schemas cannot express (whitespace-only names, empty

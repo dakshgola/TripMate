@@ -3,7 +3,7 @@ import type {
   PlaceShadowExportResult,
   PlaceShadowPickResult,
   PlaceShadowSummaryResult,
-} from '@trek/shared';
+} from '@tripmate/shared';
 import { AdminGuard } from '../auth/admin.guard';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { PlaceShadowPickDto } from './place-shadow.dto';

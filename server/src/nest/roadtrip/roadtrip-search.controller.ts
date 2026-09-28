@@ -1,6 +1,6 @@
 import { Body, Controller, HttpCode, Post, Req, UseGuards } from '@nestjs/common';
 import type { Request } from 'express';
-import { roadtripSearchAreaSchema } from '@trek/shared';
+import { roadtripSearchAreaSchema } from '@tripmate/shared';
 import { createZodDto } from 'nestjs-zod';
 import { ADDON_IDS } from '../../addons';
 import { AddonGuard } from '../addons/addon.guard';

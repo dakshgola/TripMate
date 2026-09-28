@@ -9,8 +9,8 @@
  * list_holiday_countries, list_holidays,
  * list_school_holiday_regions, list_school_holidays,
  * get_shareable_vacay_users.
- * Resources: trek://vacay/plan, trek://vacay/entries/{year},
- * trek://vacay/holidays/{year} — these ride the registry too (attached inside
+ * Resources: tripmate://vacay/plan, tripmate://vacay/entries/{year},
+ * tripmate://vacay/holidays/{year} — these ride the registry too (attached inside
  * registerTools), so `withTools` must stay on even for resource reads.
  */
 import { describe, it, expect, vi, beforeAll, beforeEach, afterEach, afterAll } from 'vitest';
@@ -36,7 +36,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -928,22 +928,22 @@ describe('Tool: get_shared_vacay_calendars', () => {
 // Resources
 // ---------------------------------------------------------------------------
 
-describe('Resource: trek://vacay/plan', () => {
+describe('Resource: tripmate://vacay/plan', () => {
   it('returns plan data', async () => {
     const { user } = createUser(testDb);
     await withResourceHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: 'trek://vacay/plan' });
+      const result = await h.client.readResource({ uri: 'tripmate://vacay/plan' });
       const data = parseResourceResult(result) as any;
       expect(data).toBeDefined();
     });
   });
 });
 
-describe('Resource: trek://vacay/entries/{year}', () => {
+describe('Resource: tripmate://vacay/entries/{year}', () => {
   it('returns entries for a year', async () => {
     const { user } = createUser(testDb);
     await withResourceHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: 'trek://vacay/entries/2025' });
+      const result = await h.client.readResource({ uri: 'tripmate://vacay/entries/2025' });
       const data = parseResourceResult(result) as any;
       expect(data).toBeDefined();
       expect(Array.isArray(data.entries)).toBe(true);
@@ -951,11 +951,11 @@ describe('Resource: trek://vacay/entries/{year}', () => {
   });
 });
 
-describe('Resource: trek://vacay/holidays/{year}', () => {
+describe('Resource: tripmate://vacay/holidays/{year}', () => {
   it('returns [] while public holidays are disabled or no region is set', async () => {
     const { user } = createUser(testDb);
     await withResourceHarness(user.id, async (h) => {
-      const result = await h.client.readResource({ uri: 'trek://vacay/holidays/2025' });
+      const result = await h.client.readResource({ uri: 'tripmate://vacay/holidays/2025' });
       const data = parseResourceResult(result) as unknown[];
       expect(data).toEqual([]);
     });

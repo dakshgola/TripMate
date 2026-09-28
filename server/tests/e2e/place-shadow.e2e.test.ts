@@ -39,7 +39,7 @@ vi.mock('../../src/db/database', () => ({
 }));
 
 import { PlaceShadowModule } from '../../src/nest/place-shadow/place-shadow.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 
 const PICK = {
   query: 'kaffee bar am dobi',

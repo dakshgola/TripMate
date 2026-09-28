@@ -39,7 +39,7 @@ describe('entrypoint script', () => {
 
   it('exists and is copied into the image by the Dockerfile', () => {
     expect(fs.existsSync(entrypointPath)).toBe(true);
-    expect(dockerfile).toContain('COPY server/scripts/entrypoint.sh /usr/local/bin/trek-entrypoint');
+    expect(dockerfile).toContain('COPY server/scripts/entrypoint.sh /usr/local/bin/tripmate-entrypoint');
   });
 
   it('has LF line endings (a CRLF shebang kills the container with "no such file or directory")', () => {
@@ -47,6 +47,6 @@ describe('entrypoint script', () => {
   });
 
   it('keeps the volume-over-/app preflight wording the wiki quotes', () => {
-    expect(source).toContain('FATAL: TREK application files are missing from the image.');
+    expect(source).toContain('FATAL: Trip Mate application files are missing from the image.');
   });
 });

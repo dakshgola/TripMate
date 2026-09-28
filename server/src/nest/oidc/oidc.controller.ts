@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpException, Put, Query, Req, Res, UseGuards } from '@nestjs/common';
 import type { Request, Response } from 'express';
-import { oidcLoginQuerySchema } from '@trek/shared';
+import { oidcLoginQuerySchema } from '@tripmate/shared';
 import { readEnv } from '../../app-config';
 import { OidcService, OIDC_STATE_TTL_MS, OIDC_AUTH_CODE_TTL_MS } from './oidc.service';
 import { cookieOptions } from '../common/cookie';
@@ -31,7 +31,7 @@ const OIDC_EXCHANGE_COOKIE = 'trek_oidc_exchange';
  * /callback is required at /exchange. Neither the provider state nor the auth
  * code is a credential on its own — both travel in URLs.
  */
-@Public('the OIDC handshake happens before a TREK session exists; the provider state is the credential')
+@Public('the OIDC handshake happens before a Trip Mate session exists; the provider state is the credential')
 @Controller('api/auth/oidc')
 export class OidcController {
   constructor(

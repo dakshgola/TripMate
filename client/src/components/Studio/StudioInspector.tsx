@@ -1,4 +1,4 @@
-import type { BookElement, BookPageNumbers, BookPageSetup, BookShapeId, JourneyStats } from '@trek/shared'
+import type { BookElement, BookPageNumbers, BookPageSetup, BookShapeId, JourneyStats } from '@tripmate/shared'
 import {
   AlignCenter, AlignJustify, AlignLeft, AlignRight, ArrowDown, ArrowUp,
   ChevronsDown, ChevronsUp, Copy, Italic, Lock, Trash2, Unlock,

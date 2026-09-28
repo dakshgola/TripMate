@@ -224,7 +224,7 @@ describe('AuthController (authenticated)', () => {
   it('avatar 403 in demo mode, 400 without a file, else saves', async () => {
     process.env.DEMO_MODE = 'true';
     vi.mocked(isDemoEmail).mockReturnValue(true);
-    expect(await thrownAsync(() => ac(asvc(), rl()).avatar(user, { filename: 'a.jpg' } as Express.Multer.File))).toEqual({ status: 403, body: { error: 'Uploads are disabled in demo mode. Self-host TREK for full functionality.' } });
+    expect(await thrownAsync(() => ac(asvc(), rl()).avatar(user, { filename: 'a.jpg' } as Express.Multer.File))).toEqual({ status: 403, body: { error: 'Uploads are disabled in demo mode. Self-host Trip Mate for full functionality.' } });
     vi.mocked(isDemoEmail).mockReturnValue(false);
     delete process.env.DEMO_MODE;
     expect(await thrownAsync(() => ac(asvc(), rl()).avatar(user, undefined))).toEqual({ status: 400, body: { error: 'No image uploaded' } });
@@ -304,7 +304,7 @@ describe('AuthController (authenticated)', () => {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const jwt = require('jsonwebtoken');
     const remembered = jwt.sign({ id: 1, pv: 0, remember: true }, 'any-secret');
-    const reqCookie = { ip: '9.9.9.9', headers: {}, cookies: { trek_session: remembered } } as unknown as Request;
+    const reqCookie = { ip: '9.9.9.9', headers: {}, cookies: { tripmate_session: remembered } } as unknown as Request;
     const setAuthCookie = vi.fn();
     const changePassword = vi.fn().mockReturnValue({ token: 'tk3' });
     const c = ac(asvc({ changePassword, setAuthCookie } as Partial<AuthService>), rl());

@@ -12,13 +12,13 @@ const storage: TranslationStrings = {
   'storage.field.region': 'Region',
   'storage.help.region': 'Ponechte výchozí hodnotu, pokud váš poskytovatel nevyžaduje konkrétní region.',
   'storage.field.keyPrefix': 'Prefix klíče',
-  'storage.help.keyPrefix': 'Volitelný prefix přidaný ke každému klíči objektu, např. trek/prod.',
+  'storage.help.keyPrefix': 'Volitelný prefix přidaný ke každému klíči objektu, např. tripmate/prod.',
   'storage.field.retries': 'Počet pokusů',
   'storage.field.timeoutMs': 'Časový limit (ms)',
   'storage.field.primary': 'Primární backend',
   'storage.field.replicas': 'Repliky',
   'storage.title': 'Úložiště',
-  'storage.description': 'Kam TREK ukládá nahrané soubory, fotky a zálohy. Dokud neuložíte, nic se nezmění.',
+  'storage.description': 'Kam Trip Mate ukládá nahrané soubory, fotky a zálohy. Dokud neuložíte, nic se nezmění.',
   'storage.loading': 'Načítání…',
   'storage.saved': 'Konfigurace úložiště uložena',
   'storage.save': 'Uložit změny',
@@ -64,7 +64,7 @@ const storage: TranslationStrings = {
   'storage.category.avatars': 'Profilové fotky',
   'storage.category.places': 'Obrázky míst',
   'storage.category.photos-google': 'Mezipaměť fotek Google',
-  'storage.category.photos-trek': 'Mezipaměť fotek TREK',
+  'storage.category.photos-tripmate': 'Mezipaměť fotek Trip Mate',
   'storage.category.backups': 'Zálohy',
 
   // What each category stores — rendered under the label in the category map.
@@ -76,8 +76,8 @@ const storage: TranslationStrings = {
   'storage.categoryDesc.places': 'Obrázky připojené k místům a místům ve sbírkách — nahrané nebo importované.',
   'storage.categoryDesc.photos-google':
     'Mezipaměťové kopie fotek z Google Places — lze znovu načíst, jejich ztráta je bezpečná.',
-  'storage.categoryDesc.photos-trek':
-    'Fotky uložené v mezipaměti ze služby fotek TREK používané funkcí Fotky (Memories) — lze znovu načíst, jejich ztráta je bezpečná.',
+  'storage.categoryDesc.photos-tripmate':
+    'Fotky uložené v mezipaměti ze služby fotek Trip Mate používané funkcí Fotky (Memories) — lze znovu načíst, jejich ztráta je bezpečná.',
   'storage.categoryDesc.backups': 'Archivy záloh serveru vytvořené panelem Záloha nebo plánovačem.',
   'storage.health.title': 'Stav',
   'storage.health.allClear': 'Nebyly zaznamenány žádné chyby replik.',

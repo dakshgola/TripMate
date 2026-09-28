@@ -1,5 +1,5 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import type { ChargingInfo } from '@trek/shared';
+import type { ChargingInfo } from '@tripmate/shared';
 import { z } from 'zod';
 import { DatabaseService } from '../database/database.service';
 import { readCappedJson } from '../../utils/cappedFetch';

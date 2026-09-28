@@ -37,7 +37,7 @@ type Trip = NonNullable<ReturnType<AssignmentsService['verifyTripAccess']>>;
  * on mutations (403, GET is access-only), create 201 / rest 200, the bespoke
  * "Day not found" / "Place not found" / "Assignment not found" bodies, the
  * journey skeleton reconcile, and WebSocket broadcasts. Bodies are validated
- * by the @trek/shared Zod contracts via assignments.dto.ts (global pipe).
+ * by the @tripmate/shared Zod contracts via assignments.dto.ts (global pipe).
  */
 @Controller('api/trips/:tripId/days/:dayId/assignments')
 // TripAccessGuard resolves :tripId and 404s a trip the user cannot reach; mutations

@@ -68,7 +68,7 @@ describe('mapboxSetup', () => {
   })
 
   it('FE-COMP-MAPBOXSETUP-004: addCustom3dBuildings bails out when the layer already exists', () => {
-    const map = fakeMap({ layers: ['trek-3d-buildings'] })
+    const map = fakeMap({ layers: ['tripmate-3d-buildings'] })
     addCustom3dBuildings(asMap(map), false)
     expect(map.addLayer).not.toHaveBeenCalled()
     expect(map.addSource).not.toHaveBeenCalled()
@@ -87,7 +87,7 @@ describe('mapboxSetup', () => {
 
     expect(map.addSource).not.toHaveBeenCalled()
     const [spec, beforeId] = map.addLayer.mock.calls[0] as unknown as [Record<string, unknown>, string]
-    expect(spec.id).toBe('trek-3d-buildings')
+    expect(spec.id).toBe('tripmate-3d-buildings')
     expect(spec.source).toBe('composite')
     expect(spec.type).toBe('fill-extrusion')
     // Extrusions must sit under the first label layer so text stays readable.

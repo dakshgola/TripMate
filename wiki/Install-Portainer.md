@@ -1,6 +1,6 @@
 # Install: Portainer
 
-Install TREK on Portainer using a Stack (Docker Compose).
+Install Trip Mate on Portainer using a Stack (Docker Compose).
 
 ## Prerequisite
 
@@ -11,7 +11,7 @@ Portainer must be installed and connected to your Docker environment. Use **Stac
 ![Stacks page with arrows pointing to the Stacks menu item and the Add stack button](assets/portainer-add-stack.png)
 
 1. In Portainer, go to **Stacks → Add stack**.
-2. Give the stack a name (e.g. `trek`).
+2. Give the stack a name (e.g. `tripmate`).
 3. Select **Web editor** and paste the compose file from [docker-compose.yml](https://github.com/liketrek/TREK/blob/main/docker-compose.yml).
 
 ![Web editor with the docker-compose content pasted in](assets/portainer-stack-save.png)

@@ -3,7 +3,7 @@
  *
  * This is the path the index was built for. Nominatim's usage policy names
  * autocomplete as unacceptable use in its own words, whatever the rate, and the
- * whole TREK fleet shares one User-Agent there — so before the index, every
+ * whole Trip Mate fleet shares one User-Agent there — so before the index, every
  * install was one abusive neighbour away from being blocked. What matters here
  * is that an index answer is shaped the way the details lookup can read back
  * (`gers:` ids), and that nothing about a slow or missing index leaves somebody
@@ -16,8 +16,8 @@ const { mockSearch } = vi.hoisted(() => ({
     async (_query: string, _opts?: { lat?: number; lng?: number; limit?: number }): Promise<unknown> => [],
   ),
 }));
-vi.mock('../../../src/nest/maps/trek-places.client', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('../../../src/nest/maps/trek-places.client')>()),
+vi.mock('../../../src/nest/maps/tripmate-places.client', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../../../src/nest/maps/tripmate-places.client')>()),
   trekPlacesSearch: mockSearch,
 }));
 
@@ -111,7 +111,7 @@ describe('MapsService.autocompletePlaces', () => {
 
     const result = await make().autocompletePlaces(1, INPUT);
 
-    expect(result.source).toBe('trek-places');
+    expect(result.source).toBe('tripmate-places');
     expect(result.suggestions).toHaveLength(2);
     // The `gers:` prefix is the contract with getPlaceDetails, which branches on
     // it. A suggestion without it lands in the generic colon branch and asks
@@ -165,7 +165,7 @@ describe('MapsService.autocompletePlaces', () => {
 
     expect(mockSearch).toHaveBeenCalledTimes(1);
     // Whatever the fallback answers, it must not claim to be the index.
-    expect(result.source).not.toBe('trek-places');
+    expect(result.source).not.toBe('tripmate-places');
   });
 
   it('MAPS-AUTO-006: an index failure is a warning and a fallback, not a dead search box', async () => {
@@ -173,8 +173,8 @@ describe('MapsService.autocompletePlaces', () => {
 
     const result = await make().autocompletePlaces(1, INPUT);
 
-    expect(console.warn).toHaveBeenCalledWith('TREK Places autocomplete failed, falling back:', 'places api down');
-    expect(result.source).not.toBe('trek-places');
+    expect(console.warn).toHaveBeenCalledWith('Trip Mate Places autocomplete failed, falling back:', 'places api down');
+    expect(result.source).not.toBe('tripmate-places');
   });
 
   it('MAPS-AUTO-008: a hit from the OpenStreetMap layer carries an id the details lookup can read', async () => {
@@ -216,10 +216,10 @@ describe('MapsService.autocompletePlaces', () => {
 
     // The name above the list describes the call, and the call asked both. Only
     // the row can say which of the two answered it — without that the reader is
-    // told a place from OpenStreetMap came out of the TREK index, which is the
+    // told a place from OpenStreetMap came out of the Trip Mate index, which is the
     // one thing the mark beside a suggestion exists to answer.
-    expect(source).toBe('trek-places');
-    expect(suggestions.map(s => s.source)).toEqual(['trek-places', 'openstreetmap']);
+    expect(source).toBe('tripmate-places');
+    expect(suggestions.map(s => s.source)).toEqual(['tripmate-places', 'openstreetmap']);
   });
 
   it('MAPS-AUTO-011: a suggestion carries the coordinates the index already gave, so the pick needs no second hop', async () => {
@@ -240,7 +240,7 @@ describe('MapsService.autocompletePlaces', () => {
     const result = await make(false).autocompletePlaces(1, INPUT);
 
     expect(mockSearch).not.toHaveBeenCalled();
-    expect(result.source).not.toBe('trek-places');
+    expect(result.source).not.toBe('tripmate-places');
   });
 
   it('MAPS-AUTO-012: the Google-only switch sends the keystroke to Google and skips the index', async () => {
@@ -265,7 +265,7 @@ describe('MapsService.autocompletePlaces', () => {
     // No key at all: the index answers, as before.
     const keyless = await make(true, { places_google_only: 'true' }).autocompletePlaces(1, INPUT);
     expect(mockSearch).toHaveBeenCalledTimes(1);
-    expect(keyless.source).toBe('trek-places');
+    expect(keyless.source).toBe('tripmate-places');
 
     // A key, but the admin picked OpenStreetMap: Google holds no slot, so
     // there is nothing for the switch to hand the keystroke to.
@@ -273,12 +273,12 @@ describe('MapsService.autocompletePlaces', () => {
     const osmOnly = await make(true, { maps_api_key: 'key', places_google_only: 'true', places_provider: 'openstreetmap' })
       .autocompletePlaces(1, INPUT);
     expect(mockSearch).toHaveBeenCalledTimes(1);
-    expect(osmOnly.source).toBe('trek-places');
+    expect(osmOnly.source).toBe('tripmate-places');
 
     // A key and the switch off: the index still answers first.
     mockSearch.mockClear();
     const off = await make(true, { maps_api_key: 'key', places_google_only: 'false' }).autocompletePlaces(1, INPUT);
     expect(mockSearch).toHaveBeenCalledTimes(1);
-    expect(off.source).toBe('trek-places');
+    expect(off.source).toBe('tripmate-places');
   });
 });

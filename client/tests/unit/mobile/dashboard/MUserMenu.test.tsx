@@ -10,7 +10,7 @@ import { useSettingsStore } from '../../../../src/store/settingsStore';
 function seedUser(role: 'user' | 'admin') {
   useAuthStore.setState({
     isAuthenticated: true,
-    user: { id: 1, username: 'Maurice', email: 'maurice@trek.app', role, avatar_url: '' } as never,
+    user: { id: 1, username: 'Maurice', email: 'maurice@tripmate.app', role, avatar_url: '' } as never,
   });
 }
 
@@ -24,7 +24,7 @@ describe('MUserMenu', () => {
     render(<MUserMenu open onClose={() => {}} />);
 
     expect(screen.getByText('Maurice')).toBeInTheDocument();
-    expect(screen.getByText('maurice@trek.app')).toBeInTheDocument();
+    expect(screen.getByText('maurice@tripmate.app')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Settings' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Admin Settings' })).not.toBeInTheDocument();
   });
@@ -100,7 +100,7 @@ describe('MUserMenu', () => {
   it('FE-MOB-MENU-008: an uploaded avatar replaces the initial', () => {
     useAuthStore.setState({
       isAuthenticated: true,
-      user: { id: 1, username: 'Maurice', email: 'm@trek.app', role: 'user', avatar_url: '/uploads/avatars/m.jpg' } as never,
+      user: { id: 1, username: 'Maurice', email: 'm@tripmate.app', role: 'user', avatar_url: '/uploads/avatars/m.jpg' } as never,
     });
     const { container } = render(<MUserMenu open onClose={() => {}} />);
 

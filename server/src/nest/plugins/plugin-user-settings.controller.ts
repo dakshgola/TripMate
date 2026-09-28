@@ -6,7 +6,7 @@ import { PluginsService, MissingRequiredSettingError } from './plugins.service';
 import { PluginRuntimeService } from './plugin-runtime.service';
 import { DatabaseService } from '../database/database.service';
 import { PluginUserSettingsUpdateDto } from './plugins.dto';
-import type { PluginActionDescriptor, PluginActionResult } from '@trek/shared';
+import type { PluginActionDescriptor, PluginActionResult } from '@tripmate/shared';
 
 /**
  * GET/POST /api/plugin-settings/:id — a USER's own `scope:'user'` settings for a

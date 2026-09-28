@@ -20,7 +20,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { HttpException } from '@nestjs/common';
 import type { Request } from 'express';
-import type { DawarichErrorCode } from '@trek/shared';
+import type { DawarichErrorCode } from '@tripmate/shared';
 import { DawarichController } from '../../../src/nest/integrations/dawarich.controller';
 import { AcceptError } from '../../../src/nest/integrations/dawarich-suggestions.service';
 import { DawarichError } from '../../../src/nest/integrations/dawarich.client';
@@ -405,7 +405,7 @@ describe('DawarichController error shaping', () => {
   ];
 
   it.each(upstreamCodes)(
-    'DAWARICH-CTRL-053: a DawarichError with code %s becomes a 502 — the failure is a server TREK called, not TREK itself',
+    'DAWARICH-CTRL-053: a DawarichError with code %s becomes a 502 — the failure is a server Trip Mate called, not Trip Mate itself',
     async (code) => {
       const scanBucketList = vi.fn().mockRejectedValue(new DawarichError(code, 'upstream said no'));
       expect(await thrown(() => makeController({ suggestions: { scanBucketList } }).scanBucketList(user)))

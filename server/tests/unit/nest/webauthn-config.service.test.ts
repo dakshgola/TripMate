@@ -50,11 +50,11 @@ afterEach(() => {
 
 describe('WebauthnConfigService.resolve', () => {
   it('WAC-001: derives the RP ID and single origin from a real APP_URL domain', () => {
-    appUrlRef.value = 'https://trek.example.org';
+    appUrlRef.value = 'https://tripmate.example.org';
     const cfg = svc.resolve();
     expect(cfg).not.toBeNull();
-    expect(cfg!.rpID).toBe('trek.example.org');
-    expect(cfg!.origins).toEqual(['https://trek.example.org']);
+    expect(cfg!.rpID).toBe('tripmate.example.org');
+    expect(cfg!.origins).toEqual(['https://tripmate.example.org']);
     expect(cfg!.explicitOrigins).toBe(false); // derived, not operator-supplied
     expect(svc.isConfigured()).toBe(true);
   });
@@ -110,16 +110,16 @@ describe('WebauthnConfigService.resolve', () => {
   });
 
   it('WAC-008: a configured RP ID with no origins falls back to the APP_URL origin', () => {
-    appUrlRef.value = 'https://trek.example.org';
-    settingsStore.set('webauthn_rp_id', 'trek.example.org');
+    appUrlRef.value = 'https://tripmate.example.org';
+    settingsStore.set('webauthn_rp_id', 'tripmate.example.org');
     const cfg = svc.resolve();
-    expect(cfg!.origins).toEqual(['https://trek.example.org']);
+    expect(cfg!.origins).toEqual(['https://tripmate.example.org']);
     expect(cfg!.explicitOrigins).toBe(false); // the origin list itself is still derived
   });
 
   it('WAC-009: an operator flipping the RP ID at runtime takes effect on the next resolve', () => {
-    appUrlRef.value = 'https://trek.example.org';
-    expect(svc.resolve()!.rpID).toBe('trek.example.org');
+    appUrlRef.value = 'https://tripmate.example.org';
+    expect(svc.resolve()!.rpID).toBe('tripmate.example.org');
 
     settingsStore.set('webauthn_rp_id', 'moved.example.org');
 
@@ -138,23 +138,23 @@ describe('WebauthnConfigService.resolve', () => {
 // Anything laxer would weaken origin binding, so each edge is pinned.
 describe('originWithinRpScope', () => {
   it('WAC-011: accepts the RP domain and its subdomains over https', () => {
-    expect(originWithinRpScope('https://trek.example.org', 'trek.example.org')).toBe(true);
-    expect(originWithinRpScope('https://app.trek.example.org', 'trek.example.org')).toBe(true);
-    expect(originWithinRpScope('https://trek.example.org:8443', 'trek.example.org')).toBe(true);
+    expect(originWithinRpScope('https://tripmate.example.org', 'tripmate.example.org')).toBe(true);
+    expect(originWithinRpScope('https://app.tripmate.example.org', 'tripmate.example.org')).toBe(true);
+    expect(originWithinRpScope('https://tripmate.example.org:8443', 'tripmate.example.org')).toBe(true);
   });
 
   it('WAC-012: rejects http on a non-localhost host, but allows loopback dev', () => {
-    expect(originWithinRpScope('http://trek.example.org', 'trek.example.org')).toBe(false);
+    expect(originWithinRpScope('http://tripmate.example.org', 'tripmate.example.org')).toBe(false);
     expect(originWithinRpScope('http://localhost:5173', 'localhost')).toBe(true);
     expect(originWithinRpScope('http://127.0.0.1:3001', '127.0.0.1')).toBe(true);
   });
 
   it('WAC-013: rejects foreign hosts, suffix tricks and garbage', () => {
-    expect(originWithinRpScope('https://evil.example.net', 'trek.example.org')).toBe(false);
-    // "eviltrek.example.org" is NOT a subdomain of "trek.example.org".
-    expect(originWithinRpScope('https://eviltrek.example.org', 'trek.example.org')).toBe(false);
+    expect(originWithinRpScope('https://evil.example.net', 'tripmate.example.org')).toBe(false);
+    // "eviltrek.example.org" is NOT a subdomain of "tripmate.example.org".
+    expect(originWithinRpScope('https://eviltrek.example.org', 'tripmate.example.org')).toBe(false);
     expect(originWithinRpScope('https://trip.example.org', 'localhost')).toBe(false);
-    expect(originWithinRpScope('null', 'trek.example.org')).toBe(false);
-    expect(originWithinRpScope('ftp://trek.example.org', 'trek.example.org')).toBe(false);
+    expect(originWithinRpScope('null', 'tripmate.example.org')).toBe(false);
+    expect(originWithinRpScope('ftp://tripmate.example.org', 'tripmate.example.org')).toBe(false);
   });
 });

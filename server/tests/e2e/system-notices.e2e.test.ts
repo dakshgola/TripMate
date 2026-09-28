@@ -32,7 +32,7 @@ vi.mock('../../src/systemNotices/service', () => ({
 
 import { SystemNoticesModule } from '../../src/nest/system-notices/system-notices.module';
 import { DatabaseModule } from '../../src/nest/database/database.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 
 const notice = {
   id: 'welcome', display: 'modal', severity: 'info',

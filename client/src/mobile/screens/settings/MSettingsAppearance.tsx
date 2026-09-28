@@ -11,7 +11,7 @@ import {
   APPEARANCE_SCALE_MIN,
   APPEARANCE_SCALE_MAX,
   type AppearanceConfig,
-} from '@trek/shared'
+} from '@tripmate/shared'
 import MToggle from '../../components/MToggle'
 import { MSetCard, MSetEyebrow, MSetSegments, MSetRow } from './MSettingsUi'
 import MMobileNavCustomizer from './MMobileNavCustomizer'

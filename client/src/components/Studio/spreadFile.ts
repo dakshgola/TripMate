@@ -1,5 +1,5 @@
-import type { BookPageSetup, BookSpread } from '@trek/shared'
-import { bookElementSchema } from '@trek/shared'
+import type { BookPageSetup, BookSpread } from '@tripmate/shared'
+import { bookElementSchema } from '@tripmate/shared'
 
 /**
  * A spread as a file, so a design can leave the book it was made in.
@@ -56,7 +56,7 @@ import { bookElementSchema } from '@trek/shared'
  */
 
 /** What the file says it is, so a stray JSON is refused rather than half-read. */
-const MAGIC = 'trek.studio.spread'
+const MAGIC = 'tripmate.studio.spread'
 const VERSION = 1
 
 /**

@@ -16,10 +16,10 @@ import {
   journeyShareLinkRequestSchema,
   journeyUpdateRequestSchema,
   bookSaveRequestSchema,
-} from '@trek/shared';
+} from '@tripmate/shared';
 
 /**
- * Server-side createZodDto wrappers over the @trek/shared journey contracts.
+ * Server-side createZodDto wrappers over the @tripmate/shared journey contracts.
  * The global ZodValidationPipe (APP_PIPE in app.module.ts) validates any @Body()
  * parameter typed with one of these classes by metatype — the Zod schemas in
  * shared/ remain the single source of truth for the wire contract.

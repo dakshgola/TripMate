@@ -87,10 +87,10 @@ describe('deriveHttp', () => {
     expect(deriveHttp({}).cookieSecureDisabled).toBe(false);
   });
 
-  it('TREK_API_DOCS_ENABLED: trimmed, boolean-like (api-docs.kill-switch)', () => {
-    expect(deriveHttp({ TREK_API_DOCS_ENABLED: ' TRUE ' }).apiDocsEnabled).toBe(true);
-    expect(deriveHttp({ TREK_API_DOCS_ENABLED: '1' }).apiDocsEnabled).toBe(true);
-    expect(deriveHttp({ TREK_API_DOCS_ENABLED: 'false' }).apiDocsEnabled).toBe(false);
+  it('TRIPMATE_API_DOCS_ENABLED: trimmed, boolean-like (api-docs.kill-switch)', () => {
+    expect(deriveHttp({ TRIPMATE_API_DOCS_ENABLED: ' TRUE ' }).apiDocsEnabled).toBe(true);
+    expect(deriveHttp({ TRIPMATE_API_DOCS_ENABLED: '1' }).apiDocsEnabled).toBe(true);
+    expect(deriveHttp({ TRIPMATE_API_DOCS_ENABLED: 'false' }).apiDocsEnabled).toBe(false);
     expect(deriveHttp({}).apiDocsEnabled).toBe(false);
   });
 });
@@ -175,41 +175,41 @@ describe('deriveMcp', () => {
 describe('derivePlugins', () => {
   it('kill-switch is default-on; only an explicit falsy value disables', () => {
     expect(derivePlugins({}).enabled).toBe(true);
-    expect(derivePlugins({ TREK_PLUGINS_ENABLED: 'anything' }).enabled).toBe(true); // out-of-family → default-on
+    expect(derivePlugins({ TRIPMATE_PLUGINS_ENABLED: 'anything' }).enabled).toBe(true); // out-of-family → default-on
     for (const v of ['false', '0', 'off', 'no', ' OFF ']) {
-      expect(derivePlugins({ TREK_PLUGINS_ENABLED: v }).enabled).toBe(false);
+      expect(derivePlugins({ TRIPMATE_PLUGINS_ENABLED: v }).enabled).toBe(false);
     }
   });
 
   it('devLink and permissions jail coerce the boolean-like family; jail is default-on', () => {
-    expect(derivePlugins({ TREK_PLUGINS_DEV_LINK: '1' }).devLink).toBe(true);
-    expect(derivePlugins({ TREK_PLUGINS_DEV_LINK: 'true' }).devLink).toBe(true);
-    expect(derivePlugins({ TREK_PLUGINS_DEV_LINK: 'off' }).devLink).toBe(false);
-    expect(derivePlugins({ TREK_PLUGIN_PERMISSIONS: 'OFF' }).permissionsOff).toBe(true);
-    expect(derivePlugins({ TREK_PLUGIN_PERMISSIONS: 'false' }).permissionsOff).toBe(true);
-    expect(derivePlugins({ TREK_PLUGIN_PERMISSIONS: 'on' }).permissionsOff).toBe(false);
+    expect(derivePlugins({ TRIPMATE_PLUGINS_DEV_LINK: '1' }).devLink).toBe(true);
+    expect(derivePlugins({ TRIPMATE_PLUGINS_DEV_LINK: 'true' }).devLink).toBe(true);
+    expect(derivePlugins({ TRIPMATE_PLUGINS_DEV_LINK: 'off' }).devLink).toBe(false);
+    expect(derivePlugins({ TRIPMATE_PLUGIN_PERMISSIONS: 'OFF' }).permissionsOff).toBe(true);
+    expect(derivePlugins({ TRIPMATE_PLUGIN_PERMISSIONS: 'false' }).permissionsOff).toBe(true);
+    expect(derivePlugins({ TRIPMATE_PLUGIN_PERMISSIONS: 'on' }).permissionsOff).toBe(false);
     expect(derivePlugins({}).permissionsOff).toBe(false);
   });
 
   it('ignoreTrekRange is off unless explicitly truthy — the version gate must never bypass by accident', () => {
     expect(derivePlugins({}).ignoreTrekRange).toBe(false);
-    expect(derivePlugins({ TREK_PLUGINS_IGNORE_TREK_RANGE: '' }).ignoreTrekRange).toBe(false);
-    expect(derivePlugins({ TREK_PLUGINS_IGNORE_TREK_RANGE: 'off' }).ignoreTrekRange).toBe(false);
-    expect(derivePlugins({ TREK_PLUGINS_IGNORE_TREK_RANGE: '1' }).ignoreTrekRange).toBe(true);
-    expect(derivePlugins({ TREK_PLUGINS_IGNORE_TREK_RANGE: 'TRUE' }).ignoreTrekRange).toBe(true);
+    expect(derivePlugins({ TRIPMATE_PLUGINS_IGNORE_TREK_RANGE: '' }).ignoreTrekRange).toBe(false);
+    expect(derivePlugins({ TRIPMATE_PLUGINS_IGNORE_TREK_RANGE: 'off' }).ignoreTrekRange).toBe(false);
+    expect(derivePlugins({ TRIPMATE_PLUGINS_IGNORE_TREK_RANGE: '1' }).ignoreTrekRange).toBe(true);
+    expect(derivePlugins({ TRIPMATE_PLUGINS_IGNORE_TREK_RANGE: 'TRUE' }).ignoreTrekRange).toBe(true);
   });
 
   it('allowPrivateEgress is a bool (supervisor normalizes it to the literal "on" for the child)', () => {
-    expect(derivePlugins({ TREK_PLUGIN_ALLOW_PRIVATE_EGRESS: 'on' }).allowPrivateEgress).toBe(true);
-    expect(derivePlugins({ TREK_PLUGIN_ALLOW_PRIVATE_EGRESS: 'true' }).allowPrivateEgress).toBe(true);
-    expect(derivePlugins({ TREK_PLUGIN_ALLOW_PRIVATE_EGRESS: 'off' }).allowPrivateEgress).toBe(false);
+    expect(derivePlugins({ TRIPMATE_PLUGIN_ALLOW_PRIVATE_EGRESS: 'on' }).allowPrivateEgress).toBe(true);
+    expect(derivePlugins({ TRIPMATE_PLUGIN_ALLOW_PRIVATE_EGRESS: 'true' }).allowPrivateEgress).toBe(true);
+    expect(derivePlugins({ TRIPMATE_PLUGIN_ALLOW_PRIVATE_EGRESS: 'off' }).allowPrivateEgress).toBe(false);
     expect(derivePlugins({}).allowPrivateEgress).toBe(false);
   });
 
   it('rate limits use Number(x) || default (rate-limit.ts / supervisor)', () => {
     expect(derivePlugins({}).rpcBurst).toBe(60);
-    expect(derivePlugins({ TREK_PLUGIN_RPC_PER_SEC: '5' }).rpcPerSec).toBe(5);
-    expect(derivePlugins({ TREK_PLUGIN_MAX_RSS_MB: 'abc' }).maxRssMb).toBe(300);
+    expect(derivePlugins({ TRIPMATE_PLUGIN_RPC_PER_SEC: '5' }).rpcPerSec).toBe(5);
+    expect(derivePlugins({ TRIPMATE_PLUGIN_MAX_RSS_MB: 'abc' }).maxRssMb).toBe(300);
   });
 });
 
@@ -263,8 +263,8 @@ describe('deriveNet', () => {
 
 describe('derivePaths', () => {
   it('passes the path vars through raw — defaulting stays at the consumer', () => {
-    expect(derivePaths({ TREK_WIKI_DIR: '/w' }).wikiDir).toBe('/w');
-    expect(derivePaths({ TREK_PLACE_PHOTO_DIR: '/p' }).placePhotoDir).toBe('/p');
+    expect(derivePaths({ TRIPMATE_WIKI_DIR: '/w' }).wikiDir).toBe('/w');
+    expect(derivePaths({ TRIPMATE_PLACE_PHOTO_DIR: '/p' }).placePhotoDir).toBe('/p');
     expect(derivePaths({}).wikiDir).toBeUndefined();
     expect(derivePaths({}).placePhotoDir).toBeUndefined();
   });
@@ -285,27 +285,27 @@ describe('deriveAll', () => {
 });
 
 describe('deriveMaps', () => {
-  it('TREK_PLACES_ENABLED accepts the same false family as every other switch', () => {
+  it('TRIPMATE_PLACES_ENABLED accepts the same false family as every other switch', () => {
     // The schema admits the whole boolean-like family for this variable, so a
     // value it lets through must also count: an operator who writes 0 or off,
     // as the .env.example header invites, gets the index switched off rather
     // than a silent no-op.
-    expect(deriveMaps({ TREK_PLACES_ENABLED: 'false' } as never).trekPlacesEnabled).toBe(false);
+    expect(deriveMaps({ TRIPMATE_PLACES_ENABLED: 'false' } as never).trekPlacesEnabled).toBe(false);
     for (const value of ['FALSE', '0', 'off', 'no', ' No ']) {
-      expect(deriveMaps({ TREK_PLACES_ENABLED: value } as never).trekPlacesEnabled, value).toBe(false);
+      expect(deriveMaps({ TRIPMATE_PLACES_ENABLED: value } as never).trekPlacesEnabled, value).toBe(false);
     }
     for (const value of ['true', 'TRUE', '1', 'on', 'yes']) {
-      expect(deriveMaps({ TREK_PLACES_ENABLED: value } as never).trekPlacesEnabled, value).toBe(true);
+      expect(deriveMaps({ TRIPMATE_PLACES_ENABLED: value } as never).trekPlacesEnabled, value).toBe(true);
     }
   });
 
-  it('TREK_PLACES_ENABLED fails open when unset, blank or outside the family', () => {
+  it('TRIPMATE_PLACES_ENABLED fails open when unset, blank or outside the family', () => {
     // A typo must not silently drop a whole install back to Nominatim, whose
-    // usage policy forbids what TREK was doing with it. Outside the family the
+    // usage policy forbids what Trip Mate was doing with it. Outside the family the
     // schema aborts boot anyway; this covers the paths that skip validation.
     expect(deriveMaps({} as never).trekPlacesEnabled).toBe(true);
     for (const value of ['', '  ', 'maybe', 'fasle']) {
-      expect(deriveMaps({ TREK_PLACES_ENABLED: value } as never).trekPlacesEnabled, value).toBe(true);
+      expect(deriveMaps({ TRIPMATE_PLACES_ENABLED: value } as never).trekPlacesEnabled, value).toBe(true);
     }
   });
 });

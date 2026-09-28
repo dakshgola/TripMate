@@ -2261,7 +2261,7 @@ describe('useTripPlanner road trip: somewhere to fill up', () => {
 })
 
 vi.mock('../../hooks/useRoadtripSettings', () => ({
-  useRoadtripSettings: (select: (preferences: import('@trek/shared').RoadtripPreferences) => unknown) => useSettingsStore(state => select(state.settings as import('@trek/shared').RoadtripPreferences)),
+  useRoadtripSettings: (select: (preferences: import('@tripmate/shared').RoadtripPreferences) => unknown) => useSettingsStore(state => select(state.settings as import('@tripmate/shared').RoadtripPreferences)),
   useLoadRoadtripSettings: () => ({ ready: true, failed: false }),
 }))
 vi.mock('../../repo/roadtripPreferencesRepo', () => ({ roadtripPreferencesRepo: { update: vi.fn(async () => ({})) } }))

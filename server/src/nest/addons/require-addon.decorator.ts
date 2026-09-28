@@ -1,6 +1,6 @@
 import { SetMetadata } from '@nestjs/common';
 
-export const REQUIRE_ADDON = 'trek:require-addon';
+export const REQUIRE_ADDON = 'tripmate:require-addon';
 
 export interface RequireAddonMeta {
   addonId: string;

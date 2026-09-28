@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, Post, UseGuards } from '@nestjs/common';
-import type { RouteUsageReportResult, RouteUsageSummaryResult } from '@trek/shared';
+import type { RouteUsageReportResult, RouteUsageSummaryResult } from '@tripmate/shared';
 import { AdminGuard } from '../auth/admin.guard';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RouteUsageReportDto } from './route-usage.dto';

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { hazardGeometrySchema, roadtripHazardSchema, type RoadtripHazard, type RoadtripHazards } from '@trek/shared';
+import { hazardGeometrySchema, roadtripHazardSchema, type RoadtripHazard, type RoadtripHazards } from '@tripmate/shared';
 import { z } from 'zod';
 import { readCappedJson } from '../../utils/cappedFetch';
 

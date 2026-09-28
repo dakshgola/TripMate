@@ -5,7 +5,7 @@ import { useSettingsStore } from '../../store/settingsStore'
 import { formatDistance } from '../../utils/units'
 import { StopKindChips, StopStayChips } from './StopChips'
 import { serviceStopChoice, OFF_ROUTE_NOTE_KM, type ServiceStopMode } from './manualStop'
-import type { RoadtripStopType } from '@trek/shared'
+import type { RoadtripStopType } from '@tripmate/shared'
 
 /**
  * Adding a stop the corridor search never found, inside the place form itself.
@@ -15,7 +15,7 @@ import type { RoadtripStopType } from '@trek/shared'
  * it was to leave road trip mode, add the place under Days, drag it onto the right day,
  * come back and mark it a charging stop.
  *
- * So the form the rest of TREK adds places with does the job, with three changes: the
+ * So the form the rest of Trip Mate adds places with does the job, with three changes: the
  * category becomes the kind of stop (a pump is not a taste, it is a fact about the
  * place), the costs go (a petrol stop is not an activity with a budget line), and this
  * row asks where on the drive it belongs. Everything else about the form is the reason

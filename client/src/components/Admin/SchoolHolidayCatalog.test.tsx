@@ -9,7 +9,7 @@ import SchoolHolidayRegionEditor from './SchoolHolidayRegionEditor'
 import { fetchSchoolHolidayRegionOptions } from '../Vacay/holidayRegions'
 import { useSchoolHolidayCountries } from '../Vacay/useSchoolHolidayCountries'
 import { useVacayStore } from '../../store/vacayStore'
-import type { SchoolHolidayRegionDetail } from '@trek/shared'
+import type { SchoolHolidayRegionDetail } from '@tripmate/shared'
 
 const region: SchoolHolidayRegionDetail = { id: 7, code: 'US-MANUAL-7', country: 'US', name: 'Seattle schools', revision: 1, holidays: [{ name: 'Winter break', startDate: '2026-12-20', endDate: '2027-01-06' }] }
 const catalog = { countries: [{ code: 'US', name: 'USA' }], regions: [region] }

@@ -32,7 +32,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -1240,7 +1240,7 @@ describe('branches the legacy suite could not reach', () => {
       resource: 'https://evil.example.org/mcp',
     }, user.id);
 
-    expect(result).toEqual({ valid: false, error: 'invalid_target', error_description: 'Requested resource must be the TREK MCP endpoint' });
+    expect(result).toEqual({ valid: false, error: 'invalid_target', error_description: 'Requested resource must be the Trip Mate MCP endpoint' });
   });
 
   it('validateAuthorizeRequest accepts the MCP endpoint passed explicitly, trailing slash and all', () => {

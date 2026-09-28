@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { gcj02ToWgs84 } from '@trek/shared'
+import { gcj02ToWgs84 } from '@tripmate/shared'
 import { getAmapUrlForPlace } from './placeAmap'
 
 describe('getAmapUrlForPlace', () => {
@@ -8,7 +8,7 @@ describe('getAmapUrlForPlace', () => {
     const position = new URL(url).searchParams.get('position')!
     const [lng, lat] = position.split(',').map(Number)
 
-    // Longitude first — the opposite of every other pair in TREK, and what
+    // Longitude first — the opposite of every other pair in Trip Mate, and what
     // Amap's URI API specifies.
     expect(lng).toBeGreaterThan(100)
     expect(lat).toBeLessThan(90)

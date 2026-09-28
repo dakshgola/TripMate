@@ -15,7 +15,7 @@ import { PluginGuards } from '../../../src/nest/plugins/host/plugin-guards.servi
 import { TripsRpc } from '../../../src/nest/trips/trips.rpc';
 import { TripsModule } from '../../../src/nest/trips/trips.module';
 import { NotFoundError, ValidationError } from '../../../src/nest/trips/trips.service';
-import { MAX_TRIP_DAYS } from '@trek/shared';
+import { MAX_TRIP_DAYS } from '@tripmate/shared';
 import type { TripsService } from '../../../src/nest/trips/trips.service';
 import type { ReservationsService } from '../../../src/nest/reservations/reservations.service';
 import type { DaysService } from '../../../src/nest/days/days.service';

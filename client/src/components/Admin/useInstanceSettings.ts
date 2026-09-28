@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { adminApi, type PluginAction, type PluginUserSettingField } from '../../api/client'
-import type { PluginActionResult } from '@trek/shared'
+import type { PluginActionResult } from '@tripmate/shared'
 import { useToast } from '../shared/Toast'
 import { useTranslation } from '../../i18n'
 import { seedSettingsValues, findMissingRequired, settingsPatch } from '../Plugins/settingsForm'

@@ -1,5 +1,5 @@
 import type { Readable } from 'node:stream';
-import type { DocsyncErrorCode } from '@trek/shared';
+import type { DocsyncErrorCode } from '@tripmate/shared';
 
 /**
  * The adapter seam for document providers.
@@ -136,7 +136,7 @@ export interface DocumentScopeOption {
 
 export interface DocumentProviderCapabilities {
   /**
-   * `webhook-self-registered`: TREK can create the subscription itself
+   * `webhook-self-registered`: Trip Mate can create the subscription itself
    * (Paperless workflows). `webhook-manual`: the API exists but is closed to
    * API keys, so a human has to paste a URL (Papra, and Nextcloud unless the
    * account is an admin). `none`: polling only (Synology).
@@ -167,7 +167,7 @@ export interface PushRequest {
   sha256: string;
   /**
    * Unix seconds. WebDAV sends `X-OC-MTime`, Synology multiplies by 1000.
-   * Without it every file TREK uploads comes back looking freshly changed,
+   * Without it every file Trip Mate uploads comes back looking freshly changed,
    * which is the classic sync loop.
    */
   mtimeSeconds: number;
@@ -256,7 +256,7 @@ export interface DocumentProvider {
    */
   trash(conn: DocumentConnectionRef, scope: DocumentScopeRef, remoteId: string): Promise<DocResult<void>>;
 
-  /** Subscribe to change notifications, where TREK is allowed to do it itself. */
+  /** Subscribe to change notifications, where Trip Mate is allowed to do it itself. */
   registerWebhook?(conn: DocumentConnectionRef, scope: DocumentScopeRef, callbackUrl: string, secret: string): Promise<DocResult<{ subscriptionId: string }>>;
   unregisterWebhook?(conn: DocumentConnectionRef, subscriptionId: string): Promise<DocResult<void>>;
 }

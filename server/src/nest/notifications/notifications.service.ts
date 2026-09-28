@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { ChannelTestResult } from '@trek/shared';
+import type { ChannelTestResult } from '@tripmate/shared';
 import { readEnv, getAppUrl } from '../../app-config';
 import { logDebug, logError } from '../audit/audit-log.logger';
 import { getEventText } from './mailer/email-html';

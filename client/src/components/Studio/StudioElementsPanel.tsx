@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Minus, Quote, Search, Square, X } from 'lucide-react'
-import type { BookElement, BookPageSetup, BookShapeId } from '@trek/shared'
+import type { BookElement, BookPageSetup, BookShapeId } from '@tripmate/shared'
 import { useStudioStore } from '../../store/studioStore'
 import { FRAME_SHAPES, HOLED_SHAPES, SHAPE_GROUPS, SHAPE_PATHS } from './shapes'
 import { GRIDS, defaultGridBox, gridElements } from './grids'

@@ -4,7 +4,7 @@ import { useTranslation } from '../../i18n'
 
 type T = (k: string, p?: Record<string, unknown>) => string
 
-/** The server's "this only went through because TREK_PLUGINS_IGNORE_TREK_RANGE is set" marker. */
+/** The server's "this only went through because TRIPMATE_PLUGINS_IGNORE_TREK_RANGE is set" marker. */
 export interface TrekRangeBypass { trekRange: string | null; hostVersion: string }
 /** What the range-bypass warning needs to say, and what to do if the admin accepts (null = a notice). */
 export interface RangeWarning extends TrekRangeBypass { name: string; onConfirm: (() => void) | null }
@@ -28,16 +28,16 @@ export function bypassChip(b: TrekRangeBypass | null | undefined, t: T) {
 
 /**
  * The Install button for a registry entry the server flagged incompatible, once the
- * operator set TREK_PLUGINS_IGNORE_TREK_RANGE: the server will take the newest version
+ * operator set TRIPMATE_PLUGINS_IGNORE_TREK_RANGE: the server will take the newest version
  * regardless, so the button says exactly that — and carries what the warning has to say
- * first. `title` is the shell's existing "why" line (needs TREK X — this server runs Y).
+ * first. `title` is the shell's existing "why" line (needs Trip Mate X — this server runs Y).
  */
-export function bypassOffer(item: { name: string; trek?: string | null; hostVersion?: string }, t: T, title: string) {
+export function bypassOffer(item: { name: string; tripmate?: string | null; hostVersion?: string }, t: T, title: string) {
   return {
     blocked: false,
     label: t('admin.plugins.installAnyway'),
     title,
-    warn: { name: item.name, trekRange: item.trek ?? null, hostVersion: item.hostVersion ?? '?', onConfirm: null } as RangeWarning,
+    warn: { name: item.name, trekRange: item.tripmate ?? null, hostVersion: item.hostVersion ?? '?', onConfirm: null } as RangeWarning,
   }
 }
 
@@ -45,7 +45,7 @@ export function bypassOffer(item: { name: string; trek?: string | null; hostVers
  * Title + body of the warning, for either mode: a CONFIRM step before a registry install
  * the server would otherwise refuse (`onConfirm` set), or a plain NOTICE after a path that
  * could not ask first — sideload, dev-link, update, dependency download. The copy is the
- * whole point: the admin is accepting that the author never vouched for this TREK and
+ * whole point: the admin is accepting that the author never vouched for this Trip Mate and
  * that, in rare cases, that can cost them data.
  */
 export function rangeWarningCopy(w: RangeWarning, t: T): { title: string; body: string; confirm: boolean } {
@@ -60,7 +60,7 @@ export function rangeWarningCopy(w: RangeWarning, t: T): { title: string; body: 
 }
 
 /**
- * The TREK_PLUGINS_IGNORE_TREK_RANGE warning state behind BOTH admin shells (the desktop
+ * The TRIPMATE_PLUGINS_IGNORE_TREK_RANGE warning state behind BOTH admin shells (the desktop
  * panel and the phone panel render their own dialog/sheet over it). `guard` parks a
  * registry install behind the confirm step when the entry was already flagged
  * incompatible; `notice` shows the after-the-fact warning for a response that carries the

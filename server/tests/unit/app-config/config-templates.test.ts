@@ -16,10 +16,10 @@ const REPO_ROOT = path.join(__dirname, '..', '..', '..', '..');
 
 const envExample = fs.readFileSync(path.join(REPO_ROOT, 'server', '.env.example'), 'utf8');
 const compose = fs.readFileSync(path.join(REPO_ROOT, 'docker-compose.yml'), 'utf8');
-const helmValues = fs.readFileSync(path.join(REPO_ROOT, 'charts', 'trek', 'values.yaml'), 'utf8');
-const helmConfigMap = fs.readFileSync(path.join(REPO_ROOT, 'charts', 'trek', 'templates', 'configmap.yaml'), 'utf8');
-const helmSecret = fs.readFileSync(path.join(REPO_ROOT, 'charts', 'trek', 'templates', 'secret.yaml'), 'utf8');
-const helmDeployment = fs.readFileSync(path.join(REPO_ROOT, 'charts', 'trek', 'templates', 'deployment.yaml'), 'utf8');
+const helmValues = fs.readFileSync(path.join(REPO_ROOT, 'charts', 'tripmate', 'values.yaml'), 'utf8');
+const helmConfigMap = fs.readFileSync(path.join(REPO_ROOT, 'charts', 'tripmate', 'templates', 'configmap.yaml'), 'utf8');
+const helmSecret = fs.readFileSync(path.join(REPO_ROOT, 'charts', 'tripmate', 'templates', 'secret.yaml'), 'utf8');
+const helmDeployment = fs.readFileSync(path.join(REPO_ROOT, 'charts', 'tripmate', 'templates', 'deployment.yaml'), 'utf8');
 
 describe('OVERPASS_TIMEOUT_MS in the templates', () => {
   it('.env.example shows the code default as both the example value and the stated default', () => {
@@ -38,7 +38,7 @@ describe('OVERPASS_TIMEOUT_MS in the templates', () => {
 describe('the Places and Amap switches in the templates', () => {
   // The index is asked by default and the only way to stop that is this
   // variable, so an operator has to be able to find it where they look.
-  const documented = ['TREK_PLACES_ENABLED', 'TREK_PLACES_URL', 'AMAP_API_KEY', 'AMAP_API_SECRET', 'AMAP_API_BASE'];
+  const documented = ['TRIPMATE_PLACES_ENABLED', 'TRIPMATE_PLACES_URL', 'AMAP_API_KEY', 'AMAP_API_SECRET', 'AMAP_API_BASE'];
 
   it('.env.example documents every one of them', () => {
     for (const name of documented) {
@@ -53,17 +53,17 @@ describe('the Places and Amap switches in the templates', () => {
   });
 
   it('the Helm ConfigMap passes through the non-secret ones the values file documents', () => {
-    for (const name of ['TREK_PLACES_ENABLED', 'TREK_PLACES_URL', 'AMAP_API_BASE']) {
+    for (const name of ['TRIPMATE_PLACES_ENABLED', 'TRIPMATE_PLACES_URL', 'AMAP_API_BASE']) {
       expect(helmValues).toContain(`# ${name}:`);
       expect(helmConfigMap).toContain(`${name}: {{ .Values.env.${name} | quote }}`);
     }
   });
 
-  it('the Helm ConfigMap emits TREK_PLACES_ENABLED on presence, since its one useful value is false', () => {
+  it('the Helm ConfigMap emits TRIPMATE_PLACES_ENABLED on presence, since its one useful value is false', () => {
     // A guard of the `if .Values.env.X` shape drops a boolean false, and with
     // it the only setting anyone makes here.
-    expect(helmConfigMap).not.toContain('{{- if .Values.env.TREK_PLACES_ENABLED }}');
-    expect(helmConfigMap).toContain('{{- if not (kindIs "invalid" .Values.env.TREK_PLACES_ENABLED) }}');
+    expect(helmConfigMap).not.toContain('{{- if .Values.env.TRIPMATE_PLACES_ENABLED }}');
+    expect(helmConfigMap).toContain('{{- if not (kindIs "invalid" .Values.env.TRIPMATE_PLACES_ENABLED) }}');
   });
 
   it('the Helm chart carries the Amap credentials in the Secret, never in the ConfigMap', () => {

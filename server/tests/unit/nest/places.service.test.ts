@@ -13,7 +13,7 @@ import { describe, it, expect, vi, beforeAll, beforeEach, afterEach, afterAll } 
 import type { PlacePhotoCacheService } from '../../../src/nest/place-photos/place-photo-cache.service';
 import { UnsplashService } from '../../../src/nest/unsplash/unsplash.service';
 import { RuntimeEnvService } from '../../../src/nest/app-config/runtime-env.service';
-import { TRACK_COLORS, COORD_DEDUP_TOLERANCE } from '@trek/shared';
+import { TRACK_COLORS, COORD_DEDUP_TOLERANCE } from '@tripmate/shared';
 import { ADDRESS_BACKFILL_MAX_PLACES } from '../../../src/nest/places/places.helpers';
 
 // ── DB setup ──────────────────────────────────────────────────────────────────
@@ -76,7 +76,7 @@ import { PlacesService } from '../../../src/nest/places/places.service';
 import { MapsService } from '../../../src/nest/maps/maps.service';
 import { QueryHelpersService } from '../../../src/nest/query-helpers/query-helpers.service';
 import { JourneyDomainService } from '../../../src/nest/journey/journey-domain.service';
-import { TrekPhotosRepository } from '../../../src/nest/photos/trek-photos.repository';
+import { TrekPhotosRepository } from '../../../src/nest/photos/tripmate-photos.repository';
 import { makeStorageFixture } from '../../helpers/storage-fixture';
 
 const GPX_FIXTURE = path.join(__dirname, '../../fixtures/test.gpx');
@@ -1141,7 +1141,7 @@ describe('custom place image reclaim', () => {
 // Three tracks plus a plain waypoint — the shared fixture only has waypoints,
 // and the whole point here is what happens to geometry.
 const GPX_WITH_TRACKS = `<?xml version="1.0" encoding="UTF-8"?>
-<gpx version="1.1" creator="TREK Tests" xmlns="http://www.topografix.com/GPX/1/1">
+<gpx version="1.1" creator="Trip Mate Tests" xmlns="http://www.topografix.com/GPX/1/1">
   <wpt lat="48.8566" lon="2.3522"><name>Trailhead</name></wpt>
   <trk><name>Morning walk</name><trkseg>
     <trkpt lat="48.10" lon="2.10"/><trkpt lat="48.11" lon="2.11"/>
@@ -1691,7 +1691,7 @@ describe('backfillMissingAddresses', () => {
 /**
  * The public door onto the place-matching rule, for importers that need the
  * matched row's id so they can link to it rather than merely knowing a duplicate
- * exists. The rule itself lives in @trek/shared (place-match.ts); these cases pin
+ * exists. The rule itself lives in @tripmate/shared (place-match.ts); these cases pin
  * that this service interprets it faithfully against real SQL.
  */
 describe('findMatchingPlaceId', () => {

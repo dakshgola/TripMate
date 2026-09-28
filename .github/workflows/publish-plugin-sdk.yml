@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   publish:
-    if: github.repository == 'liketrek/TREK'
+    if: github.repository == 'liketrek/Trip Mate'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          # 22 matches the TREK server runtime and has node:sqlite, which the
+          # 22 matches the Trip Mate server runtime and has node:sqlite, which the
           # dev-server tests exercise.
           node-version: 22
           registry-url: 'https://registry.npmjs.org'

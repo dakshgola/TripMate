@@ -63,7 +63,7 @@ export interface SessionSignOptions {
   lifetime?: number;
 }
 
-/** Sign a `trek_session` token the real guard will accept (matching JWT_SECRET + pv). */
+/** Sign a `tripmate_session` token the real guard will accept (matching JWT_SECRET + pv). */
 export function signSession(userId: number, passwordVersion = 0, opts: SessionSignOptions = {}): string {
   const payload: Record<string, unknown> = { id: userId, pv: passwordVersion };
   if (typeof opts.remember === 'boolean') payload.remember = opts.remember;
@@ -77,5 +77,5 @@ export function signSession(userId: number, passwordVersion = 0, opts: SessionSi
 
 /** Convenience: the Cookie header value for a signed session. */
 export function sessionCookie(userId: number, passwordVersion = 0, opts: SessionSignOptions = {}): string {
-  return `trek_session=${signSession(userId, passwordVersion, opts)}`;
+  return `tripmate_session=${signSession(userId, passwordVersion, opts)}`;
 }

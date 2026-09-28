@@ -13,11 +13,11 @@ interface MAdminSheetsProps {
 }
 
 const DOCKER_UPDATE_COMMANDS = `docker pull mauriceboe/trek:latest
-docker stop trek && docker rm trek
-docker run -d --name trek \\
+docker stop tripmate && docker rm tripmate
+docker run -d --name tripmate \\
   -p 3000:3000 \\
-  -v /opt/trek/data:/app/data \\
-  -v /opt/trek/uploads:/app/uploads \\
+  -v /opt/tripmate/data:/app/data \\
+  -v /opt/tripmate/uploads:/app/uploads \\
   --restart unless-stopped \\
   mauriceboe/trek:latest`
 

@@ -25,8 +25,8 @@
  * It must never throw.
  */
 (function () {
-  var PARAM = 'trek-reload';
-  var MARKER = 'trek:shell-reload';
+  var PARAM = 'tripmate-reload';
+  var MARKER = 'tripmate:shell-reload';
   var HEALTH_TIMEOUT_MS = 3000;
 
   try {
@@ -63,7 +63,7 @@
     }
   }
 
-  // Same test as probeNow() in src/sync/connectivity.ts: TREK's own health JSON,
+  // Same test as probeNow() in src/sync/connectivity.ts: Trip Mate's own health JSON,
   // not an edge proxy's login page and not a request that never came back.
   function serverAnswers() {
     var ctrl = typeof AbortController === 'function' ? new AbortController() : null;

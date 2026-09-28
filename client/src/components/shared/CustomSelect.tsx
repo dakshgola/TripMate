@@ -196,7 +196,7 @@ export default function CustomSelect({
           borderRadius: 10,
           boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
           overflow: 'hidden',
-          animation: 'trek-menu-enter 200ms cubic-bezier(0.23, 1, 0.32, 1)',
+          animation: 'tripmate-menu-enter 200ms cubic-bezier(0.23, 1, 0.32, 1)',
           transformOrigin: anchored?.flipped ? 'bottom center' : 'top center',
           willChange: 'transform, opacity',
         }}>

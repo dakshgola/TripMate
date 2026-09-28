@@ -27,7 +27,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -109,7 +109,7 @@ const send = (payload: NotificationPayload) => notifications.send(payload);
 function setSmtp(): void {
   setAppSetting(testDb, 'smtp_host', 'mail.test.com');
   setAppSetting(testDb, 'smtp_port', '587');
-  setAppSetting(testDb, 'smtp_from', 'trek@test.com');
+  setAppSetting(testDb, 'smtp_from', 'tripmate@test.com');
 }
 
 function setUserWebhookUrl(userId: number, url = 'https://hooks.test.com/webhook'): void {
@@ -571,11 +571,11 @@ describe('send() — channel failure resilience', () => {
 
 // ── Ntfy dispatch ─────────────────────────────────────────────────────────────
 
-function setUserNtfyTopic(userId: number, topic = 'my-trek-topic'): void {
+function setUserNtfyTopic(userId: number, topic = 'my-tripmate-topic'): void {
   testDb.prepare("INSERT OR REPLACE INTO settings (user_id, key, value) VALUES (?, 'ntfy_topic', ?)").run(userId, topic);
 }
 
-function setAdminNtfyTopic(topic = 'trek-admin-alerts'): void {
+function setAdminNtfyTopic(topic = 'tripmate-admin-alerts'): void {
   setAppSetting(testDb, 'admin_ntfy_topic', topic);
 }
 

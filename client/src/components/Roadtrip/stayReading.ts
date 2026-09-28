@@ -1,5 +1,5 @@
 import { formatClock, parseClock, type ScheduleEntry } from './roadtripModel'
-import type { RoadtripDay, RoadtripStop } from '@trek/shared/roadtrip'
+import type { RoadtripDay, RoadtripStop } from '@tripmate/shared/roadtrip'
 import type { StayDraft } from './RoadtripStayModal'
 import type { RoadtripStayControl } from './VisitControls'
 

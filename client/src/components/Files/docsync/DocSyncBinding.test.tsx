@@ -1,6 +1,6 @@
 // FE-DOCSYNC-BIND-001 to FE-DOCSYNC-BIND-030
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import en from '@trek/shared/i18n/en'
+import en from '@tripmate/shared/i18n/en'
 import { render, screen, fireEvent, waitFor, within } from '../../../../tests/helpers/render'
 import DocSyncBinding from './DocSyncBinding'
 import type { DocSyncLink, useDocSync } from './useDocSync'
@@ -11,16 +11,16 @@ const syncNow = vi.fn(async (_linkId: number) => ({ state: 'ok', pulled: 0, push
 const updateLink = vi.fn(async (_linkId: number, _patch: Record<string, unknown>) => {})
 const removeLink = vi.fn(async (_linkId: number) => {})
 
-const WEBHOOK = 'https://trek.example/api/trips/3/docsync/hooks/abc123'
+const WEBHOOK = 'https://tripmate.example/api/trips/3/docsync/hooks/abc123'
 
 function makeLink(overrides: Partial<DocSyncLink> = {}): DocSyncLink {
   return {
     id: 4,
     connectionId: 1,
     providerId: 'paperless',
-    scopeKey: 'trek-trip-3',
+    scopeKey: 'tripmate-trip-3',
     remoteLabel: 'Lisbon papers',
-    remoteRootPath: '/TREK/Lisbon',
+    remoteRootPath: '/Trip Mate/Lisbon',
     direction: 'both',
     deletePolicy: 'unlink',
     conflictPolicy: 'manual',
@@ -85,10 +85,10 @@ const openSettings = () => fireEvent.click(screen.getByRole('button', { name: 'S
 
 const rowFor = (label: string) => screen.getByText(label).closest('div') as HTMLElement
 
-const UNLINK_QUESTION = 'Documents stay in TREK and at the store. Only the pairing between them goes.'
+const UNLINK_QUESTION = 'Documents stay in Trip Mate and at the store. Only the pairing between them goes.'
 
 /** The confirmation the disconnect button opens; it renders in a portal. */
-const unlinkDialog = () => within(screen.getByText(UNLINK_QUESTION).closest('.trek-modal-enter') as HTMLElement)
+const unlinkDialog = () => within(screen.getByText(UNLINK_QUESTION).closest('.tripmate-modal-enter') as HTMLElement)
 
 /** Named through the same fallback chain `t()` uses, so the label can land in the locales later. */
 const reconnectButton = () =>
@@ -260,11 +260,11 @@ describe('DocSyncBinding: what it says about itself', () => {
 
   it('FE-DOCSYNC-BIND-012: the folder falls back to the path, then to the scope key', () => {
     const { unmount } = renderCard({ link: { remoteLabel: '' } })
-    expect(screen.getByText('/TREK/Lisbon')).toBeInTheDocument()
+    expect(screen.getByText('/Trip Mate/Lisbon')).toBeInTheDocument()
     unmount()
 
     renderCard({ link: { remoteLabel: '', remoteRootPath: null } })
-    expect(screen.getByText('trek-trip-3')).toBeInTheDocument()
+    expect(screen.getByText('tripmate-trip-3')).toBeInTheDocument()
   })
 
   it('FE-DOCSYNC-BIND-013: names the store it is handed in the header and at the far end of the flow', () => {

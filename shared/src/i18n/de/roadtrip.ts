@@ -12,7 +12,7 @@ const roadtrip: TranslationStrings = {
   'roadtrip.charging.coverage': 'Offene Daten; Abdeckung abhängig von Region und Betreiber.',
   'roadtrip.charging.availability': 'Verfügbarkeit und Tarife',
   'roadtrip.import.title': 'Google-Maps-Route importieren',
-  'roadtrip.import.note': 'Stopps werden an den gewählten Tag angehängt. TREK berechnet die Route neu.',
+  'roadtrip.import.note': 'Stopps werden an den gewählten Tag angehängt. Trip Mate berechnet die Route neu.',
   'roadtrip.import.unresolved': 'Ort nicht gefunden; dieser Stopp wird übersprungen.',
   'roadtrip.import.day': 'Tag',
   'roadtrip.hazards.show': 'Gefahrengebiete anzeigen',
@@ -94,7 +94,8 @@ const roadtrip: TranslationStrings = {
   'roadtrip.limit.afterFill': 'Ein Stopp auf {percent} % bringt {distance}',
   'roadtrip.limit.fullNote': 'Ein Stopp macht wieder voll',
   'roadtrip.limit.rangeEmpty': 'Keine Reichweite',
-  'roadtrip.limit.rangeEmptyHint': 'Trag eine Reichweite ein oder fülle die Felder aus, dann rechnet TREK sie aus.',
+  'roadtrip.limit.rangeEmptyHint':
+    'Trag eine Reichweite ein oder fülle die Felder aus, dann rechnet Trip Mate sie aus.',
   'roadtrip.limit.specHint': 'Fahrzeugdaten bestimmen die Reichweite.',
   'roadtrip.limit.vehicleHint': 'Fahrzeug wählen und Reichweite berechnen.',
   'roadtrip.limit.minutes': 'Min',
@@ -279,7 +280,8 @@ const roadtrip: TranslationStrings = {
   'roadtrip.summary.partial': 'Der Rest der Strecke wird noch berechnet',
   'roadtrip.stay.releaseTitle': 'Übernachtung aufheben?',
   'roadtrip.stay.releaseBody': 'Die Nacht in „{name}“ wird entfernt. Der Stopp bleibt als Pause auf der Fahrt.',
-  'roadtrip.stay.releaseBookedBody': 'Die Nacht in „{name}“ wird zusammen mit der Buchung „{booking}“ und jeder damit verknüpften Ausgabe entfernt. Der Stopp bleibt als Pause auf der Fahrt.',
+  'roadtrip.stay.releaseBookedBody':
+    'Die Nacht in „{name}“ wird zusammen mit der Buchung „{booking}“ und jeder damit verknüpften Ausgabe entfernt. Der Stopp bleibt als Pause auf der Fahrt.',
   'roadtrip.stay.releaseAction': 'Als Pause behalten',
   'roadtrip.ride.departure': 'Abfahrt {time}',
   'roadtrip.ride.arrival': 'Ankunft {time}',

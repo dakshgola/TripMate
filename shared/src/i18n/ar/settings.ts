@@ -24,10 +24,11 @@ const settings: TranslationStrings = {
   'settings.mapTemplatePlaceholder.select': 'اختر قالبًا...',
   'settings.mapDefaultHint': 'اتركه فارغًا لاستخدام OpenStreetMap افتراضيًا',
   'settings.routingBase': 'محرك مسارات خاص',
-  'settings.routingBaseHint': 'خادم OSRM خاص بك. اتركه فارغًا لاستخدام الخوادم العامة التي تسمح بطلب واحد تقريبًا في الثانية — يكفي ليوم واحد، وضيّق لرحلة برية. يسري بعد إعادة تشغيل الخادم.',
+  'settings.routingBaseHint':
+    'خادم OSRM خاص بك. اتركه فارغًا لاستخدام الخوادم العامة التي تسمح بطلب واحد تقريبًا في الثانية — يكفي ليوم واحد، وضيّق لرحلة برية. يسري بعد إعادة تشغيل الخادم.',
   'settings.valhallaBase': 'خادم Valhalla خاص بك',
   'settings.valhallaBaseHint':
-    'يستخدم TREK خدمة Valhalla العامة من FOSSGIS افتراضيًا لتجنب الطرق ذات الرسوم والطرق السريعة والعبّارات. أدخل رابط خادم Valhalla الخاص بك هنا لاستخدامه بدلًا منها. إذا تم إعداد خادم توجيه خاص فقط، فلن تُستخدم خدمة Valhalla العامة. بعد إدخال رابط خاص، أعد تشغيل الخادم وحمّل الصفحة مجددًا.',
+    'يستخدم Trip Mate خدمة Valhalla العامة من FOSSGIS افتراضيًا لتجنب الطرق ذات الرسوم والطرق السريعة والعبّارات. أدخل رابط خادم Valhalla الخاص بك هنا لاستخدامه بدلًا منها. إذا تم إعداد خادم توجيه خاص فقط، فلن تُستخدم خدمة Valhalla العامة. بعد إدخال رابط خاص، أعد تشغيل الخادم وحمّل الصفحة مجددًا.',
   'settings.mapHint': 'قالب URL لبلاطات الخريطة',
   'settings.mapProvider': 'مزود الخريطة',
   'settings.mapProviderHint': 'يؤثر على خرائط Trip Planner و Journey. يستخدم Atlas دائمًا Leaflet.',
@@ -42,7 +43,7 @@ const settings: TranslationStrings = {
   'settings.mapCartoKeyHint': 'تعرض خرائط CARTO الأساسية علامة مائية بدون مفتاح. مجاني وبدون حساب، من',
   'settings.mapCartoKeyLink': 'مفتاح API لخرائط carto.com الأساسية',
   'settings.mapCartoKeyMissing':
-    'هذا القالب خريطة أساسية من CARTO. بدون مفتاح تطبع CARTO عبارة "API KEY REQUIRED" على كل بلاطة. إلى أن تُدخل مفتاحًا، تعرض TREK الخريطة الأساسية الافتراضية بدلاً منها.',
+    'هذا القالب خريطة أساسية من CARTO. بدون مفتاح تطبع CARTO عبارة "API KEY REQUIRED" على كل بلاطة. إلى أن تُدخل مفتاحًا، تعرض Trip Mate الخريطة الأساسية الافتراضية بدلاً منها.',
   'settings.mapStyle': 'نمط الخريطة',
   'settings.mapStylePlaceholder': 'اختر نمط Mapbox',
   'settings.mapStyleHint': 'إعداد مسبق أو عنوان URL mapbox://styles/USER/ID خاص بك',
@@ -212,17 +213,17 @@ const settings: TranslationStrings = {
   'settings.about.featureRequestHint': 'اقترح ميزة جديدة',
   'settings.about.wikiHint': 'التوثيق والأدلة',
   'settings.about.descriptionManaged':
-    'TREK helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
+    'Trip Mate helps you organize your trips from the first idea to the last memory. Day planning, budget, packing lists, photos and much more — all in one place.',
   'settings.about.sourceTitle': 'Source code',
-  'settings.about.sourceHint': 'TREK is open source, licensed AGPL-3.0',
+  'settings.about.sourceHint': 'Trip Mate is open source, licensed AGPL-3.0',
   'settings.about.supporters.badge': 'الداعمون الشهريون',
-  'settings.about.supporters.title': 'رفاق رحلة TREK',
+  'settings.about.supporters.title': 'رفاق رحلة Trip Mate',
   'settings.about.supporters.subtitle':
-    'بينما تخطّط لمسارك التالي، يساعد هؤلاء الأشخاص في التخطيط لمستقبل TREK. تذهب مساهمتهم الشهرية مباشرةً إلى التطوير والساعات الفعلية المبذولة — حتى يظلّ TREK مفتوح المصدر.',
+    'بينما تخطّط لمسارك التالي، يساعد هؤلاء الأشخاص في التخطيط لمستقبل Trip Mate. تذهب مساهمتهم الشهرية مباشرةً إلى التطوير والساعات الفعلية المبذولة — حتى يظلّ Trip Mate مفتوح المصدر.',
   'settings.about.supporters.since': 'داعم منذ {date}',
   'settings.about.supporters.tierEmpty': 'كن الأول',
   'settings.about.description':
-    'TREK هو مخطط سفر مستضاف ذاتيًا يساعدك على تنظيم رحلاتك من أول فكرة حتى آخر ذكرى. تخطيط يومي، ميزانية، قوائم تعبئة، صور والمزيد — كل شيء في مكان واحد، على خادمك الخاص.',
+    'Trip Mate هو مخطط سفر مستضاف ذاتيًا يساعدك على تنظيم رحلاتك من أول فكرة حتى آخر ذكرى. تخطيط يومي، ميزانية، قوائم تعبئة، صور والمزيد — كل شيء في مكان واحد، على خادمك الخاص.',
   'settings.about.madeWith': 'صُنع بـ',
   'settings.about.madeBy': 'بواسطة موريس ومجتمع مفتوح المصدر متنامٍ.',
   'settings.username': 'اسم المستخدم',
@@ -299,7 +300,7 @@ const settings: TranslationStrings = {
   'settings.notificationPreferences.pluginConfigured': 'تم الإعداد. أدر بيانات الاعتماد من صفحة إعدادات الإضافة.',
   'settings.notificationPreferences.ntfy': 'Ntfy', // en-fallback
   'settings.webhookUrl.placeholder': 'https://discord.com/api/webhooks/...', // en-fallback
-  'settings.ntfyUrl.topicPlaceholder': 'my-trek-alerts', // en-fallback
+  'settings.ntfyUrl.topicPlaceholder': 'my-tripmate-alerts', // en-fallback
   'settings.ntfyUrl.serverPlaceholder': 'https://ntfy.sh', // en-fallback
   'settings.oauth.modal.redirectUrisPlaceholder': 'https://your-app.com/callback\nhttps://your-app.com/auth', // en-fallback
   'settings.about.supporter.tier.noReturnTicket': 'No Return Ticket', // en-fallback
@@ -347,7 +348,7 @@ const settings: TranslationStrings = {
   'settings.airtrail.allowInsecureTlsHint': 'فعّل هذا فقط لنسخة موثوقة على شبكتك الخاصة.',
   'settings.airtrail.writeBack': 'كتابة التغييرات إلى AirTrail',
   'settings.airtrail.writeBackHint':
-    'مُعطّل افتراضيًا: AirTrail هو مصدر الحقيقة وTREK يقرأ منه فقط. فعّله لإرسال التعديلات التي تجريها في TREK إلى AirTrail.',
+    'مُعطّل افتراضيًا: AirTrail هو مصدر الحقيقة وTrip Mate يقرأ منه فقط. فعّله لإرسال التعديلات التي تجريها في Trip Mate إلى AirTrail.',
   'settings.airtrail.connected': 'متصل',
   'settings.airtrail.notConnected': 'غير متصل',
   'settings.airtrail.toast.saved': 'تم حفظ اتصال AirTrail',
@@ -458,7 +459,7 @@ const settings: TranslationStrings = {
   'settings.startPageDashboard': 'لوحة التحكم',
   'settings.startPageActiveTrip': 'الرحلة النشطة',
   'settings.startPageHint':
-    'يفتح TREK مباشرةً على الرحلة الجارية، وإن لم توجد فعلى الرحلة القادمة التالية. وهي نفس الرحلة التي تبرزها لوحة التحكم.',
+    'يفتح Trip Mate مباشرةً على الرحلة الجارية، وإن لم توجد فعلى الرحلة القادمة التالية. وهي نفس الرحلة التي تبرزها لوحة التحكم.',
   'settings.startTripTab': 'علامة تبويب البدء',
   'settings.startTripTabHint':
     'علامة التبويب التي تفتح بها الرحلة. إذا كانت تابعة لإضافة أوقفت تشغيلها، تُفتح الخطة بدلاً منها.',
@@ -495,7 +496,8 @@ const settings: TranslationStrings = {
   'settings.offline.notice.offline': 'لا يوجد اتصال. اتصل بالإنترنت لحفظ الرحلات للاستخدام دون اتصال.',
   'settings.offline.notice.signedOut': 'انتهت جلستك. سجّل الدخول مرة أخرى للمزامنة.',
   'settings.offline.notice.failed': 'تعذّر إكمال التنزيل. تحقّق من اتصالك ثم حاول مرة أخرى.',
-  'settings.offline.notice.loadFailed': 'تعذّرت قراءة التخزين غير المتصل على هذا الجهاز. عادةً ما يُصلِح مسح الذاكرة المؤقتة المشكلة.',
+  'settings.offline.notice.loadFailed':
+    'تعذّرت قراءة التخزين غير المتصل على هذا الجهاز. عادةً ما يُصلِح مسح الذاكرة المؤقتة المشكلة.',
   'settings.offline.clear': 'مسح ذاكرة التخزين المؤقت',
   'settings.offline.clearConfirm':
     'هل تريد مسح جميع بيانات الرحلة المخزّنة دون اتصال؟ يمكنك إعادة المزامنة في أي وقت أثناء الاتصال.',
@@ -554,7 +556,8 @@ const settings: TranslationStrings = {
   'settings.apiScopes.bucket-list': 'قائمة الأمنيات',
   'settings.apiScopes.stats': 'الإجماليات',
   'settings.apiKeys.title': 'مفاتيح API',
-  'settings.apiKeys.description': 'مفاتيح لواجهة API العامة، حتى تتمكن برامج أخرى من قراءة رحلاتك. للقراءة فقط: لا يمكن للمفتاح تغيير أي شيء أو حذفه.',
+  'settings.apiKeys.description':
+    'مفاتيح لواجهة API العامة، حتى تتمكن برامج أخرى من قراءة رحلاتك. للقراءة فقط: لا يمكن للمفتاح تغيير أي شيء أو حذفه.',
   'settings.apiKeys.create': 'إنشاء مفتاح',
   'settings.apiKeys.empty': 'لا توجد مفاتيح بعد. أنشئ مفتاحًا لربط برامج أخرى.',
   'settings.apiKeys.createdAt': 'أُنشئ',
@@ -569,7 +572,8 @@ const settings: TranslationStrings = {
   'settings.apiKeys.endpoint': 'نقطة النهاية',
   'settings.apiKeys.neverUsed': 'لم يُستخدم قط',
   'settings.apiKeys.loadFailed': 'تعذّر تحميل مفاتيحك. أعد تحميل الصفحة للمحاولة مرة أخرى.',
-  'settings.apiKeys.limitReached': 'لديك {max} مفاتيح، وهو الحد الأقصى للحساب الواحد. احذف مفتاحًا لم تعد تستخدمه لإنشاء مفتاح جديد.',
+  'settings.apiKeys.limitReached':
+    'لديك {max} مفاتيح، وهو الحد الأقصى للحساب الواحد. احذف مفتاحًا لم تعد تستخدمه لإنشاء مفتاح جديد.',
   'settings.apiKeys.copyFailed': 'تعذّر النسخ. حدّد النص وانسخه يدويًا.',
   'settings.apiKeys.modal.createTitle': 'إنشاء مفتاح API',
   'settings.apiKeys.modal.name': 'الاسم',

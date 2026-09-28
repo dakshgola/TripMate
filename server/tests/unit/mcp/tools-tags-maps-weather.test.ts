@@ -27,7 +27,7 @@ const { testDb, dbMock } = vi.hoisted(() => {
 
 vi.mock('../../../src/db/database', () => dbMock);
 vi.mock('../../../src/config', () => ({
-  JWT_SECRET: 'test-jwt-secret-for-trek-testing-only',
+  JWT_SECRET: 'test-jwt-secret-for-tripmate-testing-only',
   ENCRYPTION_KEY: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2a3b4c5d6a7b8c9d0e1f2',
   updateJwtSecret: () => {},
 }));
@@ -40,7 +40,7 @@ vi.mock('../../../src/nest/weather/weather.impl', () => ({
   getDetailedWeather: vi.fn().mockResolvedValue({ hourly: [] }),
 }));
 
-// MapsService.pois() asks the TREK Places index before Overpass, and the real
+// MapsService.pois() asks the Trip Mate Places index before Overpass, and the real
 // client would send that request from a unit test. The gate above it is left
 // alone on purpose: it fails open, so these cases run on the shipping default
 // with the index answering nothing, which is the drop-through they are about.
@@ -51,8 +51,8 @@ const { trekNearbyMock } = vi.hoisted(() => ({
     _opts?: { radius?: number; limit?: number; category?: string },
   ): Promise<unknown[]> => []),
 }));
-vi.mock('../../../src/nest/maps/trek-places.client', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('../../../src/nest/maps/trek-places.client')>()),
+vi.mock('../../../src/nest/maps/tripmate-places.client', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../../../src/nest/maps/tripmate-places.client')>()),
   trekPlacesNearby: trekNearbyMock,
 }));
 
@@ -455,7 +455,7 @@ describe('Tool: search_pois', () => {
   // Overpass is the fallback now, not the first stop. `source` stays
   // 'openstreetmap' because the client switches on it and these are the same
   // places; where they were read is this method's business, not the pill's.
-  it('answers from the TREK Places index and leaves Overpass alone', async () => {
+  it('answers from the Trip Mate Places index and leaves Overpass alone', async () => {
     const { user } = createUser(testDb);
     vi.mocked(MapsService.prototype.searchOverpassPois).mockClear();
     trekNearbyMock.mockClear();
@@ -487,8 +487,8 @@ describe('Tool: search_pois', () => {
       // The answer names the index that produced it, over MCP as over REST. An
       // assistant reading `source` to attribute the data would otherwise credit
       // OpenStreetMap for rows Overture carries under other licences.
-      expect(data.source).toBe('trek-places');
-      expect(data.pois[0].source).toBe('trek-places');
+      expect(data.source).toBe('tripmate-places');
+      expect(data.pois[0].source).toBe('tripmate-places');
       expect(data.clamped).toBe(false);
       expect(MapsService.prototype.searchOverpassPois).not.toHaveBeenCalled();
 

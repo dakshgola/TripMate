@@ -11,7 +11,7 @@ import { resetAllStores, seedStore } from '../../../tests/helpers/store';
 import { buildUser, buildTrip, buildDay, buildAssignment, buildPlace, buildReservation, buildBudgetItem } from '../../../tests/helpers/factories';
 import { server } from '../../../tests/helpers/msw/server';
 import type { Accommodation, BudgetItem, Reservation, Trip } from '../../types';
-import { MAX_TRIP_DAYS } from '@trek/shared';
+import { MAX_TRIP_DAYS } from '@tripmate/shared';
 import TripFormModal from './TripFormModal';
 
 const defaultProps = {

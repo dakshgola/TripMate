@@ -1,6 +1,6 @@
 # Updating
 
-How to update TREK to a newer version without losing data.
+How to update Trip Mate to a newer version without losing data.
 
 ## Before You Update
 
@@ -36,12 +36,12 @@ docker compose up -d
 
 ## Docker Run
 
-If you started TREK with `docker run`, pull the new image and replace the container:
+If you started Trip Mate with `docker run`, pull the new image and replace the container:
 
 ```bash
 docker pull mauriceboe/trek
-docker rm -f trek
-docker run -d --name trek -p 3000:3000 \
+docker rm -f tripmate
+docker run -d --name tripmate -p 3000:3000 \
   -v ./data:/app/data \
   -v ./uploads:/app/uploads \
   -e ENCRYPTION_KEY=<your-key> \
@@ -51,16 +51,16 @@ docker run -d --name trek -p 3000:3000 \
 
 > **Tip:** Not sure which volume paths you used? Check before removing:
 > ```bash
-> docker inspect trek --format '{{json .Mounts}}'
+> docker inspect tripmate --format '{{json .Mounts}}'
 > ```
 
 ## Helm (Kubernetes)
 
-> **⚠️ Chart repository moved:** The Helm chart is no longer served at `https://mauriceboe.github.io/TREK` (the project moved from a personal repo to the `liketrek` organization). The canonical chart URL is now `https://chart.liketrek.com` — a custom domain (CNAME) for the GitHub Pages site at `https://liketrek.github.io/TREK`, so it stays stable even if the repository moves again. If your `trek` repo still points to an old URL, switch it before updating:
+> **⚠️ Chart repository moved:** The Helm chart is no longer served at `https://mauriceboe.github.io/Trip Mate` (the project moved from a personal repo to the `liketrek` organization). The canonical chart URL is now `https://chart.liketrek.com` — a custom domain (CNAME) for the GitHub Pages site at `https://liketrek.github.io/Trip Mate`, so it stays stable even if the repository moves again. If your `tripmate` repo still points to an old URL, switch it before updating:
 >
 > ```bash
-> helm repo remove trek
-> helm repo add trek https://chart.liketrek.com
+> helm repo remove tripmate
+> helm repo add tripmate https://chart.liketrek.com
 > ```
 >
 > You can check which URL you have configured with `helm repo list`. Existing releases are unaffected — only the repo URL changes.
@@ -69,7 +69,7 @@ To update to the newest chart release:
 
 ```bash
 helm repo update
-helm upgrade trek trek/trek
+helm upgrade tripmate tripmate/tripmate
 ```
 
 Your existing values and PVCs (data, uploads) are preserved. To pin an exact chart version instead, pass `--version <x.y.z>`.
@@ -78,11 +78,11 @@ See [Install-Helm](Install-Helm) for the full installation walkthrough and value
 
 ## Database Migrations
 
-TREK runs any pending database migrations automatically at startup. No manual migration steps are required after pulling a new image.
+Trip Mate runs any pending database migrations automatically at startup. No manual migration steps are required after pulling a new image.
 
 ## After the Update
 
-The first time a user opens TREK on the desktop after an update, a notice headed **Update installed** opens on top of the app: three cards with the headline features of that release, a note from the maintainer, a **Release notes** link to the full notes on GitHub, and links for supporting the project. Every user sees it once per version. Closing it keeps it closed on that version, and the next update brings it back, a patch release included. The phone does not show it.
+The first time a user opens Trip Mate on the desktop after an update, a notice headed **Update installed** opens on top of the app: three cards with the headline features of that release, a note from the maintainer, a **Release notes** link to the full notes on GitHub, and links for supporting the project. Every user sees it once per version. Closing it keeps it closed on that version, and the next update brings it back, a patch release included. The phone does not show it.
 
 The full notes for every version are also in the admin panel under the **GitHub** tab. See [Admin-GitHub-Releases](Admin-GitHub-Releases).
 
@@ -90,7 +90,7 @@ The full notes for every version are also in the admin panel under the **GitHub*
 
 A few defaults change with 4.3.0. None of them needs a manual step, but they are worth knowing before you pull the image:
 
-- **Place search asks a new service.** Suggestions, the full search, the category buttons, import geocoding, offline downloads and the Road trip search now ask the TREK Places API at `https://places.liketrek.com`, so your server makes outbound requests to that host. Set `TREK_PLACES_ENABLED=false` to keep searching the way it did before, or `TREK_PLACES_URL` to point at a copy you run yourself. [TREK-Places-API](TREK-Places-API) lists what is sent.
+- **Place search asks a new service.** Suggestions, the full search, the category buttons, import geocoding, offline downloads and the Road trip search now ask the Trip Mate Places API at `https://places.liketrek.com`, so your server makes outbound requests to that host. Set `TRIPMATE_PLACES_ENABLED=false` to keep searching the way it did before, or `TRIPMATE_PLACES_URL` to point at a copy you run yourself. [Trip Mate-Places-API](Trip Mate-Places-API) lists what is sent.
 - **New variables.** `NOMINATIM_URL` points every geocoding call at a Nominatim of your own, `ALLOW_LINK_LOCAL_IPS` lets a rootless Podman container reach its host gateway, and `AMAP_API_KEY`, `AMAP_API_SECRET` and `AMAP_API_BASE` put Amap into place search for mainland China. All of them are optional. See [Environment-Variables](Environment-Variables).
 - **`OVERPASS_TIMEOUT_MS` now defaults to `25000`** instead of `12000`. If you set a lower value by hand, remove it: the query gives Overpass 20 seconds of work, and a shorter timeout hangs up on answers that were still coming.
 - **SSO sessions on an OIDC-only instance last 30 days.** The login page sends `remember=1` on that path, so the session gets the `SESSION_DURATION_REMEMBER` lifetime (default `30d`) instead of `SESSION_DURATION` (default `24h`). Lower `SESSION_DURATION_REMEMBER` if that is too long. With password login on, the SSO button follows the Remember-me switch instead. See [OIDC-SSO](OIDC-SSO).
@@ -106,19 +106,19 @@ Two things change with 4.3.1. Neither needs a manual step on Docker, but they ar
 
 ## Encryption Key Note
 
-If you are upgrading from a version that predates the dedicated `ENCRYPTION_KEY` (i.e. you have no `ENCRYPTION_KEY` environment variable set), TREK automatically falls back to `./data/.jwt_secret` on startup and immediately promotes it to `./data/.encryption_key`. No manual steps are required — the transition is handled at first boot after the upgrade.
+If you are upgrading from a version that predates the dedicated `ENCRYPTION_KEY` (i.e. you have no `ENCRYPTION_KEY` environment variable set), Trip Mate automatically falls back to `./data/.jwt_secret` on startup and immediately promotes it to `./data/.encryption_key`. No manual steps are required — the transition is handled at first boot after the upgrade.
 
 If you want to rotate to a new key at any point (not required for a normal update), see [Encryption-Key-Rotation](Encryption-Key-Rotation) for the full procedure.
 
 ## Proxmox VE (LXC)
 
-If you installed TREK via the [Proxmox VE Community Scripts](https://community-scripts.org/scripts/trek), run the following command inside the **LXC container** and select **Update** when prompted:
+If you installed Trip Mate via the [Proxmox VE Community Scripts](https://community-scripts.org/scripts/tripmate), run the following command inside the **LXC container** and select **Update** when prompted:
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/trek.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/tripmate.sh)"
 ```
 
-> **Tip:** Always check the [community-scripts TREK page](https://community-scripts.org/scripts/trek) to confirm the latest command before running.
+> **Tip:** Always check the [community-scripts Trip Mate page](https://community-scripts.org/scripts/tripmate) to confirm the latest command before running.
 
 The script stops the service, backs up your data and uploads, applies the new release, restores the backup, and restarts. No manual steps required.
 
@@ -126,12 +126,12 @@ To verify the update completed and check for errors:
 
 ```bash
 # Inside the container (pct enter <id> from the Proxmox shell)
-journalctl -u trek -n 50
+journalctl -u tripmate -n 50
 ```
 
 ## Portainer
 
-Open the **Stacks** list, click the TREK stack, then click **Redeploy**.
+Open the **Stacks** list, click the Trip Mate stack, then click **Redeploy**.
 
 **`latest` or major-version tag** — enable the **Re-pull image and redeploy** switch before confirming. Portainer pulls the newest matching image and recreates the container.
 
@@ -147,7 +147,7 @@ See [Install-Portainer](Install-Portainer) for the full installation walkthrough
 
 ## Unraid
 
-In the Unraid Docker tab, click the TREK container and select **Update**. Unraid will pull the latest image and restart with the same volumes.
+In the Unraid Docker tab, click the Trip Mate container and select **Update**. Unraid will pull the latest image and restart with the same volumes.
 
 ## Next Steps
 

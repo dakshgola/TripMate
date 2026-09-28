@@ -5,7 +5,7 @@ import {
   FolderInput, Layers, List, Loader2, Map as MapIcon, Pencil, Plus, Search, Share2,
   Tag, Tags, Trash2, X,
 } from 'lucide-react'
-import type { CollectionStatus } from '@trek/shared'
+import type { CollectionStatus } from '@tripmate/shared'
 import MDancingTrek, { type TrekScene } from '../../components/MDancingTrek'
 import { useCollections } from '../../../pages/collections/useCollections'
 import { STATUS_ORDER } from '../../../pages/collections/collectionsModel'

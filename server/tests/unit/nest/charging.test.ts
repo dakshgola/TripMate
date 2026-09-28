@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { chargingLookupSchema } from '@trek/shared';
+import { chargingLookupSchema } from '@tripmate/shared';
 import { ChargingService, empty } from '../../../src/nest/roadtrip/charging.service';
 import { ChargingLookupController, ChargingLookupDto } from '../../../src/nest/roadtrip/charging-lookup.controller';
 import { ChargingMcp } from '../../../src/nest/roadtrip/charging.mcp';

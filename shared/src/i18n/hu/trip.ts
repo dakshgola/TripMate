@@ -34,7 +34,7 @@ const trip: TranslationStrings = {
   'trip.loadingSteps.arrive': 'Mindjárt ott vagyunk...',
   'trip.invite.linkTitle': 'Meghívó link az utazáshoz',
   'trip.invite.linkHint':
-    'Bárki, akinek van TREK-fiókja és megnyitja ezt a linket, tagként csatlakozik az utazáshoz. A régi link érvénytelenítéséhez hozz létre újat.',
+    'Bárki, akinek van Trip Mate-fiókja és megnyitja ezt a linket, tagként csatlakozik az utazáshoz. A régi link érvénytelenítéséhez hozz létre újat.',
   'trip.invite.create': 'Meghívó link létrehozása',
   'trip.invite.regenerate': 'Újragenerálás',
   'trip.invite.disable': 'Letiltás',
@@ -64,7 +64,8 @@ const trip: TranslationStrings = {
   'transit.search': 'Keresés',
   'transit.searching': 'Keresés…',
   'transit.searchError': 'Az útvonalkeresés nem sikerült. Kérjük, próbáld újra.',
-  'transit.noResultsVia': 'Nem található összeköttetés a következőn keresztül: {provider}. Próbálj más időpontot vagy szűrőket.',
+  'transit.noResultsVia':
+    'Nem található összeköttetés a következőn keresztül: {provider}. Próbálj más időpontot vagy szűrőket.',
   'transit.noResults': 'Nem található kapcsolat. Próbálj másik időpontot vagy szűrőket.',
   'transit.direct': 'Közvetlen',
   'transit.transfers': '{count} átszállás',

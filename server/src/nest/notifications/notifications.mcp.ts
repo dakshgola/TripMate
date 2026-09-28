@@ -19,7 +19,7 @@ function jsonContent(uri: string, data: unknown) {
 
 /**
  * Notifications MCP surface — ported 1:1 from the legacy registrars: the five
- * tools from src/mcp/tools/notifications.ts and the trek://notifications/in-app
+ * tools from src/mcp/tools/notifications.ts and the tripmate://notifications/in-app
  * resource from src/mcp/resources.ts (identical names, descriptions, zod input
  * schemas, annotations and error/payload shapes — including the legacy
  * 'Notification not found.' wording, which differs from the REST route's
@@ -114,7 +114,7 @@ export class NotificationsMcp {
 
   @Resource({
     name: 'notifications-in-app',
-    uri: 'trek://notifications/in-app',
+    uri: 'tripmate://notifications/in-app',
     description: "The current user's in-app notifications (most recent 50)",
     mimeType: 'application/json',
     access: { group: 'notifications', mode: 'read' },

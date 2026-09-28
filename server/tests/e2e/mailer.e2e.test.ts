@@ -36,7 +36,7 @@ vi.mock('../../src/websocket', () => ({ broadcastToUser: vi.fn(), broadcast: vi.
 vi.mock('../../src/nest/audit/audit-log.logger', () => ({ LOG_LEVEL: 'error', logInfo: vi.fn(), logDebug: vi.fn(), logError: vi.fn(), logWarn: vi.fn() }));
 vi.mock('../../src/app-config', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../src/app-config')>();
-  return { ...actual, getAppUrl: () => 'https://trek.example' };
+  return { ...actual, getAppUrl: () => 'https://tripmate.example' };
 });
 
 const { wire } = vi.hoisted(() => ({ wire: [] as string[] }));
@@ -64,7 +64,7 @@ import { runMigrations } from '../../src/db/migrations';
 import { createUser } from '../helpers/factories';
 import { AuthModule } from '../../src/nest/auth/auth.module';
 import { DatabaseModule } from '../../src/nest/database/database.module';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
 
 interface MimePart {
@@ -115,7 +115,7 @@ describe('Mailer e2e: the header logo in a mail on the wire (#2507)', () => {
     const setting = db.prepare('INSERT OR REPLACE INTO app_settings (key, value) VALUES (?, ?)');
     setting.run('smtp_host', 'mail.internal.example');
     setting.run('smtp_port', '587');
-    setting.run('smtp_from', 'trek@example.test');
+    setting.run('smtp_from', 'tripmate@example.test');
     app = await build();
     server = app.getHttpServer();
 
@@ -155,6 +155,6 @@ describe('Mailer e2e: the header logo in a mail on the wire (#2507)', () => {
   it('the plain-text alternative stays first and untouched', () => {
     const parts = leafParts(wire[0]);
     expect(parts[0].headers).toMatch(/^Content-Type: text\/plain/im);
-    expect(partText(parts[0])).toContain('https://trek.example/reset-password?token=');
+    expect(partText(parts[0])).toContain('https://tripmate.example/reset-password?token=');
   });
 });

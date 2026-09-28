@@ -1,9 +1,9 @@
 import { SetMetadata } from '@nestjs/common';
 
 /** Metadata key `@Public()` writes. */
-export const IS_PUBLIC = 'trek:public';
+export const IS_PUBLIC = 'tripmate:public';
 /** Metadata key `@OptionalAuth()` writes. */
-export const OPTIONAL_AUTH = 'trek:optional-auth';
+export const OPTIONAL_AUTH = 'tripmate:optional-auth';
 
 /**
  * Marks a route as reachable without a session, under the global auth guard.

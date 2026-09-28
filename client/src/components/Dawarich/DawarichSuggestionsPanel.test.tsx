@@ -32,7 +32,7 @@ import React from 'react'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, act, within } from '../../../tests/helpers/render'
 import { fireEvent } from '@testing-library/react'
-import type { DawarichSuggestion } from '@trek/shared'
+import type { DawarichSuggestion } from '@tripmate/shared'
 import type { Place } from '../../types'
 import type { DawarichSuggestionsState } from '../../hooks/useDawarichSuggestions'
 import { useTripStore } from '../../store/tripStore'
@@ -273,10 +273,10 @@ describe('DawarichSuggestionsPanel: the list', () => {
     S = hookState({
       status: 'ready',
       suggestions: [stay({ id: 1, localDate: '2026-09-10' })],
-      lastSyncError: 'Dawarich asked TREK to slow down. Try again shortly.',
+      lastSyncError: 'Dawarich asked Trip Mate to slow down. Try again shortly.',
     })
     panel({ trips: TRIPS })
-    expect(screen.getByText('Dawarich asked TREK to slow down. Try again shortly.')).toBeInTheDocument()
+    expect(screen.getByText('Dawarich asked Trip Mate to slow down. Try again shortly.')).toBeInTheDocument()
   })
 
   it('FE-DAWARICH-PANEL-012: a row carries the flags worth interrupting for, and gone beats changed', () => {

@@ -8,7 +8,7 @@ import { collectionsApi } from '../../api/collections'
 import StatusBadge from './StatusBadge'
 import { useSaveToCollectionStore } from '../../store/saveToCollectionStore'
 import { getApiErrorMessage } from '../../utils/apiError'
-import type { Collection, CollectionMembership, CollectionStatus } from '@trek/shared'
+import type { Collection, CollectionMembership, CollectionStatus } from '@tripmate/shared'
 
 /**
  * Globally-mounted list picker for the "Save to Collection" entry points

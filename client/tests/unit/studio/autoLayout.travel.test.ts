@@ -7,9 +7,9 @@ import { describe, it, expect, vi } from 'vitest'
  * in Studio — so the set is empty here on purpose.
  */
 vi.mock('../../../src/components/Studio/bookTemplates.data', () => ({ SPREAD_TEMPLATES: [] }))
-import type { BookPageSetup, BookSpread, JourneyStats } from '@trek/shared'
+import type { BookPageSetup, BookSpread, JourneyStats } from '@tripmate/shared'
 import { buildBook, emptyBook, type AutoEntry, type AutoInput } from '../../../src/components/Studio/autoLayout'
-import { bookPageSetupSchema } from '@trek/shared'
+import { bookPageSetupSchema } from '@tripmate/shared'
 
 /**
  * The auto layout, once it knows what the journey adds up to (#1973).

@@ -5,7 +5,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RequirePermission, TripAccessGuard } from '../permissions/trip-access.guard';
 import { RoadtripPreferencesService } from './roadtrip-preferences.service';
 import { Body, Controller, Get, Headers, Param, Put, UseGuards } from '@nestjs/common';
-import { roadtripPreferencesUpdateSchema } from '@trek/shared';
+import { roadtripPreferencesUpdateSchema } from '@tripmate/shared';
 
 import { createZodDto } from 'nestjs-zod';
 

@@ -2,7 +2,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { act, renderHook, waitFor } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
-import type { BudgetUnconverted } from '@trek/shared'
+import type { BudgetUnconverted } from '@tripmate/shared'
 import { server } from '../../../tests/helpers/msw/server'
 import { resetAllStores, seedStore } from '../../../tests/helpers/store'
 import { buildBudgetItem } from '../../../tests/helpers/factories'

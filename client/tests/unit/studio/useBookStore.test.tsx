@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { act, renderHook } from '@testing-library/react'
-import type { BookDocument, BookRecord } from '@trek/shared'
+import type { BookDocument, BookRecord } from '@tripmate/shared'
 
 /**
  * Autosaving a Studio book (#1973).

@@ -32,13 +32,13 @@
 # Procedure:
 #   docker compose -f docker-compose.minio-test.yml up -d
 #   docker compose -f docker-compose.minio-test.yml ps   # wait for "healthy"
-#   cd server && TREK_TEST_S3_ENDPOINT=http://127.0.0.1:9000 \
-#     TREK_TEST_S3_BUCKET=trek-test TREK_TEST_S3_ACCESS_KEY_ID=trekci \
-#     TREK_TEST_S3_SECRET_ACCESS_KEY=trekci-secret \
+#   cd server && TRIPMATE_TEST_S3_ENDPOINT=http://127.0.0.1:9000 \
+#     TRIPMATE_TEST_S3_BUCKET=tripmate-test TRIPMATE_TEST_S3_ACCESS_KEY_ID=trekci \
+#     TRIPMATE_TEST_S3_SECRET_ACCESS_KEY=trekci-secret \
 #     npx vitest run tests/unit/nest/storage/s3.driver.contract.test.ts
 #   (optional) UI check: with the app running against this instance, open
 #   Admin → Storage, add an S3 backend (endpoint http://127.0.0.1:9000,
-#   bucket trek-test, access key trekci, secret trekci-secret), press Test
+#   bucket tripmate-test, access key trekci, secret trekci-secret), press Test
 #   on its row and confirm "Connection OK".
 #   docker compose -f docker-compose.minio-test.yml down -v
 services:

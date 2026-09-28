@@ -219,7 +219,7 @@ function PluginSettingsForm({ id, name, icon }: { id: string; name: string; icon
  * client/settings.html framed inside the familiar settings card. Unlike the
  * declared-fields form above, the plugin renders this itself — same opaque-origin
  * sandbox and postMessage bridge as its widget, so it can only reach its own
- * routes. The frame auto-sizes via trek:resize like a dashboard widget.
+ * routes. The frame auto-sizes via tripmate:resize like a dashboard widget.
  */
 function PluginSettingsUiCard({ id, name, icon }: { id: string; name: string; icon: string | null }) {
   return (
@@ -228,7 +228,7 @@ function PluginSettingsUiCard({ id, name, icon }: { id: string; name: string; ic
         <PluginIcon name={icon} className="w-4 h-4 text-content-secondary" />
         <h3 className="text-sm font-semibold text-content">{name}</h3>
       </div>
-      {/* min-height covers the beat before the frame's first trek:resize lands.
+      {/* min-height covers the beat before the frame's first tripmate:resize lands.
           color-scheme light on the frame element matches the sandboxed document's
           default ("normal"): mismatched schemes make Chromium paint an opaque
           white canvas behind the transparent frame (same trap .hero-overlay-frame

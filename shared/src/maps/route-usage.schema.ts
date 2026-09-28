@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * Route usage counters — how much routing this instance actually does.
  *
- * The question behind them is whether TREK could host its own router. Today every
+ * The question behind them is whether Trip Mate could host its own router. Today every
  * route is calculated in the browser against the public FOSSGIS hosts, so nobody
  * has a number: not how many requests a real trip costs, not how they split
  * between the day plan and the road trip mode, not how many already go to a
@@ -20,7 +20,7 @@ import { z } from 'zod';
  * of its own would measure load by adding it.
  */
 
-/** The three OSRM profiles TREK asks for, plus a bucket for a routing plugin. */
+/** The three OSRM profiles Trip Mate asks for, plus a bucket for a routing plugin. */
 export const routeUsageProfileSchema = z.enum(['driving', 'walking', 'cycling', 'other']);
 export type RouteUsageProfile = z.infer<typeof routeUsageProfileSchema>;
 

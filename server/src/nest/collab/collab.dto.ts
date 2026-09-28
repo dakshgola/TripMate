@@ -8,7 +8,7 @@ import {
   collabLinkUpdateRequestSchema,
   collabMessageCreateRequestSchema,
   collabReactionRequestSchema,
-} from '@trek/shared';
+} from '@tripmate/shared';
 
 /**
  * Body DTOs for the collab controller. The global ZodValidationPipe (APP_PIPE

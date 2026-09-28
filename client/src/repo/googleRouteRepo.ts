@@ -1,4 +1,4 @@
-import { googleRoutePreviewSchema, type GoogleRouteImport } from '@trek/shared'
+import { googleRoutePreviewSchema, type GoogleRouteImport } from '@tripmate/shared'
 import { apiClient } from '../api/client'
 import { isEffectivelyOffline } from '../sync/networkMode'
 

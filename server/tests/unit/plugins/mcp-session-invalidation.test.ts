@@ -33,7 +33,7 @@ const runtime = () =>
 
 beforeEach(() => {
   invalidate.mockClear();
-  process.env.TREK_PLUGINS_ENABLED = 'true';
+  process.env.TRIPMATE_PLUGINS_ENABLED = 'true';
 });
 
 describe('plugin lifecycle invalidates MCP sessions', () => {

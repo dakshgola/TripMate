@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, screen, within } from '../../../tests/helpers/render';
 import userEvent from '@testing-library/user-event';
-import type { Collection } from '@trek/shared';
+import type { Collection } from '@tripmate/shared';
 import { useTranslation } from '../../i18n/TranslationContext';
 import { ALL_SAVED } from '../../store/collectionStore';
 import type { IncomingCollectionInvite } from '../../store/collectionStore';

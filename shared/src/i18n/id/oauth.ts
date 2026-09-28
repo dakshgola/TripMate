@@ -79,10 +79,10 @@ const oauth: TranslationStrings = {
   'oauth.authorize.loading': 'Loading…', // en-fallback
   'oauth.authorize.errorTitle': 'Authorization Error', // en-fallback
   'oauth.authorize.loginTitle': 'Sign in to continue', // en-fallback
-  'oauth.authorize.loginDescription': '{client} wants access to your TREK account. Please sign in first.', // en-fallback
-  'oauth.authorize.loginButton': 'Sign in to TREK', // en-fallback
+  'oauth.authorize.loginDescription': '{client} wants access to your Trip Mate account. Please sign in first.', // en-fallback
+  'oauth.authorize.loginButton': 'Sign in to Trip Mate', // en-fallback
   'oauth.authorize.requestLabel': 'Authorization Request', // en-fallback
-  'oauth.authorize.requestDescription': 'This application is requesting access to your TREK account.', // en-fallback
+  'oauth.authorize.requestDescription': 'This application is requesting access to your Trip Mate account.', // en-fallback
   'oauth.authorize.trustNote': 'Only grant access to applications you trust. Your data stays on your server.', // en-fallback
   'oauth.authorize.selectScope': 'Select at least one scope', // en-fallback
   'oauth.authorize.approveOneScope': 'Approve ({count} scope)', // en-fallback
@@ -97,17 +97,21 @@ const oauth: TranslationStrings = {
   'oauth.scope.group.files': 'Berkas',
   'oauth.scope.group.settings': 'Pengaturan',
   'oauth.scope.files:read.label': 'Lihat berkas perjalanan',
-  'oauth.scope.files:read.description': 'Menampilkan dokumen perjalanan: nama, ukuran, siapa yang mengunggah, dan tautannya',
+  'oauth.scope.files:read.description':
+    'Menampilkan dokumen perjalanan: nama, ukuran, siapa yang mengunggah, dan tautannya',
   'oauth.scope.files:write.label': 'Kelola berkas perjalanan',
-  'oauth.scope.files:write.description': 'Ganti nama dan deskripsi berkas, tautkan ke pemesanan dan tempat, beri bintang dan buang ke sampah',
+  'oauth.scope.files:write.description':
+    'Ganti nama dan deskripsi berkas, tautkan ke pemesanan dan tempat, beri bintang dan buang ke sampah',
   'oauth.scope.files:content.label': 'Baca isi berkas',
   'oauth.scope.files:content.description': 'Membaca isi dokumen yang diunggah, misalnya PDF pemesanan atau tiket',
   'oauth.scope.settings:read.label': 'Lihat preferensi Anda',
   'oauth.scope.settings:read.description': 'Membaca satuan, format waktu, bahasa, mata uang bawaan, dan halaman awal',
   'oauth.scope.settings:write.label': 'Ubah preferensi Anda',
-  'oauth.scope.settings:write.description': 'Mengubah satuan, format waktu, bahasa, mata uang bawaan, dan halaman awal. Tidak pernah kunci API tersimpan',
+  'oauth.scope.settings:write.description':
+    'Mengubah satuan, format waktu, bahasa, mata uang bawaan, dan halaman awal. Tidak pernah kunci API tersimpan',
   'oauth.scope.group.plugins': 'Plugin',
   'oauth.scope.plugins:use.label': 'Jalankan alat plugin',
-  'oauth.scope.plugins:use.description': 'Izinkan klien ini memanggil alat yang disediakan oleh plugin yang dipasang dan disetujui administrator. Setiap plugin bertindak dengan akses yang sudah diberikan kepadanya, bukan dengan cakupan token ini',
+  'oauth.scope.plugins:use.description':
+    'Izinkan klien ini memanggil alat yang disediakan oleh plugin yang dipasang dan disetujui administrator. Setiap plugin bertindak dengan akses yang sudah diberikan kepadanya, bukan dengan cakupan token ini',
 };
 export default oauth;

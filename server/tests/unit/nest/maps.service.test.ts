@@ -151,8 +151,8 @@ const { mockNearby, mockSearch } = vi.hoisted(() => ({
   mockNearby: vi.fn(async (): Promise<unknown[]> => []),
   mockSearch: vi.fn(async (): Promise<unknown[]> => []),
 }));
-vi.mock('../../../src/nest/maps/trek-places.client', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('../../../src/nest/maps/trek-places.client')>()),
+vi.mock('../../../src/nest/maps/tripmate-places.client', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../../../src/nest/maps/tripmate-places.client')>()),
   trekPlacesNearby: mockNearby,
   trekPlacesSearch: mockSearch,
 }));
@@ -182,7 +182,7 @@ import type { SsrfResult } from '../../../src/utils/ssrfGuard';
 const svc = new MapsService(new DatabaseService(db as never), photoCacheStub);
 
 /**
- * Switch the TREK Places index off for one case.
+ * Switch the Trip Mate Places index off for one case.
  *
  * The index now answers search and autocomplete before Google is asked, which
  * is the point of it. A case that is about the shape of the GOOGLE request has
@@ -906,7 +906,7 @@ describe('fetchOverpassDetails (fetch stubbed)', () => {
 
   it('MAPS-032b: refuses an id that is not a number, without sending anything', async () => {
     // The id is interpolated into Overpass QL. Anything past the digits is a
-    // statement of its own, run on the mirror under TREK's shared user agent:
+    // statement of its own, run on the mirror under Trip Mate's shared user agent:
     // this one turns a millisecond lookup into a global scan capped only by the
     // query's own five second timeout.
     const fetchMock = vi.fn();
@@ -1817,7 +1817,7 @@ describe('getPlaceDetails (fetch stubbed)', () => {
     expect(place.summary).toBeNull();
   });
 
-  it('MAPS-041b2: normalises non-standard TREK language codes for Google (br→pt-BR, gr→el)', async () => {
+  it('MAPS-041b2: normalises non-standard Trip Mate language codes for Google (br→pt-BR, gr→el)', async () => {
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({ id: 'ChIJ1', displayName: { text: 'X' }, location: { latitude: 0, longitude: 0 } }),
@@ -2410,7 +2410,7 @@ describe('isGooglePlaceId', () => {
     expect(isGooglePlaceId('36.7617499,-3.8448432')).toBe(false);
   });
 
-  it('MAPS-045b: rejects the TREK index ids that search and autocomplete now hand out', () => {
+  it('MAPS-045b: rejects the Trip Mate index ids that search and autocomplete now hand out', () => {
     // The index answers before Google, so `gers:` is what an ordinary new place
     // carries. Sending one to Google costs a billable 400 INVALID_ARGUMENT and can
     // never return anything, and three separate call sites gate on this function:
@@ -2495,7 +2495,7 @@ describe('buildUserAgent', () => {
   });
 
   it('MAPS-095: appends a configured https instance URL so the deployment is identifiable', () => {
-    expect(buildUserAgent('https://trek.example.org')).toBe(`${base}; https://trek.example.org`);
+    expect(buildUserAgent('https://tripmate.example.org')).toBe(`${base}; https://tripmate.example.org`);
   });
 
   it('MAPS-096: drops the http://localhost fallback — it is not a unique identifier', () => {

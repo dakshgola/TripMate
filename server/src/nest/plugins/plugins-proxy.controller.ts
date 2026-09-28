@@ -16,7 +16,7 @@ import { Public } from '../auth/public.decorator';
  * cookie, so it cannot replay the user's credentials.
  */
 // A plugin fully controls the reply's content-type + body, and this route is on
-// TREK's REAL origin, so we must never let the browser RENDER it as a document
+// Trip Mate's REAL origin, so we must never let the browser RENDER it as a document
 // (that would run plugin script at our origin, outside the iframe sandbox) nor
 // follow a plugin-chosen redirect. `location` / `content-disposition` are NOT
 // passthrough; every reply is forced to nosniff + attachment below. fetch-based
@@ -27,7 +27,7 @@ const SAFE_RESPONSE_HEADERS = new Set(['content-type', 'cache-control']);
 // provider's signature, but ONLY over an explicit allowlist that NEVER carries an
 // auth/session credential — mirroring the response-header allowlist above. Cookie,
 // Authorization, X-Socket-Id and every forwarded-auth header are deliberately absent,
-// so a forwarded header can never leak a TREK session or be replayed. Signature +
+// so a forwarded header can never leak a Trip Mate session or be replayed. Signature +
 // event headers from the common providers (GitHub/Stripe/Svix/GitLab/generic) pass.
 const SAFE_INBOUND_HEADERS = new Set([
   'content-type', 'user-agent', 'x-request-id', 'x-idempotency-key',
@@ -50,7 +50,7 @@ function pickInboundHeaders(raw: Record<string, unknown> | undefined): Record<st
 // Origin used only to parse a plugin-supplied redirect target. Any host works as
 // long as it can never match a real one, so a target that stays "same-origin"
 // after WHATWG URL parsing is provably a relative in-app path.
-const REDIRECT_BASE = 'https://trek.invalid';
+const REDIRECT_BASE = 'https://tripmate.invalid';
 
 /**
  * Return a plugin redirect `Location` ONLY if it is a same-origin (relative)
@@ -159,7 +159,7 @@ export class PluginsProxyController {
       for (const [k, v] of Object.entries(headers)) {
         if (SAFE_RESPONSE_HEADERS.has(k.toLowerCase())) res.setHeader(k, v);
       }
-      // Never let a non-redirect reply render as a document at TREK's origin
+      // Never let a non-redirect reply render as a document at Trip Mate's origin
       // (that would run plugin script at our real origin, outside the sandbox).
       res.setHeader('Content-Disposition', 'attachment');
       res.status(status).send(reply?.body ?? '');

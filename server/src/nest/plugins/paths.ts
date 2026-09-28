@@ -45,7 +45,7 @@ function safePluginId(id: string): string {
   return id;
 }
 
-/** A plugin's installed code directory (contains trek-plugin.json + server/index.js). */
+/** A plugin's installed code directory (contains tripmate-plugin.json + server/index.js). */
 export function pluginCodeDir(id: string): string {
   return path.join(pluginsCodeRoot(), safePluginId(id));
 }
@@ -117,7 +117,7 @@ export function resolveChildEntry(): { entry: string; execArgv: string[]; forkCw
 /**
  * The compiled server code root (…/dist), computed from this module's location.
  * The plugin child needs read access to it to load its bootstrap + SDK; it must
- * NOT be granted the data root (trek.db, .jwt_secret, .encryption_key live there).
+ * NOT be granted the data root (tripmate.db, .jwt_secret, .encryption_key live there).
  */
 export function serverCodeRoot(): string {
   // __dirname = …/dist/nest/plugins  →  …/dist
@@ -129,9 +129,9 @@ export function serverCodeRoot(): string {
  * hardening). `--permission` denies filesystem write, child_process, worker
  * threads and native addons outright; `--allow-fs-read` is scoped to exactly the
  * code the child must load (the compiled server dir + this plugin's own code
- * dir). Result: the child can no longer read trek.db / the secret files or shell
+ * dir). Result: the child can no longer read tripmate.db / the secret files or shell
  * out, closing the direct-filesystem and RCE escapes that bypass the RPC layer.
- * Empty (opt-out) when TREK_PLUGIN_PERMISSIONS=off.
+ * Empty (opt-out) when TRIPMATE_PLUGIN_PERMISSIONS=off.
  */
 let warnedPermissionsOff = false;
 export function pluginPermissionArgs(pluginId: string): string[] {
@@ -143,17 +143,17 @@ export function pluginPermissionArgs(pluginId: string): string[] {
     // that case. Nothing spawns rather than spawning without the jail.
     if (readEnv().managed.enabled) {
       throw new Error(
-        'TREK_PLUGIN_PERMISSIONS=off is refused on a centrally administered install: ' +
-          'the OS permission jail is what keeps an installed plugin out of trek.db and the secret files.',
+        'TRIPMATE_PLUGIN_PERMISSIONS=off is refused on a centrally administered install: ' +
+          'the OS permission jail is what keeps an installed plugin out of tripmate.db and the secret files.',
       );
     }
     // The OS permission jail is the boundary that stops an installed plugin from
-    // reading trek.db / the secret files / shelling out. Turning it off makes plugin
+    // reading tripmate.db / the secret files / shelling out. Turning it off makes plugin
     // isolation crash-only — surface that loudly once so an operator can't leave it
     // off by accident.
     if (!warnedPermissionsOff) {
       warnedPermissionsOff = true;
-      console.warn('[plugins] TREK_PLUGIN_PERMISSIONS=off — the OS permission jail is DISABLED; installed plugins run with full Node access to this process. Only use this on a machine you fully trust.');
+      console.warn('[plugins] TRIPMATE_PLUGIN_PERMISSIONS=off — the OS permission jail is DISABLED; installed plugins run with full Node access to this process. Only use this on a machine you fully trust.');
     }
     return [];
   }
@@ -163,7 +163,7 @@ export function pluginPermissionArgs(pluginId: string): string[] {
     `--allow-fs-read=${codeRoot}`,
     // The server package.json sits one level above dist and Node reads it to
     // resolve the child's module type. Grant just that file — never its dir,
-    // which also holds the `data` symlink to trek.db and the secret files.
+    // which also holds the `data` symlink to tripmate.db and the secret files.
     `--allow-fs-read=${path.join(codeRoot, '..', 'package.json')}`,
     // The plugin's own code, by REAL path (see pluginRealCodeDir).
     `--allow-fs-read=${pluginRealCodeDir(pluginId)}`,

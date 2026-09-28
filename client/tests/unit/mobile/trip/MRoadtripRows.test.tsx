@@ -4,7 +4,7 @@ import {
   RtAutoRow, RtBookendRow, RtBookingChips, RtDryRow, RtLegRow, RtRideRow, RtSpillRow, RtStopRow, type RowChrome,
 } from '../../../../src/mobile/screens/trip/roadtrip/MRoadtripRows'
 import type { BookendReading, RoadtripRow, StopRow } from '../../../../src/components/Roadtrip/roadtripRowModel'
-import type { CarrierTerminal, RouteSegment, ScheduleWarning } from '@trek/shared/roadtrip'
+import type { CarrierTerminal, RouteSegment, ScheduleWarning } from '@tripmate/shared/roadtrip'
 import type { Reservation, TranslationFn } from '../../../../src/types'
 import type { RefuelSearch } from '../../../../src/components/Roadtrip/useRefuelSearch'
 import type { RefuelCandidate } from '../../../../src/components/Roadtrip/refuelSuggestion'
@@ -608,7 +608,7 @@ describe('RtDryRow', () => {
     expect(screen.getByText('roadtrip.refuel.dry')).toBeInTheDocument()
     expect(screen.getByText('roadtrip.refuel.after:82 km')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'roadtrip.refuel.find' })).toBeInTheDocument()
-    expect(container.querySelector('svg.trek--transport')).not.toBeNull()
+    expect(container.querySelector('svg.tripmate--transport')).not.toBeNull()
   })
 
   it('FE-MOB-RTROW-019: swaps to the charging wording for an electric car', () => {
@@ -636,7 +636,7 @@ describe('RtDryRow', () => {
     expect(screen.getByText('mobileTrip.rtSearchOffline')).toBeInTheDocument()
     // The lamp stops glowing: a lamp that glows invites a press that cannot work.
     expect(button.querySelector('svg.lucide-fuel')).not.toBeNull()
-    expect(button.querySelector('.trek-lowfuel')).toBeNull()
+    expect(button.querySelector('.tripmate-lowfuel')).toBeNull()
 
     fireEvent.click(button)
     expect(onSearch).not.toHaveBeenCalled()
@@ -650,7 +650,7 @@ describe('RtDryRow', () => {
     // The warning itself stays: it is information, not an action. The reserve lamp too,
     // as a mark rather than a control.
     expect(screen.getByText('roadtrip.refuel.dry')).toBeInTheDocument()
-    expect(container.querySelector('.trek-lowfuel')).not.toBeNull()
+    expect(container.querySelector('.tripmate-lowfuel')).not.toBeNull()
   })
   const offer = (over: Record<string, unknown> = {}) => ({
     osm_id: 'n1', name: 'Shell Ebina', lat: 35.44, lng: 139.39, category: 'fuel',
@@ -730,10 +730,10 @@ describe('RtDryRow', () => {
   it('FE-MOB-RTROW-032: the mascot rides the skateboard, sad, in the band colour and on an opaque ground', () => {
     const { container } = render(<RtDryRow {...props} onSearch={vi.fn()} />)
 
-    const mascot = container.querySelector('svg.trek--transport') as SVGElement
+    const mascot = container.querySelector('svg.tripmate--transport') as SVGElement
     // Expression eyes, not the default open ones, bent down rather than up.
-    expect(mascot.querySelectorAll('.trek-eye')).toHaveLength(0)
-    const eyes = mascot.querySelectorAll('.trek-body g[stroke] path')
+    expect(mascot.querySelectorAll('.tripmate-eye')).toHaveLength(0)
+    const eyes = mascot.querySelectorAll('.tripmate-body g[stroke] path')
     expect(eyes).toHaveLength(2)
     const [, startY, controlY] = /^M[\d.]+ ([\d.]+) Q[\d.]+ ([\d.]+)/.exec(eyes[0].getAttribute('d') ?? '') ?? []
     expect(Number(controlY)).toBeGreaterThan(Number(startY))
@@ -751,7 +751,7 @@ describe('RtDryRow', () => {
     const fuel = render(<RtDryRow {...props} onSearch={vi.fn()} />)
 
     const lamp = screen.getByRole('button', { name: 'roadtrip.refuel.find' })
-    expect(lamp.querySelector('svg.lucide-fuel.trek-lowfuel')).not.toBeNull()
+    expect(lamp.querySelector('svg.lucide-fuel.tripmate-lowfuel')).not.toBeNull()
     // Not the black pill it replaced, and no visible label beside the mascot and title.
     expect(lamp.className).not.toContain('bg-m-act')
     expect(screen.queryByText('roadtrip.refuel.find')).toBeNull()

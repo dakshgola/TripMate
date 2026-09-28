@@ -18,7 +18,7 @@ describe('shot', () => {
   afterEach(() => { fs.rmSync(tmp, { recursive: true, force: true }); });
 
   it('refuses a directory that is not a plugin', async () => {
-    await expect(runShot(tmp)).rejects.toThrow(/no trek-plugin.json/);
+    await expect(runShot(tmp)).rejects.toThrow(/no tripmate-plugin.json/);
   });
 
   /**

@@ -4,7 +4,7 @@
  * the container's real OidcService/AuthService instances (the domain is
  * DI-native since the oidc fold — a services/oidcService path mock would
  * silently miss); this proves the flow is unauthenticated, the sso-disabled
- * 403, the login redirect, and that /exchange sets the httpOnly trek_session
+ * 403, the login redirect, and that /exchange sets the httpOnly tripmate_session
  * cookie from a valid auth code.
  */
 import { describe, it, expect, beforeAll, afterAll, beforeEach, vi } from 'vitest';
@@ -49,7 +49,7 @@ import { OidcModule } from '../../src/nest/oidc/oidc.module';
 import { OidcService } from '../../src/nest/oidc/oidc.service';
 import { DatabaseModule } from '../../src/nest/database/database.module';
 import { AuthService } from '../../src/nest/auth/auth.service';
-import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
+import { TrekExceptionFilter } from '../../src/nest/common/tripmate-exception.filter';
 
 describe('OIDC e2e (real cookie service)', () => {
   let server: Server;
@@ -102,20 +102,20 @@ describe('OIDC e2e (real cookie service)', () => {
     expect(res.body).toEqual({ error: 'Code required' });
   });
 
-  it('GET /exchange sets the httpOnly trek_session cookie + returns the token', async () => {
+  it('GET /exchange sets the httpOnly tripmate_session cookie + returns the token', async () => {
     consumeAuthCode.mockReturnValue({ token: 'jwt.value' });
     const res = await request(server).get('/api/auth/oidc/exchange').query({ code: 'good' });
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ token: 'jwt.value' });
     const setCookie = res.headers['set-cookie'] as unknown as string[];
-    expect(setCookie.some((c) => c.startsWith('trek_session=') && /HttpOnly/i.test(c))).toBe(true);
+    expect(setCookie.some((c) => c.startsWith('tripmate_session=') && /HttpOnly/i.test(c))).toBe(true);
   });
 
   it('GET /exchange with a remembered code sets a persistent Max-Age cookie (#1927)', async () => {
     consumeAuthCode.mockReturnValue({ token: 'jwt.value', remember: true });
     const res = await request(server).get('/api/auth/oidc/exchange').query({ code: 'good' });
     expect(res.status).toBe(200);
-    const cookie = (res.headers['set-cookie'] as unknown as string[]).find((c) => c.startsWith('trek_session='))!;
+    const cookie = (res.headers['set-cookie'] as unknown as string[]).find((c) => c.startsWith('tripmate_session='))!;
     expect(cookie).toContain('Max-Age=2592000');
   });
 
@@ -123,7 +123,7 @@ describe('OIDC e2e (real cookie service)', () => {
     consumeAuthCode.mockReturnValue({ token: 'jwt.value', remember: false });
     const res = await request(server).get('/api/auth/oidc/exchange').query({ code: 'good' });
     expect(res.status).toBe(200);
-    const cookie = (res.headers['set-cookie'] as unknown as string[]).find((c) => c.startsWith('trek_session='))!;
+    const cookie = (res.headers['set-cookie'] as unknown as string[]).find((c) => c.startsWith('tripmate_session='))!;
     expect(cookie).not.toContain('Max-Age=');
     expect(cookie).not.toContain('Expires=');
   });

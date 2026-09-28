@@ -11,7 +11,7 @@ import { useTranslation } from '../../i18n'
 import { CustomDatePicker } from '../shared/CustomDateTimePicker'
 import { normalizeImageFile } from '../../utils/convertHeic'
 import { getApiErrorMessage, type Trip } from '../../types'
-import { MAX_TRIP_DAYS, tripSpanDays, type TripCreateRequest } from '@trek/shared'
+import { MAX_TRIP_DAYS, tripSpanDays, type TripCreateRequest } from '@tripmate/shared'
 import { NumericInput } from '../shared/NumericInput'
 import { currenciesWith, SYMBOLS } from '../Budget/BudgetPanel.constants'
 import TripDateReview, { dateReviewIsWide } from './TripDateReview'
@@ -385,7 +385,7 @@ export default function TripFormModal({ isOpen, onClose, onSave, trip, onCoverUp
   })
 
   /* The dashboard's shapes, in the app's own tokens.
-     `.trek-dash` deliberately scopes its palette to that page, so none of its
+     `.tripmate-dash` deliberately scopes its palette to that page, so none of its
      variables are reachable from here — what carries over is the geometry:
      generous radii, grouped panels instead of a single stack of labelled
      fields, and overline captions rather than sentence-case labels. */

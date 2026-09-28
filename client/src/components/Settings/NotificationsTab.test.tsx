@@ -820,11 +820,11 @@ describe('NotificationsTab', () => {
 // channel links there rather than just naming the place.
 
 const pluginMatrix = (over: Record<string, unknown> = {}) => ({
-  preferences: { trip_invite: { inapp: true, 'plugin:trek-gotify': true } },
+  preferences: { trip_invite: { inapp: true, 'plugin:tripmate-gotify': true } },
   channels: [
     { id: 'inapp', source: 'builtin', labelKey: 'settings.notificationPreferences.inapp', active: true, configured: true },
     {
-      id: 'plugin:trek-gotify',
+      id: 'plugin:tripmate-gotify',
       source: 'plugin',
       label: 'Gotify',
       settingsPath: '/settings?tab=plugins',
@@ -834,7 +834,7 @@ const pluginMatrix = (over: Record<string, unknown> = {}) => ({
     },
   ],
   event_types: ['trip_invite'],
-  implemented_combos: { trip_invite: ['inapp', 'plugin:trek-gotify'] },
+  implemented_combos: { trip_invite: ['inapp', 'plugin:tripmate-gotify'] },
 });
 
 function mockMatrix(matrix: unknown) {
@@ -893,7 +893,7 @@ describe('NotificationsTab — plugin channels', () => {
     render(<><NotificationsTab /><ToastContainer /></>);
 
     await userEvent.click(await screen.findByRole('button', { name: /send test/i }));
-    await waitFor(() => expect(called).toBe('plugin:trek-gotify'));
+    await waitFor(() => expect(called).toBe('plugin:tripmate-gotify'));
   });
 
   it('FE-COMP-NOTIFICATIONS-PLUGIN-005: an INACTIVE plugin channel is not shown at all', async () => {
@@ -1095,7 +1095,7 @@ describe('NotificationsTab — ntfy credentials', () => {
     render(<NotificationsTab />);
 
     await waitFor(() => expect(screen.getByRole('button', { name: 'Test' })).toBeDisabled());
-    expect(screen.getByPlaceholderText('my-trek-alerts')).toHaveValue('');
+    expect(screen.getByPlaceholderText('my-tripmate-alerts')).toHaveValue('');
   });
 });
 

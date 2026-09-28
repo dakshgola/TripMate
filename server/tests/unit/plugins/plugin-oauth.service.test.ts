@@ -12,7 +12,7 @@ vi.mock('../../../src/nest/common/crypto/apiKeyCrypto', () => ({
 }));
 vi.mock('../../../src/app-config', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../../src/app-config')>();
-  return { ...actual, getAppUrl: () => 'https://trek.example' };
+  return { ...actual, getAppUrl: () => 'https://tripmate.example' };
 });
 
 const { getDb } = vi.hoisted(() => ({ getDb: { current: null as unknown } }));
@@ -89,7 +89,7 @@ describe('PluginOAuthService', () => {
     expect(url.origin + url.pathname).toBe('https://provider.example/authorize');
     expect(url.searchParams.get('code_challenge_method')).toBe('S256');
     expect(url.searchParams.get('client_id')).toBe('client-123');
-    expect(url.searchParams.get('redirect_uri')).toBe('https://trek.example/api/plugin-oauth/p/callback');
+    expect(url.searchParams.get('redirect_uri')).toBe('https://tripmate.example/api/plugin-oauth/p/callback');
     expect(url.searchParams.get('code_challenge')).toBeTruthy();
     const state = url.searchParams.get('state')!;
     const rows = getDb.current as unknown as InstanceType<typeof Database>;

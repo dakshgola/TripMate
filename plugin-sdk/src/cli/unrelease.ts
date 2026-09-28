@@ -1,5 +1,5 @@
 /**
- * trek-plugin unrelease <tag> — undo a release that never made it into the registry.
+ * tripmate-plugin unrelease <tag> — undo a release that never made it into the registry.
  *
  * A failed publish (or a change of heart before the PR merges) leaves up to three things
  * behind: the GitHub release, the remote tag, and the local tag. Cleaning them up by hand
@@ -28,7 +28,7 @@ interface PublishedIndex { plugins?: Array<{ id?: string; versions?: Array<{ ver
 async function publishedIndex(registry: string): Promise<PublishedIndex | null> {
   try {
     const r = await fetch(`https://raw.githubusercontent.com/${registry}/main/dist/index.json`, {
-      headers: { 'User-Agent': 'trek-plugin' },
+      headers: { 'User-Agent': 'tripmate-plugin' },
     });
     if (!r.ok) return null;
     return (await r.json()) as PublishedIndex;
@@ -47,7 +47,7 @@ export async function unrelease(opts: {
   const dir = path.resolve(opts.dir);
   const { tag, repo } = opts;
   const registry = opts.registry || DEFAULT_REGISTRY;
-  const manifest = readJsonFile<{ id?: unknown }>(path.join(dir, 'trek-plugin.json'));
+  const manifest = readJsonFile<{ id?: unknown }>(path.join(dir, 'tripmate-plugin.json'));
   const id = String(manifest.id ?? '');
   const version = tag.replace(/^v/, '');
 

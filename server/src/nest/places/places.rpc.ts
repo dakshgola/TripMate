@@ -1,4 +1,4 @@
-import { placeCreateRequestSchema, placeImageUrlSchema, placeUpdateRequestSchema, placeWebsiteSchema } from '@trek/shared';
+import { placeCreateRequestSchema, placeImageUrlSchema, placeUpdateRequestSchema, placeWebsiteSchema } from '@tripmate/shared';
 import { PluginController, PluginMethod } from '../plugins/host/rpc-kit/decorators';
 import { PluginGuards } from '../plugins/host/plugin-guards.service';
 import { BadParams, ForbiddenResource } from '../plugins/host/rpc-errors';
@@ -12,7 +12,7 @@ import type { PlaceCreateInput, PlaceUpdateInput } from './places.service';
 const PLACE_EDIT_ACTION = 'place_edit';
 
 /**
- * The @trek/shared write schemas carry no string-length caps, so the plugin path
+ * The @tripmate/shared write schemas carry no string-length caps, so the plugin path
  * mirrors the ones the REST controller adds. Without them a plugin could store a
  * field the web app refuses with a 400, e.g. a 100k-character place name.
  */

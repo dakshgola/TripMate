@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { pluginsApi } from '../api/client'
 
-const PLUGIN_SESSION_NAMESPACE = 'trek:plugin-session:'
+const PLUGIN_SESSION_NAMESPACE = 'tripmate:plugin-session:'
 
 /**
  * Purges state for plugins absent from a successful active-plugin response.

@@ -4,7 +4,7 @@ import {
   demoDenied, ok,
 } from '../../nest-mcp';
 import { McpToolGuardsService } from '../mcp-shared/mcp-tool-guards.service';
-import { placeWebsiteSchema } from '@trek/shared';
+import { placeWebsiteSchema } from '@tripmate/shared';
 import { z } from 'zod';
 import { AuthService } from '../auth/auth.service';
 import { PlacesService } from '../places/places.service';
@@ -19,7 +19,7 @@ function parseId(value: string | string[]): number | null {
 
 /**
  * Accommodation MCP surface. The four tools and the
- * trek://trips/{tripId}/accommodations resource moved here verbatim from
+ * tripmate://trips/{tripId}/accommodations resource moved here verbatim from
  * DaysMcp when accommodations became their own domain; names, descriptions,
  * schemas, annotations, error shapes and broadcasts are unchanged.
  *
@@ -208,7 +208,7 @@ export class AccommodationsMcp {
 
   @ResourceTemplate({
     name: 'trip-accommodations',
-    uriTemplate: 'trek://trips/{tripId}/accommodations',
+    uriTemplate: 'tripmate://trips/{tripId}/accommodations',
     description: 'Accommodations (hotels, rentals) for a trip with check-in/out details',
     mimeType: 'application/json',
     access: { group: 'trips', mode: 'read' },

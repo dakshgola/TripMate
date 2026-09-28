@@ -9,10 +9,10 @@ import {
   COLLECTION_GPX_EXTENSION,
   type GpxReader,
 } from './collectionFile'
-import type { CollectionFile } from '@trek/shared'
+import type { CollectionFile } from '@tripmate/shared'
 
 const file = (over: Partial<CollectionFile> = {}): CollectionFile => ({
-  format: 'trek.collection', version: 1, name: 'Lisbon', places: [{ name: 'Time Out Market' }], ...over,
+  format: 'tripmate.collection', version: 1, name: 'Lisbon', places: [{ name: 'Time Out Market' }], ...over,
 } as CollectionFile)
 
 /** A File whose text() the jsdom build does not provide on its own. */
@@ -119,7 +119,7 @@ describe('readCollectionFile', () => {
   })
 
   it('FE-COLL-FILE-008: refuses a list with no name, since the list would have none', async () => {
-    const result = await readCollectionFile(asFile(JSON.stringify({ format: 'trek.collection', version: 1, name: '', places: [] })), noGpx)
+    const result = await readCollectionFile(asFile(JSON.stringify({ format: 'tripmate.collection', version: 1, name: '', places: [] })), noGpx)
     expect(result.error).toBe('not-a-collection')
   })
 

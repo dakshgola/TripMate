@@ -633,7 +633,7 @@ describe('MSettingsAccount – backup codes', () => {
     await user.click(await screen.findByRole('button', { name: 'Download TXT' }));
 
     expect(createObjectURL).toHaveBeenCalledWith(expect.any(Blob));
-    expect(downloadName).toBe('trek-mfa-backup-codes.txt');
+    expect(downloadName).toBe('tripmate-mfa-backup-codes.txt');
     expect(revokeObjectURL).toHaveBeenCalledWith('blob:codes');
     expect(document.querySelector('a[download]')).toBeNull();
 

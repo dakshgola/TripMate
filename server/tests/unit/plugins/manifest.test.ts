@@ -1,12 +1,12 @@
 /**
- * trek-plugin.json validation (#plugins, M4). Rejects invalid ids/versions/types,
+ * tripmate-plugin.json validation (#plugins, M4). Rejects invalid ids/versions/types,
  * unknown permissions, native modules, and http:outbound without egress.
  */
 import { describe, it, expect } from 'vitest';
 import { parseManifest, ManifestError, SETTING_FIELD_KEYS } from '../../../src/nest/plugins/install/manifest';
 
 const base = { id: 'flight-tracker', name: 'Flight', version: '1.2.0', type: 'widget', apiVersion: 1 };
-const withApi = (apiVersion: unknown) => ({ ...base, apiVersion, trek: '>=3.2.0 <4.0.0' });
+const withApi = (apiVersion: unknown) => ({ ...base, apiVersion, tripmate: '>=3.2.0 <4.0.0' });
 
 describe('parseManifest', () => {
   it('parses a valid manifest with defaults', () => {
@@ -17,21 +17,21 @@ describe('parseManifest', () => {
     expect(m.permissions).toEqual([]);
   });
 
-  it('derives minTrekVersion from the trek range', () => {
-    expect(parseManifest({ ...base, trek: '>=3.2.0 <4.0.0' }).minTrekVersion).toBe('3.2.0');
+  it('derives minTrekVersion from the tripmate range', () => {
+    expect(parseManifest({ ...base, tripmate: '>=3.2.0 <4.0.0' }).minTrekVersion).toBe('3.2.0');
   });
 
-  describe('the trek range', () => {
+  describe('the tripmate range', () => {
     it('normalizes a valid range onto trekRange — what the host actually gates on', () => {
-      const m = parseManifest({ ...base, trek: '>=3.2.0 <4.0.0' });
+      const m = parseManifest({ ...base, tripmate: '>=3.2.0 <4.0.0' });
       expect(m.trekRange).toBe('>=3.2.0 <4.0.0');
     });
 
     it('reads the lower bound off the range, not off its first version-shaped substring', () => {
       // "<4.0.0" has a first X.Y.Z of 4.0.0 but a lower bound of 0.0.0. The old regex
       // published 4.0.0 as the MINIMUM — the exact inverse of what the plugin declared.
-      expect(parseManifest({ ...base, trek: '<4.0.0' }).minTrekVersion).toBeUndefined();
-      expect(parseManifest({ ...base, trek: '>=3' }).minTrekVersion).toBe('3.0.0');
+      expect(parseManifest({ ...base, tripmate: '<4.0.0' }).minTrekVersion).toBeUndefined();
+      expect(parseManifest({ ...base, tripmate: '>=3' }).minTrekVersion).toBe('3.0.0');
     });
 
     it('stays lenient by default — discovery must still register a plugin with no range', () => {
@@ -44,15 +44,15 @@ describe('parseManifest', () => {
     });
 
     it('drops an unparseable range to null rather than throwing, in lenient mode', () => {
-      expect(parseManifest({ ...base, trek: '3.2+' }).trekRange).toBeNull();
+      expect(parseManifest({ ...base, tripmate: '3.2+' }).trekRange).toBeNull();
     });
 
     it('requires a satisfiable range at the install front doors', () => {
-      expect(() => parseManifest({ ...base }, { requireTrek: true })).toThrow(/missing "trek"/);
-      expect(() => parseManifest({ ...base, trek: '3.2+' }, { requireTrek: true })).toThrow(ManifestError);
-      // Syntactically valid, semantically empty — no TREK could ever run it.
-      expect(() => parseManifest({ ...base, trek: '>=4.0.0 <3.0.0' }, { requireTrek: true })).toThrow(/satisfiable/);
-      expect(parseManifest({ ...base, trek: '^3.2.0' }, { requireTrek: true }).trekRange).toBe('^3.2.0');
+      expect(() => parseManifest({ ...base }, { requireTrek: true })).toThrow(/missing "tripmate"/);
+      expect(() => parseManifest({ ...base, tripmate: '3.2+' }, { requireTrek: true })).toThrow(ManifestError);
+      // Syntactically valid, semantically empty — no Trip Mate could ever run it.
+      expect(() => parseManifest({ ...base, tripmate: '>=4.0.0 <3.0.0' }, { requireTrek: true })).toThrow(/satisfiable/);
+      expect(parseManifest({ ...base, tripmate: '^3.2.0' }, { requireTrek: true }).trekRange).toBe('^3.2.0');
     });
   });
 
@@ -113,7 +113,7 @@ describe('apiVersion', () => {
   });
   it('refuses a future apiVersion on install paths (requireTrek)', () => {
     expect(() => parseManifest(withApi(2), { requireTrek: true }))
-      .toThrow('plugin requires plugin-API v2; this TREK supports v1');
+      .toThrow('plugin requires plugin-API v2; this Trip Mate supports v1');
   });
 });
 
@@ -378,7 +378,7 @@ describe('SETTING_FIELD_KEYS is the attribute set parseSettings reads', () => {
       scope: 'user', options: ['a'], oauth: { initPath: '/i' }, default: 'a',
     };
     expect(Object.keys(field).sort()).toEqual([...SETTING_FIELD_KEYS].sort());
-    const [parsed] = parseManifest({ id: 'x-plugin', name: 'X', version: '1.0.0', type: 'integration', trek: '>=4.0.0 <5.0.0', settings: [field] }).settings;
+    const [parsed] = parseManifest({ id: 'x-plugin', name: 'X', version: '1.0.0', type: 'integration', tripmate: '>=4.0.0 <5.0.0', settings: [field] }).settings;
     for (const k of SETTING_FIELD_KEYS) expect(parsed[k as keyof typeof parsed], k).toBeDefined();
   });
 });

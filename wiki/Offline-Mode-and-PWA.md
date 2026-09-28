@@ -1,28 +1,28 @@
 # Offline Mode and PWA
 
-TREK can be installed as a Progressive Web App (PWA) and used without an internet connection for previously synced trips.
+Trip Mate can be installed as a Progressive Web App (PWA) and used without an internet connection for previously synced trips.
 
 ## Install as an app (PWA)
 
-TREK must be served over **HTTPS** — the install prompt does not appear on plain HTTP.
+Trip Mate must be served over **HTTPS** — the install prompt does not appear on plain HTTP.
 
 **iOS (Safari):**
-1. Open TREK in Safari.
+1. Open Trip Mate in Safari.
 2. Tap the Share button.
 3. Select **Add to Home Screen**.
 
 **Android (Chrome / Edge):**
-1. Open TREK in the browser.
+1. Open Trip Mate in the browser.
 2. Tap the browser menu.
 3. Select **Install app** or **Add to Home Screen**.
 
-Once installed, TREK launches in **standalone** mode (fullscreen, no browser UI) using the TREK icon.
+Once installed, Trip Mate launches in **standalone** mode (fullscreen, no browser UI) using the Trip Mate icon.
 
 The installed app starts at the app root, so the **Start page** setting decides what you see when you tap the icon — the dashboard, or straight into your active trip on a tab of your choice. See [Display-Settings](Display-Settings).
 
 ## What works offline
 
-TREK uses Workbox service-worker caching plus an IndexedDB database (Dexie) for structured trip data. The following content is available offline after the first sync:
+Trip Mate uses Workbox service-worker caching plus an IndexedDB database (Dexie) for structured trip data. The following content is available offline after the first sync:
 
 **Service-worker cache (Workbox)**
 
@@ -41,12 +41,12 @@ TREK uses Workbox service-worker caching plus an IndexedDB database (Dexie) for 
 
 **IndexedDB (Dexie) — structured trip data**
 
-On login, when the browser comes back online, and when you lift **Force offline mode**, TREK runs a background sync that writes full trip bundles into IndexedDB — you can also start one by hand with **Re-sync now**, with **Download for offline use** for a progress-tracked run, or by re-enabling a trip's offline toggle:
+On login, when the browser comes back online, and when you lift **Force offline mode**, Trip Mate runs a background sync that writes full trip bundles into IndexedDB — you can also start one by hand with **Re-sync now**, with **Download for offline use** for a progress-tracked run, or by re-enabling a trip's offline toggle:
 
 - Trips, days, places, packing items, to-dos, budget items, reservations, accommodations, trip members, tags, and categories.
 - File attachments that are neither photos nor videos (PDFs, documents, etc.) are downloaded and stored as blobs in IndexedDB. Videos are deliberately skipped — a single clip can be hundreds of megabytes and would evict the trip's real documents.
 - Map tiles are pre-fetched into the service-worker `map-tiles` cache for zoom levels 0 to 16 across each trip's bounding box, stopping at the zoom level that would push the total past 12 288 tiles (roughly 180 MB). If the browser refused persistent storage, prefetching stops at zoom 12 so the app shell cannot be evicted.
-- The places around each trip, up to 3000 from the [TREK Places API](TREK-Places-API) in one request (about a megabyte for a city), so place search and suggestions still answer offline. They are downloaded whether or not **Store map tiles offline** is on, refreshed only when the trip's area changes, and removed with the trip. See [Searching offline](Places-and-Search#searching-offline).
+- The places around each trip, up to 3000 from the [Trip Mate Places API](Trip Mate-Places-API) in one request (about a megabyte for a city), so place search and suggestions still answer offline. They are downloaded whether or not **Store map tiles offline** is on, refreshed only when the trip's area changes, and removed with the trip. See [Searching offline](Places-and-Search#searching-offline).
 
 > **Note:** A WebSocket reconnect does *not* run this sync. It replays your queued changes and then re-reads the trip you currently have open — days, places, packing items, to-dos, budget items, reservations and files — which refreshes that one trip's cached rows. It never re-downloads the bundles for your other trips, the file blobs or the map tiles; skipping the full sync there is deliberate, so a dropped socket on an otherwise online device doesn't run into the server's rate limiter.
 

@@ -12,14 +12,14 @@ const storage: TranslationStrings = {
   'storage.field.region': 'Region',
   'storage.help.region': 'Pozostaw wartość domyślną, chyba że twój dostawca wymaga konkretnego regionu.',
   'storage.field.keyPrefix': 'Prefiks klucza',
-  'storage.help.keyPrefix': 'Opcjonalny prefiks dodawany do każdego klucza obiektu, np. trek/prod.',
+  'storage.help.keyPrefix': 'Opcjonalny prefiks dodawany do każdego klucza obiektu, np. tripmate/prod.',
   'storage.field.retries': 'Liczba ponowień',
   'storage.field.timeoutMs': 'Limit czasu (ms)',
   'storage.field.primary': 'Backend podstawowy',
   'storage.field.replicas': 'Repliki',
   'storage.title': 'Magazyn',
   'storage.description':
-    'Gdzie TREK przechowuje przesłane pliki, zdjęcia i kopie zapasowe. Nic się nie zmienia, dopóki nie zapiszesz.',
+    'Gdzie Trip Mate przechowuje przesłane pliki, zdjęcia i kopie zapasowe. Nic się nie zmienia, dopóki nie zapiszesz.',
   'storage.loading': 'Ładowanie…',
   'storage.saved': 'Zapisano konfigurację magazynu',
   'storage.save': 'Zapisz zmiany',
@@ -65,7 +65,7 @@ const storage: TranslationStrings = {
   'storage.category.avatars': 'Zdjęcia profilowe',
   'storage.category.places': 'Zdjęcia miejsc',
   'storage.category.photos-google': 'Pamięć podręczna zdjęć Google',
-  'storage.category.photos-trek': 'Pamięć podręczna zdjęć TREK',
+  'storage.category.photos-tripmate': 'Pamięć podręczna zdjęć Trip Mate',
   'storage.category.backups': 'Kopie zapasowe',
 
   // What each category stores — rendered under the label in the category map.
@@ -77,8 +77,8 @@ const storage: TranslationStrings = {
   'storage.categoryDesc.places': 'Obrazy dołączone do miejsc i miejsc w kolekcjach — przesłane lub zaimportowane.',
   'storage.categoryDesc.photos-google':
     'Kopie zdjęć z Google Places przechowywane w pamięci podręcznej — można je pobrać ponownie, ich utrata jest bezpieczna.',
-  'storage.categoryDesc.photos-trek':
-    'Zdjęcia w pamięci podręcznej z usługi zdjęć TREK używanej przez funkcję Zdjęcia (Memories) — można je pobrać ponownie, ich utrata jest bezpieczna.',
+  'storage.categoryDesc.photos-tripmate':
+    'Zdjęcia w pamięci podręcznej z usługi zdjęć Trip Mate używanej przez funkcję Zdjęcia (Memories) — można je pobrać ponownie, ich utrata jest bezpieczna.',
   'storage.categoryDesc.backups':
     'Archiwa kopii zapasowych serwera tworzone przez panel Kopia zapasowa lub harmonogram.',
   'storage.health.title': 'Stan',
@@ -136,6 +136,7 @@ const storage: TranslationStrings = {
   'storage.migrate.cancel': 'Anuluj przenoszenie',
   'storage.migrate.promptCancel': 'Anuluj',
   'storage.migrate.queued': 'W kolejce: {categories}',
-  'storage.migrate.queueDropped': 'Nie udało się rozpocząć kolejnego przenoszenia — pozostała kolejka została wyczyszczona: {categories}',
+  'storage.migrate.queueDropped':
+    'Nie udało się rozpocząć kolejnego przenoszenia — pozostała kolejka została wyczyszczona: {categories}',
 };
 export default storage;

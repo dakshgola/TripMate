@@ -14,7 +14,7 @@ import { DaysService } from '../days/days.service';
 import { findByIata } from '../airports/airports.data';
 import type { EndpointInput } from './reservations.service';
 import { AssignmentsService } from '../assignments/assignments.service';
-import { transportLegInputSchema, reservationUrlSchema, type TransportLegInput } from '@trek/shared';
+import { transportLegInputSchema, reservationUrlSchema, type TransportLegInput } from '@tripmate/shared';
 
 // What counts as a transport booking, for the update_transport gate. Every value
 // ReservationsPanel renders with a transport icon, so a stored `transit` row is
@@ -307,7 +307,7 @@ const LEGS_IN_METADATA_ERROR =
 /**
  * Reservations MCP surface — ported 1:1 from the legacy registrars: the five
  * tools from src/mcp/tools/reservations.ts and the
- * trek://trips/{tripId}/reservations resource from src/mcp/resources.ts
+ * tripmate://trips/{tripId}/reservations resource from src/mcp/resources.ts
  * (identical names, descriptions, schemas, annotations, error/payload shapes
  * and broadcasts). The registration-time gates map to the declarative
  * reservations read/write access markers (the legacy `if (canWrite)` /
@@ -483,7 +483,7 @@ export class ReservationsMcp {
 
   @Tool({
     name: 'set_reservation_travelers',
-    description: 'Set who is travelling on a booking, replacing the current list. Pass the user IDs of trip members or guests from list_trip_members; an empty array clears the list. Somebody who is not on the trip is ignored rather than added: use add_trip_member for a person with a TREK account, or create_trip_guest for one without.',
+    description: 'Set who is travelling on a booking, replacing the current list. Pass the user IDs of trip members or guests from list_trip_members; an empty array clears the list. Somebody who is not on the trip is ignored rather than added: use add_trip_member for a person with a Trip Mate account, or create_trip_guest for one without.',
     inputSchema: {
       tripId: z.number().int().positive(),
       reservationId: z.number().int().positive(),
@@ -623,7 +623,7 @@ export class ReservationsMcp {
 
   @ResourceTemplate({
     name: 'trip-reservations',
-    uriTemplate: 'trek://trips/{tripId}/reservations',
+    uriTemplate: 'tripmate://trips/{tripId}/reservations',
     description: 'Reservations (flights, hotels, restaurants) for a trip',
     mimeType: 'application/json',
     access: { group: 'reservations', mode: 'read' },
