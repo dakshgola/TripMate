@@ -51,10 +51,10 @@ import { DOWNLOAD_MAX_BYTES, guardDownload } from './provider-http';
 const SCOPE_PREFIX = 'tag:';
 
 /** The custom field the trip uid is written into, created on demand. */
-export const TRIP_UID_FIELD_NAME = 'trek_trip_id';
+export const TRIP_UID_FIELD_NAME = 'tripmate_trip_id';
 
 /** The header the self-registered workflow sends its shared secret in. */
-export const PAPERLESS_WEBHOOK_SECRET_HEADER = 'X-Trek-Docsync-Secret';
+export const PAPERLESS_WEBHOOK_SECRET_HEADER = 'X-TripMate-Docsync-Secret';
 
 /**
  * What one push may buffer when the core did not say how large the file is.
