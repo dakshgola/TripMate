@@ -35,6 +35,7 @@ import { lazyWithRetry } from '../utils/lazyWithRetry'
 import { getDayBookendHotels } from '../utils/dayOrder'
 import TripWarningsBanner from '../components/Planner/TripWarningsBanner'
 import Navbar from '../components/Layout/Navbar'
+import { AiAssistantModal } from '../components/Planner/AiAssistantModal'
 import { useToast } from '../components/shared/Toast'
 import { Map, X, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, Ticket, PackageCheck, Wallet, FolderOpen, Users, Train } from 'lucide-react'
 import { useTranslation } from '../i18n'
@@ -355,6 +356,7 @@ function TripPlannerPageDesktop(): React.ReactElement | null {
   const tripHasDates = Boolean(trip?.start_date && trip?.end_date)
   const loadBudgetItems = useTripStore(s => s.loadBudgetItems)
   const [bookingExpense, setBookingExpense] = useState<{ editing: BudgetItem | null; prefill?: ExpensePrefill } | null>(null)
+  const [showAiModal, setShowAiModal] = useState<boolean>(false)
   const openBookingExpense = (req: BookingExpenseRequest) => {
     if (req.editItem) setBookingExpense({ editing: req.editItem })
     else if (req.prefill) setBookingExpense({ editing: null, prefill: req.prefill })
@@ -382,7 +384,7 @@ function TripPlannerPageDesktop(): React.ReactElement | null {
 
   return (
     <div style={{ position: 'fixed', inset: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden', ...fontStyle }}>
-      <Navbar tripTitle={trip.title} tripId={tripId} showBack onBack={() => navigate('/dashboard')} onShare={() => setShowMembersModal(true)} />
+      <Navbar tripTitle={trip.title} tripId={tripId} showBack onBack={() => navigate('/dashboard')} onShare={() => setShowMembersModal(true)} onOpenAi={() => setShowAiModal(true)} />
 
       <div className="bg-surface-elevated border-b border-edge-faint" style={{
         position: 'fixed', top: 'var(--nav-h)', left: 0, right: 0, zIndex: 40,
@@ -1190,6 +1192,17 @@ function TripPlannerPageDesktop(): React.ReactElement | null {
           : t('roadtrip.stay.releaseBody', { name: stayRelease?.name ?? '' })}
         confirmLabel={t('roadtrip.stay.releaseAction')}
       />
+      {showAiModal && trip && (
+        <AiAssistantModal
+          isOpen={showAiModal}
+          onClose={() => setShowAiModal(false)}
+          trip={trip}
+          days={days}
+          onPlanApplied={() => {
+            window.location.reload()
+          }}
+        />
+      )}
     </div>
   )
 }

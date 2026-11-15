@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router'
 import { useTranslation } from '../i18n'
 import Navbar from '../components/Layout/Navbar'
 import DemoBanner from '../components/Layout/DemoBanner'
@@ -19,6 +20,7 @@ import {
   Plus, Edit2, Trash2, Archive, ArchiveRestore, Copy, ArrowRight, MapPin,
   Plane, Hotel, Utensils, Clock, RefreshCw, ArrowRightLeft, Calendar,
   LayoutGrid, List, Ticket, X, CalendarPlus, ParkingSquare, LogIn, LogOut,
+  Sparkles, Trophy, Globe,
 } from 'lucide-react'
 import { IcsSubscribeModal } from '../components/Planner/IcsSubscribeModal'
 import CollectionsWidget from '../components/Dashboard/CollectionsWidget'
@@ -184,6 +186,51 @@ function DashboardPageDesktop(): React.ReactElement {
             )}
 
             <AtlasStats stats={stats} />
+
+            {/* Trip Mate Core Features Hub */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 my-4">
+              <Link to="/ai-planner"
+                className="group p-4 rounded-xl border border-edge bg-surface-card hover:border-indigo-500/50 transition-all flex items-center gap-3.5 shadow-sm hover:shadow-md">
+                <div className="w-10 h-10 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+                  <Sparkles size={20} className="text-indigo-400" />
+                </div>
+                <div>
+                  <div className="font-semibold text-sm text-content flex items-center gap-1.5">
+                    AI Trip Planner
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">AI</span>
+                  </div>
+                  <div className="text-xs text-content-muted mt-0.5">Generate smart itineraries with Gemini</div>
+                </div>
+              </Link>
+
+              <Link to="/volunteer"
+                className="group p-4 rounded-xl border border-edge bg-surface-card hover:border-emerald-500/50 transition-all flex items-center gap-3.5 shadow-sm hover:shadow-md">
+                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+                  <Globe size={20} className="text-emerald-400" />
+                </div>
+                <div>
+                  <div className="font-semibold text-sm text-content flex items-center gap-1.5">
+                    Volunteer Yatra
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Earn</span>
+                  </div>
+                  <div className="text-xs text-content-muted mt-0.5">Travel, learn skills & earn stipends</div>
+                </div>
+              </Link>
+
+              <Link to="/rewards"
+                className="group p-4 rounded-xl border border-edge bg-surface-card hover:border-amber-500/50 transition-all flex items-center gap-3.5 shadow-sm hover:shadow-md">
+                <div className="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+                  <Trophy size={20} className="text-amber-400" />
+                </div>
+                <div>
+                  <div className="font-semibold text-sm text-content flex items-center gap-1.5">
+                    Rewards & Leaderboard
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30">Points</span>
+                  </div>
+                  <div className="text-xs text-content-muted mt-0.5">Complete trips, earn badges & coupons</div>
+                </div>
+              </Link>
+            </div>
 
             <section>
               <div className="sec-head">

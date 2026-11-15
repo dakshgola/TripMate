@@ -57,10 +57,10 @@ function fmtCur(amount:number,currency:string){
 function Chip({selected,onClick,children,color}:{selected:boolean;onClick:()=>void;children:React.ReactNode;color?:string}){
   return(
     <button onClick={onClick} type="button" style={{
-      padding:"7px 14px",borderRadius:24,cursor:"pointer",fontSize:13,outline:"none",
-      border:selected?`1.5px solid ${color||"#6366f1"}`:"1.5px solid rgba(255,255,255,0.12)",
-      background:selected?`${color||"#6366f1"}22`:"rgba(255,255,255,0.04)",
-      color:selected?(color||"#a78bfa"):"rgba(255,255,255,0.65)",
+      padding:"8px 16px",borderRadius:24,cursor:"pointer",fontSize:13,outline:"none",
+      border:selected?`1.5px solid ${color||"var(--accent, #6366f1)"}`:"1px solid var(--border, rgba(255,255,255,0.12))",
+      background:selected?`${color||"var(--accent, #6366f1)"}20`:"var(--bg-secondary, rgba(255,255,255,0.04))",
+      color:selected?(color||"var(--accent, #6366f1)"):"var(--text-secondary, #94a3b8)",
       fontWeight:selected?600:400,transition:"all 0.2s",
     }}>{children}</button>
   );
@@ -242,30 +242,25 @@ export default function AiPlannerPage(){
 
   const copyMarkdown=()=>{if(itinerary)navigator.clipboard.writeText(itinerary.markdown).then(()=>toast.success("Copied!"));};
 
-  const inputSt:React.CSSProperties={width:"100%",background:"rgba(255,255,255,0.06)",border:"1px solid rgba(255,255,255,0.14)",borderRadius:12,padding:"13px 15px",color:"#fff",fontSize:14,outline:"none",boxSizing:"border-box"};
-  const labelSt:React.CSSProperties={display:"block",fontSize:12,color:"rgba(255,255,255,0.55)",marginBottom:8,fontWeight:500};
-  const card:React.CSSProperties={background:"rgba(255,255,255,0.04)",backdropFilter:"blur(20px)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:22,padding:"28px 24px"};
+  const inputSt:React.CSSProperties={width:"100%",background:"var(--bg-secondary, rgba(255,255,255,0.06))",border:"1px solid var(--border, rgba(255,255,255,0.14))",borderRadius:12,padding:"13px 15px",color:"var(--text-primary, #fff)",fontSize:14,outline:"none",boxSizing:"border-box"};
+  const labelSt:React.CSSProperties={display:"block",fontSize:12,color:"var(--text-muted, rgba(255,255,255,0.55))",marginBottom:8,fontWeight:500};
+  const card:React.CSSProperties={background:"var(--bg-card, rgba(255,255,255,0.04))",backdropFilter:"blur(20px)",border:"1px solid var(--border, rgba(255,255,255,0.1))",borderRadius:22,padding:"28px 24px"};
 
   return(
-    <div style={{minHeight:"100vh",background:"linear-gradient(135deg,#0a0a0f 0%,#0d0a1a 40%,#0a0f1a 100%)",fontFamily:"Inter,-apple-system,sans-serif",color:"#fff",position:"relative",overflow:"hidden"}}>
-      <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,pointerEvents:"none",zIndex:0}}>
-        <div style={{position:"absolute",top:"8%",left:"8%",width:380,height:380,borderRadius:"50%",background:"radial-gradient(circle,rgba(99,102,241,0.11),transparent 70%)",filter:"blur(40px)"}}/>
-        <div style={{position:"absolute",top:"45%",right:"4%",width:280,height:280,borderRadius:"50%",background:"radial-gradient(circle,rgba(168,85,247,0.09),transparent 70%)",filter:"blur(40px)"}}/>
-        <div style={{position:"absolute",bottom:"12%",left:"28%",width:320,height:320,borderRadius:"50%",background:"radial-gradient(circle,rgba(236,72,153,0.07),transparent 70%)",filter:"blur(50px)"}}/>
-      </div>
-      <div style={{position:"relative",zIndex:1}}>
+    <div style={{minHeight:"100vh",background:"var(--bg-primary, #09090b)",fontFamily:"Inter,-apple-system,sans-serif",color:"var(--text-primary, #fff)",position:"relative"}}>
+      <div style={{position:"relative",zIndex:1,paddingTop:"calc(var(--nav-h) + 16px)"}}>
         <Navbar/>
         {!itinerary?(
-          <div style={{maxWidth:660,margin:"0 auto",padding:"36px 20px 120px"}}>
-            <div style={{textAlign:"center",marginBottom:44}}>
-              <div style={{display:"inline-flex",alignItems:"center",gap:8,background:"rgba(168,85,247,0.14)",border:"1px solid rgba(168,85,247,0.28)",borderRadius:28,padding:"7px 18px",marginBottom:18}}>
-                <Sparkles size={14} style={{color:"#a855f7"}}/>
-                <span style={{fontSize:12,color:"#a78bfa",fontWeight:600}}>Powered by Google Gemini</span>
+          <div style={{maxWidth:660,margin:"0 auto",padding:"24px 20px 120px"}}>
+            <div style={{textAlign:"center",marginBottom:36}}>
+              <div style={{display:"inline-flex",alignItems:"center",gap:8,background:"rgba(99,102,241,0.12)",border:"1px solid rgba(99,102,241,0.25)",borderRadius:28,padding:"7px 18px",marginBottom:16}}>
+                <Sparkles size={14} style={{color:"var(--accent, #6366f1)"}}/>
+                <span style={{fontSize:12,color:"var(--accent, #a78bfa)",fontWeight:600}}>Powered by Google Gemini</span>
               </div>
-              <h1 style={{fontSize:"clamp(30px,5vw,50px)",fontWeight:800,margin:0,lineHeight:1.1}}>
-                <span style={{background:"linear-gradient(135deg,#6366f1,#a855f7,#ec4899)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>AI Trip Planner</span>
+              <h1 style={{fontSize:"clamp(28px,5vw,44px)",fontWeight:800,margin:0,lineHeight:1.1,color:"var(--text-primary, #fff)"}}>
+                AI Trip Planner
               </h1>
-              <p style={{fontSize:15,color:"rgba(255,255,255,0.5)",marginTop:10}}>Personalized itinerary · Weather-smart · Budget-aware</p>
+              <p style={{fontSize:15,color:"var(--text-muted, rgba(255,255,255,0.55))",marginTop:10}}>Personalized itinerary · Weather-smart · Budget-aware</p>
             </div>
             <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,marginBottom:36}}>
               {["Destination","Style & Budget","Interests"].map((label,i)=>(
