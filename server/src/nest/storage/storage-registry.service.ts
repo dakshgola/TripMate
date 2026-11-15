@@ -91,7 +91,7 @@ const REPLICA_FAILURE_RING_SIZE = 50;
  * Exported for tests/unit/uploads-dirs.test.ts, which pins the Dockerfile's
  * `mkdir -p /app/uploads/...` list to these prefixes.
  */
-export const CATEGORY_PREFIXES: Record<ServedCategory, string> = {
+export const CATEGORY_PREFIXES: Record<string, string> = {
   files: 'files/',
   journey: 'journey/',
   covers: 'covers/',
@@ -99,6 +99,7 @@ export const CATEGORY_PREFIXES: Record<ServedCategory, string> = {
   places: 'places/',
   photos: 'photos/',
   'photos-google': 'photos/google/',
+  'photos-trek': 'photos/trek/',
   'photos-tripmate': 'photos/tripmate/',
   backups: '',
 };

@@ -111,6 +111,7 @@ export const envSchema = z.object({
   MCP_RATE_LIMIT: positiveNumber,
 
   // Integrations
+  GEMINI_API_KEY: anyString,
   UNSPLASH_ACCESS_KEY: anyString,
   TRANSIT_API_URL: url,
   NOMINATIM_URL: url,

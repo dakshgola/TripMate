@@ -208,14 +208,10 @@ function validateAndFormatItinerary(
 
 @Injectable()
 export class AiService {
-  private resolveKey(providedKey?: string): string | undefined {
-    const fromDto = providedKey?.trim();
-    if (fromDto) return fromDto;
-
+  private resolveKey(): string | undefined {
     const fromEnv =
-      process.env.GEMINI_API_KEY ||
-      (readEnv().integrations as unknown as Record<string, string | undefined>).geminiApiKey ||
-      process.env.VITE_GEMINI_API_KEY;
+      readEnv().integrations.geminiApiKey ||
+      process.env.GEMINI_API_KEY;
 
     const trimmed = fromEnv?.trim();
     if (trimmed && trimmed !== 'your_gemini_api_key_here' && trimmed !== '••••••••') {
@@ -224,8 +220,8 @@ export class AiService {
     return undefined;
   }
 
-  getStatus(providedKey?: string) {
-    const key = this.resolveKey(providedKey);
+  getStatus() {
+    const key = this.resolveKey();
     return {
       configured: Boolean(key),
       model: 'gemini-flash-lite-latest',
@@ -344,7 +340,7 @@ export class AiService {
   }
 
   async generateItinerary(dto: PlanItineraryDto): Promise<StructuredItinerary> {
-    const apiKey = this.resolveKey(dto.apiKey);
+    const apiKey = this.resolveKey();
     if (!apiKey) {
       throw new BadRequestException(
         'Gemini API key is not configured. Please ensure GEMINI_API_KEY is configured in server/.env.',
@@ -413,7 +409,7 @@ Please generate the complete itinerary now with both the \`\`\`json block and de
   }
 
   async chat(dto: ChatAiDto): Promise<{ reply: string }> {
-    const apiKey = this.resolveKey(dto.apiKey);
+    const apiKey = this.resolveKey();
     if (!apiKey) {
       throw new BadRequestException(
         'Gemini API key is not configured. Please ensure GEMINI_API_KEY is configured in server/.env.',

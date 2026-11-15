@@ -46,11 +46,8 @@ export class VolunteerController {
   }
 
   @Get('applications/mine')
-  getMyApplications(
-    @CurrentUser() user?: User,
-    @Query('email') email?: string,
-  ) {
-    return this.volunteerService.getMyApplications(user?.id, email);
+  getMyApplications(@CurrentUser() user?: User) {
+    return this.volunteerService.getMyApplications(user?.id);
   }
 
   @Get('favorites')

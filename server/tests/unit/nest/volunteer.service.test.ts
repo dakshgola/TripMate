@@ -8,6 +8,7 @@ import {
   NotFoundException,
   BadRequestException,
   ForbiddenException,
+  UnauthorizedException,
 } from '@nestjs/common';
 
 describe('VolunteerService', () => {
@@ -60,7 +61,7 @@ describe('VolunteerService', () => {
       const opp = service.getOpportunity('rishikesh-content-nomad');
       expect(opp.id).toBe('rishikesh-content-nomad');
       expect(opp.hostName).toBe('Ganga Whispers Eco-Resort');
-      expect(opp.verified).toBe(true);
+      expect(opp.verified).toBe(false);
     });
 
     it('throws NotFoundException for unknown opportunity id', () => {
@@ -144,7 +145,7 @@ describe('VolunteerService', () => {
       });
 
       // Cancel the first application
-      service.updateStatus(app1.applicationId, 'CANCELLED');
+      service.updateStatus(app1.applicationId, 'CANCELLED', { id: 999, role: 'admin' });
 
       // Re-applying must succeed now
       const app2 = service.apply({
@@ -232,6 +233,45 @@ describe('VolunteerService', () => {
       expect(() =>
         service.updateStatus(app.applicationId, 'CANCELLED', { id: 7, role: 'user' }),
       ).toThrow(ForbiddenException);
+    });
+
+    it('throws UnauthorizedException when an unauthenticated actor attempts to change status', () => {
+      const app = service.apply({
+        opportunityId: 'kerala-organic-permaculture',
+        applicantName: 'Guest Tester',
+        applicantEmail: 'guest@example.com',
+        applicantPhone: '+91 9876543210',
+        applicantMotivation: 'Permaculture enthusiast.',
+      });
+
+      expect(() =>
+        service.updateStatus(app.applicationId, 'CANCELLED'),
+      ).toThrow(UnauthorizedException);
+    });
+
+    it('retrieves applied opportunity IDs only for authenticated user and ignores cancelled', () => {
+      dbConn
+        .prepare(
+          "INSERT OR IGNORE INTO users (id, username, email, password_hash) VALUES (10, 'user10', 'user10@example.com', 'hash')",
+        )
+        .run();
+
+      service.apply(
+        {
+          opportunityId: 'kerala-organic-permaculture',
+          applicantName: 'User 10',
+          applicantEmail: 'user10@example.com',
+          applicantPhone: '+91 9876543210',
+          applicantMotivation: 'Permaculture enthusiast.',
+        },
+        10,
+      );
+
+      const mine = service.getMyApplications(10);
+      expect(mine).toContain('kerala-organic-permaculture');
+
+      const unauthenticated = service.getMyApplications(undefined);
+      expect(unauthenticated).toEqual([]);
     });
   });
 

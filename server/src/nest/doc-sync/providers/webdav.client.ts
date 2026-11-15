@@ -169,6 +169,7 @@ const PROPFIND_BODY =
  * `doc-uid` on the same file cannot collide with it.
  */
 export const TREK_PROP_NS = 'https://github.com/liketrek/TREK/ns/docsync';
+export const TRIPMATE_PROP_NS = TREK_PROP_NS;
 
 /** Property names under that namespace, matching the anchors in `PushRequest`. */
 export const TRIPMATE_PROP_DOC_UID = 'doc-uid';

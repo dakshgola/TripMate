@@ -9,8 +9,8 @@ export class AiController {
   constructor(private readonly aiService: AiService) {}
 
   @Get('status')
-  getStatus(@Query('apiKey') apiKey?: string) {
-    return this.aiService.getStatus(apiKey);
+  getStatus() {
+    return this.aiService.getStatus();
   }
 
   @Post('plan-itinerary')

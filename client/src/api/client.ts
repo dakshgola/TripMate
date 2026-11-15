@@ -1651,8 +1651,8 @@ export const inAppNotificationsApi = {
 }
 
 export const aiApi = {
-  status: (apiKey?: string) =>
-    apiClient.get('/ai/status', { params: apiKey ? { apiKey } : {} }).then(r => r.data as { configured: boolean; model: string }),
+  status: () =>
+    apiClient.get('/ai/status').then(r => r.data as { configured: boolean; model: string }),
   planItinerary: (payload: {
     destination: string
     days: number
@@ -1662,12 +1662,10 @@ export const aiApi = {
     travelStyle: string
     interests: string[]
     startDate?: string
-    apiKey?: string
   }) => apiClient.post('/ai/plan-itinerary', payload, { timeout: 90000 }).then(r => r.data),
   chat: (payload: {
     messages: Array<{ role: 'user' | 'assistant'; content: string }>
     tripContext?: Record<string, unknown>
-    apiKey?: string
   }) => apiClient.post('/ai/chat', payload, { timeout: 60000 }).then(r => r.data as { reply: string }),
 }
 

@@ -270,6 +270,7 @@ export function deriveWebauthn(raw: RawEnv) {
 
 export function deriveIntegrations(raw: RawEnv) {
   return {
+    geminiApiKey: raw.GEMINI_API_KEY?.trim(),
     unsplashAccessKey: raw.UNSPLASH_ACCESS_KEY?.trim(),
     transitApiBase: stripTrailingSlashes(raw.TRANSIT_API_URL || 'https://api.transitous.org'),
     // Trimmed before the default fires: the schema validates the trimmed value and

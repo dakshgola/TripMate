@@ -667,10 +667,46 @@ function createTables(db: Database.Database): void {
       UNIQUE(user_id, opportunity_id)
     );
     CREATE INDEX IF NOT EXISTS idx_volunteer_fav_user ON volunteer_favorites(user_id);
+
+    CREATE TABLE IF NOT EXISTS points_ledger (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      trip_id TEXT,
+      action TEXT NOT NULL,
+      points INTEGER NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      UNIQUE(user_id, trip_id, action)
+    );
+    CREATE INDEX IF NOT EXISTS idx_points_ledger_user ON points_ledger(user_id);
+
+    CREATE TABLE IF NOT EXISTS rewards (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      points_required INTEGER NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS user_rewards (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      reward_id INTEGER NOT NULL REFERENCES rewards(id) ON DELETE CASCADE,
+      coupon_code TEXT NOT NULL,
+      redeemed_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+    CREATE INDEX IF NOT EXISTS idx_user_rewards_user ON user_rewards(user_id);
   `);
 
   try { db.exec(`ALTER TABLE volunteer_applications ADD COLUMN portfolio_url TEXT;`); } catch {}
   try { db.exec(`ALTER TABLE volunteer_applications ADD COLUMN stipend_snapshot TEXT;`); } catch {}
+  try {
+    const rCount = (db.prepare('SELECT COUNT(*) as c FROM rewards').get() as { c: number }).c;
+    if (rCount === 0) {
+      db.prepare('INSERT INTO rewards (name, points_required) VALUES (?, ?)').run('5% hotel discount', 100);
+      db.prepare('INSERT INTO rewards (name, points_required) VALUES (?, ?)').run('10% hotel discount', 200);
+      db.prepare('INSERT INTO rewards (name, points_required) VALUES (?, ?)').run('Free airport lounge pass', 350);
+      db.prepare('INSERT INTO rewards (name, points_required) VALUES (?, ?)').run('₹1,500 travel voucher', 500);
+    }
+  } catch {}
 }
 
 export { createTables };

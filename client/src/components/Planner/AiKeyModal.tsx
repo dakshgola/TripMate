@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { KeyRound, Check, X, ExternalLink, Sparkles, AlertCircle, ShieldCheck } from 'lucide-react';
-import { getStoredApiKey, setStoredApiKey, clearStoredApiKey, checkAiKeyStatus } from '../../services/aiPlannerService';
+import { KeyRound, X, ExternalLink, AlertCircle, ShieldCheck, RefreshCw, Check } from 'lucide-react';
+import { checkAiKeyStatus } from '../../services/aiPlannerService';
 
 interface AiKeyModalProps {
   isOpen: boolean;
@@ -9,47 +9,27 @@ interface AiKeyModalProps {
 }
 
 export function AiKeyModal({ isOpen, onClose, onKeySaved }: AiKeyModalProps) {
-  const [keyInput, setKeyInput] = useState('');
-  const [status, setStatus] = useState<{ configured: boolean; source: string }>({ configured: false, source: 'none' });
-  const [savedSuccess, setSavedSuccess] = useState(false);
+  const [status, setStatus] = useState<{ configured: boolean; model?: string }>({ configured: false });
+  const [refreshing, setRefreshing] = useState(false);
+
+  const fetchStatus = async () => {
+    setRefreshing(true);
+    try {
+      const s = await checkAiKeyStatus();
+      setStatus(s);
+      onKeySaved?.();
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   useEffect(() => {
     if (isOpen) {
-      const stored = getStoredApiKey() || '';
-      setKeyInput(stored.startsWith('••••') ? '' : stored);
-      checkAiKeyStatus().then(setStatus);
-      setSavedSuccess(false);
+      fetchStatus();
     }
   }, [isOpen]);
 
   if (!isOpen) return null;
-
-  const handleSave = () => {
-    if (keyInput.trim()) {
-      setStoredApiKey(keyInput.trim());
-      setSavedSuccess(true);
-      checkAiKeyStatus().then(setStatus);
-      onKeySaved?.();
-      setTimeout(() => {
-        setSavedSuccess(false);
-        onClose();
-      }, 1000);
-    }
-  };
-
-  const handleClear = () => {
-    clearStoredApiKey();
-    setKeyInput('');
-    checkAiKeyStatus().then(setStatus);
-    onKeySaved?.();
-  };
-
-  const sourceLabels: Record<string, string> = {
-    local: 'Configured via browser storage',
-    vite_env: 'Configured in client/.env (VITE_GEMINI_API_KEY)',
-    server_env: 'Configured in server/.env (GEMINI_API_KEY)',
-    none: 'Not configured yet',
-  };
 
   return (
     <div
@@ -105,8 +85,8 @@ export function AiKeyModal({ isOpen, onClose, onKeySaved }: AiKeyModalProps) {
               <KeyRound size={20} color="white" />
             </div>
             <div>
-              <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700 }}>Google Gemini API Key</h3>
-              <p style={{ margin: 0, fontSize: 12, opacity: 0.7 }}>Power your AI travel itinerary planner</p>
+              <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700 }}>Google Gemini AI Engine</h3>
+              <p style={{ margin: 0, fontSize: 12, opacity: 0.7 }}>Server-side AI itinerary planner</p>
             </div>
           </div>
           <button
@@ -130,7 +110,7 @@ export function AiKeyModal({ isOpen, onClose, onKeySaved }: AiKeyModalProps) {
           {/* Current Status Pill */}
           <div
             style={{
-              padding: '10px 14px',
+              padding: '12px 14px',
               borderRadius: 12,
               background: status.configured ? 'rgba(34, 197, 94, 0.12)' : 'rgba(239, 68, 68, 0.12)',
               border: `1px solid ${status.configured ? 'rgba(34, 197, 94, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
@@ -146,65 +126,41 @@ export function AiKeyModal({ isOpen, onClose, onKeySaved }: AiKeyModalProps) {
                 <AlertCircle size={18} color="#ef4444" />
               )}
               <span style={{ fontSize: 13, fontWeight: 600 }}>
-                {status.configured ? 'API Key Active' : 'API Key Missing'}
+                {status.configured ? 'Backend AI Service Active' : 'Backend Key Not Configured'}
               </span>
             </div>
-            <span style={{ fontSize: 11, opacity: 0.8 }}>{sourceLabels[status.source] || status.source}</span>
+            <span style={{ fontSize: 11, opacity: 0.8 }}>
+              {status.configured ? (status.model || 'gemini-flash-lite-latest') : 'server/.env'}
+            </span>
           </div>
 
-          <div>
-            <label
-              style={{
-                display: 'block',
-                fontSize: 12,
-                fontWeight: 600,
-                marginBottom: 6,
-                textTransform: 'uppercase',
-                letterSpacing: 0.5,
-                opacity: 0.8,
-              }}
-            >
-              Enter API Key
-            </label>
-            <input
-              type="password"
-              value={keyInput}
-              onChange={(e) => setKeyInput(e.target.value)}
-              placeholder="AIzaSy..."
-              className="bg-surface-secondary border border-edge-subtle"
-              style={{
-                width: '100%',
-                padding: '11px 14px',
-                borderRadius: 12,
-                fontSize: 14,
-                boxSizing: 'border-box',
-                outline: 'none',
-                fontFamily: 'monospace',
-              }}
-            />
-          </div>
-
-          {/* Setup Instructions */}
+          {/* Architecture / Security Info */}
           <div
             className="bg-surface-secondary border border-edge-faint"
             style={{
-              padding: '12px 14px',
+              padding: '14px 16px',
               borderRadius: 12,
-              fontSize: 12,
-              lineHeight: 1.5,
-              opacity: 0.85,
+              fontSize: 12.5,
+              lineHeight: 1.55,
+              opacity: 0.9,
             }}
           >
-            <div style={{ fontWeight: 600, marginBottom: 4 }}>You can provide the key in 3 ways:</div>
-            <ul style={{ margin: 0, paddingLeft: 18 }}>
+            <div style={{ fontWeight: 600, marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <ShieldCheck size={15} color="#22c55e" /> Secure Server-Side Architecture
+            </div>
+            <p style={{ margin: '0 0 8px 0', opacity: 0.8 }}>
+              All AI itinerary generation and chat requests are processed through Trip Mate's NestJS backend. API credentials are kept exclusively on the server and never exposed to the browser.
+            </p>
+            <div style={{ fontWeight: 600, marginTop: 8, marginBottom: 4 }}>To configure or update the key:</div>
+            <ol style={{ margin: 0, paddingLeft: 18, opacity: 0.85 }}>
               <li>
-                In <code style={{ background: 'rgba(255,255,255,0.08)', padding: '1px 4px', borderRadius: 4 }}>server/.env</code> as <code style={{ color: '#ff6b35' }}>GEMINI_API_KEY=...</code>
+                Open <code style={{ background: 'rgba(255,255,255,0.08)', padding: '1px 5px', borderRadius: 4 }}>server/.env</code>
               </li>
               <li>
-                In <code style={{ background: 'rgba(255,255,255,0.08)', padding: '1px 4px', borderRadius: 4 }}>client/.env</code> as <code style={{ color: '#ff6b35' }}>VITE_GEMINI_API_KEY=...</code>
+                Set <code style={{ color: '#ff6b35' }}>GEMINI_API_KEY=your_gemini_api_key</code>
               </li>
-              <li>Or paste it directly above to save in this browser</li>
-            </ul>
+              <li>Restart or reload the backend service</li>
+            </ol>
           </div>
 
           <a
@@ -226,57 +182,48 @@ export function AiKeyModal({ isOpen, onClose, onKeySaved }: AiKeyModalProps) {
 
           {/* Action buttons */}
           <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
-            {status.source === 'local' && (
-              <button
-                type="button"
-                onClick={handleClear}
-                className="border border-edge-subtle"
-                style={{
-                  padding: '10px 16px',
-                  borderRadius: 12,
-                  background: 'none',
-                  color: 'inherit',
-                  cursor: 'pointer',
-                  fontSize: 13,
-                  fontWeight: 600,
-                }}
-              >
-                Clear
-              </button>
-            )}
             <button
               type="button"
-              onClick={handleSave}
-              disabled={!keyInput.trim()}
+              onClick={fetchStatus}
+              disabled={refreshing}
+              className="border border-edge-subtle"
+              style={{
+                padding: '11px 16px',
+                borderRadius: 12,
+                background: 'none',
+                color: 'inherit',
+                cursor: refreshing ? 'wait' : 'pointer',
+                fontSize: 13,
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+              }}
+            >
+              <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
+              Refresh Status
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
               style={{
                 flex: 1,
                 padding: '11px 18px',
                 borderRadius: 12,
                 border: 'none',
-                background: keyInput.trim()
-                  ? 'linear-gradient(135deg, #ff6b35, #f7931e)'
-                  : 'rgba(255, 255, 255, 0.1)',
-                color: keyInput.trim() ? 'white' : 'rgba(255, 255, 255, 0.4)',
+                background: 'linear-gradient(135deg, #ff6b35, #f7931e)',
+                color: 'white',
                 fontWeight: 700,
                 fontSize: 13.5,
-                cursor: keyInput.trim() ? 'pointer' : 'not-allowed',
+                cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 8,
-                boxShadow: keyInput.trim() ? '0 4px 14px rgba(255, 107, 53, 0.35)' : 'none',
-                transition: 'all 0.2s',
+                boxShadow: '0 4px 14px rgba(255, 107, 53, 0.35)',
               }}
             >
-              {savedSuccess ? (
-                <>
-                  <Check size={16} /> Saved!
-                </>
-              ) : (
-                <>
-                  <Sparkles size={16} /> Save API Key
-                </>
-              )}
+              <Check size={16} /> Done
             </button>
           </div>
         </div>

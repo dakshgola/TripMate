@@ -216,7 +216,7 @@ function seedVolunteerOpportunities(db: Database.Database): void {
           'Complimentary river rafting and cliff jumping sessions',
           'Official Certificate of Media Residency & ₹12,000 monthly stipend',
         ]),
-        verified: 1,
+        verified: 0,
       },
       {
         id: 'manali-hostel-host',
@@ -248,7 +248,7 @@ function seedVolunteerOpportunities(db: Database.Database): void {
           'Free rental of mountain bikes and trekking gear',
           '₹10,000/mo pocket allowance',
         ]),
-        verified: 1,
+        verified: 0,
       },
       {
         id: 'dehradun-wall-mural-residency',
@@ -280,7 +280,7 @@ function seedVolunteerOpportunities(db: Database.Database): void {
           'Unlimited espresso, bakery treats & home-cooked meals',
           '₹15,000 completion honorarium',
         ]),
-        verified: 1,
+        verified: 0,
       },
       {
         id: 'kerala-organic-permaculture',
@@ -312,7 +312,7 @@ function seedVolunteerOpportunities(db: Database.Database): void {
           'Complimentary Ayurvedic rejuvenation massage once a week',
           '₹8,500 monthly travel stipend',
         ]),
-        verified: 1,
+        verified: 0,
       },
       {
         id: 'goa-sunset-yoga-wellness',
@@ -344,7 +344,7 @@ function seedVolunteerOpportunities(db: Database.Database): void {
           'Honda Activa / Scooty with fuel provided for local exploration',
           '₹18,000 monthly coaching stipend',
         ]),
-        verified: 1,
+        verified: 0,
       },
       {
         id: 'rajasthan-haveli-music-events',
@@ -376,7 +376,7 @@ function seedVolunteerOpportunities(db: Database.Database): void {
           'Desert camel safari and overnight camp passes',
           '₹14,000 monthly performance stipend',
         ]),
-        verified: 1,
+        verified: 0,
       },
       {
         id: 'spiti-digital-nomad-dev',
@@ -408,7 +408,7 @@ function seedVolunteerOpportunities(db: Database.Database): void {
           'Weekend guided high-altitude treks',
           '₹20,000 monthly stipend',
         ]),
-        verified: 1,
+        verified: 0,
       },
     ];
 

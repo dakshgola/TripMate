@@ -10,7 +10,6 @@ export const planItinerarySchema = z.object({
   travelStyle: z.string().default('couple'),
   interests: z.array(z.string()).default([]),
   startDate: z.string().optional(),
-  apiKey: z.string().optional(),
 });
 
 export class PlanItineraryDto extends createZodDto(planItinerarySchema) {}
@@ -23,7 +22,6 @@ export const chatAiSchema = z.object({
     }),
   ),
   tripContext: z.record(z.string(), z.unknown()).optional(),
-  apiKey: z.string().optional(),
 });
 
 export class ChatAiDto extends createZodDto(chatAiSchema) {}

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import Navbar from "../components/Layout/Navbar";
 import {
   generateItinerary, chatWithAssistant, createNewTripFromItinerary,
-  getStoredApiKey, checkAiKeyStatus, type StructuredItinerary, type ApplyProgress,
+  checkAiKeyStatus, type StructuredItinerary, type ApplyProgress,
 } from "../services/aiPlannerService";
 import { AiKeyModal } from "../components/Planner/AiKeyModal";
 import { useToast } from "../components/shared/Toast";
@@ -164,10 +164,8 @@ export default function AiPlannerPage(){
   const [budget,setBudget]=useState("mid");
   const [currency,setCurrency]=useState("INR");
   const [interests,setInterests]=useState<string[]>(["culture","food"]);
-  const [showKey,setShowKey]=useState(false);
-  const [apiKeyInput,setApiKeyInput]=useState(()=>getStoredApiKey()||"");
   const [keyModalOpen,setKeyModalOpen]=useState(false);
-  const [keyStatus,setKeyStatus]=useState<{configured:boolean;source:string}>({configured:false,source:"none"});
+  const [keyStatus,setKeyStatus]=useState<{configured:boolean;model?:string}>({configured:false});
   const [loading,setLoading]=useState(false);
   const [error,setError]=useState<string|null>(null);
   const [itinerary,setItinerary]=useState<StructuredItinerary|null>(null);
@@ -283,10 +281,10 @@ export default function AiPlannerPage(){
             <div style={card}>
               <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:20,padding:"8px 12px",borderRadius:10,background:keyStatus.configured?"rgba(34,197,94,0.08)":"rgba(239,68,68,0.08)",border:`1px solid ${keyStatus.configured?"rgba(34,197,94,0.25)":"rgba(239,68,68,0.25)"}`}}>
                 <div style={{display:"flex",alignItems:"center",gap:7,fontSize:12,color:keyStatus.configured?"#4ade80":"#f87171"}}>
-                  <Shield size={13}/>{keyStatus.configured?`Gemini key active (${keyStatus.source})`:"Gemini API key not configured"}
+                  <Shield size={13}/>{keyStatus.configured?`Backend AI Active (${keyStatus.model || 'Gemini'})`:"Gemini API key not configured"}
                 </div>
                 <button onClick={()=>setKeyModalOpen(true)} type="button" style={{background:"none",border:"none",cursor:"pointer",fontSize:12,color:keyStatus.configured?"#4ade80":"#f87171",fontWeight:600,display:"flex",alignItems:"center",gap:5}}>
-                  <Key size={12}/>{keyStatus.configured?"Change":"Set Key"}
+                  <Key size={12}/>{keyStatus.configured?"View Status":"Configure"}
                 </button>
               </div>
               {formPage===0&&(
@@ -369,14 +367,19 @@ export default function AiPlannerPage(){
                     </div>
                   </div>
                   <div style={{borderTop:"1px solid rgba(255,255,255,0.08)",paddingTop:18}}>
-                    <label style={labelSt}><Key size={12} style={{display:"inline",marginRight:5,color:"#a78bfa"}}/>Gemini API Key <span style={{color:"rgba(255,255,255,0.3)"}}>(or set in server .env)</span></label>
-                    <div style={{position:"relative"}}>
-                      <input type={showKey?"text":"password"} value={apiKeyInput} onChange={e=>setApiKeyInput(e.target.value)} placeholder="AIza..." style={{...inputSt,padding:"12px 42px 12px 14px",fontFamily:"monospace"}}/>
-                      <button onClick={()=>setShowKey(s=>!s)} type="button" style={{position:"absolute",right:11,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",color:"rgba(255,255,255,0.4)",cursor:"pointer",padding:4}}>
-                        {showKey?<EyeOff size={15}/>:<Eye size={15}/>}
+                    <label style={labelSt}><Key size={12} style={{display:"inline",marginRight:5,color:"#a78bfa"}}/>AI Configuration</label>
+                    <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"11px 14px",borderRadius:12,background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)"}}>
+                      <div style={{display:"flex",alignItems:"center",gap:8,fontSize:12.5}}>
+                        <div style={{width:8,height:8,borderRadius:"50%",background:keyStatus.configured?"#22c55e":"#ef4444"}}/>
+                        <span style={{color:keyStatus.configured?"#4ade80":"#f87171",fontWeight:600}}>
+                          {keyStatus.configured?"Backend Gemini AI Ready":"Key Missing in server/.env"}
+                        </span>
+                      </div>
+                      <button onClick={()=>setKeyModalOpen(true)} type="button" style={{background:"none",border:"none",color:"#a78bfa",cursor:"pointer",fontSize:12,fontWeight:600}}>
+                        Details
                       </button>
                     </div>
-                    <div style={{fontSize:11,color:"rgba(255,255,255,0.3)",marginTop:5}}>Free key at <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" style={{color:"#6366f1"}}>aistudio.google.com</a>. Or set GEMINI_API_KEY in server/.env.</div>
+                    <div style={{fontSize:11,color:"rgba(255,255,255,0.35)",marginTop:6}}>Trip Mate securely processes all requests on the backend. No API keys are stored in the browser.</div>
                   </div>
                 </div>
               )}

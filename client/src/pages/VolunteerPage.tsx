@@ -65,7 +65,7 @@ const VOLUNTEER_PROJECTS: VolunteerOpportunity[] = [
       'Complimentary river rafting and cliff jumping sessions',
       'Official Certificate of Media Residency & ₹12,000 monthly stipend'
     ],
-    verified: true,
+    verified: false,
   },
   {
     id: 'manali-hostel-host',
@@ -97,7 +97,7 @@ const VOLUNTEER_PROJECTS: VolunteerOpportunity[] = [
       'Free rental of mountain bikes and trekking gear',
       '₹10,000/mo pocket allowance'
     ],
-    verified: true,
+    verified: false,
   },
   {
     id: 'dehradun-wall-mural-residency',
@@ -129,7 +129,7 @@ const VOLUNTEER_PROJECTS: VolunteerOpportunity[] = [
       'Unlimited espresso, bakery treats & home-cooked meals',
       '₹15,000 completion honorarium'
     ],
-    verified: true,
+    verified: false,
   },
   {
     id: 'kerala-organic-permaculture',
@@ -161,7 +161,7 @@ const VOLUNTEER_PROJECTS: VolunteerOpportunity[] = [
       'Complimentary Ayurvedic rejuvenation massage once a week',
       '₹8,500 monthly travel stipend'
     ],
-    verified: true,
+    verified: false,
   },
   {
     id: 'goa-sunset-yoga-wellness',
@@ -193,7 +193,7 @@ const VOLUNTEER_PROJECTS: VolunteerOpportunity[] = [
       'Honda Activa / Scooty with fuel provided for local exploration',
       '₹18,000 monthly coaching stipend'
     ],
-    verified: true,
+    verified: false,
   },
   {
     id: 'rajasthan-haveli-music-events',
@@ -225,7 +225,7 @@ const VOLUNTEER_PROJECTS: VolunteerOpportunity[] = [
       'Desert camel safari and overnight camp passes',
       '₹14,000 monthly performance stipend'
     ],
-    verified: true,
+    verified: false,
   },
   {
     id: 'spiti-digital-nomad-dev',
@@ -257,7 +257,7 @@ const VOLUNTEER_PROJECTS: VolunteerOpportunity[] = [
       'Weekend guided high-altitude treks',
       '₹20,000 monthly stipend'
     ],
-    verified: true,
+    verified: false,
   }
 ]
 
@@ -449,7 +449,7 @@ export default function VolunteerPage() {
               <div className="flex items-center gap-6 text-xs sm:text-sm font-semibold text-white/90 px-2 py-1">
                 <div className="flex items-center gap-1.5">
                   <ShieldCheck size={18} className="text-[#52b788]" />
-                  <span>100% Verified Hosts</span>
+                  <span>Curated Community Hosts</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <DollarSign size={18} className="text-[#fbb040]" />
@@ -466,7 +466,7 @@ export default function VolunteerPage() {
               </div>
               <div>
                 <p className="text-2xl sm:text-3xl font-black text-white">500+</p>
-                <p className="text-xs sm:text-sm text-white/70 font-medium">Verified Indian Hosts</p>
+                <p className="text-xs sm:text-sm text-white/70 font-medium">Curated Indian Hosts</p>
               </div>
               <div>
                 <p className="text-2xl sm:text-3xl font-black text-white">45+</p>
@@ -522,7 +522,7 @@ export default function VolunteerPage() {
               </div>
               <h3 className="text-lg sm:text-xl font-bold mb-2.5">Choose Project &amp; Connect</h3>
               <p className="text-sm text-content-muted leading-relaxed">
-                Browse 500+ verified mountain homestays, riverside camps, beach hostels &amp; eco-farms. Connect directly with the host.
+                Browse community homestays, riverside camps, beach hostels &amp; eco-farms. Connect directly with the host.
               </p>
             </div>
 
@@ -552,7 +552,7 @@ export default function VolunteerPage() {
             <div>
               <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#e76f3c] mb-1">
                 <Compass size={14} />
-                <span>Verified Positions Available</span>
+                <span>Opportunities Available</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Wander-ful Volunteer Projects in India</h2>
             </div>

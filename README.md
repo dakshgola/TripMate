@@ -1,389 +1,534 @@
+# Trip Mate
+
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/logo-tripmate-light.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="docs/logo-tripmate-dark.svg" />
-  <img src="docs/logo-tripmate-dark.svg" alt="Trip Mate" height="96" />
+  <source media="(prefers-color-scheme: dark)" srcset="docs/logo-trek-light.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="docs/logo-trek-dark.svg" />
+  <img src="docs/logo-trek-dark.svg" alt="Trip Mate" height="96" />
 </picture>
 
 <br />
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/subtitle-light.png" />
   <source media="(prefers-color-scheme: light)" srcset="docs/subtitle-dark.png" />
   <img src="docs/subtitle-dark.png" alt="your trip. your plan." height="28" />
 </picture>
 
-A self-hosted, real-time collaborative travel planner — with maps, budgets, packing lists, a journal, and AI built in.
+<p align="center">
+  <b>A modern, self-hosted, real-time collaborative travel planning and management platform.</b><br />
+  Featuring intelligent AI itinerary planning, purposeful volunteer journeys (Volunteer Yatra), gamified rewards, interactive maps, split budgets, packing checklists, and offline-first PWA capabilities.
+</p>
 
-<br />
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg?style=flat-square)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-22_LTS-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![NestJS](https://img.shields.io/badge/NestJS-11-E0234E?style=flat-square&logo=nestjs&logoColor=white)](https://nestjs.com/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![SQLite](https://img.shields.io/badge/SQLite-WAL_Mode-003B57?style=flat-square&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 
-<a href="https://demo.liketrek.com"><img alt="Demo" src="https://img.shields.io/badge/Demo-try-111827?style=for-the-badge" /></a>
-&nbsp;
-<a href="https://hub.docker.com/r/mauriceboe/trek"><img alt="Docker" src="https://img.shields.io/badge/Docker-ready-2496ED?style=for-the-badge" /></a>
-&nbsp;
-<a href="https://sonarcloud.io/project/overview?id=liketrek_TREK"><img alt="Sonar Quality Gate" src="https://img.shields.io/sonar/quality_gate/liketrek_TREK?server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge" /></a>
-&nbsp;
-<img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/liketrek/Trip Mate/test.yml?branch=main&style=for-the-badge">
-&nbsp;
-<a href="https://discord.gg/NhZBDSd4qW"><img alt="Discord" src="https://img.shields.io/badge/Discord-join-5865F2?style=for-the-badge" /></a>
-&nbsp;
-<a href="https://kanban.pakulat.org/shared/I4wxF6inOOMB0C6hH6kQm3efyNxFjwyI"><img alt="Roadmap" src="https://img.shields.io/badge/Roadmap-view-0EA5E9?style=for-the-badge" /></a>
-&nbsp;
-<a href="https://ko-fi.com/mauriceboe"><img alt="Ko-fi" src="https://img.shields.io/badge/Ko--fi-support-FF5E5B?style=for-the-badge" /></a>
-&nbsp;
-<a href="https://www.buymeacoffee.com/mauriceboe"><img alt="BMAC" src="https://img.shields.io/badge/BMAC-support-FFDD00?style=for-the-badge" /></a>
-<br />
-<a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-AGPL_v3-6B7280?style=flat-square" /></a>
-<a href="https://github.com/liketrek/TREK/releases"><img alt="Latest Release" src="https://img.shields.io/github/v/release/liketrek/trek?include_prereleases&style=flat-square&color=6B7280" /></a>
-<a href="https://hub.docker.com/r/mauriceboe/trek"><img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/mauriceboe/trek?style=flat-square&color=6B7280" /></a>
-<a href="https://github.com/liketrek/TREK"><img alt="Stars" src="https://img.shields.io/github/stars/liketrek/trek?style=flat-square&color=6B7280" /></a>
 </div>
 
 ---
 
-<div align="center">
-
-<img src="https://github.com/mauriceboe/trek-media/releases/download/readme-assets/TREK1.webp" alt="TREK, a tour of the app" width="100%" />
-
-</div>
-
-<br />
-
-## What you get
-
-<picture>
-  <source media="(max-width: 700px)" srcset="docs/tiles/grid-mobile.svg" />
-  <source media="(prefers-color-scheme: dark)" srcset="docs/tiles/grid-desktop-dark.svg" />
-  <img src="docs/tiles/grid-desktop.svg" alt="Plan, track, share" width="100%" />
-</picture>
-
-<details>
-<summary><b>See all features</b></summary>
-
-<br />
-
-Most of what follows is an addon an admin switches on or off. Lists, Costs, Documents, Collab, Vacay and Atlas ship on; Journey, Collections, MCP, AI Parsing and AirTrail ship off and are marked below.
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-#### 🧭 Planning
-
-- **Day plans**: drag places between days and reorder inside a day, with undo. Notes and bookings drag the same way, and a map marker drops straight onto a day
-- **Maps**: Leaflet, Mapbox GL or MapLibre GL (OpenFreeMap, no token), with clustering, photo markers and route lines. 3D buildings and terrain are Mapbox only
-- **Place search**: Google Places when a key is set (photos, ratings, opening hours), otherwise OpenStreetMap with no key
-- **Place enrichment**: descriptions, facts, hours and photo candidates from OpenStreetMap, Wikipedia, Wikidata and Wikimedia Commons
-- **POI explore**: pull OpenStreetMap POIs by category for the current viewport over Overpass
-- **Import**: shared Google Maps and Naver Maps lists, plus GPX, KML and KMZ files
-- **Export**: GPX of a trip's places and tracks, and an ICS feed per trip or across all of them
-- **Routes**: auto-sort a day (nearest neighbour then 2-opt, locked stops and hotel anchors stay put), driving, walking or cycling profiles over OSRM, then open it in Google Maps or CoMaps
-- **Public transport**: door-to-door itineraries over Transitous
-- **Weather**: 16-day forecast from Open-Meteo, no key. Dates outside that window read the archive for the same date instead
-- **Day notes**: markdown body with an icon and a colour, reordered by drag and drop or moved to another day
-- **Trip dates**: move a trip and the days re-date themselves, either dragging the bookings along or re-anchoring them. Trips also copy and archive
-
-</td>
-<td width="50%" valign="top">
-
-#### 🧳 Bookings and money
-
-- **Reservations**: 16 booking types with status, confirmation code, travellers and attached files
-- **Flights and trains**: several legs with stopovers, per-leg times and endpoint timezones, against 4,045 bundled airports so local times resolve without a key
-- **Accommodation**: a stay spans a range of days with a check-in window, and shows on every night it covers
-- **Booking import**: EML, PDF, PKPass, HTML and TXT confirmations through [KItinerary](https://invent.kde.org/pim/kitinerary). Needs the `kitinerary-extractor` binary, which ships in the Docker image
-- **AirTrail** (off by default): link a self-hosted AirTrail instance to import flights as reservations and keep them in sync
-- **Costs**: split expenses in integer cents with equal or custom shares, several payers per expense, settle-up suggestions, a settlement log, and CSV export
-- **Currencies**: a currency per expense with the rate frozen at entry. Rates come from Frankfurter, no key
-- **Packing lists**: categories, admin-managed templates, assignees, three visibility tiers, and a packed-of-total line. Bags with weight roll-up are a separate admin switch, off by default
-- **To-dos**: assignee, due date, priority, and a reminder before one falls due
-- **Files**: attach to a trip, place, day entry or reservation. 50 MB each, 500 MB for video, with trash and restore
-- **PDF export**: cover page, place photos, day notes, bookings and costs, with an optional page break per day
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-#### 👥 Collaboration
-
-- **Real-time sync** (WebSocket): edits land live for everyone who has that trip open
-- **Members**: add by email or username, hand ownership to someone else, or add guests who have no login at all
-- **Permissions**: an admin maps each of 16 trip actions to admin, trip owner, trip member or everybody
-- **Invite links**: one reusable link per trip with an optional expiry. Admins can also issue signup invites with a use limit that drop the new account straight into a trip
-- **Public share**: a read-only trip page anyone can open without an account
-- **Collab**: group chat with replies, reactions and link previews, shared notes with attachments, polls, and a What's Next list of upcoming activities. Each of the four switches on its own
-
-#### 📔 Journal, Atlas and Vacay
-
-- **Journey** (off by default): dated entries with story, mood, weather and tags, photos and video from uploads or a linked [Immich](https://immich.app) or Synology Photos library, map views, co-authors, and a public share link
-- **Atlas**: mark countries and sub-national regions visited on [geoBoundaries](https://www.geoboundaries.org/) outlines, plus a bucket list, travel stats and a consecutive-years-travelled count
-- **Vacay**: leave calendar with half days, public holidays from date.nager.at, school holiday overlays for 16 European countries, carry-over between years, and joint or read-only sharing of a plan
-- **Collections** (off by default): a place library outside any trip, with labels, ratings, a custom image per place, copy-into-a-trip, and sharing by invite
-
-</td>
-<td width="50%" valign="top">
-
-#### 🧩 Plugins
-
-- **Third-party plugins**: install from the Trip Mate registry or sideload a zip, switch on per instance, with their own pages under `/plugins/<id>`
-- **Sandboxed**: one child process per plugin, 63 grantable permissions, an admin-edited outbound host allowlist, memory and RPC caps, and daily caps on AI and notification calls
-- **Trust**: registry downloads are pinned by sha256 and checked against the author's minisign key. A sideloaded zip is marked unverified, and `TRIPMATE_PLUGINS_ENABLED=false` turns the whole system off
-- **Extension points**: map markers and layers, place details, day schedules, PDF sections, Atlas layers, journal rows, trip warnings, calendar sources, route profiles and notification channels. Plugin pages run in an opaque-origin iframe
-- **SDK**: [`trek-plugin-sdk`](https://www.npmjs.com/package/trek-plugin-sdk) on npm, with a manifest validator, a mock host, and a dev-link mode that runs a local build against real data
-
-#### 🤖 AI and MCP
-
-- **MCP server** (off by default): OAuth 2.1 with mandatory PKCE and dynamic client registration. 199 tools, 30 resources, 4 prompts
-- **Scopes**: 29 scopes in 14 groups, each one tickable on the consent screen. Tokens are bound to the `/mcp` resource, and every tool call lands in the audit log
-- **Reach**: create trips and days, edit places, packing lists, to-dos, costs, reservations, collections and journeys, mark countries visited, all inside the scopes the token holds
-- **Prompts**: `trip-summary`, plus `packing-list` and `budget-overview` when those addons are on
-- **Addon-aware**: seven addon gates decide which tools and resources a session sees. Flipping one drops live sessions so the surface re-registers
-- **Booking extraction** (off by default): read a confirmation with a local Ollama server, any OpenAI-compatible endpoint, or Anthropic, configured instance-wide or per user
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-#### 📱 Mobile and offline
-
-- **Installable**: iOS and Android straight from the browser, no App Store. Runs standalone without browser chrome, with the status bar tinted per theme
-- **Phone layouts**: a separate shell below 768px with its own tokens, a bottom bar and safe-area insets. Which items sit in that bar is up to the user
-- **Offline reads**: the app shell and every route chunk are precached, and trips, places and file blobs live in a per-user IndexedDB store, so a trip opens with no network
-- **Offline writes**: mutations queue and replay with an `X-Idempotency-Key`, so a reconnect cannot double-apply. A stale edit is parked for a keep-mine or keep-theirs choice
-- **Offline maps**: pre-download a trip's raster tiles, and clear them again
-- **API responses are never cached** by the service worker. They vary per session, so they always come from the network
-
-</td>
-<td width="50%" valign="top">
-
-#### ⚙️ Admin, accounts and security
-
-- **Login methods**: password login, password registration, OIDC login, OIDC registration and passkey login each switch on and off on their own. `OIDC_ONLY` leaves SSO as the only way in
-- **SSO (OIDC)**: one provider by discovery, with PKCE and `id_token` verification (Authentik, Keycloak, Google and the like)
-- **2FA**: TOTP with ten single-use backup codes, and an admin can require it instance-wide
-- **Passkeys**: WebAuthn login by fingerprint, face, PIN or security key, off until an admin enables it. A passkey also satisfies the 2FA requirement
-- **Hardening**: per-IP limits on login, password reset and 2FA attempts, a password policy, secrets encrypted at rest and masked on read, and an SSRF guard on every URL you configure
-- **Admin panel**: users and invites, the permission matrix, packing templates, categories, addons, plugins, API keys, MCP tokens and OAuth sessions, backups, storage, audit log, and GitHub releases
-- **Backups**: manual or scheduled hourly, daily, weekly or monthly, with retention in days. The zip carries the at-rest key, so a restore can decrypt its own secrets
-- **Storage**: pluggable storage backends per content category — keep everything on local disk, or add S3-compatible backends and replicate any category to them, configured entirely from the admin panel
-- **Notifications**: a per-user matrix of events against in-app, email (SMTP), webhook and ntfy, plus any channel a plugin registers
-- **Appearance**: light, dark or follow the OS, seven colour schemes plus a custom accent, transparency, compact density, reduce motion, and text size per tier
-- **23 languages**: en, de, es, fr, it, nl, hu, ru, zh, zh-TW, pl, cs, ar (right to left), br, id, tr, ja, ko, uk, gr, sv, vi, ca
-- **In-app help**: the wiki ships inside the image and is served from disk at `/help`, so the docs match the version you are running
-
-</td>
-</tr>
-</table>
-
-</details>
-
-<br />
+## Showcase
 
 <div align="center">
-  <a href="docs/screenshots/showcase-desktop-1.webp"><img src="docs/screenshots/showcase-desktop-1.webp" alt="Atlas · dashboard · trip planner" width="100%" /></a>
-  <a href="docs/screenshots/showcase-mobile.webp"><img src="docs/screenshots/showcase-mobile.webp" alt="Mobile PWA · dashboard, day plan, map, costs" width="100%" /></a>
-  <a href="docs/screenshots/showcase-desktop-2.webp"><img src="docs/screenshots/showcase-desktop-2.webp" alt="Collections · journey journal · costs" width="100%" /></a>
+  <img src="docs/screenshots/showcase-desktop-1.webp" alt="Trip Mate Desktop Overview — Atlas, Dashboard, Trip Planning" width="100%" />
+  <br /><br />
+  <img src="docs/screenshots/showcase-desktop-2.webp" alt="Trip Mate Collections, Journey Journal, and Expense Management" width="100%" />
+  <br /><br />
+  <img src="docs/screenshots/showcase-mobile.webp" alt="Trip Mate Mobile PWA Interface — Responsive Day Plans and Maps" width="70%" />
 </div>
 
-<br />
+---
 
-## AI usage
+## Table of Contents
 
-We use LLM-assisted coding tools across parts of this codebase. Nothing ships that a
-maintainer has not read and understood: every change goes through a pull request, is
-reviewed and tested, and has a human who can answer for it. "The AI wrote that" is not
-an answer any of us would accept from ourselves.
+- [Overview](#overview)
+- [Core Feature Modules](#core-feature-modules)
+  - [1. AI Planner & Travel Assistant](#1-ai-planner--travel-assistant)
+  - [2. Volunteer Yatra (Travel, Learn & Earn)](#2-volunteer-yatra-travel-learn--earn)
+  - [3. Rewards & Leaderboard](#3-rewards--leaderboard)
+  - [Existing Platform Capabilities](#existing-platform-capabilities)
+- [System Architecture](#system-architecture)
+  - [High-Level Architecture Diagram](#high-level-architecture-diagram)
+  - [Monorepo Workspace Structure](#monorepo-workspace-structure)
+- [Technology Stack](#technology-stack)
+- [Installation & Setup (Windows PowerShell)](#installation--setup-windows-powershell)
+  - [Prerequisites](#prerequisites)
+  - [Step-by-Step PowerShell Setup](#step-by-step-powershell-setup)
+- [Configuration & Environment Variables](#configuration--environment-variables)
+  - [Backend Configuration (`server/.env`)](#backend-configuration-serverenv)
+  - [Strict Backend Gemini API Key Isolation](#strict-backend-gemini-api-key-isolation)
+- [Development, Build & Test Commands](#development-build--test-commands)
+- [Database & API Architecture](#database--api-architecture)
+  - [SQLite Persistence & Migrations](#sqlite-persistence--migrations)
+  - [REST API Endpoints](#rest-api-endpoints)
+- [Security Considerations](#security-considerations)
+- [Project Limitations & Disclaimers](#project-limitations--disclaimers)
+- [Data Sources & Attributions](#data-sources--attributions)
+- [License](#license)
 
-See [**How we use AI in TREK**](https://github.com/liketrek/TREK/discussions/1851) for
-the details.
+---
 
-<br />
+## Overview
 
-## Get started in 30 seconds
+**Trip Mate** is a complete, self-hosted travel management platform designed to replace fragmented spreadsheets, notes, and booking confirmations with an intuitive, unified workspace. 
 
-```bash
-ENCRYPTION_KEY=$(openssl rand -hex 32) docker run -d -p 3000:3000 \
-  -e ENCRYPTION_KEY=$ENCRYPTION_KEY \
-  -v ./data:/app/data -v ./uploads:/app/uploads mauriceboe/trek
+Whether planning an individual expedition, coordinating a road trip with friends, or engaging in purposeful community volunteering, Trip Mate provides real-time collaborative day planning, currency-converting expense splits, interactive route maps, packing lists, and offline support.
+
+The platform includes three specialized modules:
+1. **AI Planner**: Server-side Google Gemini integration for instant, structured itinerary generation and conversational travel assistance.
+2. **Volunteer Yatra**: Dedicated marketplace and tracking engine for experiential learning, community volunteer programs, and stipend monitoring.
+3. **Rewards & Leaderboard**: Gamification system that rewards sustainable travel, itinerary completion, and community contributions with points, badges, and unlockable perks.
+
+---
+
+## Core Feature Modules
+
+### 1. AI Planner & Travel Assistant
+
+The **AI Planner** leverages Google Gemini generative AI to build customized, day-by-day travel itineraries and provide real-time travel advice.
+
+```
+Browser (React UI) ──► POST /api/ai/plan-itinerary ──► NestJS AiService ──► Google Gemini API
+Browser (React UI) ◄── Validated JSON Response   ◄── Zod Validation ◄── Structured Output
 ```
 
-Open `http://localhost:3000`. On first boot Trip Mate seeds an admin account — if you set `ADMIN_EMAIL`/`ADMIN_PASSWORD` those are used, otherwise the credentials are printed to the container log (`docker logs tripmate`).
+* **Itinerary Generation**:
+  * **Input Parameters**: Destination, travel dates, trip duration (number of days), budget tier, target currency, travel style (backpacking, cultural, luxury, adventure, relaxation, family), user interests, and season.
+  * **Structured Schema Enforcement**: All Gemini responses are validated through server-side schemas to guarantee exact day counts, structured time blocks (Morning, Afternoon, Evening), realistic estimated activity costs, matching currencies, and non-empty place descriptions.
+  * **Direct "Create Trip" Action**: Generated itineraries can be converted directly into persistent Trip Mate trips with a single click, automatically creating days, timeline entries, and map markers.
+* **AI Travel Assistant**:
+  * Persistent conversational chat interface (`/api/ai/chat`) to refine recommendations, ask about local customs, receive packing tips, or adapt itineraries to unexpected weather.
+* **Safe Status Inspection**:
+  * The `/api/ai/status` endpoint allows the frontend to inspect whether AI features are enabled and configured without ever revealing secret credentials.
 
-<div align="center">
+---
 
-<a href="#docker-compose-production">Docker Compose</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="#helm-kubernetes">Helm / Kubernetes</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="#install-as-app-pwa">Install as PWA</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="#reverse-proxy">Reverse Proxy</a>
+### 2. Volunteer Yatra (Travel, Learn & Earn)
 
-</div>
+**Volunteer Yatra** bridges conscious travel with experiential learning by connecting travelers to educational, ecological, and community volunteering programs.
 
-<br />
+* **Curated Opportunity Marketplace**:
+  * Explore volunteer opportunities across domains including organic farming, rural school teaching, wildlife rescue, hostel hospitality, and eco-trail building.
+  * Real-time search by keywords, location, duration, and stipend status.
+* **Persistent Application Workflow**:
+  * Complete application submission persisting applicant name, email, phone number, portfolio/LinkedIn URL, and personal motivation statement.
+  * Prevents duplicate active applications for the same opportunity.
+  * Application lifecycle status tracking:
+    * `PENDING`: Application submitted and awaiting review.
+    * `ACCEPTED`: Host accepted the applicant.
+    * `REJECTED`: Application declined.
+    * `COMPLETED`: Volunteering placement successfully concluded.
+    * `CANCELLED`: Withdrawn by the applicant.
+* **Stipend & Benefit Tracking**:
+  * Clear overview of free accommodation, meals, certificates, and agreed monthly or weekly stipends.
+* **Favorites & Bookmarks**:
+  * Authenticated user bookmarking with instant toggle and persistent SQLite storage across browser sessions.
 
-## Tech stack
+> [!NOTE]
+> **Educational & Community Scope**: Volunteer opportunities, host listings, and stipend amounts in this repository are curated demo records designed for educational demonstration and community travel workflows. They do not constitute legally binding employment or independently verified commercial contracts.
 
-<div align="center">
+---
 
-![Node.js](https://img.shields.io/badge/Node.js_22-339933?style=flat-square&logo=node.js&logoColor=white)
-![NestJS](https://img.shields.io/badge/NestJS_11-E0234E?style=flat-square&logo=nestjs&logoColor=white)
-![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white)
-![React](https://img.shields.io/badge/React_19-61DAFB?style=flat-square&logo=react&logoColor=black)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Tailwind](https://img.shields.io/badge/Tailwind-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
-![Leaflet](https://img.shields.io/badge/Leaflet-199900?style=flat-square&logo=leaflet&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+### 3. Rewards & Leaderboard
 
-</div>
+**Rewards & Leaderboard** adds a gamification and incentive layer to encourage sustainable travel habits, collaborative planning, and volunteer engagement.
 
-Real-time sync via WebSocket (`ws`). Backend on NestJS 11. State with Zustand. Auth via JWT + OAuth 2.1 + OIDC + Passkeys (WebAuthn) + TOTP MFA. Weather via Open-Meteo (no key required). Maps with Leaflet and Mapbox GL.
+* **Points Engine**:
+  * Earn points across various activities:
+    * Trip Completion: **+500 points** upon marking a planned trip as concluded.
+    * Volunteer Placement: Points awarded for active volunteering contributions.
+    * Eco-Milestones & Packing: Points for completing zero-waste checklists and packing readiness.
+* **Dynamic Leaderboard**:
+  * Ranks travelers globally based on accumulated points and contributions.
+  * Displays tier badges: *Bronze Explorer*, *Silver Voyager*, *Gold Adventurer*, and *Platinum Wanderer*.
+* **Reward Catalog & Redemption**:
+  * In-app catalog featuring travel perks, partner gear discounts, digital certificates, and hostel vouchers.
+  * Real-time balance deduction with unique redemption code generation and transaction history tracking.
 
-<br />
+> [!NOTE]
+> **In-App Redemption Mechanics**: Reward catalog items and coupon codes are simulated in-app redemption credits demonstrating gamification architecture; they are not externally redeemable vouchers with third-party commercial merchants without active commercial API integration.
 
-<h2 id="docker-compose-production">Docker Compose (production)</h2>
+---
 
-The repository ships a ready-to-use [`docker-compose.yml`](docker-compose.yml)
-with secure defaults and every option documented inline. Download it, then:
+### Existing Platform Capabilities
 
-```bash
-docker compose up -d
+Trip Mate includes a rich foundation of self-hosted travel utilities:
+
+* **Interactive Mapping**: Leaflet and MapLibre GL support with OpenStreetMap, Mapbox, Overpass POI queries, and OSRM route calculations.
+* **Real-time Collaboration**: WebSocket (`ws`) synchronization allows multiple users to edit itineraries, notes, and packing items concurrently.
+* **Shared Expense Splitting**: Multi-currency expense splitting with fixed exchange rates, custom shares, settlement optimization, and CSV export.
+* **Luggage & Packing Lists**: Categorized packing lists with templates, assignments, baggage weight rollups, and to-do reminders.
+* **Document & Reservation Hub**: Store flight, train, hotel, and rental car reservations with attached PDFs and confirmation codes.
+* **Offline-First PWA**: Progressive Web App with service worker caching, IndexedDB persistence, and an offline mutation queue that replays edits upon reconnection.
+* **Atlas & Travel Journal**: Mark visited countries and regions on geoBoundaries maps, track consecutive travel years, and maintain multimedia travel stories.
+
+---
+
+## System Architecture
+
+### High-Level Architecture Diagram
+
+```mermaid
+flowchart TD
+    subgraph Client["Frontend Client (React 19 + Vite)"]
+        UI["Trip Mate PWA UI"]
+        AIPage["AI Planner Page"]
+        VolPage["Volunteer Yatra Page"]
+        RewPage["Rewards Page"]
+        Store["Zustand State & IndexedDB Cache"]
+    end
+
+    subgraph Shared["@tripmate/shared"]
+        Contracts["Zod Schemas & API Contracts"]
+        i18n["23-Language Translations"]
+    end
+
+    subgraph Server["Backend Server (NestJS 11 Monolith)"]
+        Gateway["WebSocket Gateway (/ws)"]
+        API["REST API Router (/api)"]
+        AiMod["AiModule & AiService"]
+        VolMod["VolunteerModule & Service"]
+        RewMod["RewardsModule & Service"]
+        TripMod["Trips & Planning Modules"]
+        AuthMod["AuthModule (JWT / Passkeys / MFA)"]
+        DBService["DatabaseService (better-sqlite3)"]
+    end
+
+    subgraph External["External Services"]
+        Gemini["Google Gemini API (@google/genai)"]
+        Geo["OpenStreetMap / Overpass / OSRM"]
+        Meteo["Open-Meteo Weather API"]
+    end
+
+    subgraph Storage["Persistence Layer"]
+        DB[("SQLite Database\n(server/data/travel.db)")]
+        Uploads[("Local Files & Uploads")]
+    end
+
+    UI --> Contracts
+    API --> Contracts
+    UI -->|HTTPS REST| API
+    UI <-->|WebSocket Sync| Gateway
+
+    AiMod -->|Server-side TLS / GEMINI_API_KEY| Gemini
+    TripMod --> Geo
+    TripMod --> Meteo
+
+    API --> AiMod
+    API --> VolMod
+    API --> RewMod
+    API --> TripMod
+    API --> AuthMod
+
+    VolMod --> DBService
+    RewMod --> DBService
+    TripMod --> DBService
+    AuthMod --> DBService
+
+    DBService --> DB
+    API --> Uploads
 ```
 
-See [Install with Docker Compose](https://github.com/liketrek/TREK/wiki/Install-Docker-Compose)
-for the full walkthrough.
+---
 
-<br />
+### Monorepo Workspace Structure
 
-<h2 id="helm-kubernetes">Helm (Kubernetes)</h2>
+Trip Mate is organized as a unified monorepo powered by **npm workspaces**:
 
-```bash
-helm repo add tripmate https://chart.liketrek.com
-helm repo update
-helm install tripmate tripmate/tripmate
+```text
+TRIP-MATE--feat-ai-trip-planner-volunteer/
+├── client/                     # Frontend Vite + React 19 Single Page Application
+│   ├── src/
+│   │   ├── components/         # Reusable UI components, modals, and layouts
+│   │   ├── pages/              # Route pages (AiPlannerPage, VolunteerPage, RewardsPage, etc.)
+│   │   ├── services/           # Frontend API client and backend connectors
+│   │   └── store/              # Zustand state management and offline cache
+│   ├── package.json
+│   └── vite.config.ts
+├── server/                     # Backend NestJS 11 application
+│   ├── src/
+│   │   ├── nest/
+│   │   │   ├── ai/             # AI Planner module, Gemini service, prompt schemas
+│   │   │   ├── volunteer/      # Volunteer Yatra module, controller, repository
+│   │   │   ├── rewards/        # Rewards and Leaderboard engine
+│   │   │   ├── database/       # DatabaseService, SQLite initialization, 244 migrations
+│   │   │   └── ...             # Auth, Trips, Maps, Storage, Collab modules
+│   ├── data/                   # SQLite database (travel.db) and encryption key
+│   ├── .env                    # Active local environment variables (never committed)
+│   ├── .env.example            # Template for server configuration
+│   └── package.json
+├── shared/                     # Shared Zod schemas, contracts, and i18n
+│   ├── src/                    # Schema definitions and validation rules
+│   ├── dist/                   # Compiled CJS/ESM modules consumed by client & server
+│   └── package.json
+├── docs/                       # Screenshots, architecture diagrams, and static assets
+├── package.json                # Root workspace configuration (@tripmate/root)
+└── README.md                   # Project documentation
 ```
 
-See [`charts/README.md`](https://github.com/liketrek/TREK/blob/main/charts/README.md) for values.
+---
 
-<br />
+## Technology Stack
 
-<h2 id="install-as-app-pwa">Install as App (PWA)</h2>
+| Layer | Technology | Details |
+| :--- | :--- | :--- |
+| **Frontend Framework** | **React 19** | Modern functional components, hooks, concurrent rendering |
+| **Build Tool** | **Vite 8** | Lightning-fast HMR and optimized asset bundling |
+| **Styling** | **Tailwind CSS** | Utility-first responsive design, dark/light theme support |
+| **State Management** | **Zustand** | Lightweight reactive store with local persistence |
+| **Mapping & GIS** | **Leaflet & MapLibre GL** | Vector/raster tiles, clustering, route polylines |
+| **Backend Framework** | **NestJS 11** | TypeScript modular architecture, dependency injection |
+| **Language Models** | **Google Gemini SDK** | `@google/genai` on backend (`gemini-2.5-flash` / `gemini-flash-lite-latest`) |
+| **Database** | **SQLite 3** | Embedded high-performance database via `better-sqlite3` |
+| **Database Engine** | **WAL Mode** | Write-Ahead Logging (`PRAGMA journal_mode=WAL`) |
+| **Realtime Sync** | **WebSockets (`ws`)** | Low-latency state synchronization across concurrent clients |
+| **Validation** | **Zod 4** | Runtime schema parsing and contract verification in `@tripmate/shared` |
+| **Authentication** | **Passport / JWT / WebAuthn** | HTTP-only cookies, Passkey fingerprint/PIN login, TOTP 2FA |
+| **Package Manager** | **npm Workspaces** | Multi-package workspace orchestration (`@tripmate/root`) |
 
-Trip Mate works as a Progressive Web App — no App Store needed.
+---
 
-1. Open Trip Mate in the browser (HTTPS required)
-2. **iOS**: Share ▸ *Add to Home Screen*
-3. **Android**: Menu ▸ *Install app* (or *Add to Home Screen*)
+## Installation & Setup (Windows PowerShell)
 
-Trip Mate then launches fullscreen with its own icon, just like a native app.
+### Prerequisites
 
-<br />
+Ensure the following tools are installed on your Windows machine:
+* **Node.js**: `v20.x` or `v22.x LTS` (verified on `v22.18.0`)
+* **npm**: `v10.x` or higher (verified on `10.9.3`)
+* **Git**: `v2.x`
+* **Google Chrome** (or any modern Chromium-based browser)
 
-## Updating
+---
 
-See [Updating](https://github.com/liketrek/TREK/wiki/Updating) — Docker Compose,
-Docker run, Helm, Portainer, Unraid and Proxmox, plus the encryption-key note.
+### Step-by-Step PowerShell Setup
 
-<br />
+#### 1. Navigate to the Correct Project Root
+Open Windows PowerShell and navigate to the directory containing the root `package.json` (`@tripmate/root`):
 
-<h2 id="reverse-proxy">Reverse Proxy</h2>
-
-For production, put Trip Mate behind a TLS-terminating reverse proxy. Trip Mate uses WebSockets for real-time sync, so the proxy **must** support WebSocket upgrades on `/ws`.
-
-If you use the MCP addon, the proxy must also pass the `Mcp-Session-Id` header through in both directions on `/mcp` — Nginx and Caddy do this by default, but a proxy that strips it makes every tool call open a new session instead of reusing one. See the [Reverse Proxy wiki page](https://github.com/liketrek/TREK/wiki/Reverse-Proxy) for details.
-
-<details>
-<summary>Nginx</summary>
-
-```nginx
-server {
-    listen 80;
-    server_name tripmate.yourdomain.com;
-    return 301 https://$host$request_uri;
-}
-
-server {
-    listen 443 ssl http2;
-    server_name tripmate.yourdomain.com;
-
-    ssl_certificate     /etc/ssl/fullchain.pem;
-    ssl_certificate_key /etc/ssl/privkey.pem;
-
-    # 500 MB covers backup-restore uploads (capped at 500 MB server-side).
-    client_max_body_size 500m;
-
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-
-    location /ws {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        proxy_read_timeout 86400;
-    }
-
-    # Only needed if you use the MCP addon. Responses are Server-Sent Events,
-    # so buffering must be off or tool results arrive late.
-    location /mcp {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_buffering off;
-        proxy_read_timeout 3600s;
-    }
-}
+```powershell
+Set-Location "C:\Users\Daksh gola\Downloads\TRIP-MATE--feat-ai-trip-planner-volunteer\TRIP-MATE--feat-ai-trip-planner-volunteer"
 ```
 
-</details>
+#### 2. Install Project Dependencies
+Install all workspace dependencies using npm:
 
-<details>
-<summary>Caddy</summary>
-
-```caddy
-tripmate.yourdomain.com {
-    reverse_proxy localhost:3000
-}
+```powershell
+npm install
 ```
 
-Caddy handles TLS and WebSockets automatically.
+#### 3. Build the Shared Package
+Compile the shared Zod contracts and internationalization bundle so both `client` and `server` can resolve `@tripmate/shared`:
 
-</details>
+```powershell
+npm run build --workspace=shared
+```
 
-<br />
+#### 4. Configure Backend Environment
+Create your `server/.env` file from the provided template:
 
-## Environment variables
+```powershell
+Copy-Item server\.env.example server\.env
+```
 
-Every variable, its default and what it does: see
-[Environment Variables](https://github.com/liketrek/TREK/wiki/Environment-Variables).
+Open `server/.env` in your editor and add your Google Gemini API key:
+```dotenv
+GEMINI_API_KEY=your_actual_gemini_api_key_here
+```
 
-## Star History
+#### 5. Run the Complete Application
+Launch the shared watcher, NestJS backend, and Vite frontend concurrently:
 
-<a href="https://www.star-history.com/?repos=liketrek%2FTREK&type=date&legend=bottom-right">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=liketrek/Trip Mate&type=date&theme=dark&legend=bottom-right&sealed_token=tW9agibKugOyPk0yPURgSdnizM7K72zbJENGD9iyk24ZcwYHtCUn-hk9jh1gdacO0O7xJ3Io7LaNrwYD3mChzcpzZIqDC8_HevYG1qnT0XNTmN6Ez4UZrQ" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=liketrek/Trip Mate&type=date&legend=bottom-right&sealed_token=tW9agibKugOyPk0yPURgSdnizM7K72zbJENGD9iyk24ZcwYHtCUn-hk9jh1gdacO0O7xJ3Io7LaNrwYD3mChzcpzZIqDC8_HevYG1qnT0XNTmN6Ez4UZrQ" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=liketrek/Trip Mate&type=date&legend=bottom-right&sealed_token=tW9agibKugOyPk0yPURgSdnizM7K72zbJENGD9iyk24ZcwYHtCUn-hk9jh1gdacO0O7xJ3Io7LaNrwYD3mChzcpzZIqDC8_HevYG1qnT0XNTmN6Ez4UZrQ" />
- </picture>
-</a>
+```powershell
+$env:NODE_OPTIONS = "--max-old-space-size=4096"
+npm run dev
+```
 
-## Data sources
+#### 6. Open Trip Mate in Chrome
+Once compilation finishes, open your browser:
+* **Frontend Web App**: [http://localhost:5173/](http://localhost:5173/)
+* **Backend API**: [http://localhost:3001/](http://localhost:3001/)
+* **AI Configuration Status**: [http://localhost:3001/api/ai/status](http://localhost:3001/api/ai/status)
 
-The Atlas map's country and sub-national (province/county) boundaries come from
-[**geoBoundaries**](https://www.geoboundaries.org/) (Runfola et al., 2020), licensed
-[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). See [NOTICE.md](NOTICE.md)
-for full third-party attributions.
+---
 
-<br />
+## Configuration & Environment Variables
+
+### Backend Configuration (`server/.env`)
+
+All server configuration is managed via `server/.env`. The table below lists the essential variables:
+
+| Variable | Default | Description |
+| :--- | :--- | :--- |
+| `PORT` | `3001` | TCP port for the NestJS HTTP & WebSocket server |
+| `NODE_ENV` | `development` | Runtime mode (`development` or `production`) |
+| `TZ` | `UTC` | Timezone for logs, reminders, and scheduled tasks |
+| `ALLOWED_ORIGINS` | `http://localhost:5173` | Allowed origins for CORS validation and secure cookie headers |
+| `COOKIE_SECURE` | `false` in dev | When `true`, enforces `Secure` attribute on session cookies (requires HTTPS) |
+| `ENCRYPTION_KEY` | *(Auto-generated)* | 256-bit hexadecimal key used to encrypt stored credentials at rest |
+| `GEMINI_API_KEY` | `""` | **Required.** Google Gemini API key for AI Planner & Travel Assistant |
+
+---
+
+### Strict Backend Gemini API Key Isolation
+
+> [!IMPORTANT]
+> **Zero Browser-Side Credential Exposure**:
+> * `GEMINI_API_KEY` resides strictly in `server/.env` and is loaded exclusively on the backend via NestJS `ConfigService`.
+> * The client browser **never** stores, reads, or transmits the Gemini API key.
+> * There are no `VITE_GEMINI_API_KEY` variables, `localStorage` key items, or direct browser calls to `generativelanguage.googleapis.com`.
+> * All AI requests are routed through authenticated backend endpoints (`POST /api/ai/plan-itinerary`, `POST /api/ai/chat`), keeping the API key completely private.
+
+---
+
+## Development, Build & Test Commands
+
+All scripts are executed from the repository root using npm workspaces:
+
+### Development Commands
+```powershell
+# Run the entire stack concurrently (shared watch + backend dev + frontend dev)
+npm run dev
+
+# Run only the NestJS backend in watch mode
+npm run dev --workspace=server
+
+# Run only the Vite frontend dev server
+npm run dev --workspace=client
+
+# Watch-recompile the shared package on file changes
+npm run build:watch --workspace=shared
+```
+
+### Production Build Commands
+```powershell
+# Build all packages for production in topological order
+npm run build
+
+# Build individual workspaces
+npm run build --workspace=shared
+npm run build --workspace=server
+npm run build --workspace=client
+```
+
+### Testing & Code Quality
+```powershell
+# Run unit and integration tests across all packages
+npm run test
+
+# Run tests with test coverage reporting
+npm run test:cov
+
+# Run linter across shared, server, and client
+npm run lint
+
+# Format code across all packages using Prettier
+npm run format
+
+# Verify formatting without modifying files
+npm run format:check
+```
+
+---
+
+## Database & API Architecture
+
+### SQLite Persistence & Migrations
+
+* **Engine**: Embedded SQLite using `better-sqlite3`.
+* **Database File**: `server/data/travel.db`
+* **Concurrency Configuration**:
+  * `PRAGMA journal_mode = WAL;` (Write-Ahead Logging provides optimal concurrent read/write performance).
+  * `PRAGMA synchronous = NORMAL;` (Ensures zero disk latency bottlenecks while maintaining ACID integrity).
+* **Automated Migrations**: The `DatabaseService` manages an automated migration pipeline consisting of **244 sequential migrations**. On application boot, missing migrations are executed in a single transaction before incoming requests are accepted.
+
+---
+
+### REST API Endpoints
+
+The backend exposes structured REST endpoints under the `/api` prefix:
+
+#### AI Planner Endpoints
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/ai/status` | Returns whether the Gemini integration is configured and active |
+| `POST` | `/api/ai/plan-itinerary` | Accepts travel parameters and generates a validated multi-day itinerary |
+| `POST` | `/api/ai/chat` | Contextual travel assistant chat for advice, recommendations, and edits |
+
+#### Volunteer Yatra Endpoints
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/volunteer/opportunities` | Returns all available volunteer programs with optional query filters |
+| `GET` | `/api/volunteer/opportunities/:id` | Returns details for a specific opportunity |
+| `POST` | `/api/volunteer/applications` | Submits a new volunteer application with duplicate prevention |
+| `GET` | `/api/volunteer/applications/mine` | Retrieves all applications submitted by the current user |
+| `PATCH` | `/api/volunteer/applications/:id/status` | Updates application state (`PENDING`, `ACCEPTED`, `REJECTED`, etc.) |
+| `GET` | `/api/volunteer/favorites` | Returns the list of bookmarked opportunity IDs for the user |
+| `POST` | `/api/volunteer/favorites/:id` | Toggles bookmark status for an opportunity |
+
+#### Rewards Endpoints
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/rewards/leaderboard` | Retrieves top ranked travelers, badge tiers, and total points |
+| `GET` | `/api/rewards/me` | Returns current user points balance, rank, and redemption history |
+| `GET` | `/api/rewards/catalog` | Returns active reward catalog items, discount tiers, and point costs |
+| `POST` | `/api/rewards/redeem` | Redeems an item, deducts user points, and generates a redemption code |
+| `POST` | `/api/rewards/trips/:tripId/complete` | Awards completion points (+500 pts) for a concluded trip |
+
+---
+
+## Security Considerations
+
+1. **Backend LLM Proxying**: All interactions with generative language models are mediated by the backend server. API keys, system instructions, and temperature settings cannot be inspected or tampered with by the client.
+2. **Encrypted Secret Storage**: Sensitive settings (OAuth client secrets, SMTP passwords, MFA seeds) are encrypted with AES-256-GCM using `ENCRYPTION_KEY` before persisting to SQLite.
+3. **Session & Token Hardening**: Authentication uses HTTP-only, SameSite, signed JWT session cookies, protecting against Cross-Site Scripting (XSS) credential theft.
+4. **Input Sanitization & Schema Validation**: User inputs are sanitized using `isomorphic-dompurify` and strictly validated at runtime against Zod schemas.
+5. **SSRF Guard**: Outbound network requests (e.g., webhook notifications, map queries, external calendar sync) are validated against private IP blacklists to prevent Server-Side Request Forgery.
+
+---
+
+## Project Limitations & Disclaimers
+
+* **LLM Rate Limits & Quotas**: AI itinerary generation depends on your Google Gemini API quota tier. If the Gemini API experiences rate limits or network degradation, the backend gracefully returns safe error responses.
+* **Single-Node Embedded SQLite**: SQLite is designed for single-process host execution. For multi-server horizontal scaling, a distributed database architecture would be required.
+* **Offline Limitations**: While trips, notes, and packing lists are cached offline via IndexedDB, AI itinerary planning, real-time geocoding, and multiplayer WebSockets require an active internet connection.
+* **Demo Scope for Volunteer Programs**: Volunteer listings, host organizations, and stipend details are curated records designed for experiential travel workflows and educational demonstrations; they do not represent legally binding or independently audited host contracts.
+* **Simulated Rewards Redemption**: Reward catalog vouchers, discount codes, and travel badges are internal gamification mechanics and cannot be redeemed with external commercial retailers without direct third-party merchant integrations.
+
+---
+
+## Data Sources & Attributions
+
+* **Map Boundaries**: Administrative and national borders provided by [geoBoundaries](https://www.geoboundaries.org/) (Runfola et al., 2020), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+* **Geocoding & POI Data**: [OpenStreetMap](https://www.openstreetmap.org/) contributors, [Overpass API](https://overpass-turbo.eu/), and [OSRM](http://project-osrm.org/).
+* **Weather Data**: Forecasts and archival historical weather courtesy of [Open-Meteo](https://open-meteo.com/) (No API key required).
+* **Currency Exchange Rates**: Provided by [Frankfurter](https://www.frankfurter.app/) open-source exchange rate API.
+* **Upstream Attribution**: Based on and adapted from the open-source Trek travel planner project by Maurice Boe and community contributors.
+
+---
 
 ## License
 
-Trip Mate is [AGPL v3](LICENSE). Self-host freely for personal or internal company use. If you modify and offer Trip Mate as a network service to third parties, your modifications must be open-sourced under the same licence.
+Trip Mate is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**.
+
+```text
+Trip Mate — Collaborative Travel Planner with AI, Volunteer Yatra & Rewards
+Copyright (C) 2026 Trip Mate Contributors & upstream authors.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+```
+
+See the [LICENSE](LICENSE) file for the full license text.

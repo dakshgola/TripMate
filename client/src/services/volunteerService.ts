@@ -91,9 +91,9 @@ export async function updateApplicationStatus(
   return res.data as { success: boolean; applicationId: number; status: string };
 }
 
-export async function getMyVolunteerApplications(email?: string): Promise<string[]> {
+export async function getMyVolunteerApplications(): Promise<string[]> {
   try {
-    const res = await apiClient.get('/volunteer/applications/mine', { params: { email } });
+    const res = await apiClient.get('/volunteer/applications/mine');
     return (res.data as string[]) || [];
   } catch {
     return [];

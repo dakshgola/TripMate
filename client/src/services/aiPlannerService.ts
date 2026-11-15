@@ -48,125 +48,19 @@ export interface ItineraryRequest {
   startDate?: string;
 }
 
-const LOCAL_STORAGE_KEY = 'gemini_api_key';
-
-export function getStoredApiKey(): string | null {
-  const local = localStorage.getItem(LOCAL_STORAGE_KEY)?.trim();
-  if (local) return local;
-
-  const envKey = (import.meta.env.VITE_GEMINI_API_KEY as string | undefined)?.trim();
-  if (envKey && envKey !== 'your_gemini_api_key_here' && envKey !== '••••••••') {
-    return envKey;
-  }
-  return null;
-}
-
-export function setStoredApiKey(key: string): void {
-  const trimmed = key.trim();
-  if (trimmed) {
-    localStorage.setItem(LOCAL_STORAGE_KEY, trimmed);
-  } else {
-    localStorage.removeItem(LOCAL_STORAGE_KEY);
-  }
-}
-
-export function clearStoredApiKey(): void {
-  localStorage.removeItem(LOCAL_STORAGE_KEY);
-}
-
 export async function checkAiKeyStatus(): Promise<{
   configured: boolean;
-  source: 'local' | 'vite_env' | 'server_env' | 'none';
+  model?: string;
 }> {
   try {
     const res = await apiClient.get('/ai/status');
-    if (res.data?.configured) {
-      return { configured: true, source: 'server_env' };
-    }
+    return {
+      configured: Boolean(res.data?.configured),
+      model: res.data?.model,
+    };
   } catch {
-    // server check failed or unauthenticated
+    return { configured: false };
   }
-
-  const local = localStorage.getItem(LOCAL_STORAGE_KEY)?.trim();
-  if (local) return { configured: true, source: 'local' };
-
-  return { configured: false, source: 'none' };
-}
-
-/**
- * Direct Gemini API call from client with streaming
- */
-async function callDirectGemini(
-  apiKey: string,
-  messages: Array<{ role: string; parts: { text: string }[] }>,
-  systemInstruction: string,
-  onChunk?: (text: string) => void,
-): Promise<string> {
-  const models = ['gemini-3.8-flash', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
-  let lastError: Error | null = null;
-
-  for (const model of models) {
-    try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:${onChunk ? 'streamGenerateContent?alt=sse&' : 'generateContent?'}key=${apiKey}`;
-
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: messages,
-          systemInstruction: { parts: [{ text: systemInstruction }] },
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 8192,
-            thinkingConfig: {
-              thinkingBudget: 0,
-            },
-          },
-        }),
-      });
-
-      if (!res.ok) {
-        const err = await res.text();
-        throw new Error(`Gemini ${model} error (${res.status}): ${err}`);
-      }
-
-      if (onChunk && res.body) {
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-        let full = '';
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          const chunk = decoder.decode(value, { stream: true });
-          for (const line of chunk.split('\n')) {
-            if (!line.startsWith('data: ')) continue;
-            const data = line.slice(6).trim();
-            if (data === '[DONE]') continue;
-            try {
-              const parsed = JSON.parse(data);
-              const text = parsed?.candidates?.[0]?.content?.parts?.[0]?.text;
-              if (text) {
-                full += text;
-                onChunk(text);
-              }
-            } catch {
-              // ignore json partial parse
-            }
-          }
-        }
-        return full;
-      } else {
-        const data = await res.json();
-        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (text) return text;
-      }
-    } catch (err) {
-      lastError = err instanceof Error ? err : new Error(String(err));
-    }
-  }
-
-  throw lastError || new Error('Failed to reach Gemini API');
 }
 
 export function parseItineraryText(
@@ -294,17 +188,12 @@ export async function generateItinerary(
   params: ItineraryRequest,
   onChunk?: (chunk: string) => void,
 ): Promise<StructuredItinerary> {
-  const localKey = getStoredApiKey();
-
   // All AI requests run through the NestJS backend
   try {
     const res = await apiClient.post(
       '/ai/plan-itinerary',
-      {
-        ...params,
-        apiKey: localKey || undefined,
-      },
-      { timeout: 30000 },
+      params,
+      { timeout: 90000 },
     );
     const itinerary = res.data as StructuredItinerary;
     if (onChunk && itinerary.markdown) {
@@ -325,8 +214,6 @@ export async function chatWithAssistant(
   tripContext?: Record<string, unknown>,
   onChunk?: (chunk: string) => void,
 ): Promise<string> {
-  const localKey = getStoredApiKey();
-
   // All AI chat runs through the NestJS backend
   try {
     const res = await apiClient.post(
@@ -334,9 +221,8 @@ export async function chatWithAssistant(
       {
         messages,
         tripContext,
-        apiKey: localKey || undefined,
       },
-      { timeout: 30000 },
+      { timeout: 60000 },
     );
     const reply = (res.data?.reply as string) || '';
     if (onChunk) onChunk(reply);

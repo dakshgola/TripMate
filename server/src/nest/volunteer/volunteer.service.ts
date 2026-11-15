@@ -3,6 +3,7 @@ import {
   NotFoundException,
   BadRequestException,
   ForbiddenException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { DatabaseService } from '../database/database.service';
 import {
@@ -235,18 +236,20 @@ export class VolunteerService {
       throw new NotFoundException(`Application #${applicationId} not found.`);
     }
 
-    // Access control: non-admin can only CANCEL their own application
-    if (actorUser) {
-      const isAdmin = actorUser.role === 'admin';
-      const isOwner = app.user_id !== null && app.user_id === actorUser.id;
+    if (!actorUser) {
+      throw new UnauthorizedException('Authentication required to modify applications.');
+    }
 
-      if (!isAdmin) {
-        if (!isOwner) {
-          throw new ForbiddenException('You do not have permission to modify this application.');
-        }
-        if (newStatus !== 'CANCELLED') {
-          throw new BadRequestException('Applicants can only cancel their pending application.');
-        }
+    // Access control: non-admin can only CANCEL their own application
+    const isAdmin = actorUser.role === 'admin';
+    const isOwner = app.user_id !== null && app.user_id === actorUser.id;
+
+    if (!isAdmin) {
+      if (!isOwner) {
+        throw new ForbiddenException('You do not have permission to modify this application.');
+      }
+      if (newStatus !== 'CANCELLED') {
+        throw new BadRequestException('Applicants can only cancel their pending application.');
       }
     }
 
@@ -263,22 +266,12 @@ export class VolunteerService {
     };
   }
 
-  getMyApplications(userId?: number, email?: string): string[] {
-    if (!userId && !email) return [];
-    let rows: Array<{ opportunity_id: string }> = [];
-
-    if (userId) {
-      rows = this.db.all<{ opportunity_id: string }>(
-        "SELECT DISTINCT opportunity_id FROM volunteer_applications WHERE user_id = ? AND status != 'CANCELLED'",
-        userId,
-      );
-    } else if (email) {
-      rows = this.db.all<{ opportunity_id: string }>(
-        "SELECT DISTINCT opportunity_id FROM volunteer_applications WHERE applicant_email = ? AND status != 'CANCELLED'",
-        email,
-      );
-    }
-
+  getMyApplications(userId?: number): string[] {
+    if (!userId) return [];
+    const rows = this.db.all<{ opportunity_id: string }>(
+      "SELECT DISTINCT opportunity_id FROM volunteer_applications WHERE user_id = ? AND status != 'CANCELLED'",
+      userId,
+    );
     return rows.map((r) => r.opportunity_id);
   }
 

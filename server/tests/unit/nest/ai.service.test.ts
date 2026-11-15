@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { AiService } from '../../../src/nest/ai/ai.service';
 import {
   BadRequestException,
@@ -16,20 +16,23 @@ describe('AiService', () => {
 
   describe('getStatus', () => {
     it('returns configured true when key is present', () => {
-      const status = service.getStatus('test-api-key');
+      const origEnv = process.env.GEMINI_API_KEY;
+      process.env.GEMINI_API_KEY = 'test-api-key';
+      const status = service.getStatus();
       expect(status.configured).toBe(true);
       expect(status.model).toBe('gemini-flash-lite-latest');
+      if (origEnv !== undefined) process.env.GEMINI_API_KEY = origEnv;
+      else delete process.env.GEMINI_API_KEY;
     });
 
     it('returns configured false when no key is present and env is empty', () => {
       const origEnv = process.env.GEMINI_API_KEY;
       delete process.env.GEMINI_API_KEY;
-      delete process.env.VITE_GEMINI_API_KEY;
 
-      const status = service.getStatus('');
+      const status = service.getStatus();
       expect(typeof status.configured).toBe('boolean');
 
-      if (origEnv) process.env.GEMINI_API_KEY = origEnv;
+      if (origEnv !== undefined) process.env.GEMINI_API_KEY = origEnv;
     });
   });
 
@@ -37,19 +40,19 @@ describe('AiService', () => {
     it('throws BadRequestException if no key is configured', async () => {
       const origEnv = process.env.GEMINI_API_KEY;
       delete process.env.GEMINI_API_KEY;
-      delete process.env.VITE_GEMINI_API_KEY;
 
       await expect(
         service.chat({
           messages: [{ role: 'user', content: 'hello' }],
-          apiKey: '',
         }),
       ).rejects.toThrow(BadRequestException);
 
-      if (origEnv) process.env.GEMINI_API_KEY = origEnv;
+      if (origEnv !== undefined) process.env.GEMINI_API_KEY = origEnv;
     });
 
     it('successfully calls Gemini and returns reply when mocked', async () => {
+      const origEnv = process.env.GEMINI_API_KEY;
+      process.env.GEMINI_API_KEY = 'test-key';
       const mockFetch = vi.fn().mockResolvedValue({
         ok: true,
         json: async () => ({
@@ -66,15 +69,18 @@ describe('AiService', () => {
 
       const result = await service.chat({
         messages: [{ role: 'user', content: 'What should I pack for Goa?' }],
-        apiKey: 'test-key',
       });
 
       expect(result.reply).toBe('Here is some great travel advice!');
       expect(mockFetch).toHaveBeenCalled();
       vi.unstubAllGlobals();
+      if (origEnv !== undefined) process.env.GEMINI_API_KEY = origEnv;
+      else delete process.env.GEMINI_API_KEY;
     });
 
     it('handles conversation starting with assistant message properly', async () => {
+      const origEnv = process.env.GEMINI_API_KEY;
+      process.env.GEMINI_API_KEY = 'test-key';
       const mockFetch = vi.fn().mockResolvedValue({
         ok: true,
         json: async () => ({
@@ -94,20 +100,34 @@ describe('AiService', () => {
           { role: 'assistant', content: 'Welcome to TripMate!' },
           { role: 'user', content: 'Tell me about Goa.' },
         ],
-        apiKey: 'test-key',
       });
 
       expect(result.reply).toBe('Sure thing!');
       expect(mockFetch).toHaveBeenCalled();
       vi.unstubAllGlobals();
+      if (origEnv !== undefined) process.env.GEMINI_API_KEY = origEnv;
+      else delete process.env.GEMINI_API_KEY;
     });
   });
 
   describe('generateItinerary', () => {
+    const origEnv = process.env.GEMINI_API_KEY;
+
+    beforeEach(() => {
+      process.env.GEMINI_API_KEY = 'test-key';
+    });
+
+    afterEach(() => {
+      if (origEnv !== undefined) {
+        process.env.GEMINI_API_KEY = origEnv;
+      } else {
+        delete process.env.GEMINI_API_KEY;
+      }
+      vi.unstubAllGlobals();
+    });
+
     it('throws BadRequestException if no key is configured', async () => {
-      const origEnv = process.env.GEMINI_API_KEY;
       delete process.env.GEMINI_API_KEY;
-      delete process.env.VITE_GEMINI_API_KEY;
 
       await expect(
         service.generateItinerary({
@@ -118,11 +138,8 @@ describe('AiService', () => {
           weather: 'summer',
           travelStyle: 'couple',
           interests: ['beach'],
-          apiKey: '',
         }),
       ).rejects.toThrow(BadRequestException);
-
-      if (origEnv) process.env.GEMINI_API_KEY = origEnv;
     });
 
     it('successfully generates and validates structured itinerary from Gemini response', async () => {
@@ -195,7 +212,6 @@ describe('AiService', () => {
         weather: 'summer',
         travelStyle: 'couple',
         interests: ['culture', 'beach'],
-        apiKey: 'mock-key',
       });
 
       expect(itinerary.destination).toBe('Goa');
@@ -205,8 +221,6 @@ describe('AiService', () => {
       expect(itinerary.days[1].title).toBe('Day 2: South Goa Heritage');
       expect(itinerary.budgetBreakdown.length).toBe(2);
       expect(itinerary.totalEstimatedBudget).toBe(7500); // 5000 + 2500
-
-      vi.unstubAllGlobals();
     });
 
     it('rejects AI response when returned days count does not match requested days', async () => {
@@ -254,11 +268,8 @@ describe('AiService', () => {
           weather: 'summer',
           travelStyle: 'couple',
           interests: ['beach'],
-          apiKey: 'mock-key',
         }),
       ).rejects.toThrow(BadRequestException);
-
-      vi.unstubAllGlobals();
     });
 
     it('rejects AI response when an activity description is empty', async () => {
@@ -300,11 +311,8 @@ describe('AiService', () => {
           weather: 'summer',
           travelStyle: 'solo',
           interests: [],
-          apiKey: 'mock-key',
         }),
       ).rejects.toThrow(BadRequestException);
-
-      vi.unstubAllGlobals();
     });
 
     it('handles rate-limiting (429) cleanly with HttpException', async () => {
@@ -324,11 +332,8 @@ describe('AiService', () => {
           weather: 'winter',
           travelStyle: 'solo',
           interests: [],
-          apiKey: 'mock-key',
         }),
       ).rejects.toThrow(HttpException);
-
-      vi.unstubAllGlobals();
     });
 
     it('handles unauthorized/invalid API key cleanly with UnauthorizedException', async () => {
@@ -348,11 +353,8 @@ describe('AiService', () => {
           weather: 'winter',
           travelStyle: 'solo',
           interests: [],
-          apiKey: 'mock-key',
         }),
       ).rejects.toThrow(UnauthorizedException);
-
-      vi.unstubAllGlobals();
     });
 
     it('handles request timeout cleanly with GatewayTimeoutException', async () => {
@@ -370,11 +372,8 @@ describe('AiService', () => {
           weather: 'winter',
           travelStyle: 'solo',
           interests: [],
-          apiKey: 'mock-key',
         }),
       ).rejects.toThrow(GatewayTimeoutException);
-
-      vi.unstubAllGlobals();
     });
   });
 });

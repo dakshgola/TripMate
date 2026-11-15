@@ -33,7 +33,7 @@ export default defineConfig(({ mode }) => ({
       // (apple-mobile-web-app-capable only) and pops the Safari chrome on every
       // in-app navigation away from the start URL. Prod already serves the manifest.
       devOptions: {
-        enabled: true,
+        enabled: false,
         type: 'module',
         suppressWarnings: true,
         /*
@@ -320,7 +320,7 @@ export default defineConfig(({ mode }) => ({
    * cost an afternoon twice before anyone worked out it was not the code.
    */
   optimizeDeps: {
-    exclude: ['@tripmate/shared'],
+    exclude: ['@tripmate/shared', 'maplibre-gl', 'mapbox-gl'],
   },
   server: {
     port: DEV_PORT,
