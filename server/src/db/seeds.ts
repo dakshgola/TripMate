@@ -34,7 +34,7 @@ function seedAdminAccount(db: Database.Database): void {
       return;
     }
 
-    // Demo mode seeds its own admin (admin@tripmate.app, username 'admin') right after this.
+    // Demo mode seeds its own admin (admin@trek.app, username 'admin') right after this.
     // Creating a first-run admin here would grab username 'admin' first and make the demo
     // seeder fail on the UNIQUE(username) constraint, leaving the demo user uncreated.
     if (readEnv().demo.enabled) return;
@@ -42,7 +42,7 @@ function seedAdminAccount(db: Database.Database): void {
     if (isOidcOnlyConfigured()) {
       console.log('');
       console.log('╔══════════════════════════════════════════════╗');
-      console.log('║  Trip Mate — OIDC-Only Mode                       ║');
+      console.log('║  TREK — OIDC-Only Mode                       ║');
       console.log('║  First SSO login will become admin.           ║');
       console.log('╚══════════════════════════════════════════════╝');
       console.log('');
@@ -61,10 +61,10 @@ function seedAdminAccount(db: Database.Database): void {
       // generated password is created instead. Flag it so the chosen credentials silently not
       // working isn't a surprise.
       if (adminEnvProvided) {
-        console.warn('[admin] Only one of ADMIN_EMAIL/ADMIN_PASSWORD is set — both are required for a custom admin. Falling back to admin@tripmate.local with a generated password (shown below).');
+        console.warn('[admin] Only one of ADMIN_EMAIL/ADMIN_PASSWORD is set — both are required for a custom admin. Falling back to admin@trek.local with a generated password (shown below).');
       }
       password = crypto.randomBytes(12).toString('base64url');
-      email = 'admin@tripmate.local';
+      email = 'admin@trek.local';
     }
 
     const hash = bcrypt.hashSync(password, BCRYPT_COST);
@@ -74,7 +74,7 @@ function seedAdminAccount(db: Database.Database): void {
 
     console.log('');
     console.log('╔══════════════════════════════════════════════╗');
-    console.log('║  Trip Mate — First Run: Admin Account Created     ║');
+    console.log('║  TREK — First Run: Admin Account Created     ║');
     console.log('╠══════════════════════════════════════════════╣');
     console.log(`║  Email:    ${email.padEnd(33)}║`);
     console.log(`║  Password: ${password.padEnd(33)}║`);
@@ -180,10 +180,264 @@ function seedAddons(db: Database.Database): void {
   }
 }
 
+function seedVolunteerOpportunities(db: Database.Database): void {
+  try {
+    const count = (db.prepare('SELECT COUNT(*) as count FROM volunteer_opportunities').get() as { count: number }).count;
+    if (count > 0) return;
+
+    const opportunities = [
+      {
+        id: 'rishikesh-content-nomad',
+        title: 'Visual Storyteller & Content Creator at Riverside Camps',
+        host_name: 'Ganga Whispers Eco-Resort',
+        location: 'Kaudiyala, Rishikesh',
+        state: 'Uttarakhand',
+        region: 'Uttarakhand',
+        category: 'content',
+        duration: '3 Weeks - 2 Months',
+        stipend: '₹12,000 / month',
+        perks: JSON.stringify(['Free Wooden Cottage Stay', '3 Organic Buffet Meals', 'Rafting Passes', '100 Mbps Starlink WiFi']),
+        skills: JSON.stringify(['Reels & Video Editing', 'Drone/DSLR Photography', 'Canva / Social Media']),
+        hours_per_day: '3-4 hrs / day',
+        min_commitment: '21 Days',
+        spots_left: 2,
+        rating: 4.9,
+        review_count: 38,
+        image_url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
+        description: 'Live right on the banks of holy river Ganga. Capture the serene morning aartis, riverside yoga sessions, and adventure rafting thrills while creating engaging social media content.',
+        responsibilities: JSON.stringify([
+          'Create 4-5 high quality Instagram Reels per week',
+          'Photograph guest experiences and camp amenities',
+          'Manage daily Instagram stories and engage with travel community',
+        ]),
+        what_you_get: JSON.stringify([
+          'Private river-facing luxury tent/cottage',
+          'All daily meals & snacks from the organic camp kitchen',
+          'Complimentary river rafting and cliff jumping sessions',
+          'Official Certificate of Media Residency & ₹12,000 monthly stipend',
+        ]),
+        verified: 1,
+      },
+      {
+        id: 'manali-hostel-host',
+        title: 'Hostel Experience & Community Manager at Himalayan Den',
+        host_name: 'The Himalayan Nomad Hostel',
+        location: 'Old Manali',
+        state: 'Himachal Pradesh',
+        region: 'Himachal',
+        category: 'hostel',
+        duration: '4 Weeks - 3 Months',
+        stipend: '₹10,000 / month',
+        perks: JSON.stringify(['Private Attic Room', 'Unlimited Cafe Food & Chai', 'Trek Gear Access', 'High-Speed Fiber Net']),
+        skills: JSON.stringify(['Community Hosting', 'Acoustic Jam Sessions', 'Guest Relations', 'Event Planning']),
+        hours_per_day: '4 hrs / day',
+        min_commitment: '1 Month',
+        spots_left: 1,
+        rating: 4.95,
+        review_count: 52,
+        image_url: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=800&q=80',
+        description: 'Immerse yourself in apple orchards and snow peaks of Old Manali. Organize bonfire evenings, board game nights, and guided village walks for backpackers from all over the world.',
+        responsibilities: JSON.stringify([
+          'Welcome arriving travelers and introduce them to Old Manali hidden gems',
+          'Host evening bonfires, live jamming and pub crawls',
+          'Coordinate with housekeeping and local trek guides',
+        ]),
+        what_you_get: JSON.stringify([
+          'Cozy wooden attic room with balcony facing snow peaks',
+          'Full meals from the in-house rooftop cafe',
+          'Free rental of mountain bikes and trekking gear',
+          '₹10,000/mo pocket allowance',
+        ]),
+        verified: 1,
+      },
+      {
+        id: 'dehradun-wall-mural-residency',
+        title: 'Vibrant Wall Murals & Cafe Art Residency in the Foothills',
+        host_name: 'Jungle Bloom Art Cafe & Homestay',
+        location: 'Dehradun Foothills',
+        state: 'Uttarakhand',
+        region: 'Uttarakhand',
+        category: 'art',
+        duration: '2 Weeks - 4 Weeks',
+        stipend: '₹15,000 project bonus',
+        perks: JSON.stringify(['Private Art Studio', 'Artisan Coffee & Meals', 'Free Art Supplies', 'Mountain View Deck']),
+        skills: JSON.stringify(['Wall Murals & Acrylics', 'Creative Lettering', 'Visual Designing']),
+        hours_per_day: '3-4 hrs / day',
+        min_commitment: '14 Days',
+        spots_left: 2,
+        rating: 4.88,
+        review_count: 29,
+        image_url: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80',
+        description: 'Turn white walls into vibrant stories of Himalayan flora, wildlife and wanderlust. An inspiring residency with all painting materials and canvas provided.',
+        responsibilities: JSON.stringify([
+          'Paint 2-3 feature wall murals across the cafe courtyard',
+          'Design artistic blackboard menu displays',
+          'Host an informal weekend art workshop for homestay guests',
+        ]),
+        what_you_get: JSON.stringify([
+          'Independent artist suite overlooking Sal forest',
+          'All painting supplies, paints and brushes sponsored',
+          'Unlimited espresso, bakery treats & home-cooked meals',
+          '₹15,000 completion honorarium',
+        ]),
+        verified: 1,
+      },
+      {
+        id: 'kerala-organic-permaculture',
+        title: 'Organic Tea & Permaculture Volunteer in God’s Own Country',
+        host_name: 'Spice Valley Bio-Farm',
+        location: 'Munnar / Wayanad',
+        state: 'Kerala',
+        region: 'Kerala',
+        category: 'farming',
+        duration: '3 Weeks - 6 Weeks',
+        stipend: '₹8,500 / month',
+        perks: JSON.stringify(['Treehouse Stay', 'Farm-to-table Kerala Meals', 'Daily Morning Yoga', 'Spice Tour Guide']),
+        skills: JSON.stringify(['Eco-Gardening', 'Organic Farming', 'Herbal Plant Knowledge', 'Nature Enthusiast']),
+        hours_per_day: '3 hrs / day',
+        min_commitment: '20 Days',
+        spots_left: 3,
+        rating: 4.92,
+        review_count: 44,
+        image_url: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80',
+        description: 'Live surrounded by misty rolling tea hills and spice plantations. Learn sustainable farming, harvest black pepper & cardamom, and experience tranquil village life.',
+        responsibilities: JSON.stringify([
+          'Help maintain organic herbal beds and nursery',
+          'Assist in tea plucking and artisanal spice processing',
+          'Accompany guests on tranquil nature trail walks',
+        ]),
+        what_you_get: JSON.stringify([
+          'Rustic traditional treehouse accommodation',
+          'Authentic Kerala meals served on fresh banana leaves',
+          'Complimentary Ayurvedic rejuvenation massage once a week',
+          '₹8,500 monthly travel stipend',
+        ]),
+        verified: 1,
+      },
+      {
+        id: 'goa-sunset-yoga-wellness',
+        title: 'Sunset Beach Yoga & Wellness Host in South Goa',
+        host_name: 'Nirvana Ocean Breeze Retreat',
+        location: 'Palolem Beach, South Goa',
+        state: 'Goa',
+        region: 'Goa',
+        category: 'yoga',
+        duration: '1 Month - 3 Months',
+        stipend: '₹18,000 / month',
+        perks: JSON.stringify(['Beachfront Wooden Shack', 'Healthy Smoothies & Meals', 'Scooty Provided', 'Ocean Views']),
+        skills: JSON.stringify(['Hatha / Vinyasa Yoga', 'Breathwork & Meditation', 'Warm Guest Interactions']),
+        hours_per_day: '3 hrs / day',
+        min_commitment: '30 Days',
+        spots_left: 1,
+        rating: 4.98,
+        review_count: 61,
+        image_url: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80',
+        description: 'Wake up to the sound of crashing waves and coconut palms. Lead relaxing morning and sunset yoga sessions on the white sands of Palolem.',
+        responsibilities: JSON.stringify([
+          'Lead 1 morning and 1 sunset gentle yoga / pranayama class daily',
+          'Create a warm, peaceful atmosphere for wellness retreat guests',
+          'Assist in arranging beach detox workshops',
+        ]),
+        what_you_get: JSON.stringify([
+          'Private beach shack 20 steps from the water',
+          'Fresh fruit bowls, smoothies and all meals',
+          'Honda Activa / Scooty with fuel provided for local exploration',
+          '₹18,000 monthly coaching stipend',
+        ]),
+        verified: 1,
+      },
+      {
+        id: 'rajasthan-haveli-music-events',
+        title: 'Acoustic Performer & Cultural Night Host at Heritage Haveli',
+        host_name: 'Desert Dune Cultural Club',
+        location: 'Pushkar / Jodhpur',
+        state: 'Rajasthan',
+        region: 'Rajasthan',
+        category: 'music',
+        duration: '2 Weeks - 2 Months',
+        stipend: '₹14,000 / month',
+        perks: JSON.stringify(['Heritage Haveli Suite', 'Royal Rajasthani Thali', 'Desert Safari Excursions', 'Musical Stage']),
+        skills: JSON.stringify(['Guitar / Vocals', 'Jam Session Hosting', 'Stage Management', 'Enthusiastic Performer']),
+        hours_per_day: '2.5 hrs / day',
+        min_commitment: '15 Days',
+        spots_left: 2,
+        rating: 4.86,
+        review_count: 31,
+        image_url: 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?auto=format&fit=crop&w=800&q=80',
+        description: 'Perform under starry desert skies in a 200-year-old carved sandstone courtyard. Bring travelers together with soul-stirring melodies and acoustic jam nights.',
+        responsibilities: JSON.stringify([
+          'Host 4-5 evening acoustic rooftop sessions per week',
+          'Collaborate with local Rajasthani folk artists (Sarangi & Khartal players)',
+          'Organize open-mic evenings for travelers',
+        ]),
+        what_you_get: JSON.stringify([
+          'Royal heritage suite with jharokha balcony',
+          'Grand Rajasthani breakfast and dinner daily',
+          'Desert camel safari and overnight camp passes',
+          '₹14,000 monthly performance stipend',
+        ]),
+        verified: 1,
+      },
+      {
+        id: 'spiti-digital-nomad-dev',
+        title: 'Full-Stack Web Dev & Tech Nomad Residency at 10,000 ft',
+        host_name: 'Alt-Life Mountain Coliving',
+        location: 'Dharamkot / Spiti Valley',
+        state: 'Himachal Pradesh',
+        region: 'Himachal',
+        category: 'tech',
+        duration: '1 Month - 6 Months',
+        stipend: '₹20,000 / month',
+        perks: JSON.stringify(['Private Studio Apartment', 'Dedicated 200 Mbps Desk', 'Unlimited Specialty Coffee', 'Heated Rooms']),
+        skills: JSON.stringify(['React / TypeScript', 'Web Optimization', 'CMS & Automation']),
+        hours_per_day: '3-4 hrs / day',
+        min_commitment: '30 Days',
+        spots_left: 1,
+        rating: 4.97,
+        review_count: 47,
+        image_url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
+        description: 'Code with panoramic Himalayan views, high-speed fiber internet and wood-fired heaters. Help upgrade internal booking systems while living the dream mountain workation.',
+        responsibilities: JSON.stringify([
+          'Maintain and polish the community website and automated booking flows',
+          'Help troubleshoot local tech/wifi hardware setup if needed',
+          'Share tech insights in monthly community meetups',
+        ]),
+        what_you_get: JSON.stringify([
+          'Furnished mountain studio with heating & ergonomic workstation',
+          'Unlimited gourmet coffee, breakfast and meals',
+          'Weekend guided high-altitude treks',
+          '₹20,000 monthly stipend',
+        ]),
+        verified: 1,
+      },
+    ];
+
+    const insert = db.prepare(`
+      INSERT OR REPLACE INTO volunteer_opportunities (
+        id, title, host_name, location, state, region, category, duration, stipend,
+        perks, skills, hours_per_day, min_commitment, spots_left, rating, review_count,
+        image_url, description, responsibilities, what_you_get, verified
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    for (const o of opportunities) {
+      insert.run(
+        o.id, o.title, o.host_name, o.location, o.state, o.region, o.category, o.duration, o.stipend,
+        o.perks, o.skills, o.hours_per_day, o.min_commitment, o.spots_left, o.rating, o.review_count,
+        o.image_url, o.description, o.responsibilities, o.what_you_get, o.verified
+      );
+    }
+    console.log('Volunteer opportunities seeded');
+  } catch (err: unknown) {
+    console.error('Error seeding volunteer opportunities:', err instanceof Error ? err.message : err);
+  }
+}
+
 function runSeeds(db: Database.Database): void {
   seedAdminAccount(db);
   seedCategories(db);
   seedAddons(db);
+  seedVolunteerOpportunities(db);
 }
 
 export { runSeeds, seedAdminAccount };

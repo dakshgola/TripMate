@@ -613,7 +613,64 @@ function createTables(db: Database.Database): void {
     CREATE INDEX IF NOT EXISTS idx_ncp_user ON notification_channel_preferences(user_id);
 
     CREATE TABLE IF NOT EXISTS migrations (id integer PRIMARY KEY AUTOINCREMENT NOT NULL, timestamp bigint NOT NULL, name varchar NOT NULL);
+
+    CREATE TABLE IF NOT EXISTS volunteer_opportunities (
+      id TEXT PRIMARY KEY,
+      title TEXT NOT NULL,
+      host_name TEXT NOT NULL,
+      location TEXT NOT NULL,
+      state TEXT NOT NULL,
+      region TEXT NOT NULL,
+      category TEXT NOT NULL,
+      duration TEXT NOT NULL,
+      stipend TEXT NOT NULL,
+      perks TEXT NOT NULL,
+      skills TEXT NOT NULL,
+      hours_per_day TEXT NOT NULL,
+      min_commitment TEXT NOT NULL,
+      spots_left INTEGER NOT NULL DEFAULT 1,
+      rating REAL NOT NULL DEFAULT 4.9,
+      review_count INTEGER NOT NULL DEFAULT 0,
+      image_url TEXT NOT NULL,
+      description TEXT NOT NULL,
+      responsibilities TEXT NOT NULL,
+      what_you_get TEXT NOT NULL,
+      verified INTEGER NOT NULL DEFAULT 1,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+    CREATE INDEX IF NOT EXISTS idx_volunteer_opp_region ON volunteer_opportunities(region);
+    CREATE INDEX IF NOT EXISTS idx_volunteer_opp_category ON volunteer_opportunities(category);
+
+    CREATE TABLE IF NOT EXISTS volunteer_applications (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      opportunity_id TEXT NOT NULL REFERENCES volunteer_opportunities(id) ON DELETE CASCADE,
+      user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
+      applicant_name TEXT NOT NULL,
+      applicant_email TEXT NOT NULL,
+      applicant_phone TEXT NOT NULL,
+      portfolio_url TEXT,
+      applicant_skills TEXT,
+      applicant_dates TEXT,
+      applicant_motivation TEXT,
+      stipend_snapshot TEXT,
+      status TEXT NOT NULL DEFAULT 'PENDING',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+    CREATE INDEX IF NOT EXISTS idx_volunteer_app_opp ON volunteer_applications(opportunity_id);
+    CREATE INDEX IF NOT EXISTS idx_volunteer_app_user ON volunteer_applications(user_id);
+
+    CREATE TABLE IF NOT EXISTS volunteer_favorites (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      opportunity_id TEXT NOT NULL REFERENCES volunteer_opportunities(id) ON DELETE CASCADE,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      UNIQUE(user_id, opportunity_id)
+    );
+    CREATE INDEX IF NOT EXISTS idx_volunteer_fav_user ON volunteer_favorites(user_id);
   `);
+
+  try { db.exec(`ALTER TABLE volunteer_applications ADD COLUMN portfolio_url TEXT;`); } catch {}
+  try { db.exec(`ALTER TABLE volunteer_applications ADD COLUMN stipend_snapshot TEXT;`); } catch {}
 }
 
 export { createTables };

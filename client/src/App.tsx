@@ -58,6 +58,9 @@ const SharedTripPage = lazyWithRetry(() => import('./pages/SharedTripPage'))
 const JoinTripPage = lazyWithRetry(() => import('./pages/JoinTripPage'))
 const InAppNotificationsPage = lazyWithRetry(() => import('./pages/InAppNotificationsPage.tsx'))
 const OAuthAuthorizePage = lazyWithRetry(() => import('./pages/OAuthAuthorizePage'))
+const VolunteerPage = lazyWithRetry(() => import('./pages/VolunteerPage'))
+const AiPlannerPage = lazyWithRetry(() => import('./pages/AiPlannerPage'))
+const RewardsPage = lazyWithRetry(() => import('./pages/RewardsPage'))
 
 // The ten phone screens are chunks of their own, alongside the desktop pages
 // rather than inside them. Each page used to import its M screen statically and
@@ -405,6 +408,30 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <ViewportRoute phone={MDashboardScreen} desktop={DashboardPage} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/volunteer"
+            element={
+              <ProtectedRoute>
+                <VolunteerPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ai-planner"
+            element={
+              <ProtectedRoute>
+                <AiPlannerPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/rewards"
+            element={
+              <ProtectedRoute>
+                <RewardsPage />
               </ProtectedRoute>
             }
           />
