@@ -320,9 +320,10 @@ export default defineConfig(({ mode }) => ({
    * cost an afternoon twice before anyone worked out it was not the code.
    */
   optimizeDeps: {
-    exclude: ['@tripmate/shared', 'maplibre-gl', 'mapbox-gl'],
+    exclude: ['@tripmate/shared', 'maplibre-gl', 'mapbox-gl', 'heic-to', 'tz-lookup'],
   },
   server: {
+    host: true,
     port: DEV_PORT,
     // And watch the build output, so rebuilding shared reloads the page rather
     // than leaving a stale module graph behind.

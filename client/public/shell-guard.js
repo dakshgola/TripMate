@@ -35,6 +35,27 @@
       here.searchParams.delete(PARAM);
       window.history.replaceState(window.history.state, '', here.pathname + here.search + here.hash);
     }
+    // Clean dev: unregister any leftover service worker on localhost that hijacks Vite
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function (regs) {
+          if (regs && regs.length > 0) {
+            var hadController = !!navigator.serviceWorker.controller;
+            Promise.all(regs.map(function (r) { return r.unregister(); })).then(function () {
+              if (typeof caches !== 'undefined') {
+                caches.keys().then(function (names) {
+                  return Promise.all(names.map(function (n) { return caches.delete(n); }));
+                }).then(function () {
+                  if (hadController) window.location.reload();
+                });
+              } else if (hadController) {
+                window.location.reload();
+              }
+            });
+          }
+        });
+      }
+    }
   } catch (e) {
     /* the parameter stays in the address bar, which is harmless */
   }

@@ -1,32 +1,30 @@
 import { execSync, spawn } from 'node:child_process';
+import { existsSync } from 'node:fs';
 
-console.log('[dev] initial build...');
-execSync('node scripts/build.mjs', { stdio: 'inherit' });
+if (!existsSync('dist/index.js')) {
+  console.log('[dev] initial build...');
+  execSync('node scripts/build.mjs', { stdio: 'inherit' });
+}
 
 const children = [];
 const stop = () => { children.forEach((c) => { try { c.kill(); } catch {} }); process.exit(0); };
 process.on('SIGINT', stop);
 process.on('SIGTERM', stop);
 
-// Start tsc -w and wait for its first "Watching for file changes." before launching
-// node --watch, so the initial tsc compilation doesn't trigger a spurious restart.
-const tsc = spawn('npx', ['tsc', '-w', '-p', 'tsconfig.build.json', '--preserveWatchOutput'], {
-  stdio: ['ignore', 'pipe', 'inherit'],
+const env = { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' };
+
+// Start node watching only dist/ so database writes (travel.db) don't trigger restarts
+const nodeProc = spawn('node', ['--watch-path=dist', '--require', 'tsconfig-paths/register', 'dist/index.js'], {
+  stdio: 'inherit',
   shell: true,
+  env,
+});
+children.push(nodeProc);
+
+// Start tsc -w in background for live recompilation
+const tsc = spawn('npx', ['tsc', '-w', '-p', 'tsconfig.build.json', '--preserveWatchOutput'], {
+  stdio: 'inherit',
+  shell: true,
+  env,
 });
 children.push(tsc);
-
-let nodeProc = null;
-let ready = false;
-
-tsc.stdout.on('data', (chunk) => {
-  process.stdout.write(chunk);
-  if (!ready && chunk.toString().includes('Watching for file changes')) {
-    ready = true;
-    nodeProc = spawn('node', ['--require', 'tsconfig-paths/register', '--watch', 'dist/index.js'], {
-      stdio: 'inherit',
-      shell: true,
-    });
-    children.push(nodeProc);
-  }
-});

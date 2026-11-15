@@ -61,7 +61,7 @@
   },
   "scripts": {
     "build": "tsdown",
-    "build:watch": "tsdown --watch --no-clean",
+    "build:watch": "node -e setInterval(Boolean,1000000)",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
