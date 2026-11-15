@@ -377,76 +377,43 @@ export default function VolunteerPage() {
 
       <main style={{ paddingTop: 'calc(var(--nav-h) + 16px)' }} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
-        <section
-          style={{
-            position: 'relative',
-            borderRadius: 28,
-            overflow: 'hidden',
-            marginBottom: 36,
-            background: 'linear-gradient(135deg, #092015 0%, #163e2b 50%, #2d6a4f 100%)',
-            boxShadow: '0 12px 40px rgba(27,67,50,0.25)',
-            color: 'white',
-          }}
-          className="p-8 sm:p-12 lg:p-16"
-        >
-          {/* Decorative mountain / glow backdrop */}
-          <div
-            style={{
-              position: 'absolute',
-              top: -60,
-              right: -60,
-              width: 320,
-              height: 320,
-              borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(231,111,60,0.4) 0%, rgba(231,111,60,0) 70%)',
-              filter: 'blur(50px)',
-              pointerEvents: 'none',
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              bottom: -40,
-              left: 40,
-              width: 280,
-              height: 280,
-              borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(251,176,64,0.3) 0%, rgba(251,176,64,0) 70%)',
-              filter: 'blur(60px)',
-              pointerEvents: 'none',
-            }}
-          />
-
+        <section className="relative rounded-3xl border border-edge bg-surface-card p-8 sm:p-12 mb-8 shadow-sm">
           <div className="relative z-10 max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs sm:text-sm font-semibold text-[#fbb040] mb-5">
-              <Sparkles size={15} className="animate-pulse text-[#fbb040]" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-xs font-semibold text-accent mb-4">
+              <Sparkles size={14} className="text-accent" />
               <span>Volunteer Yatra • Travel, Learn & Earn</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.12] mb-4 text-white">
-              You don&apos;t need another vacation.{' '}
-              <span style={{ color: '#fbb040' }}>You need this.</span>
+            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight mb-4 text-content">
+              Skill-Based Travel &amp; Volunteer Opportunities
             </h1>
 
-            <p className="text-base sm:text-xl text-white/85 font-medium leading-relaxed mb-8 max-w-2xl">
-              India&apos;s Safest &amp; Most Trusted Platform for Skill-Based Travel. Exchange your skills for{' '}
-              <strong className="text-white font-bold">Free Stays, Organic Food, Daily Chai &amp; Monthly Stipends</strong> across mountains, beaches and heritage havelis.
+            <p className="text-base sm:text-lg text-content-secondary font-normal leading-relaxed mb-6 max-w-2xl">
+              Exchange your creative, technical or hospitality skills for free stays, organic food and monthly stipends across India.
             </p>
 
             <div className="flex flex-wrap items-center gap-4">
               <a
                 href="#opportunities-grid"
-                style={{
-                  background: 'linear-gradient(135deg, #e76f3c 0%, #f27d42 100%)',
-                  boxShadow: '0 6px 20px rgba(231,111,60,0.4)',
-                }}
-                className="px-6 py-3.5 rounded-xl font-bold text-white flex items-center gap-2 hover:scale-[1.03] active:scale-95 transition-all text-sm sm:text-base cursor-pointer"
+                className="px-6 py-3 rounded-xl font-semibold bg-accent text-white hover:opacity-90 transition-all flex items-center gap-2 text-sm sm:text-base shadow-sm"
               >
-                <span>Find Your First Opportunity</span>
+                <span>Explore Opportunities</span>
                 <ArrowRight size={18} />
               </a>
 
-              <div className="flex items-center gap-6 text-xs sm:text-sm font-semibold text-white/90 px-2 py-1">
+              <div className="flex items-center gap-6 text-xs sm:text-sm font-medium text-content-muted px-2 py-1">
+                <div className="flex items-center gap-1.5">
+                  <ShieldCheck size={18} className="text-emerald-500" />
+                  <span>Curated Community Hosts</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <DollarSign size={18} className="text-amber-500" />
+                  <span>Free Stay &amp; Stipend</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
                 <div className="flex items-center gap-1.5">
                   <ShieldCheck size={18} className="text-[#52b788]" />
                   <span>Curated Community Hosts</span>
@@ -941,11 +908,7 @@ export default function VolunteerPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  style={{
-                    background: 'linear-gradient(135deg, #e76f3c 0%, #f27d42 100%)',
-                    boxShadow: '0 4px 14px rgba(231,111,60,0.3)',
-                  }}
-                  className="px-6 py-2.5 rounded-xl text-white font-bold text-xs flex items-center gap-2 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer"
+                  className="px-6 py-2.5 rounded-xl bg-accent text-white font-semibold text-xs flex items-center gap-2 hover:opacity-90 transition-all cursor-pointer shadow-sm"
                 >
                   {isSubmitting ? (
                     <span>Submitting Application...</span>
