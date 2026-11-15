@@ -320,7 +320,7 @@ export default defineConfig(({ mode }) => ({
    * cost an afternoon twice before anyone worked out it was not the code.
    */
   optimizeDeps: {
-    exclude: ['@tripmate/shared', 'maplibre-gl', 'mapbox-gl', 'heic-to', 'tz-lookup'],
+    exclude: ['@tripmate/shared', 'maplibre-gl', 'mapbox-gl', 'heic-to'],
   },
   server: {
     host: true,
