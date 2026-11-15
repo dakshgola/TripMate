@@ -413,36 +413,24 @@ export default function VolunteerPage() {
               </div>
             </div>
           </div>
-        </section>
-                <div className="flex items-center gap-1.5">
-                  <ShieldCheck size={18} className="text-[#52b788]" />
-                  <span>Curated Community Hosts</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <DollarSign size={18} className="text-[#fbb040]" />
-                  <span>Free Stay &amp; Stipend</span>
-                </div>
-              </div>
-            </div>
 
-            {/* Platform Stats */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-10 pt-8 border-t border-white/15">
-              <div>
-                <p className="text-2xl sm:text-3xl font-black text-white">5,000+</p>
-                <p className="text-xs sm:text-sm text-white/70 font-medium">Volunteers Placed</p>
-              </div>
-              <div>
-                <p className="text-2xl sm:text-3xl font-black text-white">500+</p>
-                <p className="text-xs sm:text-sm text-white/70 font-medium">Curated Indian Hosts</p>
-              </div>
-              <div>
-                <p className="text-2xl sm:text-3xl font-black text-white">45+</p>
-                <p className="text-xs sm:text-sm text-white/70 font-medium">Dream Destinations</p>
-              </div>
-              <div>
-                <p className="text-2xl sm:text-3xl font-black text-[#52b788]">₹0 Stay Cost</p>
-                <p className="text-xs sm:text-sm text-white/70 font-medium">100% Free Food &amp; Bed</p>
-              </div>
+          {/* Platform Stats */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-6 border-t border-edge-secondary">
+            <div>
+              <p className="text-2xl sm:text-3xl font-black text-content">5,000+</p>
+              <p className="text-xs text-content-muted font-medium">Volunteers Placed</p>
+            </div>
+            <div>
+              <p className="text-2xl sm:text-3xl font-black text-content">500+</p>
+              <p className="text-xs text-content-muted font-medium">Curated Indian Hosts</p>
+            </div>
+            <div>
+              <p className="text-2xl sm:text-3xl font-black text-content">45+</p>
+              <p className="text-xs text-content-muted font-medium">Dream Destinations</p>
+            </div>
+            <div>
+              <p className="text-2xl sm:text-3xl font-black text-emerald-500">₹0 Stay Cost</p>
+              <p className="text-xs text-content-muted font-medium">100% Free Food &amp; Bed</p>
             </div>
           </div>
         </section>
