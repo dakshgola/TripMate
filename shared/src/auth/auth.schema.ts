@@ -11,10 +11,20 @@ import { z } from 'zod';
 export const registerRequestSchema = z.object({
   email: z.string(),
   password: z.string(),
+  name: z.string().optional(),
+  full_name: z.string().optional(),
   username: z.string().optional(),
+  confirm_password: z.string().optional(),
   invite_token: z.string().optional(),
 });
 export type RegisterRequest = z.infer<typeof registerRequestSchema>;
+
+export const adminRecoveryRequestSchema = z.object({
+  recovery_secret: z.string(),
+  new_password: z.string(),
+  email: z.string().optional(),
+});
+export type AdminRecoveryRequest = z.infer<typeof adminRecoveryRequestSchema>;
 
 export const loginRequestSchema = z.object({
   email: z.string(),

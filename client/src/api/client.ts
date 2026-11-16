@@ -18,7 +18,7 @@ import {
   type JourneyStats, type BookRecord, type BookSaveRequest,
   type JourneyReorderEntriesRequest, type JourneyProviderPhotosRequest,
   type JourneyShareLinkRequest,
-  type RegisterRequest, type LoginRequest, type ForgotPasswordRequest,
+  type RegisterRequest, type AdminRecoveryRequest, type LoginRequest, type ForgotPasswordRequest,
   type ResetPasswordRequest, type ChangePasswordRequest,
   type MfaVerifyLoginRequest, type MfaEnableRequest, type McpTokenCreateRequest,
   type ApiTokenCreateRequest, type PublicApiScope,
@@ -183,7 +183,7 @@ apiClient.interceptors.request.use(
 )
 
 export function isAuthPublicPath(pathname: string): boolean {
-  const publicPaths = ['/login', '/register', '/forgot-password', '/reset-password']
+  const publicPaths = ['/login', '/register', '/signup', '/forgot-password', '/reset-password', '/admin-recovery']
   const publicPrefixes = ['/shared/', '/public/']
   return publicPaths.includes(pathname) || publicPrefixes.some((p) => pathname.startsWith(p))
 }
@@ -339,6 +339,7 @@ export const authApi = {
   changePassword: (data: ChangePasswordRequest) => apiClient.put('/auth/me/password', data).then(r => r.data),
   forgotPassword: (data: ForgotPasswordRequest) => apiClient.post('/auth/forgot-password', data).then(r => r.data as { ok: true }),
   resetPassword: (data: ResetPasswordRequest) => apiClient.post('/auth/reset-password', data).then(r => r.data as { success?: true; mfa_required?: true }),
+  adminRecovery: (data: AdminRecoveryRequest) => apiClient.post('/auth/admin-recovery', data).then(r => r.data as { success: boolean; message: string; email?: string }),
   deleteOwnAccount: () => apiClient.delete('/auth/me').then(r => r.data),
   demoLogin: () => apiClient.post('/auth/demo-login').then(r => r.data),
   mcpTokens: {

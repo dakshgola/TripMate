@@ -58,7 +58,8 @@ export type {
 export interface User {
   id: number
   username: string
-  email: string
+  display_name?: string | null
+  email: string;
   role: 'admin' | 'user'
   avatar_url: string | null
   maps_api_key: string | null

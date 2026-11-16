@@ -92,6 +92,7 @@ export function collectRouteGuards(app: INestApplication): RouteGuardEntry[] {
 export const PUBLIC_ROUTE_ALLOW_LIST: string[] = [
   // Everything a visitor needs before they have a session, plus the paths where
   // a token other than the session cookie is the credential.
+  'AuthPublicController.adminRecovery',
   'AuthPublicController.demoLogin',
   'AuthPublicController.forgotPassword',
   'AuthPublicController.invite',

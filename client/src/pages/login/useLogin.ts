@@ -36,10 +36,15 @@ interface AppConfig {
  */
 export function useLogin() {
   const { t } = useTranslation()
-  const [mode, setMode] = useState<'login' | 'register'>('login')
+  const navigate = useNavigate()
+  const location = useLocation()
+  const isRegisterRoute = location.pathname === '/register' || location.pathname === '/signup'
+  const [mode, setMode] = useState<'login' | 'register'>(isRegisterRoute ? 'register' : 'login')
+  const [fullName, setFullName] = useState<string>('')
   const [username, setUsername] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const [registerConfirmPassword, setRegisterConfirmPassword] = useState<string>('')
   const [rememberMe, setRememberMe] = useState<boolean>(false)
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -286,9 +291,36 @@ export function useLogin() {
         return
       }
       if (mode === 'register') {
-        if (!username.trim()) { setError(t('login.usernameRequired')); setIsLoading(false); return }
-        if (password.length < 8) { setError(t('login.passwordMinLength')); setIsLoading(false); return }
-        await register(username, email, password, inviteToken || undefined)
+        const trimmedName = fullName.trim()
+        const trimmedEmail = email.trim()
+        if (!trimmedName && !username.trim()) {
+          setError(t('login.fullNameRequired') || 'Full Name is required')
+          setIsLoading(false)
+          return
+        }
+        if (!trimmedEmail) {
+          setError(t('common.emailRequired') || 'Email Address is required')
+          setIsLoading(false)
+          return
+        }
+        if (password.length < 8) {
+          setError(t('login.passwordMinLength') || 'Password must be at least 8 characters')
+          setIsLoading(false)
+          return
+        }
+        if (registerConfirmPassword && password !== registerConfirmPassword) {
+          setError(t('login.passwordsDontMatch') || 'Passwords do not match')
+          setIsLoading(false)
+          return
+        }
+        await register({
+          name: trimmedName,
+          username: username.trim() || undefined,
+          email: trimmedEmail,
+          password,
+          confirm_password: registerConfirmPassword || undefined,
+          invite_token: inviteToken || undefined,
+        })
       } else {
         const result = await login(email, password, rememberMe)
         if ((result as { insecureCookie?: boolean }).insecureCookie) {
@@ -319,7 +351,7 @@ export function useLogin() {
     }
   }
 
-  const showRegisterOption = (appConfig?.password_registration || !appConfig?.has_users || inviteValid) && (appConfig?.setup_complete !== false || !appConfig?.has_users)
+  const showRegisterOption = !appConfig?.demo_mode && ((appConfig?.password_registration ?? true) || !appConfig?.has_users || inviteValid)
 
   // In OIDC-only mode, show a minimal page that redirects directly to the IdP
   const oidcOnly = !appConfig?.password_login && appConfig?.oidc_login && appConfig?.oidc_configured
@@ -327,7 +359,10 @@ export function useLogin() {
   return {
     navigate,
     mode, setMode,
-    username, setUsername, email, setEmail, password, setPassword, rememberMe, setRememberMe, showPassword, setShowPassword,
+    fullName, setFullName,
+    username, setUsername, email, setEmail, password, setPassword,
+    registerConfirmPassword, setRegisterConfirmPassword,
+    rememberMe, setRememberMe, showPassword, setShowPassword,
     isLoading, error, setError, insecureCookie, appConfig, inviteToken,
     langDropdownOpen, setLangDropdownOpen, setLanguageLocal,
     showTakeoff, mfaStep, setMfaStep, mfaToken, setMfaToken, mfaCode, setMfaCode,

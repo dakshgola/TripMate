@@ -3,6 +3,7 @@ import { Request } from 'express';
 export interface User {
   id: number;
   username: string;
+  display_name?: string | null;
   email: string;
   role: 'admin' | 'user';
   password_hash?: string;

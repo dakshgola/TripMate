@@ -45,12 +45,16 @@ export default function LoginPage(): React.ReactElement {
     navigate,
     mode,
     setMode,
+    fullName,
+    setFullName,
     username,
     setUsername,
     email,
     setEmail,
     password,
     setPassword,
+    registerConfirmPassword,
+    setRegisterConfirmPassword,
     rememberMe,
     setRememberMe,
     showPassword,
@@ -770,7 +774,7 @@ export default function LoginPage(): React.ReactElement {
                     </div>
                   )}
 
-                  {/* Username (register only) */}
+                  {/* Full Name (register only) */}
                   {mode === 'register' && !passwordChangeStep && (
                     <div>
                       <label
@@ -782,7 +786,7 @@ export default function LoginPage(): React.ReactElement {
                           marginBottom: 6,
                         }}
                       >
-                        {t('login.username')}
+                        {t('login.fullName') || 'Full Name'}
                       </label>
                       <div style={{ position: 'relative' }}>
                         <User
@@ -798,10 +802,10 @@ export default function LoginPage(): React.ReactElement {
                         />
                         <input
                           type="text"
-                          value={username}
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
+                          value={fullName}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFullName(e.target.value)}
                           required
-                          placeholder="admin"
+                          placeholder="John Doe"
                           style={inputBase}
                           onFocus={(e: React.FocusEvent<HTMLInputElement>) => (e.target.style.borderColor = '#111827')}
                           onBlur={(e: React.FocusEvent<HTMLInputElement>) => (e.target.style.borderColor = '#e5e7eb')}
@@ -989,6 +993,46 @@ export default function LoginPage(): React.ReactElement {
                     </div>
                   )}
 
+                  {/* Confirm Password (register only) */}
+                  {mode === 'register' && !passwordChangeStep && (
+                    <div>
+                      <label
+                        style={{
+                          display: 'block',
+                          fontSize: 'calc(12.5px * var(--fs-scale-body, 1))',
+                          fontWeight: 600,
+                          color: '#374151',
+                          marginBottom: 6,
+                        }}
+                      >
+                        {t('login.confirmPassword') || 'Confirm Password'}
+                      </label>
+                      <div style={{ position: 'relative' }}>
+                        <Lock
+                          size={15}
+                          className="text-[#9ca3af]"
+                          style={{
+                            position: 'absolute',
+                            left: 13,
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            pointerEvents: 'none',
+                          }}
+                        />
+                        <input
+                          type={showPassword ? 'text' : 'password'}
+                          value={registerConfirmPassword}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRegisterConfirmPassword(e.target.value)}
+                          required
+                          placeholder="••••••••"
+                          style={inputBase}
+                          onFocus={(e: React.FocusEvent<HTMLInputElement>) => (e.target.style.borderColor = '#111827')}
+                          onBlur={(e: React.FocusEvent<HTMLInputElement>) => (e.target.style.borderColor = '#e5e7eb')}
+                        />
+                      </div>
+                    </div>
+                  )}
+
                   <button
                     type="submit"
                     disabled={isLoading}
@@ -1054,7 +1098,7 @@ export default function LoginPage(): React.ReactElement {
                 </form>
 
                 {/* Toggle login/register */}
-                {showRegisterOption && appConfig?.has_users && !appConfig?.demo_mode && !passwordChangeStep && (
+                {showRegisterOption && !appConfig?.demo_mode && !passwordChangeStep && (
                   <p
                     style={{
                       textAlign: 'center',
@@ -1083,6 +1127,40 @@ export default function LoginPage(): React.ReactElement {
                       }}
                     >
                       {mode === 'login' ? t('login.register') : t('login.signIn')}
+                    </button>
+                  </p>
+                )}
+
+                {/* Admin recovery link */}
+                {mode === 'login' && !passwordChangeStep && !mfaStep && (
+                  <p
+                    style={{
+                      textAlign: 'center',
+                      marginTop: 12,
+                      fontSize: 'calc(12px * var(--fs-scale-body, 1))',
+                      color: '#9ca3af',
+                    }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => navigate('/admin-recovery')}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#9ca3af',
+                        cursor: 'pointer',
+                        fontFamily: 'inherit',
+                        fontSize: 'calc(12px * var(--fs-scale-body, 1))',
+                        textDecoration: 'underline',
+                      }}
+                      onMouseEnter={(e: React.MouseEvent<HTMLButtonElement>) => {
+                        e.currentTarget.style.color = '#4b5563';
+                      }}
+                      onMouseLeave={(e: React.MouseEvent<HTMLButtonElement>) => {
+                        e.currentTarget.style.color = '#9ca3af';
+                      }}
+                    >
+                      Locked out of Admin? Recover Account
                     </button>
                   </p>
                 )}

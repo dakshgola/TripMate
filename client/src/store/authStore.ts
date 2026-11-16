@@ -69,7 +69,12 @@ interface AuthState {
 
   login: (email: string, password: string, rememberMe?: boolean) => Promise<LoginResult>
   completeMfaLogin: (mfaToken: string, code: string, rememberMe?: boolean) => Promise<AuthResponse>
-  register: (username: string, email: string, password: string, invite_token?: string) => Promise<AuthResponse>
+  register: (
+    payload: string | { name?: string; full_name?: string; username?: string; email: string; password: string; confirm_password?: string; invite_token?: string },
+    email?: string,
+    password?: string,
+    invite_token?: string
+  ) => Promise<AuthResponse>
   logout: () => Promise<void>
   /** Pass `{ silent: true }` to refresh the user without toggling global isLoading (avoids unmounting protected routes). */
   loadUser: (opts?: { silent?: boolean }) => Promise<void>
@@ -204,11 +209,19 @@ export const useAuthStore = create<AuthState>()(
     }
   },
 
-  register: async (username: string, email: string, password: string, invite_token?: string) => {
+  register: async (
+    payload: string | { name?: string; full_name?: string; username?: string; email: string; password: string; confirm_password?: string; invite_token?: string },
+    emailArg?: string,
+    passwordArg?: string,
+    inviteTokenArg?: string
+  ) => {
     authSequence++
     set({ isLoading: true, error: null })
     try {
-      const data = await authApi.register({ username, email, password, invite_token })
+      const reqData = typeof payload === 'object'
+        ? payload
+        : { username: payload, email: emailArg!, password: passwordArg!, invite_token: inviteTokenArg }
+      const data = await authApi.register(reqData)
       set({
         user: data.user,
         isAuthenticated: true,

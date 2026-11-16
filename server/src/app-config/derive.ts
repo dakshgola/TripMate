@@ -192,6 +192,7 @@ export function deriveAdminBootstrap(raw: RawEnv) {
   return {
     email: raw.ADMIN_EMAIL,
     password: raw.ADMIN_PASSWORD,
+    recoverySecret: raw.ADMIN_RECOVERY_SECRET,
   };
 }
 
@@ -214,7 +215,7 @@ export function deriveSmtp(raw: RawEnv) {
     host: raw.SMTP_HOST,
     port: raw.SMTP_PORT,
     user: raw.SMTP_USER,
-    pass: raw.SMTP_PASS,
+    pass: raw.SMTP_PASS || raw.SMTP_PASSWORD,
     from: raw.SMTP_FROM,
     skipTlsVerify: parseBool(raw.SMTP_SKIP_TLS_VERIFY) === true,
   };

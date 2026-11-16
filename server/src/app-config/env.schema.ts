@@ -97,6 +97,7 @@ export const envSchema = z.object({
   SMTP_PORT: integer(1, 65535, 'must be a port number (1-65535)'),
   SMTP_USER: anyString,
   SMTP_PASS: anyString,
+  SMTP_PASSWORD: anyString,
   SMTP_FROM: anyString,
   SMTP_SKIP_TLS_VERIFY: boolStr,
 
@@ -148,6 +149,7 @@ export const envSchema = z.object({
   // Admin / demo
   ADMIN_EMAIL: anyString,
   ADMIN_PASSWORD: anyString,
+  ADMIN_RECOVERY_SECRET: anyString,
   TRIPMATE_MANAGED: boolStr,
   PLACES_API_BASE: url,
   TRIPMATE_PLACES_URL: url,

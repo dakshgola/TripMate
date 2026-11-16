@@ -1,6 +1,7 @@
 import { createZodDto } from 'nestjs-zod';
 import {
   registerRequestSchema,
+  adminRecoveryRequestSchema,
   loginRequestSchema,
   forgotPasswordRequestSchema,
   resetPasswordRequestSchema,
@@ -31,6 +32,7 @@ import {
  * these pin only the well-defined request shapes.
  */
 export class RegisterDto extends createZodDto(registerRequestSchema) {}
+export class AdminRecoveryDto extends createZodDto(adminRecoveryRequestSchema) {}
 export class LoginDto extends createZodDto(loginRequestSchema) {}
 export class ForgotPasswordDto extends createZodDto(forgotPasswordRequestSchema) {}
 export class ResetPasswordDto extends createZodDto(resetPasswordRequestSchema) {}

@@ -5,7 +5,7 @@ import path from 'path';
 import fs from 'fs';
 import { authenticator } from 'otplib';
 import QRCode from 'qrcode';
-import { randomBytes, createHash } from 'crypto';
+import { randomBytes, createHash, timingSafeEqual } from 'crypto';
 import type { Request, Response } from 'express';
 import { readEnv } from '../../app-config';
 import { JWT_SECRET, SESSION_DURATION_SECONDS, SESSION_DURATION_REMEMBER_SECONDS } from '../../config';
@@ -59,9 +59,8 @@ const MFA_SETUP_TTL_MS = 15 * 60 * 1000;
 // must see the same pending-MFA state (permissions-cache precedent).
 const mfaSetupPending = new Map<number, { secret: string; exp: number }>();
 
-// 60 min; long enough to read the email in a second tab, short enough
-// that a leaked link is unlikely to still be valid when someone tries it.
-const PASSWORD_RESET_TTL_MS = 60 * 60 * 1000;
+// 30 min expiration for single-use password reset links
+const PASSWORD_RESET_TTL_MS = 30 * 60 * 1000;
 const PASSWORD_RESET_TOKEN_BYTES = 32; // 256-bit entropy
 
 /**
@@ -380,10 +379,19 @@ export class AuthService {
   }
 
   registerUser(rawBody: unknown): { error?: string; status?: number; token?: string; user?: Record<string, unknown>; auditUserId?: number; auditDetails?: Record<string, unknown> } {
-    const body = rawBody as { username?: string; email?: string; password?: string; invite_token?: string };
-    const username = typeof body.username === 'string' ? body.username.trim() : '';
+    const body = rawBody as {
+      username?: string;
+      name?: string;
+      full_name?: string;
+      email?: string;
+      password?: string;
+      confirm_password?: string;
+      invite_token?: string;
+    };
+    let username = typeof body.username === 'string' ? body.username.trim() : '';
+    const fullName = typeof (body.name || body.full_name) === 'string' ? (body.name || body.full_name)!.trim() : '';
     const email = typeof body.email === 'string' ? body.email.trim() : '';
-    const { password, invite_token } = body;
+    const { password, confirm_password, invite_token } = body;
 
     const userCount = this.db.get<{ count: number }>('SELECT COUNT(*) as count FROM users WHERE COALESCE(is_guest, 0) = 0')!.count;
 
@@ -402,8 +410,22 @@ export class AuthService {
       }
     }
 
-    if (!username || !email || !password) {
+    if ((!username && !fullName) || !email || !password) {
       return { error: 'Username, email and password are required', status: 400 };
+    }
+
+    // Auto-generate username from fullName if username was not explicitly passed
+    if (!username && fullName) {
+      const baseSlug = fullName.toLowerCase().replace(/[^a-z0-9]/g, '.').replace(/\.+/g, '.').replace(/^\.|\.$/g, '') || 'user';
+      username = baseSlug;
+      let counter = 1;
+      while (this.db.get('SELECT id FROM users WHERE LOWER(username) = LOWER(?) AND COALESCE(is_guest, 0) = 0', username)) {
+        username = `${baseSlug}${counter++}`;
+      }
+    }
+
+    if (confirm_password !== undefined && password !== confirm_password) {
+      return { error: 'Passwords do not match', status: 400 };
     }
 
     const pwCheck = validatePassword(password);
@@ -422,17 +444,18 @@ export class AuthService {
     const password_hash = bcrypt.hashSync(password, BCRYPT_COST);
     const isFirstUser = userCount === 0;
     const role = isFirstUser ? 'admin' : 'user';
+    const displayName = fullName || username;
 
     try {
       // One transaction for the whole signup: a mid-sequence throw (invite
       // bookkeeping, trip auto-join) must not leave a half-registered user.
       return this.db.transaction(() => {
         const result = this.db.run(
-          'INSERT INTO users (username, email, password_hash, role, first_seen_version, login_count) VALUES (?, ?, ?, ?, ?, 0)',
-          username, email, password_hash, role, readEnv().app.appVersion || '0.0.0'
+          'INSERT INTO users (username, display_name, email, password_hash, role, first_seen_version, login_count) VALUES (?, ?, ?, ?, ?, ?, 0)',
+          username, displayName, email, password_hash, role, readEnv().app.appVersion || '0.0.0'
         );
 
-        const user = { id: result.lastInsertRowid, username, email, role, avatar: null, mfa_enabled: false };
+        const user = { id: result.lastInsertRowid, username, display_name: displayName, email, role, avatar: null, mfa_enabled: false };
         const token = this.generateToken(user);
 
         if (validInvite) {
@@ -1062,6 +1085,80 @@ export class AuthService {
     try { revokeUserSessions?.(user.id); } catch { /* best-effort */ }
 
     return { success: true, userId: user.id };
+  }
+
+  /**
+   * One-time Admin account recovery for environments without interactive shell access (e.g. Render Free).
+   * Protected by secret environment variable ADMIN_RECOVERY_SECRET.
+   * Disables after single use by recording the SHA-256 hash of the secret.
+   */
+  recoverAdminAccount(rawBody: unknown, clientIp: string | null): { error?: string; status?: number; success?: boolean; email?: string } {
+    const body = rawBody as { recovery_secret?: string; new_password?: string; email?: string };
+    const secret = typeof body?.recovery_secret === 'string' ? body.recovery_secret.trim() : '';
+    const newPassword = typeof body?.new_password === 'string' ? body.new_password : '';
+    const targetEmail = typeof body?.email === 'string' ? body.email.trim().toLowerCase() : '';
+
+    const configuredSecret = (readEnv().adminBootstrap.recoverySecret || process.env.ADMIN_RECOVERY_SECRET || '').trim();
+    if (!configuredSecret) {
+      return { error: 'Admin account recovery is not configured or disabled.', status: 403 };
+    }
+
+    if (!secret) {
+      return { error: 'Recovery secret is required.', status: 400 };
+    }
+
+    // Constant-time comparison of recovery secret
+    const secretBuf = Buffer.from(secret, 'utf8');
+    const configuredBuf = Buffer.from(configuredSecret, 'utf8');
+    const matches = secretBuf.length === configuredBuf.length && timingSafeEqual(secretBuf, configuredBuf);
+    if (!matches) {
+      return { error: 'Invalid recovery secret.', status: 401 };
+    }
+
+    // Check if this recovery secret was already consumed
+    const secretHash = createHash('sha256').update(configuredSecret).digest('hex');
+    const consumedHash = this.db.get<{ value: string }>("SELECT value FROM app_settings WHERE key = 'consumed_admin_recovery_secret_hash'")?.value;
+    if (consumedHash && consumedHash === secretHash) {
+      return { error: 'This recovery secret has already been used. Please update ADMIN_RECOVERY_SECRET in your environment variables.', status: 403 };
+    }
+
+    // Validate strong new password
+    const pwCheck = validatePassword(newPassword);
+    if (!pwCheck.ok) {
+      return { error: pwCheck.reason, status: 400 };
+    }
+
+    // Locate existing admin account
+    let admin = targetEmail
+      ? this.db.get<{ id: number; email: string; username: string }>("SELECT id, email, username FROM users WHERE role = 'admin' AND LOWER(email) = LOWER(?)", targetEmail)
+      : this.db.get<{ id: number; email: string; username: string }>("SELECT id, email, username FROM users WHERE role = 'admin' ORDER BY id ASC LIMIT 1");
+
+    if (!admin) {
+      return { error: 'No admin account found.', status: 404 };
+    }
+
+    const passwordHash = bcrypt.hashSync(newPassword, BCRYPT_COST);
+
+    this.db.transaction(() => {
+      // Update admin password, mark must_change_password = 0, bump password_version
+      this.db.run(
+        "UPDATE users SET password_hash = ?, must_change_password = 0, password_version = password_version + 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+        passwordHash, admin.id
+      );
+
+      // Record consumed secret hash
+      this.db.run(
+        "INSERT OR REPLACE INTO app_settings (key, value) VALUES ('consumed_admin_recovery_secret_hash', ?)",
+        secretHash
+      );
+    });
+
+    // Revoke existing sessions for this user
+    try { revokeUserSessions?.(admin.id); } catch { /* best-effort */ }
+
+    console.log(`[SECURITY] Admin account recovery successfully executed for ${admin.email}`);
+
+    return { success: true, email: admin.email };
   }
 
   // -------------------------------------------------------------------------

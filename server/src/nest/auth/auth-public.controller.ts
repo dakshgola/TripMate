@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpCode, HttpException, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { AuthService } from './auth.service';
-import { RegisterDto, LoginDto, ForgotPasswordDto, ResetPasswordDto, MfaVerifyLoginDto } from './auth.dto';
+import { RegisterDto, LoginDto, ForgotPasswordDto, ResetPasswordDto, MfaVerifyLoginDto, AdminRecoveryDto } from './auth.dto';
 import { RateLimitService } from '../common/rate-limit.service';
 import { OptionalJwtGuard } from './optional-jwt.guard';
 import { getClientIp } from '../audit/client-ip';
@@ -153,6 +153,21 @@ export class AuthPublicController {
     }
     this.audit.writeAudit({ userId: result.userId ?? null, action: 'user.password_reset_success', ip });
     return { success: true };
+  }
+
+  @Post('admin-recovery')
+  @Public('one-time recovery of existing admin account without interactive shell')
+  @HttpCode(200)
+  adminRecovery(@Body() body: AdminRecoveryDto, @Req() req: Request) {
+    this.limit('admin-recovery', req, 3);
+    const ip = getClientIp(req);
+    const result = this.auth.recoverAdminAccount(body, ip);
+    if (result.error) {
+      this.audit.writeAudit({ userId: null, action: 'admin.recovery_fail', ip, details: { reason: result.error } });
+      throw new HttpException({ error: result.error }, result.status!);
+    }
+    this.audit.writeAudit({ userId: null, action: 'admin.recovery_success', ip, details: { email: result.email } });
+    return { success: true, message: 'Admin password reset successfully.', email: result.email };
   }
 
   @Post('mfa/verify-login')

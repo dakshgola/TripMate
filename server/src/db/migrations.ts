@@ -5285,6 +5285,23 @@ function runMigrations(db: Database.Database): void {
         END
       `);
     },
+
+    // Migration 245: Multi-user registration, display_name and account recovery defaults
+    () => {
+      try {
+        const userCols = db.prepare("SELECT name FROM pragma_table_info('users')").all() as Array<{ name: string }>;
+        if (!userCols.some((c) => c.name === 'display_name')) {
+          db.exec('ALTER TABLE users ADD COLUMN display_name TEXT');
+        }
+      } catch (err: any) {
+        if (!err.message?.includes('duplicate column name')) throw err;
+      }
+      db.exec(`
+        CREATE INDEX IF NOT EXISTS idx_users_email_lower ON users(LOWER(email));
+        INSERT OR IGNORE INTO app_settings (key, value) VALUES ('allow_registration', 'true');
+        INSERT OR IGNORE INTO app_settings (key, value) VALUES ('password_registration', 'true');
+      `);
+    },
   ];
 
   if (currentVersion < migrations.length) {
