@@ -195,3 +195,5 @@ export async function buildApp(): Promise<INestApplication> {
   console.log('[BOOT] route validation completed');
   return app;
 }
+
+console.log('[BOOT] bootstrap module loaded');

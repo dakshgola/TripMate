@@ -15,3 +15,4 @@ import { DATABASE_CONNECTION } from './database.tokens';
   exports: [DatabaseService, DATABASE_CONNECTION],
 })
 export class DatabaseModule {}
+console.log('[BOOT] database module loaded');

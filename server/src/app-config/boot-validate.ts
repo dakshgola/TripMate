@@ -10,3 +10,4 @@
 import { validateEnvAtBoot } from './env';
 
 validateEnvAtBoot();
+console.log('[BOOT] environment validation completed');

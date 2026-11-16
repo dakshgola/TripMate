@@ -45,3 +45,4 @@ try {
 }
 
 console.log('[BOOT] index.ts loaded & preboot diagnostics initialized');
+console.log('[BOOT] preboot loaded');

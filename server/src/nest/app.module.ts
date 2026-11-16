@@ -123,3 +123,4 @@ import { RealtimeGatewayModule } from './realtime/realtime-gateway.module';
   ],
 })
 export class AppModule {}
+console.log('[BOOT] AppModule import completed');
