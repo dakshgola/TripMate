@@ -8,6 +8,8 @@
     "build": "node scripts/build.mjs",
     "start:prod": "node dist/index.js",
     "reset-admin": "node reset-admin.js",
+    "seed:demo": "node scripts/seed-admin-demo.js",
+    "seed:demo:clean": "node scripts/seed-admin-demo.js --clean",
     "typecheck": "tsc --noEmit",
     "typecheck:tests": "tsc -p tsconfig.tests.json --noEmit",
     "gen:plugin-facts": "node --import tsx scripts/gen-plugin-facts.ts",

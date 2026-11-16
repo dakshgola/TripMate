@@ -74,7 +74,7 @@ export class RewardsService {
            HAVING SUM(points) > 0
          ), ranked AS (
            SELECT ROW_NUMBER() OVER (ORDER BY totals.points DESC, users.username COLLATE NOCASE) AS rank,
-                  users.id AS user_id, users.username, totals.points
+                  users.id AS user_id, COALESCE(NULLIF(users.display_name, ''), users.username) AS username, totals.points
            FROM totals JOIN users ON users.id = totals.user_id
          )
          SELECT rank, user_id, username, points
