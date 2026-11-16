@@ -697,6 +697,10 @@ function createTables(db: Database.Database): void {
     CREATE INDEX IF NOT EXISTS idx_user_rewards_user ON user_rewards(user_id);
   `);
 
+  try {
+    db.prepare("INSERT OR IGNORE INTO app_settings (key, value) VALUES ('database_instance_id', hex(randomblob(8)))").run();
+  } catch {}
+
   try { db.exec(`ALTER TABLE volunteer_applications ADD COLUMN portfolio_url TEXT;`); } catch {}
   try { db.exec(`ALTER TABLE volunteer_applications ADD COLUMN stipend_snapshot TEXT;`); } catch {}
   try {

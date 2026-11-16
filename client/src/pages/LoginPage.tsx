@@ -43,6 +43,7 @@ export default function LoginPage(): React.ReactElement {
   // Page = wiring container: the whole auth surface lives in the useLogin hook.
   const {
     navigate,
+    location,
     mode,
     setMode,
     fullName,
@@ -1175,10 +1176,11 @@ export default function LoginPage(): React.ReactElement {
                         setMfaStep(false);
                         setMfaToken('');
                         setMfaCode('');
+                        const search = location?.search ?? '';
                         if (mode === 'login') {
-                          navigate('/signup');
+                          navigate('/signup' + search);
                         } else {
-                          navigate('/login');
+                          navigate('/login' + search);
                         }
                       }}
                       style={{

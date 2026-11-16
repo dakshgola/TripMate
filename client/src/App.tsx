@@ -295,7 +295,7 @@ export default function App() {
   const { loadPlugins } = usePluginStore()
 
   useEffect(() => {
-    if (!location.pathname.startsWith('/shared/') && !location.pathname.startsWith('/public/') && !location.pathname.startsWith('/login')) {
+    if (!isAuthPublicPath(location.pathname)) {
       // If the persist snapshot already has an authenticated user, validate
       // silently so the PWA shell renders immediately without a spinner.
       const alreadyAuthenticated = useAuthStore.getState().isAuthenticated
@@ -368,19 +368,10 @@ export default function App() {
   }, [settings.dark_mode, settings.appearance, isSharedPage])
 
   const isPhone = useIsPhone()
-  const isAuthPage = location.pathname.startsWith('/login')
-    || location.pathname.startsWith('/register')
-    || location.pathname.startsWith('/forgot-password')
-    || location.pathname.startsWith('/reset-password')
   // No session on these, so authenticated-only widgets (system notices,
   // background tasks, save-to-collection) have nothing to do and would only fire
   // a doomed authenticated request on mount.
-  //
-  // Off isAuthPublicPath rather than a second hand-kept list: the two had already
-  // drifted, this one naming only /public/journey/ while the response
-  // interceptor's covers all of /public/. A route that is public to one and not
-  // to the other is exactly the seam that puts a 401 back.
-  const hideAuthedWidgets = isAuthPage || isAuthPublicPath(location.pathname)
+  const hideAuthedWidgets = isAuthPublicPath(location.pathname)
 
   return (
     <TranslationProvider>
@@ -400,7 +391,7 @@ export default function App() {
           <Route path="/shared/:token" element={<PublicRoute><SharedTripPage /></PublicRoute>} />
           <Route path="/public/journey/:token" element={<PublicRoute><JourneyPublicPage /></PublicRoute>} />
           <Route path="/register" element={<PublicRoute redirectAuthed><LoginPage /></PublicRoute>} />
-          <Route path="/signup" element={<PublicRoute redirectAuthed><LoginPage /></PublicRoute>} />
+          <Route path="/signup" element={<PublicRoute><LoginPage /></PublicRoute>} />
           <Route path="/forgot-password" element={<PublicRoute><ForgotPasswordPage /></PublicRoute>} />
           <Route path="/reset-password" element={<PublicRoute><ResetPasswordPage /></PublicRoute>} />
           <Route path="/admin-recovery" element={<PublicRoute><AdminRecoveryPage /></PublicRoute>} />

@@ -59,6 +59,20 @@ const MFA_SETUP_TTL_MS = 15 * 60 * 1000;
 // must see the same pending-MFA state (permissions-cache precedent).
 const mfaSetupPending = new Map<number, { secret: string; exp: number }>();
 
+const PROCESS_STARTUP_ID = randomBytes(4).toString('hex');
+
+function maskIdentifier(id: string): string {
+  if (!id) return '***';
+  if (id.includes('@')) {
+    const parts = id.split('@');
+    const name = parts[0];
+    const domain = parts[1];
+    const masked = name.length <= 2 ? name[0] + '*' : name[0] + '*'.repeat(Math.max(1, name.length - 2)) + name.slice(-1);
+    return `${masked}@${domain}`;
+  }
+  return id.length <= 2 ? id[0] + '*' : id[0] + '*'.repeat(Math.max(1, id.length - 2)) + id.slice(-1);
+}
+
 // 30 min expiration for single-use password reset links
 const PASSWORD_RESET_TTL_MS = 30 * 60 * 1000;
 const PASSWORD_RESET_TOKEN_BYTES = 32; // 256-bit entropy
@@ -498,41 +512,56 @@ export class AuthService {
     auditDetails?: Record<string, unknown>;
   } {
     const body = rawBody as { email?: string; password?: string; remember_me?: boolean };
+    const { email, password, remember_me } = body;
+    const cleanIdentifier = typeof email === 'string' ? email.trim() : '';
+    const cleanPassword = typeof password === 'string' ? password : '';
+    const maskedIdentifier = maskIdentifier(cleanIdentifier);
+    const dbInstanceId = this.db.get<{ value: string }>("SELECT value FROM app_settings WHERE key = 'database_instance_id'")?.value || 'unknown_instance';
+
     if (this.isOidcOnlyMode()) {
+      console.warn(`[AUTH-DIAG] Failed login: identifier=${maskedIdentifier}, found=false, hasHash=false, bcryptMatch=false, reason=password_login_disabled, dbInstanceId=${dbInstanceId}, processStartupId=${PROCESS_STARTUP_ID}`);
       return { error: 'Password authentication is disabled. Please sign in with SSO.', status: 403 };
     }
 
-    const { email, password, remember_me } = body;
     const remember = remember_me === true;
-    if (!email || !password) {
+    if (!cleanIdentifier || !cleanPassword) {
       return { error: 'Email and password are required', status: 400 };
     }
 
-    // Guests (#1362) carry a synthetic email but must never authenticate — treat a
-    // matched guest row exactly like an unknown email (dummy-hash timing preserved).
-    const user = this.db.get<User>('SELECT * FROM users WHERE LOWER(email) = LOWER(?) AND COALESCE(is_guest, 0) = 0', email);
+    // Support case-insensitive lookup by email or username (excluding guests)
+    const user = this.db.get<User>(
+      'SELECT * FROM users WHERE (LOWER(email) = LOWER(?) OR LOWER(username) = LOWER(?)) AND COALESCE(is_guest, 0) = 0',
+      cleanIdentifier,
+      cleanIdentifier
+    );
 
     // Always run bcrypt — even for unknown/OIDC-only users — so response time
     // does not reveal whether the email exists in the database (CWE-203/208).
     const hashToCheck = user?.password_hash ?? DUMMY_PASSWORD_HASH;
-    const validPassword = bcrypt.compareSync(password, hashToCheck);
+    const validPassword = bcrypt.compareSync(cleanPassword, hashToCheck);
 
     if (!user) {
+      const reason = 'unknown_email';
+      console.warn(`[AUTH-DIAG] Failed login: identifier=${maskedIdentifier}, found=false, hasHash=false, bcryptMatch=false, reason=${reason}, dbInstanceId=${dbInstanceId}, processStartupId=${PROCESS_STARTUP_ID}`);
       return {
         error: 'Invalid email or password', status: 401,
-        auditUserId: null, auditAction: 'user.login_failed', auditDetails: { email, reason: 'unknown_email' },
+        auditUserId: null, auditAction: 'user.login_failed', auditDetails: { email: cleanIdentifier, reason },
       };
     }
     if (!user.password_hash) {
+      const reason = 'password_login_disabled';
+      console.warn(`[AUTH-DIAG] Failed login: identifier=${maskedIdentifier}, found=true, hasHash=false, bcryptMatch=false, reason=${reason}, dbInstanceId=${dbInstanceId}, processStartupId=${PROCESS_STARTUP_ID}`);
       return {
         error: 'Invalid email or password', status: 401,
-        auditUserId: Number(user.id), auditAction: 'user.login_failed', auditDetails: { email, reason: 'oidc_only' },
+        auditUserId: Number(user.id), auditAction: 'user.login_failed', auditDetails: { email: cleanIdentifier, reason: 'oidc_only' },
       };
     }
     if (!validPassword) {
+      const reason = 'wrong_password';
+      console.warn(`[AUTH-DIAG] Failed login: identifier=${maskedIdentifier}, found=true, hasHash=true, bcryptMatch=false, reason=${reason}, dbInstanceId=${dbInstanceId}, processStartupId=${PROCESS_STARTUP_ID}`);
       return {
         error: 'Invalid email or password', status: 401,
-        auditUserId: Number(user.id), auditAction: 'user.login_failed', auditDetails: { email, reason: 'wrong_password' },
+        auditUserId: Number(user.id), auditAction: 'user.login_failed', auditDetails: { email: cleanIdentifier, reason },
       };
     }
 

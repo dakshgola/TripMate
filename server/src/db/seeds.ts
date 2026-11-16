@@ -53,15 +53,21 @@ function seedAdminAccount(db: Database.Database): void {
 
     let password: string;
     let email: string;
+    const isProd = readEnv().app.isProduction;
+
     if (env_admin_email && env_admin_pw) {
       password = env_admin_pw;
-      email = env_admin_email;
+      email = env_admin_email.trim();
     } else {
-      // A partial config (only one of the two) is an easy mistake: neither value is used and a
-      // generated password is created instead. Flag it so the chosen credentials silently not
-      // working isn't a surprise.
+      // If neither or only one is set:
       if (adminEnvProvided) {
-        console.warn('[admin] Only one of ADMIN_EMAIL/ADMIN_PASSWORD is set — both are required for a custom admin. Falling back to admin@trek.local with a generated password (shown below).');
+        console.warn('[admin] Only one of ADMIN_EMAIL/ADMIN_PASSWORD is set — both are required for custom admin bootstrap.');
+      }
+      // In production, do not create a phantom admin with an unreachable hidden password.
+      // Leave the database empty so the operator can complete initial setup / registration.
+      if (isProd) {
+        console.log('[BOOT] First-time setup: No custom ADMIN_EMAIL/ADMIN_PASSWORD provided. Database is ready for initial registration.');
+        return;
       }
       password = crypto.randomBytes(12).toString('base64url');
       email = 'admin@trek.local';
@@ -72,7 +78,6 @@ function seedAdminAccount(db: Database.Database): void {
 
     db.prepare('INSERT INTO users (username, email, password_hash, role, must_change_password) VALUES (?, ?, ?, ?, 1)').run(username, email, hash, 'admin');
 
-    const isProd = readEnv().app.isProduction;
     console.log('');
     console.log('╔══════════════════════════════════════════════╗');
     console.log('║  TREK — First Run: Admin Account Created     ║');

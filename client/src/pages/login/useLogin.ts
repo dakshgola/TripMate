@@ -44,10 +44,8 @@ export function useLogin() {
   useEffect(() => {
     if (isRegisterRoute && mode !== 'register') {
       setMode('register')
-    } else if (location.pathname === '/login' && mode !== 'login') {
-      setMode('login')
     }
-  }, [isRegisterRoute, location.pathname, mode])
+  }, [isRegisterRoute])
   const [fullName, setFullName] = useState<string>('')
   const [username, setUsername] = useState<string>('')
   const [email, setEmail] = useState<string>('')
@@ -267,6 +265,7 @@ export function useLogin() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
+    if (isLoading) return
     setError('')
     setInsecureCookie(false)
     setIsLoading(true)
@@ -297,20 +296,15 @@ export function useLogin() {
         return
       }
       if (mode === 'register') {
-        const trimmedName = fullName.trim()
+        const trimmedUser = (username.trim() || fullName.trim()).replace(/\s+/g, '_')
         const trimmedEmail = email.trim()
-        if (!trimmedName && !username.trim()) {
-          setError(t('login.fullNameRequired') || 'Full Name is required')
-          setIsLoading(false)
-          return
-        }
-        if (!trimmedEmail) {
-          setError(t('common.emailRequired') || 'Email Address is required')
+        if (!trimmedUser) {
+          setError(t('login.usernameRequired'))
           setIsLoading(false)
           return
         }
         if (password.length < 8) {
-          setError(t('login.passwordMinLength') || 'Password must be at least 8 characters')
+          setError(t('login.passwordMinLength'))
           setIsLoading(false)
           return
         }
@@ -319,16 +313,10 @@ export function useLogin() {
           setIsLoading(false)
           return
         }
-        await register({
-          name: trimmedName,
-          username: username.trim() || undefined,
-          email: trimmedEmail,
-          password,
-          confirm_password: registerConfirmPassword || undefined,
-          invite_token: inviteToken || undefined,
-        })
+        await register(trimmedUser, trimmedEmail, password, inviteToken || undefined)
       } else {
-        const result = await login(email, password, rememberMe)
+        const trimmedEmail = email.trim()
+        const result = await login(trimmedEmail, password, rememberMe)
         if ((result as { insecureCookie?: boolean }).insecureCookie) {
           // Credentials were correct, but the secure cookie won't survive plain
           // HTTP — proceeding would just dead-end on "Access token required".
@@ -357,14 +345,15 @@ export function useLogin() {
     }
   }
 
-  const allowRegistration = appConfig?.allow_registration ?? appConfig?.password_registration ?? true
-  const showRegisterOption = !appConfig?.demo_mode && (allowRegistration || !appConfig?.has_users || inviteValid)
+  const allowRegistration = appConfig?.password_registration ?? appConfig?.allow_registration ?? true
+  const showRegisterOption = !appConfig?.demo_mode && (allowRegistration || !appConfig?.has_users || inviteValid) && (appConfig?.setup_complete !== false || !appConfig?.has_users)
 
   // In OIDC-only mode, show a minimal page that redirects directly to the IdP
   const oidcOnly = !appConfig?.password_login && appConfig?.oidc_login && appConfig?.oidc_configured
 
   return {
     navigate,
+    location,
     mode, setMode,
     fullName, setFullName,
     username, setUsername, email, setEmail, password, setPassword,

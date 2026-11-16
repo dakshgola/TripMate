@@ -255,6 +255,7 @@ apiClient.interceptors.response.use(
       if (error.response?.status === 401 && (error.response?.data as { code?: string } | undefined)?.code === 'AUTH_REQUIRED') {
         const { pathname } = window.location
         if (!isAuthPublicPath(pathname)) {
+          try { localStorage.removeItem('trek_auth_snapshot') } catch { /* ignore */ }
           const currentPath = pathname + window.location.search + window.location.hash
           window.location.href = '/login?redirect=' + encodeURIComponent(currentPath)
         }
