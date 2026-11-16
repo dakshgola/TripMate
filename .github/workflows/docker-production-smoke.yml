@@ -42,7 +42,7 @@ jobs:
           docker run --rm tripmate:production-test ls -la /app/server/dist/index.js /app/server/dist/nest/app.module.js /app/server/dist/nest/plugins/supervisor/plugin-supervisor.js
 
           echo "=== 2. Verifying PluginSupervisor constructor export ==="
-          docker run --rm tripmate:production-test node -e "
+          docker run --rm -w /app/server tripmate:production-test node -e "
             const ps = require('./dist/nest/plugins/supervisor/plugin-supervisor');
             console.log('Exported keys:', Object.keys(ps));
             if (typeof ps.PluginSupervisor !== 'function') {
