@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'node:path';
+import fs from 'node:fs';
 
 import { readEnv } from '../../app-config';
 import { verifyJwtAndLoadUser } from '../auth/jwt-verify';
@@ -18,7 +19,11 @@ import { StorageInvalidKeyError, StorageNotFoundError, type StorageCategory } fr
 // source/test and compiled/dist execution.) The /uploads/* routes no longer anchor paths
 // here at all: they address files as (category, name) through StorageService (slice 3).
 
-export const PUBLIC_DIR = path.join(__dirname, '../../../public');
+const defaultPublicDir = path.join(__dirname, '../../../public');
+const fallbackClientDist = path.join(__dirname, '../../../../client/dist');
+export const PUBLIC_DIR = fs.existsSync(path.join(defaultPublicDir, 'index.html'))
+  ? defaultPublicDir
+  : (fs.existsSync(path.join(fallbackClientDist, 'index.html')) ? fallbackClientDist : defaultPublicDir);
 
 // File types the client build emits. No page of the app ends in one of these.
 const BUILD_FILE_RE = /\.(?:m?js|css|map|wasm|webmanifest|json|png|jpe?g|gif|webp|avif|svg|ico|woff2?|ttf|otf)$/i;

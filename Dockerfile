@@ -126,7 +126,7 @@ ENV APP_VERSION=${APP_VERSION}
 EXPOSE 3000
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
-  CMD wget -qO- http://localhost:3000/api/health || exit 1
+  CMD wget -qO- "http://127.0.0.1:${PORT:-3000}/api/health" || exit 1
 
 # Start-up lives in a script, not an inline `sh -c` string: container management
 # UIs re-tokenise Config.Cmd when you edit a container in place, and a command

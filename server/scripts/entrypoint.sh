@@ -20,11 +20,10 @@ if [ ! -f /app/server/dist/index.js ] || [ ! -d /app/node_modules/tsconfig-paths
   exit 1
 fi
 
-# Best effort: a read-only host filesystem or a locked-down bind mount must keep
-# booting, exactly as it did before.
-chown -R node:node /app/data /app/uploads 2>/dev/null || true
-
-# cd into server/ so tsconfig-paths/register finds tsconfig.json and
-# ../node_modules resolves correctly.
 cd /app/server
-exec gosu node node --require tsconfig-paths/register dist/index.js
+if [ "$(id -u)" = "0" ]; then
+  chown -R node:node /app/data /app/uploads 2>/dev/null || true
+  exec gosu node node --require tsconfig-paths/register dist/index.js
+else
+  exec node --require tsconfig-paths/register dist/index.js
+fi
