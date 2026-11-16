@@ -79,7 +79,8 @@ export function SystemNoticeHost() {
   const readable = notices.filter(n => hasCopy(n, t));
   const visible = isMobile ? readable.filter(n => !n.desktopOnly) : readable;
 
-  const modals  = visible.filter(n => n.display === 'modal');
+  // Version update / release announcement popups are permanently disabled.
+  const modals  = visible.filter(n => n.display === 'modal' && !n.release && n.id !== 'release-notes');
   const banners = visible.filter(n => n.display === 'banner');
   const toasts  = visible.filter(n => n.display === 'toast');
 

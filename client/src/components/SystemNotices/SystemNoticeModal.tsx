@@ -9,7 +9,6 @@ import { useSystemNoticeStore } from '../../store/systemNoticeStore.js';
 import type { SystemNoticeDTO } from '../../store/systemNoticeStore.js';
 import { useTranslation, isRtlLanguage } from '../../i18n/index.js';
 import { runNoticeAction } from './noticeActions.js';
-import { ReleaseNoticeModal } from './ReleaseNoticeModal.js';
 import { lockBodyScroll } from '../../utils/bodyScrollLock.js';
 
 const ReactMarkdown = React.lazy(() =>
@@ -871,21 +870,10 @@ function DesktopNoticeModal(S: NoticeState) {
 }
 
 export function ModalRenderer({ notices }: Props) {
-  const S = useSystemNoticeModal(notices);
-  // No notice to show
-  if (!S.notice) return null;
-  // A notice carrying `release` draws its own two-column panel, but keeps this
-  // hook's ESC handling, scroll lock and dismissal.
-  if (S.notice.release && !S.isMobile) {
-    return (
-      <ReleaseNoticeModal
-        notice={S.notice}
-        visible={S.visible}
-        onDismiss={S.handleDismissAll}
-        onCTA={S.handleCTA}
-        onSecondaryCTA={S.handleSecondaryCTA}
-      />
-    );
-  }
+  // Release update announcements / What's New popups are permanently disabled.
+  const filteredNotices = notices.filter(n => !n.release && n.id !== 'release-notes');
+  const S = useSystemNoticeModal(filteredNotices);
+  // No notice to show or release notice passed
+  if (!S.notice || S.notice.release || S.notice.id === 'release-notes') return null;
   return S.isMobile ? <MobileNoticeSheet {...S} /> : <DesktopNoticeModal {...S} />;
 }
