@@ -87,7 +87,7 @@ export function AiAssistantModal({
   const toast = useToast();
   const [activeTab, setActiveTab] = useState<'plan' | 'chat'>('plan');
   const [keyModalOpen, setKeyModalOpen] = useState(false);
-  const [keyStatus, setKeyStatus] = useState<{ configured: boolean; source: string }>({
+  const [keyStatus, setKeyStatus] = useState<{ configured: boolean; source?: string; model?: string }>({
     configured: false,
     source: 'none',
   });

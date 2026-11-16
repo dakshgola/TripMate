@@ -11,7 +11,7 @@ import {
   Sparkles, MapPin, Calendar, Wallet, Cloud, Sun, CloudRain, Snowflake,
   Wind, Utensils, Camera, Music, Backpack, BookOpen, Zap, RefreshCw,
   Clock, Tag, CheckCircle, AlertCircle, Copy, Bot, Send, X,
-  ChevronRight, ChevronLeft, Key, Eye, EyeOff, Thermometer,
+  ChevronRight, ChevronLeft, Key, Thermometer,
   DollarSign, FolderPlus, Loader2, RotateCcw, Shield,
 } from "lucide-react";
 
@@ -28,9 +28,9 @@ const STYLE_OPTIONS = [
 ];
 const WEATHER_OPTIONS = [
   { id: "summer",  label: "Summer",  Icon: Sun,         color: "#f59e0b" },
-  { id: "monsoon", label: "Monsoon", Icon: CloudRain,   color: "#3b82f6" },
-  { id: "winter",  label: "Winter",  Icon: Snowflake,   color: "#60a5fa" },
-  { id: "spring",  label: "Spring",  Icon: Wind,        color: "#34d399" },
+  { id: "monsoon", label: "Monsoon", Icon: CloudRain,   color: "#0284c7" },
+  { id: "winter",  label: "Winter",  Icon: Snowflake,   color: "#38bdf8" },
+  { id: "spring",  label: "Spring",  Icon: Wind,        color: "#10b981" },
   { id: "autumn",  label: "Autumn",  Icon: Thermometer, color: "#f97316" },
 ];
 const INTEREST_OPTIONS = [
@@ -42,486 +42,1072 @@ const INTEREST_OPTIONS = [
   { id: "nature",      label: "Nature & Wildlife",    Icon: Zap },
 ];
 const CURRENCY_OPTIONS = ["INR","USD","EUR","GBP","AED","SGD","JPY","AUD"];
-const SLOT_STYLES: Record<string,{bg:string;text:string;label:string}> = {
-  morning:   { bg:"rgba(251,191,36,0.15)",  text:"#fbbf24", label:"Morning"   },
-  afternoon: { bg:"rgba(251,146,60,0.15)",  text:"#fb923c", label:"Afternoon" },
-  evening:   { bg:"rgba(167,139,250,0.15)", text:"#a78bfa", label:"Evening"   },
-};
-const BAR_COLORS = ["#6366f1","#8b5cf6","#a78bfa","#c084fc","#e879f9","#f472b6"];
 
-function fmtCur(amount:number,currency:string){
-  try{ return new Intl.NumberFormat("en-IN",{style:"currency",currency,maximumFractionDigits:0}).format(amount); }
-  catch{ return `${currency} ${amount.toLocaleString()}`; }
+const SLOT_STYLES: Record<string, { badgeClass: string; label: string }> = {
+  morning:   { badgeClass: "bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20", label: "Morning" },
+  afternoon: { badgeClass: "bg-orange-500/10 text-orange-700 dark:text-orange-400 border border-orange-500/20", label: "Afternoon" },
+  evening:   { badgeClass: "bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-500/20", label: "Evening" },
+};
+
+const BAR_COLORS = [
+  "from-slate-700 to-slate-900 dark:from-slate-300 dark:to-slate-100",
+  "from-emerald-600 to-teal-700",
+  "from-sky-600 to-blue-700",
+  "from-amber-500 to-orange-600",
+  "from-teal-600 to-emerald-700",
+  "from-indigo-600 to-slate-800",
+];
+
+function fmtCur(amount: number, currency: string) {
+  try {
+    return new Intl.NumberFormat("en-IN", { style: "currency", currency, maximumFractionDigits: 0 }).format(amount);
+  } catch {
+    return `${currency} ${amount.toLocaleString()}`;
+  }
 }
 
-function Chip({selected,onClick,children,color}:{selected:boolean;onClick:()=>void;children:React.ReactNode;color?:string}){
-  return(
-    <button onClick={onClick} type="button" style={{
-      padding:"8px 16px",borderRadius:24,cursor:"pointer",fontSize:13,outline:"none",
-      border:selected?`1.5px solid ${color||"var(--accent, #6366f1)"}`:"1px solid var(--border, rgba(255,255,255,0.12))",
-      background:selected?`${color||"var(--accent, #6366f1)"}20`:"var(--bg-secondary, rgba(255,255,255,0.04))",
-      color:selected?(color||"var(--accent, #6366f1)"):"var(--text-secondary, #94a3b8)",
-      fontWeight:selected?600:400,transition:"all 0.2s",
-    }}>{children}</button>
+function Chip({
+  selected,
+  onClick,
+  children,
+}: {
+  selected: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      type="button"
+      className={`px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all ${
+        selected
+          ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-sm"
+          : "bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+      }`}
+    >
+      {children}
+    </button>
   );
 }
 
-function StepDot({n,active,done}:{n:number;active:boolean;done:boolean}){
-  return(
-    <div style={{
-      width:34,height:34,borderRadius:"50%",flexShrink:0,
-      display:"flex",alignItems:"center",justifyContent:"center",
-      fontSize:13,fontWeight:700,transition:"all 0.3s",
-      background:active?"linear-gradient(135deg,#6366f1,#a855f7)":done?"#22c55e":"rgba(255,255,255,0.08)",
-      border:active?"2px solid #a855f7":done?"2px solid #22c55e":"2px solid rgba(255,255,255,0.15)",
-      color:active||done?"#fff":"rgba(255,255,255,0.4)",
-    }}>
-      {done?<CheckCircle size={16}/>:n}
+function StepDot({ n, active, done }: { n: number; active: boolean; done: boolean }) {
+  if (done) {
+    return (
+      <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm bg-emerald-500 text-white shadow-sm transition-all shrink-0">
+        <CheckCircle size={17} />
+      </div>
+    );
+  }
+  if (active) {
+    return (
+      <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-sm ring-4 ring-slate-900/10 dark:ring-white/10 transition-all shrink-0">
+        {n}
+      </div>
+    );
+  }
+  return (
+    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center font-semibold text-xs sm:text-sm bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700 transition-all shrink-0">
+      {n}
     </div>
   );
 }
 
-function ActivityRow({act,currency}:{act:any;currency:string}){
-  const slot=SLOT_STYLES[act.timeSlot]||SLOT_STYLES.morning;
-  return(
-    <div style={{background:"rgba(255,255,255,0.035)",border:"1px solid rgba(255,255,255,0.07)",borderRadius:12,padding:"12px 14px",marginBottom:9}}>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:8}}>
-        <div style={{flex:1}}>
-          <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:4,flexWrap:"wrap" as const}}>
-            <span style={{fontSize:10,fontWeight:700,padding:"2px 9px",borderRadius:20,background:slot.bg,color:slot.text}}>{slot.label}</span>
-            {act.time&&<span style={{fontSize:11,color:"rgba(255,255,255,0.38)"}}><Clock size={10} style={{display:"inline" as const,marginRight:3}}/>{act.time}</span>}
-            {act.duration&&<span style={{fontSize:11,color:"rgba(255,255,255,0.38)"}}>· {act.duration}</span>}
+function ActivityRow({ act, currency }: { act: any; currency: string }) {
+  const slot = SLOT_STYLES[act.timeSlot] || SLOT_STYLES.morning;
+  return (
+    <div className="bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/60 rounded-xl p-3 sm:p-4 mb-2.5 transition-all">
+      <div className="flex justify-between items-start gap-3">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+            <span className={`text-[10px] sm:text-xs font-semibold px-2.5 py-0.5 rounded-full ${slot.badgeClass}`}>
+              {slot.label}
+            </span>
+            {act.time && (
+              <span className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                <Clock size={11} /> {act.time}
+              </span>
+            )}
+            {act.duration && (
+              <span className="text-xs text-slate-400 dark:text-slate-500">· {act.duration}</span>
+            )}
           </div>
-          <div style={{fontSize:14,fontWeight:700,color:"#fff",marginBottom:3}}>{act.name}</div>
-          <div style={{fontSize:12,color:"rgba(255,255,255,0.55)",lineHeight:1.5}}>{act.description}</div>
+          <div className="text-sm sm:text-base font-bold text-slate-900 dark:text-white mb-1">
+            {act.name}
+          </div>
+          <div className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            {act.description}
+          </div>
         </div>
-        {!!act.estimatedCost&&act.estimatedCost>0&&(
-          <div style={{fontSize:12,fontWeight:700,color:"#4ade80",background:"rgba(74,222,128,0.1)",borderRadius:10,padding:"3px 9px",whiteSpace:"nowrap" as const}}>
-            ~{fmtCur(act.estimatedCost,currency)}
+        {!!act.estimatedCost && act.estimatedCost > 0 && (
+          <div className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-2.5 py-1 whitespace-nowrap shrink-0">
+            ~{fmtCur(act.estimatedCost, currency)}
           </div>
         )}
       </div>
-      {act.category&&<div style={{marginTop:7}}><span style={{fontSize:10,color:"rgba(255,255,255,0.35)",background:"rgba(255,255,255,0.06)",padding:"2px 7px",borderRadius:7}}><Tag size={8} style={{display:"inline" as const,marginRight:3}}/>{act.category}</span></div>}
-    </div>
-  );
-}
-
-function DayCard({day,currency}:{day:any;currency:string}){
-  const [open,setOpen]=useState(true);
-  return(
-    <div style={{background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.09)",borderRadius:16,overflow:"hidden",marginBottom:14}}>
-      <button onClick={()=>setOpen(o=>!o)} type="button" style={{width:"100%",display:"flex",alignItems:"center",gap:12,padding:"14px 18px",background:"none",border:"none",cursor:"pointer",textAlign:"left" as const}}>
-        <div style={{width:40,height:40,borderRadius:11,background:"linear-gradient(135deg,#6366f1,#a855f7)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:14,fontWeight:800,color:"#fff"}}>D{day.dayNumber}</div>
-        <div style={{flex:1}}>
-          <div style={{fontSize:14,fontWeight:700,color:"#fff"}}>{day.title}</div>
-          {day.weatherNote&&<div style={{fontSize:11,color:"#60a5fa",marginTop:2}}><Cloud size={10} style={{display:"inline" as const,marginRight:4}}/>{day.weatherNote}</div>}
-        </div>
-        <ChevronRight size={16} style={{color:"rgba(255,255,255,0.35)",transform:open?"rotate(90deg)":"rotate(0deg)",transition:"transform 0.2s"}}/>
-      </button>
-      {open&&(
-        <div style={{padding:"0 14px 14px"}}>
-          {day.activities.map((a:any,i:number)=><ActivityRow key={i} act={a} currency={currency}/>)}
+      {act.category && (
+        <div className="mt-2.5">
+          <span className="text-[10px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-200/60 dark:bg-slate-700/60 px-2 py-0.5 rounded-md inline-flex items-center gap-1">
+            <Tag size={10} /> {act.category}
+          </span>
         </div>
       )}
     </div>
   );
 }
 
-function BudgetBars({items,total,currency}:{items:any[];total:number;currency:string}){
-  return(
-    <div style={{display:"flex",flexDirection:"column" as const,gap:14}}>
-      {items.map((item,i)=>{
-        const pct=total>0?Math.round((item.amount/total)*100):0;
-        return(
-          <div key={i}>
-            <div style={{display:"flex",justifyContent:"space-between",marginBottom:5,fontSize:13}}>
-              <span style={{color:"rgba(255,255,255,0.8)",fontWeight:500}}>{item.name}</span>
-              <span style={{color:BAR_COLORS[i%BAR_COLORS.length],fontWeight:700}}>{fmtCur(item.amount,currency)} <span style={{color:"rgba(255,255,255,0.35)",fontWeight:400}}>({pct}%)</span></span>
+function DayCard({ day, currency }: { day: any; currency: string }) {
+  const [open, setOpen] = useState(true);
+  return (
+    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm overflow-hidden mb-3.5 transition-all">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        type="button"
+        className="w-full flex items-center gap-3 p-4 sm:p-5 bg-transparent border-none cursor-pointer text-left hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors"
+      >
+        <div className="w-10 h-10 rounded-xl bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 flex items-center justify-center font-extrabold text-sm shadow-sm shrink-0">
+          D{day.dayNumber}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="text-sm sm:text-base font-bold text-slate-900 dark:text-white truncate">
+            {day.title}
+          </div>
+          {day.weatherNote && (
+            <div className="text-xs text-sky-600 dark:text-sky-400 mt-0.5 flex items-center gap-1.5">
+              <Cloud size={12} /> {day.weatherNote}
             </div>
-            <div style={{height:6,borderRadius:6,background:"rgba(255,255,255,0.08)",overflow:"hidden"}}>
-              <div style={{width:`${pct}%`,height:"100%",borderRadius:6,transition:"width 1s cubic-bezier(.4,0,.2,1)",background:`linear-gradient(90deg,${BAR_COLORS[i%BAR_COLORS.length]},${BAR_COLORS[(i+1)%BAR_COLORS.length]})`}}/>
+          )}
+        </div>
+        <ChevronRight
+          size={18}
+          className={`text-slate-400 dark:text-slate-500 transition-transform duration-200 ${
+            open ? "rotate-90" : "rotate-0"
+          }`}
+        />
+      </button>
+      {open && (
+        <div className="px-3.5 pb-3.5 sm:px-5 sm:pb-5 pt-0">
+          {day.activities.map((a: any, i: number) => (
+            <ActivityRow key={i} act={a} currency={currency} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function BudgetBars({ items, total, currency }: { items: any[]; total: number; currency: string }) {
+  return (
+    <div className="flex flex-col gap-3.5">
+      {items.map((item, i) => {
+        const pct = total > 0 ? Math.round((item.amount / total) * 100) : 0;
+        return (
+          <div key={i}>
+            <div className="flex justify-between mb-1.5 text-xs sm:text-sm">
+              <span className="text-slate-700 dark:text-slate-300 font-medium">{item.name}</span>
+              <span className="font-semibold text-slate-900 dark:text-white">
+                {fmtCur(item.amount, currency)}{" "}
+                <span className="text-slate-400 dark:text-slate-500 font-normal">({pct}%)</span>
+              </span>
+            </div>
+            <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+              <div
+                className={`h-full rounded-full bg-gradient-to-r ${BAR_COLORS[i % BAR_COLORS.length]} transition-all duration-700`}
+                style={{ width: `${pct}%` }}
+              />
             </div>
           </div>
         );
       })}
-      <div style={{marginTop:6,padding:"14px 18px",borderRadius:14,background:"linear-gradient(135deg,rgba(99,102,241,0.18),rgba(168,85,247,0.18))",border:"1px solid rgba(168,85,247,0.3)",textAlign:"center" as const}}>
-        <div style={{fontSize:11,color:"rgba(255,255,255,0.5)",marginBottom:4}}>Total Estimated Budget</div>
-        <div style={{fontSize:26,fontWeight:800,color:"#a78bfa"}}>{fmtCur(total,currency)}</div>
+      <div className="mt-2 p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-center">
+        <div className="text-xs text-slate-500 dark:text-slate-400 mb-1 font-medium">
+          Total Estimated Budget
+        </div>
+        <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+          {fmtCur(total, currency)}
+        </div>
       </div>
     </div>
   );
 }
 
-export default function AiPlannerPage(){
-  const navigate=useNavigate();
-  const toast=useToast();
-  const [formPage,setFormPage]=useState(0);
-  const [destination,setDestination]=useState("");
-  const [days,setDays]=useState(5);
-  const [startDate,setStartDate]=useState("");
-  const [weather,setWeather]=useState("summer");
-  const [travelStyle,setTravelStyle]=useState("couple");
-  const [budget,setBudget]=useState("mid");
-  const [currency,setCurrency]=useState("INR");
-  const [interests,setInterests]=useState<string[]>(["culture","food"]);
-  const [keyModalOpen,setKeyModalOpen]=useState(false);
-  const [keyStatus,setKeyStatus]=useState<{configured:boolean;model?:string}>({configured:false});
-  const [loading,setLoading]=useState(false);
-  const [error,setError]=useState<string|null>(null);
-  const [itinerary,setItinerary]=useState<StructuredItinerary|null>(null);
-  const [viewMode,setViewMode]=useState<"days"|"budget"|"tips"|"markdown">("days");
-  const [activeDay,setActiveDay]=useState<number|null>(null);
-  const [applying,setApplying]=useState(false);
-  const [applyProgress,setApplyProgress]=useState<ApplyProgress|null>(null);
-  const [chatOpen,setChatOpen]=useState(false);
-  const [chatInput,setChatInput]=useState("");
-  const [chatMsgs,setChatMsgs]=useState<Array<{role:"user"|"assistant";content:string;id:string}>>([
-    {role:"assistant",id:"init",content:"Hi! I am TripMate AI.\n\nGenerate your itinerary first, then ask me anything — packing tips, local food, hidden gems, budget hacks!"},
+export default function AiPlannerPage() {
+  const navigate = useNavigate();
+  const toast = useToast();
+  const [formPage, setFormPage] = useState(0);
+  const [destination, setDestination] = useState("");
+  const [days, setDays] = useState(5);
+  const [startDate, setStartDate] = useState("");
+  const [weather, setWeather] = useState("summer");
+  const [travelStyle, setTravelStyle] = useState("couple");
+  const [budget, setBudget] = useState("mid");
+  const [currency, setCurrency] = useState("INR");
+  const [interests, setInterests] = useState<string[]>(["culture", "food"]);
+  const [keyModalOpen, setKeyModalOpen] = useState(false);
+  const [keyStatus, setKeyStatus] = useState<{ configured: boolean; model?: string }>({
+    configured: false,
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [itinerary, setItinerary] = useState<StructuredItinerary | null>(null);
+  const [viewMode, setViewMode] = useState<"days" | "budget" | "tips" | "markdown">("days");
+  const [activeDay, setActiveDay] = useState<number | null>(null);
+  const [applying, setApplying] = useState(false);
+  const [applyProgress, setApplyProgress] = useState<ApplyProgress | null>(null);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [chatInput, setChatInput] = useState("");
+  const [chatMsgs, setChatMsgs] = useState<Array<{ role: "user" | "assistant"; content: string; id: string }>>([
+    {
+      role: "assistant",
+      id: "init",
+      content:
+        "Hi! I am Trip Mate AI.\n\nGenerate your itinerary first, then ask me anything — packing tips, local food, hidden gems, or budget hacks!",
+    },
   ]);
-  const [chatLoading,setChatLoading]=useState(false);
-  const chatEndRef=useRef<HTMLDivElement>(null);
-  const chatInputRef=useRef<HTMLInputElement>(null);
+  const [chatLoading, setChatLoading] = useState(false);
+  const chatEndRef = useRef<HTMLDivElement>(null);
+  const chatInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(()=>{chatEndRef.current?.scrollIntoView({behavior:"smooth"});},[chatMsgs]);
-  useEffect(()=>{checkAiKeyStatus().then(setKeyStatus);},[]);
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatMsgs]);
 
-  const toggleInterest=(id:string)=>setInterests(prev=>prev.includes(id)?prev.filter(i=>i!==id):[...prev,id]);
+  useEffect(() => {
+    checkAiKeyStatus().then(setKeyStatus);
+  }, []);
 
-  const generate=useCallback(async()=>{
-    if(!destination.trim()){setError("Please enter a destination.");return;}
-    setLoading(true);setError(null);
-    try{
-      const result=await generateItinerary({destination:destination.trim(),days,budget,currency,weather,travelStyle,interests,startDate:startDate||undefined});
-      setItinerary(result);
-      toast.success("Itinerary generated!");
-    }catch(e:unknown){
-      const msg=(e instanceof Error?e.message:String(e))||"Generation failed. Check your API key.";
-      setError(msg);
-      if(msg.toLowerCase().includes("key"))setKeyModalOpen(true);
-    }finally{setLoading(false);}
-  },[destination,days,budget,currency,weather,travelStyle,interests,startDate,toast]);
+  const toggleInterest = (id: string) =>
+    setInterests((prev) => (prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]));
 
-  const applyToNewTrip=useCallback(async()=>{
-    if(!itinerary||applying)return;
-    setApplying(true);setApplyProgress(null);
-    try{
-      const trip=await createNewTripFromItinerary(itinerary,startDate||undefined,setApplyProgress);
-      toast.success(`Trip created!`);
-      setTimeout(()=>navigate(`/trips/${trip.id}`),800);
-    }catch(e:unknown){
-      toast.error((e instanceof Error?e.message:String(e))||"Failed");
-    }finally{setApplying(false);setApplyProgress(null);}
-  },[itinerary,applying,startDate,navigate,toast]);
-
-  const sendChat=useCallback(async()=>{
-    const text=chatInput.trim();
-    if(!text||chatLoading)return;
-    const uid=Date.now().toString();
-    const aid=(Date.now()+1).toString();
-    setChatMsgs(prev=>[...prev,{role:"user",id:uid,content:text},{role:"assistant",id:aid,content:""}]);
-    setChatInput("");setChatLoading(true);
-    try{
-      const history=chatMsgs.filter(m=>m.id!=="init").concat({role:"user",id:uid,content:text}).map(m=>({role:m.role,content:m.content}));
-      const ctx=itinerary?{
-        destination:itinerary.destination,
-        days:itinerary.daysCount,
-        weather,
+  const generate = useCallback(async () => {
+    if (!destination.trim()) {
+      setError("Please enter a destination.");
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await generateItinerary({
+        destination: destination.trim(),
+        days,
         budget,
         currency,
-        dayPlans:itinerary.days.map(d=>({day:d.dayNumber,title:d.title,activities:d.activities.map(a=>`${a.name} (${a.timeSlot}${a.estimatedCost?` ~${a.estimatedCost}`:''})` )})),
-        packingTips:itinerary.packingTips,
-        budgetSummary:itinerary.budgetBreakdown.map(b=>`${b.name}: ${b.amount} ${itinerary.currency}`)
-      }:undefined;
-      const reply=await chatWithAssistant(history,ctx as Record<string,unknown>|undefined);
-      setChatMsgs(prev=>prev.map(m=>m.id===aid?{...m,content:reply}:m));
-    }catch(err:unknown){
-      const errTxt=err instanceof Error?err.message:"Failed to get reply from AI assistant.";
-      setChatMsgs(prev=>prev.map(m=>m.id===aid?{...m,content:`⚠️ ${errTxt}`}:m));
-    }finally{setChatLoading(false);chatInputRef.current?.focus();}
-  },[chatInput,chatLoading,chatMsgs,itinerary,weather,budget,currency]);
+        weather,
+        travelStyle,
+        interests,
+        startDate: startDate || undefined,
+      });
+      setItinerary(result);
+      toast.success("Itinerary generated!");
+    } catch (e: unknown) {
+      const msg = (e instanceof Error ? e.message : String(e)) || "Generation failed. Check your API key.";
+      setError(msg);
+      if (msg.toLowerCase().includes("key")) setKeyModalOpen(true);
+    } finally {
+      setLoading(false);
+    }
+  }, [destination, days, budget, currency, weather, travelStyle, interests, startDate, toast]);
 
-  const copyMarkdown=()=>{if(itinerary)navigator.clipboard.writeText(itinerary.markdown).then(()=>toast.success("Copied!"));};
+  const applyToNewTrip = useCallback(async () => {
+    if (!itinerary || applying) return;
+    setApplying(true);
+    setApplyProgress(null);
+    try {
+      const trip = await createNewTripFromItinerary(itinerary, startDate || undefined, setApplyProgress);
+      toast.success("Trip created!");
+      setTimeout(() => navigate(`/trips/${trip.id}`), 800);
+    } catch (e: unknown) {
+      toast.error((e instanceof Error ? e.message : String(e)) || "Failed");
+    } finally {
+      setApplying(false);
+      setApplyProgress(null);
+    }
+  }, [itinerary, applying, startDate, navigate, toast]);
 
-  const inputSt:React.CSSProperties={width:"100%",background:"var(--bg-secondary, rgba(255,255,255,0.06))",border:"1px solid var(--border, rgba(255,255,255,0.14))",borderRadius:12,padding:"13px 15px",color:"var(--text-primary, #fff)",fontSize:14,outline:"none",boxSizing:"border-box"};
-  const labelSt:React.CSSProperties={display:"block",fontSize:12,color:"var(--text-muted, rgba(255,255,255,0.55))",marginBottom:8,fontWeight:500};
-  const card:React.CSSProperties={background:"var(--bg-card, rgba(255,255,255,0.04))",backdropFilter:"blur(20px)",border:"1px solid var(--border, rgba(255,255,255,0.1))",borderRadius:22,padding:"28px 24px"};
+  const sendChat = useCallback(async () => {
+    const text = chatInput.trim();
+    if (!text || chatLoading) return;
+    const uid = Date.now().toString();
+    const aid = (Date.now() + 1).toString();
+    setChatMsgs((prev) => [...prev, { role: "user", id: uid, content: text }, { role: "assistant", id: aid, content: "" }]);
+    setChatInput("");
+    setChatLoading(true);
+    try {
+      const history = chatMsgs
+        .filter((m) => m.id !== "init")
+        .concat({ role: "user", id: uid, content: text })
+        .map((m) => ({ role: m.role, content: m.content }));
+      const ctx = itinerary
+        ? {
+            destination: itinerary.destination,
+            days: itinerary.daysCount,
+            weather,
+            budget,
+            currency,
+            dayPlans: itinerary.days.map((d) => ({
+              day: d.dayNumber,
+              title: d.title,
+              activities: d.activities.map((a) => `${a.name} (${a.timeSlot}${a.estimatedCost ? ` ~${a.estimatedCost}` : ""})`),
+            })),
+            packingTips: itinerary.packingTips,
+            budgetSummary: itinerary.budgetBreakdown.map((b) => `${b.name}: ${b.amount} ${itinerary.currency}`),
+          }
+        : undefined;
+      const reply = await chatWithAssistant(history, ctx as Record<string, unknown> | undefined);
+      setChatMsgs((prev) => prev.map((m) => (m.id === aid ? { ...m, content: reply } : m)));
+    } catch (err: unknown) {
+      const errTxt = err instanceof Error ? err.message : "Failed to get reply from AI assistant.";
+      setChatMsgs((prev) => prev.map((m) => (m.id === aid ? { ...m, content: `⚠️ ${errTxt}` } : m)));
+    } finally {
+      setChatLoading(false);
+      chatInputRef.current?.focus();
+    }
+  }, [chatInput, chatLoading, chatMsgs, itinerary, weather, budget, currency]);
 
-  return(
-    <div style={{minHeight:"100vh",background:"var(--bg-primary, #09090b)",fontFamily:"Inter,-apple-system,sans-serif",color:"var(--text-primary, #fff)",position:"relative"}}>
-      <div style={{position:"relative",zIndex:1,paddingTop:"calc(var(--nav-h) + 16px)"}}>
-        <Navbar/>
-        {!itinerary?(
-          <div style={{maxWidth:660,margin:"0 auto",padding:"24px 20px 120px"}}>
-            <div style={{textAlign:"center",marginBottom:36}}>
-              <div style={{display:"inline-flex",alignItems:"center",gap:8,background:"rgba(99,102,241,0.12)",border:"1px solid rgba(99,102,241,0.25)",borderRadius:28,padding:"7px 18px",marginBottom:16}}>
-                <Sparkles size={14} style={{color:"var(--accent, #6366f1)"}}/>
-                <span style={{fontSize:12,color:"var(--accent, #a78bfa)",fontWeight:600}}>Powered by Google Gemini</span>
+  const copyMarkdown = () => {
+    if (itinerary) {
+      navigator.clipboard.writeText(itinerary.markdown).then(() => toast.success("Copied!"));
+    }
+  };
+
+  const inputClass =
+    "w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 dark:focus:ring-white/10 focus:border-slate-900 dark:focus:border-slate-400 text-sm transition-colors";
+  const labelClass =
+    "block text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-1.5";
+
+  return (
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 relative font-sans">
+      <div className="relative z-10 pt-[calc(var(--nav-h)+20px)] pb-24 px-4 sm:px-6 lg:px-8">
+        <Navbar />
+
+        {!itinerary ? (
+          <div className="max-w-2xl mx-auto">
+            {/* Header / Hero */}
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 mb-3 shadow-xs">
+                <Sparkles size={13} className="text-emerald-600 dark:text-emerald-400" />
+                <span>Powered by Google Gemini</span>
               </div>
-              <h1 style={{fontSize:"clamp(28px,5vw,44px)",fontWeight:800,margin:0,lineHeight:1.1,color:"var(--text-primary, #fff)"}}>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white">
                 AI Trip Planner
               </h1>
-              <p style={{fontSize:15,color:"var(--text-muted, rgba(255,255,255,0.55))",marginTop:10}}>Personalized itinerary · Weather-smart · Budget-aware</p>
+              <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 mt-2.5 max-w-lg mx-auto">
+                Personalized itinerary · Weather-smart · Budget-aware
+              </p>
             </div>
-            <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,marginBottom:36}}>
-              {["Destination","Style & Budget","Interests"].map((label,i)=>(
+
+            {/* Step Progress Indicator */}
+            <div className="flex items-center justify-center gap-2 sm:gap-4 mb-8">
+              {["Destination", "Style & Budget", "Interests"].map((label, i) => (
                 <React.Fragment key={i}>
-                  <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:5,cursor:"pointer"}} onClick={()=>setFormPage(i)}>
-                    <StepDot n={i+1} active={formPage===i} done={formPage>i}/>
-                    <span style={{fontSize:10,color:formPage===i?"#a78bfa":"rgba(255,255,255,0.3)",fontWeight:formPage===i?600:400}}>{label}</span>
-                  </div>
-                  {i<2&&<div style={{width:40,height:1,background:formPage>i?"#6366f1":"rgba(255,255,255,0.1)",transition:"background 0.3s",marginBottom:20}}/>}
+                  <button
+                    type="button"
+                    onClick={() => setFormPage(i)}
+                    className="flex flex-col items-center gap-1.5 cursor-pointer bg-transparent border-none p-0 group"
+                  >
+                    <StepDot n={i + 1} active={formPage === i} done={formPage > i} />
+                    <span
+                      className={`text-[11px] sm:text-xs transition-colors ${
+                        formPage === i
+                          ? "font-semibold text-slate-900 dark:text-white"
+                          : formPage > i
+                          ? "font-medium text-emerald-600 dark:text-emerald-400"
+                          : "font-medium text-slate-400 dark:text-slate-500"
+                      }`}
+                    >
+                      {label}
+                    </span>
+                  </button>
+                  {i < 2 && (
+                    <div
+                      className={`w-8 sm:w-16 h-0.5 mb-5 rounded-full transition-colors ${
+                        formPage > i ? "bg-emerald-500" : "bg-slate-200 dark:bg-slate-800"
+                      }`}
+                    />
+                  )}
                 </React.Fragment>
               ))}
             </div>
-            <div style={card}>
-              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:20,padding:"8px 12px",borderRadius:10,background:keyStatus.configured?"rgba(34,197,94,0.08)":"rgba(239,68,68,0.08)",border:`1px solid ${keyStatus.configured?"rgba(34,197,94,0.25)":"rgba(239,68,68,0.25)"}`}}>
-                <div style={{display:"flex",alignItems:"center",gap:7,fontSize:12,color:keyStatus.configured?"#4ade80":"#f87171"}}>
-                  <Shield size={13}/>{keyStatus.configured?`Backend AI Active (${keyStatus.model || 'Gemini'})`:"Gemini API key not configured"}
+
+            {/* Form Container Card */}
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm sm:shadow-md p-6 sm:p-8 transition-all">
+              {/* Backend AI Status Indicator */}
+              <div
+                className={`flex items-center justify-between p-3 sm:p-3.5 rounded-xl border text-xs sm:text-sm font-medium mb-6 ${
+                  keyStatus.configured
+                    ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-800 dark:text-emerald-300"
+                    : "bg-amber-500/10 border-amber-500/20 text-amber-800 dark:text-amber-300"
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <span className="relative flex h-2.5 w-2.5">
+                    {keyStatus.configured && (
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    )}
+                    <span
+                      className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
+                        keyStatus.configured ? "bg-emerald-500" : "bg-amber-500"
+                      }`}
+                    />
+                  </span>
+                  <span>
+                    {keyStatus.configured
+                      ? `Backend AI Active (${keyStatus.model || "Gemini"})`
+                      : "Gemini API key not configured"}
+                  </span>
                 </div>
-                <button onClick={()=>setKeyModalOpen(true)} type="button" style={{background:"none",border:"none",cursor:"pointer",fontSize:12,color:keyStatus.configured?"#4ade80":"#f87171",fontWeight:600,display:"flex",alignItems:"center",gap:5}}>
-                  <Key size={12}/>{keyStatus.configured?"View Status":"Configure"}
+                <button
+                  onClick={() => setKeyModalOpen(true)}
+                  type="button"
+                  className={`bg-transparent border-none cursor-pointer text-xs font-semibold flex items-center gap-1.5 transition-colors ${
+                    keyStatus.configured
+                      ? "text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-200"
+                      : "text-amber-700 dark:text-amber-400 hover:text-amber-900 dark:hover:text-amber-200"
+                  }`}
+                >
+                  <Key size={13} />
+                  {keyStatus.configured ? "View Status" : "Configure"}
                 </button>
               </div>
-              {formPage===0&&(
-                <div style={{display:"flex",flexDirection:"column",gap:20}}>
+
+              {/* Step 1: Destination, Days, Date, Weather */}
+              {formPage === 0 && (
+                <div className="flex flex-col gap-5">
                   <div>
-                    <label style={labelSt}><MapPin size={12} style={{display:"inline",marginRight:5,color:"#a78bfa"}}/>Destination *</label>
-                    <input value={destination} onChange={e=>setDestination(e.target.value)} placeholder="e.g. Goa, Paris, Manali…" style={inputSt} onKeyDown={e=>e.key==="Enter"&&setFormPage(1)}/>
+                    <label className={labelClass}>
+                      <MapPin size={14} className="text-slate-500 dark:text-slate-400" />
+                      Destination *
+                    </label>
+                    <input
+                      value={destination}
+                      onChange={(e) => setDestination(e.target.value)}
+                      placeholder="e.g. Goa, Paris, Manali, Kyoto…"
+                      className={inputClass}
+                      onKeyDown={(e) => e.key === "Enter" && setFormPage(1)}
+                    />
                   </div>
-                  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label style={labelSt}><Calendar size={12} style={{display:"inline",marginRight:5,color:"#a78bfa"}}/>Number of Days</label>
-                      <div style={{display:"flex",alignItems:"center",gap:10}}>
-                        <button onClick={()=>setDays(d=>Math.max(1,d-1))} type="button" style={{width:34,height:34,borderRadius:9,background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.12)",color:"#fff",cursor:"pointer",fontSize:18}}>-</button>
-                        <span style={{fontSize:22,fontWeight:800,color:"#a78bfa",minWidth:30,textAlign:"center"}}>{days}</span>
-                        <button onClick={()=>setDays(d=>Math.min(30,d+1))} type="button" style={{width:34,height:34,borderRadius:9,background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.12)",color:"#fff",cursor:"pointer",fontSize:18}}>+</button>
+                      <label className={labelClass}>
+                        <Calendar size={14} className="text-slate-500 dark:text-slate-400" />
+                        Number of Days
+                      </label>
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={() => setDays((d) => Math.max(1, d - 1))}
+                          type="button"
+                          className="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 flex items-center justify-center font-bold text-lg transition-colors cursor-pointer"
+                        >
+                          -
+                        </button>
+                        <span className="text-2xl font-bold text-slate-900 dark:text-white w-12 text-center">
+                          {days}
+                        </span>
+                        <button
+                          onClick={() => setDays((d) => Math.min(30, d + 1))}
+                          type="button"
+                          className="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 flex items-center justify-center font-bold text-lg transition-colors cursor-pointer"
+                        >
+                          +
+                        </button>
                       </div>
                     </div>
+
                     <div>
-                      <label style={labelSt}><Calendar size={12} style={{display:"inline",marginRight:5,color:"#a78bfa"}}/>Start Date (optional)</label>
-                      <input type="date" value={startDate} onChange={e=>setStartDate(e.target.value)} style={{...inputSt,padding:"10px 13px",colorScheme:"dark"}}/>
+                      <label className={labelClass}>
+                        <Calendar size={14} className="text-slate-500 dark:text-slate-400" />
+                        Start Date (optional)
+                      </label>
+                      <input
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        className={inputClass}
+                      />
                     </div>
                   </div>
+
                   <div>
-                    <label style={labelSt}><Cloud size={12} style={{display:"inline",marginRight:5,color:"#a78bfa"}}/>Season / Weather</label>
-                    <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-                      {WEATHER_OPTIONS.map(opt=>{const sel=weather===opt.id;const Ic=opt.Icon;return(
-                        <button key={opt.id} type="button" onClick={()=>setWeather(opt.id)} style={{display:"flex",alignItems:"center",gap:6,padding:"7px 13px",borderRadius:18,border:sel?`1.5px solid ${opt.color}`:"1.5px solid rgba(255,255,255,0.1)",background:sel?`${opt.color}22`:"rgba(255,255,255,0.04)",color:sel?opt.color:"rgba(255,255,255,0.55)",cursor:"pointer",fontSize:12,fontWeight:sel?600:400}}>
-                          <Ic size={13}/>{opt.label}
-                        </button>
-                      );})}
+                    <label className={labelClass}>
+                      <Cloud size={14} className="text-slate-500 dark:text-slate-400" />
+                      Season / Weather
+                    </label>
+                    <div className="flex gap-2 flex-wrap">
+                      {WEATHER_OPTIONS.map((opt) => {
+                        const sel = weather === opt.id;
+                        const Ic = opt.Icon;
+                        return (
+                          <button
+                            key={opt.id}
+                            type="button"
+                            onClick={() => setWeather(opt.id)}
+                            className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all cursor-pointer ${
+                              sel
+                                ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-sm"
+                                : "bg-slate-50 hover:bg-slate-100 dark:bg-slate-800/60 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300"
+                            }`}
+                          >
+                            <Ic size={14} style={{ color: sel ? undefined : opt.color }} />
+                            {opt.label}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
               )}
-              {formPage===1&&(
-                <div style={{display:"flex",flexDirection:"column",gap:20}}>
+
+              {/* Step 2: Travel Style, Budget, Currency */}
+              {formPage === 1 && (
+                <div className="flex flex-col gap-5">
                   <div>
-                    <label style={labelSt}>Travel Style</label>
-                    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:9}}>
-                      {STYLE_OPTIONS.map(opt=>{const sel=travelStyle===opt.id;return(
-                        <button key={opt.id} type="button" onClick={()=>setTravelStyle(opt.id)} style={{padding:"13px",borderRadius:13,border:sel?"1.5px solid #6366f1":"1.5px solid rgba(255,255,255,0.1)",background:sel?"rgba(99,102,241,0.14)":"rgba(255,255,255,0.04)",color:sel?"#a78bfa":"rgba(255,255,255,0.55)",cursor:"pointer",fontSize:12,fontWeight:sel?700:400,display:"flex",alignItems:"center",justifyContent:"center",gap:7}}>
-                          <span style={{fontSize:18}}>{opt.icon}</span>{opt.label}
-                        </button>
-                      );})}
+                    <label className={labelClass}>Travel Style</label>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                      {STYLE_OPTIONS.map((opt) => {
+                        const sel = travelStyle === opt.id;
+                        return (
+                          <button
+                            key={opt.id}
+                            type="button"
+                            onClick={() => setTravelStyle(opt.id)}
+                            className={`p-3 rounded-xl border text-xs sm:text-sm font-medium flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                              sel
+                                ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 border-slate-900 dark:border-slate-100 shadow-sm"
+                                : "bg-slate-50 hover:bg-slate-100 dark:bg-slate-800/60 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300"
+                            }`}
+                          >
+                            <span className="text-base sm:text-lg">{opt.icon}</span>
+                            {opt.label}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
+
                   <div>
-                    <label style={labelSt}><Wallet size={12} style={{display:"inline",marginRight:5,color:"#a78bfa"}}/>Budget Level</label>
-                    <div style={{display:"flex",flexDirection:"column",gap:9}}>
-                      {BUDGET_OPTIONS.map(opt=>{const sel=budget===opt.id;return(
-                        <button key={opt.id} type="button" onClick={()=>setBudget(opt.id)} style={{display:"flex",alignItems:"center",gap:12,padding:"12px 15px",borderRadius:13,border:sel?"1.5px solid #6366f1":"1.5px solid rgba(255,255,255,0.1)",background:sel?"rgba(99,102,241,0.12)":"rgba(255,255,255,0.04)",cursor:"pointer",textAlign:"left"}}>
-                          <span style={{fontSize:20}}>{opt.icon}</span>
-                          <div style={{flex:1}}>
-                            <div style={{fontSize:12,fontWeight:sel?700:500,color:sel?"#a78bfa":"#fff"}}>{opt.label}</div>
-                            <div style={{fontSize:11,color:"rgba(255,255,255,0.4)"}}>{opt.desc}</div>
-                          </div>
-                          {sel&&<CheckCircle size={15} style={{color:"#6366f1"}}/>}
-                        </button>
-                      );})}
+                    <label className={labelClass}>
+                      <Wallet size={14} className="text-slate-500 dark:text-slate-400" />
+                      Budget Level
+                    </label>
+                    <div className="flex flex-col gap-2.5">
+                      {BUDGET_OPTIONS.map((opt) => {
+                        const sel = budget === opt.id;
+                        return (
+                          <button
+                            key={opt.id}
+                            type="button"
+                            onClick={() => setBudget(opt.id)}
+                            className={`flex items-center gap-3 p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+                              sel
+                                ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 border-slate-900 dark:border-slate-100 shadow-sm"
+                                : "bg-slate-50 hover:bg-slate-100 dark:bg-slate-800/50 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"
+                            }`}
+                          >
+                            <span className="text-xl">{opt.icon}</span>
+                            <div className="flex-1 min-w-0">
+                              <div
+                                className={`text-xs sm:text-sm font-bold ${
+                                  sel ? "text-white dark:text-slate-900" : "text-slate-900 dark:text-white"
+                                }`}
+                              >
+                                {opt.label}
+                              </div>
+                              <div
+                                className={`text-xs ${
+                                  sel
+                                    ? "text-slate-300 dark:text-slate-600"
+                                    : "text-slate-500 dark:text-slate-400"
+                                }`}
+                              >
+                                {opt.desc}
+                              </div>
+                            </div>
+                            {sel && (
+                              <CheckCircle
+                                size={17}
+                                className={sel ? "text-emerald-400 dark:text-emerald-600" : ""}
+                              />
+                            )}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
+
                   <div>
-                    <label style={labelSt}><DollarSign size={12} style={{display:"inline",marginRight:5,color:"#a78bfa"}}/>Currency</label>
-                    <div style={{display:"flex",gap:7,flexWrap:"wrap"}}>
-                      {CURRENCY_OPTIONS.map(c=><Chip key={c} selected={currency===c} onClick={()=>setCurrency(c)}>{c}</Chip>)}
+                    <label className={labelClass}>
+                      <DollarSign size={14} className="text-slate-500 dark:text-slate-400" />
+                      Currency
+                    </label>
+                    <div className="flex gap-2 flex-wrap">
+                      {CURRENCY_OPTIONS.map((c) => (
+                        <Chip key={c} selected={currency === c} onClick={() => setCurrency(c)}>
+                          {c}
+                        </Chip>
+                      ))}
                     </div>
                   </div>
                 </div>
               )}
-              {formPage===2&&(
-                <div style={{display:"flex",flexDirection:"column",gap:20}}>
+
+              {/* Step 3: Interests */}
+              {formPage === 2 && (
+                <div className="flex flex-col gap-5">
                   <div>
-                    <label style={labelSt}>Interests <span style={{color:"rgba(255,255,255,0.3)"}}>(select any)</span></label>
-                    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:9}}>
-                      {INTEREST_OPTIONS.map(opt=>{const sel=interests.includes(opt.id);const Ic=opt.Icon;return(
-                        <button key={opt.id} type="button" onClick={()=>toggleInterest(opt.id)} style={{display:"flex",alignItems:"center",gap:9,padding:"11px 13px",borderRadius:13,border:sel?"1.5px solid #a855f7":"1.5px solid rgba(255,255,255,0.1)",background:sel?"rgba(168,85,247,0.12)":"rgba(255,255,255,0.04)",color:sel?"#a78bfa":"rgba(255,255,255,0.55)",cursor:"pointer",fontSize:12,fontWeight:sel?600:400}}>
-                          <Ic size={15}/>{opt.label}
-                        </button>
-                      );})}
+                    <label className={labelClass}>
+                      Interests{" "}
+                      <span className="text-slate-400 dark:text-slate-500 font-normal">
+                        (select any)
+                      </span>
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      {INTEREST_OPTIONS.map((opt) => {
+                        const sel = interests.includes(opt.id);
+                        const Ic = opt.Icon;
+                        return (
+                          <button
+                            key={opt.id}
+                            type="button"
+                            onClick={() => toggleInterest(opt.id)}
+                            className={`flex items-center gap-2.5 p-3 rounded-xl border text-xs sm:text-sm font-medium transition-all cursor-pointer ${
+                              sel
+                                ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 border-slate-900 dark:border-slate-100 shadow-sm"
+                                : "bg-slate-50 hover:bg-slate-100 dark:bg-slate-800/60 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300"
+                            }`}
+                          >
+                            <Ic
+                              size={15}
+                              className={sel ? "text-white dark:text-slate-900" : "text-slate-500 dark:text-slate-400"}
+                            />
+                            {opt.label}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
-                  <div style={{borderTop:"1px solid rgba(255,255,255,0.08)",paddingTop:18}}>
-                    <label style={labelSt}><Key size={12} style={{display:"inline",marginRight:5,color:"#a78bfa"}}/>AI Configuration</label>
-                    <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"11px 14px",borderRadius:12,background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)"}}>
-                      <div style={{display:"flex",alignItems:"center",gap:8,fontSize:12.5}}>
-                        <div style={{width:8,height:8,borderRadius:"50%",background:keyStatus.configured?"#22c55e":"#ef4444"}}/>
-                        <span style={{color:keyStatus.configured?"#4ade80":"#f87171",fontWeight:600}}>
-                          {keyStatus.configured?"Backend Gemini AI Ready":"Key Missing in server/.env"}
+
+                  <div className="border-t border-slate-200 dark:border-slate-800 pt-5">
+                    <label className={labelClass}>
+                      <Key size={14} className="text-slate-500 dark:text-slate-400" />
+                      AI Configuration
+                    </label>
+                    <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+                      <div className="flex items-center gap-2.5 text-xs sm:text-sm">
+                        <div
+                          className={`w-2.5 h-2.5 rounded-full ${
+                            keyStatus.configured ? "bg-emerald-500" : "bg-amber-500"
+                          }`}
+                        />
+                        <span
+                          className={`font-semibold ${
+                            keyStatus.configured
+                              ? "text-emerald-700 dark:text-emerald-400"
+                              : "text-amber-700 dark:text-amber-400"
+                          }`}
+                        >
+                          {keyStatus.configured
+                            ? "Backend Gemini AI Ready"
+                            : "API Key Not Configured in server/.env"}
                         </span>
                       </div>
-                      <button onClick={()=>setKeyModalOpen(true)} type="button" style={{background:"none",border:"none",color:"#a78bfa",cursor:"pointer",fontSize:12,fontWeight:600}}>
+                      <button
+                        onClick={() => setKeyModalOpen(true)}
+                        type="button"
+                        className="bg-transparent border-none text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white cursor-pointer text-xs font-semibold"
+                      >
                         Details
                       </button>
                     </div>
-                    <div style={{fontSize:11,color:"rgba(255,255,255,0.35)",marginTop:6}}>Trip Mate securely processes all requests on the backend. No API keys are stored in the browser.</div>
+                    <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">
+                      Trip Mate securely processes all requests on the backend. No API keys are exposed to the client.
+                    </p>
                   </div>
                 </div>
               )}
-              <div style={{display:"flex",gap:10,marginTop:24}}>
-                {formPage>0&&(
-                  <button type="button" onClick={()=>setFormPage(p=>p-1)} style={{display:"flex",alignItems:"center",gap:5,padding:"11px 18px",borderRadius:11,background:"rgba(255,255,255,0.06)",border:"1px solid rgba(255,255,255,0.1)",color:"rgba(255,255,255,0.7)",cursor:"pointer",fontSize:13}}>
-                    <ChevronLeft size={15}/>Back
+
+              {/* Navigation Actions */}
+              <div className="flex gap-3 mt-7">
+                {formPage > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setFormPage((p) => p - 1)}
+                    className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold transition-colors cursor-pointer"
+                  >
+                    <ChevronLeft size={16} /> Back
                   </button>
                 )}
-                {formPage<2?(
-                  <button type="button" onClick={()=>{if(formPage===0&&!destination.trim()){setError("Enter a destination.");return;}setError(null);setFormPage(p=>p+1);}} style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:7,padding:"13px",borderRadius:11,border:"none",cursor:"pointer",fontSize:14,fontWeight:700,background:"linear-gradient(135deg,#6366f1,#a855f7)",color:"#fff"}}>
-                    Next<ChevronRight size={15}/>
+                {formPage < 2 ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (formPage === 0 && !destination.trim()) {
+                        setError("Please enter a destination.");
+                        return;
+                      }
+                      setError(null);
+                      setFormPage((p) => p + 1);
+                    }}
+                    className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-100 dark:hover:bg-white dark:text-slate-900 text-xs sm:text-sm font-semibold shadow-sm transition-all cursor-pointer"
+                  >
+                    Next <ChevronRight size={16} />
                   </button>
-                ):(
-                  <button type="button" onClick={generate} disabled={loading} style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:9,padding:"14px",borderRadius:11,border:"none",cursor:loading?"wait":"pointer",fontSize:14,fontWeight:700,color:"#fff",background:loading?"rgba(99,102,241,0.4)":"linear-gradient(135deg,#6366f1,#a855f7)"}}>
-                    {loading?<><RefreshCw size={16} style={{animation:"spin 1s linear infinite"}}/>Generating...</>:<><Sparkles size={16}/>Generate Itinerary</>}
+                ) : (
+                  <button
+                    type="button"
+                    onClick={generate}
+                    disabled={loading}
+                    className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-100 dark:hover:bg-white dark:text-slate-900 text-xs sm:text-sm font-semibold shadow-sm transition-all disabled:opacity-60 cursor-pointer"
+                  >
+                    {loading ? (
+                      <>
+                        <RefreshCw size={16} className="animate-spin" />
+                        Generating Itinerary...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles size={16} />
+                        Generate Itinerary
+                      </>
+                    )}
                   </button>
                 )}
               </div>
-              {error&&<div style={{marginTop:14,padding:"11px 14px",borderRadius:11,background:"rgba(239,68,68,0.1)",border:"1px solid rgba(239,68,68,0.28)",color:"#f87171",fontSize:12,display:"flex",alignItems:"center",gap:7}}><AlertCircle size={14}/>{error}</div>}
+
+              {error && (
+                <div className="mt-4 p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs sm:text-sm flex items-center gap-2">
+                  <AlertCircle size={16} className="shrink-0" />
+                  <span>{error}</span>
+                </div>
+              )}
             </div>
           </div>
-        ):(
-          <div style={{maxWidth:900,margin:"0 auto",padding:"30px 18px 120px"}}>
-            <button type="button" onClick={()=>setItinerary(null)} style={{display:"flex",alignItems:"center",gap:5,background:"none",border:"none",color:"rgba(255,255,255,0.45)",cursor:"pointer",fontSize:12,marginBottom:18,padding:0}}>
-              <ChevronLeft size={13}/>New plan
+        ) : (
+          /* Itinerary Results View */
+          <div className="max-w-4xl mx-auto">
+            <button
+              type="button"
+              onClick={() => setItinerary(null)}
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white mb-4 transition-colors bg-transparent border-none p-0 cursor-pointer"
+            >
+              <ChevronLeft size={16} /> Back to Planner
             </button>
-            <div style={{background:"linear-gradient(135deg,rgba(99,102,241,0.18),rgba(168,85,247,0.14))",border:"1px solid rgba(168,85,247,0.28)",borderRadius:22,padding:"22px 22px 18px",marginBottom:20,position:"relative",overflow:"hidden"}}>
-              <div style={{position:"absolute",top:-30,right:-30,width:130,height:130,background:"radial-gradient(circle,rgba(168,85,247,0.25),transparent 70%)",pointerEvents:"none"}}/>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:12}}>
-                <div>
-                  <div style={{fontSize:11,color:"#a78bfa",fontWeight:600,marginBottom:4,textTransform:"uppercase",letterSpacing:1}}>AI Itinerary</div>
-                  <h2 style={{margin:0,fontSize:24,fontWeight:800,color:"#fff"}}><MapPin size={17} style={{display:"inline",marginRight:6,color:"#a78bfa"}}/>{itinerary.destination}</h2>
-                  <div style={{display:"flex",gap:12,marginTop:7,flexWrap:"wrap"}}>
-                    <span style={{fontSize:12,color:"rgba(255,255,255,0.5)"}}><Calendar size={10} style={{display:"inline",marginRight:3}}/>{itinerary.daysCount} days</span>
-                    <span style={{fontSize:12,color:"rgba(255,255,255,0.5)"}}><Wallet size={10} style={{display:"inline",marginRight:3}}/>{budget} . {currency}</span>
-                    <span style={{fontSize:12,color:"rgba(255,255,255,0.5)"}}><Cloud size={10} style={{display:"inline",marginRight:3}}/>{weather}</span>
+
+            {/* Trip Summary Hero Card */}
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm p-6 sm:p-7 mb-6 relative overflow-hidden">
+              <div className="flex justify-between items-start flex-wrap gap-4">
+                <div className="min-w-0 flex-1">
+                  <div className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                    <Sparkles size={12} /> AI-Generated Itinerary
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2 m-0">
+                    <MapPin size={22} className="text-emerald-500 shrink-0" />
+                    <span>{itinerary.destination}</span>
+                  </h2>
+                  <div className="flex gap-2 sm:gap-3 mt-3 flex-wrap">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                      <Calendar size={12} /> {itinerary.daysCount} days
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                      <Wallet size={12} /> {budget} · {currency}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                      <Cloud size={12} /> {weather}
+                    </span>
                   </div>
                 </div>
-                <div style={{display:"flex",gap:7,alignItems:"center",flexWrap:"wrap"}}>
-                  <button type="button" onClick={copyMarkdown} title="Copy" style={{width:34,height:34,borderRadius:9,background:"rgba(255,255,255,0.07)",border:"1px solid rgba(255,255,255,0.1)",color:"rgba(255,255,255,0.55)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><Copy size={13}/></button>
-                  <button type="button" onClick={generate} title="Regenerate" style={{width:34,height:34,borderRadius:9,background:"rgba(255,255,255,0.07)",border:"1px solid rgba(255,255,255,0.1)",color:"rgba(255,255,255,0.55)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><RotateCcw size={13}/></button>
-                  <button type="button" onClick={applyToNewTrip} disabled={applying} style={{display:"flex",alignItems:"center",gap:7,padding:"8px 14px",borderRadius:10,border:"none",background:applying?"rgba(34,197,94,0.35)":"linear-gradient(135deg,#22c55e,#16a34a)",color:"#fff",fontWeight:700,fontSize:12,cursor:applying?"not-allowed":"pointer"}}>
-                    {applying?<><Loader2 size={13} style={{animation:"spin 1s linear infinite"}}/>{applyProgress?.step||"Applying..."}</>:<><FolderPlus size={13}/>Create Trip</>}
+
+                <div className="flex gap-2 items-center flex-wrap">
+                  <button
+                    type="button"
+                    onClick={copyMarkdown}
+                    title="Copy Markdown"
+                    className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors cursor-pointer"
+                  >
+                    <Copy size={15} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={generate}
+                    title="Regenerate"
+                    className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors cursor-pointer"
+                  >
+                    <RotateCcw size={15} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={applyToNewTrip}
+                    disabled={applying}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-100 dark:hover:bg-white dark:text-slate-900 text-xs sm:text-sm font-semibold shadow-sm transition-all disabled:opacity-60 cursor-pointer"
+                  >
+                    {applying ? (
+                      <>
+                        <Loader2 size={15} className="animate-spin" />
+                        {applyProgress?.step || "Creating Trip..."}
+                      </>
+                    ) : (
+                      <>
+                        <FolderPlus size={15} />
+                        Create Trip
+                      </>
+                    )}
                   </button>
                 </div>
               </div>
-              <p style={{margin:"12px 0 0",fontSize:13,color:"rgba(255,255,255,0.62)",lineHeight:1.6}}>{itinerary.summary}</p>
-              {itinerary.weatherForecast&&<div style={{marginTop:10,padding:"8px 12px",borderRadius:10,background:"rgba(96,165,250,0.1)",border:"1px solid rgba(96,165,250,0.2)",fontSize:12,color:"#93c5fd"}}><Cloud size={11} style={{display:"inline",marginRight:4}}/>{itinerary.weatherForecast}</div>}
-              {applying&&applyProgress&&(
-                <div style={{marginTop:10}}>
-                  <div style={{display:"flex",justifyContent:"space-between",marginBottom:4,fontSize:11,color:"rgba(255,255,255,0.5)"}}><span>{applyProgress.step}</span><span>{applyProgress.percent}%</span></div>
-                  <div style={{height:4,borderRadius:4,background:"rgba(255,255,255,0.08)"}}><div style={{height:"100%",borderRadius:4,background:"linear-gradient(90deg,#22c55e,#4ade80)",width:`${applyProgress.percent}%`,transition:"width 0.3s"}}/></div>
+
+              <p className="mt-4 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                {itinerary.summary}
+              </p>
+
+              {itinerary.weatherForecast && (
+                <div className="mt-3.5 p-3 rounded-xl bg-sky-500/10 border border-sky-500/20 text-xs sm:text-sm text-sky-700 dark:text-sky-300 flex items-center gap-2">
+                  <Cloud size={14} className="shrink-0" />
+                  <span>{itinerary.weatherForecast}</span>
+                </div>
+              )}
+
+              {applying && applyProgress && (
+                <div className="mt-4">
+                  <div className="flex justify-between text-xs text-slate-500 mb-1.5 font-medium">
+                    <span>{applyProgress.step}</span>
+                    <span>{applyProgress.percent}%</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                    <div
+                      className="h-full rounded-full bg-emerald-500 transition-all duration-300"
+                      style={{ width: `${applyProgress.percent}%` }}
+                    />
+                  </div>
                 </div>
               )}
             </div>
-            <div style={{display:"flex",gap:7,marginBottom:18,flexWrap:"wrap"}}>
-              {(["days","budget","tips","markdown"] as const).map(tab=>(
-                <button key={tab} type="button" onClick={()=>setViewMode(tab)} style={{padding:"7px 16px",borderRadius:16,border:viewMode===tab?"1.5px solid #6366f1":"1.5px solid rgba(255,255,255,0.1)",background:viewMode===tab?"rgba(99,102,241,0.18)":"rgba(255,255,255,0.04)",color:viewMode===tab?"#a78bfa":"rgba(255,255,255,0.45)",cursor:"pointer",fontSize:12,fontWeight:viewMode===tab?700:400}}>
-                  {tab==="days"?"Day-by-Day":tab==="budget"?"Budget":tab==="tips"?"Packing Tips":"Markdown"}
+
+            {/* Segmented View Mode Tabs */}
+            <div className="inline-flex p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 mb-5 gap-1 flex-wrap">
+              {(["days", "budget", "tips", "markdown"] as const).map((tab) => (
+                <button
+                  key={tab}
+                  type="button"
+                  onClick={() => setViewMode(tab)}
+                  className={`px-3.5 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                    viewMode === tab
+                      ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs"
+                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white bg-transparent border-none"
+                  }`}
+                >
+                  {tab === "days"
+                    ? "Day-by-Day"
+                    : tab === "budget"
+                    ? "Budget"
+                    : tab === "tips"
+                    ? "Packing Tips"
+                    : "Markdown"}
                 </button>
               ))}
             </div>
-            {viewMode==="days"&&(
+
+            {/* View Tab 1: Day-by-Day */}
+            {viewMode === "days" && (
               <div>
-                <div style={{display:"flex",gap:6,marginBottom:14,overflowX:"auto",paddingBottom:3}}>
-                  <button type="button" onClick={()=>setActiveDay(null)} style={{padding:"5px 12px",borderRadius:12,fontSize:11,fontWeight:600,cursor:"pointer",border:activeDay===null?"1.5px solid #6366f1":"1.5px solid rgba(255,255,255,0.1)",background:activeDay===null?"rgba(99,102,241,0.18)":"rgba(255,255,255,0.04)",color:activeDay===null?"#a78bfa":"rgba(255,255,255,0.38)",whiteSpace:"nowrap"}}>All</button>
-                  {itinerary.days.map(d=>(
-                    <button key={d.dayNumber} type="button" onClick={()=>setActiveDay(d.dayNumber)} style={{padding:"5px 12px",borderRadius:12,fontSize:11,fontWeight:600,cursor:"pointer",border:activeDay===d.dayNumber?"1.5px solid #a855f7":"1.5px solid rgba(255,255,255,0.1)",background:activeDay===d.dayNumber?"rgba(168,85,247,0.18)":"rgba(255,255,255,0.04)",color:activeDay===d.dayNumber?"#c084fc":"rgba(255,255,255,0.38)",whiteSpace:"nowrap"}}>D{d.dayNumber}</button>
+                <div className="flex gap-2 mb-4 overflow-x-auto pb-1">
+                  <button
+                    type="button"
+                    onClick={() => setActiveDay(null)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                      activeDay === null
+                        ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-xs"
+                        : "bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
+                    }`}
+                  >
+                    All Days
+                  </button>
+                  {itinerary.days.map((d) => (
+                    <button
+                      key={d.dayNumber}
+                      type="button"
+                      onClick={() => setActiveDay(d.dayNumber)}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                        activeDay === d.dayNumber
+                          ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-xs"
+                          : "bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
+                      }`}
+                    >
+                      Day {d.dayNumber}
+                    </button>
                   ))}
                 </div>
-                {itinerary.days.filter(d=>activeDay===null||d.dayNumber===activeDay).map(day=>(
-                  <DayCard key={day.dayNumber} day={day} currency={itinerary!.currency}/>
-                ))}
+
+                {itinerary.days
+                  .filter((d) => activeDay === null || d.dayNumber === activeDay)
+                  .map((day) => (
+                    <DayCard key={day.dayNumber} day={day} currency={itinerary!.currency} />
+                  ))}
               </div>
             )}
-            {viewMode==="budget"&&<div style={{background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.08)",borderRadius:18,padding:"22px 20px"}}><h3 style={{margin:"0 0 20px",fontSize:16,fontWeight:700,color:"#fff"}}>Budget Breakdown</h3><BudgetBars items={itinerary.budgetBreakdown} total={itinerary.totalEstimatedBudget} currency={itinerary.currency}/></div>}
-            {viewMode==="tips"&&(
-              <div style={{background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.08)",borderRadius:18,padding:"22px 20px"}}>
-                <h3 style={{margin:"0 0 16px",fontSize:16,fontWeight:700,color:"#fff"}}>Packing Tips</h3>
-                <div style={{display:"flex",flexDirection:"column",gap:9}}>
-                  {itinerary.packingTips.map((tip,i)=>(
-                    <div key={i} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"10px 13px",borderRadius:10,background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.06)"}}>
-                      <CheckCircle size={14} style={{color:"#4ade80",flexShrink:0,marginTop:1}}/><span style={{fontSize:12,color:"rgba(255,255,255,0.75)",lineHeight:1.5}}>{tip}</span>
+
+            {/* View Tab 2: Budget */}
+            {viewMode === "budget" && (
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm p-6 sm:p-7">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-5">
+                  Budget Breakdown
+                </h3>
+                <BudgetBars
+                  items={itinerary.budgetBreakdown}
+                  total={itinerary.totalEstimatedBudget}
+                  currency={itinerary.currency}
+                />
+              </div>
+            )}
+
+            {/* View Tab 3: Packing Tips */}
+            {viewMode === "tips" && (
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm p-6 sm:p-7">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-4">
+                  Packing & Travel Tips
+                </h3>
+                <div className="flex flex-col gap-2.5">
+                  {itinerary.packingTips.map((tip, i) => (
+                    <div
+                      key={i}
+                      className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/60"
+                    >
+                      <CheckCircle size={16} className="text-emerald-500 shrink-0 mt-0.5" />
+                      <span className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                        {tip}
+                      </span>
                     </div>
                   ))}
                 </div>
               </div>
             )}
-            {viewMode==="markdown"&&(
-              <div style={{background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.08)",borderRadius:18,overflow:"hidden"}}>
-                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 16px",borderBottom:"1px solid rgba(255,255,255,0.06)"}}>
-                  <span style={{fontSize:12,fontWeight:600,color:"rgba(255,255,255,0.65)"}}>Raw Markdown</span>
-                  <button type="button" onClick={copyMarkdown} style={{display:"flex",alignItems:"center",gap:5,padding:"5px 11px",borderRadius:7,background:"rgba(99,102,241,0.18)",border:"1px solid rgba(99,102,241,0.28)",color:"#a78bfa",cursor:"pointer",fontSize:11,fontWeight:600}}><Copy size={11}/>Copy</button>
+
+            {/* View Tab 4: Raw Markdown */}
+            {viewMode === "markdown" && (
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm overflow-hidden">
+                <div className="flex justify-between items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40">
+                  <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
+                    Raw Markdown
+                  </span>
+                  <button
+                    type="button"
+                    onClick={copyMarkdown}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+                  >
+                    <Copy size={12} /> Copy
+                  </button>
                 </div>
-                <pre style={{margin:0,padding:"16px",color:"rgba(255,255,255,0.6)",fontSize:11,lineHeight:1.7,overflowX:"auto",maxHeight:560,whiteSpace:"pre-wrap",wordBreak:"break-word"}}>{itinerary.markdown}</pre>
+                <pre className="p-4 sm:p-5 text-xs text-slate-700 dark:text-slate-300 leading-relaxed overflow-x-auto max-h-[500px] whitespace-pre-wrap font-mono">
+                  {itinerary.markdown}
+                </pre>
               </div>
             )}
           </div>
         )}
       </div>
-      {!chatOpen&&(
-        <button type="button" onClick={()=>setChatOpen(true)} title="Chat with TripMate AI" style={{position:"fixed",bottom:24,right:24,zIndex:200,width:56,height:56,borderRadius:"50%",border:"none",cursor:"pointer",background:"linear-gradient(135deg,#6366f1,#a855f7)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 8px 28px rgba(99,102,241,0.5)"}}>
-          <Bot size={24} color="#fff"/>
-          <div style={{position:"absolute",top:0,right:0,width:13,height:13,borderRadius:"50%",background:"#22c55e",border:"2px solid #0a0a0f"}}/>
+
+      {/* Floating AI Assistant Button */}
+      {!chatOpen && (
+        <button
+          type="button"
+          onClick={() => setChatOpen(true)}
+          title="Chat with Trip Mate AI"
+          className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all cursor-pointer border-none"
+        >
+          <Bot size={24} />
+          <span className="absolute top-1 right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-950" />
         </button>
       )}
-      {chatOpen&&(
-        <div style={{position:"fixed",bottom:20,right:20,zIndex:300,width:340,height:490,borderRadius:18,overflow:"hidden",background:"rgba(13,10,26,0.97)",backdropFilter:"blur(22px)",border:"1px solid rgba(168,85,247,0.28)",boxShadow:"0 20px 60px rgba(0,0,0,0.8)",display:"flex",flexDirection:"column"}}>
-          <div style={{display:"flex",alignItems:"center",gap:9,padding:"12px 14px",borderBottom:"1px solid rgba(255,255,255,0.07)",background:"linear-gradient(135deg,rgba(99,102,241,0.18),rgba(168,85,247,0.13))"}}>
-            <div style={{width:32,height:32,borderRadius:"50%",background:"linear-gradient(135deg,#6366f1,#a855f7)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Bot size={16} color="#fff"/></div>
-            <div style={{flex:1}}><div style={{fontSize:13,fontWeight:700,color:"#fff"}}>TripMate AI</div><div style={{fontSize:10,color:"#4ade80"}}>Online</div></div>
-            <button type="button" onClick={()=>setChatOpen(false)} style={{background:"none",border:"none",color:"rgba(255,255,255,0.4)",cursor:"pointer",padding:3}}><X size={16}/></button>
+
+      {/* Floating AI Chat Window */}
+      {chatOpen && (
+        <div className="fixed bottom-6 right-6 z-50 w-[90vw] max-w-[360px] h-[500px] rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-200">
+          {/* Header */}
+          <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/70">
+            <div className="w-8 h-8 rounded-full bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 flex items-center justify-center shrink-0">
+              <Bot size={17} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
+                Trip Mate AI
+              </div>
+              <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
+                Online
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setChatOpen(false)}
+              className="text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 p-1 bg-transparent border-none cursor-pointer"
+            >
+              <X size={18} />
+            </button>
           </div>
-          <div style={{flex:1,overflowY:"auto",padding:"11px 11px 5px",display:"flex",flexDirection:"column",gap:9}}>
-            {chatMsgs.map(msg=>(
-              <div key={msg.id} style={{display:"flex",justifyContent:msg.role==="user"?"flex-end":"flex-start"}}>
-                <div style={{maxWidth:"83%",padding:"9px 12px",borderRadius:msg.role==="user"?"16px 16px 3px 16px":"16px 16px 16px 3px",background:msg.role==="user"?"linear-gradient(135deg,#6366f1,#a855f7)":"rgba(255,255,255,0.07)",border:msg.role==="user"?"none":"1px solid rgba(255,255,255,0.09)",color:"#fff",fontSize:12,lineHeight:1.5,whiteSpace:"pre-wrap"}}>
-                  {msg.content||<span style={{opacity:0.4,fontStyle:"italic"}}>Thinking...</span>}
+
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto p-3.5 flex flex-col gap-2.5">
+            {chatMsgs.map((msg) => (
+              <div
+                key={msg.id}
+                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+              >
+                <div
+                  className={`max-w-[85%] px-3.5 py-2.5 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap ${
+                    msg.role === "user"
+                      ? "rounded-2xl rounded-tr-xs bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-xs"
+                      : "rounded-2xl rounded-tl-xs bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200/60 dark:border-slate-700/60"
+                  }`}
+                >
+                  {msg.content || <span className="opacity-50 italic">Thinking...</span>}
                 </div>
               </div>
             ))}
-            {chatLoading&&<div style={{display:"flex"}}><div style={{padding:"8px 13px",borderRadius:"16px 16px 16px 3px",background:"rgba(255,255,255,0.07)",display:"flex",gap:4,alignItems:"center"}}>{[0,1,2].map(n=><div key={n} style={{width:6,height:6,borderRadius:"50%",background:"#a78bfa",animation:`bounce 1.2s ease-in-out ${n*0.2}s infinite`}}/>)}</div></div>}
-            <div ref={chatEndRef}/>
+            {chatLoading && (
+              <div className="flex justify-start">
+                <div className="px-3.5 py-2.5 rounded-2xl rounded-tl-xs bg-slate-100 dark:bg-slate-800 text-slate-500 text-xs flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-pulse delay-150" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-pulse delay-300" />
+                </div>
+              </div>
+            )}
+            <div ref={chatEndRef} />
           </div>
-          <div style={{padding:"8px 10px",borderTop:"1px solid rgba(255,255,255,0.07)"}}>
-            <div style={{display:"flex",gap:7,alignItems:"center"}}>
-              <input ref={chatInputRef} value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&!e.shiftKey&&(e.preventDefault(),sendChat())} placeholder="Ask about packing, food, routes..." style={{flex:1,background:"rgba(255,255,255,0.07)",border:"1px solid rgba(255,255,255,0.11)",borderRadius:10,padding:"8px 12px",color:"#fff",fontSize:12,outline:"none"}}/>
-              <button type="button" onClick={sendChat} disabled={chatLoading||!chatInput.trim()} style={{width:34,height:34,borderRadius:9,background:chatInput.trim()?"linear-gradient(135deg,#6366f1,#a855f7)":"rgba(255,255,255,0.06)",border:"none",cursor:chatInput.trim()?"pointer":"default",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                <Send size={13} color={chatInput.trim()?"#fff":"rgba(255,255,255,0.3)"}/>
+
+          {/* Chat Input */}
+          <div className="p-3 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+            <div className="flex gap-2 items-center">
+              <input
+                ref={chatInputRef}
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                onKeyDown={(e) =>
+                  e.key === "Enter" && !e.shiftKey && (e.preventDefault(), sendChat())
+                }
+                placeholder="Ask about packing, routes, food..."
+                className="flex-1 px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-slate-900/10 dark:focus:ring-white/10"
+              />
+              <button
+                type="button"
+                onClick={sendChat}
+                disabled={chatLoading || !chatInput.trim()}
+                className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border-none transition-colors ${
+                  chatInput.trim()
+                    ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 cursor-pointer shadow-xs"
+                    : "bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed"
+                }`}
+              >
+                <Send size={14} />
               </button>
             </div>
           </div>
         </div>
       )}
-      <AiKeyModal isOpen={keyModalOpen} onClose={()=>setKeyModalOpen(false)} onKeySaved={()=>checkAiKeyStatus().then(setKeyStatus)}/>
-      <style>{`
-        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
-        @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-        @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-        *{box-sizing:border-box}
-        ::-webkit-scrollbar{width:4px;height:4px}
-        ::-webkit-scrollbar-track{background:transparent}
-        ::-webkit-scrollbar-thumb{background:rgba(168,85,247,0.28);border-radius:4px}
-        input::placeholder{color:rgba(255,255,255,0.22)!important}
-        input[type=date]::-webkit-calendar-picker-indicator{filter:invert(0.7)}
-      `}</style>
+
+      {/* Status Modal */}
+      <AiKeyModal
+        isOpen={keyModalOpen}
+        onClose={() => setKeyModalOpen(false)}
+        onKeySaved={() => checkAiKeyStatus().then(setKeyStatus)}
+      />
     </div>
   );
 }
