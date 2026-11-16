@@ -40,7 +40,17 @@ for (const arg of args) {
   if (arg.startsWith('--email=')) targetEmail = arg.split('=')[1];
 }
 
-const dbPath = customDbPath || path.join(__dirname, '../data/travel.db');
+let dbPath = customDbPath;
+if (!dbPath) {
+  const candidatePaths = [
+    path.join(__dirname, '../data/travel.db'),
+    '/app/data/travel.db',
+    path.join(__dirname, '../../data/travel.db'),
+    path.join(process.cwd(), 'data/travel.db'),
+    path.join(process.cwd(), 'server/data/travel.db'),
+  ];
+  dbPath = candidatePaths.find(p => fs.existsSync(p)) || candidatePaths[0];
+}
 
 if (!fs.existsSync(dbPath)) {
   console.error(`[DEMO-SEED] Error: Database file not found at: ${dbPath}`);

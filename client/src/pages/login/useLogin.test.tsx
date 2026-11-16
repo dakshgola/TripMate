@@ -970,6 +970,22 @@ describe('useLogin — register visibility rules', () => {
 
     expect(result.current.showRegisterOption).toBe(true);
   });
+
+  it('FE-LOGIN-HOOK-055: offers registration when users exist and password registration is enabled even if setup_complete is false', async () => {
+    server.use(
+      http.get('/api/auth/app-config', () =>
+        HttpResponse.json({
+          ...buildAppConfig({ has_users: true, password_registration: true }),
+          setup_complete: false,
+        }),
+      ),
+    );
+
+    const { result } = renderLogin();
+    await ready(result);
+
+    expect(result.current.showRegisterOption).toBe(true);
+  });
 });
 
 /*

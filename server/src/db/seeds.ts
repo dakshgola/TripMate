@@ -2,6 +2,7 @@ import Database from 'better-sqlite3';
 import crypto from 'crypto';
 import { readEnv } from '../app-config';
 import { seedDocumentProviders } from './document-provider-seed';
+import { seedAdminDemoData, shouldAutoSeedDemo } from './seed-admin-demo';
 
 // bcrypt cost factor for the seeded admin password — kept in sync with authService.
 const BCRYPT_COST = 12;
@@ -448,6 +449,14 @@ function runSeeds(db: Database.Database): void {
   seedCategories(db);
   seedAddons(db);
   seedVolunteerOpportunities(db);
+  try {
+    if (shouldAutoSeedDemo(db)) {
+      console.log('[BOOT] Checking admin demo data seeding...');
+      seedAdminDemoData(db);
+    }
+  } catch (err: unknown) {
+    console.error('[DEMO-SEED] Startup demo seeding error:', err instanceof Error ? err.message : err);
+  }
 }
 
 export { runSeeds, seedAdminAccount };

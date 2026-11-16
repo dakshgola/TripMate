@@ -102,6 +102,8 @@ COPY --chown=node:node server/tsconfig.json ./tsconfig.json
 COPY --chown=node:node server/scripts/migrate-encryption.ts ./server/scripts/migrate-encryption.ts
 # Admin recovery script (node server/reset-admin.js) for locked-out installs.
 COPY --chown=node:node server/reset-admin.js ./server/reset-admin.js
+# Admin demo data seeding script
+COPY --chown=node:node server/scripts/seed-admin-demo.js ./server/scripts/seed-admin-demo.js
 COPY --chown=node:node --from=shared-builder /app/shared/dist ./shared/dist
 COPY --chown=node:node --from=client-builder /app/client/dist ./server/public
 COPY --chown=node:node --from=client-builder /app/client/public/fonts ./server/public/fonts

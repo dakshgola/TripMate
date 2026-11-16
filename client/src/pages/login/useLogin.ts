@@ -346,7 +346,7 @@ export function useLogin() {
   }
 
   const allowRegistration = appConfig?.password_registration ?? appConfig?.allow_registration ?? true
-  const showRegisterOption = !appConfig?.demo_mode && (allowRegistration || !appConfig?.has_users || inviteValid) && (appConfig?.setup_complete !== false || !appConfig?.has_users)
+  const showRegisterOption = !appConfig?.demo_mode && (allowRegistration || !appConfig?.has_users || inviteValid)
 
   // In OIDC-only mode, show a minimal page that redirects directly to the IdP
   const oidcOnly = !appConfig?.password_login && appConfig?.oidc_login && appConfig?.oidc_configured

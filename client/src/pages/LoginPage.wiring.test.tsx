@@ -535,4 +535,16 @@ describe('LoginPage — alternative sign-in buttons', () => {
 
     expect(screen.queryByRole('button', { name: /^register$/i })).toBeNull();
   });
+
+  it('FE-LOGIN-WIRE-035: renders "Create Account" option in login mode when registration is permitted', () => {
+    fixture.mode = 'login';
+    fixture.showRegisterOption = true;
+    fixture.appConfig.demo_mode = false;
+    fixture.appConfig.has_users = true;
+    renderPage();
+
+    expect(screen.getByText("Don't have an account?")).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Register' })).toBeInTheDocument();
+    expect(screen.getByText('Create Account')).toBeInTheDocument();
+  });
 });

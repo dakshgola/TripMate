@@ -370,4 +370,28 @@ export class AdminController {
       throw new HttpException({ error: err instanceof Error ? err.message : String(err) }, 400);
     }
   }
+
+  // ── Admin Demo Data Seeder ──
+  @Post('seed-demo')
+  @HttpCode(200)
+  seedDemo(
+    @CurrentUser() user: User,
+    @Query('clean') clean?: string,
+    @Query('email') email?: string,
+    @Req() req?: Request,
+  ) {
+    const ip = req ? getClientIp(req) : 'unknown';
+    logInfo(`[admin] User #${user.id} (${user.email}) requested admin demo data seeding from IP ${ip}`);
+    this.audit.writeAudit({
+      userId: user.id,
+      action: 'admin.seed_demo',
+      ip,
+      details: { clean: clean === 'true', targetEmail: email || user.email },
+    });
+    const result = this.admin.seedDemoData({
+      clean: clean === 'true' || clean === '1',
+      targetEmail: email || user.email,
+    });
+    return result;
+  }
 }

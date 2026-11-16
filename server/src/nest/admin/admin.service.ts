@@ -790,6 +790,11 @@ export class AdminService {
 
   invalidateMcpSessions() { invalidateMcpSessions(); }
 
+  seedDemoData(options?: { clean?: boolean; targetEmail?: string }) {
+    const { seedAdminDemoData } = require('../../db/seed-admin-demo');
+    return seedAdminDemoData(this.db.connection, options);
+  }
+
   // ── Settings + notification preference helpers (non-admin-service modules) ──
 
 }

@@ -1149,7 +1149,7 @@ export default function LoginPage(): React.ReactElement {
                 </form>
 
                 {/* Toggle login/register */}
-                {showRegisterOption && (appConfig?.has_users !== false) && !appConfig?.demo_mode && !passwordChangeStep && (
+                {showRegisterOption && !appConfig?.demo_mode && !passwordChangeStep && (mode === 'login' || appConfig?.has_users !== false) && (
                   <div
                     style={{
                       textAlign: 'center',
