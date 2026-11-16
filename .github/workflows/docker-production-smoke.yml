@@ -26,7 +26,15 @@ jobs:
       - name: Build Docker Production Image (No Cache)
         run: |
           echo "Starting clean Docker build with no cache..."
-          docker build --no-cache -t tripmate:production-test .
+          docker build --no-cache --progress=plain -t tripmate:production-test . 2>&1 | tee /tmp/docker-build.log
+
+      - name: Upload Docker Build Log on Failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-build-log
+          path: /tmp/docker-build.log
+          if-no-files-found: ignore
 
       - name: Verify Compiled Artifacts & Named Exports in Image
         run: |
