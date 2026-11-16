@@ -70,8 +70,6 @@ export function useLogin() {
 
   const { login, register, demoLogin, completeMfaLogin, loadUser } = useAuthStore()
   const { setLanguageLocal, setLanguageTransient, loadSettings } = useSettingsStore()
-  const navigate = useNavigate()
-  const location = useLocation()
   // Location state alone is not enough: a deliberate sign-out loses it to
   // ProtectedRoute's stateless <Navigate replace>, and to any full document
   // load. The per-tab marker survives both — see utils/signedOut (#2123).
