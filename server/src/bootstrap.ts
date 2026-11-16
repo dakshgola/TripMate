@@ -70,7 +70,9 @@ export async function buildApp(): Promise<INestApplication> {
   // rawBody keeps the unparsed request bytes on req.rawBody so a plugin webhook
   // route can verify a provider's HMAC signature over the exact payload (the
   // parsed JSON alone can't be re-serialised byte-for-byte).
+  console.log('[BOOT] NestFactory.create started');
   const app = await NestFactory.create(AppModule, new ExpressAdapter(), { rawBody: true });
+  console.log('[BOOT] NestFactory.create completed');
   const instance = app.getHttpAdapter().getInstance();
   // The http server is created HERE, not by the caller after buildApp returns,
   // and that ordering is the whole point: Nest binds gateways during app.init(),
@@ -173,10 +175,13 @@ export async function buildApp(): Promise<INestApplication> {
     return isMcp(req) ? next() : urlencoded(req, res, next);
   });
   if (apiDocsEnabled()) setupApiDocs(app);
+  console.log('[BOOT] app.init started');
   await app.init();
+  console.log('[BOOT] app.init completed');
   // Fail closed on unvalidated mutation bodies: every POST/PUT/PATCH @Body()
   // must carry a createZodDto class (validated by the global ZodValidationPipe)
   // or sit on the ratchet-only legacy allow-list — otherwise refuse to boot.
+  console.log('[BOOT] route validation started');
   validateBodyContracts(app);
   // Fail closed on the anonymous surface too: a route that answers without a
   // session must carry @Public() with a reason AND be on the reviewed list.
@@ -187,5 +192,6 @@ export async function buildApp(): Promise<INestApplication> {
   // list somebody reviewed. Runs in every e2e harness because they share this
   // builder, so a forgotten marker fails in CI rather than at a customer.
   validateManagedRoutes(app);
+  console.log('[BOOT] route validation completed');
   return app;
 }
