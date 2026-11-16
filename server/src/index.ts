@@ -113,7 +113,10 @@ async function bootstrap(): Promise<void> {
 }
 
 bootstrap().catch((err) => {
-  console.error('Fatal: failed to bootstrap server', err);
+  const stack = err?.stack || err?.message || String(err);
+  const msg = `\n========================================\n[FATAL] failed to bootstrap server:\n${stack}\n========================================\n\n`;
+  try { fs.writeSync(2, msg); } catch {}
+  try { fs.writeSync(1, msg); } catch {}
   process.exit(1);
 });
 

@@ -29,7 +29,7 @@ cd /app/server
 echo "[BOOT] Node process launching (NODE_ENV=${NODE_ENV:-development}, PORT=${PORT:-3001})..."
 if [ "$(id -u)" = "0" ]; then
   chown -R node:node /app/data /app/uploads 2>/dev/null || true
-  exec gosu node node --require tsconfig-paths/register dist/index.js
+  exec gosu node node dist/index.js
 else
-  exec node --require tsconfig-paths/register dist/index.js
+  exec node dist/index.js
 fi

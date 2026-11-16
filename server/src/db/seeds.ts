@@ -72,12 +72,17 @@ function seedAdminAccount(db: Database.Database): void {
 
     db.prepare('INSERT INTO users (username, email, password_hash, role, must_change_password) VALUES (?, ?, ?, ?, 1)').run(username, email, hash, 'admin');
 
+    const isProd = readEnv().app.isProduction;
     console.log('');
     console.log('╔══════════════════════════════════════════════╗');
     console.log('║  TREK — First Run: Admin Account Created     ║');
     console.log('╠══════════════════════════════════════════════╣');
     console.log(`║  Email:    ${email.padEnd(33)}║`);
-    console.log(`║  Password: ${password.padEnd(33)}║`);
+    if (isProd && !adminEnvProvided) {
+      console.log('║  Password: [PROTECTED IN PRODUCTION LOGS]    ║');
+    } else {
+      console.log(`║  Password: ${password.padEnd(33)}║`);
+    }
     console.log('╚══════════════════════════════════════════════╝');
     console.log('');
   } catch (err: unknown) {
