@@ -40,6 +40,14 @@ export function useLogin() {
   const location = useLocation()
   const isRegisterRoute = location.pathname === '/register' || location.pathname === '/signup'
   const [mode, setMode] = useState<'login' | 'register'>(isRegisterRoute ? 'register' : 'login')
+
+  useEffect(() => {
+    if (isRegisterRoute && mode !== 'register') {
+      setMode('register')
+    } else if (location.pathname === '/login' && mode !== 'login') {
+      setMode('login')
+    }
+  }, [isRegisterRoute, location.pathname, mode])
   const [fullName, setFullName] = useState<string>('')
   const [username, setUsername] = useState<string>('')
   const [email, setEmail] = useState<string>('')
@@ -349,7 +357,8 @@ export function useLogin() {
     }
   }
 
-  const showRegisterOption = !appConfig?.demo_mode && ((appConfig?.password_registration ?? true) || !appConfig?.has_users || inviteValid)
+  const allowRegistration = appConfig?.allow_registration ?? appConfig?.password_registration ?? true
+  const showRegisterOption = !appConfig?.demo_mode && (allowRegistration || !appConfig?.has_users || inviteValid)
 
   // In OIDC-only mode, show a minimal page that redirects directly to the IdP
   const oidcOnly = !appConfig?.password_login && appConfig?.oidc_login && appConfig?.oidc_configured

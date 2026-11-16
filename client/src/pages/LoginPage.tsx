@@ -47,6 +47,8 @@ export default function LoginPage(): React.ReactElement {
     setMode,
     fullName,
     setFullName,
+    username,
+    setUsername,
     email,
     setEmail,
     password,
@@ -97,16 +99,38 @@ export default function LoginPage(): React.ReactElement {
 
   const inputBase: React.CSSProperties = {
     width: '100%',
-    padding: '11px 12px 11px 40px',
+    padding: '12px 14px 12px 42px',
     border: '1px solid #e5e7eb',
     borderRadius: 12,
     fontSize: 'calc(14px * var(--fs-scale-body, 1))',
     fontFamily: 'inherit',
     outline: 'none',
     color: '#111827',
-    background: 'white',
+    background: '#ffffff',
     boxSizing: 'border-box',
-    transition: 'border-color 0.15s',
+    transition: 'border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease',
+  };
+
+  const handleInputFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.target.style.borderColor = '#111827';
+    e.target.style.boxShadow = '0 0 0 3px rgba(17, 24, 39, 0.06)';
+  };
+
+  const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.target.style.borderColor = '#e5e7eb';
+    e.target.style.boxShadow = 'none';
+  };
+
+  const handleInputMouseEnter = (e: React.MouseEvent<HTMLInputElement>) => {
+    if (document.activeElement !== e.currentTarget) {
+      e.currentTarget.style.borderColor = '#d1d5db';
+    }
+  };
+
+  const handleInputMouseLeave = (e: React.MouseEvent<HTMLInputElement>) => {
+    if (document.activeElement !== e.currentTarget) {
+      e.currentTarget.style.borderColor = '#e5e7eb';
+    }
   };
 
   if (showTakeoff) {
@@ -460,11 +484,11 @@ export default function LoginPage(): React.ReactElement {
 
           <div
             style={{
-              background: 'white',
+              background: '#ffffff',
               borderRadius: 20,
               border: '1px solid #e5e7eb',
-              padding: '36px 32px',
-              boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
+              padding: '38px 34px',
+              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03)',
             }}
           >
             {oidcOnly ? (
@@ -536,10 +560,12 @@ export default function LoginPage(): React.ReactElement {
               <>
                 <h2
                   style={{
-                    margin: '0 0 4px',
-                    fontSize: 'calc(22px * var(--fs-scale-title, 1))',
+                    margin: '0 0 6px',
+                    fontSize: 'calc(23px * var(--fs-scale-title, 1))',
                     fontWeight: 800,
+                    letterSpacing: '-0.025em',
                     color: '#111827',
+                    lineHeight: 1.25,
                   }}
                 >
                   {passwordChangeStep
@@ -552,7 +578,7 @@ export default function LoginPage(): React.ReactElement {
                           : t('login.createAccount')
                         : t('login.title')}
                 </h2>
-                <p style={{ margin: '0 0 28px', fontSize: 'calc(13.5px * var(--fs-scale-body, 1))', color: '#9ca3af' }}>
+                <p style={{ margin: '0 0 26px', fontSize: 'calc(13.5px * var(--fs-scale-body, 1))', color: '#6b7280', lineHeight: 1.5 }}>
                   {passwordChangeStep
                     ? t('login.setNewPasswordHint')
                     : mode === 'login' && mfaStep
@@ -568,12 +594,13 @@ export default function LoginPage(): React.ReactElement {
                   {error && (
                     <div
                       style={{
-                        padding: '10px 14px',
+                        padding: '11px 14px',
                         background: '#fef2f2',
                         border: '1px solid #fecaca',
                         borderRadius: 10,
                         fontSize: 'calc(13px * var(--fs-scale-body, 1))',
-                        color: '#dc2626',
+                        color: '#b91c1c',
+                        lineHeight: 1.45,
                       }}
                     >
                       {error}
@@ -771,27 +798,28 @@ export default function LoginPage(): React.ReactElement {
                     </div>
                   )}
 
-                  {/* Full Name (register only) */}
+                  {/* Full Name / Username (register only) */}
                   {mode === 'register' && !passwordChangeStep && (
                     <div>
                       <label
                         style={{
                           display: 'block',
-                          fontSize: 'calc(12.5px * var(--fs-scale-body, 1))',
+                          fontSize: 'calc(13px * var(--fs-scale-body, 1))',
                           fontWeight: 600,
                           color: '#374151',
                           marginBottom: 6,
+                          letterSpacing: '-0.01em',
                         }}
                       >
-                        {t('login.fullName') || 'Full Name'}
+                        {!appConfig?.has_users ? (t('login.username') || 'Username') : (t('login.fullName') || t('login.username') || 'Full Name')}
                       </label>
                       <div style={{ position: 'relative' }}>
                         <User
-                          size={15}
+                          size={16}
                           className="text-[#9ca3af]"
                           style={{
                             position: 'absolute',
-                            left: 13,
+                            left: 14,
                             top: '50%',
                             transform: 'translateY(-50%)',
                             pointerEvents: 'none',
@@ -799,13 +827,18 @@ export default function LoginPage(): React.ReactElement {
                         />
                         <input
                           type="text"
-                          value={fullName}
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFullName(e.target.value)}
+                          value={fullName || username}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            setFullName?.(e.target.value);
+                            setUsername?.(e.target.value);
+                          }}
                           required
-                          placeholder="John Doe"
+                          placeholder="admin"
                           style={inputBase}
-                          onFocus={(e: React.FocusEvent<HTMLInputElement>) => (e.target.style.borderColor = '#111827')}
-                          onBlur={(e: React.FocusEvent<HTMLInputElement>) => (e.target.style.borderColor = '#e5e7eb')}
+                          onFocus={handleInputFocus}
+                          onBlur={handleInputBlur}
+                          onMouseEnter={handleInputMouseEnter}
+                          onMouseLeave={handleInputMouseLeave}
                         />
                       </div>
                     </div>
@@ -817,21 +850,22 @@ export default function LoginPage(): React.ReactElement {
                       <label
                         style={{
                           display: 'block',
-                          fontSize: 'calc(12.5px * var(--fs-scale-body, 1))',
+                          fontSize: 'calc(13px * var(--fs-scale-body, 1))',
                           fontWeight: 600,
                           color: '#374151',
                           marginBottom: 6,
+                          letterSpacing: '-0.01em',
                         }}
                       >
                         {t('common.email')}
                       </label>
                       <div style={{ position: 'relative' }}>
                         <Mail
-                          size={15}
+                          size={16}
                           className="text-[#9ca3af]"
                           style={{
                             position: 'absolute',
-                            left: 13,
+                            left: 14,
                             top: '50%',
                             transform: 'translateY(-50%)',
                             pointerEvents: 'none',
@@ -844,8 +878,10 @@ export default function LoginPage(): React.ReactElement {
                           required
                           placeholder={t('login.emailPlaceholder')}
                           style={inputBase}
-                          onFocus={(e: React.FocusEvent<HTMLInputElement>) => (e.target.style.borderColor = '#111827')}
-                          onBlur={(e: React.FocusEvent<HTMLInputElement>) => (e.target.style.borderColor = '#e5e7eb')}
+                          onFocus={handleInputFocus}
+                          onBlur={handleInputBlur}
+                          onMouseEnter={handleInputMouseEnter}
+                          onMouseLeave={handleInputMouseLeave}
                         />
                       </div>
                     </div>
@@ -857,21 +893,22 @@ export default function LoginPage(): React.ReactElement {
                       <label
                         style={{
                           display: 'block',
-                          fontSize: 'calc(12.5px * var(--fs-scale-body, 1))',
+                          fontSize: 'calc(13px * var(--fs-scale-body, 1))',
                           fontWeight: 600,
                           color: '#374151',
                           marginBottom: 6,
+                          letterSpacing: '-0.01em',
                         }}
                       >
                         {t('common.password')}
                       </label>
                       <div style={{ position: 'relative' }}>
                         <Lock
-                          size={15}
+                          size={16}
                           className="text-[#9ca3af]"
                           style={{
                             position: 'absolute',
-                            left: 13,
+                            left: 14,
                             top: '50%',
                             transform: 'translateY(-50%)',
                             pointerEvents: 'none',
@@ -884,8 +921,10 @@ export default function LoginPage(): React.ReactElement {
                           required
                           placeholder="••••••••"
                           style={{ ...inputBase, paddingRight: 44 }}
-                          onFocus={(e: React.FocusEvent<HTMLInputElement>) => (e.target.style.borderColor = '#111827')}
-                          onBlur={(e: React.FocusEvent<HTMLInputElement>) => (e.target.style.borderColor = '#e5e7eb')}
+                          onFocus={handleInputFocus}
+                          onBlur={handleInputBlur}
+                          onMouseEnter={handleInputMouseEnter}
+                          onMouseLeave={handleInputMouseLeave}
                         />
                         <button
                           type="button"
@@ -902,6 +941,13 @@ export default function LoginPage(): React.ReactElement {
                             color: '#9ca3af',
                             width: 22,
                             height: 22,
+                            transition: 'color 0.15s',
+                          }}
+                          onMouseEnter={(e: React.MouseEvent<HTMLButtonElement>) => {
+                            e.currentTarget.style.color = '#4b5563';
+                          }}
+                          onMouseLeave={(e: React.MouseEvent<HTMLButtonElement>) => {
+                            e.currentTarget.style.color = '#9ca3af';
                           }}
                         >
                           <Eye
@@ -996,21 +1042,22 @@ export default function LoginPage(): React.ReactElement {
                       <label
                         style={{
                           display: 'block',
-                          fontSize: 'calc(12.5px * var(--fs-scale-body, 1))',
+                          fontSize: 'calc(13px * var(--fs-scale-body, 1))',
                           fontWeight: 600,
                           color: '#374151',
                           marginBottom: 6,
+                          letterSpacing: '-0.01em',
                         }}
                       >
                         {t('login.confirmPassword') || 'Confirm Password'}
                       </label>
                       <div style={{ position: 'relative' }}>
                         <Lock
-                          size={15}
+                          size={16}
                           className="text-[#9ca3af]"
                           style={{
                             position: 'absolute',
-                            left: 13,
+                            left: 14,
                             top: '50%',
                             transform: 'translateY(-50%)',
                             pointerEvents: 'none',
@@ -1020,11 +1067,12 @@ export default function LoginPage(): React.ReactElement {
                           type={showPassword ? 'text' : 'password'}
                           value={registerConfirmPassword}
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRegisterConfirmPassword(e.target.value)}
-                          required
-                          placeholder="••••••••"
+                          placeholder="Confirm password"
                           style={inputBase}
-                          onFocus={(e: React.FocusEvent<HTMLInputElement>) => (e.target.style.borderColor = '#111827')}
-                          onBlur={(e: React.FocusEvent<HTMLInputElement>) => (e.target.style.borderColor = '#e5e7eb')}
+                          onFocus={handleInputFocus}
+                          onBlur={handleInputBlur}
+                          onMouseEnter={handleInputMouseEnter}
+                          onMouseLeave={handleInputMouseLeave}
                         />
                       </div>
                     </div>
@@ -1034,15 +1082,15 @@ export default function LoginPage(): React.ReactElement {
                     type="submit"
                     disabled={isLoading}
                     style={{
-                      marginTop: 4,
+                      marginTop: 6,
                       width: '100%',
-                      padding: '12px',
+                      padding: '12.5px 16px',
                       background: '#111827',
-                      color: 'white',
+                      color: '#ffffff',
                       border: 'none',
                       borderRadius: 12,
                       fontSize: 'calc(14px * var(--fs-scale-body, 1))',
-                      fontWeight: 700,
+                      fontWeight: 600,
                       cursor: isLoading ? 'default' : 'pointer',
                       fontFamily: 'inherit',
                       display: 'flex',
@@ -1050,14 +1098,19 @@ export default function LoginPage(): React.ReactElement {
                       justifyContent: 'center',
                       gap: 8,
                       opacity: isLoading ? 0.7 : 1,
-                      transition: 'opacity 0.15s',
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',
+                      transition: 'all 0.18s cubic-bezier(0.16, 1, 0.3, 1)',
                     }}
                     onMouseEnter={(e: React.MouseEvent<HTMLButtonElement>) => {
-                      if (!isLoading) e.currentTarget.style.background = '#1f2937';
+                      if (!isLoading) {
+                        e.currentTarget.style.background = '#1f2937';
+                        e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+                      }
                     }}
-                    onMouseLeave={(e: React.MouseEvent<HTMLButtonElement>) =>
-                      (e.currentTarget.style.background = '#111827')
-                    }
+                    onMouseLeave={(e: React.MouseEvent<HTMLButtonElement>) => {
+                      e.currentTarget.style.background = '#111827';
+                      e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)';
+                    }}
                   >
                     {isLoading ? (
                       <>
@@ -1095,23 +1148,38 @@ export default function LoginPage(): React.ReactElement {
                 </form>
 
                 {/* Toggle login/register */}
-                {showRegisterOption && !appConfig?.demo_mode && !passwordChangeStep && (
-                  <p
+                {showRegisterOption && (appConfig?.has_users !== false) && !appConfig?.demo_mode && !passwordChangeStep && (
+                  <div
                     style={{
                       textAlign: 'center',
-                      marginTop: 16,
-                      fontSize: 'calc(13px * var(--fs-scale-body, 1))',
-                      color: '#9ca3af',
+                      marginTop: 20,
+                      paddingTop: 16,
+                      borderTop: '1px solid #f3f4f6',
+                      fontSize: 'calc(13.5px * var(--fs-scale-body, 1))',
+                      color: '#6b7280',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 6,
                     }}
                   >
-                    {mode === 'login' ? t('login.noAccount') + ' ' : t('login.hasAccount') + ' '}
-                    <button type="button"
+                    <span>
+                      {mode === 'login' ? "Don't have an account?" : "Already have an account?"}
+                    </span>
+                    <button
+                      type="button"
+                      aria-label={mode === 'login' ? 'Register' : 'Sign In'}
                       onClick={() => {
                         setMode((m) => (m === 'login' ? 'register' : 'login'));
                         setError('');
                         setMfaStep(false);
                         setMfaToken('');
                         setMfaCode('');
+                        if (mode === 'login') {
+                          navigate('/signup');
+                        } else {
+                          navigate('/login');
+                        }
                       }}
                       style={{
                         background: 'none',
@@ -1119,23 +1187,32 @@ export default function LoginPage(): React.ReactElement {
                         color: '#111827',
                         fontWeight: 600,
                         cursor: 'pointer',
+                        padding: '2px 4px',
                         fontFamily: 'inherit',
-                        fontSize: 'calc(13px * var(--fs-scale-body, 1))',
+                        fontSize: 'calc(13.5px * var(--fs-scale-body, 1))',
+                        transition: 'color 0.15s ease, text-decoration 0.15s ease',
+                        textDecoration: 'none',
+                      }}
+                      onMouseEnter={(e: React.MouseEvent<HTMLButtonElement>) => {
+                        e.currentTarget.style.color = '#374151';
+                        e.currentTarget.style.textDecoration = 'underline';
+                      }}
+                      onMouseLeave={(e: React.MouseEvent<HTMLButtonElement>) => {
+                        e.currentTarget.style.color = '#111827';
+                        e.currentTarget.style.textDecoration = 'none';
                       }}
                     >
-                      {mode === 'login' ? t('login.register') : t('login.signIn')}
+                      {mode === 'login' ? 'Create Account' : 'Sign In'}
                     </button>
-                  </p>
+                  </div>
                 )}
 
                 {/* Admin recovery link */}
                 {mode === 'login' && !passwordChangeStep && !mfaStep && (
-                  <p
+                  <div
                     style={{
                       textAlign: 'center',
-                      marginTop: 12,
-                      fontSize: 'calc(12px * var(--fs-scale-body, 1))',
-                      color: '#9ca3af',
+                      marginTop: 14,
                     }}
                   >
                     <button
@@ -1148,18 +1225,20 @@ export default function LoginPage(): React.ReactElement {
                         cursor: 'pointer',
                         fontFamily: 'inherit',
                         fontSize: 'calc(12px * var(--fs-scale-body, 1))',
-                        textDecoration: 'underline',
+                        transition: 'color 0.15s ease',
                       }}
                       onMouseEnter={(e: React.MouseEvent<HTMLButtonElement>) => {
                         e.currentTarget.style.color = '#4b5563';
+                        e.currentTarget.style.textDecoration = 'underline';
                       }}
                       onMouseLeave={(e: React.MouseEvent<HTMLButtonElement>) => {
                         e.currentTarget.style.color = '#9ca3af';
+                        e.currentTarget.style.textDecoration = 'none';
                       }}
                     >
                       Locked out of Admin? Recover Account
                     </button>
-                  </p>
+                  </div>
                 )}
               </>
             )}
