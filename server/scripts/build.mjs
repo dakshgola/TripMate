@@ -2,6 +2,9 @@ import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,34 +20,14 @@ try {
     stdio: 'inherit',
     env: { ...process.env, NODE_OPTIONS: `${process.env.NODE_OPTIONS || ''} --max-old-space-size=4096`.trim() },
   });
-} catch {
-  console.warn('[build] tsc reported type errors — checking emitted files...');
+} catch (err) {
+  console.error('[build] FATAL: tsc compilation failed.');
+  process.exit(1);
 }
 
 const distIndex = path.join(__dirname, '../dist/index.js');
 const distAppModule = path.join(__dirname, '../dist/nest/app.module.js');
 const distSupervisor = path.join(__dirname, '../dist/nest/plugins/supervisor/plugin-supervisor.js');
-
-// Repair any 0-byte truncated files emitted if tsc aborted or was memory constrained
-function ensureFileNonEmpty(distPath, srcRelPath) {
-  if (!fs.existsSync(distPath) || fs.statSync(distPath).size === 0) {
-    console.warn(`[build] Repairing truncated or missing artifact: ${distPath}`);
-    const srcPath = path.resolve(__dirname, '../src', srcRelPath);
-    const outDir = path.dirname(distPath);
-    if (tscPath && fs.existsSync(srcPath)) {
-      execSync(`node "${tscPath}" "${srcPath}" --outDir "${outDir}" --skipLibCheck --target ES2022 --module commonjs --experimentalDecorators --emitDecoratorMetadata --esModuleInterop --ignoreConfig`, {
-        stdio: 'inherit',
-      });
-      // Flatten if tsc nested under outDir
-      const nestedPath = path.join(outDir, srcRelPath.replace(/\.ts$/, '.js'));
-      if (fs.existsSync(nestedPath) && nestedPath !== distPath) {
-        fs.copyFileSync(nestedPath, distPath);
-      }
-    }
-  }
-}
-
-ensureFileNonEmpty(distSupervisor, 'nest/plugins/supervisor/plugin-supervisor.ts');
 
 if (!fs.existsSync(distIndex) || fs.statSync(distIndex).size === 0 ||
     !fs.existsSync(distAppModule) || fs.statSync(distAppModule).size === 0 ||
@@ -53,7 +36,19 @@ if (!fs.existsSync(distIndex) || fs.statSync(distIndex).size === 0 ||
   process.exit(1);
 }
 
-// Global scan for any 0-byte files
+// Validate critical named exports
+try {
+  const ps = require(distSupervisor);
+  if (typeof ps.PluginSupervisor !== 'function') {
+    console.error('[build] FATAL: PluginSupervisor is not exported as a constructor in dist/nest/plugins/supervisor/plugin-supervisor.js');
+    process.exit(1);
+  }
+} catch (e) {
+  console.error('[build] FATAL: Failed to evaluate plugin-supervisor module:', e);
+  process.exit(1);
+}
+
+// Global scan for any 0-byte files in dist
 function checkNoEmptyFiles(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
@@ -68,4 +63,4 @@ function checkNoEmptyFiles(dir) {
 }
 checkNoEmptyFiles(path.join(__dirname, '../dist'));
 
-console.log('[build] dist ready and verified.');
+console.log('[build] dist ready and verified (all critical exports confirmed).');

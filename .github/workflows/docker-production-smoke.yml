@@ -1,0 +1,154 @@
+name: Linux Docker Production Smoke Test
+
+on:
+  push:
+    branches: [rebrand-tripmate]
+  pull_request:
+    branches: [rebrand-tripmate]
+  workflow_dispatch:
+
+concurrency:
+  group: docker-production-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  docker-smoke:
+    name: Build & Smoke Test Production Docker Container
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Production Image (No Cache)
+        run: |
+          echo "Starting clean Docker build with no cache..."
+          docker build --no-cache -t tripmate:production-test .
+
+      - name: Verify Compiled Artifacts & Named Exports in Image
+        run: |
+          echo "=== 1. Checking presence of critical dist files ==="
+          docker run --rm tripmate:production-test ls -la /app/server/dist/index.js /app/server/dist/nest/app.module.js /app/server/dist/nest/plugins/supervisor/plugin-supervisor.js
+
+          echo "=== 2. Verifying PluginSupervisor constructor export ==="
+          docker run --rm tripmate:production-test node -e "
+            const ps = require('./dist/nest/plugins/supervisor/plugin-supervisor');
+            console.log('Exported keys:', Object.keys(ps));
+            if (typeof ps.PluginSupervisor !== 'function') {
+              console.error('FATAL: PluginSupervisor is not a constructor, typeof:', typeof ps.PluginSupervisor);
+              process.exit(1);
+            }
+            console.log('SUCCESS: PluginSupervisor constructor export confirmed.');
+          "
+
+          echo "=== 3. Scanning for any 0-byte JS artifacts in dist/ ==="
+          docker run --rm tripmate:production-test find /app/server/dist -type f -name '*.js' -size 0 -exec echo "0-byte file: {}" \; -exec false {} +
+
+      - name: Start Production Container
+        run: |
+          mkdir -p /tmp/tripmate-test-data /tmp/tripmate-test-uploads
+          chmod -R 777 /tmp/tripmate-test-data /tmp/tripmate-test-uploads
+
+          docker run -d \
+            --name tripmate-smoke \
+            -p 10000:10000 \
+            -e NODE_ENV=production \
+            -e PORT=10000 \
+            -e APP_URL=http://localhost:10000 \
+            -e DB_DIR=/app/data \
+            -v /tmp/tripmate-test-data:/app/data \
+            -v /tmp/tripmate-test-uploads:/app/uploads \
+            tripmate:production-test
+
+      - name: Wait for Server & Verify Container Health
+        run: |
+          echo "Waiting up to 60s for container to complete database initialization and report healthy..."
+          HEALTHY=0
+          for i in $(seq 1 60); do
+            # Check if container died
+            RUNNING=$(docker inspect -f '{{.State.Running}}' tripmate-smoke 2>/dev/null || echo "false")
+            if [ "$RUNNING" != "true" ]; then
+              echo "FATAL: Container exited prematurely after ${i}s!"
+              echo "=== Docker Logs ==="
+              docker logs tripmate-smoke
+              echo "=== Container State ==="
+              docker inspect tripmate-smoke
+              exit 1
+            fi
+
+            # Check health endpoint
+            if curl -s -f http://localhost:10000/api/health > /dev/null 2>&1; then
+              echo "Container reached Healthy status after ${i}s!"
+              HEALTHY=1
+              break
+            fi
+
+            sleep 1
+          done
+
+          if [ "$HEALTHY" -ne 1 ]; then
+            echo "FATAL: Health check timed out after 60s."
+            echo "=== Docker Logs ==="
+            docker logs tripmate-smoke
+            echo "=== Container State ==="
+            docker inspect tripmate-smoke
+            exit 1
+          fi
+
+      - name: Execute HTTP Smoke Tests
+        run: |
+          echo "=== 1. Test GET / (SPA Frontend) ==="
+          ROOT_STATUS=$(curl -s -o /tmp/index.html -w "%{http_code}" http://localhost:10000/)
+          echo "Status: $ROOT_STATUS"
+          if [ "$ROOT_STATUS" != "200" ]; then
+            echo "FATAL: GET / returned HTTP $ROOT_STATUS"
+            exit 1
+          fi
+          grep -qi "<html" /tmp/index.html || { echo "FATAL: Response does not contain HTML"; exit 1; }
+          echo "PASS: Frontend SPA served with HTTP 200"
+
+          echo "=== 2. Test GET /api/health ==="
+          HEALTH_RESP=$(curl -s -w "\n%{http_code}" http://localhost:10000/api/health)
+          STATUS_CODE=$(echo "$HEALTH_RESP" | tail -n 1)
+          BODY=$(echo "$HEALTH_RESP" | head -n -1)
+          echo "Status: $STATUS_CODE, Body: $BODY"
+          if [ "$STATUS_CODE" != "200" ] || ! echo "$BODY" | grep -q '"status":"ok"'; then
+            echo "FATAL: /api/health failed verification"
+            exit 1
+          fi
+          echo "PASS: /api/health returned HTTP 200 ok"
+
+          echo "=== 3. Test GET /api/ai/status ==="
+          AI_RESP=$(curl -s -w "\n%{http_code}" http://localhost:10000/api/ai/status)
+          AI_CODE=$(echo "$AI_RESP" | tail -n 1)
+          AI_BODY=$(echo "$AI_RESP" | head -n -1)
+          echo "Status: $AI_CODE, Body: $AI_BODY"
+          if [ "$AI_CODE" != "200" ]; then
+            echo "FATAL: /api/ai/status returned HTTP $AI_CODE"
+            exit 1
+          fi
+          echo "PASS: /api/ai/status returned HTTP 200"
+
+          echo "=== 4. Test GET /api/volunteer/opportunities ==="
+          VOL_RESP=$(curl -s -w "\n%{http_code}" http://localhost:10000/api/volunteer/opportunities)
+          VOL_CODE=$(echo "$VOL_RESP" | tail -n 1)
+          VOL_BODY=$(echo "$VOL_RESP" | head -n -1)
+          echo "Status: $VOL_CODE"
+          if [ "$VOL_CODE" != "200" ] || ! echo "$VOL_BODY" | grep -q "Goa"; then
+            echo "FATAL: /api/volunteer/opportunities failed verification"
+            exit 1
+          fi
+          echo "PASS: /api/volunteer/opportunities returned HTTP 200 with seeded opportunities"
+
+      - name: Print Container Logs and Teardown
+        if: always()
+        run: |
+          echo "=== Container Inspection ==="
+          docker inspect -f 'Status: {{.State.Status}}, ExitCode: {{.State.ExitCode}}' tripmate-smoke || true
+          echo "=== Container Full Output Logs ==="
+          docker logs tripmate-smoke || true
+          docker stop tripmate-smoke || true
+          docker rm tripmate-smoke || true
