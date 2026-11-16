@@ -24,7 +24,9 @@
     // These paths manually redirect to the CJS dist until the SDK fixes its exports map.
     "paths": {
       "@modelcontextprotocol/sdk/server/mcp": ["../node_modules/@modelcontextprotocol/sdk/dist/cjs/server/mcp.js"],
+      "@modelcontextprotocol/sdk/server/mcp.js": ["../node_modules/@modelcontextprotocol/sdk/dist/cjs/server/mcp.js"],
       "@modelcontextprotocol/sdk/server/streamableHttp": ["../node_modules/@modelcontextprotocol/sdk/dist/cjs/server/streamableHttp.js"],
+      "@modelcontextprotocol/sdk/server/streamableHttp.js": ["../node_modules/@modelcontextprotocol/sdk/dist/cjs/server/streamableHttp.js"],
       "@modelcontextprotocol/sdk/server/auth/router": ["../node_modules/@modelcontextprotocol/sdk/dist/cjs/server/auth/router.js"],
       "@modelcontextprotocol/sdk/server/auth/handlers/authorize": ["../node_modules/@modelcontextprotocol/sdk/dist/cjs/server/auth/handlers/authorize.js"],
       "@modelcontextprotocol/sdk/server/auth/handlers/register": ["../node_modules/@modelcontextprotocol/sdk/dist/cjs/server/auth/handlers/register.js"],
