@@ -4,7 +4,7 @@ services:
     runtime: docker
     plan: free
     region: oregon
-    healthCheckPath: /api/health
+    branch: rebrand-tripmate
     envVars:
       - key: PORT
         value: 10000
@@ -12,7 +12,11 @@ services:
         value: production
       - key: GEMINI_API_KEY
         sync: false
-    disk:
-      name: tripmate-data
-      mountPath: /app/data
-      sizeGB: 1
+    # NOTE: Render Disks require a paid plan (Starter $7/mo or above).
+    # On Render Free Tier, disks cannot be mounted, and data is ephemeral.
+    # To enable persistent storage on Render, upgrade the plan to 'starter'
+    # and uncomment the disk configuration below:
+    # disk:
+    #   name: tripmate-data
+    #   mountPath: /app/data
+    #   sizeGB: 1
