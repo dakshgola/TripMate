@@ -24,7 +24,7 @@ if (!fs.existsSync(tmpDir)) fs.mkdirSync(tmpDir, { recursive: true });
 import { getAppUrl, getMcpSafeUrl, readEnv } from './app-config';
 
 const PORT = readEnv().app.port;
-const HOST = readEnv().app.host;
+const HOST = readEnv().app.host || '0.0.0.0';
 const APP_VERSION: string = readEnv().app.appVersion || (require('../package.json') as { version: string }).version;
 
 const onListen = () => {
@@ -101,13 +101,12 @@ async function bootstrap(): Promise<void> {
   // process would survive EADDRINUSE, never run onListen, and serve nothing
   // while looking healthy.
   server.on('error', (err: NodeJS.ErrnoException) => {
-    const where = HOST ? `${HOST}:${PORT}` : `:${PORT}`;
+    const where = `${HOST}:${PORT}`;
     console.error(`Fatal: cannot listen on ${where} — ${err.code ?? ''} ${err.message}`);
     process.exit(1);
   });
 
-  if (HOST) server.listen(PORT, HOST, onListen);
-  else server.listen(PORT, onListen);
+  server.listen(PORT, HOST, onListen);
 }
 
 bootstrap().catch((err) => {
