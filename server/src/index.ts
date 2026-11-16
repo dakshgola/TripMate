@@ -1,3 +1,4 @@
+import './preboot';
 import 'reflect-metadata';
 import 'dotenv/config';
 // Fail-fast env validation — must stay directly after dotenv so a malformed
@@ -52,6 +53,7 @@ const onListen = () => {
     '──────────────────────────────────────',
   ];
   banner.forEach(l => console.log(l));
+  console.log(`[BOOT] HTTP server listening successfully on http://${HOST}:${PORT}`);
   sLogInfo('NestJS serving all routes (Express decommissioned)');
   if (env.app.appUrl) {
     let parsedAppUrl: URL | null = null;
@@ -106,6 +108,7 @@ async function bootstrap(): Promise<void> {
     process.exit(1);
   });
 
+  console.log(`[BOOT] HTTP server listen started on ${HOST}:${PORT}`);
   server.listen(PORT, HOST, onListen);
 }
 

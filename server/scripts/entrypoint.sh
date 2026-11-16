@@ -9,6 +9,8 @@
 # error before Node starts. A CMD of one bare token survives that round-trip.
 set -e
 
+echo "[BOOT] Entrypoint started (UID: $(id -u), CWD: $(pwd))"
+
 # If the app code is missing, a volume was almost certainly mounted over /app
 # (it hides the image's node_modules + dist). Fail with actionable guidance
 # instead of a cryptic "Cannot find module 'tsconfig-paths/register'".
@@ -20,7 +22,11 @@ if [ ! -f /app/server/dist/index.js ] || [ ! -d /app/node_modules/tsconfig-paths
   exit 1
 fi
 
+export TS_NODE_PROJECT=/app/server/tsconfig.json
+ln -sf /app/server/tsconfig.json /app/tsconfig.json 2>/dev/null || true
+
 cd /app/server
+echo "[BOOT] Node process launching (NODE_ENV=${NODE_ENV:-development}, PORT=${PORT:-3001})..."
 if [ "$(id -u)" = "0" ]; then
   chown -R node:node /app/data /app/uploads 2>/dev/null || true
   exec gosu node node --require tsconfig-paths/register dist/index.js

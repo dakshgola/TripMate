@@ -95,6 +95,7 @@ COPY --chown=node:node --from=server-builder /app/server/assets ./server/assets
 COPY --chown=node:node wiki ./wiki
 # tsconfig-paths/register reads this at runtime to resolve MCP SDK paths.
 COPY --chown=node:node server/tsconfig.json ./server/
+COPY --chown=node:node server/tsconfig.json ./tsconfig.json
 # Encryption-key rotation is run on demand via tsx (a prod dep) straight from the
 # raw .ts source — it never enters dist, so it must be copied in explicitly or
 # `node --import tsx scripts/migrate-encryption.ts` fails with module-not-found.
@@ -119,6 +120,7 @@ RUN mkdir -p /app/data/logs /app/uploads/files /app/uploads/covers /app/uploads/
 
 ENV NODE_ENV=production
 ENV NODE_USE_ENV_PROXY=1
+ENV TS_NODE_PROJECT=/app/server/tsconfig.json
 ENV PORT=3000
 ARG APP_VERSION=dev
 ENV APP_VERSION=${APP_VERSION}

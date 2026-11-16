@@ -56,6 +56,7 @@ function initDb(): void {
   runMigrations(_db);
 
   runSeeds(_db);
+  console.log('[BOOT] Database initialization completed');
 }
 
 initDb();
