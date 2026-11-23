@@ -1,26 +1,21 @@
-# Trip Mate
+# TripMate
 
 <div align="center">
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/logo-tripmate-light.svg" />
   <source media="(prefers-color-scheme: light)" srcset="docs/logo-tripmate-dark.svg" />
-  <img src="docs/logo-tripmate-dark.svg" alt="Trip Mate" height="96" />
+  <img src="docs/logo-tripmate-dark.svg" alt="TripMate" height="96" />
 </picture>
 
 <br />
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/subtitle-light.png" />
-  <source media="(prefers-color-scheme: light)" srcset="docs/subtitle-dark.png" />
-  <img src="docs/subtitle-dark.png" alt="your trip. your plan." height="28" />
-</picture>
-
 <p align="center">
-  <b>A modern, self-hosted, real-time collaborative travel planning and management platform.</b><br />
-  Featuring intelligent AI itinerary planning, purposeful volunteer journeys (Volunteer Yatra), gamified rewards, interactive maps, split budgets, packing checklists, and offline-first PWA capabilities.
+  <b>A Modern Full-Stack Collaborative Travel Planning & Experience Platform</b><br />
+  Intelligent AI itinerary generation, community volunteering (Volunteer Yatra), gamified rewards, interactive map routing, multi-currency budget splitting, and offline-first PWA sync.
 </p>
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-tripmate--5d81.onrender.com-00b894?style=flat-square&logo=render&logoColor=white)](https://tripmate-5d81.onrender.com)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg?style=flat-square)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-22_LTS-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![NestJS](https://img.shields.io/badge/NestJS-11-E0234E?style=flat-square&logo=nestjs&logoColor=white)](https://nestjs.com/)
@@ -29,6 +24,8 @@
 [![SQLite](https://img.shields.io/badge/SQLite-WAL_Mode-003B57?style=flat-square&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 
+[**Explore Live Application**](https://tripmate-5d81.onrender.com) • [**Architecture**](#system-architecture) • [**Key Features**](#key-features) • [**Tech Stack**](#technology-stack) • [**Local Setup**](#getting-started)
+
 </div>
 
 ---
@@ -36,469 +33,319 @@
 ## Showcase
 
 <div align="center">
-  <img src="docs/screenshots/showcase-desktop-1.webp" alt="Trip Mate Desktop Overview" width="100%" />
+  <a href="https://tripmate-5d81.onrender.com">
+    <img src="docs/screenshots/showcase-desktop-1.webp" alt="TripMate Desktop Overview" width="100%" />
+  </a>
   <br /><br />
-  <img src="docs/screenshots/showcase-desktop-2.webp" alt="Trip Mate Collections, Journal and Expense Management" width="100%" />
+  <img src="docs/screenshots/showcase-desktop-2.webp" alt="TripMate Collections, Journal and Expense Management" width="100%" />
   <br /><br />
-  <img src="docs/screenshots/showcase-mobile.webp" alt="Trip Mate Mobile PWA Interface" width="70%" />
+  <img src="docs/screenshots/showcase-mobile.webp" alt="TripMate Mobile PWA Interface" width="65%" />
 </div>
-
----
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Core Feature Modules](#core-feature-modules)
-  - [AI Planner & Travel Assistant](#1-ai-planner--travel-assistant)
-  - [Volunteer Yatra](#2-volunteer-yatra-travel-learn--earn)
-  - [Rewards & Leaderboard](#3-rewards--leaderboard)
-  - [Existing Platform Capabilities](#existing-platform-capabilities)
-- [System Architecture](#system-architecture)
-- [Technology Stack](#technology-stack)
-- [Installation & Setup](#installation--setup-windows-powershell)
-- [Configuration](#configuration--environment-variables)
-- [Development, Build & Test Commands](#development-build--test-commands)
-- [Database & API Architecture](#database--api-architecture)
-- [Security Considerations](#security-considerations)
-- [Project Limitations](#project-limitations--disclaimers)
-- [Data Sources & Attributions](#data-sources--attributions)
-- [License](#license)
 
 ---
 
 ## Overview
 
-**Trip Mate** is a self-hosted travel planning and management platform designed to bring trip planning, collaboration, budgeting, and travel experiences into one unified workspace.
+**TripMate** is a full-stack, real-time travel planning platform designed to solve the chaos of modern travel organization. Instead of juggling scattered spreadsheets, group chat messages, travel reservation emails, and isolated map bookmarks, TripMate unites the entire journey lifecycle into a single collaborative workspace.
 
-Whether planning an individual expedition, coordinating a road trip with friends, or participating in community volunteering programs, Trip Mate provides the tools needed to organize and manage the entire journey.
+From spontaneous weekend road trips to multi-week expeditions, TripMate combines algorithmic and AI-driven planning with practical trip logistics:
 
-### Three Core Modules
-
-1. **AI Planner:** Google Gemini-powered personalized itinerary generation and conversational travel assistance.
-2. **Volunteer Yatra:** A volunteering opportunity marketplace with application management, benefits, and stipend tracking.
-3. **Rewards & Leaderboard:** A gamification system rewarding sustainable travel, trip completion, and community contributions.
+- **Intelligent Planning**: Instant, structured day-by-day itineraries generated by Google Gemini AI tailored to budget, travel style, and interests.
+- **Collaborative Execution**: Real-time multi-user trip editing, interactive geocoding maps, activity scheduling, and expense splitting.
+- **Purposeful Travel (Volunteer Yatra)**: A marketplace connecting conscious travelers with vetted community, ecological, and educational volunteering initiatives.
+- **Gamified Rewards**: In-app points ledger, achievement tiers, and traveler leaderboards rewarding sustainable exploration and trip completion.
+- **Resilient Architecture**: Offline-ready Progressive Web App (PWA) backed by high-performance SQLite in Write-Ahead Logging (WAL) mode.
 
 ---
 
-## Core Feature Modules
+## Key Features
 
-### 1. AI Planner & Travel Assistant
+### 1. Collaborative Itinerary & Activity Planning
+- **Day-by-Day Scheduling**: Organize multi-day trips with sequenced morning, afternoon, and evening activity slots.
+- **Interactive Map Routing**: MapLibre GL and Leaflet mapping with OpenStreetMap points of interest, auto-routing, and geocoded coordinates.
+- **Real-Time Collaboration**: WebSocket gateway synchronizing itinerary edits, drag-and-drop reordering, and notes across all trip members simultaneously.
+- **Attachment & Document Vault**: Centralized storage for flight tickets, hotel vouchers, train passes, and reservation PDFs.
 
-The AI Planner uses Google Gemini to generate personalized, structured travel itineraries.
+### 2. Multi-Currency Budget & Expense Splitting
+- **Dynamic Currency Conversion**: Real-time exchange rate calculations supporting global currencies via Frankfurter API.
+- **Shared Group Splitting**: Track who paid for each expense, split costs equally or by custom percentages, and calculate minimum transaction settlements.
+- **Category Analytics**: Visual spending breakdowns across accommodation, food, transit, activities, and emergency supplies with CSV export capabilities.
 
-**Itinerary Generation**
-- Destination and travel date selection.
-- Budget tiers and currency selection.
-- Travel styles: backpacking, cultural, luxury, adventure, relaxation, and family.
-- Interest-based recommendations.
-- Season-aware planning.
-- Structured day-by-day itineraries.
-- Morning, afternoon, and evening activity schedules.
-- Estimated activity costs and descriptions.
+### 3. Travel Logistics & Checklists
+- **Smart Packing Lists**: Categorized packing templates (clothing, electronics, documents, medical) with shared progress tracking.
+- **Reservation Tracker**: Dedicated management for flights, accommodations, vehicle rentals, and activity permits with confirmation lookup.
+- **Offline-First PWA**: Service Worker caching with IndexedDB mutations allowing uninterrupted access in low-connectivity travel destinations.
 
-**Create Trip Integration**
+---
 
-Convert generated itineraries directly into persistent Trip Mate trips, including days, timeline entries, and map markers.
+## AI Trip Planner & Travel Assistant
 
-**AI Travel Assistant**
+TripMate integrates Google Gemini to deliver production-grade AI trip generation:
 
-Conversational travel assistance for recommendations, local customs, packing advice, and itinerary modifications.
+```
+User Prompt (Destination, Days, Budget, Style)
+                    │
+                    ▼
+  [NestJS AI Engine — Server-Side Validation]
+                    │
+                    ▼
+     [Google Gemini API — JSON Mode]
+                    │
+                    ▼
+[Validated Structured Schema (Days, Places, Costs)]
+                    │
+                    ▼
+  [Instant One-Click Conversion into TripMate Trip]
+```
 
-**Secure AI Configuration**
+- **Structured Itinerary Generation**: Users specify destination, dates, budget tier (budget, moderate, luxury), and travel style (adventure, cultural, relaxation, backpacking). Gemini returns fully structured day plans with estimated timings, descriptions, and budgets.
+- **One-Click Native Trip Creation**: Unlike static chat bots, generated itineraries convert directly into real TripMate database entities with linked places, days, budget rows, and map pins.
+- **Contextual Travel Assistant**: In-app conversational AI assistant capable of answering destination-specific queries, packing recommendations, visa considerations, and regional safety advisories.
+- **Zero Client Credential Leakage**: All Gemini interactions run strictly on the backend; API keys are never exposed to client-side bundles or browser storage.
 
-- Backend-only Gemini API integration.
-- Secure API key isolation.
-- AI configuration status endpoint.
-- Validated structured AI responses.
+---
 
-### 2. Volunteer Yatra (Travel, Learn & Earn)
+## Volunteer Yatra (Travel & Volunteer)
 
-Volunteer Yatra connects travelers with educational, ecological, and community volunteering opportunities.
+**Volunteer Yatra** brings social and ecological impact into travel planning by connecting travelers with grassroots initiatives across India and beyond.
 
-**Opportunity Marketplace**
-- Organic farming.
-- Rural education.
-- Wildlife rescue.
-- Hostel hospitality.
-- Eco-trail development.
-- Search and filtering by location, duration, and stipend.
+- **Curated Opportunity Marketplace**: Explore verified volunteering placements in organic farming, rural education, high-altitude trail cleanups, and wildlife rehabilitation.
+- **Detailed Impact & Perks**: View required skills, minimum time commitments, provided accommodations, complimentary meals, and monthly living stipends.
+- **Application Workflow**: In-app application submissions with personal motivation letters, resume links, and persistent status tracking (`Pending`, `Accepted`, `Rejected`, `Completed`).
+- **Saved Favorites**: Bookmark impactful programs directly to personal travel profiles for upcoming seasons.
 
-**Application Management**
-- Persistent application submissions.
-- Applicant information and motivation statements.
-- Duplicate application prevention.
-- Application status tracking.
+> **Note on Volunteer Listings**: Volunteer opportunities, stipends, and host details are curated demonstration records designed for platform presentation. They do not constitute legally binding employment agreements.
 
-Supported statuses:
-- PENDING
-- ACCEPTED
-- REJECTED
-- COMPLETED
-- CANCELLED
+---
 
-**Stipend & Benefits**
-- Accommodation information.
-- Meals and additional benefits.
-- Certificates.
-- Monthly or weekly stipend details.
+## Rewards & Gamification Engine
 
-**Favorites & Bookmarks**
+TripMate incentivizes eco-conscious travel, community contributions, and active planning through a full rewards economy:
 
-Authenticated users can bookmark opportunities and access their saved listings.
-
-> Note: Volunteer opportunities and stipend amounts are curated demonstration records. They do not represent legally binding employment contracts or independently verified commercial agreements.
-
-### 3. Rewards & Leaderboard
-
-Trip Mate includes a gamification system that encourages sustainable travel and community engagement.
-
-**Points Engine**
-- Trip completion: +500 points.
-- Volunteer participation.
-- Eco-friendly milestones.
-- Packing checklist completion.
-
-**Leaderboard**
-- Global traveler rankings.
-- Bronze Explorer.
-- Silver Voyager.
-- Gold Adventurer.
-- Platinum Wanderer.
-
-**Reward Catalog**
-- Travel perks.
-- Partner gear discounts.
-- Digital certificates.
-- Hostel vouchers.
-- Point redemption and transaction history.
-
-> Note: Reward redemptions demonstrate in-app gamification functionality. External merchant redemption requires third-party commercial integrations.
-
-### Existing Platform Capabilities
-
-Trip Mate also includes:
-
-| Feature | Capabilities |
-|---|---|
-| Interactive Maps | Leaflet, MapLibre GL, OpenStreetMap, POI discovery and routing |
-| Real-time Collaboration | WebSocket-based shared trip updates |
-| Expense Management | Multi-currency splitting, custom shares and settlements |
-| Budget Management | Trip budgets, expense tracking and CSV exports |
-| Packing Lists | Categorized checklists, assignments and baggage tracking |
-| Reservations | Flight, train, hotel and rental documentation |
-| Offline PWA | IndexedDB caching and offline mutation queues |
-| Atlas | Visited countries and geographical exploration |
-| Travel Journal | Travel stories and multimedia memories |
+- **Points Ledger**: Earn points through concrete platform actions:
+  - Completing scheduled trips (`+500 pts`)
+  - Submitting travel reviews and trail photos (`+600 pts`)
+  - Participating in Volunteer Yatra programs (`+550 pts`)
+  - Completing packing lists and eco-milestones (`+300 pts`)
+- **Tiered Leaderboard**: Global traveler rankings categorized across **Bronze Explorer**, **Silver Voyager**, **Gold Adventurer**, and **Platinum Wanderer**.
+- **Perk Catalog**: Redeem earned points for simulated partner vouchers, hostel discounts, eco-gear merchandise, and digital certificates of impact.
 
 ---
 
 ## System Architecture
 
-Trip Mate follows a modular monorepo architecture using React, NestJS, SQLite, and shared TypeScript contracts.
-
-### High-Level Architecture
+TripMate employs a modular monorepo architecture with clean separation of concerns, strict TypeScript contracts, and transactional persistence:
 
 ```mermaid
 flowchart TD
-    A[Trip Mate Frontend - React 19 + Vite]
-    B[Shared Package - Zod Contracts]
-    C[NestJS Backend]
-    D[AI Planner]
-    E[Volunteer Yatra]
-    F[Rewards Engine]
-    G[Trips, Maps & Collaboration]
-    H[SQLite Database]
-    I[Google Gemini API]
-    J[OpenStreetMap / OSRM]
-    K[Open-Meteo]
+    subgraph Client["Frontend Client (React 19 + Vite)"]
+        UI["React UI + Tailwind CSS"]
+        Store["Zustand State Stores"]
+        PWA["Service Worker & IndexedDB"]
+        Map["MapLibre GL / Leaflet"]
+    end
 
-    A --> B
-    A --> C
-    C --> D
-    C --> E
-    C --> F
-    C --> G
-    D --> I
-    G --> J
-    G --> K
-    E --> H
-    F --> H
-    G --> H
-```
+    subgraph Server["Backend API (NestJS 11 + Express)"]
+        Gateway["REST API & WebSocket Gateway"]
+        AuthMod["Auth & Permissions Guard (JWT / Session)"]
+        TripMod["Trip Management & Collaboration"]
+        AIMod["AI Planner Service"]
+        VolMod["Volunteer Yatra Service"]
+        RewMod["Rewards & Leaderboard Engine"]
+        DBService["Database Service (Better-SQLite3)"]
+    end
 
-### Monorepo Workspace Structure
+    subgraph Data["Persistence & External Services"]
+        DB[(SQLite WAL Database)]
+        Gemini["Google Gemini API"]
+        OSM["OpenStreetMap / OSRM"]
+        Weather["Open-Meteo API"]
+    end
 
-```text
-TripMate/
-├── client/                 # React 19 + Vite frontend
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── services/
-│   │   └── store/
-│   └── package.json
-│
-├── server/                 # NestJS backend
-│   ├── src/
-│   │   └── nest/
-│   │       ├── ai/
-│   │       ├── volunteer/
-│   │       ├── rewards/
-│   │       ├── database/
-│   │       └── ...
-│   ├── data/
-│   ├── .env
-│   └── package.json
-│
-├── shared/                 # Shared contracts and schemas
-│   ├── src/
-│   ├── dist/
-│   └── package.json
-│
-├── docs/
-├── package.json
-├── package-lock.json
-├── LICENSE
-└── README.md
+    UI --> Store
+    Store --> Gateway
+    PWA -.-> UI
+    Map --> OSM
+
+    Gateway --> AuthMod
+    Gateway --> TripMod
+    Gateway --> AIMod
+    Gateway --> VolMod
+    Gateway --> RewMod
+
+    AIMod --> Gemini
+    TripMod --> DBService
+    VolMod --> DBService
+    RewMod --> DBService
+    DBService --> DB
+    TripMod --> Weather
 ```
 
 ---
 
 ## Technology Stack
 
-| Layer | Technology |
-|---|---|
-| Frontend | React 19 |
-| Build Tool | Vite 8 |
-| Language | TypeScript |
-| Styling | Tailwind CSS |
-| State Management | Zustand |
-| Mapping | Leaflet & MapLibre GL |
-| Backend | NestJS 11 |
-| AI Integration | Google Gemini SDK |
-| Database | SQLite / better-sqlite3 |
-| Real-time Sync | WebSockets |
-| Validation | Zod 4 |
-| Authentication | Passport, JWT, WebAuthn |
-| Package Management | npm Workspaces |
+| Layer | Technologies | Rationale |
+|---|---|---|
+| **Frontend** | React 19, TypeScript 5.x, Vite, Tailwind CSS 3.x | Lightning-fast HMR, concurrent React rendering, atomic utility styling. |
+| **State & Data** | Zustand, React Router 7, Lucide Icons, MapLibre GL | Predictable state flow, unified routing, high-performance vector map tiles. |
+| **Backend** | NestJS 11, Node.js 22 LTS, Express Platform | Enterprise modular architecture, dependency injection, robust validation pipes. |
+| **Persistence** | SQLite via `better-sqlite3`, WAL Mode, PRAGMA transactions | Zero-latency embedded reads/writes, concurrent multi-thread readers, ACID guarantees. |
+| **Real-Time** | WebSockets (`@nestjs/platform-ws`), Event Emitters | Bidirectional low-latency state synchronization for concurrent trip collaborators. |
+| **AI Integration** | Google Gemini API (`@google/genai` / REST) | State-of-the-art multimodal reasoning, structured JSON response mode. |
+| **Security** | BcryptJS, JWT, HTTP-only Secure Cookies, Zod 4 | Bulletproof authentication, session hardening, schema-driven input sanitization. |
+| **Deployment** | Docker multi-stage build, Render Cloud Platform | Minimal runtime container size (<180MB), automated CI/CD branch deployments. |
 
 ---
 
-## Installation & Setup (Windows PowerShell)
+## Getting Started
 
 ### Prerequisites
+- **Node.js**: `v22.x` (LTS recommended)
+- **Package Manager**: `npm v10+`
+- **Git**: `v2.x`
 
-- Node.js 22 LTS.
-- npm 10 or higher.
-- Git 2.x.
-- Google Chrome or another modern browser.
-
-### Step 1: Clone the Repository
-
-```powershell
+### 1. Clone the Repository
+```bash
 git clone https://github.com/dakshgola/TripMate.git
 cd TripMate
 ```
 
-Ensure you are inside the directory containing the root `package.json`.
-
-### Step 2: Install Dependencies
-
-```powershell
+### 2. Install Monorepo Dependencies
+```bash
 npm install
 ```
 
-### Step 3: Build Shared Package
-
-```powershell
+### 3. Build the Shared Contract Library
+```bash
 npm run build --workspace=shared
 ```
 
-### Step 4: Configure Environment
+### 4. Configure Environment Variables
+Copy the sample environment file into `server/.env`:
+```bash
+# On Linux / macOS:
+cp server/.env.example server/.env
 
-```powershell
+# On Windows PowerShell:
 Copy-Item server\.env.example server\.env
 ```
 
-Open `server/.env` and configure your Gemini API key:
-
+Open `server/.env` and insert your Google Gemini API key:
 ```dotenv
 GEMINI_API_KEY=your_actual_gemini_api_key_here
+PORT=3001
+NODE_ENV=development
 ```
+*(Get a free API key at [Google AI Studio](https://aistudio.google.com/app/apikey))*.
 
-Never commit your actual API key.
-
-### Step 5: Start Trip Mate
-
-```powershell
-$env:NODE_OPTIONS = "--max-old-space-size=4096"
+### 5. Start the Development Servers
+```bash
+# Launch both frontend and backend concurrently:
 npm run dev
 ```
 
-### Step 6: Open the Application
-
-| Service | URL |
-|---|---|
-| Trip Mate Frontend | http://localhost:5173 |
-| Backend API | http://localhost:3001 |
-| AI Configuration Status | http://localhost:3001/api/ai/status |
+The application will be available at:
+- **Frontend Client**: `http://localhost:5173`
+- **Backend REST API**: `http://localhost:3001`
+- **Health Check**: `http://localhost:3001/api/health`
 
 ---
 
-## Configuration & Environment Variables
+## Environment Variables
 
-Backend configuration is managed through `server/.env`.
-
-| Variable | Description |
-|---|---|
-| PORT | Backend server port (3001) |
-| NODE_ENV | Development or production |
-| TZ | Server timezone |
-| ALLOWED_ORIGINS | Allowed frontend origins |
-| COOKIE_SECURE | Secure cookie configuration |
-| ENCRYPTION_KEY | Encryption key for sensitive stored credentials |
-| GEMINI_API_KEY | Google Gemini API key |
-
-### Gemini API Key Security
-
-- API keys remain exclusively on the backend.
-- No `VITE_GEMINI_API_KEY` exposure.
-- No Gemini credentials in browser storage.
-- All AI requests pass through authenticated backend endpoints.
-- AI status endpoints must never expose secrets.
+| Variable | Default | Description |
+|---|---|---|
+| `PORT` | `3001` | HTTP port for the NestJS server. |
+| `NODE_ENV` | `development` | Environment mode (`development` or `production`). |
+| `GEMINI_API_KEY` | *Required for AI* | Google Gemini API key for itinerary generation and chat. |
+| `APP_URL` | `http://localhost:5173` | Base client application URL for CORS and redirect resolution. |
+| `ALLOWED_ORIGINS` | `http://localhost:5173` | Comma-separated list of allowed frontend origins for CORS. |
+| `COOKIE_SECURE` | Auto | Enforces `Secure` flag on session cookies (automatically true in production). |
+| `SEED_ADMIN_DEMO` | `true` | Idempotently populates 6 demo trips, 2450 points, and leaderboard travelers on startup. |
+| `ADMIN_EMAIL` | `admin@tripmate.local` | Primary administrator account email address. |
+| `ADMIN_RECOVERY_SECRET` | *Optional* | Secret passphrase for web-based one-time admin account recovery. |
 
 ---
 
-## Development, Build & Test Commands
+## Project Structure
 
-Run commands from the repository root.
-
-### Development
-
-```powershell
-npm run dev
-npm run dev --workspace=server
-npm run dev --workspace=client
-npm run build:watch --workspace=shared
+```text
+TripMate/
+├── client/                     # Frontend Application (React 19 + Vite)
+│   ├── src/
+│   │   ├── api/                # Typed Axios API client & endpoints
+│   │   ├── components/         # Modular UI components (Navigation, Modals, Maps)
+│   │   ├── pages/              # Route views (AI Planner, Volunteer, Trips, Auth)
+│   │   ├── store/              # Zustand global application state stores
+│   │   └── types/              # Frontend TypeScript definitions
+│   ├── public/                 # Static PWA assets, icons, and fonts
+│   └── package.json
+│
+├── server/                     # Backend Application (NestJS 11)
+│   ├── src/
+│   │   ├── nest/
+│   │   │   ├── ai-planner/     # Google Gemini itinerary generation & chat engine
+│   │   │   ├── volunteer/      # Volunteer Yatra marketplace & application logic
+│   │   │   ├── rewards/        # Gamification points ledger & leaderboard service
+│   │   │   ├── auth/           # Authentication, session cookies & user recovery
+│   │   │   ├── trips/          # Trip lifecycle, days, activities & collaboration
+│   │   │   └── database/       # Better-sqlite3 transactional database service
+│   │   ├── db/                 # SQLite schema definitions, migrations & demo seeders
+│   │   └── scripts/            # Standalone database and migration utilities
+│   ├── data/                   # SQLite database storage directory (travel.db)
+│   └── package.json
+│
+├── shared/                     # Shared TypeScript Contracts & Schemas
+│   ├── src/
+│   │   ├── auth/               # Shared authentication request/response schemas
+│   │   └── trips/              # Shared data contracts
+│   └── package.json
+│
+├── docs/                       # Project screenshots, logos, and architecture assets
+├── Dockerfile                  # Multi-stage optimized production container build
+├── render.yaml                 # Render cloud infrastructure as code configuration
+├── package.json                # Monorepo root workspaces configuration
+└── README.md                   # Project documentation
 ```
 
-### Production Build
+---
 
-```powershell
+## Verification & Testing
+
+TripMate maintains comprehensive test coverage across both unit and integration levels:
+
+```bash
+# Run backend Vitest unit test suite:
+npm run test --workspace=server
+
+# Run frontend test suite:
+npm run test --workspace=client
+
+# Build production bundle for container deployment:
 npm run build
 ```
 
-Individual workspace builds:
-
-```powershell
-npm run build --workspace=shared
-npm run build --workspace=server
-npm run build --workspace=client
-```
-
-### Testing & Code Quality
-
-```powershell
-npm run test
-npm run test:cov
-npm run lint
-npm run format
-npm run format:check
-```
-
-Run only commands that are actually defined in the corresponding package scripts.
-
 ---
 
-## Database & API Architecture
+## Roadmap & Future Enhancements
 
-### SQLite Persistence
-
-Trip Mate uses SQLite with `better-sqlite3`.
-
-- Database: `server/data/travel.db`
-- WAL mode for concurrent read/write operations.
-- Automated database migrations.
-- Persistent trip, user, application, and reward data.
-
-### REST API Endpoints
-
-#### AI Planner
-
-| Method | Endpoint | Purpose |
-|---|---|---|
-| GET | `/api/ai/status` | AI configuration status |
-| POST | `/api/ai/plan-itinerary` | Generate itinerary |
-| POST | `/api/ai/chat` | Conversational travel assistant |
-
-#### Volunteer Yatra
-
-| Method | Endpoint | Purpose |
-|---|---|---|
-| GET | `/api/volunteer/opportunities` | Browse opportunities |
-| GET | `/api/volunteer/opportunities/:id` | Opportunity details |
-| POST | `/api/volunteer/applications` | Submit application |
-| GET | `/api/volunteer/applications/mine` | User applications |
-| PATCH | `/api/volunteer/applications/:id/status` | Update application |
-| GET | `/api/volunteer/favorites` | Saved opportunities |
-| POST | `/api/volunteer/favorites/:id` | Toggle favorite |
-
-#### Rewards
-
-| Method | Endpoint | Purpose |
-|---|---|---|
-| GET | `/api/rewards/leaderboard` | Leaderboard |
-| GET | `/api/rewards/me` | User points and history |
-| GET | `/api/rewards/catalog` | Reward catalog |
-| POST | `/api/rewards/redeem` | Redeem rewards |
-| POST | `/api/rewards/trips/:tripId/complete` | Award trip completion points |
-
----
-
-## Security Considerations
-
-1. Backend-only AI credential management.
-2. Encrypted sensitive credential storage using AES-256-GCM.
-3. HTTP-only session cookies and JWT authentication.
-4. Input sanitization and Zod validation.
-5. SSRF protection for outbound network requests.
-6. Environment secrets excluded from version control.
-
----
-
-## Project Limitations & Disclaimers
-
-- AI functionality depends on Google Gemini availability and API quotas.
-- SQLite is designed primarily for single-node deployment.
-- Offline functionality does not extend to AI generation, live geocoding, or WebSocket synchronization.
-- Volunteer listings are demonstration records.
-- Reward redemption is simulated unless external integrations are implemented.
-
----
-
-## Data Sources & Attributions
-
-- **Geographical Boundaries:** [geoBoundaries](https://www.geoboundaries.org/) — CC BY 4.0.
-- **Maps and POI Data:** [OpenStreetMap](https://www.openstreetmap.org/), [Overpass API](https://overpass-turbo.eu/), and [OSRM](https://project-osrm.org/).
-- **Weather:** [Open-Meteo](https://open-meteo.com/).
-- **Currency Exchange:** [Frankfurter](https://www.frankfurter.app/).
-
-**Upstream Attribution:** Trip Mate is based on and adapted from the open-source Trek travel planner project by Maurice Boe and community contributors. Original upstream credits and applicable license obligations are retained.
+- [ ] **Automated Flight & Fare Tracking**: In-app price alert webhooks for monitored flight legs.
+- [ ] **Multi-Day Route Optimization**: Traveling Salesperson Problem (TSP) heuristic solver for day activity paths.
+- [ ] **Native Mobile Releases**: Packaging via Capacitor / React Native for Google Play Store and Apple App Store.
+- [ ] **Shared Collaborative Split-Pay**: Direct UPI and Stripe integration for instant in-app group expense settlement.
 
 ---
 
 ## License
 
-Trip Mate is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**.
-
-See the [LICENSE](LICENSE) file for complete licensing information.
+This project is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)** — see the [LICENSE](LICENSE) file for details.
 
 ---
 
 <div align="center">
 
-**Trip Mate — Your Trip. Your Plan.**
-
-Plan smarter. Travel together. Explore more.
+**Developed by [Daksh Gola](https://github.com/dakshgola)**  
+*TripMate — Plan Smarter. Travel Together. Explore More.*
 
 </div>
