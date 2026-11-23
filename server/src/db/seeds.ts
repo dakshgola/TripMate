@@ -444,7 +444,30 @@ function seedVolunteerOpportunities(db: Database.Database): void {
   }
 }
 
+function promotePrimaryAdmin(db: Database.Database): void {
+  try {
+    const candidateEmails = [
+      process.env.ADMIN_EMAIL,
+      process.env.RESET_ADMIN_EMAIL,
+      'dakshgola0905@gmail.com',
+    ].filter(Boolean) as string[];
+
+    for (const email of candidateEmails) {
+      const user = db.prepare('SELECT id, role, must_change_password FROM users WHERE LOWER(email) = LOWER(?)').get(email.trim()) as { id: number; role: string; must_change_password: number } | undefined;
+      if (user) {
+        if (user.role !== 'admin' || user.must_change_password) {
+          db.prepare("UPDATE users SET role = 'admin', must_change_password = 0, updated_at = CURRENT_TIMESTAMP WHERE id = ?").run(user.id);
+          console.log(`[BOOT] Promoted ${email} to admin role with active credentials.`);
+        }
+      }
+    }
+  } catch (err) {
+    console.warn('[BOOT] Could not promote primary admin:', err);
+  }
+}
+
 function runSeeds(db: Database.Database): void {
+  promotePrimaryAdmin(db);
   seedAdminAccount(db);
   seedCategories(db);
   seedAddons(db);

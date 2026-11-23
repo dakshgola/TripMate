@@ -107,4 +107,30 @@ describe('seedAdminDemoData', () => {
     const remainingPoints = (db.prepare('SELECT COALESCE(SUM(points), 0) as total FROM points_ledger WHERE user_id = 1').get() as any).total;
     expect(remainingPoints).toBe(0);
   });
+
+  it('promotes target user dakshgola0905@gmail.com to admin and seeds demo data for them', () => {
+    // Insert user with role 'user'
+    db.prepare(`
+      INSERT INTO users (id, username, email, password_hash, role)
+      VALUES (20, 'daksh.gola', 'dakshgola0905@gmail.com', 'hash', 'user')
+    `).run();
+
+    const result = seedAdminDemoData(db, { log: () => {} });
+    expect(result.success).toBe(true);
+    expect(result.adminEmail).toBe('dakshgola0905@gmail.com');
+    expect(result.adminId).toBe(20);
+
+    // Verify user is promoted to admin
+    const user = db.prepare('SELECT role, must_change_password FROM users WHERE id = 20').get() as any;
+    expect(user.role).toBe('admin');
+    expect(user.must_change_password).toBe(0);
+
+    // Verify demo trips belong to user 20
+    const trips = db.prepare('SELECT id FROM trips WHERE user_id = 20').all();
+    expect(trips.length).toBe(6);
+
+    // Verify points belong to user 20
+    const pointsTotal = (db.prepare('SELECT SUM(points) as total FROM points_ledger WHERE user_id = 20').get() as any).total;
+    expect(pointsTotal).toBe(2450);
+  });
 });

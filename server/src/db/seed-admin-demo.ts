@@ -25,7 +25,25 @@ export function shouldAutoSeedDemo(db: Database.Database): boolean {
   if (readEnv().app.isTest) {
     return false;
   }
-  // Locate admin
+
+  // Priority 1: Check candidate primary emails
+  const candidateEmails = [
+    process.env.ADMIN_EMAIL,
+    process.env.RESET_ADMIN_EMAIL,
+    'dakshgola0905@gmail.com',
+  ].filter(Boolean) as string[];
+
+  for (const email of candidateEmails) {
+    const candidate = db.prepare('SELECT id FROM users WHERE LOWER(email) = LOWER(?)').get(email.trim()) as { id: number } | undefined;
+    if (candidate) {
+      const demoCount = (
+        db.prepare("SELECT COUNT(*) as count FROM trips WHERE user_id = ? AND description LIKE '%[DEMO_DATA]%'").get(candidate.id) as { count: number }
+      ).count;
+      if (demoCount === 0) return true;
+    }
+  }
+
+  // Priority 2: Locate any admin
   const admin = db.prepare("SELECT id FROM users WHERE role = 'admin' ORDER BY id ASC LIMIT 1").get() as { id: number } | undefined;
   if (!admin) return false;
 
@@ -55,6 +73,10 @@ export function seedAdminDemoData(
     adminUser = db.prepare('SELECT id, username, email, role, display_name FROM users WHERE LOWER(email) = LOWER(?)').get(targetEmail.trim()) as any;
   }
   if (!adminUser) {
+    // Check primary user dakshgola0905@gmail.com
+    adminUser = db.prepare('SELECT id, username, email, role, display_name FROM users WHERE LOWER(email) = LOWER(?)').get('dakshgola0905@gmail.com') as any;
+  }
+  if (!adminUser) {
     adminUser = db.prepare("SELECT id, username, email, role, display_name FROM users WHERE role = 'admin' ORDER BY id ASC LIMIT 1").get() as any;
   }
   if (!adminUser) {
@@ -72,6 +94,13 @@ export function seedAdminDemoData(
       opportunitiesCount: 0,
       message: 'No user account found in database.',
     };
+  }
+
+  // Ensure target user is promoted to admin and must_change_password cleared
+  if (adminUser.role !== 'admin' || (adminUser as any).must_change_password) {
+    db.prepare("UPDATE users SET role = 'admin', must_change_password = 0, updated_at = CURRENT_TIMESTAMP WHERE id = ?").run(adminUser.id);
+    adminUser.role = 'admin';
+    logger(`Promoted target user ${adminUser.email} (ID: ${adminUser.id}) to role="admin".`);
   }
 
   logger(`Target Admin account: ID=${adminUser.id}, Username="${adminUser.username}", Email="${adminUser.email}", Role="${adminUser.role}"`);

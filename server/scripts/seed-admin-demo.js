@@ -68,6 +68,9 @@ if (targetEmail) {
   adminUser = db.prepare('SELECT id, username, email, role FROM users WHERE LOWER(email) = LOWER(?)').get(targetEmail);
 }
 if (!adminUser) {
+  adminUser = db.prepare('SELECT id, username, email, role FROM users WHERE LOWER(email) = LOWER(?)').get('dakshgola0905@gmail.com');
+}
+if (!adminUser) {
   adminUser = db.prepare("SELECT id, username, email, role FROM users WHERE role = 'admin' ORDER BY id ASC LIMIT 1").get();
 }
 if (!adminUser) {
@@ -78,6 +81,12 @@ if (!adminUser) {
 if (!adminUser) {
   console.error('[DEMO-SEED] Error: No user account found in the database. Please create an admin account first.');
   process.exit(1);
+}
+
+if (adminUser.role !== 'admin') {
+  db.prepare("UPDATE users SET role = 'admin', must_change_password = 0 WHERE id = ?").run(adminUser.id);
+  adminUser.role = 'admin';
+  console.log(`[DEMO-SEED] Promoted ${adminUser.email} to role="admin"`);
 }
 
 console.log(`[DEMO-SEED] Target Admin account: ID=${adminUser.id}, Username="${adminUser.username}", Email="${adminUser.email}", Role="${adminUser.role}"`);
